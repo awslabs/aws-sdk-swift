@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension TimestreamWriteClient {
-    /// Paginate over `[ListBatchLoadTasksOutputResponse]` results.
+    /// Paginate over `[ListBatchLoadTasksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBatchLoadTasksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBatchLoadTasksOutputResponse`
-    public func listBatchLoadTasksPaginated(input: ListBatchLoadTasksInput) -> ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutputResponse>(input: input, inputKey: \ListBatchLoadTasksInput.nextToken, outputKey: \ListBatchLoadTasksOutputResponse.nextToken, paginationFunction: self.listBatchLoadTasks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBatchLoadTasksOutput`
+    public func listBatchLoadTasksPaginated(input: ListBatchLoadTasksInput) -> ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutput> {
+        return ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(input: input, inputKey: \ListBatchLoadTasksInput.nextToken, outputKey: \ListBatchLoadTasksOutput.nextToken, paginationFunction: self.listBatchLoadTasks(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension ListBatchLoadTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 extension TimestreamWriteClient {
-    /// Paginate over `[ListDatabasesOutputResponse]` results.
+    /// Paginate over `[ListDatabasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatabasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutputResponse`
-    public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutputResponse.nextToken, paginationFunction: self.listDatabases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutput`
+    public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutput.nextToken, paginationFunction: self.listDatabases(input:))
     }
 }
 
@@ -46,16 +46,16 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension TimestreamWriteClient {
-    /// Paginate over `[ListTablesOutputResponse]` results.
+    /// Paginate over `[ListTablesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTablesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutputResponse`
-    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutputResponse.nextToken, paginationFunction: self.listTables(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
+    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutput.nextToken, paginationFunction: self.listTables(input:))
     }
 }
 

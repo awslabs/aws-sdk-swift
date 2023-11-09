@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ServiceDiscoveryClient {
-    /// Paginate over `[GetInstancesHealthStatusOutputResponse]` results.
+    /// Paginate over `[GetInstancesHealthStatusOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetInstancesHealthStatusInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetInstancesHealthStatusOutputResponse`
-    public func getInstancesHealthStatusPaginated(input: GetInstancesHealthStatusInput) -> ClientRuntime.PaginatorSequence<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutputResponse>(input: input, inputKey: \GetInstancesHealthStatusInput.nextToken, outputKey: \GetInstancesHealthStatusOutputResponse.nextToken, paginationFunction: self.getInstancesHealthStatus(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetInstancesHealthStatusOutput`
+    public func getInstancesHealthStatusPaginated(input: GetInstancesHealthStatusInput) -> ClientRuntime.PaginatorSequence<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutput> {
+        return ClientRuntime.PaginatorSequence<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutput>(input: input, inputKey: \GetInstancesHealthStatusInput.nextToken, outputKey: \GetInstancesHealthStatusOutput.nextToken, paginationFunction: self.getInstancesHealthStatus(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension GetInstancesHealthStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceDiscoveryClient {
-    /// Paginate over `[ListInstancesOutputResponse]` results.
+    /// Paginate over `[ListInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutputResponse`
-    public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutputResponse>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutputResponse.nextToken, paginationFunction: self.listInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
+    public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutput.nextToken, paginationFunction: self.listInstances(input:))
     }
 }
 
@@ -48,16 +48,16 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceDiscoveryClient {
-    /// Paginate over `[ListNamespacesOutputResponse]` results.
+    /// Paginate over `[ListNamespacesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNamespacesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNamespacesOutputResponse`
-    public func listNamespacesPaginated(input: ListNamespacesInput) -> ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutputResponse>(input: input, inputKey: \ListNamespacesInput.nextToken, outputKey: \ListNamespacesOutputResponse.nextToken, paginationFunction: self.listNamespaces(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNamespacesOutput`
+    public func listNamespacesPaginated(input: ListNamespacesInput) -> ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput>(input: input, inputKey: \ListNamespacesInput.nextToken, outputKey: \ListNamespacesOutput.nextToken, paginationFunction: self.listNamespaces(input:))
     }
 }
 
@@ -70,16 +70,16 @@ extension ListNamespacesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceDiscoveryClient {
-    /// Paginate over `[ListOperationsOutputResponse]` results.
+    /// Paginate over `[ListOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOperationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutputResponse`
-    public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse>(input: input, inputKey: \ListOperationsInput.nextToken, outputKey: \ListOperationsOutputResponse.nextToken, paginationFunction: self.listOperations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutput`
+    public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \ListOperationsInput.nextToken, outputKey: \ListOperationsOutput.nextToken, paginationFunction: self.listOperations(input:))
     }
 }
 
@@ -92,16 +92,16 @@ extension ListOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceDiscoveryClient {
-    /// Paginate over `[ListServicesOutputResponse]` results.
+    /// Paginate over `[ListServicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutputResponse`
-    public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutputResponse.nextToken, paginationFunction: self.listServices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
+    public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
     }
 }
 

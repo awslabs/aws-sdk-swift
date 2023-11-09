@@ -23,7 +23,7 @@ public protocol TranscribeStreamingClientProtocol {
     ///
     /// - Parameter StartCallAnalyticsStreamTranscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StartCallAnalyticsStreamTranscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartCallAnalyticsStreamTranscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,7 +33,7 @@ public protocol TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutputResponse
+    func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe Medical and the transcription results are streamed to your application. The following parameters are required:
     ///
     /// * language-code
@@ -47,7 +47,7 @@ public protocol TranscribeStreamingClientProtocol {
     ///
     /// - Parameter StartMedicalStreamTranscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StartMedicalStreamTranscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartMedicalStreamTranscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -57,7 +57,7 @@ public protocol TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutputResponse
+    func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following parameters are required:
     ///
     /// * language-code or identify-language
@@ -71,7 +71,7 @@ public protocol TranscribeStreamingClientProtocol {
     ///
     /// - Parameter StartStreamTranscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StartStreamTranscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartStreamTranscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,7 +81,7 @@ public protocol TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutputResponse
+    func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutput
 }
 
 public enum TranscribeStreamingClientTypes {}

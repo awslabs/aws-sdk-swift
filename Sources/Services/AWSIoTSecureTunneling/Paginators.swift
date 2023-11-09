@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension IoTSecureTunnelingClient {
-    /// Paginate over `[ListTunnelsOutputResponse]` results.
+    /// Paginate over `[ListTunnelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTunnelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTunnelsOutputResponse`
-    public func listTunnelsPaginated(input: ListTunnelsInput) -> ClientRuntime.PaginatorSequence<ListTunnelsInput, ListTunnelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTunnelsInput, ListTunnelsOutputResponse>(input: input, inputKey: \ListTunnelsInput.nextToken, outputKey: \ListTunnelsOutputResponse.nextToken, paginationFunction: self.listTunnels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTunnelsOutput`
+    public func listTunnelsPaginated(input: ListTunnelsInput) -> ClientRuntime.PaginatorSequence<ListTunnelsInput, ListTunnelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTunnelsInput, ListTunnelsOutput>(input: input, inputKey: \ListTunnelsInput.nextToken, outputKey: \ListTunnelsOutput.nextToken, paginationFunction: self.listTunnels(input:))
     }
 }
 

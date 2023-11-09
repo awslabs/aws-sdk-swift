@@ -71,13 +71,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter BatchDeleteBuildsInput : [no documentation found]
     ///
-    /// - Returns: `BatchDeleteBuildsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDeleteBuildsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchDeleteBuilds(input: BatchDeleteBuildsInput) async throws -> BatchDeleteBuildsOutputResponse
+    public func batchDeleteBuilds(input: BatchDeleteBuildsInput) async throws -> BatchDeleteBuildsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -93,21 +93,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDeleteBuildsInput, BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>(id: "batchDeleteBuilds")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchDeleteBuildsInput, BatchDeleteBuildsOutput, BatchDeleteBuildsOutputError>(id: "batchDeleteBuilds")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput, BatchDeleteBuildsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteBuildsOutput, BatchDeleteBuildsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutputResponse>(xAmzTarget: "CodeBuild_20161006.BatchDeleteBuilds"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutputResponse>(xmlName: "BatchDeleteBuildsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(xAmzTarget: "CodeBuild_20161006.BatchDeleteBuilds"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(xmlName: "BatchDeleteBuildsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteBuildsOutput, BatchDeleteBuildsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteBuildsOutputResponse, BatchDeleteBuildsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteBuildsOutput, BatchDeleteBuildsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteBuildsOutput, BatchDeleteBuildsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteBuildsOutput, BatchDeleteBuildsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -116,13 +116,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter BatchGetBuildBatchesInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetBuildBatchesOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetBuildBatchesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetBuildBatches(input: BatchGetBuildBatchesInput) async throws -> BatchGetBuildBatchesOutputResponse
+    public func batchGetBuildBatches(input: BatchGetBuildBatchesInput) async throws -> BatchGetBuildBatchesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -138,21 +138,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>(id: "batchGetBuildBatches")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput, BatchGetBuildBatchesOutputError>(id: "batchGetBuildBatches")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput, BatchGetBuildBatchesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetBuildBatchesOutput, BatchGetBuildBatchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutputResponse>(xAmzTarget: "CodeBuild_20161006.BatchGetBuildBatches"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutputResponse>(xmlName: "BatchGetBuildBatchesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(xAmzTarget: "CodeBuild_20161006.BatchGetBuildBatches"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(xmlName: "BatchGetBuildBatchesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetBuildBatchesOutput, BatchGetBuildBatchesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetBuildBatchesOutputResponse, BatchGetBuildBatchesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetBuildBatchesOutput, BatchGetBuildBatchesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetBuildBatchesOutput, BatchGetBuildBatchesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetBuildBatchesOutput, BatchGetBuildBatchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -161,13 +161,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter BatchGetBuildsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetBuildsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetBuildsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetBuilds(input: BatchGetBuildsInput) async throws -> BatchGetBuildsOutputResponse
+    public func batchGetBuilds(input: BatchGetBuildsInput) async throws -> BatchGetBuildsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -183,21 +183,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetBuildsInput, BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>(id: "batchGetBuilds")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetBuildsInput, BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetBuildsInput, BatchGetBuildsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetBuildsInput, BatchGetBuildsOutput, BatchGetBuildsOutputError>(id: "batchGetBuilds")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput, BatchGetBuildsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetBuildsOutput, BatchGetBuildsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetBuildsInput, BatchGetBuildsOutputResponse>(xAmzTarget: "CodeBuild_20161006.BatchGetBuilds"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetBuildsInput, BatchGetBuildsOutputResponse>(xmlName: "BatchGetBuildsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetBuildsInput, BatchGetBuildsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(xAmzTarget: "CodeBuild_20161006.BatchGetBuilds"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(xmlName: "BatchGetBuildsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetBuildsOutput, BatchGetBuildsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetBuildsOutputResponse, BatchGetBuildsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetBuildsOutput, BatchGetBuildsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetBuildsOutput, BatchGetBuildsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetBuildsOutput, BatchGetBuildsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -206,13 +206,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter BatchGetProjectsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetProjects(input: BatchGetProjectsInput) async throws -> BatchGetProjectsOutputResponse
+    public func batchGetProjects(input: BatchGetProjectsInput) async throws -> BatchGetProjectsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -228,21 +228,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetProjectsInput, BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>(id: "batchGetProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetProjectsInput, BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetProjectsInput, BatchGetProjectsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetProjectsInput, BatchGetProjectsOutput, BatchGetProjectsOutputError>(id: "batchGetProjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput, BatchGetProjectsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetProjectsOutput, BatchGetProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetProjectsInput, BatchGetProjectsOutputResponse>(xAmzTarget: "CodeBuild_20161006.BatchGetProjects"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetProjectsInput, BatchGetProjectsOutputResponse>(xmlName: "BatchGetProjectsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetProjectsInput, BatchGetProjectsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(xAmzTarget: "CodeBuild_20161006.BatchGetProjects"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(xmlName: "BatchGetProjectsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetProjectsOutput, BatchGetProjectsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetProjectsOutputResponse, BatchGetProjectsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetProjectsOutput, BatchGetProjectsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetProjectsOutput, BatchGetProjectsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetProjectsOutput, BatchGetProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -251,13 +251,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter BatchGetReportGroupsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetReportGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetReportGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetReportGroups(input: BatchGetReportGroupsInput) async throws -> BatchGetReportGroupsOutputResponse
+    public func batchGetReportGroups(input: BatchGetReportGroupsInput) async throws -> BatchGetReportGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -273,21 +273,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetReportGroupsInput, BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>(id: "batchGetReportGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetReportGroupsInput, BatchGetReportGroupsOutput, BatchGetReportGroupsOutputError>(id: "batchGetReportGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput, BatchGetReportGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetReportGroupsOutput, BatchGetReportGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutputResponse>(xAmzTarget: "CodeBuild_20161006.BatchGetReportGroups"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutputResponse>(xmlName: "BatchGetReportGroupsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(xAmzTarget: "CodeBuild_20161006.BatchGetReportGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(xmlName: "BatchGetReportGroupsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetReportGroupsOutput, BatchGetReportGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetReportGroupsOutputResponse, BatchGetReportGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetReportGroupsOutput, BatchGetReportGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetReportGroupsOutput, BatchGetReportGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetReportGroupsOutput, BatchGetReportGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -296,13 +296,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter BatchGetReportsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetReportsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetReportsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetReports(input: BatchGetReportsInput) async throws -> BatchGetReportsOutputResponse
+    public func batchGetReports(input: BatchGetReportsInput) async throws -> BatchGetReportsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -318,21 +318,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetReportsInput, BatchGetReportsOutputResponse, BatchGetReportsOutputError>(id: "batchGetReports")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetReportsInput, BatchGetReportsOutputResponse, BatchGetReportsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetReportsInput, BatchGetReportsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetReportsInput, BatchGetReportsOutput, BatchGetReportsOutputError>(id: "batchGetReports")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetReportsInput, BatchGetReportsOutput, BatchGetReportsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetReportsOutputResponse, BatchGetReportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetReportsOutput, BatchGetReportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetReportsInput, BatchGetReportsOutputResponse>(xAmzTarget: "CodeBuild_20161006.BatchGetReports"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetReportsInput, BatchGetReportsOutputResponse>(xmlName: "BatchGetReportsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetReportsInput, BatchGetReportsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(xAmzTarget: "CodeBuild_20161006.BatchGetReports"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(xmlName: "BatchGetReportsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetReportsOutputResponse, BatchGetReportsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetReportsOutput, BatchGetReportsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetReportsOutputResponse, BatchGetReportsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetReportsOutputResponse, BatchGetReportsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetReportsOutputResponse, BatchGetReportsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetReportsOutput, BatchGetReportsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetReportsOutput, BatchGetReportsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetReportsOutput, BatchGetReportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -341,7 +341,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
     ///
-    /// - Returns: `CreateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,7 +349,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -365,21 +365,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>(id: "createProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>(id: "createProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutput, CreateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProjectInput, CreateProjectOutputResponse>(xAmzTarget: "CodeBuild_20161006.CreateProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProjectInput, CreateProjectOutputResponse>(xmlName: "CreateProjectInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProjectInput, CreateProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProjectInput, CreateProjectOutput>(xAmzTarget: "CodeBuild_20161006.CreateProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProjectInput, CreateProjectOutput>(xmlName: "CreateProjectInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutputResponse, CreateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutput, CreateProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectOutputResponse, CreateProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectOutput, CreateProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutput, CreateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutput, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -388,7 +388,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter CreateReportGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateReportGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateReportGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -396,7 +396,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-    public func createReportGroup(input: CreateReportGroupInput) async throws -> CreateReportGroupOutputResponse
+    public func createReportGroup(input: CreateReportGroupInput) async throws -> CreateReportGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -412,21 +412,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateReportGroupInput, CreateReportGroupOutputResponse, CreateReportGroupOutputError>(id: "createReportGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReportGroupInput, CreateReportGroupOutputResponse, CreateReportGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReportGroupInput, CreateReportGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateReportGroupInput, CreateReportGroupOutput, CreateReportGroupOutputError>(id: "createReportGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReportGroupInput, CreateReportGroupOutput, CreateReportGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateReportGroupOutputResponse, CreateReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateReportGroupOutput, CreateReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateReportGroupInput, CreateReportGroupOutputResponse>(xAmzTarget: "CodeBuild_20161006.CreateReportGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateReportGroupInput, CreateReportGroupOutputResponse>(xmlName: "CreateReportGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateReportGroupInput, CreateReportGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(xAmzTarget: "CodeBuild_20161006.CreateReportGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(xmlName: "CreateReportGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateReportGroupOutputResponse, CreateReportGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateReportGroupOutput, CreateReportGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReportGroupOutputResponse, CreateReportGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReportGroupOutputResponse, CreateReportGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReportGroupOutputResponse, CreateReportGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReportGroupOutput, CreateReportGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReportGroupOutput, CreateReportGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReportGroupOutput, CreateReportGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -435,7 +435,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter CreateWebhookInput : [no documentation found]
     ///
-    /// - Returns: `CreateWebhookOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWebhookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,7 +444,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutputResponse
+    public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -460,21 +460,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWebhookInput, CreateWebhookOutputResponse, CreateWebhookOutputError>(id: "createWebhook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWebhookInput, CreateWebhookOutputResponse, CreateWebhookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWebhookInput, CreateWebhookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateWebhookInput, CreateWebhookOutput, CreateWebhookOutputError>(id: "createWebhook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWebhookInput, CreateWebhookOutput, CreateWebhookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWebhookInput, CreateWebhookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWebhookOutputResponse, CreateWebhookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWebhookOutput, CreateWebhookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateWebhookInput, CreateWebhookOutputResponse>(xAmzTarget: "CodeBuild_20161006.CreateWebhook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWebhookInput, CreateWebhookOutputResponse>(xmlName: "CreateWebhookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWebhookInput, CreateWebhookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateWebhookInput, CreateWebhookOutput>(xAmzTarget: "CodeBuild_20161006.CreateWebhook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWebhookInput, CreateWebhookOutput>(xmlName: "CreateWebhookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWebhookInput, CreateWebhookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWebhookOutputResponse, CreateWebhookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWebhookOutput, CreateWebhookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWebhookOutputResponse, CreateWebhookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWebhookOutputResponse, CreateWebhookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWebhookOutputResponse, CreateWebhookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWebhookOutput, CreateWebhookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWebhookOutput, CreateWebhookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWebhookOutput, CreateWebhookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -483,13 +483,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DeleteBuildBatchInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBuildBatchOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBuildBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteBuildBatch(input: DeleteBuildBatchInput) async throws -> DeleteBuildBatchOutputResponse
+    public func deleteBuildBatch(input: DeleteBuildBatchInput) async throws -> DeleteBuildBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -505,21 +505,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteBuildBatchInput, DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>(id: "deleteBuildBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteBuildBatchInput, DeleteBuildBatchOutput, DeleteBuildBatchOutputError>(id: "deleteBuildBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput, DeleteBuildBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBuildBatchOutput, DeleteBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutputResponse>(xAmzTarget: "CodeBuild_20161006.DeleteBuildBatch"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutputResponse>(xmlName: "DeleteBuildBatchInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(xAmzTarget: "CodeBuild_20161006.DeleteBuildBatch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(xmlName: "DeleteBuildBatchInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBuildBatchOutput, DeleteBuildBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBuildBatchOutputResponse, DeleteBuildBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBuildBatchOutput, DeleteBuildBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBuildBatchOutput, DeleteBuildBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBuildBatchOutput, DeleteBuildBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -528,13 +528,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -550,21 +550,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>(id: "deleteProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>(id: "deleteProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>(xAmzTarget: "CodeBuild_20161006.DeleteProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>(xmlName: "DeleteProjectInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectInput, DeleteProjectOutput>(xAmzTarget: "CodeBuild_20161006.DeleteProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProjectInput, DeleteProjectOutput>(xmlName: "DeleteProjectInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutputResponse, DeleteProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutput, DeleteProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectOutput, DeleteProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutput, DeleteProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -573,13 +573,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DeleteReportInput : [no documentation found]
     ///
-    /// - Returns: `DeleteReportOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteReport(input: DeleteReportInput) async throws -> DeleteReportOutputResponse
+    public func deleteReport(input: DeleteReportInput) async throws -> DeleteReportOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -595,21 +595,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteReportInput, DeleteReportOutputResponse, DeleteReportOutputError>(id: "deleteReport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReportInput, DeleteReportOutputResponse, DeleteReportOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReportInput, DeleteReportOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteReportInput, DeleteReportOutput, DeleteReportOutputError>(id: "deleteReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReportInput, DeleteReportOutput, DeleteReportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReportInput, DeleteReportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReportOutputResponse, DeleteReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReportOutput, DeleteReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteReportInput, DeleteReportOutputResponse>(xAmzTarget: "CodeBuild_20161006.DeleteReport"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteReportInput, DeleteReportOutputResponse>(xmlName: "DeleteReportInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteReportInput, DeleteReportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteReportInput, DeleteReportOutput>(xAmzTarget: "CodeBuild_20161006.DeleteReport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteReportInput, DeleteReportOutput>(xmlName: "DeleteReportInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteReportInput, DeleteReportOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReportOutputResponse, DeleteReportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReportOutput, DeleteReportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReportOutputResponse, DeleteReportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReportOutputResponse, DeleteReportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReportOutputResponse, DeleteReportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReportOutput, DeleteReportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReportOutput, DeleteReportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReportOutput, DeleteReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -618,13 +618,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DeleteReportGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteReportGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteReportGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteReportGroup(input: DeleteReportGroupInput) async throws -> DeleteReportGroupOutputResponse
+    public func deleteReportGroup(input: DeleteReportGroupInput) async throws -> DeleteReportGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -640,21 +640,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteReportGroupInput, DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>(id: "deleteReportGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReportGroupInput, DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReportGroupInput, DeleteReportGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteReportGroupInput, DeleteReportGroupOutput, DeleteReportGroupOutputError>(id: "deleteReportGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput, DeleteReportGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReportGroupOutput, DeleteReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteReportGroupInput, DeleteReportGroupOutputResponse>(xAmzTarget: "CodeBuild_20161006.DeleteReportGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteReportGroupInput, DeleteReportGroupOutputResponse>(xmlName: "DeleteReportGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteReportGroupInput, DeleteReportGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(xAmzTarget: "CodeBuild_20161006.DeleteReportGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(xmlName: "DeleteReportGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReportGroupOutput, DeleteReportGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReportGroupOutputResponse, DeleteReportGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReportGroupOutput, DeleteReportGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReportGroupOutput, DeleteReportGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReportGroupOutput, DeleteReportGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -663,13 +663,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -685,21 +685,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xAmzTarget: "CodeBuild_20161006.DeleteResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xmlName: "DeleteResourcePolicyInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "CodeBuild_20161006.DeleteResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xmlName: "DeleteResourcePolicyInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -708,14 +708,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DeleteSourceCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSourceCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSourceCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func deleteSourceCredentials(input: DeleteSourceCredentialsInput) async throws -> DeleteSourceCredentialsOutputResponse
+    public func deleteSourceCredentials(input: DeleteSourceCredentialsInput) async throws -> DeleteSourceCredentialsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -731,21 +731,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>(id: "deleteSourceCredentials")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput, DeleteSourceCredentialsOutputError>(id: "deleteSourceCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput, DeleteSourceCredentialsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSourceCredentialsOutput, DeleteSourceCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutputResponse>(xAmzTarget: "CodeBuild_20161006.DeleteSourceCredentials"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutputResponse>(xmlName: "DeleteSourceCredentialsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(xAmzTarget: "CodeBuild_20161006.DeleteSourceCredentials"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(xmlName: "DeleteSourceCredentialsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSourceCredentialsOutput, DeleteSourceCredentialsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSourceCredentialsOutputResponse, DeleteSourceCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSourceCredentialsOutput, DeleteSourceCredentialsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSourceCredentialsOutput, DeleteSourceCredentialsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSourceCredentialsOutput, DeleteSourceCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -754,7 +754,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DeleteWebhookInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWebhookOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWebhookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,7 +762,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutputResponse
+    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -778,21 +778,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWebhookInput, DeleteWebhookOutputResponse, DeleteWebhookOutputError>(id: "deleteWebhook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWebhookInput, DeleteWebhookOutputResponse, DeleteWebhookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteWebhookInput, DeleteWebhookOutput, DeleteWebhookOutputError>(id: "deleteWebhook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWebhookInput, DeleteWebhookOutput, DeleteWebhookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWebhookOutputResponse, DeleteWebhookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWebhookOutput, DeleteWebhookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteWebhookInput, DeleteWebhookOutputResponse>(xAmzTarget: "CodeBuild_20161006.DeleteWebhook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteWebhookInput, DeleteWebhookOutputResponse>(xmlName: "DeleteWebhookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWebhookInput, DeleteWebhookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(xAmzTarget: "CodeBuild_20161006.DeleteWebhook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(xmlName: "DeleteWebhookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWebhookOutputResponse, DeleteWebhookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWebhookOutput, DeleteWebhookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWebhookOutputResponse, DeleteWebhookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWebhookOutputResponse, DeleteWebhookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWebhookOutputResponse, DeleteWebhookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWebhookOutput, DeleteWebhookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWebhookOutput, DeleteWebhookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWebhookOutput, DeleteWebhookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -801,13 +801,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DescribeCodeCoveragesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCodeCoveragesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCodeCoveragesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func describeCodeCoverages(input: DescribeCodeCoveragesInput) async throws -> DescribeCodeCoveragesOutputResponse
+    public func describeCodeCoverages(input: DescribeCodeCoveragesInput) async throws -> DescribeCodeCoveragesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -823,21 +823,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>(id: "describeCodeCoverages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput, DescribeCodeCoveragesOutputError>(id: "describeCodeCoverages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput, DescribeCodeCoveragesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCodeCoveragesOutput, DescribeCodeCoveragesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse>(xAmzTarget: "CodeBuild_20161006.DescribeCodeCoverages"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse>(xmlName: "DescribeCodeCoveragesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(xAmzTarget: "CodeBuild_20161006.DescribeCodeCoverages"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(xmlName: "DescribeCodeCoveragesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCodeCoveragesOutput, DescribeCodeCoveragesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCodeCoveragesOutputResponse, DescribeCodeCoveragesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCodeCoveragesOutput, DescribeCodeCoveragesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCodeCoveragesOutput, DescribeCodeCoveragesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCodeCoveragesOutput, DescribeCodeCoveragesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -846,14 +846,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter DescribeTestCasesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTestCasesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTestCasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func describeTestCases(input: DescribeTestCasesInput) async throws -> DescribeTestCasesOutputResponse
+    public func describeTestCases(input: DescribeTestCasesInput) async throws -> DescribeTestCasesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -869,21 +869,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTestCasesInput, DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>(id: "describeTestCases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTestCasesInput, DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTestCasesInput, DescribeTestCasesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTestCasesInput, DescribeTestCasesOutput, DescribeTestCasesOutputError>(id: "describeTestCases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput, DescribeTestCasesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTestCasesOutput, DescribeTestCasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTestCasesInput, DescribeTestCasesOutputResponse>(xAmzTarget: "CodeBuild_20161006.DescribeTestCases"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTestCasesInput, DescribeTestCasesOutputResponse>(xmlName: "DescribeTestCasesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTestCasesInput, DescribeTestCasesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(xAmzTarget: "CodeBuild_20161006.DescribeTestCases"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(xmlName: "DescribeTestCasesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTestCasesOutput, DescribeTestCasesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTestCasesOutputResponse, DescribeTestCasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTestCasesOutput, DescribeTestCasesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTestCasesOutput, DescribeTestCasesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTestCasesOutput, DescribeTestCasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -892,14 +892,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter GetReportGroupTrendInput : [no documentation found]
     ///
-    /// - Returns: `GetReportGroupTrendOutputResponse` : [no documentation found]
+    /// - Returns: `GetReportGroupTrendOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func getReportGroupTrend(input: GetReportGroupTrendInput) async throws -> GetReportGroupTrendOutputResponse
+    public func getReportGroupTrend(input: GetReportGroupTrendInput) async throws -> GetReportGroupTrendOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -915,21 +915,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetReportGroupTrendInput, GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>(id: "getReportGroupTrend")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetReportGroupTrendInput, GetReportGroupTrendOutput, GetReportGroupTrendOutputError>(id: "getReportGroupTrend")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput, GetReportGroupTrendOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetReportGroupTrendOutput, GetReportGroupTrendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutputResponse>(xAmzTarget: "CodeBuild_20161006.GetReportGroupTrend"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutputResponse>(xmlName: "GetReportGroupTrendInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(xAmzTarget: "CodeBuild_20161006.GetReportGroupTrend"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(xmlName: "GetReportGroupTrendInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetReportGroupTrendOutput, GetReportGroupTrendOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReportGroupTrendOutputResponse, GetReportGroupTrendOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReportGroupTrendOutput, GetReportGroupTrendOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReportGroupTrendOutput, GetReportGroupTrendOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReportGroupTrendOutput, GetReportGroupTrendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -938,14 +938,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -961,21 +961,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(id: "getResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutput, GetResourcePolicyOutputError>(id: "getResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, GetResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(xAmzTarget: "CodeBuild_20161006.GetResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(xmlName: "GetResourcePolicyInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "CodeBuild_20161006.GetResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xmlName: "GetResourcePolicyInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePolicyOutput, GetResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -984,7 +984,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ImportSourceCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `ImportSourceCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `ImportSourceCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -992,7 +992,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-    public func importSourceCredentials(input: ImportSourceCredentialsInput) async throws -> ImportSourceCredentialsOutputResponse
+    public func importSourceCredentials(input: ImportSourceCredentialsInput) async throws -> ImportSourceCredentialsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1008,21 +1008,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportSourceCredentialsInput, ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>(id: "importSourceCredentials")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportSourceCredentialsInput, ImportSourceCredentialsOutput, ImportSourceCredentialsOutputError>(id: "importSourceCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput, ImportSourceCredentialsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportSourceCredentialsOutput, ImportSourceCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ImportSourceCredentials"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutputResponse>(xmlName: "ImportSourceCredentialsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(xAmzTarget: "CodeBuild_20161006.ImportSourceCredentials"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(xmlName: "ImportSourceCredentialsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportSourceCredentialsOutput, ImportSourceCredentialsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportSourceCredentialsOutputResponse, ImportSourceCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportSourceCredentialsOutput, ImportSourceCredentialsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportSourceCredentialsOutput, ImportSourceCredentialsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportSourceCredentialsOutput, ImportSourceCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1031,14 +1031,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter InvalidateProjectCacheInput : [no documentation found]
     ///
-    /// - Returns: `InvalidateProjectCacheOutputResponse` : [no documentation found]
+    /// - Returns: `InvalidateProjectCacheOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func invalidateProjectCache(input: InvalidateProjectCacheInput) async throws -> InvalidateProjectCacheOutputResponse
+    public func invalidateProjectCache(input: InvalidateProjectCacheInput) async throws -> InvalidateProjectCacheOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1054,21 +1054,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InvalidateProjectCacheInput, InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>(id: "invalidateProjectCache")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutputResponse>())
+        var operation = ClientRuntime.OperationStack<InvalidateProjectCacheInput, InvalidateProjectCacheOutput, InvalidateProjectCacheOutputError>(id: "invalidateProjectCache")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput, InvalidateProjectCacheOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvalidateProjectCacheOutput, InvalidateProjectCacheOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutputResponse>(xAmzTarget: "CodeBuild_20161006.InvalidateProjectCache"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutputResponse>(xmlName: "InvalidateProjectCacheInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(xAmzTarget: "CodeBuild_20161006.InvalidateProjectCache"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(xmlName: "InvalidateProjectCacheInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvalidateProjectCacheOutput, InvalidateProjectCacheOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvalidateProjectCacheOutputResponse, InvalidateProjectCacheOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvalidateProjectCacheOutput, InvalidateProjectCacheOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvalidateProjectCacheOutput, InvalidateProjectCacheOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvalidateProjectCacheOutput, InvalidateProjectCacheOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1077,13 +1077,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListBuildBatchesInput : [no documentation found]
     ///
-    /// - Returns: `ListBuildBatchesOutputResponse` : [no documentation found]
+    /// - Returns: `ListBuildBatchesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listBuildBatches(input: ListBuildBatchesInput) async throws -> ListBuildBatchesOutputResponse
+    public func listBuildBatches(input: ListBuildBatchesInput) async throws -> ListBuildBatchesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1099,21 +1099,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBuildBatchesInput, ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>(id: "listBuildBatches")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildBatchesInput, ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildBatchesInput, ListBuildBatchesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBuildBatchesInput, ListBuildBatchesOutput, ListBuildBatchesOutputError>(id: "listBuildBatches")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput, ListBuildBatchesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildBatchesOutput, ListBuildBatchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildBatchesInput, ListBuildBatchesOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListBuildBatches"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildBatchesInput, ListBuildBatchesOutputResponse>(xmlName: "ListBuildBatchesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildBatchesInput, ListBuildBatchesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(xAmzTarget: "CodeBuild_20161006.ListBuildBatches"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(xmlName: "ListBuildBatchesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildBatchesOutput, ListBuildBatchesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildBatchesOutputResponse, ListBuildBatchesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildBatchesOutput, ListBuildBatchesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildBatchesOutput, ListBuildBatchesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildBatchesOutput, ListBuildBatchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1122,14 +1122,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListBuildBatchesForProjectInput : [no documentation found]
     ///
-    /// - Returns: `ListBuildBatchesForProjectOutputResponse` : [no documentation found]
+    /// - Returns: `ListBuildBatchesForProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func listBuildBatchesForProject(input: ListBuildBatchesForProjectInput) async throws -> ListBuildBatchesForProjectOutputResponse
+    public func listBuildBatchesForProject(input: ListBuildBatchesForProjectInput) async throws -> ListBuildBatchesForProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1145,21 +1145,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>(id: "listBuildBatchesForProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput, ListBuildBatchesForProjectOutputError>(id: "listBuildBatchesForProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput, ListBuildBatchesForProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildBatchesForProjectOutput, ListBuildBatchesForProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListBuildBatchesForProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse>(xmlName: "ListBuildBatchesForProjectInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(xAmzTarget: "CodeBuild_20161006.ListBuildBatchesForProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(xmlName: "ListBuildBatchesForProjectInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildBatchesForProjectOutput, ListBuildBatchesForProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildBatchesForProjectOutputResponse, ListBuildBatchesForProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildBatchesForProjectOutput, ListBuildBatchesForProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildBatchesForProjectOutput, ListBuildBatchesForProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildBatchesForProjectOutput, ListBuildBatchesForProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1168,13 +1168,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListBuildsInput : [no documentation found]
     ///
-    /// - Returns: `ListBuildsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBuildsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutputResponse
+    public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1190,21 +1190,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBuildsInput, ListBuildsOutputResponse, ListBuildsOutputError>(id: "listBuilds")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildsInput, ListBuildsOutputResponse, ListBuildsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildsInput, ListBuildsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBuildsInput, ListBuildsOutput, ListBuildsOutputError>(id: "listBuilds")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildsInput, ListBuildsOutput, ListBuildsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildsInput, ListBuildsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildsOutputResponse, ListBuildsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildsOutput, ListBuildsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildsInput, ListBuildsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListBuilds"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildsInput, ListBuildsOutputResponse>(xmlName: "ListBuildsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildsInput, ListBuildsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildsInput, ListBuildsOutput>(xAmzTarget: "CodeBuild_20161006.ListBuilds"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildsInput, ListBuildsOutput>(xmlName: "ListBuildsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildsOutputResponse, ListBuildsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildsOutput, ListBuildsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildsOutputResponse, ListBuildsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildsOutputResponse, ListBuildsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildsOutputResponse, ListBuildsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildsOutput, ListBuildsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildsOutput, ListBuildsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildsOutput, ListBuildsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1213,14 +1213,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListBuildsForProjectInput : [no documentation found]
     ///
-    /// - Returns: `ListBuildsForProjectOutputResponse` : [no documentation found]
+    /// - Returns: `ListBuildsForProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func listBuildsForProject(input: ListBuildsForProjectInput) async throws -> ListBuildsForProjectOutputResponse
+    public func listBuildsForProject(input: ListBuildsForProjectInput) async throws -> ListBuildsForProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1236,21 +1236,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>(id: "listBuildsForProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBuildsForProjectInput, ListBuildsForProjectOutput, ListBuildsForProjectOutputError>(id: "listBuildsForProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput, ListBuildsForProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBuildsForProjectOutput, ListBuildsForProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListBuildsForProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse>(xmlName: "ListBuildsForProjectInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(xAmzTarget: "CodeBuild_20161006.ListBuildsForProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(xmlName: "ListBuildsForProjectInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBuildsForProjectOutput, ListBuildsForProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildsForProjectOutputResponse, ListBuildsForProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildsForProjectOutput, ListBuildsForProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildsForProjectOutput, ListBuildsForProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildsForProjectOutput, ListBuildsForProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1259,8 +1259,8 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListCuratedEnvironmentImagesInput : [no documentation found]
     ///
-    /// - Returns: `ListCuratedEnvironmentImagesOutputResponse` : [no documentation found]
-    public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutputResponse
+    /// - Returns: `ListCuratedEnvironmentImagesOutput` : [no documentation found]
+    public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1276,21 +1276,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>(id: "listCuratedEnvironmentImages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput, ListCuratedEnvironmentImagesOutputError>(id: "listCuratedEnvironmentImages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput, ListCuratedEnvironmentImagesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCuratedEnvironmentImagesOutput, ListCuratedEnvironmentImagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListCuratedEnvironmentImages"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutputResponse>(xmlName: "ListCuratedEnvironmentImagesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(xAmzTarget: "CodeBuild_20161006.ListCuratedEnvironmentImages"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(xmlName: "ListCuratedEnvironmentImagesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCuratedEnvironmentImagesOutput, ListCuratedEnvironmentImagesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCuratedEnvironmentImagesOutputResponse, ListCuratedEnvironmentImagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCuratedEnvironmentImagesOutput, ListCuratedEnvironmentImagesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCuratedEnvironmentImagesOutput, ListCuratedEnvironmentImagesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCuratedEnvironmentImagesOutput, ListCuratedEnvironmentImagesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1299,13 +1299,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1321,21 +1321,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>(id: "listProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>(id: "listProjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutput, ListProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProjectsInput, ListProjectsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListProjects"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProjectsInput, ListProjectsOutputResponse>(xmlName: "ListProjectsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProjectsInput, ListProjectsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProjectsInput, ListProjectsOutput>(xAmzTarget: "CodeBuild_20161006.ListProjects"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProjectsInput, ListProjectsOutput>(xmlName: "ListProjectsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutputResponse, ListProjectsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutput, ListProjectsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProjectsOutputResponse, ListProjectsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProjectsOutput, ListProjectsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutput, ListProjectsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutput, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1344,13 +1344,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListReportGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListReportGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReportGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listReportGroups(input: ListReportGroupsInput) async throws -> ListReportGroupsOutputResponse
+    public func listReportGroups(input: ListReportGroupsInput) async throws -> ListReportGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1366,21 +1366,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListReportGroupsInput, ListReportGroupsOutputResponse, ListReportGroupsOutputError>(id: "listReportGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReportGroupsInput, ListReportGroupsOutputResponse, ListReportGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReportGroupsInput, ListReportGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListReportGroupsInput, ListReportGroupsOutput, ListReportGroupsOutputError>(id: "listReportGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReportGroupsInput, ListReportGroupsOutput, ListReportGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReportGroupsOutputResponse, ListReportGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReportGroupsOutput, ListReportGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReportGroupsInput, ListReportGroupsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListReportGroups"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReportGroupsInput, ListReportGroupsOutputResponse>(xmlName: "ListReportGroupsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReportGroupsInput, ListReportGroupsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(xAmzTarget: "CodeBuild_20161006.ListReportGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(xmlName: "ListReportGroupsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReportGroupsOutputResponse, ListReportGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReportGroupsOutput, ListReportGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReportGroupsOutputResponse, ListReportGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReportGroupsOutputResponse, ListReportGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReportGroupsOutputResponse, ListReportGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReportGroupsOutput, ListReportGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReportGroupsOutput, ListReportGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReportGroupsOutput, ListReportGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1389,13 +1389,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListReportsInput : [no documentation found]
     ///
-    /// - Returns: `ListReportsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReportsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listReports(input: ListReportsInput) async throws -> ListReportsOutputResponse
+    public func listReports(input: ListReportsInput) async throws -> ListReportsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1411,21 +1411,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListReportsInput, ListReportsOutputResponse, ListReportsOutputError>(id: "listReports")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReportsInput, ListReportsOutputResponse, ListReportsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReportsInput, ListReportsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListReportsInput, ListReportsOutput, ListReportsOutputError>(id: "listReports")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReportsInput, ListReportsOutput, ListReportsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReportsInput, ListReportsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReportsOutputResponse, ListReportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReportsOutput, ListReportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReportsInput, ListReportsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListReports"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReportsInput, ListReportsOutputResponse>(xmlName: "ListReportsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReportsInput, ListReportsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReportsInput, ListReportsOutput>(xAmzTarget: "CodeBuild_20161006.ListReports"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReportsInput, ListReportsOutput>(xmlName: "ListReportsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReportsInput, ListReportsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReportsOutputResponse, ListReportsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReportsOutput, ListReportsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReportsOutputResponse, ListReportsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReportsOutputResponse, ListReportsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReportsOutputResponse, ListReportsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReportsOutput, ListReportsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReportsOutput, ListReportsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReportsOutput, ListReportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1434,14 +1434,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListReportsForReportGroupInput : [no documentation found]
     ///
-    /// - Returns: `ListReportsForReportGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ListReportsForReportGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func listReportsForReportGroup(input: ListReportsForReportGroupInput) async throws -> ListReportsForReportGroupOutputResponse
+    public func listReportsForReportGroup(input: ListReportsForReportGroupInput) async throws -> ListReportsForReportGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1457,21 +1457,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>(id: "listReportsForReportGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListReportsForReportGroupInput, ListReportsForReportGroupOutput, ListReportsForReportGroupOutputError>(id: "listReportsForReportGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput, ListReportsForReportGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReportsForReportGroupOutput, ListReportsForReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListReportsForReportGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse>(xmlName: "ListReportsForReportGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(xAmzTarget: "CodeBuild_20161006.ListReportsForReportGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(xmlName: "ListReportsForReportGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReportsForReportGroupOutput, ListReportsForReportGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReportsForReportGroupOutputResponse, ListReportsForReportGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReportsForReportGroupOutput, ListReportsForReportGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReportsForReportGroupOutput, ListReportsForReportGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReportsForReportGroupOutput, ListReportsForReportGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1480,13 +1480,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListSharedProjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListSharedProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSharedProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listSharedProjects(input: ListSharedProjectsInput) async throws -> ListSharedProjectsOutputResponse
+    public func listSharedProjects(input: ListSharedProjectsInput) async throws -> ListSharedProjectsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1502,21 +1502,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSharedProjectsInput, ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>(id: "listSharedProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSharedProjectsInput, ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSharedProjectsInput, ListSharedProjectsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSharedProjectsInput, ListSharedProjectsOutput, ListSharedProjectsOutputError>(id: "listSharedProjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput, ListSharedProjectsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSharedProjectsOutput, ListSharedProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSharedProjectsInput, ListSharedProjectsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListSharedProjects"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSharedProjectsInput, ListSharedProjectsOutputResponse>(xmlName: "ListSharedProjectsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSharedProjectsInput, ListSharedProjectsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(xAmzTarget: "CodeBuild_20161006.ListSharedProjects"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(xmlName: "ListSharedProjectsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSharedProjectsOutput, ListSharedProjectsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSharedProjectsOutputResponse, ListSharedProjectsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSharedProjectsOutput, ListSharedProjectsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSharedProjectsOutput, ListSharedProjectsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSharedProjectsOutput, ListSharedProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1525,13 +1525,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListSharedReportGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListSharedReportGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSharedReportGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listSharedReportGroups(input: ListSharedReportGroupsInput) async throws -> ListSharedReportGroupsOutputResponse
+    public func listSharedReportGroups(input: ListSharedReportGroupsInput) async throws -> ListSharedReportGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1547,21 +1547,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>(id: "listSharedReportGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSharedReportGroupsInput, ListSharedReportGroupsOutput, ListSharedReportGroupsOutputError>(id: "listSharedReportGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput, ListSharedReportGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSharedReportGroupsOutput, ListSharedReportGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListSharedReportGroups"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse>(xmlName: "ListSharedReportGroupsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(xAmzTarget: "CodeBuild_20161006.ListSharedReportGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(xmlName: "ListSharedReportGroupsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSharedReportGroupsOutput, ListSharedReportGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSharedReportGroupsOutputResponse, ListSharedReportGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSharedReportGroupsOutput, ListSharedReportGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSharedReportGroupsOutput, ListSharedReportGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSharedReportGroupsOutput, ListSharedReportGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1570,13 +1570,13 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter ListSourceCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `ListSourceCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSourceCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listSourceCredentials(input: ListSourceCredentialsInput) async throws -> ListSourceCredentialsOutputResponse
+    public func listSourceCredentials(input: ListSourceCredentialsInput) async throws -> ListSourceCredentialsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1592,21 +1592,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSourceCredentialsInput, ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>(id: "listSourceCredentials")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSourceCredentialsInput, ListSourceCredentialsOutput, ListSourceCredentialsOutputError>(id: "listSourceCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput, ListSourceCredentialsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceCredentialsOutput, ListSourceCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutputResponse>(xAmzTarget: "CodeBuild_20161006.ListSourceCredentials"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutputResponse>(xmlName: "ListSourceCredentialsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(xAmzTarget: "CodeBuild_20161006.ListSourceCredentials"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(xmlName: "ListSourceCredentialsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceCredentialsOutput, ListSourceCredentialsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceCredentialsOutputResponse, ListSourceCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSourceCredentialsOutput, ListSourceCredentialsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceCredentialsOutput, ListSourceCredentialsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceCredentialsOutput, ListSourceCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1615,14 +1615,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1638,21 +1638,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>(id: "putResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xAmzTarget: "CodeBuild_20161006.PutResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xmlName: "PutResourcePolicyInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "CodeBuild_20161006.PutResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xmlName: "PutResourcePolicyInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutput, PutResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1661,7 +1661,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter RetryBuildInput : [no documentation found]
     ///
-    /// - Returns: `RetryBuildOutputResponse` : [no documentation found]
+    /// - Returns: `RetryBuildOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1669,7 +1669,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func retryBuild(input: RetryBuildInput) async throws -> RetryBuildOutputResponse
+    public func retryBuild(input: RetryBuildInput) async throws -> RetryBuildOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1685,21 +1685,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RetryBuildInput, RetryBuildOutputResponse, RetryBuildOutputError>(id: "retryBuild")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryBuildInput, RetryBuildOutputResponse, RetryBuildOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryBuildInput, RetryBuildOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RetryBuildInput, RetryBuildOutput, RetryBuildOutputError>(id: "retryBuild")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryBuildInput, RetryBuildOutput, RetryBuildOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryBuildInput, RetryBuildOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RetryBuildOutputResponse, RetryBuildOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RetryBuildOutput, RetryBuildOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetryBuildInput, RetryBuildOutputResponse>(xAmzTarget: "CodeBuild_20161006.RetryBuild"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RetryBuildInput, RetryBuildOutputResponse>(xmlName: "RetryBuildInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RetryBuildInput, RetryBuildOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetryBuildInput, RetryBuildOutput>(xAmzTarget: "CodeBuild_20161006.RetryBuild"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RetryBuildInput, RetryBuildOutput>(xmlName: "RetryBuildInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RetryBuildInput, RetryBuildOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetryBuildOutputResponse, RetryBuildOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetryBuildOutput, RetryBuildOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryBuildOutputResponse, RetryBuildOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryBuildOutputResponse, RetryBuildOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetryBuildOutputResponse, RetryBuildOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryBuildOutput, RetryBuildOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryBuildOutput, RetryBuildOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetryBuildOutput, RetryBuildOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1708,14 +1708,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter RetryBuildBatchInput : [no documentation found]
     ///
-    /// - Returns: `RetryBuildBatchOutputResponse` : [no documentation found]
+    /// - Returns: `RetryBuildBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func retryBuildBatch(input: RetryBuildBatchInput) async throws -> RetryBuildBatchOutputResponse
+    public func retryBuildBatch(input: RetryBuildBatchInput) async throws -> RetryBuildBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1731,21 +1731,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RetryBuildBatchInput, RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>(id: "retryBuildBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryBuildBatchInput, RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryBuildBatchInput, RetryBuildBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RetryBuildBatchInput, RetryBuildBatchOutput, RetryBuildBatchOutputError>(id: "retryBuildBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput, RetryBuildBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RetryBuildBatchOutput, RetryBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetryBuildBatchInput, RetryBuildBatchOutputResponse>(xAmzTarget: "CodeBuild_20161006.RetryBuildBatch"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RetryBuildBatchInput, RetryBuildBatchOutputResponse>(xmlName: "RetryBuildBatchInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RetryBuildBatchInput, RetryBuildBatchOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(xAmzTarget: "CodeBuild_20161006.RetryBuildBatch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(xmlName: "RetryBuildBatchInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetryBuildBatchOutput, RetryBuildBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetryBuildBatchOutputResponse, RetryBuildBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryBuildBatchOutput, RetryBuildBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryBuildBatchOutput, RetryBuildBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetryBuildBatchOutput, RetryBuildBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1754,7 +1754,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter StartBuildInput : [no documentation found]
     ///
-    /// - Returns: `StartBuildOutputResponse` : [no documentation found]
+    /// - Returns: `StartBuildOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1762,7 +1762,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func startBuild(input: StartBuildInput) async throws -> StartBuildOutputResponse
+    public func startBuild(input: StartBuildInput) async throws -> StartBuildOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1778,21 +1778,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartBuildInput, StartBuildOutputResponse, StartBuildOutputError>(id: "startBuild")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBuildInput, StartBuildOutputResponse, StartBuildOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBuildInput, StartBuildOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartBuildInput, StartBuildOutput, StartBuildOutputError>(id: "startBuild")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBuildInput, StartBuildOutput, StartBuildOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBuildInput, StartBuildOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBuildOutputResponse, StartBuildOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBuildOutput, StartBuildOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartBuildInput, StartBuildOutputResponse>(xAmzTarget: "CodeBuild_20161006.StartBuild"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartBuildInput, StartBuildOutputResponse>(xmlName: "StartBuildInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBuildInput, StartBuildOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartBuildInput, StartBuildOutput>(xAmzTarget: "CodeBuild_20161006.StartBuild"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartBuildInput, StartBuildOutput>(xmlName: "StartBuildInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBuildInput, StartBuildOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBuildOutputResponse, StartBuildOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBuildOutput, StartBuildOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBuildOutputResponse, StartBuildOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBuildOutputResponse, StartBuildOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBuildOutputResponse, StartBuildOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBuildOutput, StartBuildOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBuildOutput, StartBuildOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBuildOutput, StartBuildOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1801,14 +1801,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter StartBuildBatchInput : [no documentation found]
     ///
-    /// - Returns: `StartBuildBatchOutputResponse` : [no documentation found]
+    /// - Returns: `StartBuildBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func startBuildBatch(input: StartBuildBatchInput) async throws -> StartBuildBatchOutputResponse
+    public func startBuildBatch(input: StartBuildBatchInput) async throws -> StartBuildBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1824,21 +1824,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartBuildBatchInput, StartBuildBatchOutputResponse, StartBuildBatchOutputError>(id: "startBuildBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBuildBatchInput, StartBuildBatchOutputResponse, StartBuildBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBuildBatchInput, StartBuildBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartBuildBatchInput, StartBuildBatchOutput, StartBuildBatchOutputError>(id: "startBuildBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBuildBatchInput, StartBuildBatchOutput, StartBuildBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBuildBatchOutputResponse, StartBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBuildBatchOutput, StartBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartBuildBatchInput, StartBuildBatchOutputResponse>(xAmzTarget: "CodeBuild_20161006.StartBuildBatch"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartBuildBatchInput, StartBuildBatchOutputResponse>(xmlName: "StartBuildBatchInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBuildBatchInput, StartBuildBatchOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(xAmzTarget: "CodeBuild_20161006.StartBuildBatch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(xmlName: "StartBuildBatchInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBuildBatchOutputResponse, StartBuildBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBuildBatchOutput, StartBuildBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBuildBatchOutputResponse, StartBuildBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBuildBatchOutputResponse, StartBuildBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBuildBatchOutputResponse, StartBuildBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBuildBatchOutput, StartBuildBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBuildBatchOutput, StartBuildBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBuildBatchOutput, StartBuildBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1847,14 +1847,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter StopBuildInput : [no documentation found]
     ///
-    /// - Returns: `StopBuildOutputResponse` : [no documentation found]
+    /// - Returns: `StopBuildOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func stopBuild(input: StopBuildInput) async throws -> StopBuildOutputResponse
+    public func stopBuild(input: StopBuildInput) async throws -> StopBuildOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1870,21 +1870,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopBuildInput, StopBuildOutputResponse, StopBuildOutputError>(id: "stopBuild")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopBuildInput, StopBuildOutputResponse, StopBuildOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopBuildInput, StopBuildOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopBuildInput, StopBuildOutput, StopBuildOutputError>(id: "stopBuild")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopBuildInput, StopBuildOutput, StopBuildOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopBuildInput, StopBuildOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopBuildOutputResponse, StopBuildOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopBuildOutput, StopBuildOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopBuildInput, StopBuildOutputResponse>(xAmzTarget: "CodeBuild_20161006.StopBuild"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopBuildInput, StopBuildOutputResponse>(xmlName: "StopBuildInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopBuildInput, StopBuildOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopBuildInput, StopBuildOutput>(xAmzTarget: "CodeBuild_20161006.StopBuild"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopBuildInput, StopBuildOutput>(xmlName: "StopBuildInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopBuildInput, StopBuildOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopBuildOutputResponse, StopBuildOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopBuildOutput, StopBuildOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopBuildOutputResponse, StopBuildOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopBuildOutputResponse, StopBuildOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopBuildOutputResponse, StopBuildOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopBuildOutput, StopBuildOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopBuildOutput, StopBuildOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopBuildOutput, StopBuildOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1893,14 +1893,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter StopBuildBatchInput : [no documentation found]
     ///
-    /// - Returns: `StopBuildBatchOutputResponse` : [no documentation found]
+    /// - Returns: `StopBuildBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func stopBuildBatch(input: StopBuildBatchInput) async throws -> StopBuildBatchOutputResponse
+    public func stopBuildBatch(input: StopBuildBatchInput) async throws -> StopBuildBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1916,21 +1916,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopBuildBatchInput, StopBuildBatchOutputResponse, StopBuildBatchOutputError>(id: "stopBuildBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopBuildBatchInput, StopBuildBatchOutputResponse, StopBuildBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopBuildBatchInput, StopBuildBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopBuildBatchInput, StopBuildBatchOutput, StopBuildBatchOutputError>(id: "stopBuildBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopBuildBatchInput, StopBuildBatchOutput, StopBuildBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopBuildBatchOutputResponse, StopBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopBuildBatchOutput, StopBuildBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopBuildBatchInput, StopBuildBatchOutputResponse>(xAmzTarget: "CodeBuild_20161006.StopBuildBatch"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopBuildBatchInput, StopBuildBatchOutputResponse>(xmlName: "StopBuildBatchInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopBuildBatchInput, StopBuildBatchOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(xAmzTarget: "CodeBuild_20161006.StopBuildBatch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(xmlName: "StopBuildBatchInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopBuildBatchOutputResponse, StopBuildBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopBuildBatchOutput, StopBuildBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopBuildBatchOutputResponse, StopBuildBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopBuildBatchOutputResponse, StopBuildBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopBuildBatchOutputResponse, StopBuildBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopBuildBatchOutput, StopBuildBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopBuildBatchOutput, StopBuildBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopBuildBatchOutput, StopBuildBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1939,14 +1939,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1962,21 +1962,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>(id: "updateProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>(id: "updateProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(xAmzTarget: "CodeBuild_20161006.UpdateProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(xmlName: "UpdateProjectInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProjectInput, UpdateProjectOutput>(xAmzTarget: "CodeBuild_20161006.UpdateProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectInput, UpdateProjectOutput>(xmlName: "UpdateProjectInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutputResponse, UpdateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutput, UpdateProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectOutput, UpdateProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutput, UpdateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1987,7 +1987,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// * All build logs and artifacts are available to the public. Environment variables, source code, and other sensitive information may have been output to the build logs and artifacts. You must be careful about what information is output to the build logs. Some best practice are:
     ///
-    /// * Do not store sensitive values, especially Amazon Web Services access key IDs and secret access keys, in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager to store sensitive values.
+    /// * Do not store sensitive values in environment variables. We recommend that you use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager to store sensitive values.
     ///
     /// * Follow [Best practices for using webhooks](https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices) in the CodeBuild User Guide to limit which entities can trigger a build, and do not store the buildspec in the project itself, to ensure that your webhooks are as secure as possible.
     ///
@@ -1998,14 +1998,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter UpdateProjectVisibilityInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProjectVisibilityOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProjectVisibilityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateProjectVisibility(input: UpdateProjectVisibilityInput) async throws -> UpdateProjectVisibilityOutputResponse
+    public func updateProjectVisibility(input: UpdateProjectVisibilityInput) async throws -> UpdateProjectVisibilityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2021,21 +2021,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>(id: "updateProjectVisibility")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput, UpdateProjectVisibilityOutputError>(id: "updateProjectVisibility")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput, UpdateProjectVisibilityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectVisibilityOutput, UpdateProjectVisibilityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutputResponse>(xAmzTarget: "CodeBuild_20161006.UpdateProjectVisibility"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutputResponse>(xmlName: "UpdateProjectVisibilityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(xAmzTarget: "CodeBuild_20161006.UpdateProjectVisibility"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(xmlName: "UpdateProjectVisibilityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectVisibilityOutput, UpdateProjectVisibilityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectVisibilityOutputResponse, UpdateProjectVisibilityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectVisibilityOutput, UpdateProjectVisibilityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectVisibilityOutput, UpdateProjectVisibilityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectVisibilityOutput, UpdateProjectVisibilityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2044,14 +2044,14 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter UpdateReportGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateReportGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateReportGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateReportGroup(input: UpdateReportGroupInput) async throws -> UpdateReportGroupOutputResponse
+    public func updateReportGroup(input: UpdateReportGroupInput) async throws -> UpdateReportGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2067,21 +2067,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateReportGroupInput, UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>(id: "updateReportGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateReportGroupInput, UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateReportGroupInput, UpdateReportGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateReportGroupInput, UpdateReportGroupOutput, UpdateReportGroupOutputError>(id: "updateReportGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput, UpdateReportGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateReportGroupOutput, UpdateReportGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateReportGroupInput, UpdateReportGroupOutputResponse>(xAmzTarget: "CodeBuild_20161006.UpdateReportGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateReportGroupInput, UpdateReportGroupOutputResponse>(xmlName: "UpdateReportGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateReportGroupInput, UpdateReportGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(xAmzTarget: "CodeBuild_20161006.UpdateReportGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(xmlName: "UpdateReportGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateReportGroupOutput, UpdateReportGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateReportGroupOutputResponse, UpdateReportGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateReportGroupOutput, UpdateReportGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateReportGroupOutput, UpdateReportGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateReportGroupOutput, UpdateReportGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2090,7 +2090,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// - Parameter UpdateWebhookInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWebhookOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWebhookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2098,7 +2098,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutputResponse
+    public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2114,21 +2114,21 @@ extension CodeBuildClient: CodeBuildClientProtocol {
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateWebhookInput, UpdateWebhookOutputResponse, UpdateWebhookOutputError>(id: "updateWebhook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWebhookInput, UpdateWebhookOutputResponse, UpdateWebhookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWebhookInput, UpdateWebhookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateWebhookInput, UpdateWebhookOutput, UpdateWebhookOutputError>(id: "updateWebhook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWebhookInput, UpdateWebhookOutput, UpdateWebhookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWebhookOutputResponse, UpdateWebhookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWebhookOutput, UpdateWebhookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateWebhookInput, UpdateWebhookOutputResponse>(xAmzTarget: "CodeBuild_20161006.UpdateWebhook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWebhookInput, UpdateWebhookOutputResponse>(xmlName: "UpdateWebhookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWebhookInput, UpdateWebhookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(xAmzTarget: "CodeBuild_20161006.UpdateWebhook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(xmlName: "UpdateWebhookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWebhookOutputResponse, UpdateWebhookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWebhookOutput, UpdateWebhookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWebhookOutputResponse, UpdateWebhookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWebhookOutputResponse, UpdateWebhookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWebhookOutputResponse, UpdateWebhookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWebhookOutput, UpdateWebhookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWebhookOutput, UpdateWebhookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWebhookOutput, UpdateWebhookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

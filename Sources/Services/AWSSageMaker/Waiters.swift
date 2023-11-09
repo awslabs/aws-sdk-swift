@@ -4,13 +4,13 @@ import ClientRuntime
 
 extension SageMakerClientProtocol {
 
-    static func endpointDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
+    static func endpointDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput> {
+        let acceptors: [WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutput, Error>) -> Bool in
                 // JMESPath expression: "EndpointStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -19,7 +19,7 @@ extension SageMakerClientProtocol {
                 return JMESUtils.compare(endpointStatus, ==, "Failed")
             }),
         ]
-        return try WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the EndpointDeleted event on the describeEndpoint operation.
@@ -33,14 +33,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilEndpointDeleted(options: WaiterOptions, input: DescribeEndpointInput) async throws -> WaiterOutcome<DescribeEndpointOutputResponse> {
+    public func waitUntilEndpointDeleted(options: WaiterOptions, input: DescribeEndpointInput) async throws -> WaiterOutcome<DescribeEndpointOutput> {
         let waiter = Waiter(config: try Self.endpointDeletedWaiterConfig(), operation: self.describeEndpoint(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func endpointInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
+    static func endpointInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput> {
+        let acceptors: [WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutput, Error>) -> Bool in
                 // JMESPath expression: "EndpointStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "InService"
@@ -48,7 +48,7 @@ extension SageMakerClientProtocol {
                 let endpointStatus = output.endpointStatus
                 return JMESUtils.compare(endpointStatus, ==, "InService")
             }),
-            .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutput, Error>) -> Bool in
                 // JMESPath expression: "EndpointStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -56,12 +56,12 @@ extension SageMakerClientProtocol {
                 let endpointStatus = output.endpointStatus
                 return JMESUtils.compare(endpointStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the EndpointInService event on the describeEndpoint operation.
@@ -75,14 +75,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilEndpointInService(options: WaiterOptions, input: DescribeEndpointInput) async throws -> WaiterOutcome<DescribeEndpointOutputResponse> {
+    public func waitUntilEndpointInService(options: WaiterOptions, input: DescribeEndpointInput) async throws -> WaiterOutcome<DescribeEndpointOutput> {
         let waiter = Waiter(config: try Self.endpointInServiceWaiterConfig(), operation: self.describeEndpoint(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func imageCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+    static func imageCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeImageInput, DescribeImageOutput> {
+        let acceptors: [WaiterConfiguration<DescribeImageInput, DescribeImageOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATED"
@@ -90,7 +90,7 @@ extension SageMakerClientProtocol {
                 let imageStatus = output.imageStatus
                 return JMESUtils.compare(imageStatus, ==, "CREATED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -98,12 +98,12 @@ extension SageMakerClientProtocol {
                 let imageStatus = output.imageStatus
                 return JMESUtils.compare(imageStatus, ==, "CREATE_FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ImageCreated event on the describeImage operation.
@@ -117,18 +117,18 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilImageCreated(options: WaiterOptions, input: DescribeImageInput) async throws -> WaiterOutcome<DescribeImageOutputResponse> {
+    public func waitUntilImageCreated(options: WaiterOptions, input: DescribeImageInput) async throws -> WaiterOutcome<DescribeImageOutput> {
         let waiter = Waiter(config: try Self.imageCreatedWaiterConfig(), operation: self.describeImage(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func imageDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+    static func imageDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeImageInput, DescribeImageOutput> {
+        let acceptors: [WaiterConfiguration<DescribeImageInput, DescribeImageOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -136,12 +136,12 @@ extension SageMakerClientProtocol {
                 let imageStatus = output.imageStatus
                 return JMESUtils.compare(imageStatus, ==, "DELETE_FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ImageDeleted event on the describeImage operation.
@@ -155,14 +155,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilImageDeleted(options: WaiterOptions, input: DescribeImageInput) async throws -> WaiterOutcome<DescribeImageOutputResponse> {
+    public func waitUntilImageDeleted(options: WaiterOptions, input: DescribeImageInput) async throws -> WaiterOutcome<DescribeImageOutput> {
         let waiter = Waiter(config: try Self.imageDeletedWaiterConfig(), operation: self.describeImage(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func imageUpdatedWaiterConfig() throws -> WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+    static func imageUpdatedWaiterConfig() throws -> WaiterConfiguration<DescribeImageInput, DescribeImageOutput> {
+        let acceptors: [WaiterConfiguration<DescribeImageInput, DescribeImageOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATED"
@@ -170,7 +170,7 @@ extension SageMakerClientProtocol {
                 let imageStatus = output.imageStatus
                 return JMESUtils.compare(imageStatus, ==, "CREATED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "UPDATE_FAILED"
@@ -178,12 +178,12 @@ extension SageMakerClientProtocol {
                 let imageStatus = output.imageStatus
                 return JMESUtils.compare(imageStatus, ==, "UPDATE_FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ImageUpdated event on the describeImage operation.
@@ -197,14 +197,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilImageUpdated(options: WaiterOptions, input: DescribeImageInput) async throws -> WaiterOutcome<DescribeImageOutputResponse> {
+    public func waitUntilImageUpdated(options: WaiterOptions, input: DescribeImageInput) async throws -> WaiterOutcome<DescribeImageOutput> {
         let waiter = Waiter(config: try Self.imageUpdatedWaiterConfig(), operation: self.describeImage(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func imageVersionCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
+    static func imageVersionCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput> {
+        let acceptors: [WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageVersionStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATED"
@@ -212,7 +212,7 @@ extension SageMakerClientProtocol {
                 let imageVersionStatus = output.imageVersionStatus
                 return JMESUtils.compare(imageVersionStatus, ==, "CREATED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageVersionStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -220,12 +220,12 @@ extension SageMakerClientProtocol {
                 let imageVersionStatus = output.imageVersionStatus
                 return JMESUtils.compare(imageVersionStatus, ==, "CREATE_FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ImageVersionCreated event on the describeImageVersion operation.
@@ -239,18 +239,18 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilImageVersionCreated(options: WaiterOptions, input: DescribeImageVersionInput) async throws -> WaiterOutcome<DescribeImageVersionOutputResponse> {
+    public func waitUntilImageVersionCreated(options: WaiterOptions, input: DescribeImageVersionInput) async throws -> WaiterOutcome<DescribeImageVersionOutput> {
         let waiter = Waiter(config: try Self.imageVersionCreatedWaiterConfig(), operation: self.describeImageVersion(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func imageVersionDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
+    static func imageVersionDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput> {
+        let acceptors: [WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutput, Error>) -> Bool in
                 // JMESPath expression: "ImageVersionStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -258,12 +258,12 @@ extension SageMakerClientProtocol {
                 let imageVersionStatus = output.imageVersionStatus
                 return JMESUtils.compare(imageVersionStatus, ==, "DELETE_FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ImageVersionDeleted event on the describeImageVersion operation.
@@ -277,18 +277,18 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilImageVersionDeleted(options: WaiterOptions, input: DescribeImageVersionInput) async throws -> WaiterOutcome<DescribeImageVersionOutputResponse> {
+    public func waitUntilImageVersionDeleted(options: WaiterOptions, input: DescribeImageVersionInput) async throws -> WaiterOutcome<DescribeImageVersionOutput> {
         let waiter = Waiter(config: try Self.imageVersionDeletedWaiterConfig(), operation: self.describeImageVersion(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func notebookInstanceDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
+    static func notebookInstanceDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput> {
+        let acceptors: [WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutput, Error>) -> Bool in
                 // JMESPath expression: "NotebookInstanceStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -297,7 +297,7 @@ extension SageMakerClientProtocol {
                 return JMESUtils.compare(notebookInstanceStatus, ==, "Failed")
             }),
         ]
-        return try WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the NotebookInstanceDeleted event on the describeNotebookInstance operation.
@@ -311,14 +311,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilNotebookInstanceDeleted(options: WaiterOptions, input: DescribeNotebookInstanceInput) async throws -> WaiterOutcome<DescribeNotebookInstanceOutputResponse> {
+    public func waitUntilNotebookInstanceDeleted(options: WaiterOptions, input: DescribeNotebookInstanceInput) async throws -> WaiterOutcome<DescribeNotebookInstanceOutput> {
         let waiter = Waiter(config: try Self.notebookInstanceDeletedWaiterConfig(), operation: self.describeNotebookInstance(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func notebookInstanceInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
+    static func notebookInstanceInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput> {
+        let acceptors: [WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutput, Error>) -> Bool in
                 // JMESPath expression: "NotebookInstanceStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "InService"
@@ -326,7 +326,7 @@ extension SageMakerClientProtocol {
                 let notebookInstanceStatus = output.notebookInstanceStatus
                 return JMESUtils.compare(notebookInstanceStatus, ==, "InService")
             }),
-            .init(state: .failure, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutput, Error>) -> Bool in
                 // JMESPath expression: "NotebookInstanceStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -335,7 +335,7 @@ extension SageMakerClientProtocol {
                 return JMESUtils.compare(notebookInstanceStatus, ==, "Failed")
             }),
         ]
-        return try WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the NotebookInstanceInService event on the describeNotebookInstance operation.
@@ -349,14 +349,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilNotebookInstanceInService(options: WaiterOptions, input: DescribeNotebookInstanceInput) async throws -> WaiterOutcome<DescribeNotebookInstanceOutputResponse> {
+    public func waitUntilNotebookInstanceInService(options: WaiterOptions, input: DescribeNotebookInstanceInput) async throws -> WaiterOutcome<DescribeNotebookInstanceOutput> {
         let waiter = Waiter(config: try Self.notebookInstanceInServiceWaiterConfig(), operation: self.describeNotebookInstance(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func notebookInstanceStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
+    static func notebookInstanceStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput> {
+        let acceptors: [WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutput, Error>) -> Bool in
                 // JMESPath expression: "NotebookInstanceStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Stopped"
@@ -364,7 +364,7 @@ extension SageMakerClientProtocol {
                 let notebookInstanceStatus = output.notebookInstanceStatus
                 return JMESUtils.compare(notebookInstanceStatus, ==, "Stopped")
             }),
-            .init(state: .failure, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutput, Error>) -> Bool in
                 // JMESPath expression: "NotebookInstanceStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -373,7 +373,7 @@ extension SageMakerClientProtocol {
                 return JMESUtils.compare(notebookInstanceStatus, ==, "Failed")
             }),
         ]
-        return try WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the NotebookInstanceStopped event on the describeNotebookInstance operation.
@@ -387,14 +387,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilNotebookInstanceStopped(options: WaiterOptions, input: DescribeNotebookInstanceInput) async throws -> WaiterOutcome<DescribeNotebookInstanceOutputResponse> {
+    public func waitUntilNotebookInstanceStopped(options: WaiterOptions, input: DescribeNotebookInstanceInput) async throws -> WaiterOutcome<DescribeNotebookInstanceOutput> {
         let waiter = Waiter(config: try Self.notebookInstanceStoppedWaiterConfig(), operation: self.describeNotebookInstance(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func processingJobCompletedOrStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutputResponse, Error>) -> Bool in
+    static func processingJobCompletedOrStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutput> {
+        let acceptors: [WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutput, Error>) -> Bool in
                 // JMESPath expression: "ProcessingJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Completed"
@@ -402,7 +402,7 @@ extension SageMakerClientProtocol {
                 let processingJobStatus = output.processingJobStatus
                 return JMESUtils.compare(processingJobStatus, ==, "Completed")
             }),
-            .init(state: .success, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutput, Error>) -> Bool in
                 // JMESPath expression: "ProcessingJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Stopped"
@@ -410,7 +410,7 @@ extension SageMakerClientProtocol {
                 let processingJobStatus = output.processingJobStatus
                 return JMESUtils.compare(processingJobStatus, ==, "Stopped")
             }),
-            .init(state: .failure, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutput, Error>) -> Bool in
                 // JMESPath expression: "ProcessingJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -418,12 +418,12 @@ extension SageMakerClientProtocol {
                 let processingJobStatus = output.processingJobStatus
                 return JMESUtils.compare(processingJobStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ProcessingJobCompletedOrStopped event on the describeProcessingJob operation.
@@ -437,14 +437,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilProcessingJobCompletedOrStopped(options: WaiterOptions, input: DescribeProcessingJobInput) async throws -> WaiterOutcome<DescribeProcessingJobOutputResponse> {
+    public func waitUntilProcessingJobCompletedOrStopped(options: WaiterOptions, input: DescribeProcessingJobInput) async throws -> WaiterOutcome<DescribeProcessingJobOutput> {
         let waiter = Waiter(config: try Self.processingJobCompletedOrStoppedWaiterConfig(), operation: self.describeProcessingJob(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func trainingJobCompletedOrStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutputResponse, Error>) -> Bool in
+    static func trainingJobCompletedOrStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutput, Error>) -> Bool in
                 // JMESPath expression: "TrainingJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Completed"
@@ -452,7 +452,7 @@ extension SageMakerClientProtocol {
                 let trainingJobStatus = output.trainingJobStatus
                 return JMESUtils.compare(trainingJobStatus, ==, "Completed")
             }),
-            .init(state: .success, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutput, Error>) -> Bool in
                 // JMESPath expression: "TrainingJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Stopped"
@@ -460,7 +460,7 @@ extension SageMakerClientProtocol {
                 let trainingJobStatus = output.trainingJobStatus
                 return JMESUtils.compare(trainingJobStatus, ==, "Stopped")
             }),
-            .init(state: .failure, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutput, Error>) -> Bool in
                 // JMESPath expression: "TrainingJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -468,12 +468,12 @@ extension SageMakerClientProtocol {
                 let trainingJobStatus = output.trainingJobStatus
                 return JMESUtils.compare(trainingJobStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutputResponse>(acceptors: acceptors, minDelay: 120.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutput>(acceptors: acceptors, minDelay: 120.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TrainingJobCompletedOrStopped event on the describeTrainingJob operation.
@@ -487,14 +487,14 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTrainingJobCompletedOrStopped(options: WaiterOptions, input: DescribeTrainingJobInput) async throws -> WaiterOutcome<DescribeTrainingJobOutputResponse> {
+    public func waitUntilTrainingJobCompletedOrStopped(options: WaiterOptions, input: DescribeTrainingJobInput) async throws -> WaiterOutcome<DescribeTrainingJobOutput> {
         let waiter = Waiter(config: try Self.trainingJobCompletedOrStoppedWaiterConfig(), operation: self.describeTrainingJob(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func transformJobCompletedOrStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutputResponse, Error>) -> Bool in
+    static func transformJobCompletedOrStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutput, Error>) -> Bool in
                 // JMESPath expression: "TransformJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Completed"
@@ -502,7 +502,7 @@ extension SageMakerClientProtocol {
                 let transformJobStatus = output.transformJobStatus
                 return JMESUtils.compare(transformJobStatus, ==, "Completed")
             }),
-            .init(state: .success, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutput, Error>) -> Bool in
                 // JMESPath expression: "TransformJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Stopped"
@@ -510,7 +510,7 @@ extension SageMakerClientProtocol {
                 let transformJobStatus = output.transformJobStatus
                 return JMESUtils.compare(transformJobStatus, ==, "Stopped")
             }),
-            .init(state: .failure, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutput, Error>) -> Bool in
                 // JMESPath expression: "TransformJobStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -518,12 +518,12 @@ extension SageMakerClientProtocol {
                 let transformJobStatus = output.transformJobStatus
                 return JMESUtils.compare(transformJobStatus, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TransformJobCompletedOrStopped event on the describeTransformJob operation.
@@ -537,7 +537,7 @@ extension SageMakerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTransformJobCompletedOrStopped(options: WaiterOptions, input: DescribeTransformJobInput) async throws -> WaiterOutcome<DescribeTransformJobOutputResponse> {
+    public func waitUntilTransformJobCompletedOrStopped(options: WaiterOptions, input: DescribeTransformJobInput) async throws -> WaiterOutcome<DescribeTransformJobOutput> {
         let waiter = Waiter(config: try Self.transformJobCompletedOrStoppedWaiterConfig(), operation: self.describeTransformJob(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

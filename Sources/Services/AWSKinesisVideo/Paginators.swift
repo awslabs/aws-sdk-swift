@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension KinesisVideoClient {
-    /// Paginate over `[DescribeMappedResourceConfigurationOutputResponse]` results.
+    /// Paginate over `[DescribeMappedResourceConfigurationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeMappedResourceConfigurationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMappedResourceConfigurationOutputResponse`
-    public func describeMappedResourceConfigurationPaginated(input: DescribeMappedResourceConfigurationInput) -> ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutputResponse>(input: input, inputKey: \DescribeMappedResourceConfigurationInput.nextToken, outputKey: \DescribeMappedResourceConfigurationOutputResponse.nextToken, paginationFunction: self.describeMappedResourceConfiguration(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMappedResourceConfigurationOutput`
+    public func describeMappedResourceConfigurationPaginated(input: DescribeMappedResourceConfigurationInput) -> ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutput>(input: input, inputKey: \DescribeMappedResourceConfigurationInput.nextToken, outputKey: \DescribeMappedResourceConfigurationOutput.nextToken, paginationFunction: self.describeMappedResourceConfiguration(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeMappedResourceConfigurationInput: ClientRuntime.PaginateToken 
         )}
 }
 
-extension PaginatorSequence where Input == DescribeMappedResourceConfigurationInput, Output == DescribeMappedResourceConfigurationOutputResponse {
+extension PaginatorSequence where Input == DescribeMappedResourceConfigurationInput, Output == DescribeMappedResourceConfigurationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeMappedResourceConfigurationPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.MappedResourceConfigurationListItem]`
     /// - Returns: `[KinesisVideoClientTypes.MappedResourceConfigurationListItem]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeMappedResourceConfigurationIn
     }
 }
 extension KinesisVideoClient {
-    /// Paginate over `[ListEdgeAgentConfigurationsOutputResponse]` results.
+    /// Paginate over `[ListEdgeAgentConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEdgeAgentConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEdgeAgentConfigurationsOutputResponse`
-    public func listEdgeAgentConfigurationsPaginated(input: ListEdgeAgentConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse>(input: input, inputKey: \ListEdgeAgentConfigurationsInput.nextToken, outputKey: \ListEdgeAgentConfigurationsOutputResponse.nextToken, paginationFunction: self.listEdgeAgentConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEdgeAgentConfigurationsOutput`
+    public func listEdgeAgentConfigurationsPaginated(input: ListEdgeAgentConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutput>(input: input, inputKey: \ListEdgeAgentConfigurationsInput.nextToken, outputKey: \ListEdgeAgentConfigurationsOutput.nextToken, paginationFunction: self.listEdgeAgentConfigurations(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListEdgeAgentConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEdgeAgentConfigurationsInput, Output == ListEdgeAgentConfigurationsOutputResponse {
+extension PaginatorSequence where Input == ListEdgeAgentConfigurationsInput, Output == ListEdgeAgentConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEdgeAgentConfigurationsPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]`
     /// - Returns: `[KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == ListEdgeAgentConfigurationsInput, Out
     }
 }
 extension KinesisVideoClient {
-    /// Paginate over `[ListSignalingChannelsOutputResponse]` results.
+    /// Paginate over `[ListSignalingChannelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSignalingChannelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSignalingChannelsOutputResponse`
-    public func listSignalingChannelsPaginated(input: ListSignalingChannelsInput) -> ClientRuntime.PaginatorSequence<ListSignalingChannelsInput, ListSignalingChannelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSignalingChannelsInput, ListSignalingChannelsOutputResponse>(input: input, inputKey: \ListSignalingChannelsInput.nextToken, outputKey: \ListSignalingChannelsOutputResponse.nextToken, paginationFunction: self.listSignalingChannels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSignalingChannelsOutput`
+    public func listSignalingChannelsPaginated(input: ListSignalingChannelsInput) -> ClientRuntime.PaginatorSequence<ListSignalingChannelsInput, ListSignalingChannelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSignalingChannelsInput, ListSignalingChannelsOutput>(input: input, inputKey: \ListSignalingChannelsInput.nextToken, outputKey: \ListSignalingChannelsOutput.nextToken, paginationFunction: self.listSignalingChannels(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ListSignalingChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSignalingChannelsInput, Output == ListSignalingChannelsOutputResponse {
+extension PaginatorSequence where Input == ListSignalingChannelsInput, Output == ListSignalingChannelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSignalingChannelsPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.ChannelInfo]`
     /// - Returns: `[KinesisVideoClientTypes.ChannelInfo]`
@@ -97,16 +97,16 @@ extension PaginatorSequence where Input == ListSignalingChannelsInput, Output ==
     }
 }
 extension KinesisVideoClient {
-    /// Paginate over `[ListStreamsOutputResponse]` results.
+    /// Paginate over `[ListStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStreamsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutputResponse`
-    public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutputResponse>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutputResponse.nextToken, paginationFunction: self.listStreams(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutput`
+    public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutput.nextToken, paginationFunction: self.listStreams(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListStreamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStreamsInput, Output == ListStreamsOutputResponse {
+extension PaginatorSequence where Input == ListStreamsInput, Output == ListStreamsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStreamsPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.StreamInfo]`
     /// - Returns: `[KinesisVideoClientTypes.StreamInfo]`

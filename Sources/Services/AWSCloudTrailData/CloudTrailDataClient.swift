@@ -71,7 +71,7 @@ extension CloudTrailDataClient: CloudTrailDataClientProtocol {
     ///
     /// - Parameter PutAuditEventsInput : [no documentation found]
     ///
-    /// - Returns: `PutAuditEventsOutputResponse` : [no documentation found]
+    /// - Returns: `PutAuditEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,7 +82,7 @@ extension CloudTrailDataClient: CloudTrailDataClientProtocol {
     /// - `DuplicatedAuditEventId` : Two or more entries in the request have the same event ID.
     /// - `InvalidChannelARN` : The specified channel ARN is not a valid channel ARN.
     /// - `UnsupportedOperationException` : The operation requested is not supported in this region or account.
-    public func putAuditEvents(input: PutAuditEventsInput) async throws -> PutAuditEventsOutputResponse
+    public func putAuditEvents(input: PutAuditEventsInput) async throws -> PutAuditEventsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -98,21 +98,21 @@ extension CloudTrailDataClient: CloudTrailDataClientProtocol {
                       .withSigningName(value: "cloudtrail-data")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutAuditEventsInput, PutAuditEventsOutputResponse, PutAuditEventsOutputError>(id: "putAuditEvents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAuditEventsInput, PutAuditEventsOutputResponse, PutAuditEventsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAuditEventsInput, PutAuditEventsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutAuditEventsInput, PutAuditEventsOutput, PutAuditEventsOutputError>(id: "putAuditEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAuditEventsInput, PutAuditEventsOutput, PutAuditEventsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAuditEventsInput, PutAuditEventsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAuditEventsOutput, PutAuditEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutAuditEventsInput, PutAuditEventsOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAuditEventsInput, PutAuditEventsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAuditEventsInput, PutAuditEventsOutputResponse>(xmlName: "PutAuditEventsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutAuditEventsInput, PutAuditEventsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAuditEventsInput, PutAuditEventsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAuditEventsInput, PutAuditEventsOutput>(xmlName: "PutAuditEventsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAuditEventsOutputResponse, PutAuditEventsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAuditEventsOutput, PutAuditEventsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAuditEventsOutput, PutAuditEventsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAuditEventsOutput, PutAuditEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAuditEventsOutput, PutAuditEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

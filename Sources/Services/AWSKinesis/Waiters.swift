@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension KinesisClientProtocol {
 
-    static func streamExistsWaiterConfig() throws -> WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStreamInput, result: Result<DescribeStreamOutputResponse, Error>) -> Bool in
+    static func streamExistsWaiterConfig() throws -> WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStreamInput, result: Result<DescribeStreamOutput, Error>) -> Bool in
                 // JMESPath expression: "StreamDescription.StreamStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -16,7 +16,7 @@ extension KinesisClientProtocol {
                 return JMESUtils.compare(streamStatus, ==, "ACTIVE")
             }),
         ]
-        return try WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StreamExists event on the describeStream operation.
@@ -30,19 +30,19 @@ extension KinesisClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStreamExists(options: WaiterOptions, input: DescribeStreamInput) async throws -> WaiterOutcome<DescribeStreamOutputResponse> {
+    public func waitUntilStreamExists(options: WaiterOptions, input: DescribeStreamInput) async throws -> WaiterOutcome<DescribeStreamOutput> {
         let waiter = Waiter(config: try Self.streamExistsWaiterConfig(), operation: self.describeStream(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func streamNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStreamInput, result: Result<DescribeStreamOutputResponse, Error>) -> Bool in
+    static func streamNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStreamInput, result: Result<DescribeStreamOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StreamNotExists event on the describeStream operation.
@@ -56,7 +56,7 @@ extension KinesisClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStreamNotExists(options: WaiterOptions, input: DescribeStreamInput) async throws -> WaiterOutcome<DescribeStreamOutputResponse> {
+    public func waitUntilStreamNotExists(options: WaiterOptions, input: DescribeStreamInput) async throws -> WaiterOutcome<DescribeStreamOutput> {
         let waiter = Waiter(config: try Self.streamNotExistsWaiterConfig(), operation: self.describeStream(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension DataBrewClient {
-    /// Paginate over `[ListDatasetsOutputResponse]` results.
+    /// Paginate over `[ListDatasetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatasetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
-    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutputResponse.nextToken, paginationFunction: self.listDatasets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
+    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListDatasetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDatasetsInput, Output == ListDatasetsOutputResponse {
+extension PaginatorSequence where Input == ListDatasetsInput, Output == ListDatasetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetsPaginated`
     /// to access the nested member `[DataBrewClientTypes.Dataset]`
     /// - Returns: `[DataBrewClientTypes.Dataset]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListDatasetsInput, Output == ListData
     }
 }
 extension DataBrewClient {
-    /// Paginate over `[ListJobRunsOutputResponse]` results.
+    /// Paginate over `[ListJobRunsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobRunsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobRunsOutputResponse`
-    public func listJobRunsPaginated(input: ListJobRunsInput) -> ClientRuntime.PaginatorSequence<ListJobRunsInput, ListJobRunsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobRunsInput, ListJobRunsOutputResponse>(input: input, inputKey: \ListJobRunsInput.nextToken, outputKey: \ListJobRunsOutputResponse.nextToken, paginationFunction: self.listJobRuns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobRunsOutput`
+    public func listJobRunsPaginated(input: ListJobRunsInput) -> ClientRuntime.PaginatorSequence<ListJobRunsInput, ListJobRunsOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobRunsInput, ListJobRunsOutput>(input: input, inputKey: \ListJobRunsInput.nextToken, outputKey: \ListJobRunsOutput.nextToken, paginationFunction: self.listJobRuns(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListJobRunsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobRunsInput, Output == ListJobRunsOutputResponse {
+extension PaginatorSequence where Input == ListJobRunsInput, Output == ListJobRunsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobRunsPaginated`
     /// to access the nested member `[DataBrewClientTypes.JobRun]`
     /// - Returns: `[DataBrewClientTypes.JobRun]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListJobRunsInput, Output == ListJobRu
     }
 }
 extension DataBrewClient {
-    /// Paginate over `[ListJobsOutputResponse]` results.
+    /// Paginate over `[ListJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
-    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutputResponse.nextToken, paginationFunction: self.listJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
+    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutputResponse {
+extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[DataBrewClientTypes.Job]`
     /// - Returns: `[DataBrewClientTypes.Job]`
@@ -96,16 +96,16 @@ extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutp
     }
 }
 extension DataBrewClient {
-    /// Paginate over `[ListProjectsOutputResponse]` results.
+    /// Paginate over `[ListProjectsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProjectsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutputResponse`
-    public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutputResponse.nextToken, paginationFunction: self.listProjects(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
+    public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
     }
 }
 
@@ -117,7 +117,7 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutputResponse {
+extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
     /// to access the nested member `[DataBrewClientTypes.Project]`
     /// - Returns: `[DataBrewClientTypes.Project]`
@@ -126,16 +126,16 @@ extension PaginatorSequence where Input == ListProjectsInput, Output == ListProj
     }
 }
 extension DataBrewClient {
-    /// Paginate over `[ListRecipesOutputResponse]` results.
+    /// Paginate over `[ListRecipesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRecipesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRecipesOutputResponse`
-    public func listRecipesPaginated(input: ListRecipesInput) -> ClientRuntime.PaginatorSequence<ListRecipesInput, ListRecipesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRecipesInput, ListRecipesOutputResponse>(input: input, inputKey: \ListRecipesInput.nextToken, outputKey: \ListRecipesOutputResponse.nextToken, paginationFunction: self.listRecipes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecipesOutput`
+    public func listRecipesPaginated(input: ListRecipesInput) -> ClientRuntime.PaginatorSequence<ListRecipesInput, ListRecipesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecipesInput, ListRecipesOutput>(input: input, inputKey: \ListRecipesInput.nextToken, outputKey: \ListRecipesOutput.nextToken, paginationFunction: self.listRecipes(input:))
     }
 }
 
@@ -148,7 +148,7 @@ extension ListRecipesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRecipesInput, Output == ListRecipesOutputResponse {
+extension PaginatorSequence where Input == ListRecipesInput, Output == ListRecipesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRecipesPaginated`
     /// to access the nested member `[DataBrewClientTypes.Recipe]`
     /// - Returns: `[DataBrewClientTypes.Recipe]`
@@ -157,16 +157,16 @@ extension PaginatorSequence where Input == ListRecipesInput, Output == ListRecip
     }
 }
 extension DataBrewClient {
-    /// Paginate over `[ListRecipeVersionsOutputResponse]` results.
+    /// Paginate over `[ListRecipeVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRecipeVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRecipeVersionsOutputResponse`
-    public func listRecipeVersionsPaginated(input: ListRecipeVersionsInput) -> ClientRuntime.PaginatorSequence<ListRecipeVersionsInput, ListRecipeVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRecipeVersionsInput, ListRecipeVersionsOutputResponse>(input: input, inputKey: \ListRecipeVersionsInput.nextToken, outputKey: \ListRecipeVersionsOutputResponse.nextToken, paginationFunction: self.listRecipeVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecipeVersionsOutput`
+    public func listRecipeVersionsPaginated(input: ListRecipeVersionsInput) -> ClientRuntime.PaginatorSequence<ListRecipeVersionsInput, ListRecipeVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecipeVersionsInput, ListRecipeVersionsOutput>(input: input, inputKey: \ListRecipeVersionsInput.nextToken, outputKey: \ListRecipeVersionsOutput.nextToken, paginationFunction: self.listRecipeVersions(input:))
     }
 }
 
@@ -179,7 +179,7 @@ extension ListRecipeVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRecipeVersionsInput, Output == ListRecipeVersionsOutputResponse {
+extension PaginatorSequence where Input == ListRecipeVersionsInput, Output == ListRecipeVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRecipeVersionsPaginated`
     /// to access the nested member `[DataBrewClientTypes.Recipe]`
     /// - Returns: `[DataBrewClientTypes.Recipe]`
@@ -188,16 +188,16 @@ extension PaginatorSequence where Input == ListRecipeVersionsInput, Output == Li
     }
 }
 extension DataBrewClient {
-    /// Paginate over `[ListRulesetsOutputResponse]` results.
+    /// Paginate over `[ListRulesetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRulesetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRulesetsOutputResponse`
-    public func listRulesetsPaginated(input: ListRulesetsInput) -> ClientRuntime.PaginatorSequence<ListRulesetsInput, ListRulesetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRulesetsInput, ListRulesetsOutputResponse>(input: input, inputKey: \ListRulesetsInput.nextToken, outputKey: \ListRulesetsOutputResponse.nextToken, paginationFunction: self.listRulesets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRulesetsOutput`
+    public func listRulesetsPaginated(input: ListRulesetsInput) -> ClientRuntime.PaginatorSequence<ListRulesetsInput, ListRulesetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRulesetsInput, ListRulesetsOutput>(input: input, inputKey: \ListRulesetsInput.nextToken, outputKey: \ListRulesetsOutput.nextToken, paginationFunction: self.listRulesets(input:))
     }
 }
 
@@ -210,7 +210,7 @@ extension ListRulesetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRulesetsInput, Output == ListRulesetsOutputResponse {
+extension PaginatorSequence where Input == ListRulesetsInput, Output == ListRulesetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRulesetsPaginated`
     /// to access the nested member `[DataBrewClientTypes.RulesetItem]`
     /// - Returns: `[DataBrewClientTypes.RulesetItem]`
@@ -219,16 +219,16 @@ extension PaginatorSequence where Input == ListRulesetsInput, Output == ListRule
     }
 }
 extension DataBrewClient {
-    /// Paginate over `[ListSchedulesOutputResponse]` results.
+    /// Paginate over `[ListSchedulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSchedulesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSchedulesOutputResponse`
-    public func listSchedulesPaginated(input: ListSchedulesInput) -> ClientRuntime.PaginatorSequence<ListSchedulesInput, ListSchedulesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSchedulesInput, ListSchedulesOutputResponse>(input: input, inputKey: \ListSchedulesInput.nextToken, outputKey: \ListSchedulesOutputResponse.nextToken, paginationFunction: self.listSchedules(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchedulesOutput`
+    public func listSchedulesPaginated(input: ListSchedulesInput) -> ClientRuntime.PaginatorSequence<ListSchedulesInput, ListSchedulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSchedulesInput, ListSchedulesOutput>(input: input, inputKey: \ListSchedulesInput.nextToken, outputKey: \ListSchedulesOutput.nextToken, paginationFunction: self.listSchedules(input:))
     }
 }
 
@@ -241,7 +241,7 @@ extension ListSchedulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchedulesInput, Output == ListSchedulesOutputResponse {
+extension PaginatorSequence where Input == ListSchedulesInput, Output == ListSchedulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchedulesPaginated`
     /// to access the nested member `[DataBrewClientTypes.Schedule]`
     /// - Returns: `[DataBrewClientTypes.Schedule]`

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension QLDBClient {
-    /// Paginate over `[ListJournalKinesisStreamsForLedgerOutputResponse]` results.
+    /// Paginate over `[ListJournalKinesisStreamsForLedgerOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJournalKinesisStreamsForLedgerInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJournalKinesisStreamsForLedgerOutputResponse`
-    public func listJournalKinesisStreamsForLedgerPaginated(input: ListJournalKinesisStreamsForLedgerInput) -> ClientRuntime.PaginatorSequence<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutputResponse>(input: input, inputKey: \ListJournalKinesisStreamsForLedgerInput.nextToken, outputKey: \ListJournalKinesisStreamsForLedgerOutputResponse.nextToken, paginationFunction: self.listJournalKinesisStreamsForLedger(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJournalKinesisStreamsForLedgerOutput`
+    public func listJournalKinesisStreamsForLedgerPaginated(input: ListJournalKinesisStreamsForLedgerInput) -> ClientRuntime.PaginatorSequence<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutput> {
+        return ClientRuntime.PaginatorSequence<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutput>(input: input, inputKey: \ListJournalKinesisStreamsForLedgerInput.nextToken, outputKey: \ListJournalKinesisStreamsForLedgerOutput.nextToken, paginationFunction: self.listJournalKinesisStreamsForLedger(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension ListJournalKinesisStreamsForLedgerInput: ClientRuntime.PaginateToken {
         )}
 }
 extension QLDBClient {
-    /// Paginate over `[ListJournalS3ExportsOutputResponse]` results.
+    /// Paginate over `[ListJournalS3ExportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJournalS3ExportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJournalS3ExportsOutputResponse`
-    public func listJournalS3ExportsPaginated(input: ListJournalS3ExportsInput) -> ClientRuntime.PaginatorSequence<ListJournalS3ExportsInput, ListJournalS3ExportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsInput, ListJournalS3ExportsOutputResponse>(input: input, inputKey: \ListJournalS3ExportsInput.nextToken, outputKey: \ListJournalS3ExportsOutputResponse.nextToken, paginationFunction: self.listJournalS3Exports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJournalS3ExportsOutput`
+    public func listJournalS3ExportsPaginated(input: ListJournalS3ExportsInput) -> ClientRuntime.PaginatorSequence<ListJournalS3ExportsInput, ListJournalS3ExportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsInput, ListJournalS3ExportsOutput>(input: input, inputKey: \ListJournalS3ExportsInput.nextToken, outputKey: \ListJournalS3ExportsOutput.nextToken, paginationFunction: self.listJournalS3Exports(input:))
     }
 }
 
@@ -46,16 +46,16 @@ extension ListJournalS3ExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension QLDBClient {
-    /// Paginate over `[ListJournalS3ExportsForLedgerOutputResponse]` results.
+    /// Paginate over `[ListJournalS3ExportsForLedgerOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJournalS3ExportsForLedgerInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJournalS3ExportsForLedgerOutputResponse`
-    public func listJournalS3ExportsForLedgerPaginated(input: ListJournalS3ExportsForLedgerInput) -> ClientRuntime.PaginatorSequence<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutputResponse>(input: input, inputKey: \ListJournalS3ExportsForLedgerInput.nextToken, outputKey: \ListJournalS3ExportsForLedgerOutputResponse.nextToken, paginationFunction: self.listJournalS3ExportsForLedger(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJournalS3ExportsForLedgerOutput`
+    public func listJournalS3ExportsForLedgerPaginated(input: ListJournalS3ExportsForLedgerInput) -> ClientRuntime.PaginatorSequence<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutput> {
+        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutput>(input: input, inputKey: \ListJournalS3ExportsForLedgerInput.nextToken, outputKey: \ListJournalS3ExportsForLedgerOutput.nextToken, paginationFunction: self.listJournalS3ExportsForLedger(input:))
     }
 }
 
@@ -68,16 +68,16 @@ extension ListJournalS3ExportsForLedgerInput: ClientRuntime.PaginateToken {
         )}
 }
 extension QLDBClient {
-    /// Paginate over `[ListLedgersOutputResponse]` results.
+    /// Paginate over `[ListLedgersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLedgersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLedgersOutputResponse`
-    public func listLedgersPaginated(input: ListLedgersInput) -> ClientRuntime.PaginatorSequence<ListLedgersInput, ListLedgersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLedgersInput, ListLedgersOutputResponse>(input: input, inputKey: \ListLedgersInput.nextToken, outputKey: \ListLedgersOutputResponse.nextToken, paginationFunction: self.listLedgers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLedgersOutput`
+    public func listLedgersPaginated(input: ListLedgersInput) -> ClientRuntime.PaginatorSequence<ListLedgersInput, ListLedgersOutput> {
+        return ClientRuntime.PaginatorSequence<ListLedgersInput, ListLedgersOutput>(input: input, inputKey: \ListLedgersInput.nextToken, outputKey: \ListLedgersOutput.nextToken, paginationFunction: self.listLedgers(input:))
     }
 }
 

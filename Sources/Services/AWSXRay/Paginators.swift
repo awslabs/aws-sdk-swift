@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension XRayClient {
-    /// Paginate over `[BatchGetTracesOutputResponse]` results.
+    /// Paginate over `[BatchGetTracesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[BatchGetTracesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `BatchGetTracesOutputResponse`
-    public func batchGetTracesPaginated(input: BatchGetTracesInput) -> ClientRuntime.PaginatorSequence<BatchGetTracesInput, BatchGetTracesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<BatchGetTracesInput, BatchGetTracesOutputResponse>(input: input, inputKey: \BatchGetTracesInput.nextToken, outputKey: \BatchGetTracesOutputResponse.nextToken, paginationFunction: self.batchGetTraces(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `BatchGetTracesOutput`
+    public func batchGetTracesPaginated(input: BatchGetTracesInput) -> ClientRuntime.PaginatorSequence<BatchGetTracesInput, BatchGetTracesOutput> {
+        return ClientRuntime.PaginatorSequence<BatchGetTracesInput, BatchGetTracesOutput>(input: input, inputKey: \BatchGetTracesInput.nextToken, outputKey: \BatchGetTracesOutput.nextToken, paginationFunction: self.batchGetTraces(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension BatchGetTracesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == BatchGetTracesInput, Output == BatchGetTracesOutputResponse {
+extension PaginatorSequence where Input == BatchGetTracesInput, Output == BatchGetTracesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `batchGetTracesPaginated`
     /// to access the nested member `[XRayClientTypes.Trace]`
     /// - Returns: `[XRayClientTypes.Trace]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == BatchGetTracesInput, Output == BatchG
     }
 }
 extension XRayClient {
-    /// Paginate over `[GetGroupsOutputResponse]` results.
+    /// Paginate over `[GetGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetGroupsOutputResponse`
-    public func getGroupsPaginated(input: GetGroupsInput) -> ClientRuntime.PaginatorSequence<GetGroupsInput, GetGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetGroupsInput, GetGroupsOutputResponse>(input: input, inputKey: \GetGroupsInput.nextToken, outputKey: \GetGroupsOutputResponse.nextToken, paginationFunction: self.getGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetGroupsOutput`
+    public func getGroupsPaginated(input: GetGroupsInput) -> ClientRuntime.PaginatorSequence<GetGroupsInput, GetGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<GetGroupsInput, GetGroupsOutput>(input: input, inputKey: \GetGroupsInput.nextToken, outputKey: \GetGroupsOutput.nextToken, paginationFunction: self.getGroups(input:))
     }
 }
 
@@ -53,7 +53,7 @@ extension GetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetGroupsInput, Output == GetGroupsOutputResponse {
+extension PaginatorSequence where Input == GetGroupsInput, Output == GetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getGroupsPaginated`
     /// to access the nested member `[XRayClientTypes.GroupSummary]`
     /// - Returns: `[XRayClientTypes.GroupSummary]`
@@ -62,16 +62,16 @@ extension PaginatorSequence where Input == GetGroupsInput, Output == GetGroupsOu
     }
 }
 extension XRayClient {
-    /// Paginate over `[GetInsightEventsOutputResponse]` results.
+    /// Paginate over `[GetInsightEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetInsightEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetInsightEventsOutputResponse`
-    public func getInsightEventsPaginated(input: GetInsightEventsInput) -> ClientRuntime.PaginatorSequence<GetInsightEventsInput, GetInsightEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetInsightEventsInput, GetInsightEventsOutputResponse>(input: input, inputKey: \GetInsightEventsInput.nextToken, outputKey: \GetInsightEventsOutputResponse.nextToken, paginationFunction: self.getInsightEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetInsightEventsOutput`
+    public func getInsightEventsPaginated(input: GetInsightEventsInput) -> ClientRuntime.PaginatorSequence<GetInsightEventsInput, GetInsightEventsOutput> {
+        return ClientRuntime.PaginatorSequence<GetInsightEventsInput, GetInsightEventsOutput>(input: input, inputKey: \GetInsightEventsInput.nextToken, outputKey: \GetInsightEventsOutput.nextToken, paginationFunction: self.getInsightEvents(input:))
     }
 }
 
@@ -84,16 +84,16 @@ extension GetInsightEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension XRayClient {
-    /// Paginate over `[GetInsightSummariesOutputResponse]` results.
+    /// Paginate over `[GetInsightSummariesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetInsightSummariesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetInsightSummariesOutputResponse`
-    public func getInsightSummariesPaginated(input: GetInsightSummariesInput) -> ClientRuntime.PaginatorSequence<GetInsightSummariesInput, GetInsightSummariesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetInsightSummariesInput, GetInsightSummariesOutputResponse>(input: input, inputKey: \GetInsightSummariesInput.nextToken, outputKey: \GetInsightSummariesOutputResponse.nextToken, paginationFunction: self.getInsightSummaries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetInsightSummariesOutput`
+    public func getInsightSummariesPaginated(input: GetInsightSummariesInput) -> ClientRuntime.PaginatorSequence<GetInsightSummariesInput, GetInsightSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<GetInsightSummariesInput, GetInsightSummariesOutput>(input: input, inputKey: \GetInsightSummariesInput.nextToken, outputKey: \GetInsightSummariesOutput.nextToken, paginationFunction: self.getInsightSummaries(input:))
     }
 }
 
@@ -110,16 +110,16 @@ extension GetInsightSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension XRayClient {
-    /// Paginate over `[GetSamplingRulesOutputResponse]` results.
+    /// Paginate over `[GetSamplingRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetSamplingRulesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetSamplingRulesOutputResponse`
-    public func getSamplingRulesPaginated(input: GetSamplingRulesInput) -> ClientRuntime.PaginatorSequence<GetSamplingRulesInput, GetSamplingRulesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetSamplingRulesInput, GetSamplingRulesOutputResponse>(input: input, inputKey: \GetSamplingRulesInput.nextToken, outputKey: \GetSamplingRulesOutputResponse.nextToken, paginationFunction: self.getSamplingRules(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSamplingRulesOutput`
+    public func getSamplingRulesPaginated(input: GetSamplingRulesInput) -> ClientRuntime.PaginatorSequence<GetSamplingRulesInput, GetSamplingRulesOutput> {
+        return ClientRuntime.PaginatorSequence<GetSamplingRulesInput, GetSamplingRulesOutput>(input: input, inputKey: \GetSamplingRulesInput.nextToken, outputKey: \GetSamplingRulesOutput.nextToken, paginationFunction: self.getSamplingRules(input:))
     }
 }
 
@@ -130,7 +130,7 @@ extension GetSamplingRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetSamplingRulesInput, Output == GetSamplingRulesOutputResponse {
+extension PaginatorSequence where Input == GetSamplingRulesInput, Output == GetSamplingRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getSamplingRulesPaginated`
     /// to access the nested member `[XRayClientTypes.SamplingRuleRecord]`
     /// - Returns: `[XRayClientTypes.SamplingRuleRecord]`
@@ -139,16 +139,16 @@ extension PaginatorSequence where Input == GetSamplingRulesInput, Output == GetS
     }
 }
 extension XRayClient {
-    /// Paginate over `[GetSamplingStatisticSummariesOutputResponse]` results.
+    /// Paginate over `[GetSamplingStatisticSummariesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetSamplingStatisticSummariesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetSamplingStatisticSummariesOutputResponse`
-    public func getSamplingStatisticSummariesPaginated(input: GetSamplingStatisticSummariesInput) -> ClientRuntime.PaginatorSequence<GetSamplingStatisticSummariesInput, GetSamplingStatisticSummariesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetSamplingStatisticSummariesInput, GetSamplingStatisticSummariesOutputResponse>(input: input, inputKey: \GetSamplingStatisticSummariesInput.nextToken, outputKey: \GetSamplingStatisticSummariesOutputResponse.nextToken, paginationFunction: self.getSamplingStatisticSummaries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSamplingStatisticSummariesOutput`
+    public func getSamplingStatisticSummariesPaginated(input: GetSamplingStatisticSummariesInput) -> ClientRuntime.PaginatorSequence<GetSamplingStatisticSummariesInput, GetSamplingStatisticSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<GetSamplingStatisticSummariesInput, GetSamplingStatisticSummariesOutput>(input: input, inputKey: \GetSamplingStatisticSummariesInput.nextToken, outputKey: \GetSamplingStatisticSummariesOutput.nextToken, paginationFunction: self.getSamplingStatisticSummaries(input:))
     }
 }
 
@@ -159,7 +159,7 @@ extension GetSamplingStatisticSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetSamplingStatisticSummariesInput, Output == GetSamplingStatisticSummariesOutputResponse {
+extension PaginatorSequence where Input == GetSamplingStatisticSummariesInput, Output == GetSamplingStatisticSummariesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getSamplingStatisticSummariesPaginated`
     /// to access the nested member `[XRayClientTypes.SamplingStatisticSummary]`
     /// - Returns: `[XRayClientTypes.SamplingStatisticSummary]`
@@ -168,16 +168,16 @@ extension PaginatorSequence where Input == GetSamplingStatisticSummariesInput, O
     }
 }
 extension XRayClient {
-    /// Paginate over `[GetServiceGraphOutputResponse]` results.
+    /// Paginate over `[GetServiceGraphOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetServiceGraphInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetServiceGraphOutputResponse`
-    public func getServiceGraphPaginated(input: GetServiceGraphInput) -> ClientRuntime.PaginatorSequence<GetServiceGraphInput, GetServiceGraphOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetServiceGraphInput, GetServiceGraphOutputResponse>(input: input, inputKey: \GetServiceGraphInput.nextToken, outputKey: \GetServiceGraphOutputResponse.nextToken, paginationFunction: self.getServiceGraph(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetServiceGraphOutput`
+    public func getServiceGraphPaginated(input: GetServiceGraphInput) -> ClientRuntime.PaginatorSequence<GetServiceGraphInput, GetServiceGraphOutput> {
+        return ClientRuntime.PaginatorSequence<GetServiceGraphInput, GetServiceGraphOutput>(input: input, inputKey: \GetServiceGraphInput.nextToken, outputKey: \GetServiceGraphOutput.nextToken, paginationFunction: self.getServiceGraph(input:))
     }
 }
 
@@ -192,7 +192,7 @@ extension GetServiceGraphInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetServiceGraphInput, Output == GetServiceGraphOutputResponse {
+extension PaginatorSequence where Input == GetServiceGraphInput, Output == GetServiceGraphOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getServiceGraphPaginated`
     /// to access the nested member `[XRayClientTypes.Service]`
     /// - Returns: `[XRayClientTypes.Service]`
@@ -201,16 +201,16 @@ extension PaginatorSequence where Input == GetServiceGraphInput, Output == GetSe
     }
 }
 extension XRayClient {
-    /// Paginate over `[GetTimeSeriesServiceStatisticsOutputResponse]` results.
+    /// Paginate over `[GetTimeSeriesServiceStatisticsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetTimeSeriesServiceStatisticsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetTimeSeriesServiceStatisticsOutputResponse`
-    public func getTimeSeriesServiceStatisticsPaginated(input: GetTimeSeriesServiceStatisticsInput) -> ClientRuntime.PaginatorSequence<GetTimeSeriesServiceStatisticsInput, GetTimeSeriesServiceStatisticsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetTimeSeriesServiceStatisticsInput, GetTimeSeriesServiceStatisticsOutputResponse>(input: input, inputKey: \GetTimeSeriesServiceStatisticsInput.nextToken, outputKey: \GetTimeSeriesServiceStatisticsOutputResponse.nextToken, paginationFunction: self.getTimeSeriesServiceStatistics(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTimeSeriesServiceStatisticsOutput`
+    public func getTimeSeriesServiceStatisticsPaginated(input: GetTimeSeriesServiceStatisticsInput) -> ClientRuntime.PaginatorSequence<GetTimeSeriesServiceStatisticsInput, GetTimeSeriesServiceStatisticsOutput> {
+        return ClientRuntime.PaginatorSequence<GetTimeSeriesServiceStatisticsInput, GetTimeSeriesServiceStatisticsOutput>(input: input, inputKey: \GetTimeSeriesServiceStatisticsInput.nextToken, outputKey: \GetTimeSeriesServiceStatisticsOutput.nextToken, paginationFunction: self.getTimeSeriesServiceStatistics(input:))
     }
 }
 
@@ -228,7 +228,7 @@ extension GetTimeSeriesServiceStatisticsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetTimeSeriesServiceStatisticsInput, Output == GetTimeSeriesServiceStatisticsOutputResponse {
+extension PaginatorSequence where Input == GetTimeSeriesServiceStatisticsInput, Output == GetTimeSeriesServiceStatisticsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getTimeSeriesServiceStatisticsPaginated`
     /// to access the nested member `[XRayClientTypes.TimeSeriesServiceStatistics]`
     /// - Returns: `[XRayClientTypes.TimeSeriesServiceStatistics]`
@@ -237,16 +237,16 @@ extension PaginatorSequence where Input == GetTimeSeriesServiceStatisticsInput, 
     }
 }
 extension XRayClient {
-    /// Paginate over `[GetTraceGraphOutputResponse]` results.
+    /// Paginate over `[GetTraceGraphOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetTraceGraphInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetTraceGraphOutputResponse`
-    public func getTraceGraphPaginated(input: GetTraceGraphInput) -> ClientRuntime.PaginatorSequence<GetTraceGraphInput, GetTraceGraphOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetTraceGraphInput, GetTraceGraphOutputResponse>(input: input, inputKey: \GetTraceGraphInput.nextToken, outputKey: \GetTraceGraphOutputResponse.nextToken, paginationFunction: self.getTraceGraph(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTraceGraphOutput`
+    public func getTraceGraphPaginated(input: GetTraceGraphInput) -> ClientRuntime.PaginatorSequence<GetTraceGraphInput, GetTraceGraphOutput> {
+        return ClientRuntime.PaginatorSequence<GetTraceGraphInput, GetTraceGraphOutput>(input: input, inputKey: \GetTraceGraphInput.nextToken, outputKey: \GetTraceGraphOutput.nextToken, paginationFunction: self.getTraceGraph(input:))
     }
 }
 
@@ -258,7 +258,7 @@ extension GetTraceGraphInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetTraceGraphInput, Output == GetTraceGraphOutputResponse {
+extension PaginatorSequence where Input == GetTraceGraphInput, Output == GetTraceGraphOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getTraceGraphPaginated`
     /// to access the nested member `[XRayClientTypes.Service]`
     /// - Returns: `[XRayClientTypes.Service]`
@@ -267,16 +267,16 @@ extension PaginatorSequence where Input == GetTraceGraphInput, Output == GetTrac
     }
 }
 extension XRayClient {
-    /// Paginate over `[GetTraceSummariesOutputResponse]` results.
+    /// Paginate over `[GetTraceSummariesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetTraceSummariesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetTraceSummariesOutputResponse`
-    public func getTraceSummariesPaginated(input: GetTraceSummariesInput) -> ClientRuntime.PaginatorSequence<GetTraceSummariesInput, GetTraceSummariesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetTraceSummariesInput, GetTraceSummariesOutputResponse>(input: input, inputKey: \GetTraceSummariesInput.nextToken, outputKey: \GetTraceSummariesOutputResponse.nextToken, paginationFunction: self.getTraceSummaries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTraceSummariesOutput`
+    public func getTraceSummariesPaginated(input: GetTraceSummariesInput) -> ClientRuntime.PaginatorSequence<GetTraceSummariesInput, GetTraceSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<GetTraceSummariesInput, GetTraceSummariesOutput>(input: input, inputKey: \GetTraceSummariesInput.nextToken, outputKey: \GetTraceSummariesOutput.nextToken, paginationFunction: self.getTraceSummaries(input:))
     }
 }
 
@@ -293,7 +293,7 @@ extension GetTraceSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetTraceSummariesInput, Output == GetTraceSummariesOutputResponse {
+extension PaginatorSequence where Input == GetTraceSummariesInput, Output == GetTraceSummariesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getTraceSummariesPaginated`
     /// to access the nested member `[XRayClientTypes.TraceSummary]`
     /// - Returns: `[XRayClientTypes.TraceSummary]`
@@ -302,16 +302,16 @@ extension PaginatorSequence where Input == GetTraceSummariesInput, Output == Get
     }
 }
 extension XRayClient {
-    /// Paginate over `[ListResourcePoliciesOutputResponse]` results.
+    /// Paginate over `[ListResourcePoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourcePoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcePoliciesOutputResponse`
-    public func listResourcePoliciesPaginated(input: ListResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutputResponse>(input: input, inputKey: \ListResourcePoliciesInput.nextToken, outputKey: \ListResourcePoliciesOutputResponse.nextToken, paginationFunction: self.listResourcePolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcePoliciesOutput`
+    public func listResourcePoliciesPaginated(input: ListResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutput>(input: input, inputKey: \ListResourcePoliciesInput.nextToken, outputKey: \ListResourcePoliciesOutput.nextToken, paginationFunction: self.listResourcePolicies(input:))
     }
 }
 
@@ -322,7 +322,7 @@ extension ListResourcePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResourcePoliciesInput, Output == ListResourcePoliciesOutputResponse {
+extension PaginatorSequence where Input == ListResourcePoliciesInput, Output == ListResourcePoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourcePoliciesPaginated`
     /// to access the nested member `[XRayClientTypes.ResourcePolicy]`
     /// - Returns: `[XRayClientTypes.ResourcePolicy]`
@@ -331,16 +331,16 @@ extension PaginatorSequence where Input == ListResourcePoliciesInput, Output == 
     }
 }
 extension XRayClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -352,7 +352,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[XRayClientTypes.Tag]`
     /// - Returns: `[XRayClientTypes.Tag]`

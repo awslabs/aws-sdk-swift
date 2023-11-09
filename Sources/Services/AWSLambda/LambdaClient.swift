@@ -71,7 +71,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter AddLayerVersionPermissionInput : [no documentation found]
     ///
-    /// - Returns: `AddLayerVersionPermissionOutputResponse` : [no documentation found]
+    /// - Returns: `AddLayerVersionPermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,7 +83,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func addLayerVersionPermission(input: AddLayerVersionPermissionInput) async throws -> AddLayerVersionPermissionOutputResponse
+    public func addLayerVersionPermission(input: AddLayerVersionPermissionInput) async throws -> AddLayerVersionPermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -99,21 +99,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(id: "addLayerVersionPermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput, AddLayerVersionPermissionOutputError>(id: "addLayerVersionPermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput, AddLayerVersionPermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddLayerVersionPermissionOutput, AddLayerVersionPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse>(xmlName: "AddLayerVersionPermissionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput>(xmlName: "AddLayerVersionPermissionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddLayerVersionPermissionOutput, AddLayerVersionPermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddLayerVersionPermissionOutput, AddLayerVersionPermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddLayerVersionPermissionOutput, AddLayerVersionPermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddLayerVersionPermissionOutput, AddLayerVersionPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -122,7 +122,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter AddPermissionInput : [no documentation found]
     ///
-    /// - Returns: `AddPermissionOutputResponse` : [no documentation found]
+    /// - Returns: `AddPermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,7 +134,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutputResponse
+    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -150,21 +150,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>(id: "addPermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutput, AddPermissionOutputError>(id: "addPermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutput, AddPermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddPermissionOutput, AddPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddPermissionInput, AddPermissionOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddPermissionInput, AddPermissionOutputResponse>(xmlName: "AddPermissionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddPermissionInput, AddPermissionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddPermissionInput, AddPermissionOutput>(xmlName: "AddPermissionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddPermissionOutputResponse, AddPermissionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddPermissionOutput, AddPermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutputResponse, AddPermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutput, AddPermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutput, AddPermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutput, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -173,7 +173,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter CreateAliasInput : [no documentation found]
     ///
-    /// - Returns: `CreateAliasOutputResponse` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+    /// - Returns: `CreateAliasOutput` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,7 +183,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -199,20 +199,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>(id: "createAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutput, CreateAliasOutputError>(id: "createAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutput, CreateAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAliasOutput, CreateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAliasInput, CreateAliasOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAliasInput, CreateAliasOutputResponse>(xmlName: "CreateAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAliasInput, CreateAliasOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAliasInput, CreateAliasOutput>(xmlName: "CreateAliasRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAliasOutputResponse, CreateAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAliasOutput, CreateAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutputResponse, CreateAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutput, CreateAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutput, CreateAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutput, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -221,14 +221,14 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter CreateCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func createCodeSigningConfig(input: CreateCodeSigningConfigInput) async throws -> CreateCodeSigningConfigOutputResponse
+    public func createCodeSigningConfig(input: CreateCodeSigningConfigInput) async throws -> CreateCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -244,20 +244,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(id: "createCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput, CreateCodeSigningConfigOutputError>(id: "createCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput, CreateCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCodeSigningConfigOutput, CreateCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse>(xmlName: "CreateCodeSigningConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput>(xmlName: "CreateCodeSigningConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCodeSigningConfigOutput, CreateCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCodeSigningConfigOutput, CreateCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCodeSigningConfigOutput, CreateCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCodeSigningConfigOutput, CreateCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -310,7 +310,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter CreateEventSourceMappingInput : [no documentation found]
     ///
-    /// - Returns: `CreateEventSourceMappingOutputResponse` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: `CreateEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -320,7 +320,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createEventSourceMapping(input: CreateEventSourceMappingInput) async throws -> CreateEventSourceMappingOutputResponse
+    public func createEventSourceMapping(input: CreateEventSourceMappingInput) async throws -> CreateEventSourceMappingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -336,20 +336,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(id: "createEventSourceMapping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateEventSourceMappingInput, CreateEventSourceMappingOutput, CreateEventSourceMappingOutputError>(id: "createEventSourceMapping")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutput, CreateEventSourceMappingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventSourceMappingOutput, CreateEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse>(xmlName: "CreateEventSourceMappingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutput>(xmlName: "CreateEventSourceMappingRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventSourceMappingOutput, CreateEventSourceMappingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSourceMappingOutput, CreateEventSourceMappingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSourceMappingOutput, CreateEventSourceMappingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventSourceMappingOutput, CreateEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -358,7 +358,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter CreateFunctionInput : [no documentation found]
     ///
-    /// - Returns: `CreateFunctionOutputResponse` : Details about a function's configuration.
+    /// - Returns: `CreateFunctionOutput` : Details about a function's configuration.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -372,7 +372,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutputResponse
+    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -388,20 +388,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFunctionInput, CreateFunctionOutputResponse, CreateFunctionOutputError>(id: "createFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionInput, CreateFunctionOutputResponse, CreateFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateFunctionInput, CreateFunctionOutput, CreateFunctionOutputError>(id: "createFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionInput, CreateFunctionOutput, CreateFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionInput, CreateFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionOutput, CreateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(xmlName: "CreateFunctionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionInput, CreateFunctionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionInput, CreateFunctionOutput>(xmlName: "CreateFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionOutputResponse, CreateFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionOutput, CreateFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionOutput, CreateFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionOutput, CreateFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionOutput, CreateFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -410,7 +410,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter CreateFunctionUrlConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateFunctionUrlConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFunctionUrlConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -420,7 +420,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createFunctionUrlConfig(input: CreateFunctionUrlConfigInput) async throws -> CreateFunctionUrlConfigOutputResponse
+    public func createFunctionUrlConfig(input: CreateFunctionUrlConfigInput) async throws -> CreateFunctionUrlConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -436,21 +436,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(id: "createFunctionUrlConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput, CreateFunctionUrlConfigOutputError>(id: "createFunctionUrlConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput, CreateFunctionUrlConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionUrlConfigOutput, CreateFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse>(xmlName: "CreateFunctionUrlConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput>(xmlName: "CreateFunctionUrlConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionUrlConfigOutput, CreateFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionUrlConfigOutput, CreateFunctionUrlConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionUrlConfigOutput, CreateFunctionUrlConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionUrlConfigOutput, CreateFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -459,7 +459,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteAliasInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -468,7 +468,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutputResponse
+    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -484,17 +484,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>(id: "deleteAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteAliasInput, DeleteAliasOutput, DeleteAliasOutputError>(id: "deleteAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutput, DeleteAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAliasOutput, DeleteAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAliasOutputResponse, DeleteAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAliasOutput, DeleteAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAliasOutput, DeleteAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAliasOutput, DeleteAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAliasOutput, DeleteAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -503,7 +503,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,7 +512,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func deleteCodeSigningConfig(input: DeleteCodeSigningConfigInput) async throws -> DeleteCodeSigningConfigOutputResponse
+    public func deleteCodeSigningConfig(input: DeleteCodeSigningConfigInput) async throws -> DeleteCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -528,17 +528,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(id: "deleteCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutput, DeleteCodeSigningConfigOutputError>(id: "deleteCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutput, DeleteCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCodeSigningConfigOutput, DeleteCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCodeSigningConfigOutput, DeleteCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCodeSigningConfigOutput, DeleteCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCodeSigningConfigOutput, DeleteCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCodeSigningConfigOutput, DeleteCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -547,7 +547,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteEventSourceMappingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventSourceMappingOutputResponse` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: `DeleteEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,7 +558,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteEventSourceMapping(input: DeleteEventSourceMappingInput) async throws -> DeleteEventSourceMappingOutputResponse
+    public func deleteEventSourceMapping(input: DeleteEventSourceMappingInput) async throws -> DeleteEventSourceMappingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -574,17 +574,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(id: "deleteEventSourceMapping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutput, DeleteEventSourceMappingOutputError>(id: "deleteEventSourceMapping")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutput, DeleteEventSourceMappingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventSourceMappingOutput, DeleteEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventSourceMappingOutput, DeleteEventSourceMappingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSourceMappingOutput, DeleteEventSourceMappingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSourceMappingOutput, DeleteEventSourceMappingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSourceMappingOutput, DeleteEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -593,7 +593,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteFunctionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -603,7 +603,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutputResponse
+    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -619,18 +619,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFunctionInput, DeleteFunctionOutputResponse, DeleteFunctionOutputError>(id: "deleteFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFunctionInput, DeleteFunctionOutput, DeleteFunctionOutputError>(id: "deleteFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionInput, DeleteFunctionOutput, DeleteFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionOutput, DeleteFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionOutputResponse, DeleteFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteFunctionInput, DeleteFunctionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionOutput, DeleteFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionOutput, DeleteFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionOutput, DeleteFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionOutput, DeleteFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -639,7 +639,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteFunctionCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFunctionCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFunctionCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -650,7 +650,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionCodeSigningConfig(input: DeleteFunctionCodeSigningConfigInput) async throws -> DeleteFunctionCodeSigningConfigOutputResponse
+    public func deleteFunctionCodeSigningConfig(input: DeleteFunctionCodeSigningConfigInput) async throws -> DeleteFunctionCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -666,17 +666,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(id: "deleteFunctionCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutput, DeleteFunctionCodeSigningConfigOutputError>(id: "deleteFunctionCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutput, DeleteFunctionCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionCodeSigningConfigOutput, DeleteFunctionCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionCodeSigningConfigOutput, DeleteFunctionCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionCodeSigningConfigOutput, DeleteFunctionCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionCodeSigningConfigOutput, DeleteFunctionCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionCodeSigningConfigOutput, DeleteFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -685,7 +685,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteFunctionConcurrencyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFunctionConcurrencyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFunctionConcurrencyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,7 +695,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionConcurrency(input: DeleteFunctionConcurrencyInput) async throws -> DeleteFunctionConcurrencyOutputResponse
+    public func deleteFunctionConcurrency(input: DeleteFunctionConcurrencyInput) async throws -> DeleteFunctionConcurrencyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -711,17 +711,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(id: "deleteFunctionConcurrency")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutput, DeleteFunctionConcurrencyOutputError>(id: "deleteFunctionConcurrency")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutput, DeleteFunctionConcurrencyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionConcurrencyOutput, DeleteFunctionConcurrencyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionConcurrencyOutput, DeleteFunctionConcurrencyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionConcurrencyOutput, DeleteFunctionConcurrencyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionConcurrencyOutput, DeleteFunctionConcurrencyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionConcurrencyOutput, DeleteFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -730,7 +730,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteFunctionEventInvokeConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFunctionEventInvokeConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFunctionEventInvokeConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,7 +740,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionEventInvokeConfig(input: DeleteFunctionEventInvokeConfigInput) async throws -> DeleteFunctionEventInvokeConfigOutputResponse
+    public func deleteFunctionEventInvokeConfig(input: DeleteFunctionEventInvokeConfigInput) async throws -> DeleteFunctionEventInvokeConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -756,18 +756,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(id: "deleteFunctionEventInvokeConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutput, DeleteFunctionEventInvokeConfigOutputError>(id: "deleteFunctionEventInvokeConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutput, DeleteFunctionEventInvokeConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionEventInvokeConfigOutput, DeleteFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionEventInvokeConfigOutput, DeleteFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionEventInvokeConfigOutput, DeleteFunctionEventInvokeConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionEventInvokeConfigOutput, DeleteFunctionEventInvokeConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionEventInvokeConfigOutput, DeleteFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -776,7 +776,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteFunctionUrlConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFunctionUrlConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFunctionUrlConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,7 +785,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionUrlConfig(input: DeleteFunctionUrlConfigInput) async throws -> DeleteFunctionUrlConfigOutputResponse
+    public func deleteFunctionUrlConfig(input: DeleteFunctionUrlConfigInput) async throws -> DeleteFunctionUrlConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -801,18 +801,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(id: "deleteFunctionUrlConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutput, DeleteFunctionUrlConfigOutputError>(id: "deleteFunctionUrlConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutput, DeleteFunctionUrlConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionUrlConfigOutput, DeleteFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionUrlConfigOutput, DeleteFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionUrlConfigOutput, DeleteFunctionUrlConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionUrlConfigOutput, DeleteFunctionUrlConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionUrlConfigOutput, DeleteFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -821,14 +821,14 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteLayerVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLayerVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLayerVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteLayerVersion(input: DeleteLayerVersionInput) async throws -> DeleteLayerVersionOutputResponse
+    public func deleteLayerVersion(input: DeleteLayerVersionInput) async throws -> DeleteLayerVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -844,17 +844,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteLayerVersionInput, DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(id: "deleteLayerVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteLayerVersionInput, DeleteLayerVersionOutput, DeleteLayerVersionOutputError>(id: "deleteLayerVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutput, DeleteLayerVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLayerVersionOutput, DeleteLayerVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLayerVersionOutput, DeleteLayerVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLayerVersionOutput, DeleteLayerVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLayerVersionOutput, DeleteLayerVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLayerVersionOutput, DeleteLayerVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -863,7 +863,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter DeleteProvisionedConcurrencyConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProvisionedConcurrencyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProvisionedConcurrencyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,7 +873,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteProvisionedConcurrencyConfig(input: DeleteProvisionedConcurrencyConfigInput) async throws -> DeleteProvisionedConcurrencyConfigOutputResponse
+    public func deleteProvisionedConcurrencyConfig(input: DeleteProvisionedConcurrencyConfigInput) async throws -> DeleteProvisionedConcurrencyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -889,18 +889,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(id: "deleteProvisionedConcurrencyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutput, DeleteProvisionedConcurrencyConfigOutputError>(id: "deleteProvisionedConcurrencyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutput, DeleteProvisionedConcurrencyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProvisionedConcurrencyConfigOutput, DeleteProvisionedConcurrencyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProvisionedConcurrencyConfigOutput, DeleteProvisionedConcurrencyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProvisionedConcurrencyConfigOutput, DeleteProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProvisionedConcurrencyConfigOutput, DeleteProvisionedConcurrencyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProvisionedConcurrencyConfigOutput, DeleteProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -909,14 +909,14 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
+    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -932,17 +932,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(id: "getAccountSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutput, GetAccountSettingsOutputError>(id: "getAccountSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput, GetAccountSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSettingsOutput, GetAccountSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -951,7 +951,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetAliasInput : [no documentation found]
     ///
-    /// - Returns: `GetAliasOutputResponse` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+    /// - Returns: `GetAliasOutput` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,7 +960,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getAlias(input: GetAliasInput) async throws -> GetAliasOutputResponse
+    public func getAlias(input: GetAliasInput) async throws -> GetAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -976,17 +976,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAliasInput, GetAliasOutputResponse, GetAliasOutputError>(id: "getAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAliasInput, GetAliasOutputResponse, GetAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAliasInput, GetAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAliasInput, GetAliasOutput, GetAliasOutputError>(id: "getAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAliasInput, GetAliasOutput, GetAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAliasInput, GetAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAliasOutputResponse, GetAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAliasOutput, GetAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAliasOutputResponse, GetAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAliasOutput, GetAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAliasOutputResponse, GetAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAliasOutputResponse, GetAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAliasOutputResponse, GetAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAliasOutput, GetAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAliasOutput, GetAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAliasOutput, GetAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -995,7 +995,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,7 +1003,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func getCodeSigningConfig(input: GetCodeSigningConfigInput) async throws -> GetCodeSigningConfigOutputResponse
+    public func getCodeSigningConfig(input: GetCodeSigningConfigInput) async throws -> GetCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1019,17 +1019,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCodeSigningConfigInput, GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(id: "getCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCodeSigningConfigInput, GetCodeSigningConfigOutput, GetCodeSigningConfigOutputError>(id: "getCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutput, GetCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCodeSigningConfigOutput, GetCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCodeSigningConfigOutput, GetCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCodeSigningConfigOutput, GetCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCodeSigningConfigOutput, GetCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCodeSigningConfigOutput, GetCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1038,7 +1038,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetEventSourceMappingInput : [no documentation found]
     ///
-    /// - Returns: `GetEventSourceMappingOutputResponse` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: `GetEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,7 +1047,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getEventSourceMapping(input: GetEventSourceMappingInput) async throws -> GetEventSourceMappingOutputResponse
+    public func getEventSourceMapping(input: GetEventSourceMappingInput) async throws -> GetEventSourceMappingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1063,17 +1063,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetEventSourceMappingInput, GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(id: "getEventSourceMapping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetEventSourceMappingInput, GetEventSourceMappingOutput, GetEventSourceMappingOutputError>(id: "getEventSourceMapping")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutput, GetEventSourceMappingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventSourceMappingOutput, GetEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventSourceMappingOutput, GetEventSourceMappingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventSourceMappingOutput, GetEventSourceMappingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventSourceMappingOutput, GetEventSourceMappingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventSourceMappingOutput, GetEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1082,7 +1082,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetFunctionInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,7 +1091,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutputResponse
+    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1107,18 +1107,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFunctionInput, GetFunctionOutputResponse, GetFunctionOutputError>(id: "getFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionInput, GetFunctionOutputResponse, GetFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFunctionInput, GetFunctionOutput, GetFunctionOutputError>(id: "getFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionInput, GetFunctionOutput, GetFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionOutput, GetFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionInput, GetFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionOutputResponse, GetFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionInput, GetFunctionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionOutput, GetFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionOutputResponse, GetFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionOutput, GetFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionOutput, GetFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionOutput, GetFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1127,7 +1127,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetFunctionCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,7 +1136,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionCodeSigningConfig(input: GetFunctionCodeSigningConfigInput) async throws -> GetFunctionCodeSigningConfigOutputResponse
+    public func getFunctionCodeSigningConfig(input: GetFunctionCodeSigningConfigInput) async throws -> GetFunctionCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1152,17 +1152,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(id: "getFunctionCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutput, GetFunctionCodeSigningConfigOutputError>(id: "getFunctionCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutput, GetFunctionCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionCodeSigningConfigOutput, GetFunctionCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionCodeSigningConfigOutput, GetFunctionCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionCodeSigningConfigOutput, GetFunctionCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionCodeSigningConfigOutput, GetFunctionCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionCodeSigningConfigOutput, GetFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1171,7 +1171,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetFunctionConcurrencyInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionConcurrencyOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionConcurrencyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1180,7 +1180,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionConcurrency(input: GetFunctionConcurrencyInput) async throws -> GetFunctionConcurrencyOutputResponse
+    public func getFunctionConcurrency(input: GetFunctionConcurrencyInput) async throws -> GetFunctionConcurrencyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1196,17 +1196,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(id: "getFunctionConcurrency")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutput, GetFunctionConcurrencyOutputError>(id: "getFunctionConcurrency")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutput, GetFunctionConcurrencyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionConcurrencyOutput, GetFunctionConcurrencyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionConcurrencyOutput, GetFunctionConcurrencyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionConcurrencyOutput, GetFunctionConcurrencyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionConcurrencyOutput, GetFunctionConcurrencyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionConcurrencyOutput, GetFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1215,7 +1215,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetFunctionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionConfigurationOutputResponse` : Details about a function's configuration.
+    /// - Returns: `GetFunctionConfigurationOutput` : Details about a function's configuration.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,7 +1224,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionConfiguration(input: GetFunctionConfigurationInput) async throws -> GetFunctionConfigurationOutputResponse
+    public func getFunctionConfiguration(input: GetFunctionConfigurationInput) async throws -> GetFunctionConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1240,18 +1240,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFunctionConfigurationInput, GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(id: "getFunctionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFunctionConfigurationInput, GetFunctionConfigurationOutput, GetFunctionConfigurationOutputError>(id: "getFunctionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutput, GetFunctionConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionConfigurationOutput, GetFunctionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionConfigurationOutput, GetFunctionConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionConfigurationOutput, GetFunctionConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionConfigurationOutput, GetFunctionConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionConfigurationOutput, GetFunctionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1260,7 +1260,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetFunctionEventInvokeConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionEventInvokeConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionEventInvokeConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,7 +1269,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionEventInvokeConfig(input: GetFunctionEventInvokeConfigInput) async throws -> GetFunctionEventInvokeConfigOutputResponse
+    public func getFunctionEventInvokeConfig(input: GetFunctionEventInvokeConfigInput) async throws -> GetFunctionEventInvokeConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1285,18 +1285,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(id: "getFunctionEventInvokeConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutput, GetFunctionEventInvokeConfigOutputError>(id: "getFunctionEventInvokeConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutput, GetFunctionEventInvokeConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionEventInvokeConfigOutput, GetFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionEventInvokeConfigOutput, GetFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionEventInvokeConfigOutput, GetFunctionEventInvokeConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionEventInvokeConfigOutput, GetFunctionEventInvokeConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionEventInvokeConfigOutput, GetFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1305,7 +1305,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetFunctionUrlConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionUrlConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionUrlConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1314,7 +1314,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionUrlConfig(input: GetFunctionUrlConfigInput) async throws -> GetFunctionUrlConfigOutputResponse
+    public func getFunctionUrlConfig(input: GetFunctionUrlConfigInput) async throws -> GetFunctionUrlConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1330,18 +1330,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(id: "getFunctionUrlConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutput, GetFunctionUrlConfigOutputError>(id: "getFunctionUrlConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutput, GetFunctionUrlConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionUrlConfigOutput, GetFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionUrlConfigOutput, GetFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionUrlConfigOutput, GetFunctionUrlConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionUrlConfigOutput, GetFunctionUrlConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionUrlConfigOutput, GetFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1350,7 +1350,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetLayerVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetLayerVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetLayerVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,7 +1359,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getLayerVersion(input: GetLayerVersionInput) async throws -> GetLayerVersionOutputResponse
+    public func getLayerVersion(input: GetLayerVersionInput) async throws -> GetLayerVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1375,17 +1375,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLayerVersionInput, GetLayerVersionOutputResponse, GetLayerVersionOutputError>(id: "getLayerVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionInput, GetLayerVersionOutputResponse, GetLayerVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionInput, GetLayerVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetLayerVersionInput, GetLayerVersionOutput, GetLayerVersionOutputError>(id: "getLayerVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionInput, GetLayerVersionOutput, GetLayerVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionInput, GetLayerVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLayerVersionOutputResponse, GetLayerVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLayerVersionOutput, GetLayerVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLayerVersionOutputResponse, GetLayerVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLayerVersionOutput, GetLayerVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionOutputResponse, GetLayerVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionOutputResponse, GetLayerVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionOutputResponse, GetLayerVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionOutput, GetLayerVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionOutput, GetLayerVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionOutput, GetLayerVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1394,7 +1394,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetLayerVersionByArnInput : [no documentation found]
     ///
-    /// - Returns: `GetLayerVersionByArnOutputResponse` : [no documentation found]
+    /// - Returns: `GetLayerVersionByArnOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1403,7 +1403,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getLayerVersionByArn(input: GetLayerVersionByArnInput) async throws -> GetLayerVersionByArnOutputResponse
+    public func getLayerVersionByArn(input: GetLayerVersionByArnInput) async throws -> GetLayerVersionByArnOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1419,18 +1419,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLayerVersionByArnInput, GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(id: "getLayerVersionByArn")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetLayerVersionByArnInput, GetLayerVersionByArnOutput, GetLayerVersionByArnOutputError>(id: "getLayerVersionByArn")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutput, GetLayerVersionByArnOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLayerVersionByArnOutput, GetLayerVersionByArnOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLayerVersionByArnOutput, GetLayerVersionByArnOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionByArnOutput, GetLayerVersionByArnOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionByArnOutput, GetLayerVersionByArnOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionByArnOutput, GetLayerVersionByArnOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1439,7 +1439,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetLayerVersionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetLayerVersionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetLayerVersionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,7 +1448,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getLayerVersionPolicy(input: GetLayerVersionPolicyInput) async throws -> GetLayerVersionPolicyOutputResponse
+    public func getLayerVersionPolicy(input: GetLayerVersionPolicyInput) async throws -> GetLayerVersionPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1464,17 +1464,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(id: "getLayerVersionPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutput, GetLayerVersionPolicyOutputError>(id: "getLayerVersionPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutput, GetLayerVersionPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLayerVersionPolicyOutput, GetLayerVersionPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLayerVersionPolicyOutput, GetLayerVersionPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionPolicyOutput, GetLayerVersionPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionPolicyOutput, GetLayerVersionPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionPolicyOutput, GetLayerVersionPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1483,7 +1483,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,7 +1492,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutputResponse
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1508,18 +1508,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>(id: "getPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutput, GetPolicyOutputError>(id: "getPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutput, GetPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyOutput, GetPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPolicyInput, GetPolicyOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyOutputResponse, GetPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPolicyInput, GetPolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyOutput, GetPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutputResponse, GetPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutput, GetPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutput, GetPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutput, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1528,7 +1528,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetProvisionedConcurrencyConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetProvisionedConcurrencyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetProvisionedConcurrencyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,7 +1538,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getProvisionedConcurrencyConfig(input: GetProvisionedConcurrencyConfigInput) async throws -> GetProvisionedConcurrencyConfigOutputResponse
+    public func getProvisionedConcurrencyConfig(input: GetProvisionedConcurrencyConfigInput) async throws -> GetProvisionedConcurrencyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1554,18 +1554,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(id: "getProvisionedConcurrencyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutput, GetProvisionedConcurrencyConfigOutputError>(id: "getProvisionedConcurrencyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutput, GetProvisionedConcurrencyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProvisionedConcurrencyConfigOutput, GetProvisionedConcurrencyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProvisionedConcurrencyConfigOutput, GetProvisionedConcurrencyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProvisionedConcurrencyConfigOutput, GetProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProvisionedConcurrencyConfigOutput, GetProvisionedConcurrencyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProvisionedConcurrencyConfigOutput, GetProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1574,7 +1574,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter GetRuntimeManagementConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetRuntimeManagementConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetRuntimeManagementConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1583,7 +1583,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getRuntimeManagementConfig(input: GetRuntimeManagementConfigInput) async throws -> GetRuntimeManagementConfigOutputResponse
+    public func getRuntimeManagementConfig(input: GetRuntimeManagementConfigInput) async throws -> GetRuntimeManagementConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1599,18 +1599,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(id: "getRuntimeManagementConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutput, GetRuntimeManagementConfigOutputError>(id: "getRuntimeManagementConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutput, GetRuntimeManagementConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRuntimeManagementConfigOutput, GetRuntimeManagementConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRuntimeManagementConfigOutput, GetRuntimeManagementConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRuntimeManagementConfigOutput, GetRuntimeManagementConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRuntimeManagementConfigOutput, GetRuntimeManagementConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRuntimeManagementConfigOutput, GetRuntimeManagementConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1619,7 +1619,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter InvokeInput : [no documentation found]
     ///
-    /// - Returns: `InvokeOutputResponse` : [no documentation found]
+    /// - Returns: `InvokeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1654,7 +1654,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `SubnetIPAddressLimitReachedException` : Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     /// - `UnsupportedMediaTypeException` : The content type of the Invoke request body is not JSON.
-    public func invoke(input: InvokeInput) async throws -> InvokeOutputResponse
+    public func invoke(input: InvokeInput) async throws -> InvokeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1670,22 +1670,22 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InvokeInput, InvokeOutputResponse, InvokeOutputError>(id: "invoke")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeInput, InvokeOutputResponse, InvokeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeInput, InvokeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<InvokeInput, InvokeOutput, InvokeOutputError>(id: "invoke")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeInput, InvokeOutput, InvokeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeInput, InvokeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeOutputResponse, InvokeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeOutput, InvokeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeInput, InvokeOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InvokeInput, InvokeOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeInput, InvokeOutputResponse>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeInput, InvokeOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InvokeInput, InvokeOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeInput, InvokeOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: InvokeInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeOutputResponse, InvokeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeOutput, InvokeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeOutputResponse, InvokeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeOutputResponse, InvokeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeOutputResponse, InvokeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeOutput, InvokeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeOutput, InvokeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeOutput, InvokeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1695,7 +1695,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter InvokeAsyncInput : [no documentation found]
     ///
-    /// - Returns: `InvokeAsyncOutputResponse` : A success response (202 Accepted) indicates that the request is queued for invocation.
+    /// - Returns: `InvokeAsyncOutput` : A success response (202 Accepted) indicates that the request is queued for invocation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1705,7 +1705,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func invokeAsync(input: InvokeAsyncInput) async throws -> InvokeAsyncOutputResponse
+    public func invokeAsync(input: InvokeAsyncInput) async throws -> InvokeAsyncOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1721,20 +1721,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InvokeAsyncInput, InvokeAsyncOutputResponse, InvokeAsyncOutputError>(id: "invokeAsync")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeAsyncInput, InvokeAsyncOutputResponse, InvokeAsyncOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeAsyncInput, InvokeAsyncOutputResponse>())
+        var operation = ClientRuntime.OperationStack<InvokeAsyncInput, InvokeAsyncOutput, InvokeAsyncOutputError>(id: "invokeAsync")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeAsyncInput, InvokeAsyncOutput, InvokeAsyncOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeAsyncInput, InvokeAsyncOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeAsyncOutputResponse, InvokeAsyncOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeAsyncOutput, InvokeAsyncOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeAsyncInput, InvokeAsyncOutputResponse>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeAsyncInput, InvokeAsyncOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: InvokeAsyncInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeAsyncOutputResponse, InvokeAsyncOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeAsyncOutput, InvokeAsyncOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeAsyncOutputResponse, InvokeAsyncOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeAsyncOutputResponse, InvokeAsyncOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeAsyncOutputResponse, InvokeAsyncOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeAsyncOutput, InvokeAsyncOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeAsyncOutput, InvokeAsyncOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeAsyncOutput, InvokeAsyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1743,7 +1743,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter InvokeWithResponseStreamInput : [no documentation found]
     ///
-    /// - Returns: `InvokeWithResponseStreamOutputResponse` : [no documentation found]
+    /// - Returns: `InvokeWithResponseStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1778,7 +1778,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `SubnetIPAddressLimitReachedException` : Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     /// - `UnsupportedMediaTypeException` : The content type of the Invoke request body is not JSON.
-    public func invokeWithResponseStream(input: InvokeWithResponseStreamInput) async throws -> InvokeWithResponseStreamOutputResponse
+    public func invokeWithResponseStream(input: InvokeWithResponseStreamInput) async throws -> InvokeWithResponseStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1794,22 +1794,22 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(id: "invokeWithResponseStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput, InvokeWithResponseStreamOutputError>(id: "invokeWithResponseStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput, InvokeWithResponseStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeWithResponseStreamOutput, InvokeWithResponseStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: InvokeWithResponseStreamInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeWithResponseStreamOutput, InvokeWithResponseStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeWithResponseStreamOutput, InvokeWithResponseStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeWithResponseStreamOutput, InvokeWithResponseStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeWithResponseStreamOutput, InvokeWithResponseStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1818,7 +1818,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListAliasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1827,7 +1827,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1843,18 +1843,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>(id: "listAliases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutput, ListAliasesOutputError>(id: "listAliases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutput, ListAliasesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAliasesOutput, ListAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAliasesInput, ListAliasesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAliasesOutputResponse, ListAliasesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAliasesInput, ListAliasesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAliasesOutput, ListAliasesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutputResponse, ListAliasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutput, ListAliasesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutput, ListAliasesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutput, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1863,14 +1863,14 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListCodeSigningConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListCodeSigningConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCodeSigningConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func listCodeSigningConfigs(input: ListCodeSigningConfigsInput) async throws -> ListCodeSigningConfigsOutputResponse
+    public func listCodeSigningConfigs(input: ListCodeSigningConfigsInput) async throws -> ListCodeSigningConfigsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1886,18 +1886,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(id: "listCodeSigningConfigs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput, ListCodeSigningConfigsOutputError>(id: "listCodeSigningConfigs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput, ListCodeSigningConfigsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCodeSigningConfigsOutput, ListCodeSigningConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCodeSigningConfigsOutput, ListCodeSigningConfigsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCodeSigningConfigsOutput, ListCodeSigningConfigsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCodeSigningConfigsOutput, ListCodeSigningConfigsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCodeSigningConfigsOutput, ListCodeSigningConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1906,7 +1906,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListEventSourceMappingsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventSourceMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventSourceMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1915,7 +1915,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listEventSourceMappings(input: ListEventSourceMappingsInput) async throws -> ListEventSourceMappingsOutputResponse
+    public func listEventSourceMappings(input: ListEventSourceMappingsInput) async throws -> ListEventSourceMappingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1931,18 +1931,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(id: "listEventSourceMappings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListEventSourceMappingsInput, ListEventSourceMappingsOutput, ListEventSourceMappingsOutputError>(id: "listEventSourceMappings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutput, ListEventSourceMappingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventSourceMappingsOutput, ListEventSourceMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventSourceMappingsOutput, ListEventSourceMappingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventSourceMappingsOutput, ListEventSourceMappingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventSourceMappingsOutput, ListEventSourceMappingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventSourceMappingsOutput, ListEventSourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1951,7 +1951,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListFunctionEventInvokeConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListFunctionEventInvokeConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFunctionEventInvokeConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1960,7 +1960,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listFunctionEventInvokeConfigs(input: ListFunctionEventInvokeConfigsInput) async throws -> ListFunctionEventInvokeConfigsOutputResponse
+    public func listFunctionEventInvokeConfigs(input: ListFunctionEventInvokeConfigsInput) async throws -> ListFunctionEventInvokeConfigsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1976,18 +1976,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(id: "listFunctionEventInvokeConfigs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput, ListFunctionEventInvokeConfigsOutputError>(id: "listFunctionEventInvokeConfigs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput, ListFunctionEventInvokeConfigsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionEventInvokeConfigsOutput, ListFunctionEventInvokeConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionEventInvokeConfigsOutput, ListFunctionEventInvokeConfigsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionEventInvokeConfigsOutput, ListFunctionEventInvokeConfigsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionEventInvokeConfigsOutput, ListFunctionEventInvokeConfigsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionEventInvokeConfigsOutput, ListFunctionEventInvokeConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1996,7 +1996,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListFunctionUrlConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListFunctionUrlConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFunctionUrlConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2005,7 +2005,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listFunctionUrlConfigs(input: ListFunctionUrlConfigsInput) async throws -> ListFunctionUrlConfigsOutputResponse
+    public func listFunctionUrlConfigs(input: ListFunctionUrlConfigsInput) async throws -> ListFunctionUrlConfigsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2021,18 +2021,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(id: "listFunctionUrlConfigs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput, ListFunctionUrlConfigsOutputError>(id: "listFunctionUrlConfigs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput, ListFunctionUrlConfigsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionUrlConfigsOutput, ListFunctionUrlConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionUrlConfigsOutput, ListFunctionUrlConfigsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionUrlConfigsOutput, ListFunctionUrlConfigsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionUrlConfigsOutput, ListFunctionUrlConfigsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionUrlConfigsOutput, ListFunctionUrlConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2041,7 +2041,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListFunctionsInput : [no documentation found]
     ///
-    /// - Returns: `ListFunctionsOutputResponse` : A list of Lambda functions.
+    /// - Returns: `ListFunctionsOutput` : A list of Lambda functions.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2049,7 +2049,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutputResponse
+    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2065,18 +2065,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFunctionsInput, ListFunctionsOutputResponse, ListFunctionsOutputError>(id: "listFunctions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsInput, ListFunctionsOutputResponse, ListFunctionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsInput, ListFunctionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFunctionsInput, ListFunctionsOutput, ListFunctionsOutputError>(id: "listFunctions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsInput, ListFunctionsOutput, ListFunctionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsInput, ListFunctionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsOutput, ListFunctionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionsOutputResponse, ListFunctionsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionsOutput, ListFunctionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsOutput, ListFunctionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsOutput, ListFunctionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsOutput, ListFunctionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2085,7 +2085,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListFunctionsByCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `ListFunctionsByCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `ListFunctionsByCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2093,7 +2093,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func listFunctionsByCodeSigningConfig(input: ListFunctionsByCodeSigningConfigInput) async throws -> ListFunctionsByCodeSigningConfigOutputResponse
+    public func listFunctionsByCodeSigningConfig(input: ListFunctionsByCodeSigningConfigInput) async throws -> ListFunctionsByCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2109,18 +2109,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(id: "listFunctionsByCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput, ListFunctionsByCodeSigningConfigOutputError>(id: "listFunctionsByCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput, ListFunctionsByCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsByCodeSigningConfigOutput, ListFunctionsByCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionsByCodeSigningConfigOutput, ListFunctionsByCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsByCodeSigningConfigOutput, ListFunctionsByCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsByCodeSigningConfigOutput, ListFunctionsByCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsByCodeSigningConfigOutput, ListFunctionsByCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2129,7 +2129,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListLayerVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListLayerVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLayerVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2138,7 +2138,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listLayerVersions(input: ListLayerVersionsInput) async throws -> ListLayerVersionsOutputResponse
+    public func listLayerVersions(input: ListLayerVersionsInput) async throws -> ListLayerVersionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2154,18 +2154,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLayerVersionsInput, ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(id: "listLayerVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLayerVersionsInput, ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLayerVersionsInput, ListLayerVersionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLayerVersionsInput, ListLayerVersionsOutput, ListLayerVersionsOutputError>(id: "listLayerVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLayerVersionsInput, ListLayerVersionsOutput, ListLayerVersionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLayerVersionsInput, ListLayerVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLayerVersionsOutput, ListLayerVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLayerVersionsInput, ListLayerVersionsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLayerVersionsInput, ListLayerVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLayerVersionsOutput, ListLayerVersionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLayerVersionsOutput, ListLayerVersionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLayerVersionsOutput, ListLayerVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLayerVersionsOutput, ListLayerVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2174,7 +2174,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListLayersInput : [no documentation found]
     ///
-    /// - Returns: `ListLayersOutputResponse` : [no documentation found]
+    /// - Returns: `ListLayersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2182,7 +2182,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listLayers(input: ListLayersInput) async throws -> ListLayersOutputResponse
+    public func listLayers(input: ListLayersInput) async throws -> ListLayersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2198,18 +2198,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLayersInput, ListLayersOutputResponse, ListLayersOutputError>(id: "listLayers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLayersInput, ListLayersOutputResponse, ListLayersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLayersInput, ListLayersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLayersInput, ListLayersOutput, ListLayersOutputError>(id: "listLayers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLayersInput, ListLayersOutput, ListLayersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLayersInput, ListLayersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLayersOutputResponse, ListLayersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLayersOutput, ListLayersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLayersInput, ListLayersOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLayersOutputResponse, ListLayersOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLayersInput, ListLayersOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLayersOutput, ListLayersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLayersOutputResponse, ListLayersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLayersOutputResponse, ListLayersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLayersOutputResponse, ListLayersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLayersOutput, ListLayersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLayersOutput, ListLayersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLayersOutput, ListLayersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2218,7 +2218,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListProvisionedConcurrencyConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListProvisionedConcurrencyConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProvisionedConcurrencyConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,7 +2227,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listProvisionedConcurrencyConfigs(input: ListProvisionedConcurrencyConfigsInput) async throws -> ListProvisionedConcurrencyConfigsOutputResponse
+    public func listProvisionedConcurrencyConfigs(input: ListProvisionedConcurrencyConfigsInput) async throws -> ListProvisionedConcurrencyConfigsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2243,18 +2243,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(id: "listProvisionedConcurrencyConfigs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput, ListProvisionedConcurrencyConfigsOutputError>(id: "listProvisionedConcurrencyConfigs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput, ListProvisionedConcurrencyConfigsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisionedConcurrencyConfigsOutput, ListProvisionedConcurrencyConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisionedConcurrencyConfigsOutput, ListProvisionedConcurrencyConfigsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisionedConcurrencyConfigsOutput, ListProvisionedConcurrencyConfigsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedConcurrencyConfigsOutput, ListProvisionedConcurrencyConfigsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedConcurrencyConfigsOutput, ListProvisionedConcurrencyConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2263,7 +2263,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2272,7 +2272,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2288,17 +2288,17 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutput, ListTagsOutputError>(id: "listTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutput, ListTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutputResponse, ListTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutput, ListTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsOutputResponse, ListTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsOutput, ListTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutput, ListTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutput, ListTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutput, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2307,7 +2307,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter ListVersionsByFunctionInput : [no documentation found]
     ///
-    /// - Returns: `ListVersionsByFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `ListVersionsByFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2316,7 +2316,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listVersionsByFunction(input: ListVersionsByFunctionInput) async throws -> ListVersionsByFunctionOutputResponse
+    public func listVersionsByFunction(input: ListVersionsByFunctionInput) async throws -> ListVersionsByFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2332,18 +2332,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(id: "listVersionsByFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListVersionsByFunctionInput, ListVersionsByFunctionOutput, ListVersionsByFunctionOutputError>(id: "listVersionsByFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutput, ListVersionsByFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVersionsByFunctionOutput, ListVersionsByFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVersionsByFunctionOutput, ListVersionsByFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVersionsByFunctionOutput, ListVersionsByFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVersionsByFunctionOutput, ListVersionsByFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVersionsByFunctionOutput, ListVersionsByFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2352,7 +2352,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter PublishLayerVersionInput : [no documentation found]
     ///
-    /// - Returns: `PublishLayerVersionOutputResponse` : [no documentation found]
+    /// - Returns: `PublishLayerVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2362,7 +2362,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func publishLayerVersion(input: PublishLayerVersionInput) async throws -> PublishLayerVersionOutputResponse
+    public func publishLayerVersion(input: PublishLayerVersionInput) async throws -> PublishLayerVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2378,20 +2378,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PublishLayerVersionInput, PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(id: "publishLayerVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishLayerVersionInput, PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishLayerVersionInput, PublishLayerVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PublishLayerVersionInput, PublishLayerVersionOutput, PublishLayerVersionOutputError>(id: "publishLayerVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishLayerVersionInput, PublishLayerVersionOutput, PublishLayerVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishLayerVersionInput, PublishLayerVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishLayerVersionOutput, PublishLayerVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishLayerVersionInput, PublishLayerVersionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishLayerVersionInput, PublishLayerVersionOutputResponse>(xmlName: "PublishLayerVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishLayerVersionInput, PublishLayerVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishLayerVersionInput, PublishLayerVersionOutput>(xmlName: "PublishLayerVersionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishLayerVersionOutput, PublishLayerVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishLayerVersionOutput, PublishLayerVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishLayerVersionOutput, PublishLayerVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishLayerVersionOutput, PublishLayerVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2400,7 +2400,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter PublishVersionInput : [no documentation found]
     ///
-    /// - Returns: `PublishVersionOutputResponse` : Details about a function's configuration.
+    /// - Returns: `PublishVersionOutput` : Details about a function's configuration.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2412,7 +2412,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func publishVersion(input: PublishVersionInput) async throws -> PublishVersionOutputResponse
+    public func publishVersion(input: PublishVersionInput) async throws -> PublishVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2428,20 +2428,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PublishVersionInput, PublishVersionOutputResponse, PublishVersionOutputError>(id: "publishVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishVersionInput, PublishVersionOutputResponse, PublishVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishVersionInput, PublishVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PublishVersionInput, PublishVersionOutput, PublishVersionOutputError>(id: "publishVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishVersionInput, PublishVersionOutput, PublishVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishVersionInput, PublishVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishVersionOutputResponse, PublishVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishVersionOutput, PublishVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishVersionInput, PublishVersionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishVersionInput, PublishVersionOutputResponse>(xmlName: "PublishVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishVersionInput, PublishVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishVersionInput, PublishVersionOutput>(xmlName: "PublishVersionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishVersionOutputResponse, PublishVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishVersionOutput, PublishVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishVersionOutputResponse, PublishVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishVersionOutputResponse, PublishVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishVersionOutputResponse, PublishVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishVersionOutput, PublishVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishVersionOutput, PublishVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishVersionOutput, PublishVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2450,7 +2450,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter PutFunctionCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `PutFunctionCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `PutFunctionCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2461,7 +2461,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putFunctionCodeSigningConfig(input: PutFunctionCodeSigningConfigInput) async throws -> PutFunctionCodeSigningConfigOutputResponse
+    public func putFunctionCodeSigningConfig(input: PutFunctionCodeSigningConfigInput) async throws -> PutFunctionCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2477,20 +2477,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(id: "putFunctionCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput, PutFunctionCodeSigningConfigOutputError>(id: "putFunctionCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput, PutFunctionCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFunctionCodeSigningConfigOutput, PutFunctionCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse>(xmlName: "PutFunctionCodeSigningConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput>(xmlName: "PutFunctionCodeSigningConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFunctionCodeSigningConfigOutput, PutFunctionCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionCodeSigningConfigOutput, PutFunctionCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionCodeSigningConfigOutput, PutFunctionCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionCodeSigningConfigOutput, PutFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2499,7 +2499,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter PutFunctionConcurrencyInput : [no documentation found]
     ///
-    /// - Returns: `PutFunctionConcurrencyOutputResponse` : [no documentation found]
+    /// - Returns: `PutFunctionConcurrencyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2509,7 +2509,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putFunctionConcurrency(input: PutFunctionConcurrencyInput) async throws -> PutFunctionConcurrencyOutputResponse
+    public func putFunctionConcurrency(input: PutFunctionConcurrencyInput) async throws -> PutFunctionConcurrencyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2525,20 +2525,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(id: "putFunctionConcurrency")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput, PutFunctionConcurrencyOutputError>(id: "putFunctionConcurrency")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput, PutFunctionConcurrencyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFunctionConcurrencyOutput, PutFunctionConcurrencyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse>(xmlName: "PutFunctionConcurrencyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput>(xmlName: "PutFunctionConcurrencyRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFunctionConcurrencyOutput, PutFunctionConcurrencyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionConcurrencyOutput, PutFunctionConcurrencyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionConcurrencyOutput, PutFunctionConcurrencyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionConcurrencyOutput, PutFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2547,7 +2547,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter PutFunctionEventInvokeConfigInput : [no documentation found]
     ///
-    /// - Returns: `PutFunctionEventInvokeConfigOutputResponse` : [no documentation found]
+    /// - Returns: `PutFunctionEventInvokeConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2557,7 +2557,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putFunctionEventInvokeConfig(input: PutFunctionEventInvokeConfigInput) async throws -> PutFunctionEventInvokeConfigOutputResponse
+    public func putFunctionEventInvokeConfig(input: PutFunctionEventInvokeConfigInput) async throws -> PutFunctionEventInvokeConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2573,21 +2573,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(id: "putFunctionEventInvokeConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput, PutFunctionEventInvokeConfigOutputError>(id: "putFunctionEventInvokeConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput, PutFunctionEventInvokeConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFunctionEventInvokeConfigOutput, PutFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse>(xmlName: "PutFunctionEventInvokeConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput>(xmlName: "PutFunctionEventInvokeConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFunctionEventInvokeConfigOutput, PutFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionEventInvokeConfigOutput, PutFunctionEventInvokeConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionEventInvokeConfigOutput, PutFunctionEventInvokeConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionEventInvokeConfigOutput, PutFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2596,7 +2596,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter PutProvisionedConcurrencyConfigInput : [no documentation found]
     ///
-    /// - Returns: `PutProvisionedConcurrencyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `PutProvisionedConcurrencyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2606,7 +2606,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putProvisionedConcurrencyConfig(input: PutProvisionedConcurrencyConfigInput) async throws -> PutProvisionedConcurrencyConfigOutputResponse
+    public func putProvisionedConcurrencyConfig(input: PutProvisionedConcurrencyConfigInput) async throws -> PutProvisionedConcurrencyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2622,21 +2622,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(id: "putProvisionedConcurrencyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput, PutProvisionedConcurrencyConfigOutputError>(id: "putProvisionedConcurrencyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput, PutProvisionedConcurrencyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutProvisionedConcurrencyConfigOutput, PutProvisionedConcurrencyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse>(xmlName: "PutProvisionedConcurrencyConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput>(xmlName: "PutProvisionedConcurrencyConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutProvisionedConcurrencyConfigOutput, PutProvisionedConcurrencyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutProvisionedConcurrencyConfigOutput, PutProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProvisionedConcurrencyConfigOutput, PutProvisionedConcurrencyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutProvisionedConcurrencyConfigOutput, PutProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2645,7 +2645,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter PutRuntimeManagementConfigInput : [no documentation found]
     ///
-    /// - Returns: `PutRuntimeManagementConfigOutputResponse` : [no documentation found]
+    /// - Returns: `PutRuntimeManagementConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2655,7 +2655,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putRuntimeManagementConfig(input: PutRuntimeManagementConfigInput) async throws -> PutRuntimeManagementConfigOutputResponse
+    public func putRuntimeManagementConfig(input: PutRuntimeManagementConfigInput) async throws -> PutRuntimeManagementConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2671,21 +2671,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(id: "putRuntimeManagementConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput, PutRuntimeManagementConfigOutputError>(id: "putRuntimeManagementConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput, PutRuntimeManagementConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRuntimeManagementConfigOutput, PutRuntimeManagementConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse>(xmlName: "PutRuntimeManagementConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput>(xmlName: "PutRuntimeManagementConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRuntimeManagementConfigOutput, PutRuntimeManagementConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRuntimeManagementConfigOutput, PutRuntimeManagementConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRuntimeManagementConfigOutput, PutRuntimeManagementConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRuntimeManagementConfigOutput, PutRuntimeManagementConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2694,7 +2694,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter RemoveLayerVersionPermissionInput : [no documentation found]
     ///
-    /// - Returns: `RemoveLayerVersionPermissionOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveLayerVersionPermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2704,7 +2704,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func removeLayerVersionPermission(input: RemoveLayerVersionPermissionInput) async throws -> RemoveLayerVersionPermissionOutputResponse
+    public func removeLayerVersionPermission(input: RemoveLayerVersionPermissionInput) async throws -> RemoveLayerVersionPermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2720,18 +2720,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(id: "removeLayerVersionPermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutput, RemoveLayerVersionPermissionOutputError>(id: "removeLayerVersionPermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutput, RemoveLayerVersionPermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveLayerVersionPermissionOutput, RemoveLayerVersionPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveLayerVersionPermissionOutput, RemoveLayerVersionPermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveLayerVersionPermissionOutput, RemoveLayerVersionPermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveLayerVersionPermissionOutput, RemoveLayerVersionPermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveLayerVersionPermissionOutput, RemoveLayerVersionPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2740,7 +2740,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter RemovePermissionInput : [no documentation found]
     ///
-    /// - Returns: `RemovePermissionOutputResponse` : [no documentation found]
+    /// - Returns: `RemovePermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2750,7 +2750,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutputResponse
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2766,18 +2766,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>(id: "removePermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutput, RemovePermissionOutputError>(id: "removePermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutput, RemovePermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemovePermissionOutput, RemovePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemovePermissionOutputResponse, RemovePermissionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemovePermissionInput, RemovePermissionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemovePermissionOutput, RemovePermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutput, RemovePermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutput, RemovePermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutput, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2786,7 +2786,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2796,7 +2796,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2812,20 +2812,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2834,7 +2834,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2844,7 +2844,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2860,18 +2860,18 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2880,7 +2880,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UpdateAliasInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAliasOutputResponse` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+    /// - Returns: `UpdateAliasOutput` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2891,7 +2891,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutputResponse
+    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2907,20 +2907,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>(id: "updateAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateAliasInput, UpdateAliasOutput, UpdateAliasOutputError>(id: "updateAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutput, UpdateAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAliasOutput, UpdateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>(xmlName: "UpdateAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAliasInput, UpdateAliasOutput>(xmlName: "UpdateAliasRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAliasOutputResponse, UpdateAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAliasOutput, UpdateAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAliasOutput, UpdateAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAliasOutput, UpdateAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAliasOutput, UpdateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2929,7 +2929,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UpdateCodeSigningConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCodeSigningConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCodeSigningConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2937,7 +2937,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func updateCodeSigningConfig(input: UpdateCodeSigningConfigInput) async throws -> UpdateCodeSigningConfigOutputResponse
+    public func updateCodeSigningConfig(input: UpdateCodeSigningConfigInput) async throws -> UpdateCodeSigningConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2953,20 +2953,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(id: "updateCodeSigningConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput, UpdateCodeSigningConfigOutputError>(id: "updateCodeSigningConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput, UpdateCodeSigningConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCodeSigningConfigOutput, UpdateCodeSigningConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse>(xmlName: "UpdateCodeSigningConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput>(xmlName: "UpdateCodeSigningConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCodeSigningConfigOutput, UpdateCodeSigningConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCodeSigningConfigOutput, UpdateCodeSigningConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCodeSigningConfigOutput, UpdateCodeSigningConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCodeSigningConfigOutput, UpdateCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3019,7 +3019,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UpdateEventSourceMappingInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEventSourceMappingOutputResponse` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: `UpdateEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3030,7 +3030,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateEventSourceMapping(input: UpdateEventSourceMappingInput) async throws -> UpdateEventSourceMappingOutputResponse
+    public func updateEventSourceMapping(input: UpdateEventSourceMappingInput) async throws -> UpdateEventSourceMappingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3046,20 +3046,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(id: "updateEventSourceMapping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput, UpdateEventSourceMappingOutputError>(id: "updateEventSourceMapping")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput, UpdateEventSourceMappingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventSourceMappingOutput, UpdateEventSourceMappingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse>(xmlName: "UpdateEventSourceMappingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput>(xmlName: "UpdateEventSourceMappingRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventSourceMappingOutput, UpdateEventSourceMappingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventSourceMappingOutput, UpdateEventSourceMappingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventSourceMappingOutput, UpdateEventSourceMappingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventSourceMappingOutput, UpdateEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3068,7 +3068,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UpdateFunctionCodeInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFunctionCodeOutputResponse` : Details about a function's configuration.
+    /// - Returns: `UpdateFunctionCodeOutput` : Details about a function's configuration.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3083,7 +3083,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionCode(input: UpdateFunctionCodeInput) async throws -> UpdateFunctionCodeOutputResponse
+    public func updateFunctionCode(input: UpdateFunctionCodeInput) async throws -> UpdateFunctionCodeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3099,20 +3099,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(id: "updateFunctionCode")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateFunctionCodeInput, UpdateFunctionCodeOutput, UpdateFunctionCodeOutputError>(id: "updateFunctionCode")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutput, UpdateFunctionCodeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionCodeOutput, UpdateFunctionCodeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse>(xmlName: "UpdateFunctionCodeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutput>(xmlName: "UpdateFunctionCodeRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionCodeOutput, UpdateFunctionCodeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionCodeOutput, UpdateFunctionCodeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionCodeOutput, UpdateFunctionCodeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionCodeOutput, UpdateFunctionCodeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3121,7 +3121,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UpdateFunctionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFunctionConfigurationOutputResponse` : Details about a function's configuration.
+    /// - Returns: `UpdateFunctionConfigurationOutput` : Details about a function's configuration.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3135,7 +3135,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionConfiguration(input: UpdateFunctionConfigurationInput) async throws -> UpdateFunctionConfigurationOutputResponse
+    public func updateFunctionConfiguration(input: UpdateFunctionConfigurationInput) async throws -> UpdateFunctionConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3151,20 +3151,20 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(id: "updateFunctionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput, UpdateFunctionConfigurationOutputError>(id: "updateFunctionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput, UpdateFunctionConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionConfigurationOutput, UpdateFunctionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse>(xmlName: "UpdateFunctionConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput>(xmlName: "UpdateFunctionConfigurationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionConfigurationOutput, UpdateFunctionConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionConfigurationOutput, UpdateFunctionConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionConfigurationOutput, UpdateFunctionConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionConfigurationOutput, UpdateFunctionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3173,7 +3173,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UpdateFunctionEventInvokeConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFunctionEventInvokeConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFunctionEventInvokeConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3183,7 +3183,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionEventInvokeConfig(input: UpdateFunctionEventInvokeConfigInput) async throws -> UpdateFunctionEventInvokeConfigOutputResponse
+    public func updateFunctionEventInvokeConfig(input: UpdateFunctionEventInvokeConfigInput) async throws -> UpdateFunctionEventInvokeConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3199,21 +3199,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(id: "updateFunctionEventInvokeConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput, UpdateFunctionEventInvokeConfigOutputError>(id: "updateFunctionEventInvokeConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput, UpdateFunctionEventInvokeConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionEventInvokeConfigOutput, UpdateFunctionEventInvokeConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse>(xmlName: "UpdateFunctionEventInvokeConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput>(xmlName: "UpdateFunctionEventInvokeConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionEventInvokeConfigOutput, UpdateFunctionEventInvokeConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionEventInvokeConfigOutput, UpdateFunctionEventInvokeConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionEventInvokeConfigOutput, UpdateFunctionEventInvokeConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionEventInvokeConfigOutput, UpdateFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3222,7 +3222,7 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// - Parameter UpdateFunctionUrlConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFunctionUrlConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFunctionUrlConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3232,7 +3232,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionUrlConfig(input: UpdateFunctionUrlConfigInput) async throws -> UpdateFunctionUrlConfigOutputResponse
+    public func updateFunctionUrlConfig(input: UpdateFunctionUrlConfigInput) async throws -> UpdateFunctionUrlConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3248,21 +3248,21 @@ extension LambdaClient: LambdaClientProtocol {
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(id: "updateFunctionUrlConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput, UpdateFunctionUrlConfigOutputError>(id: "updateFunctionUrlConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput, UpdateFunctionUrlConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionUrlConfigOutput, UpdateFunctionUrlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse>(xmlName: "UpdateFunctionUrlConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput>(xmlName: "UpdateFunctionUrlConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionUrlConfigOutput, UpdateFunctionUrlConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionUrlConfigOutput, UpdateFunctionUrlConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionUrlConfigOutput, UpdateFunctionUrlConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionUrlConfigOutput, UpdateFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

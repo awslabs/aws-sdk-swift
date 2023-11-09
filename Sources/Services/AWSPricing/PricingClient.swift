@@ -71,7 +71,7 @@ extension PricingClient: PricingClientProtocol {
     ///
     /// - Parameter DescribeServicesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServicesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,7 +81,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutputResponse
+    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -97,21 +97,21 @@ extension PricingClient: PricingClientProtocol {
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>(id: "describeServices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutput, DescribeServicesOutputError>(id: "describeServices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutput, DescribeServicesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServicesOutput, DescribeServicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>(xAmzTarget: "AWSPriceListService.DescribeServices"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>(xmlName: "DescribeServicesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServicesInput, DescribeServicesOutput>(xAmzTarget: "AWSPriceListService.DescribeServices"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServicesInput, DescribeServicesOutput>(xmlName: "DescribeServicesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServicesOutputResponse, DescribeServicesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServicesOutput, DescribeServicesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServicesOutput, DescribeServicesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServicesOutput, DescribeServicesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServicesOutput, DescribeServicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -120,7 +120,7 @@ extension PricingClient: PricingClientProtocol {
     ///
     /// - Parameter GetAttributeValuesInput : [no documentation found]
     ///
-    /// - Returns: `GetAttributeValuesOutputResponse` : [no documentation found]
+    /// - Returns: `GetAttributeValuesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -130,7 +130,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func getAttributeValues(input: GetAttributeValuesInput) async throws -> GetAttributeValuesOutputResponse
+    public func getAttributeValues(input: GetAttributeValuesInput) async throws -> GetAttributeValuesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -146,21 +146,21 @@ extension PricingClient: PricingClientProtocol {
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAttributeValuesInput, GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(id: "getAttributeValues")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttributeValuesInput, GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAttributeValuesInput, GetAttributeValuesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAttributeValuesInput, GetAttributeValuesOutput, GetAttributeValuesOutputError>(id: "getAttributeValues")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttributeValuesInput, GetAttributeValuesOutput, GetAttributeValuesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAttributeValuesInput, GetAttributeValuesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAttributeValuesOutput, GetAttributeValuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAttributeValuesInput, GetAttributeValuesOutputResponse>(xAmzTarget: "AWSPriceListService.GetAttributeValues"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAttributeValuesInput, GetAttributeValuesOutputResponse>(xmlName: "GetAttributeValuesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAttributeValuesInput, GetAttributeValuesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAttributeValuesInput, GetAttributeValuesOutput>(xAmzTarget: "AWSPriceListService.GetAttributeValues"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAttributeValuesInput, GetAttributeValuesOutput>(xmlName: "GetAttributeValuesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAttributeValuesInput, GetAttributeValuesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAttributeValuesOutput, GetAttributeValuesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttributeValuesOutput, GetAttributeValuesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttributeValuesOutput, GetAttributeValuesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAttributeValuesOutput, GetAttributeValuesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -169,7 +169,7 @@ extension PricingClient: PricingClientProtocol {
     ///
     /// - Parameter GetPriceListFileUrlInput : [no documentation found]
     ///
-    /// - Returns: `GetPriceListFileUrlOutputResponse` : [no documentation found]
+    /// - Returns: `GetPriceListFileUrlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -178,7 +178,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func getPriceListFileUrl(input: GetPriceListFileUrlInput) async throws -> GetPriceListFileUrlOutputResponse
+    public func getPriceListFileUrl(input: GetPriceListFileUrlInput) async throws -> GetPriceListFileUrlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -194,21 +194,21 @@ extension PricingClient: PricingClientProtocol {
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPriceListFileUrlInput, GetPriceListFileUrlOutputResponse, GetPriceListFileUrlOutputError>(id: "getPriceListFileUrl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutputResponse, GetPriceListFileUrlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPriceListFileUrlInput, GetPriceListFileUrlOutput, GetPriceListFileUrlOutputError>(id: "getPriceListFileUrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutput, GetPriceListFileUrlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPriceListFileUrlOutputResponse, GetPriceListFileUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPriceListFileUrlOutput, GetPriceListFileUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutputResponse>(xAmzTarget: "AWSPriceListService.GetPriceListFileUrl"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutputResponse>(xmlName: "GetPriceListFileUrlRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutput>(xAmzTarget: "AWSPriceListService.GetPriceListFileUrl"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutput>(xmlName: "GetPriceListFileUrlRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPriceListFileUrlOutputResponse, GetPriceListFileUrlOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPriceListFileUrlOutput, GetPriceListFileUrlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPriceListFileUrlOutputResponse, GetPriceListFileUrlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPriceListFileUrlOutputResponse, GetPriceListFileUrlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPriceListFileUrlOutputResponse, GetPriceListFileUrlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPriceListFileUrlOutput, GetPriceListFileUrlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPriceListFileUrlOutput, GetPriceListFileUrlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPriceListFileUrlOutput, GetPriceListFileUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -217,7 +217,7 @@ extension PricingClient: PricingClientProtocol {
     ///
     /// - Parameter GetProductsInput : [no documentation found]
     ///
-    /// - Returns: `GetProductsOutputResponse` : [no documentation found]
+    /// - Returns: `GetProductsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -227,7 +227,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func getProducts(input: GetProductsInput) async throws -> GetProductsOutputResponse
+    public func getProducts(input: GetProductsInput) async throws -> GetProductsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -243,21 +243,21 @@ extension PricingClient: PricingClientProtocol {
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProductsInput, GetProductsOutputResponse, GetProductsOutputError>(id: "getProducts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProductsInput, GetProductsOutputResponse, GetProductsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProductsInput, GetProductsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetProductsInput, GetProductsOutput, GetProductsOutputError>(id: "getProducts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProductsInput, GetProductsOutput, GetProductsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProductsInput, GetProductsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProductsOutputResponse, GetProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProductsOutput, GetProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProductsInput, GetProductsOutputResponse>(xAmzTarget: "AWSPriceListService.GetProducts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProductsInput, GetProductsOutputResponse>(xmlName: "GetProductsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProductsInput, GetProductsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProductsInput, GetProductsOutput>(xAmzTarget: "AWSPriceListService.GetProducts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProductsInput, GetProductsOutput>(xmlName: "GetProductsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProductsInput, GetProductsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProductsOutputResponse, GetProductsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProductsOutput, GetProductsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProductsOutputResponse, GetProductsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProductsOutputResponse, GetProductsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProductsOutputResponse, GetProductsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProductsOutput, GetProductsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProductsOutput, GetProductsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProductsOutput, GetProductsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -266,7 +266,7 @@ extension PricingClient: PricingClientProtocol {
     ///
     /// - Parameter ListPriceListsInput : [no documentation found]
     ///
-    /// - Returns: `ListPriceListsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPriceListsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -277,7 +277,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func listPriceLists(input: ListPriceListsInput) async throws -> ListPriceListsOutputResponse
+    public func listPriceLists(input: ListPriceListsInput) async throws -> ListPriceListsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -293,21 +293,21 @@ extension PricingClient: PricingClientProtocol {
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPriceListsInput, ListPriceListsOutputResponse, ListPriceListsOutputError>(id: "listPriceLists")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPriceListsInput, ListPriceListsOutputResponse, ListPriceListsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPriceListsInput, ListPriceListsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPriceListsInput, ListPriceListsOutput, ListPriceListsOutputError>(id: "listPriceLists")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPriceListsInput, ListPriceListsOutput, ListPriceListsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPriceListsInput, ListPriceListsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPriceListsOutputResponse, ListPriceListsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPriceListsOutput, ListPriceListsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPriceListsInput, ListPriceListsOutputResponse>(xAmzTarget: "AWSPriceListService.ListPriceLists"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPriceListsInput, ListPriceListsOutputResponse>(xmlName: "ListPriceListsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPriceListsInput, ListPriceListsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPriceListsInput, ListPriceListsOutput>(xAmzTarget: "AWSPriceListService.ListPriceLists"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPriceListsInput, ListPriceListsOutput>(xmlName: "ListPriceListsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPriceListsInput, ListPriceListsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPriceListsOutputResponse, ListPriceListsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPriceListsOutput, ListPriceListsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPriceListsOutputResponse, ListPriceListsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPriceListsOutputResponse, ListPriceListsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPriceListsOutputResponse, ListPriceListsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPriceListsOutput, ListPriceListsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPriceListsOutput, ListPriceListsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPriceListsOutput, ListPriceListsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

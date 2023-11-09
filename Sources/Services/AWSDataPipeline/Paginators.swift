@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension DataPipelineClient {
-    /// Paginate over `[DescribeObjectsOutputResponse]` results.
+    /// Paginate over `[DescribeObjectsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeObjectsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeObjectsOutputResponse`
-    public func describeObjectsPaginated(input: DescribeObjectsInput) -> ClientRuntime.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutputResponse>(input: input, inputKey: \DescribeObjectsInput.marker, outputKey: \DescribeObjectsOutputResponse.marker, paginationFunction: self.describeObjects(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeObjectsOutput`
+    public func describeObjectsPaginated(input: DescribeObjectsInput) -> ClientRuntime.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutput>(input: input, inputKey: \DescribeObjectsInput.marker, outputKey: \DescribeObjectsOutput.marker, paginationFunction: self.describeObjects(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeObjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeObjectsInput, Output == DescribeObjectsOutputResponse {
+extension PaginatorSequence where Input == DescribeObjectsInput, Output == DescribeObjectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeObjectsPaginated`
     /// to access the nested member `[DataPipelineClientTypes.PipelineObject]`
     /// - Returns: `[DataPipelineClientTypes.PipelineObject]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeObjectsInput, Output == Descr
     }
 }
 extension DataPipelineClient {
-    /// Paginate over `[ListPipelinesOutputResponse]` results.
+    /// Paginate over `[ListPipelinesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPipelinesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutputResponse`
-    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse>(input: input, inputKey: \ListPipelinesInput.marker, outputKey: \ListPipelinesOutputResponse.marker, paginationFunction: self.listPipelines(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
+    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.marker, outputKey: \ListPipelinesOutput.marker, paginationFunction: self.listPipelines(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutputResponse {
+extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
     /// to access the nested member `[DataPipelineClientTypes.PipelineIdName]`
     /// - Returns: `[DataPipelineClientTypes.PipelineIdName]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPip
     }
 }
 extension DataPipelineClient {
-    /// Paginate over `[QueryObjectsOutputResponse]` results.
+    /// Paginate over `[QueryObjectsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[QueryObjectsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `QueryObjectsOutputResponse`
-    public func queryObjectsPaginated(input: QueryObjectsInput) -> ClientRuntime.PaginatorSequence<QueryObjectsInput, QueryObjectsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<QueryObjectsInput, QueryObjectsOutputResponse>(input: input, inputKey: \QueryObjectsInput.marker, outputKey: \QueryObjectsOutputResponse.marker, paginationFunction: self.queryObjects(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `QueryObjectsOutput`
+    public func queryObjectsPaginated(input: QueryObjectsInput) -> ClientRuntime.PaginatorSequence<QueryObjectsInput, QueryObjectsOutput> {
+        return ClientRuntime.PaginatorSequence<QueryObjectsInput, QueryObjectsOutput>(input: input, inputKey: \QueryObjectsInput.marker, outputKey: \QueryObjectsOutput.marker, paginationFunction: self.queryObjects(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension QueryObjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == QueryObjectsInput, Output == QueryObjectsOutputResponse {
+extension PaginatorSequence where Input == QueryObjectsInput, Output == QueryObjectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `queryObjectsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

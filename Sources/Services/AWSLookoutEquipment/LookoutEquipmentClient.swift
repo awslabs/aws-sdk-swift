@@ -71,7 +71,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter CreateDatasetInput : [no documentation found]
     ///
-    /// - Returns: `CreateDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,7 +82,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -98,29 +98,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDatasetInput, CreateDatasetOutputResponse, CreateDatasetOutputError>(id: "createDataset")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDatasetOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutputResponse, CreateDatasetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDatasetInput, CreateDatasetOutput, CreateDatasetOutputError>(id: "createDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDatasetInput, CreateDatasetOutput, CreateDatasetOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutput, CreateDatasetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDatasetOutputResponse, CreateDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDatasetOutput, CreateDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDatasetInput, CreateDatasetOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateDataset"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDatasetInput, CreateDatasetOutputResponse>(xmlName: "CreateDatasetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDatasetInput, CreateDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateDataset"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDatasetInput, CreateDatasetOutput>(xmlName: "CreateDatasetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDatasetOutputResponse, CreateDatasetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDatasetOutput, CreateDatasetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatasetOutputResponse, CreateDatasetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatasetOutputResponse, CreateDatasetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatasetOutputResponse, CreateDatasetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatasetOutput, CreateDatasetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatasetOutput, CreateDatasetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatasetOutput, CreateDatasetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -129,7 +122,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter CreateInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `CreateInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,7 +134,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createInferenceScheduler(input: CreateInferenceSchedulerInput) async throws -> CreateInferenceSchedulerOutputResponse
+    public func createInferenceScheduler(input: CreateInferenceSchedulerInput) async throws -> CreateInferenceSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -157,29 +150,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutputResponse, CreateInferenceSchedulerOutputError>(id: "createInferenceScheduler")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateInferenceSchedulerOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutputResponse, CreateInferenceSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>(id: "createInferenceScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInferenceSchedulerOutputResponse, CreateInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateInferenceScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutputResponse>(xmlName: "CreateInferenceSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateInferenceScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>(xmlName: "CreateInferenceSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInferenceSchedulerOutputResponse, CreateInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInferenceSchedulerOutputResponse, CreateInferenceSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInferenceSchedulerOutputResponse, CreateInferenceSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInferenceSchedulerOutputResponse, CreateInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInferenceSchedulerOutput, CreateInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -188,7 +174,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter CreateLabelInput : [no documentation found]
     ///
-    /// - Returns: `CreateLabelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -200,7 +186,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createLabel(input: CreateLabelInput) async throws -> CreateLabelOutputResponse
+    public func createLabel(input: CreateLabelInput) async throws -> CreateLabelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -216,29 +202,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLabelInput, CreateLabelOutputResponse, CreateLabelOutputError>(id: "createLabel")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateLabelOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLabelInput, CreateLabelOutputResponse, CreateLabelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLabelInput, CreateLabelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateLabelInput, CreateLabelOutput, CreateLabelOutputError>(id: "createLabel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateLabelInput, CreateLabelOutput, CreateLabelOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLabelInput, CreateLabelOutput, CreateLabelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLabelInput, CreateLabelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLabelOutputResponse, CreateLabelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLabelOutput, CreateLabelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLabelInput, CreateLabelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateLabel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLabelInput, CreateLabelOutputResponse>(xmlName: "CreateLabelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLabelInput, CreateLabelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLabelInput, CreateLabelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateLabel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLabelInput, CreateLabelOutput>(xmlName: "CreateLabelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLabelInput, CreateLabelOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLabelOutputResponse, CreateLabelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLabelOutput, CreateLabelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLabelOutputResponse, CreateLabelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLabelOutputResponse, CreateLabelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLabelOutputResponse, CreateLabelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLabelOutput, CreateLabelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLabelOutput, CreateLabelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLabelOutput, CreateLabelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -247,7 +226,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter CreateLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -258,7 +237,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createLabelGroup(input: CreateLabelGroupInput) async throws -> CreateLabelGroupOutputResponse
+    public func createLabelGroup(input: CreateLabelGroupInput) async throws -> CreateLabelGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -274,29 +253,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLabelGroupInput, CreateLabelGroupOutputResponse, CreateLabelGroupOutputError>(id: "createLabelGroup")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateLabelGroupOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLabelGroupInput, CreateLabelGroupOutputResponse, CreateLabelGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLabelGroupInput, CreateLabelGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateLabelGroupInput, CreateLabelGroupOutput, CreateLabelGroupOutputError>(id: "createLabelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput, CreateLabelGroupOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput, CreateLabelGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLabelGroupOutputResponse, CreateLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLabelGroupOutput, CreateLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLabelGroupInput, CreateLabelGroupOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateLabelGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLabelGroupInput, CreateLabelGroupOutputResponse>(xmlName: "CreateLabelGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLabelGroupInput, CreateLabelGroupOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateLabelGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>(xmlName: "CreateLabelGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLabelGroupOutputResponse, CreateLabelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLabelGroupOutput, CreateLabelGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLabelGroupOutputResponse, CreateLabelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLabelGroupOutputResponse, CreateLabelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLabelGroupOutputResponse, CreateLabelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLabelGroupOutput, CreateLabelGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLabelGroupOutput, CreateLabelGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLabelGroupOutput, CreateLabelGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -305,7 +277,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter CreateModelInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -317,7 +289,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
+    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -333,29 +305,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateModelInput, CreateModelOutputResponse, CreateModelOutputError>(id: "createModel")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateModelOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelInput, CreateModelOutputResponse, CreateModelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelInput, CreateModelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateModelInput, CreateModelOutput, CreateModelOutputError>(id: "createModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateModelInput, CreateModelOutput, CreateModelOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelInput, CreateModelOutput, CreateModelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelInput, CreateModelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateModelOutputResponse, CreateModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateModelOutput, CreateModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateModelInput, CreateModelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateModel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateModelInput, CreateModelOutputResponse>(xmlName: "CreateModelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateModelInput, CreateModelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateModelInput, CreateModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateModelInput, CreateModelOutput>(xmlName: "CreateModelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateModelInput, CreateModelOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateModelOutputResponse, CreateModelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateModelOutput, CreateModelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelOutputResponse, CreateModelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelOutputResponse, CreateModelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateModelOutputResponse, CreateModelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelOutput, CreateModelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelOutput, CreateModelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateModelOutput, CreateModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -364,7 +329,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter CreateRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `CreateRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -375,7 +340,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createRetrainingScheduler(input: CreateRetrainingSchedulerInput) async throws -> CreateRetrainingSchedulerOutputResponse
+    public func createRetrainingScheduler(input: CreateRetrainingSchedulerInput) async throws -> CreateRetrainingSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -391,29 +356,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(id: "createRetrainingScheduler")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateRetrainingSchedulerOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>(id: "createRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateRetrainingScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>(xmlName: "CreateRetrainingSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>(xmlName: "CreateRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRetrainingSchedulerOutput, CreateRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -422,7 +380,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DeleteDatasetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -433,7 +391,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutputResponse
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -449,21 +407,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDatasetInput, DeleteDatasetOutputResponse, DeleteDatasetOutputError>(id: "deleteDataset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse, DeleteDatasetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDatasetInput, DeleteDatasetOutput, DeleteDatasetOutputError>(id: "deleteDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutput, DeleteDatasetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDatasetOutput, DeleteDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteDataset"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse>(xmlName: "DeleteDatasetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteDataset"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(xmlName: "DeleteDatasetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDatasetOutputResponse, DeleteDatasetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDatasetOutput, DeleteDatasetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetOutput, DeleteDatasetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput, DeleteDatasetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetOutput, DeleteDatasetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -472,7 +430,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DeleteInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +441,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteInferenceScheduler(input: DeleteInferenceSchedulerInput) async throws -> DeleteInferenceSchedulerOutputResponse
+    public func deleteInferenceScheduler(input: DeleteInferenceSchedulerInput) async throws -> DeleteInferenceSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -499,21 +457,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutputResponse, DeleteInferenceSchedulerOutputError>(id: "deleteInferenceScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutputResponse, DeleteInferenceSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput, DeleteInferenceSchedulerOutputError>(id: "deleteInferenceScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput, DeleteInferenceSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInferenceSchedulerOutputResponse, DeleteInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInferenceSchedulerOutput, DeleteInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteInferenceScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutputResponse>(xmlName: "DeleteInferenceSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteInferenceScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>(xmlName: "DeleteInferenceSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInferenceSchedulerOutputResponse, DeleteInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInferenceSchedulerOutput, DeleteInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInferenceSchedulerOutputResponse, DeleteInferenceSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInferenceSchedulerOutputResponse, DeleteInferenceSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInferenceSchedulerOutputResponse, DeleteInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInferenceSchedulerOutput, DeleteInferenceSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInferenceSchedulerOutput, DeleteInferenceSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInferenceSchedulerOutput, DeleteInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -522,7 +480,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DeleteLabelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLabelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -533,7 +491,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutputResponse
+    public func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -549,21 +507,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteLabelInput, DeleteLabelOutputResponse, DeleteLabelOutputError>(id: "deleteLabel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLabelInput, DeleteLabelOutputResponse, DeleteLabelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLabelInput, DeleteLabelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteLabelInput, DeleteLabelOutput, DeleteLabelOutputError>(id: "deleteLabel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLabelInput, DeleteLabelOutput, DeleteLabelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLabelInput, DeleteLabelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLabelOutputResponse, DeleteLabelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLabelOutput, DeleteLabelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLabelInput, DeleteLabelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteLabel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLabelInput, DeleteLabelOutputResponse>(xmlName: "DeleteLabelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLabelInput, DeleteLabelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLabelInput, DeleteLabelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteLabel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLabelInput, DeleteLabelOutput>(xmlName: "DeleteLabelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLabelInput, DeleteLabelOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLabelOutputResponse, DeleteLabelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLabelOutput, DeleteLabelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLabelOutputResponse, DeleteLabelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLabelOutputResponse, DeleteLabelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLabelOutputResponse, DeleteLabelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLabelOutput, DeleteLabelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLabelOutput, DeleteLabelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLabelOutput, DeleteLabelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -572,7 +530,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DeleteLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,7 +541,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteLabelGroup(input: DeleteLabelGroupInput) async throws -> DeleteLabelGroupOutputResponse
+    public func deleteLabelGroup(input: DeleteLabelGroupInput) async throws -> DeleteLabelGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -599,21 +557,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteLabelGroupInput, DeleteLabelGroupOutputResponse, DeleteLabelGroupOutputError>(id: "deleteLabelGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutputResponse, DeleteLabelGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteLabelGroupInput, DeleteLabelGroupOutput, DeleteLabelGroupOutputError>(id: "deleteLabelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput, DeleteLabelGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLabelGroupOutputResponse, DeleteLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLabelGroupOutput, DeleteLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteLabelGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutputResponse>(xmlName: "DeleteLabelGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteLabelGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>(xmlName: "DeleteLabelGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLabelGroupOutputResponse, DeleteLabelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLabelGroupOutput, DeleteLabelGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLabelGroupOutputResponse, DeleteLabelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLabelGroupOutputResponse, DeleteLabelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLabelGroupOutputResponse, DeleteLabelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLabelGroupOutput, DeleteLabelGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLabelGroupOutput, DeleteLabelGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLabelGroupOutput, DeleteLabelGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -622,7 +580,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DeleteModelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,7 +591,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
+    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -649,21 +607,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteModelInput, DeleteModelOutputResponse, DeleteModelOutputError>(id: "deleteModel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelInput, DeleteModelOutputResponse, DeleteModelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelInput, DeleteModelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteModelInput, DeleteModelOutput, DeleteModelOutputError>(id: "deleteModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelInput, DeleteModelOutput, DeleteModelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelInput, DeleteModelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteModelOutputResponse, DeleteModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteModelOutput, DeleteModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteModelInput, DeleteModelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteModel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteModelInput, DeleteModelOutputResponse>(xmlName: "DeleteModelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteModelInput, DeleteModelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteModelInput, DeleteModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteModelInput, DeleteModelOutput>(xmlName: "DeleteModelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteModelInput, DeleteModelOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteModelOutputResponse, DeleteModelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteModelOutput, DeleteModelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelOutputResponse, DeleteModelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelOutputResponse, DeleteModelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteModelOutputResponse, DeleteModelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelOutput, DeleteModelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelOutput, DeleteModelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteModelOutput, DeleteModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -672,7 +630,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,7 +641,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -699,21 +657,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xmlName: "DeleteResourcePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xmlName: "DeleteResourcePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -722,7 +680,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DeleteRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,7 +691,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteRetrainingScheduler(input: DeleteRetrainingSchedulerInput) async throws -> DeleteRetrainingSchedulerOutputResponse
+    public func deleteRetrainingScheduler(input: DeleteRetrainingSchedulerInput) async throws -> DeleteRetrainingSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -749,21 +707,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(id: "deleteRetrainingScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput, DeleteRetrainingSchedulerOutputError>(id: "deleteRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput, DeleteRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRetrainingSchedulerOutput, DeleteRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteRetrainingScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>(xmlName: "DeleteRetrainingSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>(xmlName: "DeleteRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRetrainingSchedulerOutput, DeleteRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRetrainingSchedulerOutput, DeleteRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRetrainingSchedulerOutput, DeleteRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRetrainingSchedulerOutput, DeleteRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -772,7 +730,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeDataIngestionJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataIngestionJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataIngestionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,7 +740,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeDataIngestionJob(input: DescribeDataIngestionJobInput) async throws -> DescribeDataIngestionJobOutputResponse
+    public func describeDataIngestionJob(input: DescribeDataIngestionJobInput) async throws -> DescribeDataIngestionJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -798,21 +756,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutputResponse, DescribeDataIngestionJobOutputError>(id: "describeDataIngestionJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutputResponse, DescribeDataIngestionJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput, DescribeDataIngestionJobOutputError>(id: "describeDataIngestionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput, DescribeDataIngestionJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDataIngestionJobOutputResponse, DescribeDataIngestionJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDataIngestionJobOutput, DescribeDataIngestionJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeDataIngestionJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutputResponse>(xmlName: "DescribeDataIngestionJobRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeDataIngestionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>(xmlName: "DescribeDataIngestionJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDataIngestionJobOutputResponse, DescribeDataIngestionJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDataIngestionJobOutput, DescribeDataIngestionJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataIngestionJobOutputResponse, DescribeDataIngestionJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataIngestionJobOutputResponse, DescribeDataIngestionJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataIngestionJobOutputResponse, DescribeDataIngestionJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataIngestionJobOutput, DescribeDataIngestionJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataIngestionJobOutput, DescribeDataIngestionJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataIngestionJobOutput, DescribeDataIngestionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -821,7 +779,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeDatasetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -831,7 +789,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutputResponse
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -847,21 +805,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDatasetInput, DescribeDatasetOutputResponse, DescribeDatasetOutputError>(id: "describeDataset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse, DescribeDatasetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDatasetInput, DescribeDatasetOutput, DescribeDatasetOutputError>(id: "describeDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutput, DescribeDatasetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDatasetOutput, DescribeDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeDataset"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse>(xmlName: "DescribeDatasetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeDataset"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(xmlName: "DescribeDatasetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDatasetOutputResponse, DescribeDatasetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDatasetOutput, DescribeDatasetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetOutput, DescribeDatasetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput, DescribeDatasetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetOutput, DescribeDatasetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -870,7 +828,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -880,7 +838,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeInferenceScheduler(input: DescribeInferenceSchedulerInput) async throws -> DescribeInferenceSchedulerOutputResponse
+    public func describeInferenceScheduler(input: DescribeInferenceSchedulerInput) async throws -> DescribeInferenceSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -896,21 +854,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutputResponse, DescribeInferenceSchedulerOutputError>(id: "describeInferenceScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutputResponse, DescribeInferenceSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput, DescribeInferenceSchedulerOutputError>(id: "describeInferenceScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput, DescribeInferenceSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInferenceSchedulerOutputResponse, DescribeInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInferenceSchedulerOutput, DescribeInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeInferenceScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutputResponse>(xmlName: "DescribeInferenceSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeInferenceScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>(xmlName: "DescribeInferenceSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInferenceSchedulerOutputResponse, DescribeInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInferenceSchedulerOutput, DescribeInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInferenceSchedulerOutputResponse, DescribeInferenceSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInferenceSchedulerOutputResponse, DescribeInferenceSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInferenceSchedulerOutputResponse, DescribeInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInferenceSchedulerOutput, DescribeInferenceSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInferenceSchedulerOutput, DescribeInferenceSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInferenceSchedulerOutput, DescribeInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -919,7 +877,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeLabelInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLabelOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,7 +887,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeLabel(input: DescribeLabelInput) async throws -> DescribeLabelOutputResponse
+    public func describeLabel(input: DescribeLabelInput) async throws -> DescribeLabelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -945,21 +903,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLabelInput, DescribeLabelOutputResponse, DescribeLabelOutputError>(id: "describeLabel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLabelInput, DescribeLabelOutputResponse, DescribeLabelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLabelInput, DescribeLabelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeLabelInput, DescribeLabelOutput, DescribeLabelOutputError>(id: "describeLabel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLabelInput, DescribeLabelOutput, DescribeLabelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLabelInput, DescribeLabelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLabelOutputResponse, DescribeLabelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLabelOutput, DescribeLabelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLabelInput, DescribeLabelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeLabel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLabelInput, DescribeLabelOutputResponse>(xmlName: "DescribeLabelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLabelInput, DescribeLabelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLabelInput, DescribeLabelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeLabel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLabelInput, DescribeLabelOutput>(xmlName: "DescribeLabelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLabelInput, DescribeLabelOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLabelOutputResponse, DescribeLabelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLabelOutput, DescribeLabelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLabelOutputResponse, DescribeLabelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLabelOutputResponse, DescribeLabelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLabelOutputResponse, DescribeLabelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLabelOutput, DescribeLabelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLabelOutput, DescribeLabelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLabelOutput, DescribeLabelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -968,7 +926,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,7 +936,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeLabelGroup(input: DescribeLabelGroupInput) async throws -> DescribeLabelGroupOutputResponse
+    public func describeLabelGroup(input: DescribeLabelGroupInput) async throws -> DescribeLabelGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -994,21 +952,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLabelGroupInput, DescribeLabelGroupOutputResponse, DescribeLabelGroupOutputError>(id: "describeLabelGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutputResponse, DescribeLabelGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeLabelGroupInput, DescribeLabelGroupOutput, DescribeLabelGroupOutputError>(id: "describeLabelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput, DescribeLabelGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLabelGroupOutputResponse, DescribeLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLabelGroupOutput, DescribeLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeLabelGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutputResponse>(xmlName: "DescribeLabelGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeLabelGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>(xmlName: "DescribeLabelGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLabelGroupOutputResponse, DescribeLabelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLabelGroupOutput, DescribeLabelGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLabelGroupOutputResponse, DescribeLabelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLabelGroupOutputResponse, DescribeLabelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLabelGroupOutputResponse, DescribeLabelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLabelGroupOutput, DescribeLabelGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLabelGroupOutput, DescribeLabelGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLabelGroupOutput, DescribeLabelGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1017,7 +975,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeModelInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1027,7 +985,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutputResponse
+    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1043,21 +1001,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeModelInput, DescribeModelOutputResponse, DescribeModelOutputError>(id: "describeModel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelInput, DescribeModelOutputResponse, DescribeModelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelInput, DescribeModelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeModelInput, DescribeModelOutput, DescribeModelOutputError>(id: "describeModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelInput, DescribeModelOutput, DescribeModelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelInput, DescribeModelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeModelOutputResponse, DescribeModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeModelOutput, DescribeModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeModelInput, DescribeModelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeModel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeModelInput, DescribeModelOutputResponse>(xmlName: "DescribeModelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeModelInput, DescribeModelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeModelInput, DescribeModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeModelInput, DescribeModelOutput>(xmlName: "DescribeModelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeModelInput, DescribeModelOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeModelOutputResponse, DescribeModelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeModelOutput, DescribeModelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelOutputResponse, DescribeModelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelOutputResponse, DescribeModelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeModelOutputResponse, DescribeModelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelOutput, DescribeModelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelOutput, DescribeModelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeModelOutput, DescribeModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1066,7 +1024,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,7 +1034,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeModelVersion(input: DescribeModelVersionInput) async throws -> DescribeModelVersionOutputResponse
+    public func describeModelVersion(input: DescribeModelVersionInput) async throws -> DescribeModelVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1092,21 +1050,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeModelVersionInput, DescribeModelVersionOutputResponse, DescribeModelVersionOutputError>(id: "describeModelVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelVersionInput, DescribeModelVersionOutputResponse, DescribeModelVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelVersionInput, DescribeModelVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeModelVersionInput, DescribeModelVersionOutput, DescribeModelVersionOutputError>(id: "describeModelVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput, DescribeModelVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeModelVersionOutputResponse, DescribeModelVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeModelVersionOutput, DescribeModelVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeModelVersionInput, DescribeModelVersionOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeModelVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeModelVersionInput, DescribeModelVersionOutputResponse>(xmlName: "DescribeModelVersionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeModelVersionInput, DescribeModelVersionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeModelVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>(xmlName: "DescribeModelVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeModelVersionOutputResponse, DescribeModelVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeModelVersionOutput, DescribeModelVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelVersionOutputResponse, DescribeModelVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelVersionOutputResponse, DescribeModelVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeModelVersionOutputResponse, DescribeModelVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelVersionOutput, DescribeModelVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelVersionOutput, DescribeModelVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeModelVersionOutput, DescribeModelVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1115,7 +1073,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,7 +1083,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutputResponse
+    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1141,21 +1099,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(id: "describeResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(id: "describeResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse>(xmlName: "DescribeResourcePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(xmlName: "DescribeResourcePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1164,7 +1122,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter DescribeRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,7 +1132,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeRetrainingScheduler(input: DescribeRetrainingSchedulerInput) async throws -> DescribeRetrainingSchedulerOutputResponse
+    public func describeRetrainingScheduler(input: DescribeRetrainingSchedulerInput) async throws -> DescribeRetrainingSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1190,21 +1148,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(id: "describeRetrainingScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput, DescribeRetrainingSchedulerOutputError>(id: "describeRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput, DescribeRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRetrainingSchedulerOutput, DescribeRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeRetrainingScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>(xmlName: "DescribeRetrainingSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>(xmlName: "DescribeRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRetrainingSchedulerOutput, DescribeRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRetrainingSchedulerOutput, DescribeRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRetrainingSchedulerOutput, DescribeRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRetrainingSchedulerOutput, DescribeRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1213,7 +1171,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ImportDatasetInput : [no documentation found]
     ///
-    /// - Returns: `ImportDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `ImportDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1225,7 +1183,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func importDataset(input: ImportDatasetInput) async throws -> ImportDatasetOutputResponse
+    public func importDataset(input: ImportDatasetInput) async throws -> ImportDatasetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1241,29 +1199,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportDatasetInput, ImportDatasetOutputResponse, ImportDatasetOutputError>(id: "importDataset")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportDatasetOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportDatasetInput, ImportDatasetOutputResponse, ImportDatasetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportDatasetInput, ImportDatasetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportDatasetInput, ImportDatasetOutput, ImportDatasetOutputError>(id: "importDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ImportDatasetInput, ImportDatasetOutput, ImportDatasetOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportDatasetInput, ImportDatasetOutput, ImportDatasetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportDatasetInput, ImportDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportDatasetOutputResponse, ImportDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportDatasetOutput, ImportDatasetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportDatasetInput, ImportDatasetOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ImportDataset"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportDatasetInput, ImportDatasetOutputResponse>(xmlName: "ImportDatasetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportDatasetInput, ImportDatasetOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportDatasetInput, ImportDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ImportDataset"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportDatasetInput, ImportDatasetOutput>(xmlName: "ImportDatasetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportDatasetInput, ImportDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportDatasetOutputResponse, ImportDatasetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportDatasetOutput, ImportDatasetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportDatasetOutputResponse, ImportDatasetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportDatasetOutputResponse, ImportDatasetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportDatasetOutputResponse, ImportDatasetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportDatasetOutput, ImportDatasetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportDatasetOutput, ImportDatasetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportDatasetOutput, ImportDatasetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1272,7 +1223,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ImportModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `ImportModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `ImportModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,7 +1235,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func importModelVersion(input: ImportModelVersionInput) async throws -> ImportModelVersionOutputResponse
+    public func importModelVersion(input: ImportModelVersionInput) async throws -> ImportModelVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1300,29 +1251,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportModelVersionInput, ImportModelVersionOutputResponse, ImportModelVersionOutputError>(id: "importModelVersion")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportModelVersionOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportModelVersionInput, ImportModelVersionOutputResponse, ImportModelVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportModelVersionInput, ImportModelVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportModelVersionInput, ImportModelVersionOutput, ImportModelVersionOutputError>(id: "importModelVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ImportModelVersionInput, ImportModelVersionOutput, ImportModelVersionOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportModelVersionInput, ImportModelVersionOutput, ImportModelVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportModelVersionInput, ImportModelVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportModelVersionOutputResponse, ImportModelVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportModelVersionOutput, ImportModelVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportModelVersionInput, ImportModelVersionOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ImportModelVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportModelVersionInput, ImportModelVersionOutputResponse>(xmlName: "ImportModelVersionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportModelVersionInput, ImportModelVersionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportModelVersionInput, ImportModelVersionOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ImportModelVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportModelVersionInput, ImportModelVersionOutput>(xmlName: "ImportModelVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportModelVersionInput, ImportModelVersionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportModelVersionOutputResponse, ImportModelVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportModelVersionOutput, ImportModelVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportModelVersionOutputResponse, ImportModelVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportModelVersionOutputResponse, ImportModelVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportModelVersionOutputResponse, ImportModelVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportModelVersionOutput, ImportModelVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportModelVersionOutput, ImportModelVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportModelVersionOutput, ImportModelVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1331,7 +1275,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListDataIngestionJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataIngestionJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataIngestionJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,7 +1284,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listDataIngestionJobs(input: ListDataIngestionJobsInput) async throws -> ListDataIngestionJobsOutputResponse
+    public func listDataIngestionJobs(input: ListDataIngestionJobsInput) async throws -> ListDataIngestionJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1356,21 +1300,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse, ListDataIngestionJobsOutputError>(id: "listDataIngestionJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse, ListDataIngestionJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDataIngestionJobsInput, ListDataIngestionJobsOutput, ListDataIngestionJobsOutputError>(id: "listDataIngestionJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput, ListDataIngestionJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDataIngestionJobsOutputResponse, ListDataIngestionJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDataIngestionJobsOutput, ListDataIngestionJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListDataIngestionJobs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse>(xmlName: "ListDataIngestionJobsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListDataIngestionJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(xmlName: "ListDataIngestionJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDataIngestionJobsOutputResponse, ListDataIngestionJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDataIngestionJobsOutput, ListDataIngestionJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataIngestionJobsOutputResponse, ListDataIngestionJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataIngestionJobsOutputResponse, ListDataIngestionJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataIngestionJobsOutputResponse, ListDataIngestionJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataIngestionJobsOutput, ListDataIngestionJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataIngestionJobsOutput, ListDataIngestionJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataIngestionJobsOutput, ListDataIngestionJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1379,7 +1323,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListDatasetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDatasetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatasetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1388,7 +1332,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutputResponse
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1404,21 +1348,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDatasetsInput, ListDatasetsOutputResponse, ListDatasetsOutputError>(id: "listDatasets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetsInput, ListDatasetsOutputResponse, ListDatasetsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetsInput, ListDatasetsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDatasetsInput, ListDatasetsOutput, ListDatasetsOutputError>(id: "listDatasets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetsInput, ListDatasetsOutput, ListDatasetsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetsInput, ListDatasetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDatasetsOutputResponse, ListDatasetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDatasetsOutput, ListDatasetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDatasetsInput, ListDatasetsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListDatasets"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDatasetsInput, ListDatasetsOutputResponse>(xmlName: "ListDatasetsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDatasetsInput, ListDatasetsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDatasetsInput, ListDatasetsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListDatasets"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDatasetsInput, ListDatasetsOutput>(xmlName: "ListDatasetsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDatasetsInput, ListDatasetsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDatasetsOutputResponse, ListDatasetsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDatasetsOutput, ListDatasetsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetsOutputResponse, ListDatasetsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetsOutputResponse, ListDatasetsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetsOutputResponse, ListDatasetsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetsOutput, ListDatasetsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetsOutput, ListDatasetsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetsOutput, ListDatasetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1427,7 +1371,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListInferenceEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInferenceEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1437,7 +1381,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listInferenceEvents(input: ListInferenceEventsInput) async throws -> ListInferenceEventsOutputResponse
+    public func listInferenceEvents(input: ListInferenceEventsInput) async throws -> ListInferenceEventsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1453,21 +1397,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInferenceEventsInput, ListInferenceEventsOutputResponse, ListInferenceEventsOutputError>(id: "listInferenceEvents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceEventsInput, ListInferenceEventsOutputResponse, ListInferenceEventsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceEventsInput, ListInferenceEventsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInferenceEventsInput, ListInferenceEventsOutput, ListInferenceEventsOutputError>(id: "listInferenceEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput, ListInferenceEventsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInferenceEventsOutputResponse, ListInferenceEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInferenceEventsOutput, ListInferenceEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInferenceEventsInput, ListInferenceEventsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceEvents"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInferenceEventsInput, ListInferenceEventsOutputResponse>(xmlName: "ListInferenceEventsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInferenceEventsInput, ListInferenceEventsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceEvents"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>(xmlName: "ListInferenceEventsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInferenceEventsOutputResponse, ListInferenceEventsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInferenceEventsOutput, ListInferenceEventsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceEventsOutputResponse, ListInferenceEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceEventsOutputResponse, ListInferenceEventsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInferenceEventsOutputResponse, ListInferenceEventsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceEventsOutput, ListInferenceEventsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceEventsOutput, ListInferenceEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInferenceEventsOutput, ListInferenceEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1476,7 +1420,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListInferenceExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInferenceExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1486,7 +1430,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listInferenceExecutions(input: ListInferenceExecutionsInput) async throws -> ListInferenceExecutionsOutputResponse
+    public func listInferenceExecutions(input: ListInferenceExecutionsInput) async throws -> ListInferenceExecutionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1502,21 +1446,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse, ListInferenceExecutionsOutputError>(id: "listInferenceExecutions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse, ListInferenceExecutionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInferenceExecutionsInput, ListInferenceExecutionsOutput, ListInferenceExecutionsOutputError>(id: "listInferenceExecutions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput, ListInferenceExecutionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInferenceExecutionsOutputResponse, ListInferenceExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInferenceExecutionsOutput, ListInferenceExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceExecutions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse>(xmlName: "ListInferenceExecutionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceExecutions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(xmlName: "ListInferenceExecutionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInferenceExecutionsOutputResponse, ListInferenceExecutionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInferenceExecutionsOutput, ListInferenceExecutionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceExecutionsOutputResponse, ListInferenceExecutionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceExecutionsOutputResponse, ListInferenceExecutionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInferenceExecutionsOutputResponse, ListInferenceExecutionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceExecutionsOutput, ListInferenceExecutionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceExecutionsOutput, ListInferenceExecutionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInferenceExecutionsOutput, ListInferenceExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1525,7 +1469,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListInferenceSchedulersInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceSchedulersOutputResponse` : [no documentation found]
+    /// - Returns: `ListInferenceSchedulersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1534,7 +1478,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listInferenceSchedulers(input: ListInferenceSchedulersInput) async throws -> ListInferenceSchedulersOutputResponse
+    public func listInferenceSchedulers(input: ListInferenceSchedulersInput) async throws -> ListInferenceSchedulersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1550,21 +1494,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse, ListInferenceSchedulersOutputError>(id: "listInferenceSchedulers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse, ListInferenceSchedulersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInferenceSchedulersInput, ListInferenceSchedulersOutput, ListInferenceSchedulersOutputError>(id: "listInferenceSchedulers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput, ListInferenceSchedulersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInferenceSchedulersOutputResponse, ListInferenceSchedulersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInferenceSchedulersOutput, ListInferenceSchedulersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceSchedulers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse>(xmlName: "ListInferenceSchedulersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceSchedulers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(xmlName: "ListInferenceSchedulersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInferenceSchedulersOutputResponse, ListInferenceSchedulersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInferenceSchedulersOutput, ListInferenceSchedulersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceSchedulersOutputResponse, ListInferenceSchedulersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceSchedulersOutputResponse, ListInferenceSchedulersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInferenceSchedulersOutputResponse, ListInferenceSchedulersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceSchedulersOutput, ListInferenceSchedulersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceSchedulersOutput, ListInferenceSchedulersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInferenceSchedulersOutput, ListInferenceSchedulersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1573,7 +1517,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListLabelGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListLabelGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLabelGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1582,7 +1526,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listLabelGroups(input: ListLabelGroupsInput) async throws -> ListLabelGroupsOutputResponse
+    public func listLabelGroups(input: ListLabelGroupsInput) async throws -> ListLabelGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1598,21 +1542,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLabelGroupsInput, ListLabelGroupsOutputResponse, ListLabelGroupsOutputError>(id: "listLabelGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLabelGroupsInput, ListLabelGroupsOutputResponse, ListLabelGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLabelGroupsInput, ListLabelGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLabelGroupsInput, ListLabelGroupsOutput, ListLabelGroupsOutputError>(id: "listLabelGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput, ListLabelGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLabelGroupsOutputResponse, ListLabelGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLabelGroupsOutput, ListLabelGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLabelGroupsInput, ListLabelGroupsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListLabelGroups"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLabelGroupsInput, ListLabelGroupsOutputResponse>(xmlName: "ListLabelGroupsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLabelGroupsInput, ListLabelGroupsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListLabelGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>(xmlName: "ListLabelGroupsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLabelGroupsOutputResponse, ListLabelGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLabelGroupsOutput, ListLabelGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLabelGroupsOutputResponse, ListLabelGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLabelGroupsOutputResponse, ListLabelGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLabelGroupsOutputResponse, ListLabelGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLabelGroupsOutput, ListLabelGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLabelGroupsOutput, ListLabelGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLabelGroupsOutput, ListLabelGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1621,7 +1565,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListLabelsInput : [no documentation found]
     ///
-    /// - Returns: `ListLabelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLabelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1630,7 +1574,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listLabels(input: ListLabelsInput) async throws -> ListLabelsOutputResponse
+    public func listLabels(input: ListLabelsInput) async throws -> ListLabelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1646,21 +1590,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLabelsInput, ListLabelsOutputResponse, ListLabelsOutputError>(id: "listLabels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLabelsInput, ListLabelsOutputResponse, ListLabelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLabelsInput, ListLabelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLabelsInput, ListLabelsOutput, ListLabelsOutputError>(id: "listLabels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLabelsInput, ListLabelsOutput, ListLabelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLabelsInput, ListLabelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLabelsOutputResponse, ListLabelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLabelsOutput, ListLabelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLabelsInput, ListLabelsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListLabels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLabelsInput, ListLabelsOutputResponse>(xmlName: "ListLabelsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLabelsInput, ListLabelsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLabelsInput, ListLabelsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListLabels"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLabelsInput, ListLabelsOutput>(xmlName: "ListLabelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLabelsInput, ListLabelsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLabelsOutputResponse, ListLabelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLabelsOutput, ListLabelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLabelsOutputResponse, ListLabelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLabelsOutputResponse, ListLabelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLabelsOutputResponse, ListLabelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLabelsOutput, ListLabelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLabelsOutput, ListLabelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLabelsOutput, ListLabelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1669,7 +1613,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListModelVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListModelVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1679,7 +1623,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listModelVersions(input: ListModelVersionsInput) async throws -> ListModelVersionsOutputResponse
+    public func listModelVersions(input: ListModelVersionsInput) async throws -> ListModelVersionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1695,21 +1639,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListModelVersionsInput, ListModelVersionsOutputResponse, ListModelVersionsOutputError>(id: "listModelVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelVersionsInput, ListModelVersionsOutputResponse, ListModelVersionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelVersionsInput, ListModelVersionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListModelVersionsInput, ListModelVersionsOutput, ListModelVersionsOutputError>(id: "listModelVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelVersionsInput, ListModelVersionsOutput, ListModelVersionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelVersionsInput, ListModelVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListModelVersionsOutputResponse, ListModelVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListModelVersionsOutput, ListModelVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListModelVersionsInput, ListModelVersionsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListModelVersions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListModelVersionsInput, ListModelVersionsOutputResponse>(xmlName: "ListModelVersionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListModelVersionsInput, ListModelVersionsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListModelVersionsInput, ListModelVersionsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListModelVersions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListModelVersionsInput, ListModelVersionsOutput>(xmlName: "ListModelVersionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListModelVersionsInput, ListModelVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListModelVersionsOutputResponse, ListModelVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListModelVersionsOutput, ListModelVersionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelVersionsOutputResponse, ListModelVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelVersionsOutputResponse, ListModelVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListModelVersionsOutputResponse, ListModelVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelVersionsOutput, ListModelVersionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelVersionsOutput, ListModelVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListModelVersionsOutput, ListModelVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1718,7 +1662,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListModelsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1727,7 +1671,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listModels(input: ListModelsInput) async throws -> ListModelsOutputResponse
+    public func listModels(input: ListModelsInput) async throws -> ListModelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1743,21 +1687,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListModelsInput, ListModelsOutputResponse, ListModelsOutputError>(id: "listModels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelsInput, ListModelsOutputResponse, ListModelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelsInput, ListModelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListModelsInput, ListModelsOutput, ListModelsOutputError>(id: "listModels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelsInput, ListModelsOutput, ListModelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelsInput, ListModelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListModelsOutputResponse, ListModelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListModelsOutput, ListModelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListModelsInput, ListModelsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListModels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListModelsInput, ListModelsOutputResponse>(xmlName: "ListModelsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListModelsInput, ListModelsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListModelsInput, ListModelsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListModels"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListModelsInput, ListModelsOutput>(xmlName: "ListModelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListModelsInput, ListModelsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListModelsOutputResponse, ListModelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListModelsOutput, ListModelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelsOutputResponse, ListModelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelsOutputResponse, ListModelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListModelsOutputResponse, ListModelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelsOutput, ListModelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelsOutput, ListModelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListModelsOutput, ListModelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1766,7 +1710,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListRetrainingSchedulersInput : [no documentation found]
     ///
-    /// - Returns: `ListRetrainingSchedulersOutputResponse` : [no documentation found]
+    /// - Returns: `ListRetrainingSchedulersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1775,7 +1719,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listRetrainingSchedulers(input: ListRetrainingSchedulersInput) async throws -> ListRetrainingSchedulersOutputResponse
+    public func listRetrainingSchedulers(input: ListRetrainingSchedulersInput) async throws -> ListRetrainingSchedulersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1791,21 +1735,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(id: "listRetrainingSchedulers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput, ListRetrainingSchedulersOutputError>(id: "listRetrainingSchedulers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput, ListRetrainingSchedulersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRetrainingSchedulersOutput, ListRetrainingSchedulersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListRetrainingSchedulers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>(xmlName: "ListRetrainingSchedulersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListRetrainingSchedulers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(xmlName: "ListRetrainingSchedulersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRetrainingSchedulersOutput, ListRetrainingSchedulersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRetrainingSchedulersOutput, ListRetrainingSchedulersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRetrainingSchedulersOutput, ListRetrainingSchedulersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRetrainingSchedulersOutput, ListRetrainingSchedulersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1814,7 +1758,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListSensorStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `ListSensorStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSensorStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1824,7 +1768,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listSensorStatistics(input: ListSensorStatisticsInput) async throws -> ListSensorStatisticsOutputResponse
+    public func listSensorStatistics(input: ListSensorStatisticsInput) async throws -> ListSensorStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1840,21 +1784,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse, ListSensorStatisticsOutputError>(id: "listSensorStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse, ListSensorStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSensorStatisticsInput, ListSensorStatisticsOutput, ListSensorStatisticsOutputError>(id: "listSensorStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput, ListSensorStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSensorStatisticsOutputResponse, ListSensorStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSensorStatisticsOutput, ListSensorStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListSensorStatistics"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse>(xmlName: "ListSensorStatisticsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListSensorStatistics"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>(xmlName: "ListSensorStatisticsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSensorStatisticsOutputResponse, ListSensorStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSensorStatisticsOutput, ListSensorStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSensorStatisticsOutputResponse, ListSensorStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSensorStatisticsOutputResponse, ListSensorStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSensorStatisticsOutputResponse, ListSensorStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSensorStatisticsOutput, ListSensorStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSensorStatisticsOutput, ListSensorStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSensorStatisticsOutput, ListSensorStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1863,7 +1807,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1873,7 +1817,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1889,21 +1833,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1912,7 +1856,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1924,7 +1868,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1940,29 +1884,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutResourcePolicyOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>(id: "putResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.PutResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xmlName: "PutResourcePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.PutResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xmlName: "PutResourcePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutput, PutResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1971,7 +1908,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter StartDataIngestionJobInput : [no documentation found]
     ///
-    /// - Returns: `StartDataIngestionJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartDataIngestionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1983,7 +1920,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func startDataIngestionJob(input: StartDataIngestionJobInput) async throws -> StartDataIngestionJobOutputResponse
+    public func startDataIngestionJob(input: StartDataIngestionJobInput) async throws -> StartDataIngestionJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1999,29 +1936,22 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDataIngestionJobInput, StartDataIngestionJobOutputResponse, StartDataIngestionJobOutputError>(id: "startDataIngestionJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartDataIngestionJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutputResponse, StartDataIngestionJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartDataIngestionJobInput, StartDataIngestionJobOutput, StartDataIngestionJobOutputError>(id: "startDataIngestionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput, StartDataIngestionJobOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput, StartDataIngestionJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDataIngestionJobOutputResponse, StartDataIngestionJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDataIngestionJobOutput, StartDataIngestionJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartDataIngestionJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutputResponse>(xmlName: "StartDataIngestionJobRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartDataIngestionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>(xmlName: "StartDataIngestionJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDataIngestionJobOutputResponse, StartDataIngestionJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDataIngestionJobOutput, StartDataIngestionJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDataIngestionJobOutputResponse, StartDataIngestionJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDataIngestionJobOutputResponse, StartDataIngestionJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDataIngestionJobOutputResponse, StartDataIngestionJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDataIngestionJobOutput, StartDataIngestionJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDataIngestionJobOutput, StartDataIngestionJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDataIngestionJobOutput, StartDataIngestionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2030,7 +1960,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter StartInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StartInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StartInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2041,7 +1971,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func startInferenceScheduler(input: StartInferenceSchedulerInput) async throws -> StartInferenceSchedulerOutputResponse
+    public func startInferenceScheduler(input: StartInferenceSchedulerInput) async throws -> StartInferenceSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2057,21 +1987,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartInferenceSchedulerInput, StartInferenceSchedulerOutputResponse, StartInferenceSchedulerOutputError>(id: "startInferenceScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutputResponse, StartInferenceSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartInferenceSchedulerInput, StartInferenceSchedulerOutput, StartInferenceSchedulerOutputError>(id: "startInferenceScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput, StartInferenceSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartInferenceSchedulerOutputResponse, StartInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartInferenceSchedulerOutput, StartInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartInferenceScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutputResponse>(xmlName: "StartInferenceSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartInferenceScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>(xmlName: "StartInferenceSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartInferenceSchedulerOutputResponse, StartInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartInferenceSchedulerOutput, StartInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInferenceSchedulerOutputResponse, StartInferenceSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInferenceSchedulerOutputResponse, StartInferenceSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartInferenceSchedulerOutputResponse, StartInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInferenceSchedulerOutput, StartInferenceSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInferenceSchedulerOutput, StartInferenceSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartInferenceSchedulerOutput, StartInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2080,7 +2010,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter StartRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StartRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StartRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2091,7 +2021,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func startRetrainingScheduler(input: StartRetrainingSchedulerInput) async throws -> StartRetrainingSchedulerOutputResponse
+    public func startRetrainingScheduler(input: StartRetrainingSchedulerInput) async throws -> StartRetrainingSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2107,21 +2037,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(id: "startRetrainingScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput, StartRetrainingSchedulerOutputError>(id: "startRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput, StartRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRetrainingSchedulerOutput, StartRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartRetrainingScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>(xmlName: "StartRetrainingSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>(xmlName: "StartRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRetrainingSchedulerOutput, StartRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRetrainingSchedulerOutput, StartRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRetrainingSchedulerOutput, StartRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRetrainingSchedulerOutput, StartRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2130,7 +2060,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter StopInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StopInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StopInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2141,7 +2071,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func stopInferenceScheduler(input: StopInferenceSchedulerInput) async throws -> StopInferenceSchedulerOutputResponse
+    public func stopInferenceScheduler(input: StopInferenceSchedulerInput) async throws -> StopInferenceSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2157,21 +2087,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopInferenceSchedulerInput, StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>(id: "stopInferenceScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopInferenceSchedulerInput, StopInferenceSchedulerOutput, StopInferenceSchedulerOutputError>(id: "stopInferenceScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput, StopInferenceSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopInferenceSchedulerOutput, StopInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StopInferenceScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutputResponse>(xmlName: "StopInferenceSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StopInferenceScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>(xmlName: "StopInferenceSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopInferenceSchedulerOutput, StopInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInferenceSchedulerOutput, StopInferenceSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInferenceSchedulerOutput, StopInferenceSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopInferenceSchedulerOutput, StopInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2180,7 +2110,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter StopRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StopRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StopRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,7 +2121,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func stopRetrainingScheduler(input: StopRetrainingSchedulerInput) async throws -> StopRetrainingSchedulerOutputResponse
+    public func stopRetrainingScheduler(input: StopRetrainingSchedulerInput) async throws -> StopRetrainingSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2207,21 +2137,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(id: "stopRetrainingScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput, StopRetrainingSchedulerOutputError>(id: "stopRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput, StopRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRetrainingSchedulerOutput, StopRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StopRetrainingScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>(xmlName: "StopRetrainingSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StopRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>(xmlName: "StopRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRetrainingSchedulerOutput, StopRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRetrainingSchedulerOutput, StopRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRetrainingSchedulerOutput, StopRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRetrainingSchedulerOutput, StopRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2230,7 +2160,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2241,7 +2171,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2257,21 +2187,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2280,7 +2210,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,7 +2220,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2306,21 +2236,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2329,7 +2259,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter UpdateActiveModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateActiveModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateActiveModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2340,7 +2270,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateActiveModelVersion(input: UpdateActiveModelVersionInput) async throws -> UpdateActiveModelVersionOutputResponse
+    public func updateActiveModelVersion(input: UpdateActiveModelVersionInput) async throws -> UpdateActiveModelVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2356,21 +2286,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutputResponse, UpdateActiveModelVersionOutputError>(id: "updateActiveModelVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutputResponse, UpdateActiveModelVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput, UpdateActiveModelVersionOutputError>(id: "updateActiveModelVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput, UpdateActiveModelVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateActiveModelVersionOutputResponse, UpdateActiveModelVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateActiveModelVersionOutput, UpdateActiveModelVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateActiveModelVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutputResponse>(xmlName: "UpdateActiveModelVersionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateActiveModelVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>(xmlName: "UpdateActiveModelVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateActiveModelVersionOutputResponse, UpdateActiveModelVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateActiveModelVersionOutput, UpdateActiveModelVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateActiveModelVersionOutputResponse, UpdateActiveModelVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateActiveModelVersionOutputResponse, UpdateActiveModelVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateActiveModelVersionOutputResponse, UpdateActiveModelVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateActiveModelVersionOutput, UpdateActiveModelVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateActiveModelVersionOutput, UpdateActiveModelVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateActiveModelVersionOutput, UpdateActiveModelVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2379,7 +2309,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter UpdateInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2390,7 +2320,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateInferenceScheduler(input: UpdateInferenceSchedulerInput) async throws -> UpdateInferenceSchedulerOutputResponse
+    public func updateInferenceScheduler(input: UpdateInferenceSchedulerInput) async throws -> UpdateInferenceSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2406,21 +2336,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutputResponse, UpdateInferenceSchedulerOutputError>(id: "updateInferenceScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutputResponse, UpdateInferenceSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput, UpdateInferenceSchedulerOutputError>(id: "updateInferenceScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput, UpdateInferenceSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInferenceSchedulerOutputResponse, UpdateInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInferenceSchedulerOutput, UpdateInferenceSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateInferenceScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutputResponse>(xmlName: "UpdateInferenceSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateInferenceScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>(xmlName: "UpdateInferenceSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInferenceSchedulerOutputResponse, UpdateInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInferenceSchedulerOutput, UpdateInferenceSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInferenceSchedulerOutputResponse, UpdateInferenceSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInferenceSchedulerOutputResponse, UpdateInferenceSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInferenceSchedulerOutputResponse, UpdateInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInferenceSchedulerOutput, UpdateInferenceSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInferenceSchedulerOutput, UpdateInferenceSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInferenceSchedulerOutput, UpdateInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2429,7 +2359,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter UpdateLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2440,7 +2370,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateLabelGroup(input: UpdateLabelGroupInput) async throws -> UpdateLabelGroupOutputResponse
+    public func updateLabelGroup(input: UpdateLabelGroupInput) async throws -> UpdateLabelGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2456,21 +2386,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLabelGroupInput, UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>(id: "updateLabelGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateLabelGroupInput, UpdateLabelGroupOutput, UpdateLabelGroupOutputError>(id: "updateLabelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput, UpdateLabelGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLabelGroupOutput, UpdateLabelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateLabelGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutputResponse>(xmlName: "UpdateLabelGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateLabelGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>(xmlName: "UpdateLabelGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLabelGroupOutput, UpdateLabelGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLabelGroupOutput, UpdateLabelGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLabelGroupOutput, UpdateLabelGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLabelGroupOutput, UpdateLabelGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2479,7 +2409,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter UpdateModelInput : [no documentation found]
     ///
-    /// - Returns: `UpdateModelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,7 +2420,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutputResponse
+    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2506,21 +2436,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateModelInput, UpdateModelOutputResponse, UpdateModelOutputError>(id: "updateModel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateModelInput, UpdateModelOutputResponse, UpdateModelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateModelInput, UpdateModelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateModelInput, UpdateModelOutput, UpdateModelOutputError>(id: "updateModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateModelInput, UpdateModelOutput, UpdateModelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateModelInput, UpdateModelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateModelOutputResponse, UpdateModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateModelOutput, UpdateModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateModelInput, UpdateModelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateModel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateModelInput, UpdateModelOutputResponse>(xmlName: "UpdateModelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateModelInput, UpdateModelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateModelInput, UpdateModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateModelInput, UpdateModelOutput>(xmlName: "UpdateModelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateModelInput, UpdateModelOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateModelOutputResponse, UpdateModelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateModelOutput, UpdateModelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateModelOutputResponse, UpdateModelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateModelOutputResponse, UpdateModelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateModelOutputResponse, UpdateModelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateModelOutput, UpdateModelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateModelOutput, UpdateModelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateModelOutput, UpdateModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2529,7 +2459,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     ///
     /// - Parameter UpdateRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2540,7 +2470,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateRetrainingScheduler(input: UpdateRetrainingSchedulerInput) async throws -> UpdateRetrainingSchedulerOutputResponse
+    public func updateRetrainingScheduler(input: UpdateRetrainingSchedulerInput) async throws -> UpdateRetrainingSchedulerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2556,21 +2486,21 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
                       .withSigningName(value: "lookoutequipment")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(id: "updateRetrainingScheduler")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput, UpdateRetrainingSchedulerOutputError>(id: "updateRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput, UpdateRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRetrainingSchedulerOutput, UpdateRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateRetrainingScheduler"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>(xmlName: "UpdateRetrainingSchedulerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>(xmlName: "UpdateRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRetrainingSchedulerOutput, UpdateRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRetrainingSchedulerOutput, UpdateRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRetrainingSchedulerOutput, UpdateRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRetrainingSchedulerOutput, UpdateRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

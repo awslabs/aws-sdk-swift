@@ -28,7 +28,7 @@ public protocol AppConfigDataClientProtocol {
     ///
     /// - Parameter GetLatestConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetLatestConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetLatestConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol AppConfigDataClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getLatestConfiguration(input: GetLatestConfigurationInput) async throws -> GetLatestConfigurationOutputResponse
+    func getLatestConfiguration(input: GetLatestConfigurationInput) async throws -> GetLatestConfigurationOutput
     /// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the [GetLatestConfiguration] API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide.
     ///
     /// - Parameter StartConfigurationSessionInput : [no documentation found]
     ///
-    /// - Returns: `StartConfigurationSessionOutputResponse` : [no documentation found]
+    /// - Returns: `StartConfigurationSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,7 +51,7 @@ public protocol AppConfigDataClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func startConfigurationSession(input: StartConfigurationSessionInput) async throws -> StartConfigurationSessionOutputResponse
+    func startConfigurationSession(input: StartConfigurationSessionInput) async throws -> StartConfigurationSessionOutput
 }
 
 public enum AppConfigDataClientTypes {}

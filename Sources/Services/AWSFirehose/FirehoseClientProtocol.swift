@@ -17,7 +17,7 @@ public protocol FirehoseClientProtocol {
     ///
     /// - Parameter CreateDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -26,41 +26,41 @@ public protocol FirehoseClientProtocol {
     /// - `InvalidKMSResourceException` : Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
-    func createDeliveryStream(input: CreateDeliveryStreamInput) async throws -> CreateDeliveryStreamOutputResponse
+    func createDeliveryStream(input: CreateDeliveryStreamInput) async throws -> CreateDeliveryStreamOutput
     /// Deletes a delivery stream and its data. To check the state of a delivery stream, use [DescribeDeliveryStream]. You can delete a delivery stream only if it is in one of the following states: ACTIVE, DELETING, CREATING_FAILED, or DELETING_FAILED. You can't delete a delivery stream that is in the CREATING state. While the deletion request is in process, the delivery stream is in the DELETING state. While the delivery stream is in the DELETING state, the service might continue to accept records, but it doesn't make any guarantees with respect to delivering the data. Therefore, as a best practice, first stop any applications that are sending records before you delete a delivery stream.
     ///
     /// - Parameter DeleteDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func deleteDeliveryStream(input: DeleteDeliveryStreamInput) async throws -> DeleteDeliveryStreamOutputResponse
+    func deleteDeliveryStream(input: DeleteDeliveryStreamInput) async throws -> DeleteDeliveryStreamOutput
     /// Describes the specified delivery stream and its status. For example, after your delivery stream is created, call DescribeDeliveryStream to see whether the delivery stream is ACTIVE and therefore ready for data to be sent to it. If the status of a delivery stream is CREATING_FAILED, this status doesn't change, and you can't invoke [CreateDeliveryStream] again on it. However, you can invoke the [DeleteDeliveryStream] operation to delete it. If the status is DELETING_FAILED, you can force deletion by invoking [DeleteDeliveryStream] again but with [DeleteDeliveryStreamInput$AllowForceDelete] set to true.
     ///
     /// - Parameter DescribeDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func describeDeliveryStream(input: DescribeDeliveryStreamInput) async throws -> DescribeDeliveryStreamOutputResponse
+    func describeDeliveryStream(input: DescribeDeliveryStreamInput) async throws -> DescribeDeliveryStreamOutput
     /// Lists your delivery streams in alphabetical order of their names. The number of delivery streams might be too large to return using a single call to ListDeliveryStreams. You can limit the number of delivery streams returned, using the Limit parameter. To determine whether there are more delivery streams to list, check the value of HasMoreDeliveryStreams in the output. If there are more delivery streams to list, you can request them by calling this operation again and setting the ExclusiveStartDeliveryStreamName parameter to the name of the last delivery stream returned in the last call.
     ///
     /// - Parameter ListDeliveryStreamsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeliveryStreamsOutputResponse` : [no documentation found]
-    func listDeliveryStreams(input: ListDeliveryStreamsInput) async throws -> ListDeliveryStreamsOutputResponse
+    /// - Returns: `ListDeliveryStreamsOutput` : [no documentation found]
+    func listDeliveryStreams(input: ListDeliveryStreamsInput) async throws -> ListDeliveryStreamsOutput
     /// Lists the tags for the specified delivery stream. This operation has a limit of five transactions per second per account.
     ///
     /// - Parameter ListTagsForDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,12 +68,12 @@ public protocol FirehoseClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter has a value that is not valid.
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func listTagsForDeliveryStream(input: ListTagsForDeliveryStreamInput) async throws -> ListTagsForDeliveryStreamOutputResponse
+    func listTagsForDeliveryStream(input: ListTagsForDeliveryStreamInput) async throws -> ListTagsForDeliveryStreamOutput
     /// Writes a single data record into an Amazon Kinesis Data Firehose delivery stream. To write multiple data records into a delivery stream, use [PutRecordBatch]. Applications using these operations are referred to as producers. By default, each delivery stream can take in up to 2,000 transactions per second, 5,000 records per second, or 5 MB per second. If you use [PutRecord] and [PutRecordBatch], the limits are an aggregate across these two operations for each delivery stream. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html). Kinesis Data Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of incoming bytes/records ingested to a delivery stream last only for a few seconds. Due to this, the actual spikes in the traffic might not be fully visible in the customer's 1 minute CloudWatch metrics. You must specify the name of the delivery stream and the data record when using [PutRecord]. The data record consists of a data blob that can be up to 1,000 KiB in size, and any kind of data. For example, it can be a segment from a log file, geographic location data, website clickstream data, and so on. Kinesis Data Firehose buffers records before delivering them to the destination. To disambiguate the data blobs at the destination, a common solution is to use delimiters in the data, such as a newline (\n) or some other character unique within the data. This allows the consumer application to parse individual data items when reading the data from the destination. The PutRecord operation returns a RecordId, which is a unique string assigned to each record. Producer applications can use this ID for purposes such as auditability and investigation. If the PutRecord operation throws a ServiceUnavailableException, the API is automatically reinvoked (retried) 3 times. If the exception persists, it is possible that the throughput limits have been exceeded for the delivery stream. Re-invoking the Put API operations (for example, PutRecord and PutRecordBatch) can result in data duplicates. For larger data assets, allow for a longer time out before retrying Put API operations. Data records sent to Kinesis Data Firehose are stored for 24 hours from the time they are added to a delivery stream as it tries to send the records to the destination. If the destination is unreachable for more than 24 hours, the data is no longer available. Don't concatenate two or more base64 strings to form the data fields of your records. Instead, concatenate the raw data, then perform base64 encoding.
     ///
     /// - Parameter PutRecordInput : [no documentation found]
     ///
-    /// - Returns: `PutRecordOutputResponse` : [no documentation found]
+    /// - Returns: `PutRecordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol FirehoseClientProtocol {
     /// - `InvalidKMSResourceException` : Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-    func putRecord(input: PutRecordInput) async throws -> PutRecordOutputResponse
+    func putRecord(input: PutRecordInput) async throws -> PutRecordOutput
     /// Writes multiple data records into a delivery stream in a single call, which can achieve higher throughput per producer than when writing single records. To write single data records into a delivery stream, use [PutRecord]. Applications using these operations are referred to as producers. Kinesis Data Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of incoming bytes/records ingested to a delivery stream last only for a few seconds. Due to this, the actual spikes in the traffic might not be fully visible in the customer's 1 minute CloudWatch metrics. For information about service quota, see [Amazon Kinesis Data Firehose Quota](https://docs.aws.amazon.com/firehose/latest/dev/limits.html). Each [PutRecordBatch] request supports up to 500 records. Each record in the request can be as large as 1,000 KB (before base64 encoding), up to a limit of 4 MB for the entire request. These limits cannot be changed. You must specify the name of the delivery stream and the data record when using [PutRecord]. The data record consists of a data blob that can be up to 1,000 KB in size, and any kind of data. For example, it could be a segment from a log file, geographic location data, website clickstream data, and so on. Kinesis Data Firehose buffers records before delivering them to the destination. To disambiguate the data blobs at the destination, a common solution is to use delimiters in the data, such as a newline (\n) or some other character unique within the data. This allows the consumer application to parse individual data items when reading the data from the destination. The [PutRecordBatch] response includes a count of failed records, FailedPutCount, and an array of responses, RequestResponses. Even if the [PutRecordBatch] call succeeds, the value of FailedPutCount may be greater than 0, indicating that there are records for which the operation didn't succeed. Each entry in the RequestResponses array provides additional information about the processed record. It directly correlates with a record in the request array using the same ordering, from the top to the bottom. The response array always includes the same number of records as the request array. RequestResponses includes both successfully and unsuccessfully processed records. Kinesis Data Firehose tries to process all records in each [PutRecordBatch] request. A single record failure does not stop the processing of subsequent records. A successfully processed record includes a RecordId value, which is unique for the record. An unsuccessfully processed record includes ErrorCode and ErrorMessage values. ErrorCode reflects the type of error, and is one of the following values: ServiceUnavailableException or InternalFailure. ErrorMessage provides more detailed information about the error. If there is an internal server error or a timeout, the write might have completed or it might have failed. If FailedPutCount is greater than 0, retry the request, resending only those records that might have failed processing. This minimizes the possible duplicate records and also reduces the total bytes sent (and corresponding charges). We recommend that you handle any duplicates at the destination. If [PutRecordBatch] throws ServiceUnavailableException, the API is automatically reinvoked (retried) 3 times. If the exception persists, it is possible that the throughput limits have been exceeded for the delivery stream. Re-invoking the Put API operations (for example, PutRecord and PutRecordBatch) can result in data duplicates. For larger data assets, allow for a longer time out before retrying Put API operations. Data records sent to Kinesis Data Firehose are stored for 24 hours from the time they are added to a delivery stream as it attempts to send the records to the destination. If the destination is unreachable for more than 24 hours, the data is no longer available. Don't concatenate two or more base64 strings to form the data fields of your records. Instead, concatenate the raw data, then perform base64 encoding.
     ///
     /// - Parameter PutRecordBatchInput : [no documentation found]
     ///
-    /// - Returns: `PutRecordBatchOutputResponse` : [no documentation found]
+    /// - Returns: `PutRecordBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -96,12 +96,12 @@ public protocol FirehoseClientProtocol {
     /// - `InvalidKMSResourceException` : Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-    func putRecordBatch(input: PutRecordBatchInput) async throws -> PutRecordBatchOutputResponse
+    func putRecordBatch(input: PutRecordBatchInput) async throws -> PutRecordBatchOutput
     /// Enables server-side encryption (SSE) for the delivery stream. This operation is asynchronous. It returns immediately. When you invoke it, Kinesis Data Firehose first sets the encryption status of the stream to ENABLING, and then to ENABLED. The encryption status of a delivery stream is the Status property in [DeliveryStreamEncryptionConfiguration]. If the operation fails, the encryption status changes to ENABLING_FAILED. You can continue to read and write data to your delivery stream while the encryption status is ENABLING, but the data is not encrypted. It can take up to 5 seconds after the encryption status changes to ENABLED before all records written to the delivery stream are encrypted. To find out whether a record or a batch of records was encrypted, check the response elements [PutRecordOutput$Encrypted] and [PutRecordBatchOutput$Encrypted], respectively. To check the encryption status of a delivery stream, use [DescribeDeliveryStream]. Even if encryption is currently enabled for a delivery stream, you can still invoke this operation on it to change the ARN of the CMK or both its type and ARN. If you invoke this method to change the CMK, and the old CMK is of type CUSTOMER_MANAGED_CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement. If the new CMK is of type CUSTOMER_MANAGED_CMK, Kinesis Data Firehose creates a grant that enables it to use the new CMK to encrypt and decrypt data and to manage the grant. For the KMS grant creation to be successful, Kinesis Data Firehose APIs StartDeliveryStreamEncryption and CreateDeliveryStream should not be called with session credentials that are more than 6 hours old. If a delivery stream already has encryption enabled and then you invoke this operation to change the ARN of the CMK or both its type and ARN and you get ENABLING_FAILED, this only means that the attempt to change the CMK failed. In this case, encryption remains enabled with the old CMK. If the encryption status of your delivery stream is ENABLING_FAILED, you can invoke this operation again with a valid CMK. The CMK must be enabled and the key policy mustn't explicitly deny the permission for Kinesis Data Firehose to invoke KMS encrypt and decrypt operations. You can enable SSE for a delivery stream only if it's a delivery stream that uses DirectPut as its source. The StartDeliveryStreamEncryption and StopDeliveryStreamEncryption operations have a combined limit of 25 calls per delivery stream per 24 hours. For example, you reach the limit if you call StartDeliveryStreamEncryption 13 times and StopDeliveryStreamEncryption 12 times for the same delivery stream in a 24-hour period.
     ///
     /// - Parameter StartDeliveryStreamEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `StartDeliveryStreamEncryptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartDeliveryStreamEncryptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -111,12 +111,12 @@ public protocol FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func startDeliveryStreamEncryption(input: StartDeliveryStreamEncryptionInput) async throws -> StartDeliveryStreamEncryptionOutputResponse
+    func startDeliveryStreamEncryption(input: StartDeliveryStreamEncryptionInput) async throws -> StartDeliveryStreamEncryptionOutput
     /// Disables server-side encryption (SSE) for the delivery stream. This operation is asynchronous. It returns immediately. When you invoke it, Kinesis Data Firehose first sets the encryption status of the stream to DISABLING, and then to DISABLED. You can continue to read and write data to your stream while its status is DISABLING. It can take up to 5 seconds after the encryption status changes to DISABLED before all records written to the delivery stream are no longer subject to encryption. To find out whether a record or a batch of records was encrypted, check the response elements [PutRecordOutput$Encrypted] and [PutRecordBatchOutput$Encrypted], respectively. To check the encryption state of a delivery stream, use [DescribeDeliveryStream]. If SSE is enabled using a customer managed CMK and then you invoke StopDeliveryStreamEncryption, Kinesis Data Firehose schedules the related KMS grant for retirement and then retires it after it ensures that it is finished delivering records to the destination. The StartDeliveryStreamEncryption and StopDeliveryStreamEncryption operations have a combined limit of 25 calls per delivery stream per 24 hours. For example, you reach the limit if you call StartDeliveryStreamEncryption 13 times and StopDeliveryStreamEncryption 12 times for the same delivery stream in a 24-hour period.
     ///
     /// - Parameter StopDeliveryStreamEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `StopDeliveryStreamEncryptionOutputResponse` : [no documentation found]
+    /// - Returns: `StopDeliveryStreamEncryptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -125,12 +125,12 @@ public protocol FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func stopDeliveryStreamEncryption(input: StopDeliveryStreamEncryptionInput) async throws -> StopDeliveryStreamEncryptionOutputResponse
+    func stopDeliveryStreamEncryption(input: StopDeliveryStreamEncryptionInput) async throws -> StopDeliveryStreamEncryptionOutput
     /// Adds or updates tags for the specified delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide. Each delivery stream can have up to 50 tags. This operation has a limit of five transactions per second per account.
     ///
     /// - Parameter TagDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `TagDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `TagDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func tagDeliveryStream(input: TagDeliveryStreamInput) async throws -> TagDeliveryStreamOutputResponse
+    func tagDeliveryStream(input: TagDeliveryStreamInput) async throws -> TagDeliveryStreamOutput
     /// Removes tags from the specified delivery stream. Removed tags are deleted, and you can't recover them after this operation successfully completes. If you specify a tag that doesn't exist, the operation ignores it. This operation has a limit of five transactions per second per account.
     ///
     /// - Parameter UntagDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `UntagDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `UntagDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -153,12 +153,12 @@ public protocol FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func untagDeliveryStream(input: UntagDeliveryStreamInput) async throws -> UntagDeliveryStreamOutputResponse
+    func untagDeliveryStream(input: UntagDeliveryStreamInput) async throws -> UntagDeliveryStreamOutput
     /// Updates the specified destination of the specified delivery stream. Use this operation to change the destination type (for example, to replace the Amazon S3 destination with Amazon Redshift) or change the parameters associated with a destination (for example, to change the bucket name of the Amazon S3 destination). The update might not occur immediately. The target delivery stream remains active while the configurations are updated, so data writes to the delivery stream can continue during this process. The updated configurations are usually effective within a few minutes. Switching between Amazon OpenSearch Service and other services is not supported. For an Amazon OpenSearch Service destination, you can only update to another Amazon OpenSearch Service destination. If the destination type is the same, Kinesis Data Firehose merges the configuration parameters specified with the destination configuration that already exists on the delivery stream. If any of the parameters are not specified in the call, the existing values are retained. For example, in the Amazon S3 destination, if [EncryptionConfiguration] is not specified, then the existing EncryptionConfiguration is maintained on the destination. If the destination type is not the same, for example, changing the destination from Amazon S3 to Amazon Redshift, Kinesis Data Firehose does not merge any parameters. In this case, all parameters must be specified. Kinesis Data Firehose uses CurrentDeliveryStreamVersionId to avoid race conditions and conflicting merges. This is a required field, and the service updates the configuration only if the existing configuration has a version ID that matches. After the update is applied successfully, the version ID is updated, and can be retrieved using [DescribeDeliveryStream]. Use the new version ID to set CurrentDeliveryStreamVersionId in the next call.
     ///
     /// - Parameter UpdateDestinationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -167,7 +167,7 @@ public protocol FirehoseClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter has a value that is not valid.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutputResponse
+    func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
 }
 
 public enum FirehoseClientTypes {}

@@ -8,7 +8,7 @@ public protocol MacieClientProtocol {
     ///
     /// - Parameter AssociateMemberAccountInput : [no documentation found]
     ///
-    /// - Returns: `AssociateMemberAccountOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateMemberAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16,12 +16,12 @@ public protocol MacieClientProtocol {
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : (Discontinued) The request was rejected because it attempted to create resources beyond the current Amazon Web Services account quotas. The error code describes the quota exceeded.
-    func associateMemberAccount(input: AssociateMemberAccountInput) async throws -> AssociateMemberAccountOutputResponse
+    func associateMemberAccount(input: AssociateMemberAccountInput) async throws -> AssociateMemberAccountOutput
     /// (Discontinued) Associates specified S3 resources with Amazon Macie Classic for monitoring and data classification. If memberAccountId isn't specified, the action associates specified S3 resources with Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action associates specified S3 resources with Macie Classic for the specified member account.
     ///
     /// - Parameter AssociateS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `AssociateS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -30,24 +30,24 @@ public protocol MacieClientProtocol {
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : (Discontinued) The request was rejected because it attempted to create resources beyond the current Amazon Web Services account quotas. The error code describes the quota exceeded.
-    func associateS3Resources(input: AssociateS3ResourcesInput) async throws -> AssociateS3ResourcesOutputResponse
+    func associateS3Resources(input: AssociateS3ResourcesInput) async throws -> AssociateS3ResourcesOutput
     /// (Discontinued) Removes the specified member account from Amazon Macie Classic.
     ///
     /// - Parameter DisassociateMemberAccountInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateMemberAccountOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateMemberAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    func disassociateMemberAccount(input: DisassociateMemberAccountInput) async throws -> DisassociateMemberAccountOutputResponse
+    func disassociateMemberAccount(input: DisassociateMemberAccountInput) async throws -> DisassociateMemberAccountOutput
     /// (Discontinued) Removes specified S3 resources from being monitored by Amazon Macie Classic. If memberAccountId isn't specified, the action removes specified S3 resources from Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action removes specified S3 resources from Macie Classic for the specified member account.
     ///
     /// - Parameter DisassociateS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -55,24 +55,24 @@ public protocol MacieClientProtocol {
     /// - `AccessDeniedException` : (Discontinued) You do not have required permissions to access the requested resource.
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    func disassociateS3Resources(input: DisassociateS3ResourcesInput) async throws -> DisassociateS3ResourcesOutputResponse
+    func disassociateS3Resources(input: DisassociateS3ResourcesInput) async throws -> DisassociateS3ResourcesOutput
     /// (Discontinued) Lists all Amazon Macie Classic member accounts for the current Macie Classic administrator account.
     ///
     /// - Parameter ListMemberAccountsInput : [no documentation found]
     ///
-    /// - Returns: `ListMemberAccountsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMemberAccountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutputResponse
+    func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutput
     /// (Discontinued) Lists all the S3 resources associated with Amazon Macie Classic. If memberAccountId isn't specified, the action lists the S3 resources associated with Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action lists the S3 resources associated with Macie Classic for the specified member account.
     ///
     /// - Parameter ListS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,12 +80,12 @@ public protocol MacieClientProtocol {
     /// - `AccessDeniedException` : (Discontinued) You do not have required permissions to access the requested resource.
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    func listS3Resources(input: ListS3ResourcesInput) async throws -> ListS3ResourcesOutputResponse
+    func listS3Resources(input: ListS3ResourcesInput) async throws -> ListS3ResourcesOutput
     /// (Discontinued) Updates the classification types for the specified S3 resources. If memberAccountId isn't specified, the action updates the classification types of the S3 resources associated with Amazon Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action updates the classification types of the S3 resources associated with Macie Classic for the specified member account.
     ///
     /// - Parameter UpdateS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -93,7 +93,7 @@ public protocol MacieClientProtocol {
     /// - `AccessDeniedException` : (Discontinued) You do not have required permissions to access the requested resource.
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    func updateS3Resources(input: UpdateS3ResourcesInput) async throws -> UpdateS3ResourcesOutputResponse
+    func updateS3Resources(input: UpdateS3ResourcesInput) async throws -> UpdateS3ResourcesOutput
 }
 
 public enum MacieClientTypes {}

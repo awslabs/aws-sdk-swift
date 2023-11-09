@@ -15,7 +15,7 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     ///
     /// - Parameter DeleteHumanLoopInput : [no documentation found]
     ///
-    /// - Returns: `DeleteHumanLoopOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteHumanLoopOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24,12 +24,12 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    func deleteHumanLoop(input: DeleteHumanLoopInput) async throws -> DeleteHumanLoopOutputResponse
+    func deleteHumanLoop(input: DeleteHumanLoopInput) async throws -> DeleteHumanLoopOutput
     /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error.
     ///
     /// - Parameter DescribeHumanLoopInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHumanLoopOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHumanLoopOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -38,12 +38,12 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    func describeHumanLoop(input: DescribeHumanLoopInput) async throws -> DescribeHumanLoopOutputResponse
+    func describeHumanLoop(input: DescribeHumanLoopInput) async throws -> DescribeHumanLoopOutput
     /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     ///
     /// - Parameter ListHumanLoopsInput : [no documentation found]
     ///
-    /// - Returns: `ListHumanLoopsOutputResponse` : [no documentation found]
+    /// - Returns: `ListHumanLoopsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,12 +52,12 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    func listHumanLoops(input: ListHumanLoopsInput) async throws -> ListHumanLoopsOutputResponse
+    func listHumanLoops(input: ListHumanLoopsInput) async throws -> ListHumanLoopsOutput
     /// Starts a human loop, provided that at least one activation condition is met.
     ///
     /// - Parameter StartHumanLoopInput : [no documentation found]
     ///
-    /// - Returns: `StartHumanLoopOutputResponse` : [no documentation found]
+    /// - Returns: `StartHumanLoopOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -67,12 +67,12 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your AWS account. For a list of Amazon A2I service quotes, see [Amazon Augmented AI Service Quotes](https://docs.aws.amazon.com/general/latest/gr/a2i.html). Delete some resources or request an increase in your service quota. You can request a quota increase using Service Quotas or the AWS Support Center. To request an increase, see [AWS Service Quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) in the AWS General Reference.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    func startHumanLoop(input: StartHumanLoopInput) async throws -> StartHumanLoopOutputResponse
+    func startHumanLoop(input: StartHumanLoopInput) async throws -> StartHumanLoopOutput
     /// Stops the specified human loop.
     ///
     /// - Parameter StopHumanLoopInput : [no documentation found]
     ///
-    /// - Returns: `StopHumanLoopOutputResponse` : [no documentation found]
+    /// - Returns: `StopHumanLoopOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,7 +81,7 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    func stopHumanLoop(input: StopHumanLoopInput) async throws -> StopHumanLoopOutputResponse
+    func stopHumanLoop(input: StopHumanLoopInput) async throws -> StopHumanLoopOutput
 }
 
 public enum SageMakerA2IRuntimeClientTypes {}

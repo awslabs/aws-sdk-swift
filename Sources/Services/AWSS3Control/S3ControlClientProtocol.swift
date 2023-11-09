@@ -14,8 +14,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter CreateAccessPointInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccessPointOutputResponse` : [no documentation found]
-    func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutputResponse
+    /// - Returns: `CreateAccessPointOutput` : [no documentation found]
+    func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput
     /// Creates an Object Lambda Access Point. For more information, see [Transforming objects with Object Lambda Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. The following actions are related to CreateAccessPointForObjectLambda:
     ///
     /// * [DeleteAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointForObjectLambda.html)
@@ -26,8 +26,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter CreateAccessPointForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccessPointForObjectLambdaOutputResponse` : [no documentation found]
-    func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutputResponse
+    /// - Returns: `CreateAccessPointForObjectLambdaOutput` : [no documentation found]
+    func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutput
     /// This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see [Create Bucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html) in the Amazon S3 API Reference. Creates a new Outposts bucket. By creating the bucket, you become the bucket owner. To create an Outposts bucket, you must have S3 on Outposts. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. Not every string is an acceptable bucket name. For information on bucket naming restrictions, see [Working with Amazon S3 Buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html#bucketnamingrules). S3 on Outposts buckets support:
     ///
     /// * Tags
@@ -49,14 +49,14 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter CreateBucketInput : [no documentation found]
     ///
-    /// - Returns: `CreateBucketOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBucketOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BucketAlreadyExists` : The requested Outposts bucket name is not available. The bucket namespace is shared by all users of the Outposts in this Region. Select a different name and try again.
     /// - `BucketAlreadyOwnedByYou` : The Outposts bucket you tried to create already exists, and you own it.
-    func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutputResponse
+    func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput
     /// You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. This action creates a S3 Batch Operations job. Related actions include:
     ///
     /// * [DescribeJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeJob.html)
@@ -71,7 +71,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter CreateJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,7 +80,7 @@ public protocol S3ControlClientProtocol {
     /// - `IdempotencyException` :
     /// - `InternalServiceException` :
     /// - `TooManyRequestsException` :
-    func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
+    func createJob(input: CreateJobInput) async throws -> CreateJobOutput
     /// Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see [Creating Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:
     ///
     /// * [DeleteMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html)
@@ -93,8 +93,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter CreateMultiRegionAccessPointInput : [no documentation found]
     ///
-    /// - Returns: `CreateMultiRegionAccessPointOutputResponse` : [no documentation found]
-    func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutputResponse
+    /// - Returns: `CreateMultiRegionAccessPointOutput` : [no documentation found]
+    func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutput
     /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html#API_control_DeleteAccessPoint_Examples) section. The following actions are related to DeleteAccessPoint:
     ///
     /// * [CreateAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html)
@@ -105,8 +105,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteAccessPointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessPointOutputResponse` : [no documentation found]
-    func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutputResponse
+    /// - Returns: `DeleteAccessPointOutput` : [no documentation found]
+    func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput
     /// Deletes the specified Object Lambda Access Point. The following actions are related to DeleteAccessPointForObjectLambda:
     ///
     /// * [CreateAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPointForObjectLambda.html)
@@ -117,8 +117,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteAccessPointForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessPointForObjectLambdaOutputResponse` : [no documentation found]
-    func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutputResponse
+    /// - Returns: `DeleteAccessPointForObjectLambdaOutput` : [no documentation found]
+    func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutput
     /// Deletes the access point policy for the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html#API_control_DeleteAccessPointPolicy_Examples) section. The following actions are related to DeleteAccessPointPolicy:
     ///
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
@@ -127,8 +127,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteAccessPointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessPointPolicyOutputResponse` : [no documentation found]
-    func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutputResponse
+    /// - Returns: `DeleteAccessPointPolicyOutput` : [no documentation found]
+    func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutput
     /// Removes the resource policy for an Object Lambda Access Point. The following actions are related to DeleteAccessPointPolicyForObjectLambda:
     ///
     /// * [GetAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicyForObjectLambda.html)
@@ -137,8 +137,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessPointPolicyForObjectLambdaOutputResponse` : [no documentation found]
-    func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutputResponse
+    /// - Returns: `DeleteAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput
     /// This action deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html) in the Amazon S3 API Reference. Deletes the Amazon S3 on Outposts bucket. All objects (including all object versions and delete markers) in the bucket must be deleted before the bucket itself can be deleted. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucket.html#API_control_DeleteBucket_Examples) section. Related Resources
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html)
@@ -149,8 +149,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteBucketInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketOutputResponse` : [no documentation found]
-    func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutputResponse
+    /// - Returns: `DeleteBucketOutput` : [no documentation found]
+    func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput
     /// This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete an S3 bucket's lifecycle configuration, see [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html) in the Amazon S3 API Reference. Deletes the lifecycle configuration from the specified Outposts bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. To use this action, you must have permission to perform the s3-outposts:DeleteLifecycleConfiguration action. By default, the bucket owner has this permission and the Outposts bucket owner can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html#API_control_DeleteBucketLifecycleConfiguration_Examples) section. For more information about object expiration, see [Elements to Describe Lifecycle Actions](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions). Related actions include:
     ///
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html)
@@ -159,8 +159,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteBucketLifecycleConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketLifecycleConfigurationOutputResponse` : [no documentation found]
-    func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutputResponse
+    /// - Returns: `DeleteBucketLifecycleConfigurationOutput` : [no documentation found]
+    func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutput
     /// This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy, see [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketPolicy.html) in the Amazon S3 API Reference. This implementation of the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3 on Outposts bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account to use this action. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action. For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html#API_control_DeleteBucketPolicy_Examples) section. The following actions are related to DeleteBucketPolicy:
     ///
     /// * [GetBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html)
@@ -169,8 +169,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteBucketPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketPolicyOutputResponse` : [no documentation found]
-    func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutputResponse
+    /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
+    func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput
     /// This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To delete an S3 bucket's replication configuration, see [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html) in the Amazon S3 API Reference. Deletes the replication configuration from the specified S3 on Outposts bucket. To use this operation, you must have permissions to perform the s3-outposts:PutReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see [Setting up IAM with S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsIAM.html) and [Managing access to S3 on Outposts buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsBucketPolicy.html) in the Amazon S3 User Guide. It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html#API_control_DeleteBucketReplication_Examples) section. For information about S3 replication on Outposts configuration, see [Replicating objects for S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html) in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:
     ///
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketReplication.html)
@@ -179,8 +179,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteBucketReplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketReplicationOutputResponse` : [no documentation found]
-    func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutputResponse
+    /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
+    func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput
     /// This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags, see [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html) in the Amazon S3 API Reference. Deletes the tags from the Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. To use this action, you must have permission to perform the PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html#API_control_DeleteBucketTagging_Examples) section. The following actions are related to DeleteBucketTagging:
     ///
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketTagging.html)
@@ -189,8 +189,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteBucketTaggingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketTaggingOutputResponse` : [no documentation found]
-    func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutputResponse
+    /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
+    func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput
     /// Removes the entire tag set from the specified S3 Batch Operations job. To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see [Controlling access and labeling jobs using tags](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags) in the Amazon S3 User Guide. Related actions include:
     ///
     /// * [CreateJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html)
@@ -201,7 +201,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteJobTaggingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteJobTaggingOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteJobTaggingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,7 +209,7 @@ public protocol S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    func deleteJobTagging(input: DeleteJobTaggingInput) async throws -> DeleteJobTaggingOutputResponse
+    func deleteJobTagging(input: DeleteJobTaggingInput) async throws -> DeleteJobTaggingOutput
     /// Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
@@ -222,8 +222,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeleteMultiRegionAccessPointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMultiRegionAccessPointOutputResponse` : [no documentation found]
-    func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutputResponse
+    /// - Returns: `DeleteMultiRegionAccessPointOutput` : [no documentation found]
+    func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutput
     /// Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetPublicAccessBlock.html)
@@ -232,20 +232,20 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
     ///
-    /// - Returns: `DeletePublicAccessBlockOutputResponse` : [no documentation found]
-    func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutputResponse
+    /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
+    func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput
     /// Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter DeleteStorageLensConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStorageLensConfigurationOutputResponse` : [no documentation found]
-    func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutputResponse
+    /// - Returns: `DeleteStorageLensConfigurationOutput` : [no documentation found]
+    func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutput
     /// Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter DeleteStorageLensConfigurationTaggingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStorageLensConfigurationTaggingOutputResponse` : [no documentation found]
-    func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutputResponse
+    /// - Returns: `DeleteStorageLensConfigurationTaggingOutput` : [no documentation found]
+    func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutput
     /// Retrieves the configuration parameters and status for a Batch Operations job. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Related actions include:
     ///
     /// * [CreateJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html)
@@ -258,7 +258,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DescribeJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -267,7 +267,7 @@ public protocol S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutputResponse
+    func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
     /// Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
@@ -280,8 +280,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter DescribeMultiRegionAccessPointOperationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMultiRegionAccessPointOperationOutputResponse` : [no documentation found]
-    func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutputResponse
+    /// - Returns: `DescribeMultiRegionAccessPointOperationOutput` : [no documentation found]
+    func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutput
     /// Returns configuration information about the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html#API_control_GetAccessPoint_Examples) section. The following actions are related to GetAccessPoint:
     ///
     /// * [CreateAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html)
@@ -292,16 +292,16 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetAccessPointInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPointOutputResponse` : [no documentation found]
-    func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutputResponse
+    /// - Returns: `GetAccessPointOutput` : [no documentation found]
+    func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutput
     /// Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:
     ///
     /// * [PutAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointConfigurationForObjectLambda.html)
     ///
     /// - Parameter GetAccessPointConfigurationForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPointConfigurationForObjectLambdaOutputResponse` : [no documentation found]
-    func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutputResponse
+    /// - Returns: `GetAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
+    func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutput
     /// Returns configuration information about the specified Object Lambda Access Point The following actions are related to GetAccessPointForObjectLambda:
     ///
     /// * [CreateAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPointForObjectLambda.html)
@@ -312,8 +312,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetAccessPointForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPointForObjectLambdaOutputResponse` : [no documentation found]
-    func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutputResponse
+    /// - Returns: `GetAccessPointForObjectLambdaOutput` : [no documentation found]
+    func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutput
     /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:
     ///
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
@@ -322,8 +322,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetAccessPointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPointPolicyOutputResponse` : [no documentation found]
-    func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutputResponse
+    /// - Returns: `GetAccessPointPolicyOutput` : [no documentation found]
+    func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutput
     /// Returns the resource policy for an Object Lambda Access Point. The following actions are related to GetAccessPointPolicyForObjectLambda:
     ///
     /// * [DeleteAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicyForObjectLambda.html)
@@ -332,20 +332,20 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPointPolicyForObjectLambdaOutputResponse` : [no documentation found]
-    func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutputResponse
+    /// - Returns: `GetAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutput
     /// Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter GetAccessPointPolicyStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPointPolicyStatusOutputResponse` : [no documentation found]
-    func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutputResponse
+    /// - Returns: `GetAccessPointPolicyStatusOutput` : [no documentation found]
+    func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutput
     /// Returns the status of the resource policy associated with an Object Lambda Access Point.
     ///
     /// - Parameter GetAccessPointPolicyStatusForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPointPolicyStatusForObjectLambdaOutputResponse` : [no documentation found]
-    func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutputResponse
+    /// - Returns: `GetAccessPointPolicyStatusForObjectLambdaOutput` : [no documentation found]
+    func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput
     /// Gets an Amazon S3 on Outposts bucket. For more information, see [ Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucket.html#API_control_GetBucket_Examples) section.
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
@@ -356,8 +356,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetBucketInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketOutputResponse` : [no documentation found]
-    func getBucket(input: GetBucketInput) async throws -> GetBucketOutputResponse
+    /// - Returns: `GetBucketOutput` : [no documentation found]
+    func getBucket(input: GetBucketInput) async throws -> GetBucketOutput
     /// This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html) in the Amazon S3 API Reference. Returns the lifecycle configuration information set on the Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) and for information about lifecycle configuration, see [ Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html) in Amazon S3 User Guide. To use this action, you must have permission to perform the s3-outposts:GetLifecycleConfiguration action. The Outposts bucket owner has this permission, by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html#API_control_GetBucketLifecycleConfiguration_Examples) section. GetBucketLifecycleConfiguration has the following special error:
     ///
     /// * Error code: NoSuchLifecycleConfiguration
@@ -380,8 +380,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketLifecycleConfigurationOutputResponse` : [no documentation found]
-    func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutputResponse
+    /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
+    func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput
     /// This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for an S3 bucket, see [GetBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicy.html) in the Amazon S3 API Reference. Returns the policy of a specified Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action. For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html#API_control_GetBucketPolicy_Examples) section. The following actions are related to GetBucketPolicy:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
@@ -392,8 +392,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetBucketPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketPolicyOutputResponse` : [no documentation found]
-    func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutputResponse
+    /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
+    func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput
     /// This operation gets an Amazon S3 on Outposts bucket's replication configuration. To get an S3 bucket's replication configuration, see [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html) in the Amazon S3 API Reference. Returns the replication configuration of an S3 on Outposts bucket. For more information about S3 on Outposts, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For information about S3 replication on Outposts configuration, see [Replicating objects for S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html) in the Amazon S3 User Guide. It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant. This action requires permissions for the s3-outposts:GetReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see [Setting up IAM with S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsIAM.html) and [Managing access to S3 on Outposts bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsBucketPolicy.html) in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html#API_control_GetBucketReplication_Examples) section. If you include the Filter element in a replication configuration, you must also include the DeleteMarkerReplication, Status, and Priority elements. The response also returns those elements. For information about S3 on Outposts replication failure reasons, see [Replication failure reasons](https://docs.aws.amazon.com/AmazonS3/latest/userguide/outposts-replication-eventbridge.html#outposts-replication-failure-codes) in the Amazon S3 User Guide. The following operations are related to GetBucketReplication:
     ///
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketReplication.html)
@@ -402,8 +402,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetBucketReplicationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketReplicationOutputResponse` : [no documentation found]
-    func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutputResponse
+    /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
+    func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput
     /// This action gets an Amazon S3 on Outposts bucket's tags. To get an S3 bucket tags, see [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html) in the Amazon S3 API Reference. Returns the tag set associated with the Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error:
     ///
     /// * Error code: NoSuchTagSetError
@@ -422,8 +422,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetBucketTaggingInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketTaggingOutputResponse` : [no documentation found]
-    func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutputResponse
+    /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
+    func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput
     /// This operation returns the versioning state for S3 on Outposts buckets only. To return the versioning state for an S3 bucket, see [GetBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html) in the Amazon S3 API Reference. Returns the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. If you've never set versioning on your bucket, it has no versioning state. In that case, the GetBucketVersioning request does not return a versioning state value. For more information about versioning, see [Versioning](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html) in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketVersioning.html#API_control_GetBucketVersioning_Examples) section. The following operations are related to GetBucketVersioning for S3 on Outposts.
     ///
     /// * [PutBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html)
@@ -434,8 +434,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetBucketVersioningInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketVersioningOutputResponse` : [no documentation found]
-    func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutputResponse
+    /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
+    func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput
     /// Returns the tags on an S3 Batch Operations job. To use the GetJobTagging operation, you must have permission to perform the s3:GetJobTagging action. For more information, see [Controlling access and labeling jobs using tags](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags) in the Amazon S3 User Guide. Related actions include:
     ///
     /// * [CreateJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html)
@@ -446,7 +446,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetJobTaggingInput : [no documentation found]
     ///
-    /// - Returns: `GetJobTaggingOutputResponse` : [no documentation found]
+    /// - Returns: `GetJobTaggingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -454,7 +454,7 @@ public protocol S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    func getJobTagging(input: GetJobTaggingInput) async throws -> GetJobTaggingOutputResponse
+    func getJobTagging(input: GetJobTaggingInput) async throws -> GetJobTaggingOutput
     /// Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
@@ -467,8 +467,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetMultiRegionAccessPointInput : [no documentation found]
     ///
-    /// - Returns: `GetMultiRegionAccessPointOutputResponse` : [no documentation found]
-    func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutputResponse
+    /// - Returns: `GetMultiRegionAccessPointOutput` : [no documentation found]
+    func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutput
     /// Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:
     ///
     /// * [GetMultiRegionAccessPointPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html)
@@ -477,8 +477,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetMultiRegionAccessPointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetMultiRegionAccessPointPolicyOutputResponse` : [no documentation found]
-    func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutputResponse
+    /// - Returns: `GetMultiRegionAccessPointPolicyOutput` : [no documentation found]
+    func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutput
     /// Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:
     ///
     /// * [GetMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html)
@@ -487,8 +487,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetMultiRegionAccessPointPolicyStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetMultiRegionAccessPointPolicyStatusOutputResponse` : [no documentation found]
-    func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutputResponse
+    /// - Returns: `GetMultiRegionAccessPointPolicyStatusOutput` : [no documentation found]
+    func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutput
     /// Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:
     ///
     /// * us-east-1
@@ -506,8 +506,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetMultiRegionAccessPointRoutesInput : [no documentation found]
     ///
-    /// - Returns: `GetMultiRegionAccessPointRoutesOutputResponse` : [no documentation found]
-    func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutputResponse
+    /// - Returns: `GetMultiRegionAccessPointRoutesOutput` : [no documentation found]
+    func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutput
     /// Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeletePublicAccessBlock.html)
@@ -516,25 +516,25 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter GetPublicAccessBlockInput : [no documentation found]
     ///
-    /// - Returns: `GetPublicAccessBlockOutputResponse` : [no documentation found]
+    /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchPublicAccessBlockConfiguration` : Amazon S3 throws this exception if you make a GetPublicAccessBlock request against an account that doesn't have a PublicAccessBlockConfiguration set.
-    func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutputResponse
+    func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput
     /// Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter GetStorageLensConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetStorageLensConfigurationOutputResponse` : [no documentation found]
-    func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutputResponse
+    /// - Returns: `GetStorageLensConfigurationOutput` : [no documentation found]
+    func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutput
     /// Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter GetStorageLensConfigurationTaggingInput : [no documentation found]
     ///
-    /// - Returns: `GetStorageLensConfigurationTaggingOutputResponse` : [no documentation found]
-    func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutputResponse
+    /// - Returns: `GetStorageLensConfigurationTaggingOutput` : [no documentation found]
+    func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutput
     /// Returns a list of the access points that are owned by the current account that's associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html#API_control_GetAccessPoint_Examples) section. The following actions are related to ListAccessPoints:
     ///
     /// * [CreateAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html)
@@ -545,8 +545,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter ListAccessPointsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessPointsOutputResponse` : [no documentation found]
-    func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutputResponse
+    /// - Returns: `ListAccessPointsOutput` : [no documentation found]
+    func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutput
     /// Returns some or all (up to 1,000) access points associated with the Object Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continuation token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda:
     ///
     /// * [CreateAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPointForObjectLambda.html)
@@ -557,8 +557,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter ListAccessPointsForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessPointsForObjectLambdaOutputResponse` : [no documentation found]
-    func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutputResponse
+    /// - Returns: `ListAccessPointsForObjectLambdaOutput` : [no documentation found]
+    func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutput
     /// Lists current S3 Batch Operations jobs and jobs that have ended within the last 30 days for the Amazon Web Services account making the request. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Related actions include:
     ///
     /// * [CreateJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html)
@@ -571,7 +571,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter ListJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,7 +579,7 @@ public protocol S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `InvalidNextTokenException` :
     /// - `InvalidRequestException` :
-    func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
+    func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
     /// Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
@@ -592,28 +592,28 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter ListMultiRegionAccessPointsInput : [no documentation found]
     ///
-    /// - Returns: `ListMultiRegionAccessPointsOutputResponse` : [no documentation found]
-    func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutputResponse
+    /// - Returns: `ListMultiRegionAccessPointsOutput` : [no documentation found]
+    func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutput
     /// Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section.
     ///
     /// - Parameter ListRegionalBucketsInput : [no documentation found]
     ///
-    /// - Returns: `ListRegionalBucketsOutputResponse` : [no documentation found]
-    func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutputResponse
+    /// - Returns: `ListRegionalBucketsOutput` : [no documentation found]
+    func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutput
     /// Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter ListStorageLensConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListStorageLensConfigurationsOutputResponse` : [no documentation found]
-    func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutputResponse
+    /// - Returns: `ListStorageLensConfigurationsOutput` : [no documentation found]
+    func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutput
     /// Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:
     ///
     /// * [GetAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointConfigurationForObjectLambda.html)
     ///
     /// - Parameter PutAccessPointConfigurationForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `PutAccessPointConfigurationForObjectLambdaOutputResponse` : [no documentation found]
-    func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutputResponse
+    /// - Returns: `PutAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
+    func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutput
     /// Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html#API_control_PutAccessPointPolicy_Examples) section. The following actions are related to PutAccessPointPolicy:
     ///
     /// * [GetAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicy.html)
@@ -622,8 +622,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutAccessPointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutAccessPointPolicyOutputResponse` : [no documentation found]
-    func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutputResponse
+    /// - Returns: `PutAccessPointPolicyOutput` : [no documentation found]
+    func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutput
     /// Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see [Creating Object Lambda Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-create.html#olap-create-cli) in the Amazon S3 User Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:
     ///
     /// * [DeleteAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicyForObjectLambda.html)
@@ -632,8 +632,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
-    /// - Returns: `PutAccessPointPolicyForObjectLambdaOutputResponse` : [no documentation found]
-    func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutputResponse
+    /// - Returns: `PutAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutput
     /// This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a lifecycle configuration to an S3 bucket, see [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html) in the Amazon S3 API Reference. Creates a new lifecycle configuration for the S3 on Outposts bucket or replaces an existing lifecycle configuration. Outposts buckets only support lifecycle configurations that delete/expire objects after a certain period of time and abort incomplete multipart uploads. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html#API_control_PutBucketLifecycleConfiguration_Examples) section. The following actions are related to PutBucketLifecycleConfiguration:
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
@@ -642,8 +642,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketLifecycleConfigurationOutputResponse` : [no documentation found]
-    func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutputResponse
+    /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
+    func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput
     /// This action puts a bucket policy to an Amazon S3 on Outposts bucket. To put a policy on an S3 bucket, see [PutBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketPolicy.html) in the Amazon S3 API Reference. Applies an Amazon S3 bucket policy to an Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the PutBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account in order to use this action. If you don't have PutBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action. For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html#API_control_PutBucketPolicy_Examples) section. The following actions are related to PutBucketPolicy:
     ///
     /// * [GetBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html)
@@ -652,8 +652,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutBucketPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketPolicyOutputResponse` : [no documentation found]
-    func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutputResponse
+    /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
+    func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput
     /// This action creates an Amazon S3 on Outposts bucket's replication configuration. To create an S3 bucket's replication configuration, see [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html) in the Amazon S3 API Reference. Creates a replication configuration or replaces an existing one. For information about S3 replication on Outposts configuration, see [Replicating objects for S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html) in the Amazon S3 User Guide. It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant. Specify the replication configuration in the request body. In the replication configuration, you provide the following information:
     ///
     /// * The name of the destination bucket or buckets where you want S3 on Outposts to replicate objects
@@ -671,8 +671,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutBucketReplicationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketReplicationOutputResponse` : [no documentation found]
-    func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutputResponse
+    /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
+    func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput
     /// This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html) in the Amazon S3 API Reference. Sets the tags for an S3 on Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill with tag key values included. Then, to see the cost of combined resources, organize your billing information according to resources with the same tag key values. For example, you can tag several resources with a specific application name, and then organize your billing information to see the total cost of that application across several services. For more information, see [Cost allocation and tagging](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html). Within a bucket, if you add a tag that has the same key as an existing tag, the new value overwrites the old value. For more information, see [ Using cost allocation in Amazon S3 bucket tags](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CostAllocTagging.html). To use this action, you must have permissions to perform the s3-outposts:PutBucketTagging action. The Outposts bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [ Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing access permissions to your Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). PutBucketTagging has the following special errors:
     ///
     /// * Error code: InvalidTagError
@@ -712,8 +712,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutBucketTaggingInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketTaggingOutputResponse` : [no documentation found]
-    func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutputResponse
+    /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
+    func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput
     /// This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see [PutBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html) in the Amazon S3 API Reference. Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following:
     ///
     /// * Enabled - Enables versioning for the objects in the bucket. All objects added to the bucket receive a unique version ID.
@@ -731,8 +731,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutBucketVersioningInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketVersioningOutputResponse` : [no documentation found]
-    func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutputResponse
+    /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
+    func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput
     /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using [GetJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetJobTagging.html), modify that tag set, and use this action to replace the tag set with the one you modified. For more information, see [Controlling access and labeling jobs using tags](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags) in the Amazon S3 User Guide.
     ///
     /// * If you send this request with an empty tag set, Amazon S3 deletes the existing tag set on the Batch Operations job. If you use this method, you are charged for a Tier 1 Request (PUT). For more information, see [Amazon S3 pricing](http://aws.amazon.com/s3/pricing/).
@@ -765,7 +765,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutJobTaggingInput : [no documentation found]
     ///
-    /// - Returns: `PutJobTaggingOutputResponse` : [no documentation found]
+    /// - Returns: `PutJobTaggingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,7 +774,7 @@ public protocol S3ControlClientProtocol {
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
     /// - `TooManyTagsException` : Amazon S3 throws this exception if you have too many tags in your tag set.
-    func putJobTagging(input: PutJobTaggingInput) async throws -> PutJobTaggingOutputResponse
+    func putJobTagging(input: PutJobTaggingInput) async throws -> PutJobTaggingOutput
     /// Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:
     ///
     /// * [GetMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html)
@@ -783,8 +783,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutMultiRegionAccessPointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutMultiRegionAccessPointPolicyOutputResponse` : [no documentation found]
-    func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutputResponse
+    /// - Returns: `PutMultiRegionAccessPointPolicyOutput` : [no documentation found]
+    func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutput
     /// Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetPublicAccessBlock.html)
@@ -793,20 +793,20 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter PutPublicAccessBlockInput : [no documentation found]
     ///
-    /// - Returns: `PutPublicAccessBlockOutputResponse` : [no documentation found]
-    func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutputResponse
+    /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
+    func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput
     /// Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter PutStorageLensConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutStorageLensConfigurationOutputResponse` : [no documentation found]
-    func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutputResponse
+    /// - Returns: `PutStorageLensConfigurationOutput` : [no documentation found]
+    func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutput
     /// Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter PutStorageLensConfigurationTaggingInput : [no documentation found]
     ///
-    /// - Returns: `PutStorageLensConfigurationTaggingOutputResponse` : [no documentation found]
-    func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutputResponse
+    /// - Returns: `PutStorageLensConfigurationTaggingOutput` : [no documentation found]
+    func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutput
     /// Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged. Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect. To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:
     ///
     /// * us-east-1
@@ -824,8 +824,8 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter SubmitMultiRegionAccessPointRoutesInput : [no documentation found]
     ///
-    /// - Returns: `SubmitMultiRegionAccessPointRoutesOutputResponse` : [no documentation found]
-    func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutputResponse
+    /// - Returns: `SubmitMultiRegionAccessPointRoutesOutput` : [no documentation found]
+    func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutput
     /// Updates an existing S3 Batch Operations job's priority. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Related actions include:
     ///
     /// * [CreateJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html)
@@ -838,7 +838,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter UpdateJobPriorityInput : [no documentation found]
     ///
-    /// - Returns: `UpdateJobPriorityOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateJobPriorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,7 +847,7 @@ public protocol S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    func updateJobPriority(input: UpdateJobPriorityInput) async throws -> UpdateJobPriorityOutputResponse
+    func updateJobPriority(input: UpdateJobPriorityInput) async throws -> UpdateJobPriorityOutput
     /// Updates the status for the specified job. Use this action to confirm that you want to run a job or to cancel an existing job. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Related actions include:
     ///
     /// * [CreateJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html)
@@ -860,7 +860,7 @@ public protocol S3ControlClientProtocol {
     ///
     /// - Parameter UpdateJobStatusInput : [no documentation found]
     ///
-    /// - Returns: `UpdateJobStatusOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateJobStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,7 +870,7 @@ public protocol S3ControlClientProtocol {
     /// - `JobStatusException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    func updateJobStatus(input: UpdateJobStatusInput) async throws -> UpdateJobStatusOutputResponse
+    func updateJobStatus(input: UpdateJobStatusInput) async throws -> UpdateJobStatusOutput
 }
 
 public enum S3ControlClientTypes {}

@@ -8,7 +8,7 @@ public protocol BackupStorageClientProtocol {
     ///
     /// - Parameter DeleteObjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteObjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutputResponse
+    func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
     /// Gets the specified object's chunk.
     ///
     /// - Parameter GetChunkInput : [no documentation found]
     ///
-    /// - Returns: `GetChunkOutputResponse` : [no documentation found]
+    /// - Returns: `GetChunkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol BackupStorageClientProtocol {
     /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func getChunk(input: GetChunkInput) async throws -> GetChunkOutputResponse
+    func getChunk(input: GetChunkInput) async throws -> GetChunkOutput
     /// Get metadata associated with an Object.
     ///
     /// - Parameter GetObjectMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetObjectMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -55,12 +55,12 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func getObjectMetadata(input: GetObjectMetadataInput) async throws -> GetObjectMetadataOutputResponse
+    func getObjectMetadata(input: GetObjectMetadataInput) async throws -> GetObjectMetadataOutput
     /// List chunks in a given Object
     ///
     /// - Parameter ListChunksInput : [no documentation found]
     ///
-    /// - Returns: `ListChunksOutputResponse` : [no documentation found]
+    /// - Returns: `ListChunksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -71,12 +71,12 @@ public protocol BackupStorageClientProtocol {
     /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
-    func listChunks(input: ListChunksInput) async throws -> ListChunksOutputResponse
+    func listChunks(input: ListChunksInput) async throws -> ListChunksOutput
     /// List all Objects in a given Backup.
     ///
     /// - Parameter ListObjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListObjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListObjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,12 +89,12 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutputResponse
+    func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput
     /// Complete upload
     ///
     /// - Parameter NotifyObjectCompleteInput : [no documentation found]
     ///
-    /// - Returns: `NotifyObjectCompleteOutputResponse` : [no documentation found]
+    /// - Returns: `NotifyObjectCompleteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -107,12 +107,12 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func notifyObjectComplete(input: NotifyObjectCompleteInput) async throws -> NotifyObjectCompleteOutputResponse
+    func notifyObjectComplete(input: NotifyObjectCompleteInput) async throws -> NotifyObjectCompleteOutput
     /// Upload chunk.
     ///
     /// - Parameter PutChunkInput : [no documentation found]
     ///
-    /// - Returns: `PutChunkOutputResponse` : [no documentation found]
+    /// - Returns: `PutChunkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -125,12 +125,12 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func putChunk(input: PutChunkInput) async throws -> PutChunkOutputResponse
+    func putChunk(input: PutChunkInput) async throws -> PutChunkOutput
     /// Upload object that can store object metadata String and data blob in single API call using inline chunk field.
     ///
     /// - Parameter PutObjectInput : [no documentation found]
     ///
-    /// - Returns: `PutObjectOutputResponse` : [no documentation found]
+    /// - Returns: `PutObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -143,12 +143,12 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func putObject(input: PutObjectInput) async throws -> PutObjectOutputResponse
+    func putObject(input: PutObjectInput) async throws -> PutObjectOutput
     /// Start upload containing one or many chunks.
     ///
     /// - Parameter StartObjectInput : [no documentation found]
     ///
-    /// - Returns: `StartObjectOutputResponse` : [no documentation found]
+    /// - Returns: `StartObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,7 +161,7 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    func startObject(input: StartObjectInput) async throws -> StartObjectOutputResponse
+    func startObject(input: StartObjectInput) async throws -> StartObjectOutput
 }
 
 public enum BackupStorageClientTypes {}

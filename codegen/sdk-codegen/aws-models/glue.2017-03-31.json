@@ -696,7 +696,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -739,7 +738,8 @@
                                     },
                                     "type": "endpoint"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [
@@ -752,7 +752,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -766,7 +765,6 @@
                                             "assign": "PartitionResult"
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -789,7 +787,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -824,7 +821,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -835,14 +831,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -856,14 +854,12 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
-                                                                true,
                                                                 {
                                                                     "fn": "getAttr",
                                                                     "argv": [
@@ -872,11 +868,11 @@
                                                                         },
                                                                         "supportsFIPS"
                                                                     ]
-                                                                }
+                                                                },
+                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -887,14 +883,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS is enabled but this partition does not support FIPS",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -908,7 +906,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -928,7 +925,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -939,14 +935,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "DualStack is enabled but this partition does not support DualStack",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [],
@@ -957,9 +955,11 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
@@ -1615,6 +1615,17 @@
                             "documentation": "Missing region",
                             "expect": {
                                 "error": "Invalid Configuration: Missing Region"
+                            }
+                        },
+                        {
+                            "documentation": "Partition doesn't support DualStack",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         }
                     ],
@@ -3400,7 +3411,6 @@
         "com.amazonaws.glue#BatchSize": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
@@ -5264,6 +5274,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies a target that writes to a Snowflake data source.</p>"
                     }
+                },
+                "ConnectorDataSource": {
+                    "target": "com.amazonaws.glue#ConnectorDataSource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies a source generated with standard connection options.</p>"
+                    }
+                },
+                "ConnectorDataTarget": {
+                    "target": "com.amazonaws.glue#ConnectorDataTarget",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies a target generated with standard connection options.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6438,6 +6460,85 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Specifies the connections used by a job.</p>"
+            }
+        },
+        "com.amazonaws.glue#ConnectorDataSource": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of this source node.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ConnectionType": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>connectionType</code>, as provided to the underlying Glue library. This node type supports\nthe following connection types: </p>\n         <ul>\n            <li>\n               <p>\n                  <code>bigquery</code>\n               </p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Data": {
+                    "target": "com.amazonaws.glue#ConnectorOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map specifying connection options for the node. You can find standard connection options for the\n    corresponding connection type in the\n    <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html\">\n    Connection parameters</a> section of the Glue documentation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "OutputSchemas": {
+                    "target": "com.amazonaws.glue#GlueSchemas",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the data schema for this source.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies a source generated with standard connection options.</p>"
+            }
+        },
+        "com.amazonaws.glue#ConnectorDataTarget": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of this target node.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ConnectionType": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>connectionType</code>, as provided to the underlying Glue library. This node type supports\nthe following connection types: </p>\n         <ul>\n            <li>\n               <p>\n                  <code>bigquery</code>\n               </p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Data": {
+                    "target": "com.amazonaws.glue#ConnectorOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map specifying connection options for the node. You can find standard connection options for the \n    corresponding connection type in the \n    <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html\">\n    Connection parameters</a> section of the Glue documentation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Inputs": {
+                    "target": "com.amazonaws.glue#OneInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The nodes that are inputs to the data target.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies a target generated with standard connection options.</p>"
+            }
+        },
+        "com.amazonaws.glue#ConnectorOptions": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.glue#GenericString"
+            },
+            "value": {
+                "target": "com.amazonaws.glue#GenericString"
             }
         },
         "com.amazonaws.glue#ContextWords": {
@@ -8752,21 +8853,18 @@
                 "SchemaCheckpoint": {
                     "target": "com.amazonaws.glue#SchemaCheckpointNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the checkpoint (the last time the compatibility mode was changed).</p>"
                     }
                 },
                 "LatestSchemaVersion": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The latest version of the schema associated with the returned schema definition.</p>"
                     }
                 },
                 "NextSchemaVersion": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The next version of the schema associated with the returned schema definition.</p>"
                     }
                 },
@@ -13341,7 +13439,6 @@
                 "BatchSize": {
                     "target": "com.amazonaws.glue#BatchSize",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Number of events that must be received from Amazon EventBridge before EventBridge event trigger fires.</p>",
                         "smithy.api#required": {}
                     }
@@ -17545,21 +17642,18 @@
                 "SchemaCheckpoint": {
                     "target": "com.amazonaws.glue#SchemaCheckpointNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the checkpoint (the last time the compatibility mode was changed).</p>"
                     }
                 },
                 "LatestSchemaVersion": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The latest version of the schema associated with the returned schema definition.</p>"
                     }
                 },
                 "NextSchemaVersion": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The next version of the schema associated with the returned schema definition.</p>"
                     }
                 },
@@ -17668,7 +17762,6 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the schema.</p>"
                     }
                 },
@@ -25814,7 +25907,6 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the schema.</p>"
                     }
                 },
@@ -25974,7 +26066,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.glue#QuerySchemaVersionMetadataMaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.</p>"
                     }
                 },
@@ -25992,7 +26083,6 @@
         "com.amazonaws.glue#QuerySchemaVersionMetadataMaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 50
@@ -26315,7 +26405,6 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version of this schema (for sync flow only, in case this is the first version).</p>"
                     }
                 },
@@ -26533,7 +26622,6 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the schema.</p>"
                     }
                 },
@@ -28113,7 +28201,6 @@
         "com.amazonaws.glue#SchemaCheckpointNumber": {
             "type": "long",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100000
@@ -28274,7 +28361,6 @@
                 "SchemaVersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The version number of the schema.</p>"
                     }
                 }
@@ -28334,7 +28420,6 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the schema.</p>"
                     }
                 },
@@ -28389,7 +28474,6 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the schema.</p>"
                     }
                 },
@@ -28423,7 +28507,6 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.glue#VersionLongNumber",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The version number of the schema.</p>"
                     }
                 }
@@ -28632,7 +28715,6 @@
                 "TotalSegments": {
                     "target": "com.amazonaws.glue#TotalSegmentsInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The total number of segments.</p>",
                         "smithy.api#required": {}
                     }
@@ -29322,6 +29404,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "GITHUB"
+                    }
+                },
+                "GITLAB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "GITLAB"
+                    }
+                },
+                "BITBUCKET": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BITBUCKET"
                     }
                 },
                 "AWS_CODE_COMMIT": {
@@ -31913,7 +32007,6 @@
         "com.amazonaws.glue#TotalSegmentsInteger": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 10
@@ -33614,13 +33707,13 @@
                 "Provider": {
                     "target": "com.amazonaws.glue#SourceControlProvider",
                     "traits": {
-                        "smithy.api#documentation": "<p>The provider for the remote repository.</p>"
+                        "smithy.api#documentation": "<p>\n      The provider for the remote repository. Possible values: GITHUB, AWS_CODE_COMMIT, GITLAB, BITBUCKET.\n    </p>"
                     }
                 },
                 "RepositoryName": {
                     "target": "com.amazonaws.glue#NameString",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the remote repository that contains the job artifacts.</p>"
+                        "smithy.api#documentation": "<p>The name of the remote repository that contains the job artifacts. \n      For BitBucket providers, <code>RepositoryName</code> should include <code>WorkspaceName</code>.\n      Use the format <code><WorkspaceName>/<RepositoryName></code>. \n    </p>"
                     }
                 },
                 "RepositoryOwner": {
@@ -34137,13 +34230,13 @@
                 "Provider": {
                     "target": "com.amazonaws.glue#SourceControlProvider",
                     "traits": {
-                        "smithy.api#documentation": "<p>The provider for the remote repository.</p>"
+                        "smithy.api#documentation": "<p>\n      The provider for the remote repository. Possible values: GITHUB, AWS_CODE_COMMIT, GITLAB, BITBUCKET.\n    </p>"
                     }
                 },
                 "RepositoryName": {
                     "target": "com.amazonaws.glue#NameString",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the remote repository that contains the job artifacts.</p>"
+                        "smithy.api#documentation": "<p>The name of the remote repository that contains the job artifacts. \n      For BitBucket providers, <code>RepositoryName</code> should include <code>WorkspaceName</code>.\n      Use the format <code><WorkspaceName>/<RepositoryName></code>. \n    </p>"
                     }
                 },
                 "RepositoryOwner": {
@@ -34702,7 +34795,6 @@
         "com.amazonaws.glue#VersionLongNumber": {
             "type": "long",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100000

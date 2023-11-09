@@ -381,7 +381,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -424,7 +423,8 @@
                                     },
                                     "type": "endpoint"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [
@@ -437,7 +437,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -451,7 +450,6 @@
                                             "assign": "PartitionResult"
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -474,7 +472,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -509,7 +506,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -520,14 +516,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -541,14 +539,12 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
-                                                                true,
                                                                 {
                                                                     "fn": "getAttr",
                                                                     "argv": [
@@ -557,11 +553,11 @@
                                                                         },
                                                                         "supportsFIPS"
                                                                     ]
-                                                                }
+                                                                },
+                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [
@@ -610,14 +606,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS is enabled but this partition does not support FIPS",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -631,7 +629,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -651,7 +648,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -662,14 +658,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "DualStack is enabled but this partition does not support DualStack",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [],
@@ -680,9 +678,11 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
@@ -1570,6 +1570,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The type of configurations contained in the profile. AppConfig supports\n            <code>feature flags</code> and <code>freeform</code> configurations. We recommend you\n         create feature flag configurations to enable or disable new features and freeform\n         configurations to distribute configurations to an application. When calling this API, enter\n         one of the following values for <code>Type</code>:</p>\n         <p>\n            <code>AWS.AppConfig.FeatureFlags</code>\n         </p>\n         <p>\n            <code>AWS.Freeform</code>\n         </p>"
                     }
+                },
+                "KmsKeyArn": {
+                    "target": "com.amazonaws.appconfig#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name of the Key Management Service key to encrypt new configuration data\n         versions in the AppConfig hosted configuration store. This\n         attribute is only used for <code>hosted</code> configuration types. To encrypt data managed\n         in other configuration stores, see the documentation for how to specify an KMS key for that particular service.</p>"
+                    }
+                },
+                "KmsKeyIdentifier": {
+                    "target": "com.amazonaws.appconfig#KmsKeyIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Key Management Service key identifier (key ID, key alias, or key ARN) provided when the resource was created or updated.</p>"
+                    }
                 }
             }
         },
@@ -1833,6 +1845,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The type of configurations contained in the profile. AppConfig supports\n            <code>feature flags</code> and <code>freeform</code> configurations. We recommend you\n         create feature flag configurations to enable or disable new features and freeform\n         configurations to distribute configurations to an application. When calling this API, enter\n         one of the following values for <code>Type</code>:</p>\n         <p>\n            <code>AWS.AppConfig.FeatureFlags</code>\n         </p>\n         <p>\n            <code>AWS.Freeform</code>\n         </p>"
                     }
+                },
+                "KmsKeyIdentifier": {
+                    "target": "com.amazonaws.appconfig#KmsKeyIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for an Key Management Service key to encrypt new configuration\n         data versions in the AppConfig hosted configuration store. This attribute is only\n         used for <code>hosted</code> configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias.\n         To encrypt data managed in other configuration stores, see the documentation for how to\n         specify an KMS key for that particular service.</p>"
+                    }
                 }
             },
             "traits": {
@@ -1922,7 +1940,6 @@
                 "GrowthFactor": {
                     "target": "com.amazonaws.appconfig#GrowthFactor",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The percentage of targets to receive a deployed configuration during each\n         interval.</p>",
                         "smithy.api#required": {}
                     }
@@ -2145,7 +2162,7 @@
             "type": "structure",
             "members": {
                 "Name": {
-                    "target": "com.amazonaws.appconfig#Name",
+                    "target": "com.amazonaws.appconfig#ExtensionOrParameterName",
                     "traits": {
                         "smithy.api#documentation": "<p>A name for the extension. Each extension name in your account must be unique. Extension\n         versions use the same name.</p>",
                         "smithy.api#required": {}
@@ -2700,7 +2717,7 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.appconfig#Integer",
                     "traits": {
-                        "smithy.api#default": 0,
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The versions number to delete.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
@@ -2785,7 +2802,6 @@
                 "GrowthFactor": {
                     "target": "com.amazonaws.appconfig#Percentage",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of targets to receive a deployed configuration during each\n         interval.</p>"
                     }
                 },
@@ -2811,7 +2827,6 @@
                 "PercentageComplete": {
                     "target": "com.amazonaws.appconfig#Percentage",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of targets for which the deployment is available.</p>"
                     }
                 },
@@ -2840,9 +2855,9 @@
                     }
                 },
                 "KmsKeyIdentifier": {
-                    "target": "com.amazonaws.appconfig#Identifier",
+                    "target": "com.amazonaws.appconfig#KmsKeyIdentifier",
                     "traits": {
-                        "smithy.api#documentation": "<p>The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key. </p>"
+                        "smithy.api#documentation": "<p>The Key Management Service key identifier (key ID, key alias, or key ARN) provided when the resource was created or updated.</p>"
                     }
                 },
                 "VersionLabel": {
@@ -3039,7 +3054,6 @@
                 "GrowthFactor": {
                     "target": "com.amazonaws.appconfig#Percentage",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of targets that received a deployed configuration during each\n         interval.</p>"
                     }
                 },
@@ -3108,7 +3122,6 @@
                 "GrowthFactor": {
                     "target": "com.amazonaws.appconfig#Percentage",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of targets to receive a deployed configuration during each\n         interval.</p>"
                     }
                 },
@@ -3128,7 +3141,6 @@
                 "PercentageComplete": {
                     "target": "com.amazonaws.appconfig#Percentage",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of targets for which the deployment is available.</p>"
                     }
                 },
@@ -3411,6 +3423,12 @@
                         "smithy.api#documentation": "<p>The token for the next set of items to return. Use this token to get the next set of\n         results.</p>"
                     }
                 }
+            }
+        },
+        "com.amazonaws.appconfig#ExtensionOrParameterName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[^\\/#:\\n]{1,64}$"
             }
         },
         "com.amazonaws.appconfig#ExtensionSummaries": {
@@ -4055,7 +4073,7 @@
                 "VersionNumber": {
                     "target": "com.amazonaws.appconfig#Integer",
                     "traits": {
-                        "smithy.api#default": 0,
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The version.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
@@ -4069,7 +4087,6 @@
         "com.amazonaws.appconfig#GrowthFactor": {
             "type": "float",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1.0,
                     "max": 100.0
@@ -4145,6 +4162,13 @@
                         "smithy.api#documentation": "<p>A user-defined label for an AppConfig hosted configuration version.</p>",
                         "smithy.api#httpHeader": "VersionLabel"
                     }
+                },
+                "KmsKeyArn": {
+                    "target": "com.amazonaws.appconfig#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name of the Key Management Service key that was used to encrypt this\n         specific version of the configuration data in the AppConfig hosted configuration\n         store.</p>",
+                        "smithy.api#httpHeader": "KmsKeyArn"
+                    }
                 }
             }
         },
@@ -4186,6 +4210,12 @@
                     "target": "com.amazonaws.appconfig#VersionLabel",
                     "traits": {
                         "smithy.api#documentation": "<p>A user-defined label for an AppConfig hosted configuration version.</p>"
+                    }
+                },
+                "KmsKeyArn": {
+                    "target": "com.amazonaws.appconfig#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name of the Key Management Service key that was used to encrypt this\n         specific version of the configuration data in the AppConfig hosted configuration\n         store.</p>"
                     }
                 }
             },
@@ -4300,6 +4330,24 @@
                 "smithy.api#timestampFormat": "date-time"
             }
         },
+        "com.amazonaws.appconfig#KmsKeyIdentifier": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
+                }
+            }
+        },
+        "com.amazonaws.appconfig#KmsKeyIdentifierOrEmpty": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 2048
+                }
+            }
+        },
         "com.amazonaws.appconfig#ListApplications": {
             "type": "operation",
             "input": {
@@ -4356,7 +4404,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items to return for this call. The call also returns a token that\n         you can specify in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -4440,7 +4487,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items to return for this call. The call also returns a token that\n         you can specify in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -4520,7 +4566,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items to return for this call. The call also returns a token that\n         you can specify in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -4593,7 +4638,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items that may be returned for this call. If there are items that\n         have not yet been returned, the response will include a non-null <code>NextToken</code>\n         that you can provide in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -4677,7 +4721,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items to return for this call. The call also returns a token that\n         you can specify in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -4753,7 +4796,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items to return for this call. The call also returns a token that\n         you can specify in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -4807,7 +4849,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items to return for this call. The call also returns a token that\n         you can specify in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -4907,7 +4948,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.appconfig#MaxResults",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of items to return for this call. The call also returns a token that\n         you can specify in a subsequent call to get the next set of results.</p>",
                         "smithy.api#httpQuery": "max_results"
                     }
@@ -5001,7 +5041,6 @@
         "com.amazonaws.appconfig#MaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 50
@@ -5093,7 +5132,7 @@
         "com.amazonaws.appconfig#ParameterMap": {
             "type": "map",
             "key": {
-                "target": "com.amazonaws.appconfig#Name"
+                "target": "com.amazonaws.appconfig#ExtensionOrParameterName"
             },
             "value": {
                 "target": "com.amazonaws.appconfig#Parameter"
@@ -5108,7 +5147,7 @@
         "com.amazonaws.appconfig#ParameterValueMap": {
             "type": "map",
             "key": {
-                "target": "com.amazonaws.appconfig#Name"
+                "target": "com.amazonaws.appconfig#ExtensionOrParameterName"
             },
             "value": {
                 "target": "com.amazonaws.appconfig#StringWithLengthBetween1And2048"
@@ -5151,7 +5190,6 @@
         "com.amazonaws.appconfig#Percentage": {
             "type": "float",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1.0,
                     "max": 100.0
@@ -5229,7 +5267,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The number of one more AppConfig resources exceeds the maximum allowed. Verify that your\n         environment doesn't exceed the following service quotas:</p>\n         <p>Applications: 100 max</p>\n         <p>Deployment strategies: 20 max</p>\n         <p>Configuration profiles: 100 max per application</p>\n         <p>Environments: 20 max per application</p>\n         <p>To resolve this issue, you can delete one or more resources and try again. Or, you\n         can request a quota increase. For more information about quotas and to request an increase,\n         see <a href=\"https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig\">Service quotas for AppConfig</a> in the Amazon Web Services General Reference.</p>",
+                "smithy.api#documentation": "<p>The number of one more AppConfig resources exceeds the maximum allowed. Verify that your\n         environment doesn't exceed the following service quotas:</p>\n         <p>Applications: 100 max</p>\n         <p>Deployment strategies: 20 max</p>\n         <p>Configuration profiles: 100 max per application</p>\n         <p>Environments: 20 max per application</p>\n         <p>To resolve this issue, you can delete one or more resources and try again. Or, you can\n         request a quota increase. For more information about quotas and to request an increase, see\n            <a href=\"https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig\">Service quotas for AppConfig</a> in the Amazon Web Services General Reference.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 402
             }
@@ -5318,7 +5356,7 @@
                     }
                 },
                 "KmsKeyIdentifier": {
-                    "target": "com.amazonaws.appconfig#Identifier",
+                    "target": "com.amazonaws.appconfig#KmsKeyIdentifier",
                     "traits": {
                         "smithy.api#documentation": "<p>The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key. </p>"
                     }
@@ -5809,6 +5847,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A list of methods for validating the configuration.</p>"
                     }
+                },
+                "KmsKeyIdentifier": {
+                    "target": "com.amazonaws.appconfig#KmsKeyIdentifierOrEmpty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for a Key Management Service key to encrypt new configuration\n         data versions in the AppConfig hosted configuration store. This attribute is only\n         used for <code>hosted</code> configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias.\n         To encrypt data managed in other configuration stores, see the documentation for how to\n         specify an KMS key for that particular service.</p>"
+                    }
                 }
             },
             "traits": {
@@ -5896,7 +5940,6 @@
                 "GrowthFactor": {
                     "target": "com.amazonaws.appconfig#GrowthFactor",
                     "traits": {
-                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The percentage of targets to receive a deployed configuration during each\n         interval.</p>"
                     }
                 },

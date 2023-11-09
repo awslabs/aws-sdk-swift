@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ElasticTranscoderClient {
-    /// Paginate over `[ListJobsByPipelineOutputResponse]` results.
+    /// Paginate over `[ListJobsByPipelineOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobsByPipelineInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsByPipelineOutputResponse`
-    public func listJobsByPipelinePaginated(input: ListJobsByPipelineInput) -> ClientRuntime.PaginatorSequence<ListJobsByPipelineInput, ListJobsByPipelineOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobsByPipelineInput, ListJobsByPipelineOutputResponse>(input: input, inputKey: \ListJobsByPipelineInput.pageToken, outputKey: \ListJobsByPipelineOutputResponse.nextPageToken, paginationFunction: self.listJobsByPipeline(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsByPipelineOutput`
+    public func listJobsByPipelinePaginated(input: ListJobsByPipelineInput) -> ClientRuntime.PaginatorSequence<ListJobsByPipelineInput, ListJobsByPipelineOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsByPipelineInput, ListJobsByPipelineOutput>(input: input, inputKey: \ListJobsByPipelineInput.pageToken, outputKey: \ListJobsByPipelineOutput.nextPageToken, paginationFunction: self.listJobsByPipeline(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListJobsByPipelineInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsByPipelineInput, Output == ListJobsByPipelineOutputResponse {
+extension PaginatorSequence where Input == ListJobsByPipelineInput, Output == ListJobsByPipelineOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsByPipelinePaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Job]`
     /// - Returns: `[ElasticTranscoderClientTypes.Job]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListJobsByPipelineInput, Output == Li
     }
 }
 extension ElasticTranscoderClient {
-    /// Paginate over `[ListJobsByStatusOutputResponse]` results.
+    /// Paginate over `[ListJobsByStatusOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobsByStatusInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsByStatusOutputResponse`
-    public func listJobsByStatusPaginated(input: ListJobsByStatusInput) -> ClientRuntime.PaginatorSequence<ListJobsByStatusInput, ListJobsByStatusOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobsByStatusInput, ListJobsByStatusOutputResponse>(input: input, inputKey: \ListJobsByStatusInput.pageToken, outputKey: \ListJobsByStatusOutputResponse.nextPageToken, paginationFunction: self.listJobsByStatus(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsByStatusOutput`
+    public func listJobsByStatusPaginated(input: ListJobsByStatusInput) -> ClientRuntime.PaginatorSequence<ListJobsByStatusInput, ListJobsByStatusOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsByStatusInput, ListJobsByStatusOutput>(input: input, inputKey: \ListJobsByStatusInput.pageToken, outputKey: \ListJobsByStatusOutput.nextPageToken, paginationFunction: self.listJobsByStatus(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListJobsByStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsByStatusInput, Output == ListJobsByStatusOutputResponse {
+extension PaginatorSequence where Input == ListJobsByStatusInput, Output == ListJobsByStatusOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsByStatusPaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Job]`
     /// - Returns: `[ElasticTranscoderClientTypes.Job]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == ListJobsByStatusInput, Output == List
     }
 }
 extension ElasticTranscoderClient {
-    /// Paginate over `[ListPipelinesOutputResponse]` results.
+    /// Paginate over `[ListPipelinesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPipelinesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutputResponse`
-    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse>(input: input, inputKey: \ListPipelinesInput.pageToken, outputKey: \ListPipelinesOutputResponse.nextPageToken, paginationFunction: self.listPipelines(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
+    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.pageToken, outputKey: \ListPipelinesOutput.nextPageToken, paginationFunction: self.listPipelines(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutputResponse {
+extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Pipeline]`
     /// - Returns: `[ElasticTranscoderClientTypes.Pipeline]`
@@ -95,16 +95,16 @@ extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPip
     }
 }
 extension ElasticTranscoderClient {
-    /// Paginate over `[ListPresetsOutputResponse]` results.
+    /// Paginate over `[ListPresetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPresetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPresetsOutputResponse`
-    public func listPresetsPaginated(input: ListPresetsInput) -> ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutputResponse>(input: input, inputKey: \ListPresetsInput.pageToken, outputKey: \ListPresetsOutputResponse.nextPageToken, paginationFunction: self.listPresets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPresetsOutput`
+    public func listPresetsPaginated(input: ListPresetsInput) -> ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput>(input: input, inputKey: \ListPresetsInput.pageToken, outputKey: \ListPresetsOutput.nextPageToken, paginationFunction: self.listPresets(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListPresetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPresetsInput, Output == ListPresetsOutputResponse {
+extension PaginatorSequence where Input == ListPresetsInput, Output == ListPresetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPresetsPaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Preset]`
     /// - Returns: `[ElasticTranscoderClientTypes.Preset]`

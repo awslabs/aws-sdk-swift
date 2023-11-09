@@ -75,14 +75,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter BatchGetAggregateResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetAggregateResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetAggregateResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func batchGetAggregateResourceConfig(input: BatchGetAggregateResourceConfigInput) async throws -> BatchGetAggregateResourceConfigOutputResponse
+    public func batchGetAggregateResourceConfig(input: BatchGetAggregateResourceConfigInput) async throws -> BatchGetAggregateResourceConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -98,21 +98,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutputResponse, BatchGetAggregateResourceConfigOutputError>(id: "batchGetAggregateResourceConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutputResponse, BatchGetAggregateResourceConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput, BatchGetAggregateResourceConfigOutputError>(id: "batchGetAggregateResourceConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput, BatchGetAggregateResourceConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetAggregateResourceConfigOutputResponse, BatchGetAggregateResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetAggregateResourceConfigOutput, BatchGetAggregateResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutputResponse>(xAmzTarget: "StarlingDoveService.BatchGetAggregateResourceConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutputResponse>(xmlName: "BatchGetAggregateResourceConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(xAmzTarget: "StarlingDoveService.BatchGetAggregateResourceConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(xmlName: "BatchGetAggregateResourceConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetAggregateResourceConfigOutputResponse, BatchGetAggregateResourceConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetAggregateResourceConfigOutput, BatchGetAggregateResourceConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetAggregateResourceConfigOutputResponse, BatchGetAggregateResourceConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetAggregateResourceConfigOutputResponse, BatchGetAggregateResourceConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetAggregateResourceConfigOutputResponse, BatchGetAggregateResourceConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetAggregateResourceConfigOutput, BatchGetAggregateResourceConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetAggregateResourceConfigOutput, BatchGetAggregateResourceConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetAggregateResourceConfigOutput, BatchGetAggregateResourceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -125,14 +125,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter BatchGetResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func batchGetResourceConfig(input: BatchGetResourceConfigInput) async throws -> BatchGetResourceConfigOutputResponse
+    public func batchGetResourceConfig(input: BatchGetResourceConfigInput) async throws -> BatchGetResourceConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -148,21 +148,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetResourceConfigInput, BatchGetResourceConfigOutputResponse, BatchGetResourceConfigOutputError>(id: "batchGetResourceConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutputResponse, BatchGetResourceConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetResourceConfigInput, BatchGetResourceConfigOutput, BatchGetResourceConfigOutputError>(id: "batchGetResourceConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput, BatchGetResourceConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetResourceConfigOutputResponse, BatchGetResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetResourceConfigOutput, BatchGetResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutputResponse>(xAmzTarget: "StarlingDoveService.BatchGetResourceConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutputResponse>(xmlName: "BatchGetResourceConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(xAmzTarget: "StarlingDoveService.BatchGetResourceConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(xmlName: "BatchGetResourceConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetResourceConfigOutputResponse, BatchGetResourceConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetResourceConfigOutput, BatchGetResourceConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetResourceConfigOutputResponse, BatchGetResourceConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetResourceConfigOutputResponse, BatchGetResourceConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetResourceConfigOutputResponse, BatchGetResourceConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetResourceConfigOutput, BatchGetResourceConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetResourceConfigOutput, BatchGetResourceConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetResourceConfigOutput, BatchGetResourceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -171,13 +171,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteAggregationAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAggregationAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAggregationAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func deleteAggregationAuthorization(input: DeleteAggregationAuthorizationInput) async throws -> DeleteAggregationAuthorizationOutputResponse
+    public func deleteAggregationAuthorization(input: DeleteAggregationAuthorizationInput) async throws -> DeleteAggregationAuthorizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -193,21 +193,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutputResponse, DeleteAggregationAuthorizationOutputError>(id: "deleteAggregationAuthorization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutputResponse, DeleteAggregationAuthorizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput, DeleteAggregationAuthorizationOutputError>(id: "deleteAggregationAuthorization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput, DeleteAggregationAuthorizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAggregationAuthorizationOutputResponse, DeleteAggregationAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAggregationAuthorizationOutput, DeleteAggregationAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteAggregationAuthorization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutputResponse>(xmlName: "DeleteAggregationAuthorizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(xAmzTarget: "StarlingDoveService.DeleteAggregationAuthorization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(xmlName: "DeleteAggregationAuthorizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAggregationAuthorizationOutputResponse, DeleteAggregationAuthorizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAggregationAuthorizationOutput, DeleteAggregationAuthorizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAggregationAuthorizationOutputResponse, DeleteAggregationAuthorizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAggregationAuthorizationOutputResponse, DeleteAggregationAuthorizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAggregationAuthorizationOutputResponse, DeleteAggregationAuthorizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAggregationAuthorizationOutput, DeleteAggregationAuthorizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAggregationAuthorizationOutput, DeleteAggregationAuthorizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAggregationAuthorizationOutput, DeleteAggregationAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -216,7 +216,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteConfigRuleInput :
     ///
-    /// - Returns: `DeleteConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -237,7 +237,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func deleteConfigRule(input: DeleteConfigRuleInput) async throws -> DeleteConfigRuleOutputResponse
+    public func deleteConfigRule(input: DeleteConfigRuleInput) async throws -> DeleteConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -253,21 +253,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConfigRuleInput, DeleteConfigRuleOutputResponse, DeleteConfigRuleOutputError>(id: "deleteConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutputResponse, DeleteConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConfigRuleInput, DeleteConfigRuleOutput, DeleteConfigRuleOutputError>(id: "deleteConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput, DeleteConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigRuleOutputResponse, DeleteConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigRuleOutput, DeleteConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutputResponse>(xmlName: "DeleteConfigRuleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(xAmzTarget: "StarlingDoveService.DeleteConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(xmlName: "DeleteConfigRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigRuleOutputResponse, DeleteConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigRuleOutput, DeleteConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigRuleOutputResponse, DeleteConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigRuleOutputResponse, DeleteConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigRuleOutputResponse, DeleteConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigRuleOutput, DeleteConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigRuleOutput, DeleteConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigRuleOutput, DeleteConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -276,13 +276,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteConfigurationAggregatorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConfigurationAggregatorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigurationAggregatorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    public func deleteConfigurationAggregator(input: DeleteConfigurationAggregatorInput) async throws -> DeleteConfigurationAggregatorOutputResponse
+    public func deleteConfigurationAggregator(input: DeleteConfigurationAggregatorInput) async throws -> DeleteConfigurationAggregatorOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -298,21 +298,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutputResponse, DeleteConfigurationAggregatorOutputError>(id: "deleteConfigurationAggregator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutputResponse, DeleteConfigurationAggregatorOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput, DeleteConfigurationAggregatorOutputError>(id: "deleteConfigurationAggregator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput, DeleteConfigurationAggregatorOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationAggregatorOutputResponse, DeleteConfigurationAggregatorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationAggregatorOutput, DeleteConfigurationAggregatorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteConfigurationAggregator"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutputResponse>(xmlName: "DeleteConfigurationAggregatorRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(xAmzTarget: "StarlingDoveService.DeleteConfigurationAggregator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(xmlName: "DeleteConfigurationAggregatorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationAggregatorOutputResponse, DeleteConfigurationAggregatorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationAggregatorOutput, DeleteConfigurationAggregatorOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationAggregatorOutputResponse, DeleteConfigurationAggregatorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationAggregatorOutputResponse, DeleteConfigurationAggregatorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationAggregatorOutputResponse, DeleteConfigurationAggregatorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationAggregatorOutput, DeleteConfigurationAggregatorOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationAggregatorOutput, DeleteConfigurationAggregatorOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationAggregatorOutput, DeleteConfigurationAggregatorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -321,13 +321,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteConfigurationRecorderInput : The request object for the DeleteConfigurationRecorder action.
     ///
-    /// - Returns: `DeleteConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    public func deleteConfigurationRecorder(input: DeleteConfigurationRecorderInput) async throws -> DeleteConfigurationRecorderOutputResponse
+    public func deleteConfigurationRecorder(input: DeleteConfigurationRecorderInput) async throws -> DeleteConfigurationRecorderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -343,21 +343,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutputResponse, DeleteConfigurationRecorderOutputError>(id: "deleteConfigurationRecorder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutputResponse, DeleteConfigurationRecorderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput, DeleteConfigurationRecorderOutputError>(id: "deleteConfigurationRecorder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput, DeleteConfigurationRecorderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationRecorderOutputResponse, DeleteConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationRecorderOutput, DeleteConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteConfigurationRecorder"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutputResponse>(xmlName: "DeleteConfigurationRecorderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.DeleteConfigurationRecorder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(xmlName: "DeleteConfigurationRecorderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationRecorderOutputResponse, DeleteConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationRecorderOutput, DeleteConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationRecorderOutputResponse, DeleteConfigurationRecorderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationRecorderOutputResponse, DeleteConfigurationRecorderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationRecorderOutputResponse, DeleteConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationRecorderOutput, DeleteConfigurationRecorderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationRecorderOutput, DeleteConfigurationRecorderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationRecorderOutput, DeleteConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -366,7 +366,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -387,7 +387,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func deleteConformancePack(input: DeleteConformancePackInput) async throws -> DeleteConformancePackOutputResponse
+    public func deleteConformancePack(input: DeleteConformancePackInput) async throws -> DeleteConformancePackOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -403,21 +403,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConformancePackInput, DeleteConformancePackOutputResponse, DeleteConformancePackOutputError>(id: "deleteConformancePack")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConformancePackInput, DeleteConformancePackOutputResponse, DeleteConformancePackOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConformancePackInput, DeleteConformancePackOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConformancePackInput, DeleteConformancePackOutput, DeleteConformancePackOutputError>(id: "deleteConformancePack")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput, DeleteConformancePackOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConformancePackOutputResponse, DeleteConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConformancePackOutput, DeleteConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConformancePackInput, DeleteConformancePackOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteConformancePack"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConformancePackInput, DeleteConformancePackOutputResponse>(xmlName: "DeleteConformancePackRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConformancePackInput, DeleteConformancePackOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(xAmzTarget: "StarlingDoveService.DeleteConformancePack"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(xmlName: "DeleteConformancePackRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConformancePackOutputResponse, DeleteConformancePackOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConformancePackOutput, DeleteConformancePackOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConformancePackOutputResponse, DeleteConformancePackOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConformancePackOutputResponse, DeleteConformancePackOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConformancePackOutputResponse, DeleteConformancePackOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConformancePackOutput, DeleteConformancePackOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConformancePackOutput, DeleteConformancePackOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConformancePackOutput, DeleteConformancePackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -426,14 +426,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteDeliveryChannelInput : The input for the [DeleteDeliveryChannel] action. The action accepts the following data, in JSON format.
     ///
-    /// - Returns: `DeleteDeliveryChannelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeliveryChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LastDeliveryChannelDeleteFailedException` : You cannot delete the delivery channel you specified because the configuration recorder is running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    public func deleteDeliveryChannel(input: DeleteDeliveryChannelInput) async throws -> DeleteDeliveryChannelOutputResponse
+    public func deleteDeliveryChannel(input: DeleteDeliveryChannelInput) async throws -> DeleteDeliveryChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -449,21 +449,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutputResponse, DeleteDeliveryChannelOutputError>(id: "deleteDeliveryChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutputResponse, DeleteDeliveryChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput, DeleteDeliveryChannelOutputError>(id: "deleteDeliveryChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput, DeleteDeliveryChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeliveryChannelOutputResponse, DeleteDeliveryChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeliveryChannelOutput, DeleteDeliveryChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteDeliveryChannel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutputResponse>(xmlName: "DeleteDeliveryChannelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(xAmzTarget: "StarlingDoveService.DeleteDeliveryChannel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(xmlName: "DeleteDeliveryChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeliveryChannelOutputResponse, DeleteDeliveryChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeliveryChannelOutput, DeleteDeliveryChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeliveryChannelOutputResponse, DeleteDeliveryChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeliveryChannelOutputResponse, DeleteDeliveryChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeliveryChannelOutputResponse, DeleteDeliveryChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeliveryChannelOutput, DeleteDeliveryChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeliveryChannelOutput, DeleteDeliveryChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeliveryChannelOutput, DeleteDeliveryChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -472,7 +472,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteEvaluationResultsInput :
     ///
-    /// - Returns: `DeleteEvaluationResultsOutputResponse` : The output when you delete the evaluation results for the specified Config rule.
+    /// - Returns: `DeleteEvaluationResultsOutput` : The output when you delete the evaluation results for the specified Config rule.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,7 +493,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func deleteEvaluationResults(input: DeleteEvaluationResultsInput) async throws -> DeleteEvaluationResultsOutputResponse
+    public func deleteEvaluationResults(input: DeleteEvaluationResultsInput) async throws -> DeleteEvaluationResultsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -509,21 +509,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutputResponse, DeleteEvaluationResultsOutputError>(id: "deleteEvaluationResults")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutputResponse, DeleteEvaluationResultsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput, DeleteEvaluationResultsOutputError>(id: "deleteEvaluationResults")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput, DeleteEvaluationResultsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEvaluationResultsOutputResponse, DeleteEvaluationResultsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEvaluationResultsOutput, DeleteEvaluationResultsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteEvaluationResults"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutputResponse>(xmlName: "DeleteEvaluationResultsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(xAmzTarget: "StarlingDoveService.DeleteEvaluationResults"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(xmlName: "DeleteEvaluationResultsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEvaluationResultsOutputResponse, DeleteEvaluationResultsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEvaluationResultsOutput, DeleteEvaluationResultsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEvaluationResultsOutputResponse, DeleteEvaluationResultsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEvaluationResultsOutputResponse, DeleteEvaluationResultsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEvaluationResultsOutputResponse, DeleteEvaluationResultsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEvaluationResultsOutput, DeleteEvaluationResultsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEvaluationResultsOutput, DeleteEvaluationResultsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEvaluationResultsOutput, DeleteEvaluationResultsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -532,7 +532,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteOrganizationConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOrganizationConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOrganizationConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,7 +565,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func deleteOrganizationConfigRule(input: DeleteOrganizationConfigRuleInput) async throws -> DeleteOrganizationConfigRuleOutputResponse
+    public func deleteOrganizationConfigRule(input: DeleteOrganizationConfigRuleInput) async throws -> DeleteOrganizationConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -581,21 +581,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutputResponse, DeleteOrganizationConfigRuleOutputError>(id: "deleteOrganizationConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutputResponse, DeleteOrganizationConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput, DeleteOrganizationConfigRuleOutputError>(id: "deleteOrganizationConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput, DeleteOrganizationConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOrganizationConfigRuleOutputResponse, DeleteOrganizationConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOrganizationConfigRuleOutput, DeleteOrganizationConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteOrganizationConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutputResponse>(xmlName: "DeleteOrganizationConfigRuleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(xAmzTarget: "StarlingDoveService.DeleteOrganizationConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(xmlName: "DeleteOrganizationConfigRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOrganizationConfigRuleOutputResponse, DeleteOrganizationConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOrganizationConfigRuleOutput, DeleteOrganizationConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationConfigRuleOutputResponse, DeleteOrganizationConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationConfigRuleOutputResponse, DeleteOrganizationConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationConfigRuleOutputResponse, DeleteOrganizationConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationConfigRuleOutput, DeleteOrganizationConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationConfigRuleOutput, DeleteOrganizationConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationConfigRuleOutput, DeleteOrganizationConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -604,7 +604,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteOrganizationConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOrganizationConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOrganizationConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -637,7 +637,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func deleteOrganizationConformancePack(input: DeleteOrganizationConformancePackInput) async throws -> DeleteOrganizationConformancePackOutputResponse
+    public func deleteOrganizationConformancePack(input: DeleteOrganizationConformancePackInput) async throws -> DeleteOrganizationConformancePackOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -653,21 +653,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutputResponse, DeleteOrganizationConformancePackOutputError>(id: "deleteOrganizationConformancePack")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutputResponse, DeleteOrganizationConformancePackOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput, DeleteOrganizationConformancePackOutputError>(id: "deleteOrganizationConformancePack")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput, DeleteOrganizationConformancePackOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOrganizationConformancePackOutputResponse, DeleteOrganizationConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOrganizationConformancePackOutput, DeleteOrganizationConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteOrganizationConformancePack"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutputResponse>(xmlName: "DeleteOrganizationConformancePackRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(xAmzTarget: "StarlingDoveService.DeleteOrganizationConformancePack"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(xmlName: "DeleteOrganizationConformancePackRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOrganizationConformancePackOutputResponse, DeleteOrganizationConformancePackOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOrganizationConformancePackOutput, DeleteOrganizationConformancePackOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationConformancePackOutputResponse, DeleteOrganizationConformancePackOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationConformancePackOutputResponse, DeleteOrganizationConformancePackOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationConformancePackOutputResponse, DeleteOrganizationConformancePackOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationConformancePackOutput, DeleteOrganizationConformancePackOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationConformancePackOutput, DeleteOrganizationConformancePackOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationConformancePackOutput, DeleteOrganizationConformancePackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -676,13 +676,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeletePendingAggregationRequestInput : [no documentation found]
     ///
-    /// - Returns: `DeletePendingAggregationRequestOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePendingAggregationRequestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func deletePendingAggregationRequest(input: DeletePendingAggregationRequestInput) async throws -> DeletePendingAggregationRequestOutputResponse
+    public func deletePendingAggregationRequest(input: DeletePendingAggregationRequestInput) async throws -> DeletePendingAggregationRequestOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -698,21 +698,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutputResponse, DeletePendingAggregationRequestOutputError>(id: "deletePendingAggregationRequest")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutputResponse, DeletePendingAggregationRequestOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput, DeletePendingAggregationRequestOutputError>(id: "deletePendingAggregationRequest")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput, DeletePendingAggregationRequestOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePendingAggregationRequestOutputResponse, DeletePendingAggregationRequestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePendingAggregationRequestOutput, DeletePendingAggregationRequestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutputResponse>(xAmzTarget: "StarlingDoveService.DeletePendingAggregationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutputResponse>(xmlName: "DeletePendingAggregationRequestRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(xAmzTarget: "StarlingDoveService.DeletePendingAggregationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(xmlName: "DeletePendingAggregationRequestRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePendingAggregationRequestOutputResponse, DeletePendingAggregationRequestOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePendingAggregationRequestOutput, DeletePendingAggregationRequestOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePendingAggregationRequestOutputResponse, DeletePendingAggregationRequestOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePendingAggregationRequestOutputResponse, DeletePendingAggregationRequestOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePendingAggregationRequestOutputResponse, DeletePendingAggregationRequestOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePendingAggregationRequestOutput, DeletePendingAggregationRequestOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePendingAggregationRequestOutput, DeletePendingAggregationRequestOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePendingAggregationRequestOutput, DeletePendingAggregationRequestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -721,7 +721,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteRemediationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRemediationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRemediationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -742,7 +742,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     /// - `RemediationInProgressException` : Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
-    public func deleteRemediationConfiguration(input: DeleteRemediationConfigurationInput) async throws -> DeleteRemediationConfigurationOutputResponse
+    public func deleteRemediationConfiguration(input: DeleteRemediationConfigurationInput) async throws -> DeleteRemediationConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -758,21 +758,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutputResponse, DeleteRemediationConfigurationOutputError>(id: "deleteRemediationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutputResponse, DeleteRemediationConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput, DeleteRemediationConfigurationOutputError>(id: "deleteRemediationConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput, DeleteRemediationConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRemediationConfigurationOutputResponse, DeleteRemediationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRemediationConfigurationOutput, DeleteRemediationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteRemediationConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutputResponse>(xmlName: "DeleteRemediationConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(xAmzTarget: "StarlingDoveService.DeleteRemediationConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(xmlName: "DeleteRemediationConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRemediationConfigurationOutputResponse, DeleteRemediationConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRemediationConfigurationOutput, DeleteRemediationConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRemediationConfigurationOutputResponse, DeleteRemediationConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRemediationConfigurationOutputResponse, DeleteRemediationConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRemediationConfigurationOutputResponse, DeleteRemediationConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRemediationConfigurationOutput, DeleteRemediationConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRemediationConfigurationOutput, DeleteRemediationConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRemediationConfigurationOutput, DeleteRemediationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -781,13 +781,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteRemediationExceptionsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRemediationExceptionsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRemediationExceptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchRemediationExceptionException` : You tried to delete a remediation exception that does not exist.
-    public func deleteRemediationExceptions(input: DeleteRemediationExceptionsInput) async throws -> DeleteRemediationExceptionsOutputResponse
+    public func deleteRemediationExceptions(input: DeleteRemediationExceptionsInput) async throws -> DeleteRemediationExceptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -803,21 +803,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutputResponse, DeleteRemediationExceptionsOutputError>(id: "deleteRemediationExceptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutputResponse, DeleteRemediationExceptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput, DeleteRemediationExceptionsOutputError>(id: "deleteRemediationExceptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput, DeleteRemediationExceptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRemediationExceptionsOutputResponse, DeleteRemediationExceptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRemediationExceptionsOutput, DeleteRemediationExceptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteRemediationExceptions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutputResponse>(xmlName: "DeleteRemediationExceptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(xAmzTarget: "StarlingDoveService.DeleteRemediationExceptions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(xmlName: "DeleteRemediationExceptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRemediationExceptionsOutputResponse, DeleteRemediationExceptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRemediationExceptionsOutput, DeleteRemediationExceptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRemediationExceptionsOutputResponse, DeleteRemediationExceptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRemediationExceptionsOutputResponse, DeleteRemediationExceptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRemediationExceptionsOutputResponse, DeleteRemediationExceptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRemediationExceptionsOutput, DeleteRemediationExceptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRemediationExceptionsOutput, DeleteRemediationExceptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRemediationExceptionsOutput, DeleteRemediationExceptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -826,14 +826,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func deleteResourceConfig(input: DeleteResourceConfigInput) async throws -> DeleteResourceConfigOutputResponse
+    public func deleteResourceConfig(input: DeleteResourceConfigInput) async throws -> DeleteResourceConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -849,21 +849,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteResourceConfigInput, DeleteResourceConfigOutputResponse, DeleteResourceConfigOutputError>(id: "deleteResourceConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutputResponse, DeleteResourceConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteResourceConfigInput, DeleteResourceConfigOutput, DeleteResourceConfigOutputError>(id: "deleteResourceConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput, DeleteResourceConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourceConfigOutputResponse, DeleteResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourceConfigOutput, DeleteResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteResourceConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutputResponse>(xmlName: "DeleteResourceConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(xAmzTarget: "StarlingDoveService.DeleteResourceConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(xmlName: "DeleteResourceConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourceConfigOutputResponse, DeleteResourceConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourceConfigOutput, DeleteResourceConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceConfigOutputResponse, DeleteResourceConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceConfigOutputResponse, DeleteResourceConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceConfigOutputResponse, DeleteResourceConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceConfigOutput, DeleteResourceConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceConfigOutput, DeleteResourceConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceConfigOutput, DeleteResourceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -872,14 +872,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteRetentionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRetentionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRetentionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRetentionConfigurationException` : You have specified a retention configuration that does not exist.
-    public func deleteRetentionConfiguration(input: DeleteRetentionConfigurationInput) async throws -> DeleteRetentionConfigurationOutputResponse
+    public func deleteRetentionConfiguration(input: DeleteRetentionConfigurationInput) async throws -> DeleteRetentionConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -895,21 +895,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutputResponse, DeleteRetentionConfigurationOutputError>(id: "deleteRetentionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutputResponse, DeleteRetentionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput, DeleteRetentionConfigurationOutputError>(id: "deleteRetentionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput, DeleteRetentionConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRetentionConfigurationOutputResponse, DeleteRetentionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRetentionConfigurationOutput, DeleteRetentionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteRetentionConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutputResponse>(xmlName: "DeleteRetentionConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(xAmzTarget: "StarlingDoveService.DeleteRetentionConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(xmlName: "DeleteRetentionConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRetentionConfigurationOutputResponse, DeleteRetentionConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRetentionConfigurationOutput, DeleteRetentionConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRetentionConfigurationOutputResponse, DeleteRetentionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRetentionConfigurationOutputResponse, DeleteRetentionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRetentionConfigurationOutputResponse, DeleteRetentionConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRetentionConfigurationOutput, DeleteRetentionConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRetentionConfigurationOutput, DeleteRetentionConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRetentionConfigurationOutput, DeleteRetentionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -918,14 +918,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeleteStoredQueryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStoredQueryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStoredQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func deleteStoredQuery(input: DeleteStoredQueryInput) async throws -> DeleteStoredQueryOutputResponse
+    public func deleteStoredQuery(input: DeleteStoredQueryInput) async throws -> DeleteStoredQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -941,21 +941,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteStoredQueryInput, DeleteStoredQueryOutputResponse, DeleteStoredQueryOutputError>(id: "deleteStoredQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutputResponse, DeleteStoredQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteStoredQueryInput, DeleteStoredQueryOutput, DeleteStoredQueryOutputError>(id: "deleteStoredQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput, DeleteStoredQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStoredQueryOutputResponse, DeleteStoredQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStoredQueryOutput, DeleteStoredQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutputResponse>(xAmzTarget: "StarlingDoveService.DeleteStoredQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutputResponse>(xmlName: "DeleteStoredQueryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(xAmzTarget: "StarlingDoveService.DeleteStoredQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(xmlName: "DeleteStoredQueryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStoredQueryOutputResponse, DeleteStoredQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStoredQueryOutput, DeleteStoredQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStoredQueryOutputResponse, DeleteStoredQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStoredQueryOutputResponse, DeleteStoredQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStoredQueryOutputResponse, DeleteStoredQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStoredQueryOutput, DeleteStoredQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStoredQueryOutput, DeleteStoredQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStoredQueryOutput, DeleteStoredQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -970,7 +970,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DeliverConfigSnapshotInput : The input for the [DeliverConfigSnapshot] action.
     ///
-    /// - Returns: `DeliverConfigSnapshotOutputResponse` : The output for the [DeliverConfigSnapshot] action, in JSON format.
+    /// - Returns: `DeliverConfigSnapshotOutput` : The output for the [DeliverConfigSnapshot] action, in JSON format.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,7 +978,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    public func deliverConfigSnapshot(input: DeliverConfigSnapshotInput) async throws -> DeliverConfigSnapshotOutputResponse
+    public func deliverConfigSnapshot(input: DeliverConfigSnapshotInput) async throws -> DeliverConfigSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -994,21 +994,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutputResponse, DeliverConfigSnapshotOutputError>(id: "deliverConfigSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutputResponse, DeliverConfigSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput, DeliverConfigSnapshotOutputError>(id: "deliverConfigSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput, DeliverConfigSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeliverConfigSnapshotOutputResponse, DeliverConfigSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeliverConfigSnapshotOutput, DeliverConfigSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutputResponse>(xAmzTarget: "StarlingDoveService.DeliverConfigSnapshot"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutputResponse>(xmlName: "DeliverConfigSnapshotRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(xAmzTarget: "StarlingDoveService.DeliverConfigSnapshot"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(xmlName: "DeliverConfigSnapshotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeliverConfigSnapshotOutputResponse, DeliverConfigSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeliverConfigSnapshotOutput, DeliverConfigSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeliverConfigSnapshotOutputResponse, DeliverConfigSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeliverConfigSnapshotOutputResponse, DeliverConfigSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeliverConfigSnapshotOutputResponse, DeliverConfigSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeliverConfigSnapshotOutput, DeliverConfigSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeliverConfigSnapshotOutput, DeliverConfigSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeliverConfigSnapshotOutput, DeliverConfigSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1017,7 +1017,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeAggregateComplianceByConfigRulesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAggregateComplianceByConfigRulesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAggregateComplianceByConfigRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,7 +1026,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func describeAggregateComplianceByConfigRules(input: DescribeAggregateComplianceByConfigRulesInput) async throws -> DescribeAggregateComplianceByConfigRulesOutputResponse
+    public func describeAggregateComplianceByConfigRules(input: DescribeAggregateComplianceByConfigRulesInput) async throws -> DescribeAggregateComplianceByConfigRulesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1042,21 +1042,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse, DescribeAggregateComplianceByConfigRulesOutputError>(id: "describeAggregateComplianceByConfigRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse, DescribeAggregateComplianceByConfigRulesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput, DescribeAggregateComplianceByConfigRulesOutputError>(id: "describeAggregateComplianceByConfigRules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput, DescribeAggregateComplianceByConfigRulesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAggregateComplianceByConfigRulesOutputResponse, DescribeAggregateComplianceByConfigRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAggregateComplianceByConfigRulesOutput, DescribeAggregateComplianceByConfigRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeAggregateComplianceByConfigRules"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse>(xmlName: "DescribeAggregateComplianceByConfigRulesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(xAmzTarget: "StarlingDoveService.DescribeAggregateComplianceByConfigRules"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(xmlName: "DescribeAggregateComplianceByConfigRulesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAggregateComplianceByConfigRulesOutputResponse, DescribeAggregateComplianceByConfigRulesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAggregateComplianceByConfigRulesOutput, DescribeAggregateComplianceByConfigRulesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAggregateComplianceByConfigRulesOutputResponse, DescribeAggregateComplianceByConfigRulesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAggregateComplianceByConfigRulesOutputResponse, DescribeAggregateComplianceByConfigRulesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConfigRulesOutputResponse, DescribeAggregateComplianceByConfigRulesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAggregateComplianceByConfigRulesOutput, DescribeAggregateComplianceByConfigRulesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAggregateComplianceByConfigRulesOutput, DescribeAggregateComplianceByConfigRulesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConfigRulesOutput, DescribeAggregateComplianceByConfigRulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1065,7 +1065,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeAggregateComplianceByConformancePacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAggregateComplianceByConformancePacksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAggregateComplianceByConformancePacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,7 +1074,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func describeAggregateComplianceByConformancePacks(input: DescribeAggregateComplianceByConformancePacksInput) async throws -> DescribeAggregateComplianceByConformancePacksOutputResponse
+    public func describeAggregateComplianceByConformancePacks(input: DescribeAggregateComplianceByConformancePacksInput) async throws -> DescribeAggregateComplianceByConformancePacksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1090,21 +1090,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse, DescribeAggregateComplianceByConformancePacksOutputError>(id: "describeAggregateComplianceByConformancePacks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse, DescribeAggregateComplianceByConformancePacksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput, DescribeAggregateComplianceByConformancePacksOutputError>(id: "describeAggregateComplianceByConformancePacks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput, DescribeAggregateComplianceByConformancePacksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAggregateComplianceByConformancePacksOutputResponse, DescribeAggregateComplianceByConformancePacksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAggregateComplianceByConformancePacksOutput, DescribeAggregateComplianceByConformancePacksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeAggregateComplianceByConformancePacks"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse>(xmlName: "DescribeAggregateComplianceByConformancePacksRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(xAmzTarget: "StarlingDoveService.DescribeAggregateComplianceByConformancePacks"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(xmlName: "DescribeAggregateComplianceByConformancePacksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAggregateComplianceByConformancePacksOutputResponse, DescribeAggregateComplianceByConformancePacksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAggregateComplianceByConformancePacksOutput, DescribeAggregateComplianceByConformancePacksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAggregateComplianceByConformancePacksOutputResponse, DescribeAggregateComplianceByConformancePacksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAggregateComplianceByConformancePacksOutputResponse, DescribeAggregateComplianceByConformancePacksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConformancePacksOutputResponse, DescribeAggregateComplianceByConformancePacksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAggregateComplianceByConformancePacksOutput, DescribeAggregateComplianceByConformancePacksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAggregateComplianceByConformancePacksOutput, DescribeAggregateComplianceByConformancePacksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConformancePacksOutput, DescribeAggregateComplianceByConformancePacksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1113,7 +1113,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeAggregationAuthorizationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAggregationAuthorizationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAggregationAuthorizationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,7 +1121,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func describeAggregationAuthorizations(input: DescribeAggregationAuthorizationsInput) async throws -> DescribeAggregationAuthorizationsOutputResponse
+    public func describeAggregationAuthorizations(input: DescribeAggregationAuthorizationsInput) async throws -> DescribeAggregationAuthorizationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1137,21 +1137,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse, DescribeAggregationAuthorizationsOutputError>(id: "describeAggregationAuthorizations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse, DescribeAggregationAuthorizationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput, DescribeAggregationAuthorizationsOutputError>(id: "describeAggregationAuthorizations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput, DescribeAggregationAuthorizationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAggregationAuthorizationsOutputResponse, DescribeAggregationAuthorizationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAggregationAuthorizationsOutput, DescribeAggregationAuthorizationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeAggregationAuthorizations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse>(xmlName: "DescribeAggregationAuthorizationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(xAmzTarget: "StarlingDoveService.DescribeAggregationAuthorizations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(xmlName: "DescribeAggregationAuthorizationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAggregationAuthorizationsOutputResponse, DescribeAggregationAuthorizationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAggregationAuthorizationsOutput, DescribeAggregationAuthorizationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAggregationAuthorizationsOutputResponse, DescribeAggregationAuthorizationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAggregationAuthorizationsOutputResponse, DescribeAggregationAuthorizationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAggregationAuthorizationsOutputResponse, DescribeAggregationAuthorizationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAggregationAuthorizationsOutput, DescribeAggregationAuthorizationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAggregationAuthorizationsOutput, DescribeAggregationAuthorizationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAggregationAuthorizationsOutput, DescribeAggregationAuthorizationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1166,7 +1166,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeComplianceByConfigRuleInput :
     ///
-    /// - Returns: `DescribeComplianceByConfigRuleOutputResponse` :
+    /// - Returns: `DescribeComplianceByConfigRuleOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,7 +1174,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    public func describeComplianceByConfigRule(input: DescribeComplianceByConfigRuleInput) async throws -> DescribeComplianceByConfigRuleOutputResponse
+    public func describeComplianceByConfigRule(input: DescribeComplianceByConfigRuleInput) async throws -> DescribeComplianceByConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1190,21 +1190,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse, DescribeComplianceByConfigRuleOutputError>(id: "describeComplianceByConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse, DescribeComplianceByConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput, DescribeComplianceByConfigRuleOutputError>(id: "describeComplianceByConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput, DescribeComplianceByConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeComplianceByConfigRuleOutputResponse, DescribeComplianceByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeComplianceByConfigRuleOutput, DescribeComplianceByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeComplianceByConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse>(xmlName: "DescribeComplianceByConfigRuleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.DescribeComplianceByConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(xmlName: "DescribeComplianceByConfigRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeComplianceByConfigRuleOutputResponse, DescribeComplianceByConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeComplianceByConfigRuleOutput, DescribeComplianceByConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeComplianceByConfigRuleOutputResponse, DescribeComplianceByConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeComplianceByConfigRuleOutputResponse, DescribeComplianceByConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeComplianceByConfigRuleOutputResponse, DescribeComplianceByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeComplianceByConfigRuleOutput, DescribeComplianceByConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeComplianceByConfigRuleOutput, DescribeComplianceByConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeComplianceByConfigRuleOutput, DescribeComplianceByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1219,14 +1219,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeComplianceByResourceInput :
     ///
-    /// - Returns: `DescribeComplianceByResourceOutputResponse` :
+    /// - Returns: `DescribeComplianceByResourceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func describeComplianceByResource(input: DescribeComplianceByResourceInput) async throws -> DescribeComplianceByResourceOutputResponse
+    public func describeComplianceByResource(input: DescribeComplianceByResourceInput) async throws -> DescribeComplianceByResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1242,21 +1242,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse, DescribeComplianceByResourceOutputError>(id: "describeComplianceByResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse, DescribeComplianceByResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput, DescribeComplianceByResourceOutputError>(id: "describeComplianceByResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput, DescribeComplianceByResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeComplianceByResourceOutputResponse, DescribeComplianceByResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeComplianceByResourceOutput, DescribeComplianceByResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeComplianceByResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse>(xmlName: "DescribeComplianceByResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(xAmzTarget: "StarlingDoveService.DescribeComplianceByResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(xmlName: "DescribeComplianceByResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeComplianceByResourceOutputResponse, DescribeComplianceByResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeComplianceByResourceOutput, DescribeComplianceByResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeComplianceByResourceOutputResponse, DescribeComplianceByResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeComplianceByResourceOutputResponse, DescribeComplianceByResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeComplianceByResourceOutputResponse, DescribeComplianceByResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeComplianceByResourceOutput, DescribeComplianceByResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeComplianceByResourceOutput, DescribeComplianceByResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeComplianceByResourceOutput, DescribeComplianceByResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1265,7 +1265,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConfigRuleEvaluationStatusInput :
     ///
-    /// - Returns: `DescribeConfigRuleEvaluationStatusOutputResponse` :
+    /// - Returns: `DescribeConfigRuleEvaluationStatusOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,7 +1273,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    public func describeConfigRuleEvaluationStatus(input: DescribeConfigRuleEvaluationStatusInput) async throws -> DescribeConfigRuleEvaluationStatusOutputResponse
+    public func describeConfigRuleEvaluationStatus(input: DescribeConfigRuleEvaluationStatusInput) async throws -> DescribeConfigRuleEvaluationStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1289,21 +1289,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse, DescribeConfigRuleEvaluationStatusOutputError>(id: "describeConfigRuleEvaluationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse, DescribeConfigRuleEvaluationStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput, DescribeConfigRuleEvaluationStatusOutputError>(id: "describeConfigRuleEvaluationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput, DescribeConfigRuleEvaluationStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigRuleEvaluationStatusOutputResponse, DescribeConfigRuleEvaluationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigRuleEvaluationStatusOutput, DescribeConfigRuleEvaluationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConfigRuleEvaluationStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse>(xmlName: "DescribeConfigRuleEvaluationStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigRuleEvaluationStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(xmlName: "DescribeConfigRuleEvaluationStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigRuleEvaluationStatusOutputResponse, DescribeConfigRuleEvaluationStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigRuleEvaluationStatusOutput, DescribeConfigRuleEvaluationStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigRuleEvaluationStatusOutputResponse, DescribeConfigRuleEvaluationStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigRuleEvaluationStatusOutputResponse, DescribeConfigRuleEvaluationStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigRuleEvaluationStatusOutputResponse, DescribeConfigRuleEvaluationStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigRuleEvaluationStatusOutput, DescribeConfigRuleEvaluationStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigRuleEvaluationStatusOutput, DescribeConfigRuleEvaluationStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigRuleEvaluationStatusOutput, DescribeConfigRuleEvaluationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1312,7 +1312,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConfigRulesInput :
     ///
-    /// - Returns: `DescribeConfigRulesOutputResponse` :
+    /// - Returns: `DescribeConfigRulesOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1320,7 +1320,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    public func describeConfigRules(input: DescribeConfigRulesInput) async throws -> DescribeConfigRulesOutputResponse
+    public func describeConfigRules(input: DescribeConfigRulesInput) async throws -> DescribeConfigRulesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1336,21 +1336,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse, DescribeConfigRulesOutputError>(id: "describeConfigRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse, DescribeConfigRulesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConfigRulesInput, DescribeConfigRulesOutput, DescribeConfigRulesOutputError>(id: "describeConfigRules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput, DescribeConfigRulesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigRulesOutputResponse, DescribeConfigRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigRulesOutput, DescribeConfigRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConfigRules"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse>(xmlName: "DescribeConfigRulesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigRules"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(xmlName: "DescribeConfigRulesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigRulesOutputResponse, DescribeConfigRulesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigRulesOutput, DescribeConfigRulesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigRulesOutputResponse, DescribeConfigRulesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigRulesOutputResponse, DescribeConfigRulesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigRulesOutputResponse, DescribeConfigRulesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigRulesOutput, DescribeConfigRulesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigRulesOutput, DescribeConfigRulesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigRulesOutput, DescribeConfigRulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1359,7 +1359,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConfigurationAggregatorSourcesStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConfigurationAggregatorSourcesStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConfigurationAggregatorSourcesStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1368,7 +1368,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    public func describeConfigurationAggregatorSourcesStatus(input: DescribeConfigurationAggregatorSourcesStatusInput) async throws -> DescribeConfigurationAggregatorSourcesStatusOutputResponse
+    public func describeConfigurationAggregatorSourcesStatus(input: DescribeConfigurationAggregatorSourcesStatusInput) async throws -> DescribeConfigurationAggregatorSourcesStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1384,21 +1384,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse, DescribeConfigurationAggregatorSourcesStatusOutputError>(id: "describeConfigurationAggregatorSourcesStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse, DescribeConfigurationAggregatorSourcesStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput, DescribeConfigurationAggregatorSourcesStatusOutputError>(id: "describeConfigurationAggregatorSourcesStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput, DescribeConfigurationAggregatorSourcesStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationAggregatorSourcesStatusOutputResponse, DescribeConfigurationAggregatorSourcesStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput, DescribeConfigurationAggregatorSourcesStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConfigurationAggregatorSourcesStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse>(xmlName: "DescribeConfigurationAggregatorSourcesStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationAggregatorSourcesStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(xmlName: "DescribeConfigurationAggregatorSourcesStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationAggregatorSourcesStatusOutputResponse, DescribeConfigurationAggregatorSourcesStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationAggregatorSourcesStatusOutput, DescribeConfigurationAggregatorSourcesStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationAggregatorSourcesStatusOutputResponse, DescribeConfigurationAggregatorSourcesStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationAggregatorSourcesStatusOutputResponse, DescribeConfigurationAggregatorSourcesStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorSourcesStatusOutputResponse, DescribeConfigurationAggregatorSourcesStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationAggregatorSourcesStatusOutput, DescribeConfigurationAggregatorSourcesStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput, DescribeConfigurationAggregatorSourcesStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput, DescribeConfigurationAggregatorSourcesStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1407,7 +1407,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConfigurationAggregatorsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConfigurationAggregatorsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConfigurationAggregatorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1416,7 +1416,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    public func describeConfigurationAggregators(input: DescribeConfigurationAggregatorsInput) async throws -> DescribeConfigurationAggregatorsOutputResponse
+    public func describeConfigurationAggregators(input: DescribeConfigurationAggregatorsInput) async throws -> DescribeConfigurationAggregatorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1432,21 +1432,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse, DescribeConfigurationAggregatorsOutputError>(id: "describeConfigurationAggregators")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse, DescribeConfigurationAggregatorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput, DescribeConfigurationAggregatorsOutputError>(id: "describeConfigurationAggregators")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput, DescribeConfigurationAggregatorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationAggregatorsOutputResponse, DescribeConfigurationAggregatorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationAggregatorsOutput, DescribeConfigurationAggregatorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConfigurationAggregators"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse>(xmlName: "DescribeConfigurationAggregatorsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationAggregators"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(xmlName: "DescribeConfigurationAggregatorsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationAggregatorsOutputResponse, DescribeConfigurationAggregatorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationAggregatorsOutput, DescribeConfigurationAggregatorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationAggregatorsOutputResponse, DescribeConfigurationAggregatorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationAggregatorsOutputResponse, DescribeConfigurationAggregatorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorsOutputResponse, DescribeConfigurationAggregatorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationAggregatorsOutput, DescribeConfigurationAggregatorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationAggregatorsOutput, DescribeConfigurationAggregatorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorsOutput, DescribeConfigurationAggregatorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1455,13 +1455,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConfigurationRecorderStatusInput : The input for the [DescribeConfigurationRecorderStatus] action.
     ///
-    /// - Returns: `DescribeConfigurationRecorderStatusOutputResponse` : The output for the [DescribeConfigurationRecorderStatus] action, in JSON format.
+    /// - Returns: `DescribeConfigurationRecorderStatusOutput` : The output for the [DescribeConfigurationRecorderStatus] action, in JSON format.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    public func describeConfigurationRecorderStatus(input: DescribeConfigurationRecorderStatusInput) async throws -> DescribeConfigurationRecorderStatusOutputResponse
+    public func describeConfigurationRecorderStatus(input: DescribeConfigurationRecorderStatusInput) async throws -> DescribeConfigurationRecorderStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1477,21 +1477,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutputResponse, DescribeConfigurationRecorderStatusOutputError>(id: "describeConfigurationRecorderStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutputResponse, DescribeConfigurationRecorderStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput, DescribeConfigurationRecorderStatusOutputError>(id: "describeConfigurationRecorderStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput, DescribeConfigurationRecorderStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationRecorderStatusOutputResponse, DescribeConfigurationRecorderStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationRecorderStatusOutput, DescribeConfigurationRecorderStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConfigurationRecorderStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutputResponse>(xmlName: "DescribeConfigurationRecorderStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationRecorderStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(xmlName: "DescribeConfigurationRecorderStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationRecorderStatusOutputResponse, DescribeConfigurationRecorderStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationRecorderStatusOutput, DescribeConfigurationRecorderStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationRecorderStatusOutputResponse, DescribeConfigurationRecorderStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationRecorderStatusOutputResponse, DescribeConfigurationRecorderStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationRecorderStatusOutputResponse, DescribeConfigurationRecorderStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationRecorderStatusOutput, DescribeConfigurationRecorderStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationRecorderStatusOutput, DescribeConfigurationRecorderStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationRecorderStatusOutput, DescribeConfigurationRecorderStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1500,13 +1500,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConfigurationRecordersInput : The input for the [DescribeConfigurationRecorders] action.
     ///
-    /// - Returns: `DescribeConfigurationRecordersOutputResponse` : The output for the [DescribeConfigurationRecorders] action.
+    /// - Returns: `DescribeConfigurationRecordersOutput` : The output for the [DescribeConfigurationRecorders] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    public func describeConfigurationRecorders(input: DescribeConfigurationRecordersInput) async throws -> DescribeConfigurationRecordersOutputResponse
+    public func describeConfigurationRecorders(input: DescribeConfigurationRecordersInput) async throws -> DescribeConfigurationRecordersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1522,21 +1522,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutputResponse, DescribeConfigurationRecordersOutputError>(id: "describeConfigurationRecorders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutputResponse, DescribeConfigurationRecordersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput, DescribeConfigurationRecordersOutputError>(id: "describeConfigurationRecorders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput, DescribeConfigurationRecordersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationRecordersOutputResponse, DescribeConfigurationRecordersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationRecordersOutput, DescribeConfigurationRecordersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConfigurationRecorders"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutputResponse>(xmlName: "DescribeConfigurationRecordersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationRecorders"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(xmlName: "DescribeConfigurationRecordersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationRecordersOutputResponse, DescribeConfigurationRecordersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationRecordersOutput, DescribeConfigurationRecordersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationRecordersOutputResponse, DescribeConfigurationRecordersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationRecordersOutputResponse, DescribeConfigurationRecordersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationRecordersOutputResponse, DescribeConfigurationRecordersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationRecordersOutput, DescribeConfigurationRecordersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationRecordersOutput, DescribeConfigurationRecordersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationRecordersOutput, DescribeConfigurationRecordersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1545,7 +1545,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConformancePackComplianceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConformancePackComplianceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConformancePackComplianceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1555,7 +1555,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleInConformancePackException` : Config rule that you passed in the filter does not exist.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    public func describeConformancePackCompliance(input: DescribeConformancePackComplianceInput) async throws -> DescribeConformancePackComplianceOutputResponse
+    public func describeConformancePackCompliance(input: DescribeConformancePackComplianceInput) async throws -> DescribeConformancePackComplianceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1571,21 +1571,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse, DescribeConformancePackComplianceOutputError>(id: "describeConformancePackCompliance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse, DescribeConformancePackComplianceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput, DescribeConformancePackComplianceOutputError>(id: "describeConformancePackCompliance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput, DescribeConformancePackComplianceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConformancePackComplianceOutputResponse, DescribeConformancePackComplianceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConformancePackComplianceOutput, DescribeConformancePackComplianceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConformancePackCompliance"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse>(xmlName: "DescribeConformancePackComplianceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(xAmzTarget: "StarlingDoveService.DescribeConformancePackCompliance"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(xmlName: "DescribeConformancePackComplianceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConformancePackComplianceOutputResponse, DescribeConformancePackComplianceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConformancePackComplianceOutput, DescribeConformancePackComplianceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConformancePackComplianceOutputResponse, DescribeConformancePackComplianceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConformancePackComplianceOutputResponse, DescribeConformancePackComplianceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConformancePackComplianceOutputResponse, DescribeConformancePackComplianceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConformancePackComplianceOutput, DescribeConformancePackComplianceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConformancePackComplianceOutput, DescribeConformancePackComplianceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConformancePackComplianceOutput, DescribeConformancePackComplianceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1594,7 +1594,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConformancePackStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConformancePackStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConformancePackStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1602,7 +1602,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func describeConformancePackStatus(input: DescribeConformancePackStatusInput) async throws -> DescribeConformancePackStatusOutputResponse
+    public func describeConformancePackStatus(input: DescribeConformancePackStatusInput) async throws -> DescribeConformancePackStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1618,21 +1618,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse, DescribeConformancePackStatusOutputError>(id: "describeConformancePackStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse, DescribeConformancePackStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput, DescribeConformancePackStatusOutputError>(id: "describeConformancePackStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput, DescribeConformancePackStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConformancePackStatusOutputResponse, DescribeConformancePackStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConformancePackStatusOutput, DescribeConformancePackStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConformancePackStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse>(xmlName: "DescribeConformancePackStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConformancePackStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(xmlName: "DescribeConformancePackStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConformancePackStatusOutputResponse, DescribeConformancePackStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConformancePackStatusOutput, DescribeConformancePackStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConformancePackStatusOutputResponse, DescribeConformancePackStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConformancePackStatusOutputResponse, DescribeConformancePackStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConformancePackStatusOutputResponse, DescribeConformancePackStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConformancePackStatusOutput, DescribeConformancePackStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConformancePackStatusOutput, DescribeConformancePackStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConformancePackStatusOutput, DescribeConformancePackStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1641,7 +1641,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeConformancePacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConformancePacksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConformancePacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1650,7 +1650,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    public func describeConformancePacks(input: DescribeConformancePacksInput) async throws -> DescribeConformancePacksOutputResponse
+    public func describeConformancePacks(input: DescribeConformancePacksInput) async throws -> DescribeConformancePacksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1666,21 +1666,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse, DescribeConformancePacksOutputError>(id: "describeConformancePacks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse, DescribeConformancePacksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConformancePacksInput, DescribeConformancePacksOutput, DescribeConformancePacksOutputError>(id: "describeConformancePacks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput, DescribeConformancePacksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConformancePacksOutputResponse, DescribeConformancePacksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConformancePacksOutput, DescribeConformancePacksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeConformancePacks"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse>(xmlName: "DescribeConformancePacksRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(xAmzTarget: "StarlingDoveService.DescribeConformancePacks"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(xmlName: "DescribeConformancePacksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConformancePacksOutputResponse, DescribeConformancePacksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConformancePacksOutput, DescribeConformancePacksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConformancePacksOutputResponse, DescribeConformancePacksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConformancePacksOutputResponse, DescribeConformancePacksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConformancePacksOutputResponse, DescribeConformancePacksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConformancePacksOutput, DescribeConformancePacksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConformancePacksOutput, DescribeConformancePacksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConformancePacksOutput, DescribeConformancePacksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1689,13 +1689,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeDeliveryChannelStatusInput : The input for the [DeliveryChannelStatus] action.
     ///
-    /// - Returns: `DescribeDeliveryChannelStatusOutputResponse` : The output for the [DescribeDeliveryChannelStatus] action.
+    /// - Returns: `DescribeDeliveryChannelStatusOutput` : The output for the [DescribeDeliveryChannelStatus] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    public func describeDeliveryChannelStatus(input: DescribeDeliveryChannelStatusInput) async throws -> DescribeDeliveryChannelStatusOutputResponse
+    public func describeDeliveryChannelStatus(input: DescribeDeliveryChannelStatusInput) async throws -> DescribeDeliveryChannelStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1711,21 +1711,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutputResponse, DescribeDeliveryChannelStatusOutputError>(id: "describeDeliveryChannelStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutputResponse, DescribeDeliveryChannelStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput, DescribeDeliveryChannelStatusOutputError>(id: "describeDeliveryChannelStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput, DescribeDeliveryChannelStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeliveryChannelStatusOutputResponse, DescribeDeliveryChannelStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeliveryChannelStatusOutput, DescribeDeliveryChannelStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeDeliveryChannelStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutputResponse>(xmlName: "DescribeDeliveryChannelStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeDeliveryChannelStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(xmlName: "DescribeDeliveryChannelStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeliveryChannelStatusOutputResponse, DescribeDeliveryChannelStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeliveryChannelStatusOutput, DescribeDeliveryChannelStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeliveryChannelStatusOutputResponse, DescribeDeliveryChannelStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeliveryChannelStatusOutputResponse, DescribeDeliveryChannelStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelStatusOutputResponse, DescribeDeliveryChannelStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeliveryChannelStatusOutput, DescribeDeliveryChannelStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeliveryChannelStatusOutput, DescribeDeliveryChannelStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelStatusOutput, DescribeDeliveryChannelStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1734,13 +1734,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeDeliveryChannelsInput : The input for the [DescribeDeliveryChannels] action.
     ///
-    /// - Returns: `DescribeDeliveryChannelsOutputResponse` : The output for the [DescribeDeliveryChannels] action.
+    /// - Returns: `DescribeDeliveryChannelsOutput` : The output for the [DescribeDeliveryChannels] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    public func describeDeliveryChannels(input: DescribeDeliveryChannelsInput) async throws -> DescribeDeliveryChannelsOutputResponse
+    public func describeDeliveryChannels(input: DescribeDeliveryChannelsInput) async throws -> DescribeDeliveryChannelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1756,21 +1756,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutputResponse, DescribeDeliveryChannelsOutputError>(id: "describeDeliveryChannels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutputResponse, DescribeDeliveryChannelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput, DescribeDeliveryChannelsOutputError>(id: "describeDeliveryChannels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput, DescribeDeliveryChannelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeliveryChannelsOutputResponse, DescribeDeliveryChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeliveryChannelsOutput, DescribeDeliveryChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeDeliveryChannels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutputResponse>(xmlName: "DescribeDeliveryChannelsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(xAmzTarget: "StarlingDoveService.DescribeDeliveryChannels"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(xmlName: "DescribeDeliveryChannelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeliveryChannelsOutputResponse, DescribeDeliveryChannelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeliveryChannelsOutput, DescribeDeliveryChannelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeliveryChannelsOutputResponse, DescribeDeliveryChannelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeliveryChannelsOutputResponse, DescribeDeliveryChannelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelsOutputResponse, DescribeDeliveryChannelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeliveryChannelsOutput, DescribeDeliveryChannelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeliveryChannelsOutput, DescribeDeliveryChannelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelsOutput, DescribeDeliveryChannelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1779,7 +1779,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeOrganizationConfigRuleStatusesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConfigRuleStatusesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConfigRuleStatusesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,7 +1799,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    public func describeOrganizationConfigRuleStatuses(input: DescribeOrganizationConfigRuleStatusesInput) async throws -> DescribeOrganizationConfigRuleStatusesOutputResponse
+    public func describeOrganizationConfigRuleStatuses(input: DescribeOrganizationConfigRuleStatusesInput) async throws -> DescribeOrganizationConfigRuleStatusesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1815,21 +1815,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse, DescribeOrganizationConfigRuleStatusesOutputError>(id: "describeOrganizationConfigRuleStatuses")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse, DescribeOrganizationConfigRuleStatusesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput, DescribeOrganizationConfigRuleStatusesOutputError>(id: "describeOrganizationConfigRuleStatuses")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput, DescribeOrganizationConfigRuleStatusesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConfigRuleStatusesOutputResponse, DescribeOrganizationConfigRuleStatusesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConfigRuleStatusesOutput, DescribeOrganizationConfigRuleStatusesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConfigRuleStatuses"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse>(xmlName: "DescribeOrganizationConfigRuleStatusesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConfigRuleStatuses"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(xmlName: "DescribeOrganizationConfigRuleStatusesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConfigRuleStatusesOutputResponse, DescribeOrganizationConfigRuleStatusesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConfigRuleStatusesOutput, DescribeOrganizationConfigRuleStatusesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConfigRuleStatusesOutputResponse, DescribeOrganizationConfigRuleStatusesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigRuleStatusesOutputResponse, DescribeOrganizationConfigRuleStatusesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRuleStatusesOutputResponse, DescribeOrganizationConfigRuleStatusesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConfigRuleStatusesOutput, DescribeOrganizationConfigRuleStatusesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigRuleStatusesOutput, DescribeOrganizationConfigRuleStatusesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRuleStatusesOutput, DescribeOrganizationConfigRuleStatusesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1838,7 +1838,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeOrganizationConfigRulesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConfigRulesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConfigRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1858,7 +1858,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    public func describeOrganizationConfigRules(input: DescribeOrganizationConfigRulesInput) async throws -> DescribeOrganizationConfigRulesOutputResponse
+    public func describeOrganizationConfigRules(input: DescribeOrganizationConfigRulesInput) async throws -> DescribeOrganizationConfigRulesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1874,21 +1874,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse, DescribeOrganizationConfigRulesOutputError>(id: "describeOrganizationConfigRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse, DescribeOrganizationConfigRulesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput, DescribeOrganizationConfigRulesOutputError>(id: "describeOrganizationConfigRules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput, DescribeOrganizationConfigRulesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConfigRulesOutputResponse, DescribeOrganizationConfigRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConfigRulesOutput, DescribeOrganizationConfigRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConfigRules"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse>(xmlName: "DescribeOrganizationConfigRulesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConfigRules"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(xmlName: "DescribeOrganizationConfigRulesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConfigRulesOutputResponse, DescribeOrganizationConfigRulesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConfigRulesOutput, DescribeOrganizationConfigRulesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConfigRulesOutputResponse, DescribeOrganizationConfigRulesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigRulesOutputResponse, DescribeOrganizationConfigRulesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRulesOutputResponse, DescribeOrganizationConfigRulesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConfigRulesOutput, DescribeOrganizationConfigRulesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigRulesOutput, DescribeOrganizationConfigRulesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRulesOutput, DescribeOrganizationConfigRulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1897,7 +1897,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeOrganizationConformancePackStatusesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConformancePackStatusesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConformancePackStatusesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1917,7 +1917,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    public func describeOrganizationConformancePackStatuses(input: DescribeOrganizationConformancePackStatusesInput) async throws -> DescribeOrganizationConformancePackStatusesOutputResponse
+    public func describeOrganizationConformancePackStatuses(input: DescribeOrganizationConformancePackStatusesInput) async throws -> DescribeOrganizationConformancePackStatusesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1933,21 +1933,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse, DescribeOrganizationConformancePackStatusesOutputError>(id: "describeOrganizationConformancePackStatuses")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse, DescribeOrganizationConformancePackStatusesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput, DescribeOrganizationConformancePackStatusesOutputError>(id: "describeOrganizationConformancePackStatuses")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput, DescribeOrganizationConformancePackStatusesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConformancePackStatusesOutputResponse, DescribeOrganizationConformancePackStatusesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConformancePackStatusesOutput, DescribeOrganizationConformancePackStatusesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConformancePackStatuses"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse>(xmlName: "DescribeOrganizationConformancePackStatusesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConformancePackStatuses"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(xmlName: "DescribeOrganizationConformancePackStatusesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConformancePackStatusesOutputResponse, DescribeOrganizationConformancePackStatusesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConformancePackStatusesOutput, DescribeOrganizationConformancePackStatusesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConformancePackStatusesOutputResponse, DescribeOrganizationConformancePackStatusesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConformancePackStatusesOutputResponse, DescribeOrganizationConformancePackStatusesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePackStatusesOutputResponse, DescribeOrganizationConformancePackStatusesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConformancePackStatusesOutput, DescribeOrganizationConformancePackStatusesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConformancePackStatusesOutput, DescribeOrganizationConformancePackStatusesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePackStatusesOutput, DescribeOrganizationConformancePackStatusesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1956,7 +1956,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeOrganizationConformancePacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConformancePacksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConformancePacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,7 +1976,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    public func describeOrganizationConformancePacks(input: DescribeOrganizationConformancePacksInput) async throws -> DescribeOrganizationConformancePacksOutputResponse
+    public func describeOrganizationConformancePacks(input: DescribeOrganizationConformancePacksInput) async throws -> DescribeOrganizationConformancePacksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1992,21 +1992,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse, DescribeOrganizationConformancePacksOutputError>(id: "describeOrganizationConformancePacks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse, DescribeOrganizationConformancePacksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput, DescribeOrganizationConformancePacksOutputError>(id: "describeOrganizationConformancePacks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput, DescribeOrganizationConformancePacksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConformancePacksOutputResponse, DescribeOrganizationConformancePacksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConformancePacksOutput, DescribeOrganizationConformancePacksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConformancePacks"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse>(xmlName: "DescribeOrganizationConformancePacksRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConformancePacks"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(xmlName: "DescribeOrganizationConformancePacksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConformancePacksOutputResponse, DescribeOrganizationConformancePacksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConformancePacksOutput, DescribeOrganizationConformancePacksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConformancePacksOutputResponse, DescribeOrganizationConformancePacksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConformancePacksOutputResponse, DescribeOrganizationConformancePacksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePacksOutputResponse, DescribeOrganizationConformancePacksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConformancePacksOutput, DescribeOrganizationConformancePacksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConformancePacksOutput, DescribeOrganizationConformancePacksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePacksOutput, DescribeOrganizationConformancePacksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2015,7 +2015,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribePendingAggregationRequestsInput : [no documentation found]
     ///
-    /// - Returns: `DescribePendingAggregationRequestsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePendingAggregationRequestsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2023,7 +2023,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func describePendingAggregationRequests(input: DescribePendingAggregationRequestsInput) async throws -> DescribePendingAggregationRequestsOutputResponse
+    public func describePendingAggregationRequests(input: DescribePendingAggregationRequestsInput) async throws -> DescribePendingAggregationRequestsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2039,21 +2039,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse, DescribePendingAggregationRequestsOutputError>(id: "describePendingAggregationRequests")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse, DescribePendingAggregationRequestsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput, DescribePendingAggregationRequestsOutputError>(id: "describePendingAggregationRequests")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput, DescribePendingAggregationRequestsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePendingAggregationRequestsOutputResponse, DescribePendingAggregationRequestsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePendingAggregationRequestsOutput, DescribePendingAggregationRequestsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse>(xAmzTarget: "StarlingDoveService.DescribePendingAggregationRequests"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse>(xmlName: "DescribePendingAggregationRequestsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(xAmzTarget: "StarlingDoveService.DescribePendingAggregationRequests"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(xmlName: "DescribePendingAggregationRequestsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePendingAggregationRequestsOutputResponse, DescribePendingAggregationRequestsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePendingAggregationRequestsOutput, DescribePendingAggregationRequestsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePendingAggregationRequestsOutputResponse, DescribePendingAggregationRequestsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePendingAggregationRequestsOutputResponse, DescribePendingAggregationRequestsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePendingAggregationRequestsOutputResponse, DescribePendingAggregationRequestsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePendingAggregationRequestsOutput, DescribePendingAggregationRequestsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePendingAggregationRequestsOutput, DescribePendingAggregationRequestsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePendingAggregationRequestsOutput, DescribePendingAggregationRequestsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2062,8 +2062,8 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeRemediationConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRemediationConfigurationsOutputResponse` : [no documentation found]
-    public func describeRemediationConfigurations(input: DescribeRemediationConfigurationsInput) async throws -> DescribeRemediationConfigurationsOutputResponse
+    /// - Returns: `DescribeRemediationConfigurationsOutput` : [no documentation found]
+    public func describeRemediationConfigurations(input: DescribeRemediationConfigurationsInput) async throws -> DescribeRemediationConfigurationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2079,21 +2079,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutputResponse, DescribeRemediationConfigurationsOutputError>(id: "describeRemediationConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutputResponse, DescribeRemediationConfigurationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput, DescribeRemediationConfigurationsOutputError>(id: "describeRemediationConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput, DescribeRemediationConfigurationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRemediationConfigurationsOutputResponse, DescribeRemediationConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRemediationConfigurationsOutput, DescribeRemediationConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeRemediationConfigurations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutputResponse>(xmlName: "DescribeRemediationConfigurationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(xAmzTarget: "StarlingDoveService.DescribeRemediationConfigurations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(xmlName: "DescribeRemediationConfigurationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRemediationConfigurationsOutputResponse, DescribeRemediationConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRemediationConfigurationsOutput, DescribeRemediationConfigurationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRemediationConfigurationsOutputResponse, DescribeRemediationConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRemediationConfigurationsOutputResponse, DescribeRemediationConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRemediationConfigurationsOutputResponse, DescribeRemediationConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRemediationConfigurationsOutput, DescribeRemediationConfigurationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRemediationConfigurationsOutput, DescribeRemediationConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRemediationConfigurationsOutput, DescribeRemediationConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2102,14 +2102,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeRemediationExceptionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRemediationExceptionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRemediationExceptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func describeRemediationExceptions(input: DescribeRemediationExceptionsInput) async throws -> DescribeRemediationExceptionsOutputResponse
+    public func describeRemediationExceptions(input: DescribeRemediationExceptionsInput) async throws -> DescribeRemediationExceptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2125,21 +2125,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse, DescribeRemediationExceptionsOutputError>(id: "describeRemediationExceptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse, DescribeRemediationExceptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput, DescribeRemediationExceptionsOutputError>(id: "describeRemediationExceptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput, DescribeRemediationExceptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRemediationExceptionsOutputResponse, DescribeRemediationExceptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRemediationExceptionsOutput, DescribeRemediationExceptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeRemediationExceptions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse>(xmlName: "DescribeRemediationExceptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(xAmzTarget: "StarlingDoveService.DescribeRemediationExceptions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(xmlName: "DescribeRemediationExceptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRemediationExceptionsOutputResponse, DescribeRemediationExceptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRemediationExceptionsOutput, DescribeRemediationExceptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRemediationExceptionsOutputResponse, DescribeRemediationExceptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRemediationExceptionsOutputResponse, DescribeRemediationExceptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRemediationExceptionsOutputResponse, DescribeRemediationExceptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRemediationExceptionsOutput, DescribeRemediationExceptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRemediationExceptionsOutput, DescribeRemediationExceptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRemediationExceptionsOutput, DescribeRemediationExceptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2148,7 +2148,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeRemediationExecutionStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRemediationExecutionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRemediationExecutionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2156,7 +2156,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
-    public func describeRemediationExecutionStatus(input: DescribeRemediationExecutionStatusInput) async throws -> DescribeRemediationExecutionStatusOutputResponse
+    public func describeRemediationExecutionStatus(input: DescribeRemediationExecutionStatusInput) async throws -> DescribeRemediationExecutionStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2172,21 +2172,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse, DescribeRemediationExecutionStatusOutputError>(id: "describeRemediationExecutionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse, DescribeRemediationExecutionStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput, DescribeRemediationExecutionStatusOutputError>(id: "describeRemediationExecutionStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput, DescribeRemediationExecutionStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRemediationExecutionStatusOutputResponse, DescribeRemediationExecutionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRemediationExecutionStatusOutput, DescribeRemediationExecutionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeRemediationExecutionStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse>(xmlName: "DescribeRemediationExecutionStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeRemediationExecutionStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(xmlName: "DescribeRemediationExecutionStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRemediationExecutionStatusOutputResponse, DescribeRemediationExecutionStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRemediationExecutionStatusOutput, DescribeRemediationExecutionStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRemediationExecutionStatusOutputResponse, DescribeRemediationExecutionStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRemediationExecutionStatusOutputResponse, DescribeRemediationExecutionStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRemediationExecutionStatusOutputResponse, DescribeRemediationExecutionStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRemediationExecutionStatusOutput, DescribeRemediationExecutionStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRemediationExecutionStatusOutput, DescribeRemediationExecutionStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRemediationExecutionStatusOutput, DescribeRemediationExecutionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2195,7 +2195,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter DescribeRetentionConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRetentionConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRetentionConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2203,7 +2203,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRetentionConfigurationException` : You have specified a retention configuration that does not exist.
-    public func describeRetentionConfigurations(input: DescribeRetentionConfigurationsInput) async throws -> DescribeRetentionConfigurationsOutputResponse
+    public func describeRetentionConfigurations(input: DescribeRetentionConfigurationsInput) async throws -> DescribeRetentionConfigurationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2219,21 +2219,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse, DescribeRetentionConfigurationsOutputError>(id: "describeRetentionConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse, DescribeRetentionConfigurationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput, DescribeRetentionConfigurationsOutputError>(id: "describeRetentionConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput, DescribeRetentionConfigurationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRetentionConfigurationsOutputResponse, DescribeRetentionConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRetentionConfigurationsOutput, DescribeRetentionConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse>(xAmzTarget: "StarlingDoveService.DescribeRetentionConfigurations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse>(xmlName: "DescribeRetentionConfigurationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(xAmzTarget: "StarlingDoveService.DescribeRetentionConfigurations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(xmlName: "DescribeRetentionConfigurationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRetentionConfigurationsOutputResponse, DescribeRetentionConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRetentionConfigurationsOutput, DescribeRetentionConfigurationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRetentionConfigurationsOutputResponse, DescribeRetentionConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRetentionConfigurationsOutputResponse, DescribeRetentionConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRetentionConfigurationsOutputResponse, DescribeRetentionConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRetentionConfigurationsOutput, DescribeRetentionConfigurationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRetentionConfigurationsOutput, DescribeRetentionConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRetentionConfigurationsOutput, DescribeRetentionConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2242,7 +2242,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetAggregateComplianceDetailsByConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateComplianceDetailsByConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateComplianceDetailsByConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2251,7 +2251,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getAggregateComplianceDetailsByConfigRule(input: GetAggregateComplianceDetailsByConfigRuleInput) async throws -> GetAggregateComplianceDetailsByConfigRuleOutputResponse
+    public func getAggregateComplianceDetailsByConfigRule(input: GetAggregateComplianceDetailsByConfigRuleInput) async throws -> GetAggregateComplianceDetailsByConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2267,21 +2267,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse, GetAggregateComplianceDetailsByConfigRuleOutputError>(id: "getAggregateComplianceDetailsByConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse, GetAggregateComplianceDetailsByConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput, GetAggregateComplianceDetailsByConfigRuleOutputError>(id: "getAggregateComplianceDetailsByConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput, GetAggregateComplianceDetailsByConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateComplianceDetailsByConfigRuleOutputResponse, GetAggregateComplianceDetailsByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput, GetAggregateComplianceDetailsByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.GetAggregateComplianceDetailsByConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse>(xmlName: "GetAggregateComplianceDetailsByConfigRuleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.GetAggregateComplianceDetailsByConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(xmlName: "GetAggregateComplianceDetailsByConfigRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateComplianceDetailsByConfigRuleOutputResponse, GetAggregateComplianceDetailsByConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateComplianceDetailsByConfigRuleOutput, GetAggregateComplianceDetailsByConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateComplianceDetailsByConfigRuleOutputResponse, GetAggregateComplianceDetailsByConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateComplianceDetailsByConfigRuleOutputResponse, GetAggregateComplianceDetailsByConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateComplianceDetailsByConfigRuleOutputResponse, GetAggregateComplianceDetailsByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateComplianceDetailsByConfigRuleOutput, GetAggregateComplianceDetailsByConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput, GetAggregateComplianceDetailsByConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput, GetAggregateComplianceDetailsByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2290,7 +2290,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetAggregateConfigRuleComplianceSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateConfigRuleComplianceSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateConfigRuleComplianceSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2299,7 +2299,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getAggregateConfigRuleComplianceSummary(input: GetAggregateConfigRuleComplianceSummaryInput) async throws -> GetAggregateConfigRuleComplianceSummaryOutputResponse
+    public func getAggregateConfigRuleComplianceSummary(input: GetAggregateConfigRuleComplianceSummaryInput) async throws -> GetAggregateConfigRuleComplianceSummaryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2315,21 +2315,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse, GetAggregateConfigRuleComplianceSummaryOutputError>(id: "getAggregateConfigRuleComplianceSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse, GetAggregateConfigRuleComplianceSummaryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput, GetAggregateConfigRuleComplianceSummaryOutputError>(id: "getAggregateConfigRuleComplianceSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput, GetAggregateConfigRuleComplianceSummaryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateConfigRuleComplianceSummaryOutputResponse, GetAggregateConfigRuleComplianceSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateConfigRuleComplianceSummaryOutput, GetAggregateConfigRuleComplianceSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse>(xAmzTarget: "StarlingDoveService.GetAggregateConfigRuleComplianceSummary"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse>(xmlName: "GetAggregateConfigRuleComplianceSummaryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(xAmzTarget: "StarlingDoveService.GetAggregateConfigRuleComplianceSummary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(xmlName: "GetAggregateConfigRuleComplianceSummaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateConfigRuleComplianceSummaryOutputResponse, GetAggregateConfigRuleComplianceSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateConfigRuleComplianceSummaryOutput, GetAggregateConfigRuleComplianceSummaryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateConfigRuleComplianceSummaryOutputResponse, GetAggregateConfigRuleComplianceSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateConfigRuleComplianceSummaryOutputResponse, GetAggregateConfigRuleComplianceSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateConfigRuleComplianceSummaryOutputResponse, GetAggregateConfigRuleComplianceSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateConfigRuleComplianceSummaryOutput, GetAggregateConfigRuleComplianceSummaryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateConfigRuleComplianceSummaryOutput, GetAggregateConfigRuleComplianceSummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateConfigRuleComplianceSummaryOutput, GetAggregateConfigRuleComplianceSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2338,7 +2338,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetAggregateConformancePackComplianceSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateConformancePackComplianceSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateConformancePackComplianceSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2347,7 +2347,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getAggregateConformancePackComplianceSummary(input: GetAggregateConformancePackComplianceSummaryInput) async throws -> GetAggregateConformancePackComplianceSummaryOutputResponse
+    public func getAggregateConformancePackComplianceSummary(input: GetAggregateConformancePackComplianceSummaryInput) async throws -> GetAggregateConformancePackComplianceSummaryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2363,21 +2363,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse, GetAggregateConformancePackComplianceSummaryOutputError>(id: "getAggregateConformancePackComplianceSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse, GetAggregateConformancePackComplianceSummaryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput, GetAggregateConformancePackComplianceSummaryOutputError>(id: "getAggregateConformancePackComplianceSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput, GetAggregateConformancePackComplianceSummaryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateConformancePackComplianceSummaryOutputResponse, GetAggregateConformancePackComplianceSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateConformancePackComplianceSummaryOutput, GetAggregateConformancePackComplianceSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse>(xAmzTarget: "StarlingDoveService.GetAggregateConformancePackComplianceSummary"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse>(xmlName: "GetAggregateConformancePackComplianceSummaryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(xAmzTarget: "StarlingDoveService.GetAggregateConformancePackComplianceSummary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(xmlName: "GetAggregateConformancePackComplianceSummaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateConformancePackComplianceSummaryOutputResponse, GetAggregateConformancePackComplianceSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateConformancePackComplianceSummaryOutput, GetAggregateConformancePackComplianceSummaryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateConformancePackComplianceSummaryOutputResponse, GetAggregateConformancePackComplianceSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateConformancePackComplianceSummaryOutputResponse, GetAggregateConformancePackComplianceSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateConformancePackComplianceSummaryOutputResponse, GetAggregateConformancePackComplianceSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateConformancePackComplianceSummaryOutput, GetAggregateConformancePackComplianceSummaryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateConformancePackComplianceSummaryOutput, GetAggregateConformancePackComplianceSummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateConformancePackComplianceSummaryOutput, GetAggregateConformancePackComplianceSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2386,7 +2386,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetAggregateDiscoveredResourceCountsInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateDiscoveredResourceCountsOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateDiscoveredResourceCountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2395,7 +2395,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getAggregateDiscoveredResourceCounts(input: GetAggregateDiscoveredResourceCountsInput) async throws -> GetAggregateDiscoveredResourceCountsOutputResponse
+    public func getAggregateDiscoveredResourceCounts(input: GetAggregateDiscoveredResourceCountsInput) async throws -> GetAggregateDiscoveredResourceCountsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2411,21 +2411,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse, GetAggregateDiscoveredResourceCountsOutputError>(id: "getAggregateDiscoveredResourceCounts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse, GetAggregateDiscoveredResourceCountsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput, GetAggregateDiscoveredResourceCountsOutputError>(id: "getAggregateDiscoveredResourceCounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput, GetAggregateDiscoveredResourceCountsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateDiscoveredResourceCountsOutputResponse, GetAggregateDiscoveredResourceCountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateDiscoveredResourceCountsOutput, GetAggregateDiscoveredResourceCountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse>(xAmzTarget: "StarlingDoveService.GetAggregateDiscoveredResourceCounts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse>(xmlName: "GetAggregateDiscoveredResourceCountsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(xAmzTarget: "StarlingDoveService.GetAggregateDiscoveredResourceCounts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(xmlName: "GetAggregateDiscoveredResourceCountsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateDiscoveredResourceCountsOutputResponse, GetAggregateDiscoveredResourceCountsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateDiscoveredResourceCountsOutput, GetAggregateDiscoveredResourceCountsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateDiscoveredResourceCountsOutputResponse, GetAggregateDiscoveredResourceCountsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateDiscoveredResourceCountsOutputResponse, GetAggregateDiscoveredResourceCountsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateDiscoveredResourceCountsOutputResponse, GetAggregateDiscoveredResourceCountsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateDiscoveredResourceCountsOutput, GetAggregateDiscoveredResourceCountsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateDiscoveredResourceCountsOutput, GetAggregateDiscoveredResourceCountsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateDiscoveredResourceCountsOutput, GetAggregateDiscoveredResourceCountsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2434,7 +2434,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetAggregateResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2443,7 +2443,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `OversizedConfigurationItemException` : The configuration item size is outside the allowable range.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getAggregateResourceConfig(input: GetAggregateResourceConfigInput) async throws -> GetAggregateResourceConfigOutputResponse
+    public func getAggregateResourceConfig(input: GetAggregateResourceConfigInput) async throws -> GetAggregateResourceConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2459,21 +2459,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutputResponse, GetAggregateResourceConfigOutputError>(id: "getAggregateResourceConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutputResponse, GetAggregateResourceConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput, GetAggregateResourceConfigOutputError>(id: "getAggregateResourceConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput, GetAggregateResourceConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateResourceConfigOutputResponse, GetAggregateResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAggregateResourceConfigOutput, GetAggregateResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutputResponse>(xAmzTarget: "StarlingDoveService.GetAggregateResourceConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutputResponse>(xmlName: "GetAggregateResourceConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(xAmzTarget: "StarlingDoveService.GetAggregateResourceConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(xmlName: "GetAggregateResourceConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateResourceConfigOutputResponse, GetAggregateResourceConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAggregateResourceConfigOutput, GetAggregateResourceConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateResourceConfigOutputResponse, GetAggregateResourceConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateResourceConfigOutputResponse, GetAggregateResourceConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateResourceConfigOutputResponse, GetAggregateResourceConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAggregateResourceConfigOutput, GetAggregateResourceConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAggregateResourceConfigOutput, GetAggregateResourceConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAggregateResourceConfigOutput, GetAggregateResourceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2482,7 +2482,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetComplianceDetailsByConfigRuleInput :
     ///
-    /// - Returns: `GetComplianceDetailsByConfigRuleOutputResponse` :
+    /// - Returns: `GetComplianceDetailsByConfigRuleOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,7 +2490,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    public func getComplianceDetailsByConfigRule(input: GetComplianceDetailsByConfigRuleInput) async throws -> GetComplianceDetailsByConfigRuleOutputResponse
+    public func getComplianceDetailsByConfigRule(input: GetComplianceDetailsByConfigRuleInput) async throws -> GetComplianceDetailsByConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2506,21 +2506,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse, GetComplianceDetailsByConfigRuleOutputError>(id: "getComplianceDetailsByConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse, GetComplianceDetailsByConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput, GetComplianceDetailsByConfigRuleOutputError>(id: "getComplianceDetailsByConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput, GetComplianceDetailsByConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceDetailsByConfigRuleOutputResponse, GetComplianceDetailsByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceDetailsByConfigRuleOutput, GetComplianceDetailsByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.GetComplianceDetailsByConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse>(xmlName: "GetComplianceDetailsByConfigRuleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.GetComplianceDetailsByConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(xmlName: "GetComplianceDetailsByConfigRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceDetailsByConfigRuleOutputResponse, GetComplianceDetailsByConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceDetailsByConfigRuleOutput, GetComplianceDetailsByConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceDetailsByConfigRuleOutputResponse, GetComplianceDetailsByConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceDetailsByConfigRuleOutputResponse, GetComplianceDetailsByConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceDetailsByConfigRuleOutputResponse, GetComplianceDetailsByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceDetailsByConfigRuleOutput, GetComplianceDetailsByConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceDetailsByConfigRuleOutput, GetComplianceDetailsByConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceDetailsByConfigRuleOutput, GetComplianceDetailsByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2529,13 +2529,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetComplianceDetailsByResourceInput :
     ///
-    /// - Returns: `GetComplianceDetailsByResourceOutputResponse` :
+    /// - Returns: `GetComplianceDetailsByResourceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func getComplianceDetailsByResource(input: GetComplianceDetailsByResourceInput) async throws -> GetComplianceDetailsByResourceOutputResponse
+    public func getComplianceDetailsByResource(input: GetComplianceDetailsByResourceInput) async throws -> GetComplianceDetailsByResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2551,21 +2551,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse, GetComplianceDetailsByResourceOutputError>(id: "getComplianceDetailsByResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse, GetComplianceDetailsByResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput, GetComplianceDetailsByResourceOutputError>(id: "getComplianceDetailsByResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput, GetComplianceDetailsByResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceDetailsByResourceOutputResponse, GetComplianceDetailsByResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceDetailsByResourceOutput, GetComplianceDetailsByResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse>(xAmzTarget: "StarlingDoveService.GetComplianceDetailsByResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse>(xmlName: "GetComplianceDetailsByResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(xAmzTarget: "StarlingDoveService.GetComplianceDetailsByResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(xmlName: "GetComplianceDetailsByResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceDetailsByResourceOutputResponse, GetComplianceDetailsByResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceDetailsByResourceOutput, GetComplianceDetailsByResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceDetailsByResourceOutputResponse, GetComplianceDetailsByResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceDetailsByResourceOutputResponse, GetComplianceDetailsByResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceDetailsByResourceOutputResponse, GetComplianceDetailsByResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceDetailsByResourceOutput, GetComplianceDetailsByResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceDetailsByResourceOutput, GetComplianceDetailsByResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceDetailsByResourceOutput, GetComplianceDetailsByResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2574,8 +2574,8 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetComplianceSummaryByConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `GetComplianceSummaryByConfigRuleOutputResponse` :
-    public func getComplianceSummaryByConfigRule(input: GetComplianceSummaryByConfigRuleInput) async throws -> GetComplianceSummaryByConfigRuleOutputResponse
+    /// - Returns: `GetComplianceSummaryByConfigRuleOutput` :
+    public func getComplianceSummaryByConfigRule(input: GetComplianceSummaryByConfigRuleInput) async throws -> GetComplianceSummaryByConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2591,21 +2591,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutputResponse, GetComplianceSummaryByConfigRuleOutputError>(id: "getComplianceSummaryByConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutputResponse, GetComplianceSummaryByConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput, GetComplianceSummaryByConfigRuleOutputError>(id: "getComplianceSummaryByConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput, GetComplianceSummaryByConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceSummaryByConfigRuleOutputResponse, GetComplianceSummaryByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceSummaryByConfigRuleOutput, GetComplianceSummaryByConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.GetComplianceSummaryByConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.GetComplianceSummaryByConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceSummaryByConfigRuleOutputResponse, GetComplianceSummaryByConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceSummaryByConfigRuleOutput, GetComplianceSummaryByConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceSummaryByConfigRuleOutputResponse, GetComplianceSummaryByConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceSummaryByConfigRuleOutputResponse, GetComplianceSummaryByConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceSummaryByConfigRuleOutputResponse, GetComplianceSummaryByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceSummaryByConfigRuleOutput, GetComplianceSummaryByConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceSummaryByConfigRuleOutput, GetComplianceSummaryByConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceSummaryByConfigRuleOutput, GetComplianceSummaryByConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2614,13 +2614,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetComplianceSummaryByResourceTypeInput :
     ///
-    /// - Returns: `GetComplianceSummaryByResourceTypeOutputResponse` :
+    /// - Returns: `GetComplianceSummaryByResourceTypeOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func getComplianceSummaryByResourceType(input: GetComplianceSummaryByResourceTypeInput) async throws -> GetComplianceSummaryByResourceTypeOutputResponse
+    public func getComplianceSummaryByResourceType(input: GetComplianceSummaryByResourceTypeInput) async throws -> GetComplianceSummaryByResourceTypeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2636,21 +2636,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutputResponse, GetComplianceSummaryByResourceTypeOutputError>(id: "getComplianceSummaryByResourceType")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutputResponse, GetComplianceSummaryByResourceTypeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput, GetComplianceSummaryByResourceTypeOutputError>(id: "getComplianceSummaryByResourceType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput, GetComplianceSummaryByResourceTypeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceSummaryByResourceTypeOutputResponse, GetComplianceSummaryByResourceTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComplianceSummaryByResourceTypeOutput, GetComplianceSummaryByResourceTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutputResponse>(xAmzTarget: "StarlingDoveService.GetComplianceSummaryByResourceType"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutputResponse>(xmlName: "GetComplianceSummaryByResourceTypeRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(xAmzTarget: "StarlingDoveService.GetComplianceSummaryByResourceType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(xmlName: "GetComplianceSummaryByResourceTypeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceSummaryByResourceTypeOutputResponse, GetComplianceSummaryByResourceTypeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComplianceSummaryByResourceTypeOutput, GetComplianceSummaryByResourceTypeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceSummaryByResourceTypeOutputResponse, GetComplianceSummaryByResourceTypeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceSummaryByResourceTypeOutputResponse, GetComplianceSummaryByResourceTypeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceSummaryByResourceTypeOutputResponse, GetComplianceSummaryByResourceTypeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceSummaryByResourceTypeOutput, GetComplianceSummaryByResourceTypeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceSummaryByResourceTypeOutput, GetComplianceSummaryByResourceTypeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComplianceSummaryByResourceTypeOutput, GetComplianceSummaryByResourceTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2659,7 +2659,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetConformancePackComplianceDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetConformancePackComplianceDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetConformancePackComplianceDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2669,7 +2669,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleInConformancePackException` : Config rule that you passed in the filter does not exist.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    public func getConformancePackComplianceDetails(input: GetConformancePackComplianceDetailsInput) async throws -> GetConformancePackComplianceDetailsOutputResponse
+    public func getConformancePackComplianceDetails(input: GetConformancePackComplianceDetailsInput) async throws -> GetConformancePackComplianceDetailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2685,21 +2685,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse, GetConformancePackComplianceDetailsOutputError>(id: "getConformancePackComplianceDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse, GetConformancePackComplianceDetailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput, GetConformancePackComplianceDetailsOutputError>(id: "getConformancePackComplianceDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput, GetConformancePackComplianceDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConformancePackComplianceDetailsOutputResponse, GetConformancePackComplianceDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConformancePackComplianceDetailsOutput, GetConformancePackComplianceDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse>(xAmzTarget: "StarlingDoveService.GetConformancePackComplianceDetails"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse>(xmlName: "GetConformancePackComplianceDetailsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(xAmzTarget: "StarlingDoveService.GetConformancePackComplianceDetails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(xmlName: "GetConformancePackComplianceDetailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConformancePackComplianceDetailsOutputResponse, GetConformancePackComplianceDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConformancePackComplianceDetailsOutput, GetConformancePackComplianceDetailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConformancePackComplianceDetailsOutputResponse, GetConformancePackComplianceDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConformancePackComplianceDetailsOutputResponse, GetConformancePackComplianceDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConformancePackComplianceDetailsOutputResponse, GetConformancePackComplianceDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConformancePackComplianceDetailsOutput, GetConformancePackComplianceDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConformancePackComplianceDetailsOutput, GetConformancePackComplianceDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConformancePackComplianceDetailsOutput, GetConformancePackComplianceDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2708,7 +2708,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetConformancePackComplianceSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetConformancePackComplianceSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetConformancePackComplianceSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2716,7 +2716,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    public func getConformancePackComplianceSummary(input: GetConformancePackComplianceSummaryInput) async throws -> GetConformancePackComplianceSummaryOutputResponse
+    public func getConformancePackComplianceSummary(input: GetConformancePackComplianceSummaryInput) async throws -> GetConformancePackComplianceSummaryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2732,21 +2732,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse, GetConformancePackComplianceSummaryOutputError>(id: "getConformancePackComplianceSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse, GetConformancePackComplianceSummaryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput, GetConformancePackComplianceSummaryOutputError>(id: "getConformancePackComplianceSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput, GetConformancePackComplianceSummaryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConformancePackComplianceSummaryOutputResponse, GetConformancePackComplianceSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConformancePackComplianceSummaryOutput, GetConformancePackComplianceSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse>(xAmzTarget: "StarlingDoveService.GetConformancePackComplianceSummary"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse>(xmlName: "GetConformancePackComplianceSummaryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(xAmzTarget: "StarlingDoveService.GetConformancePackComplianceSummary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(xmlName: "GetConformancePackComplianceSummaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConformancePackComplianceSummaryOutputResponse, GetConformancePackComplianceSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConformancePackComplianceSummaryOutput, GetConformancePackComplianceSummaryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConformancePackComplianceSummaryOutputResponse, GetConformancePackComplianceSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConformancePackComplianceSummaryOutputResponse, GetConformancePackComplianceSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConformancePackComplianceSummaryOutputResponse, GetConformancePackComplianceSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConformancePackComplianceSummaryOutput, GetConformancePackComplianceSummaryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConformancePackComplianceSummaryOutput, GetConformancePackComplianceSummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConformancePackComplianceSummaryOutput, GetConformancePackComplianceSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2755,13 +2755,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetCustomRulePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetCustomRulePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetCustomRulePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    public func getCustomRulePolicy(input: GetCustomRulePolicyInput) async throws -> GetCustomRulePolicyOutputResponse
+    public func getCustomRulePolicy(input: GetCustomRulePolicyInput) async throws -> GetCustomRulePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2777,21 +2777,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCustomRulePolicyInput, GetCustomRulePolicyOutputResponse, GetCustomRulePolicyOutputError>(id: "getCustomRulePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutputResponse, GetCustomRulePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCustomRulePolicyInput, GetCustomRulePolicyOutput, GetCustomRulePolicyOutputError>(id: "getCustomRulePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput, GetCustomRulePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCustomRulePolicyOutputResponse, GetCustomRulePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCustomRulePolicyOutput, GetCustomRulePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutputResponse>(xAmzTarget: "StarlingDoveService.GetCustomRulePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutputResponse>(xmlName: "GetCustomRulePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(xAmzTarget: "StarlingDoveService.GetCustomRulePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(xmlName: "GetCustomRulePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCustomRulePolicyOutputResponse, GetCustomRulePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCustomRulePolicyOutput, GetCustomRulePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCustomRulePolicyOutputResponse, GetCustomRulePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCustomRulePolicyOutputResponse, GetCustomRulePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCustomRulePolicyOutputResponse, GetCustomRulePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCustomRulePolicyOutput, GetCustomRulePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCustomRulePolicyOutput, GetCustomRulePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCustomRulePolicyOutput, GetCustomRulePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2825,7 +2825,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetDiscoveredResourceCountsInput : [no documentation found]
     ///
-    /// - Returns: `GetDiscoveredResourceCountsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDiscoveredResourceCountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,7 +2833,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getDiscoveredResourceCounts(input: GetDiscoveredResourceCountsInput) async throws -> GetDiscoveredResourceCountsOutputResponse
+    public func getDiscoveredResourceCounts(input: GetDiscoveredResourceCountsInput) async throws -> GetDiscoveredResourceCountsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2849,21 +2849,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse, GetDiscoveredResourceCountsOutputError>(id: "getDiscoveredResourceCounts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse, GetDiscoveredResourceCountsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput, GetDiscoveredResourceCountsOutputError>(id: "getDiscoveredResourceCounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput, GetDiscoveredResourceCountsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDiscoveredResourceCountsOutputResponse, GetDiscoveredResourceCountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDiscoveredResourceCountsOutput, GetDiscoveredResourceCountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse>(xAmzTarget: "StarlingDoveService.GetDiscoveredResourceCounts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse>(xmlName: "GetDiscoveredResourceCountsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(xAmzTarget: "StarlingDoveService.GetDiscoveredResourceCounts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(xmlName: "GetDiscoveredResourceCountsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDiscoveredResourceCountsOutputResponse, GetDiscoveredResourceCountsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDiscoveredResourceCountsOutput, GetDiscoveredResourceCountsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDiscoveredResourceCountsOutputResponse, GetDiscoveredResourceCountsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDiscoveredResourceCountsOutputResponse, GetDiscoveredResourceCountsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDiscoveredResourceCountsOutputResponse, GetDiscoveredResourceCountsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDiscoveredResourceCountsOutput, GetDiscoveredResourceCountsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDiscoveredResourceCountsOutput, GetDiscoveredResourceCountsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDiscoveredResourceCountsOutput, GetDiscoveredResourceCountsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2872,7 +2872,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetOrganizationConfigRuleDetailedStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetOrganizationConfigRuleDetailedStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetOrganizationConfigRuleDetailedStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2892,7 +2892,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    public func getOrganizationConfigRuleDetailedStatus(input: GetOrganizationConfigRuleDetailedStatusInput) async throws -> GetOrganizationConfigRuleDetailedStatusOutputResponse
+    public func getOrganizationConfigRuleDetailedStatus(input: GetOrganizationConfigRuleDetailedStatusInput) async throws -> GetOrganizationConfigRuleDetailedStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2908,21 +2908,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse, GetOrganizationConfigRuleDetailedStatusOutputError>(id: "getOrganizationConfigRuleDetailedStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse, GetOrganizationConfigRuleDetailedStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput, GetOrganizationConfigRuleDetailedStatusOutputError>(id: "getOrganizationConfigRuleDetailedStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput, GetOrganizationConfigRuleDetailedStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationConfigRuleDetailedStatusOutputResponse, GetOrganizationConfigRuleDetailedStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationConfigRuleDetailedStatusOutput, GetOrganizationConfigRuleDetailedStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse>(xAmzTarget: "StarlingDoveService.GetOrganizationConfigRuleDetailedStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse>(xmlName: "GetOrganizationConfigRuleDetailedStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(xAmzTarget: "StarlingDoveService.GetOrganizationConfigRuleDetailedStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(xmlName: "GetOrganizationConfigRuleDetailedStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationConfigRuleDetailedStatusOutputResponse, GetOrganizationConfigRuleDetailedStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationConfigRuleDetailedStatusOutput, GetOrganizationConfigRuleDetailedStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationConfigRuleDetailedStatusOutputResponse, GetOrganizationConfigRuleDetailedStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationConfigRuleDetailedStatusOutputResponse, GetOrganizationConfigRuleDetailedStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationConfigRuleDetailedStatusOutputResponse, GetOrganizationConfigRuleDetailedStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationConfigRuleDetailedStatusOutput, GetOrganizationConfigRuleDetailedStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationConfigRuleDetailedStatusOutput, GetOrganizationConfigRuleDetailedStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationConfigRuleDetailedStatusOutput, GetOrganizationConfigRuleDetailedStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2931,7 +2931,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetOrganizationConformancePackDetailedStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetOrganizationConformancePackDetailedStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetOrganizationConformancePackDetailedStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2951,7 +2951,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    public func getOrganizationConformancePackDetailedStatus(input: GetOrganizationConformancePackDetailedStatusInput) async throws -> GetOrganizationConformancePackDetailedStatusOutputResponse
+    public func getOrganizationConformancePackDetailedStatus(input: GetOrganizationConformancePackDetailedStatusInput) async throws -> GetOrganizationConformancePackDetailedStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2967,21 +2967,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse, GetOrganizationConformancePackDetailedStatusOutputError>(id: "getOrganizationConformancePackDetailedStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse, GetOrganizationConformancePackDetailedStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput, GetOrganizationConformancePackDetailedStatusOutputError>(id: "getOrganizationConformancePackDetailedStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput, GetOrganizationConformancePackDetailedStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationConformancePackDetailedStatusOutputResponse, GetOrganizationConformancePackDetailedStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationConformancePackDetailedStatusOutput, GetOrganizationConformancePackDetailedStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse>(xAmzTarget: "StarlingDoveService.GetOrganizationConformancePackDetailedStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse>(xmlName: "GetOrganizationConformancePackDetailedStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(xAmzTarget: "StarlingDoveService.GetOrganizationConformancePackDetailedStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(xmlName: "GetOrganizationConformancePackDetailedStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationConformancePackDetailedStatusOutputResponse, GetOrganizationConformancePackDetailedStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationConformancePackDetailedStatusOutput, GetOrganizationConformancePackDetailedStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationConformancePackDetailedStatusOutputResponse, GetOrganizationConformancePackDetailedStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationConformancePackDetailedStatusOutputResponse, GetOrganizationConformancePackDetailedStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationConformancePackDetailedStatusOutputResponse, GetOrganizationConformancePackDetailedStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationConformancePackDetailedStatusOutput, GetOrganizationConformancePackDetailedStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationConformancePackDetailedStatusOutput, GetOrganizationConformancePackDetailedStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationConformancePackDetailedStatusOutput, GetOrganizationConformancePackDetailedStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2990,7 +2990,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetOrganizationCustomRulePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetOrganizationCustomRulePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetOrganizationCustomRulePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3008,7 +3008,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    public func getOrganizationCustomRulePolicy(input: GetOrganizationCustomRulePolicyInput) async throws -> GetOrganizationCustomRulePolicyOutputResponse
+    public func getOrganizationCustomRulePolicy(input: GetOrganizationCustomRulePolicyInput) async throws -> GetOrganizationCustomRulePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3024,30 +3024,30 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutputResponse, GetOrganizationCustomRulePolicyOutputError>(id: "getOrganizationCustomRulePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutputResponse, GetOrganizationCustomRulePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput, GetOrganizationCustomRulePolicyOutputError>(id: "getOrganizationCustomRulePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput, GetOrganizationCustomRulePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationCustomRulePolicyOutputResponse, GetOrganizationCustomRulePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationCustomRulePolicyOutput, GetOrganizationCustomRulePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutputResponse>(xAmzTarget: "StarlingDoveService.GetOrganizationCustomRulePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutputResponse>(xmlName: "GetOrganizationCustomRulePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(xAmzTarget: "StarlingDoveService.GetOrganizationCustomRulePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(xmlName: "GetOrganizationCustomRulePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationCustomRulePolicyOutputResponse, GetOrganizationCustomRulePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationCustomRulePolicyOutput, GetOrganizationCustomRulePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationCustomRulePolicyOutputResponse, GetOrganizationCustomRulePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationCustomRulePolicyOutputResponse, GetOrganizationCustomRulePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationCustomRulePolicyOutputResponse, GetOrganizationCustomRulePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationCustomRulePolicyOutput, GetOrganizationCustomRulePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationCustomRulePolicyOutput, GetOrganizationCustomRulePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationCustomRulePolicyOutput, GetOrganizationCustomRulePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Returns a list of ConfigurationItems for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), Config returns the ConfigurationItems for the specified retention period. The response is paginated. By default, Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter. Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken.
+    /// For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type. For more information, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html). Returns a list of ConfigurationItems for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), Config returns the ConfigurationItems for the specified retention period. The response is paginated. By default, Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter. Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken.
     ///
     /// - Parameter GetResourceConfigHistoryInput : The input for the [GetResourceConfigHistory] action.
     ///
-    /// - Returns: `GetResourceConfigHistoryOutputResponse` : The output for the [GetResourceConfigHistory] action.
+    /// - Returns: `GetResourceConfigHistoryOutput` : The output for the [GetResourceConfigHistory] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3058,7 +3058,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getResourceConfigHistory(input: GetResourceConfigHistoryInput) async throws -> GetResourceConfigHistoryOutputResponse
+    public func getResourceConfigHistory(input: GetResourceConfigHistoryInput) async throws -> GetResourceConfigHistoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3074,21 +3074,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse, GetResourceConfigHistoryOutputError>(id: "getResourceConfigHistory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse, GetResourceConfigHistoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput, GetResourceConfigHistoryOutputError>(id: "getResourceConfigHistory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput, GetResourceConfigHistoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceConfigHistoryOutputResponse, GetResourceConfigHistoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceConfigHistoryOutput, GetResourceConfigHistoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse>(xAmzTarget: "StarlingDoveService.GetResourceConfigHistory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse>(xmlName: "GetResourceConfigHistoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(xAmzTarget: "StarlingDoveService.GetResourceConfigHistory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(xmlName: "GetResourceConfigHistoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceConfigHistoryOutputResponse, GetResourceConfigHistoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceConfigHistoryOutput, GetResourceConfigHistoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceConfigHistoryOutputResponse, GetResourceConfigHistoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceConfigHistoryOutputResponse, GetResourceConfigHistoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceConfigHistoryOutputResponse, GetResourceConfigHistoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceConfigHistoryOutput, GetResourceConfigHistoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceConfigHistoryOutput, GetResourceConfigHistoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceConfigHistoryOutput, GetResourceConfigHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3097,13 +3097,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetResourceEvaluationSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceEvaluationSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceEvaluationSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    public func getResourceEvaluationSummary(input: GetResourceEvaluationSummaryInput) async throws -> GetResourceEvaluationSummaryOutputResponse
+    public func getResourceEvaluationSummary(input: GetResourceEvaluationSummaryInput) async throws -> GetResourceEvaluationSummaryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3119,21 +3119,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutputResponse, GetResourceEvaluationSummaryOutputError>(id: "getResourceEvaluationSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutputResponse, GetResourceEvaluationSummaryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput, GetResourceEvaluationSummaryOutputError>(id: "getResourceEvaluationSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput, GetResourceEvaluationSummaryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceEvaluationSummaryOutputResponse, GetResourceEvaluationSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceEvaluationSummaryOutput, GetResourceEvaluationSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutputResponse>(xAmzTarget: "StarlingDoveService.GetResourceEvaluationSummary"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutputResponse>(xmlName: "GetResourceEvaluationSummaryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(xAmzTarget: "StarlingDoveService.GetResourceEvaluationSummary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(xmlName: "GetResourceEvaluationSummaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceEvaluationSummaryOutputResponse, GetResourceEvaluationSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceEvaluationSummaryOutput, GetResourceEvaluationSummaryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceEvaluationSummaryOutputResponse, GetResourceEvaluationSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceEvaluationSummaryOutputResponse, GetResourceEvaluationSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceEvaluationSummaryOutputResponse, GetResourceEvaluationSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceEvaluationSummaryOutput, GetResourceEvaluationSummaryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceEvaluationSummaryOutput, GetResourceEvaluationSummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceEvaluationSummaryOutput, GetResourceEvaluationSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3142,14 +3142,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter GetStoredQueryInput : [no documentation found]
     ///
-    /// - Returns: `GetStoredQueryOutputResponse` : [no documentation found]
+    /// - Returns: `GetStoredQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func getStoredQuery(input: GetStoredQueryInput) async throws -> GetStoredQueryOutputResponse
+    public func getStoredQuery(input: GetStoredQueryInput) async throws -> GetStoredQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3165,21 +3165,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetStoredQueryInput, GetStoredQueryOutputResponse, GetStoredQueryOutputError>(id: "getStoredQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStoredQueryInput, GetStoredQueryOutputResponse, GetStoredQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStoredQueryInput, GetStoredQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetStoredQueryInput, GetStoredQueryOutput, GetStoredQueryOutputError>(id: "getStoredQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStoredQueryInput, GetStoredQueryOutput, GetStoredQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStoredQueryInput, GetStoredQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStoredQueryOutputResponse, GetStoredQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStoredQueryOutput, GetStoredQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetStoredQueryInput, GetStoredQueryOutputResponse>(xAmzTarget: "StarlingDoveService.GetStoredQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetStoredQueryInput, GetStoredQueryOutputResponse>(xmlName: "GetStoredQueryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetStoredQueryInput, GetStoredQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(xAmzTarget: "StarlingDoveService.GetStoredQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(xmlName: "GetStoredQueryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStoredQueryOutputResponse, GetStoredQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStoredQueryOutput, GetStoredQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStoredQueryOutputResponse, GetStoredQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStoredQueryOutputResponse, GetStoredQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStoredQueryOutputResponse, GetStoredQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStoredQueryOutput, GetStoredQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStoredQueryOutput, GetStoredQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStoredQueryOutput, GetStoredQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3188,7 +3188,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter ListAggregateDiscoveredResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListAggregateDiscoveredResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAggregateDiscoveredResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3197,7 +3197,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func listAggregateDiscoveredResources(input: ListAggregateDiscoveredResourcesInput) async throws -> ListAggregateDiscoveredResourcesOutputResponse
+    public func listAggregateDiscoveredResources(input: ListAggregateDiscoveredResourcesInput) async throws -> ListAggregateDiscoveredResourcesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3213,21 +3213,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse, ListAggregateDiscoveredResourcesOutputError>(id: "listAggregateDiscoveredResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse, ListAggregateDiscoveredResourcesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput, ListAggregateDiscoveredResourcesOutputError>(id: "listAggregateDiscoveredResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput, ListAggregateDiscoveredResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAggregateDiscoveredResourcesOutputResponse, ListAggregateDiscoveredResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAggregateDiscoveredResourcesOutput, ListAggregateDiscoveredResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse>(xAmzTarget: "StarlingDoveService.ListAggregateDiscoveredResources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse>(xmlName: "ListAggregateDiscoveredResourcesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(xAmzTarget: "StarlingDoveService.ListAggregateDiscoveredResources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(xmlName: "ListAggregateDiscoveredResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAggregateDiscoveredResourcesOutputResponse, ListAggregateDiscoveredResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAggregateDiscoveredResourcesOutput, ListAggregateDiscoveredResourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAggregateDiscoveredResourcesOutputResponse, ListAggregateDiscoveredResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAggregateDiscoveredResourcesOutputResponse, ListAggregateDiscoveredResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAggregateDiscoveredResourcesOutputResponse, ListAggregateDiscoveredResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAggregateDiscoveredResourcesOutput, ListAggregateDiscoveredResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAggregateDiscoveredResourcesOutput, ListAggregateDiscoveredResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAggregateDiscoveredResourcesOutput, ListAggregateDiscoveredResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3236,7 +3236,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter ListConformancePackComplianceScoresInput : [no documentation found]
     ///
-    /// - Returns: `ListConformancePackComplianceScoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListConformancePackComplianceScoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3244,7 +3244,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func listConformancePackComplianceScores(input: ListConformancePackComplianceScoresInput) async throws -> ListConformancePackComplianceScoresOutputResponse
+    public func listConformancePackComplianceScores(input: ListConformancePackComplianceScoresInput) async throws -> ListConformancePackComplianceScoresOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3260,21 +3260,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse, ListConformancePackComplianceScoresOutputError>(id: "listConformancePackComplianceScores")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse, ListConformancePackComplianceScoresOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput, ListConformancePackComplianceScoresOutputError>(id: "listConformancePackComplianceScores")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput, ListConformancePackComplianceScoresOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConformancePackComplianceScoresOutputResponse, ListConformancePackComplianceScoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConformancePackComplianceScoresOutput, ListConformancePackComplianceScoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse>(xAmzTarget: "StarlingDoveService.ListConformancePackComplianceScores"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse>(xmlName: "ListConformancePackComplianceScoresRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(xAmzTarget: "StarlingDoveService.ListConformancePackComplianceScores"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(xmlName: "ListConformancePackComplianceScoresRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConformancePackComplianceScoresOutputResponse, ListConformancePackComplianceScoresOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConformancePackComplianceScoresOutput, ListConformancePackComplianceScoresOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConformancePackComplianceScoresOutputResponse, ListConformancePackComplianceScoresOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConformancePackComplianceScoresOutputResponse, ListConformancePackComplianceScoresOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConformancePackComplianceScoresOutputResponse, ListConformancePackComplianceScoresOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConformancePackComplianceScoresOutput, ListConformancePackComplianceScoresOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConformancePackComplianceScoresOutput, ListConformancePackComplianceScoresOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConformancePackComplianceScoresOutput, ListConformancePackComplianceScoresOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3283,7 +3283,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter ListDiscoveredResourcesInput :
     ///
-    /// - Returns: `ListDiscoveredResourcesOutputResponse` :
+    /// - Returns: `ListDiscoveredResourcesOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3292,7 +3292,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutputResponse
+    public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3308,21 +3308,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(id: "listDiscoveredResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput, ListDiscoveredResourcesOutputError>(id: "listDiscoveredResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput, ListDiscoveredResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDiscoveredResourcesOutput, ListDiscoveredResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>(xAmzTarget: "StarlingDoveService.ListDiscoveredResources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>(xmlName: "ListDiscoveredResourcesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(xAmzTarget: "StarlingDoveService.ListDiscoveredResources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(xmlName: "ListDiscoveredResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDiscoveredResourcesOutput, ListDiscoveredResourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDiscoveredResourcesOutput, ListDiscoveredResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDiscoveredResourcesOutput, ListDiscoveredResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesOutput, ListDiscoveredResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3331,7 +3331,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter ListResourceEvaluationsInput : [no documentation found]
     ///
-    /// - Returns: `ListResourceEvaluationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourceEvaluationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3339,7 +3339,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `InvalidTimeRangeException` : The specified time range is not valid. The earlier time is not chronologically before the later time.
-    public func listResourceEvaluations(input: ListResourceEvaluationsInput) async throws -> ListResourceEvaluationsOutputResponse
+    public func listResourceEvaluations(input: ListResourceEvaluationsInput) async throws -> ListResourceEvaluationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3355,21 +3355,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse, ListResourceEvaluationsOutputError>(id: "listResourceEvaluations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse, ListResourceEvaluationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListResourceEvaluationsInput, ListResourceEvaluationsOutput, ListResourceEvaluationsOutputError>(id: "listResourceEvaluations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput, ListResourceEvaluationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceEvaluationsOutputResponse, ListResourceEvaluationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceEvaluationsOutput, ListResourceEvaluationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse>(xAmzTarget: "StarlingDoveService.ListResourceEvaluations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse>(xmlName: "ListResourceEvaluationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(xAmzTarget: "StarlingDoveService.ListResourceEvaluations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(xmlName: "ListResourceEvaluationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceEvaluationsOutputResponse, ListResourceEvaluationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceEvaluationsOutput, ListResourceEvaluationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceEvaluationsOutputResponse, ListResourceEvaluationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceEvaluationsOutputResponse, ListResourceEvaluationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceEvaluationsOutputResponse, ListResourceEvaluationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceEvaluationsOutput, ListResourceEvaluationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceEvaluationsOutput, ListResourceEvaluationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceEvaluationsOutput, ListResourceEvaluationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3378,14 +3378,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter ListStoredQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListStoredQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStoredQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func listStoredQueries(input: ListStoredQueriesInput) async throws -> ListStoredQueriesOutputResponse
+    public func listStoredQueries(input: ListStoredQueriesInput) async throws -> ListStoredQueriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3401,21 +3401,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStoredQueriesInput, ListStoredQueriesOutputResponse, ListStoredQueriesOutputError>(id: "listStoredQueries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStoredQueriesInput, ListStoredQueriesOutputResponse, ListStoredQueriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStoredQueriesInput, ListStoredQueriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListStoredQueriesInput, ListStoredQueriesOutput, ListStoredQueriesOutputError>(id: "listStoredQueries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput, ListStoredQueriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStoredQueriesOutputResponse, ListStoredQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStoredQueriesOutput, ListStoredQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStoredQueriesInput, ListStoredQueriesOutputResponse>(xAmzTarget: "StarlingDoveService.ListStoredQueries"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStoredQueriesInput, ListStoredQueriesOutputResponse>(xmlName: "ListStoredQueriesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStoredQueriesInput, ListStoredQueriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(xAmzTarget: "StarlingDoveService.ListStoredQueries"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(xmlName: "ListStoredQueriesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStoredQueriesOutputResponse, ListStoredQueriesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStoredQueriesOutput, ListStoredQueriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStoredQueriesOutputResponse, ListStoredQueriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStoredQueriesOutputResponse, ListStoredQueriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStoredQueriesOutputResponse, ListStoredQueriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStoredQueriesOutput, ListStoredQueriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStoredQueriesOutput, ListStoredQueriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStoredQueriesOutput, ListStoredQueriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3424,7 +3424,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3433,7 +3433,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3449,21 +3449,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "StarlingDoveService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "StarlingDoveService.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3472,13 +3472,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutAggregationAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `PutAggregationAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `PutAggregationAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func putAggregationAuthorization(input: PutAggregationAuthorizationInput) async throws -> PutAggregationAuthorizationOutputResponse
+    public func putAggregationAuthorization(input: PutAggregationAuthorizationInput) async throws -> PutAggregationAuthorizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3494,21 +3494,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutputResponse, PutAggregationAuthorizationOutputError>(id: "putAggregationAuthorization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutputResponse, PutAggregationAuthorizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput, PutAggregationAuthorizationOutputError>(id: "putAggregationAuthorization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput, PutAggregationAuthorizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAggregationAuthorizationOutputResponse, PutAggregationAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAggregationAuthorizationOutput, PutAggregationAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutputResponse>(xAmzTarget: "StarlingDoveService.PutAggregationAuthorization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutputResponse>(xmlName: "PutAggregationAuthorizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(xAmzTarget: "StarlingDoveService.PutAggregationAuthorization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(xmlName: "PutAggregationAuthorizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAggregationAuthorizationOutputResponse, PutAggregationAuthorizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAggregationAuthorizationOutput, PutAggregationAuthorizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAggregationAuthorizationOutputResponse, PutAggregationAuthorizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAggregationAuthorizationOutputResponse, PutAggregationAuthorizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAggregationAuthorizationOutputResponse, PutAggregationAuthorizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAggregationAuthorizationOutput, PutAggregationAuthorizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAggregationAuthorizationOutput, PutAggregationAuthorizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAggregationAuthorizationOutput, PutAggregationAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3517,7 +3517,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `PutConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `PutConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3553,7 +3553,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func putConfigRule(input: PutConfigRuleInput) async throws -> PutConfigRuleOutputResponse
+    public func putConfigRule(input: PutConfigRuleInput) async throws -> PutConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3569,21 +3569,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutConfigRuleInput, PutConfigRuleOutputResponse, PutConfigRuleOutputError>(id: "putConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigRuleInput, PutConfigRuleOutputResponse, PutConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigRuleInput, PutConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutConfigRuleInput, PutConfigRuleOutput, PutConfigRuleOutputError>(id: "putConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigRuleInput, PutConfigRuleOutput, PutConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigRuleInput, PutConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigRuleOutputResponse, PutConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigRuleOutput, PutConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConfigRuleInput, PutConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.PutConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigRuleInput, PutConfigRuleOutputResponse>(xmlName: "PutConfigRuleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigRuleInput, PutConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(xAmzTarget: "StarlingDoveService.PutConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(xmlName: "PutConfigRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigRuleOutputResponse, PutConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigRuleOutput, PutConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigRuleOutputResponse, PutConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigRuleOutputResponse, PutConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigRuleOutputResponse, PutConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigRuleOutput, PutConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigRuleOutput, PutConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigRuleOutput, PutConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3592,7 +3592,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutConfigurationAggregatorInput : [no documentation found]
     ///
-    /// - Returns: `PutConfigurationAggregatorOutputResponse` : [no documentation found]
+    /// - Returns: `PutConfigurationAggregatorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3614,7 +3614,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
     /// - `OrganizationAllFeaturesNotEnabledException` : Config resource cannot be created because your organization does not have all features enabled.
-    public func putConfigurationAggregator(input: PutConfigurationAggregatorInput) async throws -> PutConfigurationAggregatorOutputResponse
+    public func putConfigurationAggregator(input: PutConfigurationAggregatorInput) async throws -> PutConfigurationAggregatorOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3630,21 +3630,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutputResponse, PutConfigurationAggregatorOutputError>(id: "putConfigurationAggregator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutputResponse, PutConfigurationAggregatorOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput, PutConfigurationAggregatorOutputError>(id: "putConfigurationAggregator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput, PutConfigurationAggregatorOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationAggregatorOutputResponse, PutConfigurationAggregatorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationAggregatorOutput, PutConfigurationAggregatorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutputResponse>(xAmzTarget: "StarlingDoveService.PutConfigurationAggregator"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutputResponse>(xmlName: "PutConfigurationAggregatorRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(xAmzTarget: "StarlingDoveService.PutConfigurationAggregator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(xmlName: "PutConfigurationAggregatorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationAggregatorOutputResponse, PutConfigurationAggregatorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationAggregatorOutput, PutConfigurationAggregatorOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationAggregatorOutputResponse, PutConfigurationAggregatorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationAggregatorOutputResponse, PutConfigurationAggregatorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationAggregatorOutputResponse, PutConfigurationAggregatorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationAggregatorOutput, PutConfigurationAggregatorOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationAggregatorOutput, PutConfigurationAggregatorOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationAggregatorOutput, PutConfigurationAggregatorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3653,7 +3653,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutConfigurationRecorderInput : The input for the [PutConfigurationRecorder] action.
     ///
-    /// - Returns: `PutConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `PutConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3677,7 +3677,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * You have provided resource types or a recording strategy that are not valid.
     /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
     /// - `MaxNumberOfConfigurationRecordersExceededException` : You have reached the limit of the number of configuration recorders you can create.
-    public func putConfigurationRecorder(input: PutConfigurationRecorderInput) async throws -> PutConfigurationRecorderOutputResponse
+    public func putConfigurationRecorder(input: PutConfigurationRecorderInput) async throws -> PutConfigurationRecorderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3693,21 +3693,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutConfigurationRecorderInput, PutConfigurationRecorderOutputResponse, PutConfigurationRecorderOutputError>(id: "putConfigurationRecorder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutputResponse, PutConfigurationRecorderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutConfigurationRecorderInput, PutConfigurationRecorderOutput, PutConfigurationRecorderOutputError>(id: "putConfigurationRecorder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput, PutConfigurationRecorderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationRecorderOutputResponse, PutConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationRecorderOutput, PutConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutputResponse>(xAmzTarget: "StarlingDoveService.PutConfigurationRecorder"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutputResponse>(xmlName: "PutConfigurationRecorderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.PutConfigurationRecorder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(xmlName: "PutConfigurationRecorderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationRecorderOutputResponse, PutConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationRecorderOutput, PutConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationRecorderOutputResponse, PutConfigurationRecorderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationRecorderOutputResponse, PutConfigurationRecorderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationRecorderOutputResponse, PutConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationRecorderOutput, PutConfigurationRecorderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationRecorderOutput, PutConfigurationRecorderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationRecorderOutput, PutConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3716,7 +3716,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `PutConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `PutConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3752,7 +3752,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func putConformancePack(input: PutConformancePackInput) async throws -> PutConformancePackOutputResponse
+    public func putConformancePack(input: PutConformancePackInput) async throws -> PutConformancePackOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3768,30 +3768,30 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutConformancePackInput, PutConformancePackOutputResponse, PutConformancePackOutputError>(id: "putConformancePack")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConformancePackInput, PutConformancePackOutputResponse, PutConformancePackOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConformancePackInput, PutConformancePackOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutConformancePackInput, PutConformancePackOutput, PutConformancePackOutputError>(id: "putConformancePack")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConformancePackInput, PutConformancePackOutput, PutConformancePackOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConformancePackInput, PutConformancePackOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConformancePackOutputResponse, PutConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConformancePackOutput, PutConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConformancePackInput, PutConformancePackOutputResponse>(xAmzTarget: "StarlingDoveService.PutConformancePack"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConformancePackInput, PutConformancePackOutputResponse>(xmlName: "PutConformancePackRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConformancePackInput, PutConformancePackOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConformancePackInput, PutConformancePackOutput>(xAmzTarget: "StarlingDoveService.PutConformancePack"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConformancePackInput, PutConformancePackOutput>(xmlName: "PutConformancePackRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConformancePackInput, PutConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConformancePackOutputResponse, PutConformancePackOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConformancePackOutput, PutConformancePackOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConformancePackOutputResponse, PutConformancePackOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConformancePackOutputResponse, PutConformancePackOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConformancePackOutputResponse, PutConformancePackOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConformancePackOutput, PutConformancePackOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConformancePackOutput, PutConformancePackOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConformancePackOutput, PutConformancePackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates a delivery channel object to deliver configuration information to an Amazon S3 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed. You can have only one delivery channel per region in your account.
+    /// Creates a delivery channel object to deliver configuration information and other compliance information to an Amazon S3 bucket and Amazon SNS topic. For more information, see [Notifications that Config Sends to an Amazon SNS topic](https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html). Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed. You can have only one delivery channel per region in your account.
     ///
     /// - Parameter PutDeliveryChannelInput : The input for the [PutDeliveryChannel] action.
     ///
-    /// - Returns: `PutDeliveryChannelOutputResponse` : [no documentation found]
+    /// - Returns: `PutDeliveryChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3804,7 +3804,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `MaxNumberOfDeliveryChannelsExceededException` : You have reached the limit of the number of delivery channels you can create.
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `NoSuchBucketException` : The specified Amazon S3 bucket does not exist.
-    public func putDeliveryChannel(input: PutDeliveryChannelInput) async throws -> PutDeliveryChannelOutputResponse
+    public func putDeliveryChannel(input: PutDeliveryChannelInput) async throws -> PutDeliveryChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3820,21 +3820,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutDeliveryChannelInput, PutDeliveryChannelOutputResponse, PutDeliveryChannelOutputError>(id: "putDeliveryChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutputResponse, PutDeliveryChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutDeliveryChannelInput, PutDeliveryChannelOutput, PutDeliveryChannelOutputError>(id: "putDeliveryChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput, PutDeliveryChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDeliveryChannelOutputResponse, PutDeliveryChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDeliveryChannelOutput, PutDeliveryChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutputResponse>(xAmzTarget: "StarlingDoveService.PutDeliveryChannel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutputResponse>(xmlName: "PutDeliveryChannelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(xAmzTarget: "StarlingDoveService.PutDeliveryChannel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(xmlName: "PutDeliveryChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDeliveryChannelOutputResponse, PutDeliveryChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDeliveryChannelOutput, PutDeliveryChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDeliveryChannelOutputResponse, PutDeliveryChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDeliveryChannelOutputResponse, PutDeliveryChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDeliveryChannelOutputResponse, PutDeliveryChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDeliveryChannelOutput, PutDeliveryChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDeliveryChannelOutput, PutDeliveryChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDeliveryChannelOutput, PutDeliveryChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3843,7 +3843,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutEvaluationsInput :
     ///
-    /// - Returns: `PutEvaluationsOutputResponse` :
+    /// - Returns: `PutEvaluationsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3851,7 +3851,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `InvalidResultTokenException` : The specified ResultToken is not valid.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    public func putEvaluations(input: PutEvaluationsInput) async throws -> PutEvaluationsOutputResponse
+    public func putEvaluations(input: PutEvaluationsInput) async throws -> PutEvaluationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3867,21 +3867,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutEvaluationsInput, PutEvaluationsOutputResponse, PutEvaluationsOutputError>(id: "putEvaluations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEvaluationsInput, PutEvaluationsOutputResponse, PutEvaluationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEvaluationsInput, PutEvaluationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutEvaluationsInput, PutEvaluationsOutput, PutEvaluationsOutputError>(id: "putEvaluations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEvaluationsInput, PutEvaluationsOutput, PutEvaluationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEvaluationsInput, PutEvaluationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEvaluationsOutputResponse, PutEvaluationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEvaluationsOutput, PutEvaluationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutEvaluationsInput, PutEvaluationsOutputResponse>(xAmzTarget: "StarlingDoveService.PutEvaluations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEvaluationsInput, PutEvaluationsOutputResponse>(xmlName: "PutEvaluationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEvaluationsInput, PutEvaluationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(xAmzTarget: "StarlingDoveService.PutEvaluations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(xmlName: "PutEvaluationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEvaluationsOutputResponse, PutEvaluationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEvaluationsOutput, PutEvaluationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEvaluationsOutputResponse, PutEvaluationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEvaluationsOutputResponse, PutEvaluationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEvaluationsOutputResponse, PutEvaluationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEvaluationsOutput, PutEvaluationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEvaluationsOutput, PutEvaluationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEvaluationsOutput, PutEvaluationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3890,14 +3890,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutExternalEvaluationInput : [no documentation found]
     ///
-    /// - Returns: `PutExternalEvaluationOutputResponse` : [no documentation found]
+    /// - Returns: `PutExternalEvaluationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    public func putExternalEvaluation(input: PutExternalEvaluationInput) async throws -> PutExternalEvaluationOutputResponse
+    public func putExternalEvaluation(input: PutExternalEvaluationInput) async throws -> PutExternalEvaluationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3913,21 +3913,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutExternalEvaluationInput, PutExternalEvaluationOutputResponse, PutExternalEvaluationOutputError>(id: "putExternalEvaluation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutputResponse, PutExternalEvaluationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutExternalEvaluationInput, PutExternalEvaluationOutput, PutExternalEvaluationOutputError>(id: "putExternalEvaluation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput, PutExternalEvaluationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutExternalEvaluationOutputResponse, PutExternalEvaluationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutExternalEvaluationOutput, PutExternalEvaluationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutputResponse>(xAmzTarget: "StarlingDoveService.PutExternalEvaluation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutputResponse>(xmlName: "PutExternalEvaluationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(xAmzTarget: "StarlingDoveService.PutExternalEvaluation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(xmlName: "PutExternalEvaluationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutExternalEvaluationOutputResponse, PutExternalEvaluationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutExternalEvaluationOutput, PutExternalEvaluationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutExternalEvaluationOutputResponse, PutExternalEvaluationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutExternalEvaluationOutputResponse, PutExternalEvaluationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutExternalEvaluationOutputResponse, PutExternalEvaluationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutExternalEvaluationOutput, PutExternalEvaluationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutExternalEvaluationOutput, PutExternalEvaluationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutExternalEvaluationOutput, PutExternalEvaluationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3936,7 +3936,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutOrganizationConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `PutOrganizationConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `PutOrganizationConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3986,7 +3986,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func putOrganizationConfigRule(input: PutOrganizationConfigRuleInput) async throws -> PutOrganizationConfigRuleOutputResponse
+    public func putOrganizationConfigRule(input: PutOrganizationConfigRuleInput) async throws -> PutOrganizationConfigRuleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4002,21 +4002,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutputResponse, PutOrganizationConfigRuleOutputError>(id: "putOrganizationConfigRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutputResponse, PutOrganizationConfigRuleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput, PutOrganizationConfigRuleOutputError>(id: "putOrganizationConfigRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput, PutOrganizationConfigRuleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOrganizationConfigRuleOutputResponse, PutOrganizationConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOrganizationConfigRuleOutput, PutOrganizationConfigRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutputResponse>(xAmzTarget: "StarlingDoveService.PutOrganizationConfigRule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutputResponse>(xmlName: "PutOrganizationConfigRuleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(xAmzTarget: "StarlingDoveService.PutOrganizationConfigRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(xmlName: "PutOrganizationConfigRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOrganizationConfigRuleOutputResponse, PutOrganizationConfigRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOrganizationConfigRuleOutput, PutOrganizationConfigRuleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOrganizationConfigRuleOutputResponse, PutOrganizationConfigRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOrganizationConfigRuleOutputResponse, PutOrganizationConfigRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOrganizationConfigRuleOutputResponse, PutOrganizationConfigRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOrganizationConfigRuleOutput, PutOrganizationConfigRuleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOrganizationConfigRuleOutput, PutOrganizationConfigRuleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOrganizationConfigRuleOutput, PutOrganizationConfigRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4025,7 +4025,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutOrganizationConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `PutOrganizationConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `PutOrganizationConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4075,7 +4075,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func putOrganizationConformancePack(input: PutOrganizationConformancePackInput) async throws -> PutOrganizationConformancePackOutputResponse
+    public func putOrganizationConformancePack(input: PutOrganizationConformancePackInput) async throws -> PutOrganizationConformancePackOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4091,21 +4091,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutputResponse, PutOrganizationConformancePackOutputError>(id: "putOrganizationConformancePack")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutputResponse, PutOrganizationConformancePackOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput, PutOrganizationConformancePackOutputError>(id: "putOrganizationConformancePack")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput, PutOrganizationConformancePackOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOrganizationConformancePackOutputResponse, PutOrganizationConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOrganizationConformancePackOutput, PutOrganizationConformancePackOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutputResponse>(xAmzTarget: "StarlingDoveService.PutOrganizationConformancePack"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutputResponse>(xmlName: "PutOrganizationConformancePackRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(xAmzTarget: "StarlingDoveService.PutOrganizationConformancePack"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(xmlName: "PutOrganizationConformancePackRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOrganizationConformancePackOutputResponse, PutOrganizationConformancePackOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOrganizationConformancePackOutput, PutOrganizationConformancePackOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOrganizationConformancePackOutputResponse, PutOrganizationConformancePackOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOrganizationConformancePackOutputResponse, PutOrganizationConformancePackOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOrganizationConformancePackOutputResponse, PutOrganizationConformancePackOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOrganizationConformancePackOutput, PutOrganizationConformancePackOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOrganizationConformancePackOutput, PutOrganizationConformancePackOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOrganizationConformancePackOutput, PutOrganizationConformancePackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4114,7 +4114,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutRemediationConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `PutRemediationConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `PutRemediationConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4133,7 +4133,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func putRemediationConfigurations(input: PutRemediationConfigurationsInput) async throws -> PutRemediationConfigurationsOutputResponse
+    public func putRemediationConfigurations(input: PutRemediationConfigurationsInput) async throws -> PutRemediationConfigurationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4149,21 +4149,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutputResponse, PutRemediationConfigurationsOutputError>(id: "putRemediationConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutputResponse, PutRemediationConfigurationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput, PutRemediationConfigurationsOutputError>(id: "putRemediationConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput, PutRemediationConfigurationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRemediationConfigurationsOutputResponse, PutRemediationConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRemediationConfigurationsOutput, PutRemediationConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutputResponse>(xAmzTarget: "StarlingDoveService.PutRemediationConfigurations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutputResponse>(xmlName: "PutRemediationConfigurationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(xAmzTarget: "StarlingDoveService.PutRemediationConfigurations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(xmlName: "PutRemediationConfigurationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRemediationConfigurationsOutputResponse, PutRemediationConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRemediationConfigurationsOutput, PutRemediationConfigurationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRemediationConfigurationsOutputResponse, PutRemediationConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRemediationConfigurationsOutputResponse, PutRemediationConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRemediationConfigurationsOutputResponse, PutRemediationConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRemediationConfigurationsOutput, PutRemediationConfigurationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRemediationConfigurationsOutput, PutRemediationConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRemediationConfigurationsOutput, PutRemediationConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4172,7 +4172,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutRemediationExceptionsInput : [no documentation found]
     ///
-    /// - Returns: `PutRemediationExceptionsOutputResponse` : [no documentation found]
+    /// - Returns: `PutRemediationExceptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4191,7 +4191,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func putRemediationExceptions(input: PutRemediationExceptionsInput) async throws -> PutRemediationExceptionsOutputResponse
+    public func putRemediationExceptions(input: PutRemediationExceptionsInput) async throws -> PutRemediationExceptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4207,21 +4207,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRemediationExceptionsInput, PutRemediationExceptionsOutputResponse, PutRemediationExceptionsOutputError>(id: "putRemediationExceptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutputResponse, PutRemediationExceptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutRemediationExceptionsInput, PutRemediationExceptionsOutput, PutRemediationExceptionsOutputError>(id: "putRemediationExceptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput, PutRemediationExceptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRemediationExceptionsOutputResponse, PutRemediationExceptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRemediationExceptionsOutput, PutRemediationExceptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutputResponse>(xAmzTarget: "StarlingDoveService.PutRemediationExceptions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutputResponse>(xmlName: "PutRemediationExceptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(xAmzTarget: "StarlingDoveService.PutRemediationExceptions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(xmlName: "PutRemediationExceptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRemediationExceptionsOutputResponse, PutRemediationExceptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRemediationExceptionsOutput, PutRemediationExceptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRemediationExceptionsOutputResponse, PutRemediationExceptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRemediationExceptionsOutputResponse, PutRemediationExceptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRemediationExceptionsOutputResponse, PutRemediationExceptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRemediationExceptionsOutput, PutRemediationExceptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRemediationExceptionsOutput, PutRemediationExceptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRemediationExceptionsOutput, PutRemediationExceptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4230,7 +4230,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `PutResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4251,7 +4251,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `MaxActiveResourcesExceededException` : You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func putResourceConfig(input: PutResourceConfigInput) async throws -> PutResourceConfigOutputResponse
+    public func putResourceConfig(input: PutResourceConfigInput) async throws -> PutResourceConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4267,21 +4267,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutResourceConfigInput, PutResourceConfigOutputResponse, PutResourceConfigOutputError>(id: "putResourceConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourceConfigInput, PutResourceConfigOutputResponse, PutResourceConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourceConfigInput, PutResourceConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutResourceConfigInput, PutResourceConfigOutput, PutResourceConfigOutputError>(id: "putResourceConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourceConfigInput, PutResourceConfigOutput, PutResourceConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourceConfigInput, PutResourceConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourceConfigOutputResponse, PutResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourceConfigOutput, PutResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourceConfigInput, PutResourceConfigOutputResponse>(xAmzTarget: "StarlingDoveService.PutResourceConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourceConfigInput, PutResourceConfigOutputResponse>(xmlName: "PutResourceConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourceConfigInput, PutResourceConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(xAmzTarget: "StarlingDoveService.PutResourceConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(xmlName: "PutResourceConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourceConfigOutputResponse, PutResourceConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourceConfigOutput, PutResourceConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourceConfigOutputResponse, PutResourceConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourceConfigOutputResponse, PutResourceConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourceConfigOutputResponse, PutResourceConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourceConfigOutput, PutResourceConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourceConfigOutput, PutResourceConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourceConfigOutput, PutResourceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4290,14 +4290,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutRetentionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutRetentionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutRetentionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfRetentionConfigurationsExceededException` : Failed to add the retention configuration because a retention configuration with that name already exists.
-    public func putRetentionConfiguration(input: PutRetentionConfigurationInput) async throws -> PutRetentionConfigurationOutputResponse
+    public func putRetentionConfiguration(input: PutRetentionConfigurationInput) async throws -> PutRetentionConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4313,21 +4313,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRetentionConfigurationInput, PutRetentionConfigurationOutputResponse, PutRetentionConfigurationOutputError>(id: "putRetentionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutputResponse, PutRetentionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutRetentionConfigurationInput, PutRetentionConfigurationOutput, PutRetentionConfigurationOutputError>(id: "putRetentionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput, PutRetentionConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRetentionConfigurationOutputResponse, PutRetentionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRetentionConfigurationOutput, PutRetentionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutputResponse>(xAmzTarget: "StarlingDoveService.PutRetentionConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutputResponse>(xmlName: "PutRetentionConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(xAmzTarget: "StarlingDoveService.PutRetentionConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(xmlName: "PutRetentionConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRetentionConfigurationOutputResponse, PutRetentionConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRetentionConfigurationOutput, PutRetentionConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRetentionConfigurationOutputResponse, PutRetentionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRetentionConfigurationOutputResponse, PutRetentionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRetentionConfigurationOutputResponse, PutRetentionConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRetentionConfigurationOutput, PutRetentionConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRetentionConfigurationOutput, PutRetentionConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRetentionConfigurationOutput, PutRetentionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4336,7 +4336,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter PutStoredQueryInput : [no documentation found]
     ///
-    /// - Returns: `PutStoredQueryOutputResponse` : [no documentation found]
+    /// - Returns: `PutStoredQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4344,7 +4344,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `ResourceConcurrentModificationException` : Two users are trying to modify the same query at the same time. Wait for a moment and try again.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func putStoredQuery(input: PutStoredQueryInput) async throws -> PutStoredQueryOutputResponse
+    public func putStoredQuery(input: PutStoredQueryInput) async throws -> PutStoredQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4360,21 +4360,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutStoredQueryInput, PutStoredQueryOutputResponse, PutStoredQueryOutputError>(id: "putStoredQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutStoredQueryInput, PutStoredQueryOutputResponse, PutStoredQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutStoredQueryInput, PutStoredQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutStoredQueryInput, PutStoredQueryOutput, PutStoredQueryOutputError>(id: "putStoredQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutStoredQueryInput, PutStoredQueryOutput, PutStoredQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutStoredQueryInput, PutStoredQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutStoredQueryOutputResponse, PutStoredQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutStoredQueryOutput, PutStoredQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutStoredQueryInput, PutStoredQueryOutputResponse>(xAmzTarget: "StarlingDoveService.PutStoredQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutStoredQueryInput, PutStoredQueryOutputResponse>(xmlName: "PutStoredQueryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutStoredQueryInput, PutStoredQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(xAmzTarget: "StarlingDoveService.PutStoredQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(xmlName: "PutStoredQueryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutStoredQueryOutputResponse, PutStoredQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutStoredQueryOutput, PutStoredQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutStoredQueryOutputResponse, PutStoredQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutStoredQueryOutputResponse, PutStoredQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutStoredQueryOutputResponse, PutStoredQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutStoredQueryOutput, PutStoredQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutStoredQueryOutput, PutStoredQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutStoredQueryOutput, PutStoredQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4383,7 +4383,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter SelectAggregateResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `SelectAggregateResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `SelectAggregateResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4392,7 +4392,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    public func selectAggregateResourceConfig(input: SelectAggregateResourceConfigInput) async throws -> SelectAggregateResourceConfigOutputResponse
+    public func selectAggregateResourceConfig(input: SelectAggregateResourceConfigInput) async throws -> SelectAggregateResourceConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4408,21 +4408,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse, SelectAggregateResourceConfigOutputError>(id: "selectAggregateResourceConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse, SelectAggregateResourceConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput, SelectAggregateResourceConfigOutputError>(id: "selectAggregateResourceConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput, SelectAggregateResourceConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SelectAggregateResourceConfigOutputResponse, SelectAggregateResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SelectAggregateResourceConfigOutput, SelectAggregateResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse>(xAmzTarget: "StarlingDoveService.SelectAggregateResourceConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse>(xmlName: "SelectAggregateResourceConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(xAmzTarget: "StarlingDoveService.SelectAggregateResourceConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(xmlName: "SelectAggregateResourceConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SelectAggregateResourceConfigOutputResponse, SelectAggregateResourceConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SelectAggregateResourceConfigOutput, SelectAggregateResourceConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SelectAggregateResourceConfigOutputResponse, SelectAggregateResourceConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SelectAggregateResourceConfigOutputResponse, SelectAggregateResourceConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SelectAggregateResourceConfigOutputResponse, SelectAggregateResourceConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SelectAggregateResourceConfigOutput, SelectAggregateResourceConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SelectAggregateResourceConfigOutput, SelectAggregateResourceConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SelectAggregateResourceConfigOutput, SelectAggregateResourceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4431,7 +4431,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter SelectResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `SelectResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `SelectResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4439,7 +4439,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `InvalidExpressionException` : The syntax of the query is incorrect.
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    public func selectResourceConfig(input: SelectResourceConfigInput) async throws -> SelectResourceConfigOutputResponse
+    public func selectResourceConfig(input: SelectResourceConfigInput) async throws -> SelectResourceConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4455,21 +4455,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SelectResourceConfigInput, SelectResourceConfigOutputResponse, SelectResourceConfigOutputError>(id: "selectResourceConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SelectResourceConfigInput, SelectResourceConfigOutputResponse, SelectResourceConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SelectResourceConfigInput, SelectResourceConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SelectResourceConfigInput, SelectResourceConfigOutput, SelectResourceConfigOutputError>(id: "selectResourceConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput, SelectResourceConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SelectResourceConfigOutputResponse, SelectResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SelectResourceConfigOutput, SelectResourceConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SelectResourceConfigInput, SelectResourceConfigOutputResponse>(xAmzTarget: "StarlingDoveService.SelectResourceConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SelectResourceConfigInput, SelectResourceConfigOutputResponse>(xmlName: "SelectResourceConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SelectResourceConfigInput, SelectResourceConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(xAmzTarget: "StarlingDoveService.SelectResourceConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(xmlName: "SelectResourceConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SelectResourceConfigOutputResponse, SelectResourceConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SelectResourceConfigOutput, SelectResourceConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SelectResourceConfigOutputResponse, SelectResourceConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SelectResourceConfigOutputResponse, SelectResourceConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SelectResourceConfigOutputResponse, SelectResourceConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SelectResourceConfigOutput, SelectResourceConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SelectResourceConfigOutput, SelectResourceConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SelectResourceConfigOutput, SelectResourceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4488,7 +4488,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter StartConfigRulesEvaluationInput :
     ///
-    /// - Returns: `StartConfigRulesEvaluationOutputResponse` : The output when you start the evaluation for the specified Config rule.
+    /// - Returns: `StartConfigRulesEvaluationOutput` : The output when you start the evaluation for the specified Config rule.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4511,7 +4511,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    public func startConfigRulesEvaluation(input: StartConfigRulesEvaluationInput) async throws -> StartConfigRulesEvaluationOutputResponse
+    public func startConfigRulesEvaluation(input: StartConfigRulesEvaluationInput) async throws -> StartConfigRulesEvaluationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4527,21 +4527,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutputResponse, StartConfigRulesEvaluationOutputError>(id: "startConfigRulesEvaluation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutputResponse, StartConfigRulesEvaluationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput, StartConfigRulesEvaluationOutputError>(id: "startConfigRulesEvaluation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput, StartConfigRulesEvaluationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigRulesEvaluationOutputResponse, StartConfigRulesEvaluationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigRulesEvaluationOutput, StartConfigRulesEvaluationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutputResponse>(xAmzTarget: "StarlingDoveService.StartConfigRulesEvaluation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutputResponse>(xmlName: "StartConfigRulesEvaluationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(xAmzTarget: "StarlingDoveService.StartConfigRulesEvaluation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(xmlName: "StartConfigRulesEvaluationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartConfigRulesEvaluationOutputResponse, StartConfigRulesEvaluationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartConfigRulesEvaluationOutput, StartConfigRulesEvaluationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartConfigRulesEvaluationOutputResponse, StartConfigRulesEvaluationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartConfigRulesEvaluationOutputResponse, StartConfigRulesEvaluationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartConfigRulesEvaluationOutputResponse, StartConfigRulesEvaluationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartConfigRulesEvaluationOutput, StartConfigRulesEvaluationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartConfigRulesEvaluationOutput, StartConfigRulesEvaluationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartConfigRulesEvaluationOutput, StartConfigRulesEvaluationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4550,14 +4550,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter StartConfigurationRecorderInput : The input for the [StartConfigurationRecorder] action.
     ///
-    /// - Returns: `StartConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `StartConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoAvailableDeliveryChannelException` : There is no delivery channel available to record configurations.
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    public func startConfigurationRecorder(input: StartConfigurationRecorderInput) async throws -> StartConfigurationRecorderOutputResponse
+    public func startConfigurationRecorder(input: StartConfigurationRecorderInput) async throws -> StartConfigurationRecorderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4573,21 +4573,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartConfigurationRecorderInput, StartConfigurationRecorderOutputResponse, StartConfigurationRecorderOutputError>(id: "startConfigurationRecorder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutputResponse, StartConfigurationRecorderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartConfigurationRecorderInput, StartConfigurationRecorderOutput, StartConfigurationRecorderOutputError>(id: "startConfigurationRecorder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput, StartConfigurationRecorderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigurationRecorderOutputResponse, StartConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigurationRecorderOutput, StartConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutputResponse>(xAmzTarget: "StarlingDoveService.StartConfigurationRecorder"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutputResponse>(xmlName: "StartConfigurationRecorderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.StartConfigurationRecorder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(xmlName: "StartConfigurationRecorderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartConfigurationRecorderOutputResponse, StartConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartConfigurationRecorderOutput, StartConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartConfigurationRecorderOutputResponse, StartConfigurationRecorderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartConfigurationRecorderOutputResponse, StartConfigurationRecorderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartConfigurationRecorderOutputResponse, StartConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartConfigurationRecorderOutput, StartConfigurationRecorderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartConfigurationRecorderOutput, StartConfigurationRecorderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartConfigurationRecorderOutput, StartConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4596,7 +4596,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter StartRemediationExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartRemediationExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartRemediationExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4616,7 +4616,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
-    public func startRemediationExecution(input: StartRemediationExecutionInput) async throws -> StartRemediationExecutionOutputResponse
+    public func startRemediationExecution(input: StartRemediationExecutionInput) async throws -> StartRemediationExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4632,21 +4632,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartRemediationExecutionInput, StartRemediationExecutionOutputResponse, StartRemediationExecutionOutputError>(id: "startRemediationExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutputResponse, StartRemediationExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartRemediationExecutionInput, StartRemediationExecutionOutput, StartRemediationExecutionOutputError>(id: "startRemediationExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput, StartRemediationExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRemediationExecutionOutputResponse, StartRemediationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRemediationExecutionOutput, StartRemediationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutputResponse>(xAmzTarget: "StarlingDoveService.StartRemediationExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutputResponse>(xmlName: "StartRemediationExecutionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(xAmzTarget: "StarlingDoveService.StartRemediationExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(xmlName: "StartRemediationExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRemediationExecutionOutputResponse, StartRemediationExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRemediationExecutionOutput, StartRemediationExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRemediationExecutionOutputResponse, StartRemediationExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRemediationExecutionOutputResponse, StartRemediationExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRemediationExecutionOutputResponse, StartRemediationExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRemediationExecutionOutput, StartRemediationExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRemediationExecutionOutput, StartRemediationExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRemediationExecutionOutput, StartRemediationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4655,14 +4655,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter StartResourceEvaluationInput : [no documentation found]
     ///
-    /// - Returns: `StartResourceEvaluationOutputResponse` : [no documentation found]
+    /// - Returns: `StartResourceEvaluationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `IdempotentParameterMismatch` : Using the same client token with one or more different parameters. Specify a new client token with the parameter changes and try again.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    public func startResourceEvaluation(input: StartResourceEvaluationInput) async throws -> StartResourceEvaluationOutputResponse
+    public func startResourceEvaluation(input: StartResourceEvaluationInput) async throws -> StartResourceEvaluationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4678,21 +4678,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartResourceEvaluationInput, StartResourceEvaluationOutputResponse, StartResourceEvaluationOutputError>(id: "startResourceEvaluation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutputResponse, StartResourceEvaluationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartResourceEvaluationInput, StartResourceEvaluationOutput, StartResourceEvaluationOutputError>(id: "startResourceEvaluation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput, StartResourceEvaluationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartResourceEvaluationOutputResponse, StartResourceEvaluationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartResourceEvaluationOutput, StartResourceEvaluationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutputResponse>(xAmzTarget: "StarlingDoveService.StartResourceEvaluation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutputResponse>(xmlName: "StartResourceEvaluationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(xAmzTarget: "StarlingDoveService.StartResourceEvaluation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(xmlName: "StartResourceEvaluationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartResourceEvaluationOutputResponse, StartResourceEvaluationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartResourceEvaluationOutput, StartResourceEvaluationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartResourceEvaluationOutputResponse, StartResourceEvaluationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartResourceEvaluationOutputResponse, StartResourceEvaluationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartResourceEvaluationOutputResponse, StartResourceEvaluationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartResourceEvaluationOutput, StartResourceEvaluationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartResourceEvaluationOutput, StartResourceEvaluationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartResourceEvaluationOutput, StartResourceEvaluationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4701,13 +4701,13 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter StopConfigurationRecorderInput : The input for the [StopConfigurationRecorder] action.
     ///
-    /// - Returns: `StopConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `StopConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    public func stopConfigurationRecorder(input: StopConfigurationRecorderInput) async throws -> StopConfigurationRecorderOutputResponse
+    public func stopConfigurationRecorder(input: StopConfigurationRecorderInput) async throws -> StopConfigurationRecorderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4723,21 +4723,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopConfigurationRecorderInput, StopConfigurationRecorderOutputResponse, StopConfigurationRecorderOutputError>(id: "stopConfigurationRecorder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutputResponse, StopConfigurationRecorderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopConfigurationRecorderInput, StopConfigurationRecorderOutput, StopConfigurationRecorderOutputError>(id: "stopConfigurationRecorder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput, StopConfigurationRecorderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopConfigurationRecorderOutputResponse, StopConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopConfigurationRecorderOutput, StopConfigurationRecorderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutputResponse>(xAmzTarget: "StarlingDoveService.StopConfigurationRecorder"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutputResponse>(xmlName: "StopConfigurationRecorderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.StopConfigurationRecorder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(xmlName: "StopConfigurationRecorderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopConfigurationRecorderOutputResponse, StopConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopConfigurationRecorderOutput, StopConfigurationRecorderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopConfigurationRecorderOutputResponse, StopConfigurationRecorderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopConfigurationRecorderOutputResponse, StopConfigurationRecorderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopConfigurationRecorderOutputResponse, StopConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopConfigurationRecorderOutput, StopConfigurationRecorderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopConfigurationRecorderOutput, StopConfigurationRecorderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopConfigurationRecorderOutput, StopConfigurationRecorderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4746,7 +4746,7 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4754,7 +4754,7 @@ extension ConfigClient: ConfigClientProtocol {
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4770,21 +4770,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "StarlingDoveService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "StarlingDoveService.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4793,14 +4793,14 @@ extension ConfigClient: ConfigClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4816,21 +4816,21 @@ extension ConfigClient: ConfigClientProtocol {
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "StarlingDoveService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "StarlingDoveService.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

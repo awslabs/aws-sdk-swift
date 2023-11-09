@@ -71,7 +71,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter CancelJobInput : The CancelJobRequest structure.
     ///
-    /// - Returns: `CancelJobOutputResponse` : The response body contains a JSON object. If the job is successfully canceled, the value of Success is true.
+    /// - Returns: `CancelJobOutput` : The response body contains a JSON object. If the job is successfully canceled, the value of Success is true.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,7 +82,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -98,17 +98,17 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelJobInput, CancelJobOutputResponse, CancelJobOutputError>(id: "cancelJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelJobInput, CancelJobOutputResponse, CancelJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelJobInput, CancelJobOutput, CancelJobOutputError>(id: "cancelJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelJobInput, CancelJobOutput, CancelJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelJobOutputResponse, CancelJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelJobOutput, CancelJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelJobOutputResponse, CancelJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelJobOutput, CancelJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelJobOutputResponse, CancelJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelJobOutputResponse, CancelJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelJobOutputResponse, CancelJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelJobOutput, CancelJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelJobOutput, CancelJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelJobOutput, CancelJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -117,7 +117,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter CreateJobInput : The CreateJobRequest structure.
     ///
-    /// - Returns: `CreateJobOutputResponse` : The CreateJobResponse structure.
+    /// - Returns: `CreateJobOutput` : The CreateJobResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,7 +128,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `LimitExceededException` : Too many operations for a given AWS account. For example, the number of pipelines exceeds the maximum allowed.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -144,20 +144,20 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateJobInput, CreateJobOutputResponse, CreateJobOutputError>(id: "createJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateJobInput, CreateJobOutputResponse, CreateJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateJobInput, CreateJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateJobInput, CreateJobOutput, CreateJobOutputError>(id: "createJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateJobInput, CreateJobOutput, CreateJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateJobInput, CreateJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateJobOutputResponse, CreateJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateJobOutput, CreateJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateJobInput, CreateJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateJobInput, CreateJobOutputResponse>(xmlName: "CreateJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateJobInput, CreateJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateJobInput, CreateJobOutput>(xmlName: "CreateJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateJobOutputResponse, CreateJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateJobOutput, CreateJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateJobOutputResponse, CreateJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateJobOutputResponse, CreateJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateJobOutputResponse, CreateJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateJobOutput, CreateJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateJobOutput, CreateJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateJobOutput, CreateJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -166,7 +166,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter CreatePipelineInput : The CreatePipelineRequest structure.
     ///
-    /// - Returns: `CreatePipelineOutputResponse` : When you create a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    /// - Returns: `CreatePipelineOutput` : When you create a pipeline, Elastic Transcoder returns the values that you specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -177,7 +177,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `LimitExceededException` : Too many operations for a given AWS account. For example, the number of pipelines exceeds the maximum allowed.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutputResponse
+    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -193,20 +193,20 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePipelineInput, CreatePipelineOutputResponse, CreatePipelineOutputError>(id: "createPipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePipelineInput, CreatePipelineOutputResponse, CreatePipelineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePipelineInput, CreatePipelineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePipelineInput, CreatePipelineOutput, CreatePipelineOutputError>(id: "createPipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePipelineInput, CreatePipelineOutput, CreatePipelineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePipelineOutputResponse, CreatePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePipelineOutput, CreatePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePipelineInput, CreatePipelineOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePipelineInput, CreatePipelineOutputResponse>(xmlName: "CreatePipelineRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePipelineInput, CreatePipelineOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePipelineInput, CreatePipelineOutput>(xmlName: "CreatePipelineRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePipelineOutputResponse, CreatePipelineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePipelineOutput, CreatePipelineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePipelineOutputResponse, CreatePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePipelineOutputResponse, CreatePipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePipelineOutputResponse, CreatePipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePipelineOutput, CreatePipelineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePipelineOutput, CreatePipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePipelineOutput, CreatePipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -215,7 +215,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter CreatePresetInput : The CreatePresetRequest structure.
     ///
-    /// - Returns: `CreatePresetOutputResponse` : The CreatePresetResponse structure.
+    /// - Returns: `CreatePresetOutput` : The CreatePresetResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,7 +225,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `LimitExceededException` : Too many operations for a given AWS account. For example, the number of pipelines exceeds the maximum allowed.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutputResponse
+    public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -241,20 +241,20 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePresetInput, CreatePresetOutputResponse, CreatePresetOutputError>(id: "createPreset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePresetInput, CreatePresetOutputResponse, CreatePresetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePresetInput, CreatePresetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePresetInput, CreatePresetOutput, CreatePresetOutputError>(id: "createPreset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePresetInput, CreatePresetOutput, CreatePresetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePresetInput, CreatePresetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePresetOutputResponse, CreatePresetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePresetOutput, CreatePresetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePresetInput, CreatePresetOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePresetInput, CreatePresetOutputResponse>(xmlName: "CreatePresetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePresetInput, CreatePresetOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePresetInput, CreatePresetOutput>(xmlName: "CreatePresetRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePresetOutputResponse, CreatePresetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePresetOutput, CreatePresetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePresetOutputResponse, CreatePresetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePresetOutputResponse, CreatePresetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePresetOutputResponse, CreatePresetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePresetOutput, CreatePresetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePresetOutput, CreatePresetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePresetOutput, CreatePresetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -263,7 +263,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter DeletePipelineInput : The DeletePipelineRequest structure.
     ///
-    /// - Returns: `DeletePipelineOutputResponse` : The DeletePipelineResponse structure.
+    /// - Returns: `DeletePipelineOutput` : The DeletePipelineResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,7 +274,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutputResponse
+    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -290,17 +290,17 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePipelineInput, DeletePipelineOutputResponse, DeletePipelineOutputError>(id: "deletePipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePipelineInput, DeletePipelineOutputResponse, DeletePipelineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePipelineInput, DeletePipelineOutput, DeletePipelineOutputError>(id: "deletePipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePipelineInput, DeletePipelineOutput, DeletePipelineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePipelineOutputResponse, DeletePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePipelineOutput, DeletePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePipelineOutputResponse, DeletePipelineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePipelineOutput, DeletePipelineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePipelineOutputResponse, DeletePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePipelineOutputResponse, DeletePipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePipelineOutputResponse, DeletePipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePipelineOutput, DeletePipelineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePipelineOutput, DeletePipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePipelineOutput, DeletePipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -309,7 +309,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter DeletePresetInput : The DeletePresetRequest structure.
     ///
-    /// - Returns: `DeletePresetOutputResponse` : The DeletePresetResponse structure.
+    /// - Returns: `DeletePresetOutput` : The DeletePresetResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,7 +319,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutputResponse
+    public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -335,17 +335,17 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePresetInput, DeletePresetOutputResponse, DeletePresetOutputError>(id: "deletePreset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePresetInput, DeletePresetOutputResponse, DeletePresetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePresetInput, DeletePresetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePresetInput, DeletePresetOutput, DeletePresetOutputError>(id: "deletePreset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePresetInput, DeletePresetOutput, DeletePresetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePresetInput, DeletePresetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePresetOutputResponse, DeletePresetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePresetOutput, DeletePresetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePresetOutputResponse, DeletePresetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePresetOutput, DeletePresetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePresetOutputResponse, DeletePresetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePresetOutputResponse, DeletePresetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePresetOutputResponse, DeletePresetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePresetOutput, DeletePresetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePresetOutput, DeletePresetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePresetOutput, DeletePresetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -354,7 +354,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter ListJobsByPipelineInput : The ListJobsByPipelineRequest structure.
     ///
-    /// - Returns: `ListJobsByPipelineOutputResponse` : The ListJobsByPipelineResponse structure.
+    /// - Returns: `ListJobsByPipelineOutput` : The ListJobsByPipelineResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -364,7 +364,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listJobsByPipeline(input: ListJobsByPipelineInput) async throws -> ListJobsByPipelineOutputResponse
+    public func listJobsByPipeline(input: ListJobsByPipelineInput) async throws -> ListJobsByPipelineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -380,18 +380,18 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListJobsByPipelineInput, ListJobsByPipelineOutputResponse, ListJobsByPipelineOutputError>(id: "listJobsByPipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutputResponse, ListJobsByPipelineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListJobsByPipelineInput, ListJobsByPipelineOutput, ListJobsByPipelineOutputError>(id: "listJobsByPipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutput, ListJobsByPipelineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsByPipelineOutputResponse, ListJobsByPipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsByPipelineOutput, ListJobsByPipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsByPipelineOutputResponse, ListJobsByPipelineOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsByPipelineOutput, ListJobsByPipelineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsByPipelineOutputResponse, ListJobsByPipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsByPipelineOutputResponse, ListJobsByPipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsByPipelineOutputResponse, ListJobsByPipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsByPipelineOutput, ListJobsByPipelineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsByPipelineOutput, ListJobsByPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsByPipelineOutput, ListJobsByPipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -400,7 +400,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter ListJobsByStatusInput : The ListJobsByStatusRequest structure.
     ///
-    /// - Returns: `ListJobsByStatusOutputResponse` : The ListJobsByStatusResponse structure.
+    /// - Returns: `ListJobsByStatusOutput` : The ListJobsByStatusResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,7 +410,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listJobsByStatus(input: ListJobsByStatusInput) async throws -> ListJobsByStatusOutputResponse
+    public func listJobsByStatus(input: ListJobsByStatusInput) async throws -> ListJobsByStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -426,18 +426,18 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListJobsByStatusInput, ListJobsByStatusOutputResponse, ListJobsByStatusOutputError>(id: "listJobsByStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsByStatusInput, ListJobsByStatusOutputResponse, ListJobsByStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsByStatusInput, ListJobsByStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListJobsByStatusInput, ListJobsByStatusOutput, ListJobsByStatusOutputError>(id: "listJobsByStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsByStatusInput, ListJobsByStatusOutput, ListJobsByStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsByStatusInput, ListJobsByStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsByStatusOutputResponse, ListJobsByStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsByStatusOutput, ListJobsByStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsByStatusInput, ListJobsByStatusOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsByStatusOutputResponse, ListJobsByStatusOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsByStatusInput, ListJobsByStatusOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsByStatusOutput, ListJobsByStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsByStatusOutputResponse, ListJobsByStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsByStatusOutputResponse, ListJobsByStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsByStatusOutputResponse, ListJobsByStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsByStatusOutput, ListJobsByStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsByStatusOutput, ListJobsByStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsByStatusOutput, ListJobsByStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -446,7 +446,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter ListPipelinesInput : The ListPipelineRequest structure.
     ///
-    /// - Returns: `ListPipelinesOutputResponse` : A list of the pipelines associated with the current AWS account.
+    /// - Returns: `ListPipelinesOutput` : A list of the pipelines associated with the current AWS account.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,7 +455,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `IncompatibleVersionException` : [no documentation found]
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutputResponse
+    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -471,18 +471,18 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPipelinesInput, ListPipelinesOutputResponse, ListPipelinesOutputError>(id: "listPipelines")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelinesInput, ListPipelinesOutputResponse, ListPipelinesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelinesInput, ListPipelinesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPipelinesInput, ListPipelinesOutput, ListPipelinesOutputError>(id: "listPipelines")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelinesInput, ListPipelinesOutput, ListPipelinesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelinesInput, ListPipelinesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPipelinesOutputResponse, ListPipelinesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPipelinesOutput, ListPipelinesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPipelinesInput, ListPipelinesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPipelinesOutputResponse, ListPipelinesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPipelinesInput, ListPipelinesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPipelinesOutput, ListPipelinesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelinesOutputResponse, ListPipelinesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelinesOutputResponse, ListPipelinesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPipelinesOutputResponse, ListPipelinesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelinesOutput, ListPipelinesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelinesOutput, ListPipelinesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPipelinesOutput, ListPipelinesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -491,7 +491,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter ListPresetsInput : The ListPresetsRequest structure.
     ///
-    /// - Returns: `ListPresetsOutputResponse` : The ListPresetsResponse structure.
+    /// - Returns: `ListPresetsOutput` : The ListPresetsResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,7 +500,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `IncompatibleVersionException` : [no documentation found]
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutputResponse
+    public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -516,18 +516,18 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPresetsInput, ListPresetsOutputResponse, ListPresetsOutputError>(id: "listPresets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPresetsInput, ListPresetsOutputResponse, ListPresetsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPresetsInput, ListPresetsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPresetsInput, ListPresetsOutput, ListPresetsOutputError>(id: "listPresets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPresetsInput, ListPresetsOutput, ListPresetsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPresetsInput, ListPresetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPresetsOutputResponse, ListPresetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPresetsOutput, ListPresetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPresetsInput, ListPresetsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPresetsOutputResponse, ListPresetsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPresetsInput, ListPresetsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPresetsOutput, ListPresetsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPresetsOutputResponse, ListPresetsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPresetsOutputResponse, ListPresetsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPresetsOutputResponse, ListPresetsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPresetsOutput, ListPresetsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPresetsOutput, ListPresetsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPresetsOutput, ListPresetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -536,7 +536,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter ReadJobInput : The ReadJobRequest structure.
     ///
-    /// - Returns: `ReadJobOutputResponse` : The ReadJobResponse structure.
+    /// - Returns: `ReadJobOutput` : The ReadJobResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,7 +546,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func readJob(input: ReadJobInput) async throws -> ReadJobOutputResponse
+    public func readJob(input: ReadJobInput) async throws -> ReadJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -562,17 +562,17 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ReadJobInput, ReadJobOutputResponse, ReadJobOutputError>(id: "readJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReadJobInput, ReadJobOutputResponse, ReadJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReadJobInput, ReadJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ReadJobInput, ReadJobOutput, ReadJobOutputError>(id: "readJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReadJobInput, ReadJobOutput, ReadJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReadJobInput, ReadJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReadJobOutputResponse, ReadJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReadJobOutput, ReadJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReadJobOutputResponse, ReadJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReadJobOutput, ReadJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReadJobOutputResponse, ReadJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReadJobOutputResponse, ReadJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReadJobOutputResponse, ReadJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReadJobOutput, ReadJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReadJobOutput, ReadJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReadJobOutput, ReadJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -581,7 +581,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter ReadPipelineInput : The ReadPipelineRequest structure.
     ///
-    /// - Returns: `ReadPipelineOutputResponse` : The ReadPipelineResponse structure.
+    /// - Returns: `ReadPipelineOutput` : The ReadPipelineResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,7 +591,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func readPipeline(input: ReadPipelineInput) async throws -> ReadPipelineOutputResponse
+    public func readPipeline(input: ReadPipelineInput) async throws -> ReadPipelineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -607,17 +607,17 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ReadPipelineInput, ReadPipelineOutputResponse, ReadPipelineOutputError>(id: "readPipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReadPipelineInput, ReadPipelineOutputResponse, ReadPipelineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReadPipelineInput, ReadPipelineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ReadPipelineInput, ReadPipelineOutput, ReadPipelineOutputError>(id: "readPipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReadPipelineInput, ReadPipelineOutput, ReadPipelineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReadPipelineInput, ReadPipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReadPipelineOutputResponse, ReadPipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReadPipelineOutput, ReadPipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReadPipelineOutputResponse, ReadPipelineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReadPipelineOutput, ReadPipelineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReadPipelineOutputResponse, ReadPipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReadPipelineOutputResponse, ReadPipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReadPipelineOutputResponse, ReadPipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReadPipelineOutput, ReadPipelineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReadPipelineOutput, ReadPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReadPipelineOutput, ReadPipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -626,7 +626,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter ReadPresetInput : The ReadPresetRequest structure.
     ///
-    /// - Returns: `ReadPresetOutputResponse` : The ReadPresetResponse structure.
+    /// - Returns: `ReadPresetOutput` : The ReadPresetResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,7 +636,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func readPreset(input: ReadPresetInput) async throws -> ReadPresetOutputResponse
+    public func readPreset(input: ReadPresetInput) async throws -> ReadPresetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -652,17 +652,17 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ReadPresetInput, ReadPresetOutputResponse, ReadPresetOutputError>(id: "readPreset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReadPresetInput, ReadPresetOutputResponse, ReadPresetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReadPresetInput, ReadPresetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ReadPresetInput, ReadPresetOutput, ReadPresetOutputError>(id: "readPreset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReadPresetInput, ReadPresetOutput, ReadPresetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReadPresetInput, ReadPresetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReadPresetOutputResponse, ReadPresetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReadPresetOutput, ReadPresetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReadPresetOutputResponse, ReadPresetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReadPresetOutput, ReadPresetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReadPresetOutputResponse, ReadPresetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReadPresetOutputResponse, ReadPresetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReadPresetOutputResponse, ReadPresetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReadPresetOutput, ReadPresetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReadPresetOutput, ReadPresetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReadPresetOutput, ReadPresetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -672,7 +672,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter TestRoleInput : The TestRoleRequest structure.
     ///
-    /// - Returns: `TestRoleOutputResponse` : The TestRoleResponse structure.
+    /// - Returns: `TestRoleOutput` : The TestRoleResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,7 +682,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func testRole(input: TestRoleInput) async throws -> TestRoleOutputResponse
+    public func testRole(input: TestRoleInput) async throws -> TestRoleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -698,20 +698,20 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TestRoleInput, TestRoleOutputResponse, TestRoleOutputError>(id: "testRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestRoleInput, TestRoleOutputResponse, TestRoleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestRoleInput, TestRoleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TestRoleInput, TestRoleOutput, TestRoleOutputError>(id: "testRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestRoleInput, TestRoleOutput, TestRoleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestRoleInput, TestRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestRoleOutputResponse, TestRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestRoleOutput, TestRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestRoleInput, TestRoleOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestRoleInput, TestRoleOutputResponse>(xmlName: "TestRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestRoleInput, TestRoleOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestRoleInput, TestRoleOutput>(xmlName: "TestRoleRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestRoleOutputResponse, TestRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestRoleOutput, TestRoleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestRoleOutputResponse, TestRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestRoleOutputResponse, TestRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestRoleOutputResponse, TestRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestRoleOutput, TestRoleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestRoleOutput, TestRoleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestRoleOutput, TestRoleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -720,7 +720,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter UpdatePipelineInput : The UpdatePipelineRequest structure.
     ///
-    /// - Returns: `UpdatePipelineOutputResponse` : When you update a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    /// - Returns: `UpdatePipelineOutput` : When you update a pipeline, Elastic Transcoder returns the values that you specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,7 +731,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutputResponse
+    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -747,20 +747,20 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePipelineInput, UpdatePipelineOutputResponse, UpdatePipelineOutputError>(id: "updatePipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse, UpdatePipelineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePipelineInput, UpdatePipelineOutput, UpdatePipelineOutputError>(id: "updatePipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineInput, UpdatePipelineOutput, UpdatePipelineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipelineOutput, UpdatePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse>(xmlName: "UpdatePipelineRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(xmlName: "UpdatePipelineRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipelineOutputResponse, UpdatePipelineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipelineOutput, UpdatePipelineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineOutput, UpdatePipelineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineOutput, UpdatePipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineOutput, UpdatePipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -769,7 +769,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter UpdatePipelineNotificationsInput : The UpdatePipelineNotificationsRequest structure.
     ///
-    /// - Returns: `UpdatePipelineNotificationsOutputResponse` : The UpdatePipelineNotificationsResponse structure.
+    /// - Returns: `UpdatePipelineNotificationsOutput` : The UpdatePipelineNotificationsResponse structure.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,7 +780,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func updatePipelineNotifications(input: UpdatePipelineNotificationsInput) async throws -> UpdatePipelineNotificationsOutputResponse
+    public func updatePipelineNotifications(input: UpdatePipelineNotificationsInput) async throws -> UpdatePipelineNotificationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -796,20 +796,20 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutputResponse, UpdatePipelineNotificationsOutputError>(id: "updatePipelineNotifications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutputResponse, UpdatePipelineNotificationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutput, UpdatePipelineNotificationsOutputError>(id: "updatePipelineNotifications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutput, UpdatePipelineNotificationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipelineNotificationsOutputResponse, UpdatePipelineNotificationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipelineNotificationsOutput, UpdatePipelineNotificationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutputResponse>(xmlName: "UpdatePipelineNotificationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutput>(xmlName: "UpdatePipelineNotificationsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipelineNotificationsOutputResponse, UpdatePipelineNotificationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipelineNotificationsOutput, UpdatePipelineNotificationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineNotificationsOutputResponse, UpdatePipelineNotificationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineNotificationsOutputResponse, UpdatePipelineNotificationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineNotificationsOutputResponse, UpdatePipelineNotificationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineNotificationsOutput, UpdatePipelineNotificationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineNotificationsOutput, UpdatePipelineNotificationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineNotificationsOutput, UpdatePipelineNotificationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -818,7 +818,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     ///
     /// - Parameter UpdatePipelineStatusInput : The UpdatePipelineStatusRequest structure.
     ///
-    /// - Returns: `UpdatePipelineStatusOutputResponse` : When you update status for a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    /// - Returns: `UpdatePipelineStatusOutput` : When you update status for a pipeline, Elastic Transcoder returns the values that you specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -829,7 +829,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func updatePipelineStatus(input: UpdatePipelineStatusInput) async throws -> UpdatePipelineStatusOutputResponse
+    public func updatePipelineStatus(input: UpdatePipelineStatusInput) async throws -> UpdatePipelineStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -845,20 +845,20 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
                       .withSigningName(value: "elastictranscoder")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePipelineStatusInput, UpdatePipelineStatusOutputResponse, UpdatePipelineStatusOutputError>(id: "updatePipelineStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutputResponse, UpdatePipelineStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePipelineStatusInput, UpdatePipelineStatusOutput, UpdatePipelineStatusOutputError>(id: "updatePipelineStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutput, UpdatePipelineStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipelineStatusOutputResponse, UpdatePipelineStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipelineStatusOutput, UpdatePipelineStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutputResponse>(xmlName: "UpdatePipelineStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutput>(xmlName: "UpdatePipelineStatusRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipelineStatusOutputResponse, UpdatePipelineStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipelineStatusOutput, UpdatePipelineStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineStatusOutputResponse, UpdatePipelineStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineStatusOutputResponse, UpdatePipelineStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineStatusOutputResponse, UpdatePipelineStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineStatusOutput, UpdatePipelineStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineStatusOutput, UpdatePipelineStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineStatusOutput, UpdatePipelineStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

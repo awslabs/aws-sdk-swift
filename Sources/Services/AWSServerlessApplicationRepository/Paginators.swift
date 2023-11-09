@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ServerlessApplicationRepositoryClient {
-    /// Paginate over `[ListApplicationDependenciesOutputResponse]` results.
+    /// Paginate over `[ListApplicationDependenciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationDependenciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationDependenciesOutputResponse`
-    public func listApplicationDependenciesPaginated(input: ListApplicationDependenciesInput) -> ClientRuntime.PaginatorSequence<ListApplicationDependenciesInput, ListApplicationDependenciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationDependenciesInput, ListApplicationDependenciesOutputResponse>(input: input, inputKey: \ListApplicationDependenciesInput.nextToken, outputKey: \ListApplicationDependenciesOutputResponse.nextToken, paginationFunction: self.listApplicationDependencies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationDependenciesOutput`
+    public func listApplicationDependenciesPaginated(input: ListApplicationDependenciesInput) -> ClientRuntime.PaginatorSequence<ListApplicationDependenciesInput, ListApplicationDependenciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationDependenciesInput, ListApplicationDependenciesOutput>(input: input, inputKey: \ListApplicationDependenciesInput.nextToken, outputKey: \ListApplicationDependenciesOutput.nextToken, paginationFunction: self.listApplicationDependencies(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListApplicationDependenciesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServerlessApplicationRepositoryClient {
-    /// Paginate over `[ListApplicationsOutputResponse]` results.
+    /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
-    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutputResponse.nextToken, paginationFunction: self.listApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
+    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -47,16 +47,16 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServerlessApplicationRepositoryClient {
-    /// Paginate over `[ListApplicationVersionsOutputResponse]` results.
+    /// Paginate over `[ListApplicationVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationVersionsOutputResponse`
-    public func listApplicationVersionsPaginated(input: ListApplicationVersionsInput) -> ClientRuntime.PaginatorSequence<ListApplicationVersionsInput, ListApplicationVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationVersionsInput, ListApplicationVersionsOutputResponse>(input: input, inputKey: \ListApplicationVersionsInput.nextToken, outputKey: \ListApplicationVersionsOutputResponse.nextToken, paginationFunction: self.listApplicationVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationVersionsOutput`
+    public func listApplicationVersionsPaginated(input: ListApplicationVersionsInput) -> ClientRuntime.PaginatorSequence<ListApplicationVersionsInput, ListApplicationVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationVersionsInput, ListApplicationVersionsOutput>(input: input, inputKey: \ListApplicationVersionsInput.nextToken, outputKey: \ListApplicationVersionsOutput.nextToken, paginationFunction: self.listApplicationVersions(input:))
     }
 }
 

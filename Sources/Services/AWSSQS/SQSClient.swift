@@ -78,13 +78,13 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter AddPermissionInput :
     ///
-    /// - Returns: `AddPermissionOutputResponse` : [no documentation found]
+    /// - Returns: `AddPermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutputResponse
+    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -100,20 +100,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>(id: "addPermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutput, AddPermissionOutputError>(id: "addPermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutput, AddPermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddPermissionOutput, AddPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddPermissionInput, AddPermissionOutputResponse>(xmlName: "AddPermissionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddPermissionInput, AddPermissionOutput>(xmlName: "AddPermissionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddPermissionOutputResponse, AddPermissionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddPermissionOutput, AddPermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutputResponse, AddPermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutput, AddPermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutput, AddPermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutput, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -128,14 +128,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter CancelMessageMoveTaskInput : [no documentation found]
     ///
-    /// - Returns: `CancelMessageMoveTaskOutputResponse` : [no documentation found]
+    /// - Returns: `CancelMessageMoveTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func cancelMessageMoveTask(input: CancelMessageMoveTaskInput) async throws -> CancelMessageMoveTaskOutputResponse
+    public func cancelMessageMoveTask(input: CancelMessageMoveTaskInput) async throws -> CancelMessageMoveTaskOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -151,20 +151,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutputResponse, CancelMessageMoveTaskOutputError>(id: "cancelMessageMoveTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutputResponse, CancelMessageMoveTaskOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>(id: "cancelMessageMoveTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMessageMoveTaskOutputResponse, CancelMessageMoveTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutputResponse>(xmlName: "CancelMessageMoveTaskRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(xmlName: "CancelMessageMoveTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMessageMoveTaskOutputResponse, CancelMessageMoveTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMessageMoveTaskOutputResponse, CancelMessageMoveTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMessageMoveTaskOutputResponse, CancelMessageMoveTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMessageMoveTaskOutputResponse, CancelMessageMoveTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -182,14 +182,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter ChangeMessageVisibilityInput : [no documentation found]
     ///
-    /// - Returns: `ChangeMessageVisibilityOutputResponse` : [no documentation found]
+    /// - Returns: `ChangeMessageVisibilityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `MessageNotInflight` : The specified message isn't in flight.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
-    public func changeMessageVisibility(input: ChangeMessageVisibilityInput) async throws -> ChangeMessageVisibilityOutputResponse
+    public func changeMessageVisibility(input: ChangeMessageVisibilityInput) async throws -> ChangeMessageVisibilityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -205,20 +205,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutputResponse, ChangeMessageVisibilityOutputError>(id: "changeMessageVisibility")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutputResponse, ChangeMessageVisibilityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>(id: "changeMessageVisibility")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeMessageVisibilityOutputResponse, ChangeMessageVisibilityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutputResponse>(xmlName: "ChangeMessageVisibilityRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(xmlName: "ChangeMessageVisibilityRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeMessageVisibilityOutputResponse, ChangeMessageVisibilityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeMessageVisibilityOutputResponse, ChangeMessageVisibilityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityOutputResponse, ChangeMessageVisibilityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityOutputResponse, ChangeMessageVisibilityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -227,7 +227,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter ChangeMessageVisibilityBatchInput :
     ///
-    /// - Returns: `ChangeMessageVisibilityBatchOutputResponse` : For each message in the batch, the response contains a [ChangeMessageVisibilityBatchResultEntry] tag if the message succeeds or a [BatchResultErrorEntry] tag if the message fails.
+    /// - Returns: `ChangeMessageVisibilityBatchOutput` : For each message in the batch, the response contains a [ChangeMessageVisibilityBatchResultEntry] tag if the message succeeds or a [BatchResultErrorEntry] tag if the message fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,7 +236,7 @@ extension SQSClient: SQSClientProtocol {
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
-    public func changeMessageVisibilityBatch(input: ChangeMessageVisibilityBatchInput) async throws -> ChangeMessageVisibilityBatchOutputResponse
+    public func changeMessageVisibilityBatch(input: ChangeMessageVisibilityBatchInput) async throws -> ChangeMessageVisibilityBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -252,20 +252,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutputResponse, ChangeMessageVisibilityBatchOutputError>(id: "changeMessageVisibilityBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutputResponse, ChangeMessageVisibilityBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>(id: "changeMessageVisibilityBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeMessageVisibilityBatchOutputResponse, ChangeMessageVisibilityBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutputResponse>(xmlName: "ChangeMessageVisibilityBatchRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(xmlName: "ChangeMessageVisibilityBatchRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeMessageVisibilityBatchOutputResponse, ChangeMessageVisibilityBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeMessageVisibilityBatchOutputResponse, ChangeMessageVisibilityBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityBatchOutputResponse, ChangeMessageVisibilityBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityBatchOutputResponse, ChangeMessageVisibilityBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -290,14 +290,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter CreateQueueInput :
     ///
-    /// - Returns: `CreateQueueOutputResponse` : Returns the QueueUrl attribute of the created queue.
+    /// - Returns: `CreateQueueOutput` : Returns the QueueUrl attribute of the created queue.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `QueueDeletedRecently` : You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
     /// - `QueueNameExists` : A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
-    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutputResponse
+    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -313,20 +313,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateQueueInput, CreateQueueOutputResponse, CreateQueueOutputError>(id: "createQueue")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateQueueInput, CreateQueueOutputResponse, CreateQueueOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateQueueInput, CreateQueueOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateQueueInput, CreateQueueOutput, CreateQueueOutputError>(id: "createQueue")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateQueueInput, CreateQueueOutput, CreateQueueOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateQueueInput, CreateQueueOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateQueueOutputResponse, CreateQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateQueueOutput, CreateQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateQueueInput, CreateQueueOutputResponse>(xmlName: "CreateQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateQueueInput, CreateQueueOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateQueueInput, CreateQueueOutput>(xmlName: "CreateQueueRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateQueueInput, CreateQueueOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateQueueOutputResponse, CreateQueueOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateQueueOutput, CreateQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateQueueOutputResponse, CreateQueueOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQueueOutputResponse, CreateQueueOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateQueueOutputResponse, CreateQueueOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateQueueOutput, CreateQueueOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQueueOutput, CreateQueueOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateQueueOutput, CreateQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -335,14 +335,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter DeleteMessageInput :
     ///
-    /// - Returns: `DeleteMessageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMessageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidIdFormat` : The specified receipt handle isn't valid for the current version.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
-    public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutputResponse
+    public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -358,20 +358,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMessageInput, DeleteMessageOutputResponse, DeleteMessageOutputError>(id: "deleteMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMessageInput, DeleteMessageOutputResponse, DeleteMessageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMessageInput, DeleteMessageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteMessageInput, DeleteMessageOutput, DeleteMessageOutputError>(id: "deleteMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMessageInput, DeleteMessageOutput, DeleteMessageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMessageInput, DeleteMessageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMessageOutputResponse, DeleteMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMessageOutput, DeleteMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteMessageInput, DeleteMessageOutputResponse>(xmlName: "DeleteMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageInput, DeleteMessageOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteMessageInput, DeleteMessageOutput>(xmlName: "DeleteMessageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageInput, DeleteMessageOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMessageOutputResponse, DeleteMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMessageOutput, DeleteMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMessageOutputResponse, DeleteMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMessageOutputResponse, DeleteMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMessageOutputResponse, DeleteMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMessageOutput, DeleteMessageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMessageOutput, DeleteMessageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMessageOutput, DeleteMessageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -380,7 +380,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter DeleteMessageBatchInput :
     ///
-    /// - Returns: `DeleteMessageBatchOutputResponse` : For each message in the batch, the response contains a [DeleteMessageBatchResultEntry] tag if the message is deleted or a [BatchResultErrorEntry] tag if the message can't be deleted.
+    /// - Returns: `DeleteMessageBatchOutput` : For each message in the batch, the response contains a [DeleteMessageBatchResultEntry] tag if the message is deleted or a [BatchResultErrorEntry] tag if the message can't be deleted.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -389,7 +389,7 @@ extension SQSClient: SQSClientProtocol {
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
-    public func deleteMessageBatch(input: DeleteMessageBatchInput) async throws -> DeleteMessageBatchOutputResponse
+    public func deleteMessageBatch(input: DeleteMessageBatchInput) async throws -> DeleteMessageBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -405,20 +405,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMessageBatchInput, DeleteMessageBatchOutputResponse, DeleteMessageBatchOutputError>(id: "deleteMessageBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutputResponse, DeleteMessageBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteMessageBatchInput, DeleteMessageBatchOutput, DeleteMessageBatchOutputError>(id: "deleteMessageBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput, DeleteMessageBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMessageBatchOutputResponse, DeleteMessageBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMessageBatchOutput, DeleteMessageBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutputResponse>(xmlName: "DeleteMessageBatchRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(xmlName: "DeleteMessageBatchRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMessageBatchOutputResponse, DeleteMessageBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMessageBatchOutput, DeleteMessageBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMessageBatchOutputResponse, DeleteMessageBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMessageBatchOutputResponse, DeleteMessageBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMessageBatchOutputResponse, DeleteMessageBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMessageBatchOutput, DeleteMessageBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMessageBatchOutput, DeleteMessageBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMessageBatchOutput, DeleteMessageBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -427,8 +427,8 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter DeleteQueueInput :
     ///
-    /// - Returns: `DeleteQueueOutputResponse` : [no documentation found]
-    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutputResponse
+    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -444,20 +444,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteQueueInput, DeleteQueueOutputResponse, DeleteQueueOutputError>(id: "deleteQueue")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQueueInput, DeleteQueueOutputResponse, DeleteQueueOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteQueueInput, DeleteQueueOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteQueueInput, DeleteQueueOutput, DeleteQueueOutputError>(id: "deleteQueue")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQueueInput, DeleteQueueOutput, DeleteQueueOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteQueueOutputResponse, DeleteQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteQueueOutput, DeleteQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteQueueInput, DeleteQueueOutputResponse>(xmlName: "DeleteQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteQueueInput, DeleteQueueOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteQueueInput, DeleteQueueOutput>(xmlName: "DeleteQueueRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteQueueInput, DeleteQueueOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteQueueOutputResponse, DeleteQueueOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteQueueOutput, DeleteQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQueueOutputResponse, DeleteQueueOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQueueOutputResponse, DeleteQueueOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteQueueOutputResponse, DeleteQueueOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQueueOutput, DeleteQueueOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQueueOutput, DeleteQueueOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteQueueOutput, DeleteQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -466,13 +466,13 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter GetQueueAttributesInput :
     ///
-    /// - Returns: `GetQueueAttributesOutputResponse` : A list of returned queue attributes.
+    /// - Returns: `GetQueueAttributesOutput` : A list of returned queue attributes.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
-    public func getQueueAttributes(input: GetQueueAttributesInput) async throws -> GetQueueAttributesOutputResponse
+    public func getQueueAttributes(input: GetQueueAttributesInput) async throws -> GetQueueAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -488,20 +488,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetQueueAttributesInput, GetQueueAttributesOutputResponse, GetQueueAttributesOutputError>(id: "getQueueAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueueAttributesInput, GetQueueAttributesOutputResponse, GetQueueAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueueAttributesInput, GetQueueAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetQueueAttributesInput, GetQueueAttributesOutput, GetQueueAttributesOutputError>(id: "getQueueAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput, GetQueueAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueueAttributesOutputResponse, GetQueueAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueueAttributesOutput, GetQueueAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueueAttributesInput, GetQueueAttributesOutputResponse>(xmlName: "GetQueueAttributesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueAttributesInput, GetQueueAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(xmlName: "GetQueueAttributesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueueAttributesOutputResponse, GetQueueAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueueAttributesOutput, GetQueueAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueueAttributesOutputResponse, GetQueueAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueueAttributesOutputResponse, GetQueueAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueueAttributesOutputResponse, GetQueueAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueueAttributesOutput, GetQueueAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueueAttributesOutput, GetQueueAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueueAttributesOutput, GetQueueAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -510,13 +510,13 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter GetQueueUrlInput :
     ///
-    /// - Returns: `GetQueueUrlOutputResponse` : For more information, see [Interpreting Responses](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-api-responses.html) in the Amazon SQS Developer Guide.
+    /// - Returns: `GetQueueUrlOutput` : For more information, see [Interpreting Responses](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-api-responses.html) in the Amazon SQS Developer Guide.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
-    public func getQueueUrl(input: GetQueueUrlInput) async throws -> GetQueueUrlOutputResponse
+    public func getQueueUrl(input: GetQueueUrlInput) async throws -> GetQueueUrlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -532,20 +532,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetQueueUrlInput, GetQueueUrlOutputResponse, GetQueueUrlOutputError>(id: "getQueueUrl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueueUrlInput, GetQueueUrlOutputResponse, GetQueueUrlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueueUrlInput, GetQueueUrlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetQueueUrlInput, GetQueueUrlOutput, GetQueueUrlOutputError>(id: "getQueueUrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueueUrlInput, GetQueueUrlOutput, GetQueueUrlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueueUrlInput, GetQueueUrlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueueUrlOutputResponse, GetQueueUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueueUrlOutput, GetQueueUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueueUrlInput, GetQueueUrlOutputResponse>(xmlName: "GetQueueUrlRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueUrlInput, GetQueueUrlOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(xmlName: "GetQueueUrlRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueueUrlOutputResponse, GetQueueUrlOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueueUrlOutput, GetQueueUrlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueueUrlOutputResponse, GetQueueUrlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueueUrlOutputResponse, GetQueueUrlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueueUrlOutputResponse, GetQueueUrlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueueUrlOutput, GetQueueUrlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueueUrlOutput, GetQueueUrlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueueUrlOutput, GetQueueUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -554,13 +554,13 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter ListDeadLetterSourceQueuesInput :
     ///
-    /// - Returns: `ListDeadLetterSourceQueuesOutputResponse` : A list of your dead letter source queues.
+    /// - Returns: `ListDeadLetterSourceQueuesOutput` : A list of your dead letter source queues.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
-    public func listDeadLetterSourceQueues(input: ListDeadLetterSourceQueuesInput) async throws -> ListDeadLetterSourceQueuesOutputResponse
+    public func listDeadLetterSourceQueues(input: ListDeadLetterSourceQueuesInput) async throws -> ListDeadLetterSourceQueuesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -576,20 +576,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutputResponse, ListDeadLetterSourceQueuesOutputError>(id: "listDeadLetterSourceQueues")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutputResponse, ListDeadLetterSourceQueuesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>(id: "listDeadLetterSourceQueues")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeadLetterSourceQueuesOutputResponse, ListDeadLetterSourceQueuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutputResponse>(xmlName: "ListDeadLetterSourceQueuesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(xmlName: "ListDeadLetterSourceQueuesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeadLetterSourceQueuesOutputResponse, ListDeadLetterSourceQueuesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeadLetterSourceQueuesOutputResponse, ListDeadLetterSourceQueuesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeadLetterSourceQueuesOutputResponse, ListDeadLetterSourceQueuesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeadLetterSourceQueuesOutputResponse, ListDeadLetterSourceQueuesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -604,14 +604,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter ListMessageMoveTasksInput : [no documentation found]
     ///
-    /// - Returns: `ListMessageMoveTasksOutputResponse` : [no documentation found]
+    /// - Returns: `ListMessageMoveTasksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func listMessageMoveTasks(input: ListMessageMoveTasksInput) async throws -> ListMessageMoveTasksOutputResponse
+    public func listMessageMoveTasks(input: ListMessageMoveTasksInput) async throws -> ListMessageMoveTasksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -627,20 +627,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMessageMoveTasksInput, ListMessageMoveTasksOutputResponse, ListMessageMoveTasksOutputError>(id: "listMessageMoveTasks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutputResponse, ListMessageMoveTasksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMessageMoveTasksInput, ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>(id: "listMessageMoveTasks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMessageMoveTasksOutputResponse, ListMessageMoveTasksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutputResponse>(xmlName: "ListMessageMoveTasksRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(xmlName: "ListMessageMoveTasksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMessageMoveTasksOutputResponse, ListMessageMoveTasksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMessageMoveTasksOutputResponse, ListMessageMoveTasksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMessageMoveTasksOutputResponse, ListMessageMoveTasksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMessageMoveTasksOutputResponse, ListMessageMoveTasksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -649,8 +649,8 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter ListQueueTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListQueueTagsOutputResponse` : [no documentation found]
-    public func listQueueTags(input: ListQueueTagsInput) async throws -> ListQueueTagsOutputResponse
+    /// - Returns: `ListQueueTagsOutput` : [no documentation found]
+    public func listQueueTags(input: ListQueueTagsInput) async throws -> ListQueueTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -666,20 +666,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListQueueTagsInput, ListQueueTagsOutputResponse, ListQueueTagsOutputError>(id: "listQueueTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueueTagsInput, ListQueueTagsOutputResponse, ListQueueTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueueTagsInput, ListQueueTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListQueueTagsInput, ListQueueTagsOutput, ListQueueTagsOutputError>(id: "listQueueTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueueTagsInput, ListQueueTagsOutput, ListQueueTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueueTagsInput, ListQueueTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueueTagsOutputResponse, ListQueueTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueueTagsOutput, ListQueueTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueueTagsInput, ListQueueTagsOutputResponse>(xmlName: "ListQueueTagsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueueTagsInput, ListQueueTagsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(xmlName: "ListQueueTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueueTagsOutputResponse, ListQueueTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueueTagsOutput, ListQueueTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueueTagsOutputResponse, ListQueueTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueueTagsOutputResponse, ListQueueTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueueTagsOutputResponse, ListQueueTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueueTagsOutput, ListQueueTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueueTagsOutput, ListQueueTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueueTagsOutput, ListQueueTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -688,8 +688,8 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter ListQueuesInput :
     ///
-    /// - Returns: `ListQueuesOutputResponse` : A list of your queues.
-    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutputResponse
+    /// - Returns: `ListQueuesOutput` : A list of your queues.
+    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -705,20 +705,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListQueuesInput, ListQueuesOutputResponse, ListQueuesOutputError>(id: "listQueues")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueuesInput, ListQueuesOutputResponse, ListQueuesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueuesInput, ListQueuesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListQueuesInput, ListQueuesOutput, ListQueuesOutputError>(id: "listQueues")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueuesInput, ListQueuesOutput, ListQueuesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueuesInput, ListQueuesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueuesOutputResponse, ListQueuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueuesOutput, ListQueuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueuesInput, ListQueuesOutputResponse>(xmlName: "ListQueuesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueuesInput, ListQueuesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueuesInput, ListQueuesOutput>(xmlName: "ListQueuesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueuesInput, ListQueuesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueuesOutputResponse, ListQueuesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueuesOutput, ListQueuesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueuesOutputResponse, ListQueuesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueuesOutputResponse, ListQueuesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueuesOutputResponse, ListQueuesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueuesOutput, ListQueuesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueuesOutput, ListQueuesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueuesOutput, ListQueuesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -727,14 +727,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter PurgeQueueInput :
     ///
-    /// - Returns: `PurgeQueueOutputResponse` : [no documentation found]
+    /// - Returns: `PurgeQueueOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `PurgeQueueInProgress` : Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
-    public func purgeQueue(input: PurgeQueueInput) async throws -> PurgeQueueOutputResponse
+    public func purgeQueue(input: PurgeQueueInput) async throws -> PurgeQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -750,20 +750,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PurgeQueueInput, PurgeQueueOutputResponse, PurgeQueueOutputError>(id: "purgeQueue")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurgeQueueInput, PurgeQueueOutputResponse, PurgeQueueOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurgeQueueInput, PurgeQueueOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PurgeQueueInput, PurgeQueueOutput, PurgeQueueOutputError>(id: "purgeQueue")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurgeQueueInput, PurgeQueueOutput, PurgeQueueOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurgeQueueInput, PurgeQueueOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurgeQueueOutputResponse, PurgeQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurgeQueueOutput, PurgeQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurgeQueueInput, PurgeQueueOutputResponse>(xmlName: "PurgeQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurgeQueueInput, PurgeQueueOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurgeQueueInput, PurgeQueueOutput>(xmlName: "PurgeQueueRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurgeQueueInput, PurgeQueueOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurgeQueueOutputResponse, PurgeQueueOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurgeQueueOutput, PurgeQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurgeQueueOutputResponse, PurgeQueueOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurgeQueueOutputResponse, PurgeQueueOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurgeQueueOutputResponse, PurgeQueueOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurgeQueueOutput, PurgeQueueOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurgeQueueOutput, PurgeQueueOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurgeQueueOutput, PurgeQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -787,13 +787,13 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter ReceiveMessageInput :
     ///
-    /// - Returns: `ReceiveMessageOutputResponse` : A list of received messages.
+    /// - Returns: `ReceiveMessageOutput` : A list of received messages.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-    public func receiveMessage(input: ReceiveMessageInput) async throws -> ReceiveMessageOutputResponse
+    public func receiveMessage(input: ReceiveMessageInput) async throws -> ReceiveMessageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -809,20 +809,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ReceiveMessageInput, ReceiveMessageOutputResponse, ReceiveMessageOutputError>(id: "receiveMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReceiveMessageInput, ReceiveMessageOutputResponse, ReceiveMessageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReceiveMessageInput, ReceiveMessageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ReceiveMessageInput, ReceiveMessageOutput, ReceiveMessageOutputError>(id: "receiveMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReceiveMessageInput, ReceiveMessageOutput, ReceiveMessageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReceiveMessageInput, ReceiveMessageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReceiveMessageOutputResponse, ReceiveMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReceiveMessageOutput, ReceiveMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReceiveMessageInput, ReceiveMessageOutputResponse>(xmlName: "ReceiveMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReceiveMessageInput, ReceiveMessageOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(xmlName: "ReceiveMessageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReceiveMessageOutputResponse, ReceiveMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReceiveMessageOutput, ReceiveMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReceiveMessageOutputResponse, ReceiveMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReceiveMessageOutputResponse, ReceiveMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReceiveMessageOutputResponse, ReceiveMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReceiveMessageOutput, ReceiveMessageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReceiveMessageOutput, ReceiveMessageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReceiveMessageOutput, ReceiveMessageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -837,8 +837,8 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter RemovePermissionInput :
     ///
-    /// - Returns: `RemovePermissionOutputResponse` : [no documentation found]
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutputResponse
+    /// - Returns: `RemovePermissionOutput` : [no documentation found]
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -854,20 +854,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>(id: "removePermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutput, RemovePermissionOutputError>(id: "removePermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutput, RemovePermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemovePermissionOutput, RemovePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>(xmlName: "RemovePermissionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemovePermissionInput, RemovePermissionOutput>(xmlName: "RemovePermissionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemovePermissionOutputResponse, RemovePermissionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemovePermissionOutput, RemovePermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutput, RemovePermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutput, RemovePermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutput, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -876,14 +876,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter SendMessageInput :
     ///
-    /// - Returns: `SendMessageOutputResponse` : The MD5OfMessageBody and MessageId elements.
+    /// - Returns: `SendMessageOutput` : The MD5OfMessageBody and MessageId elements.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidMessageContents` : The message contains characters outside the allowed set.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutputResponse
+    public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -899,20 +899,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendMessageInput, SendMessageOutputResponse, SendMessageOutputError>(id: "sendMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendMessageInput, SendMessageOutputResponse, SendMessageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendMessageInput, SendMessageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendMessageInput, SendMessageOutput, SendMessageOutputError>(id: "sendMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendMessageInput, SendMessageOutput, SendMessageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendMessageInput, SendMessageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendMessageOutputResponse, SendMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendMessageOutput, SendMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendMessageInput, SendMessageOutputResponse>(xmlName: "SendMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageInput, SendMessageOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendMessageInput, SendMessageOutput>(xmlName: "SendMessageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageInput, SendMessageOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendMessageOutputResponse, SendMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendMessageOutput, SendMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendMessageOutputResponse, SendMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendMessageOutputResponse, SendMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendMessageOutputResponse, SendMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendMessageOutput, SendMessageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendMessageOutput, SendMessageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendMessageOutput, SendMessageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -921,7 +921,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter SendMessageBatchInput :
     ///
-    /// - Returns: `SendMessageBatchOutputResponse` : For each message in the batch, the response contains a [SendMessageBatchResultEntry] tag if the message succeeds or a [BatchResultErrorEntry] tag if the message fails.
+    /// - Returns: `SendMessageBatchOutput` : For each message in the batch, the response contains a [SendMessageBatchResultEntry] tag if the message succeeds or a [BatchResultErrorEntry] tag if the message fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,7 +932,7 @@ extension SQSClient: SQSClientProtocol {
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func sendMessageBatch(input: SendMessageBatchInput) async throws -> SendMessageBatchOutputResponse
+    public func sendMessageBatch(input: SendMessageBatchInput) async throws -> SendMessageBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -948,20 +948,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendMessageBatchInput, SendMessageBatchOutputResponse, SendMessageBatchOutputError>(id: "sendMessageBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendMessageBatchInput, SendMessageBatchOutputResponse, SendMessageBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendMessageBatchInput, SendMessageBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendMessageBatchInput, SendMessageBatchOutput, SendMessageBatchOutputError>(id: "sendMessageBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendMessageBatchInput, SendMessageBatchOutput, SendMessageBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendMessageBatchInput, SendMessageBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendMessageBatchOutputResponse, SendMessageBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendMessageBatchOutput, SendMessageBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendMessageBatchInput, SendMessageBatchOutputResponse>(xmlName: "SendMessageBatchRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageBatchInput, SendMessageBatchOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(xmlName: "SendMessageBatchRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendMessageBatchOutputResponse, SendMessageBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendMessageBatchOutput, SendMessageBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendMessageBatchOutputResponse, SendMessageBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendMessageBatchOutputResponse, SendMessageBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendMessageBatchOutputResponse, SendMessageBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendMessageBatchOutput, SendMessageBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendMessageBatchOutput, SendMessageBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendMessageBatchOutput, SendMessageBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -976,13 +976,13 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter SetQueueAttributesInput :
     ///
-    /// - Returns: `SetQueueAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `SetQueueAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
-    public func setQueueAttributes(input: SetQueueAttributesInput) async throws -> SetQueueAttributesOutputResponse
+    public func setQueueAttributes(input: SetQueueAttributesInput) async throws -> SetQueueAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -998,20 +998,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetQueueAttributesInput, SetQueueAttributesOutputResponse, SetQueueAttributesOutputError>(id: "setQueueAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetQueueAttributesInput, SetQueueAttributesOutputResponse, SetQueueAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetQueueAttributesInput, SetQueueAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetQueueAttributesInput, SetQueueAttributesOutput, SetQueueAttributesOutputError>(id: "setQueueAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput, SetQueueAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetQueueAttributesOutputResponse, SetQueueAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetQueueAttributesOutput, SetQueueAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetQueueAttributesInput, SetQueueAttributesOutputResponse>(xmlName: "SetQueueAttributesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetQueueAttributesInput, SetQueueAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(xmlName: "SetQueueAttributesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetQueueAttributesOutputResponse, SetQueueAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetQueueAttributesOutput, SetQueueAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetQueueAttributesOutputResponse, SetQueueAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetQueueAttributesOutputResponse, SetQueueAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetQueueAttributesOutputResponse, SetQueueAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetQueueAttributesOutput, SetQueueAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetQueueAttributesOutput, SetQueueAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetQueueAttributesOutput, SetQueueAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1028,14 +1028,14 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter StartMessageMoveTaskInput : [no documentation found]
     ///
-    /// - Returns: `StartMessageMoveTaskOutputResponse` : [no documentation found]
+    /// - Returns: `StartMessageMoveTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func startMessageMoveTask(input: StartMessageMoveTaskInput) async throws -> StartMessageMoveTaskOutputResponse
+    public func startMessageMoveTask(input: StartMessageMoveTaskInput) async throws -> StartMessageMoveTaskOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1051,20 +1051,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMessageMoveTaskInput, StartMessageMoveTaskOutputResponse, StartMessageMoveTaskOutputError>(id: "startMessageMoveTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutputResponse, StartMessageMoveTaskOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartMessageMoveTaskInput, StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>(id: "startMessageMoveTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMessageMoveTaskOutputResponse, StartMessageMoveTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutputResponse>(xmlName: "StartMessageMoveTaskRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(xmlName: "StartMessageMoveTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMessageMoveTaskOutputResponse, StartMessageMoveTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMessageMoveTaskOutputResponse, StartMessageMoveTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMessageMoveTaskOutputResponse, StartMessageMoveTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMessageMoveTaskOutputResponse, StartMessageMoveTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1084,8 +1084,8 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter TagQueueInput : [no documentation found]
     ///
-    /// - Returns: `TagQueueOutputResponse` : [no documentation found]
-    public func tagQueue(input: TagQueueInput) async throws -> TagQueueOutputResponse
+    /// - Returns: `TagQueueOutput` : [no documentation found]
+    public func tagQueue(input: TagQueueInput) async throws -> TagQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1101,20 +1101,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagQueueInput, TagQueueOutputResponse, TagQueueOutputError>(id: "tagQueue")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagQueueInput, TagQueueOutputResponse, TagQueueOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagQueueInput, TagQueueOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagQueueInput, TagQueueOutput, TagQueueOutputError>(id: "tagQueue")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagQueueInput, TagQueueOutput, TagQueueOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagQueueInput, TagQueueOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagQueueOutputResponse, TagQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagQueueOutput, TagQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagQueueInput, TagQueueOutputResponse>(xmlName: "TagQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagQueueInput, TagQueueOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagQueueInput, TagQueueOutput>(xmlName: "TagQueueRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagQueueInput, TagQueueOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagQueueOutputResponse, TagQueueOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagQueueOutput, TagQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagQueueOutputResponse, TagQueueOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagQueueOutputResponse, TagQueueOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagQueueOutputResponse, TagQueueOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagQueueOutput, TagQueueOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagQueueOutput, TagQueueOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagQueueOutput, TagQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1123,8 +1123,8 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// - Parameter UntagQueueInput : [no documentation found]
     ///
-    /// - Returns: `UntagQueueOutputResponse` : [no documentation found]
-    public func untagQueue(input: UntagQueueInput) async throws -> UntagQueueOutputResponse
+    /// - Returns: `UntagQueueOutput` : [no documentation found]
+    public func untagQueue(input: UntagQueueInput) async throws -> UntagQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1140,20 +1140,20 @@ extension SQSClient: SQSClientProtocol {
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagQueueInput, UntagQueueOutputResponse, UntagQueueOutputError>(id: "untagQueue")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagQueueInput, UntagQueueOutputResponse, UntagQueueOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagQueueInput, UntagQueueOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagQueueInput, UntagQueueOutput, UntagQueueOutputError>(id: "untagQueue")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagQueueInput, UntagQueueOutput, UntagQueueOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagQueueInput, UntagQueueOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagQueueOutputResponse, UntagQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagQueueOutput, UntagQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagQueueInput, UntagQueueOutputResponse>(xmlName: "UntagQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagQueueInput, UntagQueueOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagQueueInput, UntagQueueOutput>(xmlName: "UntagQueueRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagQueueInput, UntagQueueOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagQueueOutputResponse, UntagQueueOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagQueueOutput, UntagQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagQueueOutputResponse, UntagQueueOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagQueueOutputResponse, UntagQueueOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagQueueOutputResponse, UntagQueueOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagQueueOutput, UntagQueueOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagQueueOutput, UntagQueueOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagQueueOutput, UntagQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

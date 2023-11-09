@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ConnectContactLensClient {
-    /// Paginate over `[ListRealtimeContactAnalysisSegmentsOutputResponse]` results.
+    /// Paginate over `[ListRealtimeContactAnalysisSegmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRealtimeContactAnalysisSegmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRealtimeContactAnalysisSegmentsOutputResponse`
-    public func listRealtimeContactAnalysisSegmentsPaginated(input: ListRealtimeContactAnalysisSegmentsInput) -> ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutputResponse>(input: input, inputKey: \ListRealtimeContactAnalysisSegmentsInput.nextToken, outputKey: \ListRealtimeContactAnalysisSegmentsOutputResponse.nextToken, paginationFunction: self.listRealtimeContactAnalysisSegments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRealtimeContactAnalysisSegmentsOutput`
+    public func listRealtimeContactAnalysisSegmentsPaginated(input: ListRealtimeContactAnalysisSegmentsInput) -> ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(input: input, inputKey: \ListRealtimeContactAnalysisSegmentsInput.nextToken, outputKey: \ListRealtimeContactAnalysisSegmentsOutput.nextToken, paginationFunction: self.listRealtimeContactAnalysisSegments(input:))
     }
 }
 

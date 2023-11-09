@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ElasticLoadBalancingClient {
-    /// Paginate over `[DescribeLoadBalancersOutputResponse]` results.
+    /// Paginate over `[DescribeLoadBalancersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeLoadBalancersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancersOutputResponse`
-    public func describeLoadBalancersPaginated(input: DescribeLoadBalancersInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse>(input: input, inputKey: \DescribeLoadBalancersInput.marker, outputKey: \DescribeLoadBalancersOutputResponse.nextMarker, paginationFunction: self.describeLoadBalancers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancersOutput`
+    public func describeLoadBalancersPaginated(input: DescribeLoadBalancersInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(input: input, inputKey: \DescribeLoadBalancersInput.marker, outputKey: \DescribeLoadBalancersOutput.nextMarker, paginationFunction: self.describeLoadBalancers(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeLoadBalancersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeLoadBalancersInput, Output == DescribeLoadBalancersOutputResponse {
+extension PaginatorSequence where Input == DescribeLoadBalancersInput, Output == DescribeLoadBalancersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeLoadBalancersPaginated`
     /// to access the nested member `[ElasticLoadBalancingClientTypes.LoadBalancerDescription]`
     /// - Returns: `[ElasticLoadBalancingClientTypes.LoadBalancerDescription]`

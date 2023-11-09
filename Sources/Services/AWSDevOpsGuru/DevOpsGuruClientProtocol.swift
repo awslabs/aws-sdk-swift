@@ -8,7 +8,7 @@ public protocol DevOpsGuruClientProtocol {
     ///
     /// - Parameter AddNotificationChannelInput : [no documentation found]
     ///
-    /// - Returns: `AddNotificationChannelOutputResponse` : [no documentation found]
+    /// - Returns: `AddNotificationChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ServiceQuotaExceededException` : The request contains a value that exceeds a maximum quota.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func addNotificationChannel(input: AddNotificationChannelInput) async throws -> AddNotificationChannelOutputResponse
+    func addNotificationChannel(input: AddNotificationChannelInput) async throws -> AddNotificationChannelOutput
     /// Deletes the insight along with the associated anomalies, events and recommendations.
     ///
     /// - Parameter DeleteInsightInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInsightOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInsightOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -36,12 +36,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutputResponse
+    func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutput
     /// Returns the number of open reactive insights, the number of open proactive insights, and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the health of operations in your Amazon Web Services account.
     ///
     /// - Parameter DescribeAccountHealthInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountHealthOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountHealthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeAccountHealth(input: DescribeAccountHealthInput) async throws -> DescribeAccountHealthOutputResponse
+    func describeAccountHealth(input: DescribeAccountHealthInput) async throws -> DescribeAccountHealthOutput
     /// For the time range passed in, returns the number of open reactive insight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reactive insights.
     ///
     /// - Parameter DescribeAccountOverviewInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountOverviewOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountOverviewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -64,12 +64,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeAccountOverview(input: DescribeAccountOverviewInput) async throws -> DescribeAccountOverviewOutputResponse
+    func describeAccountOverview(input: DescribeAccountOverviewInput) async throws -> DescribeAccountOverviewOutput
     /// Returns details about an anomaly that you specify using its ID.
     ///
     /// - Parameter DescribeAnomalyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAnomalyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAnomalyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,12 +79,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeAnomaly(input: DescribeAnomalyInput) async throws -> DescribeAnomalyOutputResponse
+    func describeAnomaly(input: DescribeAnomalyInput) async throws -> DescribeAnomalyOutput
     /// Returns the integration status of services that are integrated with DevOps Guru as Consumer via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru.
     ///
     /// - Parameter DescribeEventSourcesConfigInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventSourcesConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventSourcesConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -93,12 +93,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeEventSourcesConfig(input: DescribeEventSourcesConfigInput) async throws -> DescribeEventSourcesConfigOutputResponse
+    func describeEventSourcesConfig(input: DescribeEventSourcesConfigInput) async throws -> DescribeEventSourcesConfigOutput
     /// Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
     ///
     /// - Parameter DescribeFeedbackInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFeedbackOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFeedbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -108,12 +108,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeFeedback(input: DescribeFeedbackInput) async throws -> DescribeFeedbackOutputResponse
+    func describeFeedback(input: DescribeFeedbackInput) async throws -> DescribeFeedbackOutput
     /// Returns details about an insight that you specify using its ID.
     ///
     /// - Parameter DescribeInsightInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInsightOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInsightOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -123,12 +123,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeInsight(input: DescribeInsightInput) async throws -> DescribeInsightOutputResponse
+    func describeInsight(input: DescribeInsightInput) async throws -> DescribeInsightOutput
     /// Returns active insights, predictive insights, and resource hours analyzed in last hour.
     ///
     /// - Parameter DescribeOrganizationHealthInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationHealthOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationHealthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -137,12 +137,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeOrganizationHealth(input: DescribeOrganizationHealthInput) async throws -> DescribeOrganizationHealthOutputResponse
+    func describeOrganizationHealth(input: DescribeOrganizationHealthInput) async throws -> DescribeOrganizationHealthOutput
     /// Returns an overview of your organization's history based on the specified time range. The overview includes the total reactive and proactive insights.
     ///
     /// - Parameter DescribeOrganizationOverviewInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationOverviewOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationOverviewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -151,12 +151,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeOrganizationOverview(input: DescribeOrganizationOverviewInput) async throws -> DescribeOrganizationOverviewOutputResponse
+    func describeOrganizationOverview(input: DescribeOrganizationOverviewInput) async throws -> DescribeOrganizationOverviewOutput
     /// Provides an overview of your system's health. If additional member accounts are part of your organization, you can filter those accounts using the AccountIds field.
     ///
     /// - Parameter DescribeOrganizationResourceCollectionHealthInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationResourceCollectionHealthOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationResourceCollectionHealthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeOrganizationResourceCollectionHealth(input: DescribeOrganizationResourceCollectionHealthInput) async throws -> DescribeOrganizationResourceCollectionHealthOutputResponse
+    func describeOrganizationResourceCollectionHealth(input: DescribeOrganizationResourceCollectionHealthInput) async throws -> DescribeOrganizationResourceCollectionHealthOutput
     /// Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
     /// - Parameter DescribeResourceCollectionHealthInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourceCollectionHealthOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourceCollectionHealthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeResourceCollectionHealth(input: DescribeResourceCollectionHealthInput) async throws -> DescribeResourceCollectionHealthOutputResponse
+    func describeResourceCollectionHealth(input: DescribeResourceCollectionHealthInput) async throws -> DescribeResourceCollectionHealthOutput
     /// Returns the integration status of services that are integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
     ///
     /// - Parameter DescribeServiceIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServiceIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServiceIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,12 +194,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func describeServiceIntegration(input: DescribeServiceIntegrationInput) async throws -> DescribeServiceIntegrationOutputResponse
+    func describeServiceIntegration(input: DescribeServiceIntegrationInput) async throws -> DescribeServiceIntegrationOutput
     /// Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources. For more information, see [Estimate your Amazon DevOps Guru costs](https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html) and [Amazon DevOps Guru pricing](http://aws.amazon.com/devops-guru/pricing/).
     ///
     /// - Parameter GetCostEstimationInput : [no documentation found]
     ///
-    /// - Returns: `GetCostEstimationOutputResponse` : [no documentation found]
+    /// - Returns: `GetCostEstimationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func getCostEstimation(input: GetCostEstimationInput) async throws -> GetCostEstimationOutputResponse
+    func getCostEstimation(input: GetCostEstimationInput) async throws -> GetCostEstimationOutput
     /// Returns lists Amazon Web Services resources that are of the specified resource collection type. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
     /// - Parameter GetResourceCollectionInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceCollectionOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceCollectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -224,12 +224,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func getResourceCollection(input: GetResourceCollectionInput) async throws -> GetResourceCollectionOutputResponse
+    func getResourceCollection(input: GetResourceCollectionInput) async throws -> GetResourceCollectionOutput
     /// Returns a list of the anomalies that belong to an insight that you specify using its ID.
     ///
     /// - Parameter ListAnomaliesForInsightInput : [no documentation found]
     ///
-    /// - Returns: `ListAnomaliesForInsightOutputResponse` : [no documentation found]
+    /// - Returns: `ListAnomaliesForInsightOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -239,12 +239,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listAnomaliesForInsight(input: ListAnomaliesForInsightInput) async throws -> ListAnomaliesForInsightOutputResponse
+    func listAnomaliesForInsight(input: ListAnomaliesForInsightInput) async throws -> ListAnomaliesForInsightOutput
     /// Returns the list of log groups that contain log anomalies.
     ///
     /// - Parameter ListAnomalousLogGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListAnomalousLogGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAnomalousLogGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -254,12 +254,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listAnomalousLogGroups(input: ListAnomalousLogGroupsInput) async throws -> ListAnomalousLogGroupsOutputResponse
+    func listAnomalousLogGroups(input: ListAnomalousLogGroupsInput) async throws -> ListAnomalousLogGroupsOutput
     /// Returns a list of the events emitted by the resources that are evaluated by DevOps Guru. You can use filters to specify which events are returned.
     ///
     /// - Parameter ListEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -269,12 +269,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listEvents(input: ListEventsInput) async throws -> ListEventsOutputResponse
+    func listEvents(input: ListEventsInput) async throws -> ListEventsOutput
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time and status (ONGOING, CLOSED, or ANY).
     ///
     /// - Parameter ListInsightsInput : [no documentation found]
     ///
-    /// - Returns: `ListInsightsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInsightsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -283,12 +283,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listInsights(input: ListInsightsInput) async throws -> ListInsightsOutputResponse
+    func listInsights(input: ListInsightsInput) async throws -> ListInsightsOutput
     /// Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
     ///
     /// - Parameter ListMonitoredResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListMonitoredResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListMonitoredResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -297,12 +297,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listMonitoredResources(input: ListMonitoredResourcesInput) async throws -> ListMonitoredResourcesOutputResponse
+    func listMonitoredResources(input: ListMonitoredResourcesInput) async throws -> ListMonitoredResourcesOutput
     /// Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS).
     ///
     /// - Parameter ListNotificationChannelsInput : [no documentation found]
     ///
-    /// - Returns: `ListNotificationChannelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListNotificationChannelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -311,12 +311,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listNotificationChannels(input: ListNotificationChannelsInput) async throws -> ListNotificationChannelsOutputResponse
+    func listNotificationChannels(input: ListNotificationChannelsInput) async throws -> ListNotificationChannelsOutput
     /// Returns a list of insights associated with the account or OU Id.
     ///
     /// - Parameter ListOrganizationInsightsInput : [no documentation found]
     ///
-    /// - Returns: `ListOrganizationInsightsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOrganizationInsightsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -325,12 +325,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listOrganizationInsights(input: ListOrganizationInsightsInput) async throws -> ListOrganizationInsightsOutputResponse
+    func listOrganizationInsights(input: ListOrganizationInsightsInput) async throws -> ListOrganizationInsightsOutput
     /// Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events.
     ///
     /// - Parameter ListRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `ListRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -340,12 +340,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutputResponse
+    func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
     /// Collects customer feedback about the specified insight.
     ///
     /// - Parameter PutFeedbackInput : [no documentation found]
     ///
-    /// - Returns: `PutFeedbackOutputResponse` : [no documentation found]
+    /// - Returns: `PutFeedbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -356,12 +356,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutputResponse
+    func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput
     /// Removes a notification channel from DevOps Guru. A notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations.
     ///
     /// - Parameter RemoveNotificationChannelInput : [no documentation found]
     ///
-    /// - Returns: `RemoveNotificationChannelOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveNotificationChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -372,12 +372,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutputResponse
+    func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutput
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time, one or more statuses (ONGOING or CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
     ///
     /// - Parameter SearchInsightsInput : [no documentation found]
     ///
-    /// - Returns: `SearchInsightsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchInsightsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -386,12 +386,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func searchInsights(input: SearchInsightsInput) async throws -> SearchInsightsOutputResponse
+    func searchInsights(input: SearchInsightsInput) async throws -> SearchInsightsOutput
     /// Returns a list of insights in your organization. You can specify which insights are returned by their start time, one or more statuses (ONGOING, CLOSED, and CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
     ///
     /// - Parameter SearchOrganizationInsightsInput : [no documentation found]
     ///
-    /// - Returns: `SearchOrganizationInsightsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchOrganizationInsightsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -400,12 +400,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func searchOrganizationInsights(input: SearchOrganizationInsightsInput) async throws -> SearchOrganizationInsightsOutputResponse
+    func searchOrganizationInsights(input: SearchOrganizationInsightsInput) async throws -> SearchOrganizationInsightsOutput
     /// Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services resources.
     ///
     /// - Parameter StartCostEstimationInput : [no documentation found]
     ///
-    /// - Returns: `StartCostEstimationOutputResponse` : [no documentation found]
+    /// - Returns: `StartCostEstimationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,12 +416,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func startCostEstimation(input: StartCostEstimationInput) async throws -> StartCostEstimationOutputResponse
+    func startCostEstimation(input: StartCostEstimationInput) async throws -> StartCostEstimationOutput
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru.
     ///
     /// - Parameter UpdateEventSourcesConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEventSourcesConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEventSourcesConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -430,12 +430,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func updateEventSourcesConfig(input: UpdateEventSourcesConfigInput) async throws -> UpdateEventSourcesConfigOutputResponse
+    func updateEventSourcesConfig(input: UpdateEventSourcesConfigInput) async throws -> UpdateEventSourcesConfigOutput
     /// Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks. This method also creates the IAM role required for you to use DevOps Guru.
     ///
     /// - Parameter UpdateResourceCollectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateResourceCollectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateResourceCollectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,12 +445,12 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func updateResourceCollection(input: UpdateResourceCollectionInput) async throws -> UpdateResourceCollectionOutputResponse
+    func updateResourceCollection(input: UpdateResourceCollectionInput) async throws -> UpdateResourceCollectionOutput
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
     ///
     /// - Parameter UpdateServiceIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,7 +460,7 @@ public protocol DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    func updateServiceIntegration(input: UpdateServiceIntegrationInput) async throws -> UpdateServiceIntegrationOutputResponse
+    func updateServiceIntegration(input: UpdateServiceIntegrationInput) async throws -> UpdateServiceIntegrationOutput
 }
 
 public enum DevOpsGuruClientTypes {}

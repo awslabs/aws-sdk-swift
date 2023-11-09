@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension AutoScalingClientProtocol {
 
-    static func groupExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutputResponse, Error>) -> Bool in
+    static func groupExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(AutoScalingGroups) > `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -17,7 +17,7 @@ extension AutoScalingClientProtocol {
                 let comparison = JMESUtils.compare(count, >, number)
                 return JMESUtils.compare(comparison, ==, true)
             }),
-            .init(state: .retry, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(AutoScalingGroups) > `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "false"
@@ -29,7 +29,7 @@ extension AutoScalingClientProtocol {
                 return JMESUtils.compare(comparison, ==, false)
             }),
         ]
-        return try WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the GroupExists event on the describeAutoScalingGroups operation.
@@ -43,14 +43,14 @@ extension AutoScalingClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilGroupExists(options: WaiterOptions, input: DescribeAutoScalingGroupsInput) async throws -> WaiterOutcome<DescribeAutoScalingGroupsOutputResponse> {
+    public func waitUntilGroupExists(options: WaiterOptions, input: DescribeAutoScalingGroupsInput) async throws -> WaiterOutcome<DescribeAutoScalingGroupsOutput> {
         let waiter = Waiter(config: try Self.groupExistsWaiterConfig(), operation: self.describeAutoScalingGroups(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func groupInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutputResponse, Error>) -> Bool in
+    static func groupInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='InService']) >= MinSize][], `false`)"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "false"
@@ -73,7 +73,7 @@ extension AutoScalingClientProtocol {
                 let contains = projection?.contains(bool) ?? false
                 return JMESUtils.compare(contains, ==, false)
             }),
-            .init(state: .retry, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='InService']) >= MinSize][], `false`)"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -97,7 +97,7 @@ extension AutoScalingClientProtocol {
                 return JMESUtils.compare(contains, ==, true)
             }),
         ]
-        return try WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the GroupInService event on the describeAutoScalingGroups operation.
@@ -111,14 +111,14 @@ extension AutoScalingClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilGroupInService(options: WaiterOptions, input: DescribeAutoScalingGroupsInput) async throws -> WaiterOutcome<DescribeAutoScalingGroupsOutputResponse> {
+    public func waitUntilGroupInService(options: WaiterOptions, input: DescribeAutoScalingGroupsInput) async throws -> WaiterOutcome<DescribeAutoScalingGroupsOutput> {
         let waiter = Waiter(config: try Self.groupInServiceWaiterConfig(), operation: self.describeAutoScalingGroups(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func groupNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutputResponse, Error>) -> Bool in
+    static func groupNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(AutoScalingGroups) > `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "false"
@@ -129,7 +129,7 @@ extension AutoScalingClientProtocol {
                 let comparison = JMESUtils.compare(count, >, number)
                 return JMESUtils.compare(comparison, ==, false)
             }),
-            .init(state: .retry, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeAutoScalingGroupsInput, result: Result<DescribeAutoScalingGroupsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(AutoScalingGroups) > `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -141,7 +141,7 @@ extension AutoScalingClientProtocol {
                 return JMESUtils.compare(comparison, ==, true)
             }),
         ]
-        return try WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the GroupNotExists event on the describeAutoScalingGroups operation.
@@ -155,7 +155,7 @@ extension AutoScalingClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilGroupNotExists(options: WaiterOptions, input: DescribeAutoScalingGroupsInput) async throws -> WaiterOutcome<DescribeAutoScalingGroupsOutputResponse> {
+    public func waitUntilGroupNotExists(options: WaiterOptions, input: DescribeAutoScalingGroupsInput) async throws -> WaiterOutcome<DescribeAutoScalingGroupsOutput> {
         let waiter = Waiter(config: try Self.groupNotExistsWaiterConfig(), operation: self.describeAutoScalingGroups(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

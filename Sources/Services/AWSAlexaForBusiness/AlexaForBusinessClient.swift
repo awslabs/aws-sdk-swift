@@ -72,7 +72,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ApproveSkillInput : [no documentation found]
     ///
-    /// - Returns: `ApproveSkillOutputResponse` : [no documentation found]
+    /// - Returns: `ApproveSkillOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,7 +80,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    public func approveSkill(input: ApproveSkillInput) async throws -> ApproveSkillOutputResponse
+    public func approveSkill(input: ApproveSkillInput) async throws -> ApproveSkillOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -96,21 +96,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ApproveSkillInput, ApproveSkillOutputResponse, ApproveSkillOutputError>(id: "approveSkill")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApproveSkillInput, ApproveSkillOutputResponse, ApproveSkillOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApproveSkillInput, ApproveSkillOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ApproveSkillInput, ApproveSkillOutput, ApproveSkillOutputError>(id: "approveSkill")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApproveSkillInput, ApproveSkillOutput, ApproveSkillOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApproveSkillInput, ApproveSkillOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ApproveSkillOutputResponse, ApproveSkillOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ApproveSkillOutput, ApproveSkillOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ApproveSkillInput, ApproveSkillOutputResponse>(xAmzTarget: "AlexaForBusiness.ApproveSkill"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ApproveSkillInput, ApproveSkillOutputResponse>(xmlName: "ApproveSkillRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ApproveSkillInput, ApproveSkillOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ApproveSkillInput, ApproveSkillOutput>(xAmzTarget: "AlexaForBusiness.ApproveSkill"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ApproveSkillInput, ApproveSkillOutput>(xmlName: "ApproveSkillRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ApproveSkillInput, ApproveSkillOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ApproveSkillOutputResponse, ApproveSkillOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ApproveSkillOutput, ApproveSkillOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApproveSkillOutputResponse, ApproveSkillOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApproveSkillOutputResponse, ApproveSkillOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApproveSkillOutputResponse, ApproveSkillOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApproveSkillOutput, ApproveSkillOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApproveSkillOutput, ApproveSkillOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApproveSkillOutput, ApproveSkillOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -120,13 +120,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter AssociateContactWithAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `AssociateContactWithAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateContactWithAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func associateContactWithAddressBook(input: AssociateContactWithAddressBookInput) async throws -> AssociateContactWithAddressBookOutputResponse
+    public func associateContactWithAddressBook(input: AssociateContactWithAddressBookInput) async throws -> AssociateContactWithAddressBookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -142,21 +142,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(id: "associateContactWithAddressBook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutput, AssociateContactWithAddressBookOutputError>(id: "associateContactWithAddressBook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutput, AssociateContactWithAddressBookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateContactWithAddressBookOutput, AssociateContactWithAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse>(xAmzTarget: "AlexaForBusiness.AssociateContactWithAddressBook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse>(xmlName: "AssociateContactWithAddressBookRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutput>(xAmzTarget: "AlexaForBusiness.AssociateContactWithAddressBook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutput>(xmlName: "AssociateContactWithAddressBookRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateContactWithAddressBookOutput, AssociateContactWithAddressBookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateContactWithAddressBookOutput, AssociateContactWithAddressBookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateContactWithAddressBookOutput, AssociateContactWithAddressBookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateContactWithAddressBookOutput, AssociateContactWithAddressBookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -166,7 +166,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter AssociateDeviceWithNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDeviceWithNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDeviceWithNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,7 +174,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `NotFoundException` : The resource is not found.
-    public func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkProfileInput) async throws -> AssociateDeviceWithNetworkProfileOutputResponse
+    public func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkProfileInput) async throws -> AssociateDeviceWithNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -190,21 +190,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(id: "associateDeviceWithNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutput, AssociateDeviceWithNetworkProfileOutputError>(id: "associateDeviceWithNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutput, AssociateDeviceWithNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateDeviceWithNetworkProfileOutput, AssociateDeviceWithNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.AssociateDeviceWithNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse>(xmlName: "AssociateDeviceWithNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutput>(xAmzTarget: "AlexaForBusiness.AssociateDeviceWithNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutput>(xmlName: "AssociateDeviceWithNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateDeviceWithNetworkProfileOutput, AssociateDeviceWithNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDeviceWithNetworkProfileOutput, AssociateDeviceWithNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDeviceWithNetworkProfileOutput, AssociateDeviceWithNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateDeviceWithNetworkProfileOutput, AssociateDeviceWithNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -214,7 +214,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter AssociateDeviceWithRoomInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDeviceWithRoomOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDeviceWithRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,7 +222,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput) async throws -> AssociateDeviceWithRoomOutputResponse
+    public func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput) async throws -> AssociateDeviceWithRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -238,21 +238,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(id: "associateDeviceWithRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutput, AssociateDeviceWithRoomOutputError>(id: "associateDeviceWithRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutput, AssociateDeviceWithRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateDeviceWithRoomOutput, AssociateDeviceWithRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.AssociateDeviceWithRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse>(xmlName: "AssociateDeviceWithRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutput>(xAmzTarget: "AlexaForBusiness.AssociateDeviceWithRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutput>(xmlName: "AssociateDeviceWithRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateDeviceWithRoomOutput, AssociateDeviceWithRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDeviceWithRoomOutput, AssociateDeviceWithRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDeviceWithRoomOutput, AssociateDeviceWithRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateDeviceWithRoomOutput, AssociateDeviceWithRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -262,13 +262,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter AssociateSkillGroupWithRoomInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSkillGroupWithRoomOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSkillGroupWithRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput) async throws -> AssociateSkillGroupWithRoomOutputResponse
+    public func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput) async throws -> AssociateSkillGroupWithRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -284,21 +284,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(id: "associateSkillGroupWithRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutput, AssociateSkillGroupWithRoomOutputError>(id: "associateSkillGroupWithRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutput, AssociateSkillGroupWithRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSkillGroupWithRoomOutput, AssociateSkillGroupWithRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.AssociateSkillGroupWithRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse>(xmlName: "AssociateSkillGroupWithRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutput>(xAmzTarget: "AlexaForBusiness.AssociateSkillGroupWithRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutput>(xmlName: "AssociateSkillGroupWithRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSkillGroupWithRoomOutput, AssociateSkillGroupWithRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillGroupWithRoomOutput, AssociateSkillGroupWithRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillGroupWithRoomOutput, AssociateSkillGroupWithRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillGroupWithRoomOutput, AssociateSkillGroupWithRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -308,7 +308,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter AssociateSkillWithSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSkillWithSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSkillWithSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -316,7 +316,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
     /// - `SkillNotLinkedException` : The skill must be linked to a third-party account.
-    public func associateSkillWithSkillGroup(input: AssociateSkillWithSkillGroupInput) async throws -> AssociateSkillWithSkillGroupOutputResponse
+    public func associateSkillWithSkillGroup(input: AssociateSkillWithSkillGroupInput) async throws -> AssociateSkillWithSkillGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -332,21 +332,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(id: "associateSkillWithSkillGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutput, AssociateSkillWithSkillGroupOutputError>(id: "associateSkillWithSkillGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutput, AssociateSkillWithSkillGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSkillWithSkillGroupOutput, AssociateSkillWithSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.AssociateSkillWithSkillGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse>(xmlName: "AssociateSkillWithSkillGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutput>(xAmzTarget: "AlexaForBusiness.AssociateSkillWithSkillGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutput>(xmlName: "AssociateSkillWithSkillGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSkillWithSkillGroupOutput, AssociateSkillWithSkillGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillWithSkillGroupOutput, AssociateSkillWithSkillGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillWithSkillGroupOutput, AssociateSkillWithSkillGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillWithSkillGroupOutput, AssociateSkillWithSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -356,14 +356,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter AssociateSkillWithUsersInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSkillWithUsersOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSkillWithUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func associateSkillWithUsers(input: AssociateSkillWithUsersInput) async throws -> AssociateSkillWithUsersOutputResponse
+    public func associateSkillWithUsers(input: AssociateSkillWithUsersInput) async throws -> AssociateSkillWithUsersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -379,21 +379,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(id: "associateSkillWithUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutput, AssociateSkillWithUsersOutputError>(id: "associateSkillWithUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutput, AssociateSkillWithUsersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSkillWithUsersOutput, AssociateSkillWithUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse>(xAmzTarget: "AlexaForBusiness.AssociateSkillWithUsers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse>(xmlName: "AssociateSkillWithUsersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutput>(xAmzTarget: "AlexaForBusiness.AssociateSkillWithUsers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutput>(xmlName: "AssociateSkillWithUsersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSkillWithUsersOutput, AssociateSkillWithUsersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillWithUsersOutput, AssociateSkillWithUsersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillWithUsersOutput, AssociateSkillWithUsersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillWithUsersOutput, AssociateSkillWithUsersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -403,14 +403,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `CreateAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createAddressBook(input: CreateAddressBookInput) async throws -> CreateAddressBookOutputResponse
+    public func createAddressBook(input: CreateAddressBookInput) async throws -> CreateAddressBookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -426,29 +426,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAddressBookInput, CreateAddressBookOutputResponse, CreateAddressBookOutputError>(id: "createAddressBook")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAddressBookOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAddressBookInput, CreateAddressBookOutputResponse, CreateAddressBookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAddressBookInput, CreateAddressBookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateAddressBookInput, CreateAddressBookOutput, CreateAddressBookOutputError>(id: "createAddressBook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAddressBookInput, CreateAddressBookOutput, CreateAddressBookOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAddressBookInput, CreateAddressBookOutput, CreateAddressBookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAddressBookInput, CreateAddressBookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAddressBookOutputResponse, CreateAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAddressBookOutput, CreateAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAddressBookInput, CreateAddressBookOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateAddressBook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAddressBookInput, CreateAddressBookOutputResponse>(xmlName: "CreateAddressBookRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAddressBookInput, CreateAddressBookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAddressBookInput, CreateAddressBookOutput>(xAmzTarget: "AlexaForBusiness.CreateAddressBook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAddressBookInput, CreateAddressBookOutput>(xmlName: "CreateAddressBookRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAddressBookInput, CreateAddressBookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAddressBookOutputResponse, CreateAddressBookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAddressBookOutput, CreateAddressBookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAddressBookOutputResponse, CreateAddressBookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAddressBookOutputResponse, CreateAddressBookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAddressBookOutputResponse, CreateAddressBookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAddressBookOutput, CreateAddressBookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAddressBookOutput, CreateAddressBookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAddressBookOutput, CreateAddressBookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -458,13 +451,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateBusinessReportScheduleInput : [no documentation found]
     ///
-    /// - Returns: `CreateBusinessReportScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBusinessReportScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
-    public func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput) async throws -> CreateBusinessReportScheduleOutputResponse
+    public func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput) async throws -> CreateBusinessReportScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -480,29 +473,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(id: "createBusinessReportSchedule")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateBusinessReportScheduleOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>(id: "createBusinessReportSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateBusinessReportSchedule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutputResponse>(xmlName: "CreateBusinessReportScheduleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutput>(xAmzTarget: "AlexaForBusiness.CreateBusinessReportSchedule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutput>(xmlName: "CreateBusinessReportScheduleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBusinessReportScheduleOutput, CreateBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -512,13 +498,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `CreateConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
-    public func createConferenceProvider(input: CreateConferenceProviderInput) async throws -> CreateConferenceProviderOutputResponse
+    public func createConferenceProvider(input: CreateConferenceProviderInput) async throws -> CreateConferenceProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -534,29 +520,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateConferenceProviderInput, CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(id: "createConferenceProvider")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateConferenceProviderOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateConferenceProviderInput, CreateConferenceProviderOutput, CreateConferenceProviderOutputError>(id: "createConferenceProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutput, CreateConferenceProviderOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutput, CreateConferenceProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConferenceProviderOutput, CreateConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateConferenceProvider"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutputResponse>(xmlName: "CreateConferenceProviderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutput>(xAmzTarget: "AlexaForBusiness.CreateConferenceProvider"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutput>(xmlName: "CreateConferenceProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConferenceProviderInput, CreateConferenceProviderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConferenceProviderOutput, CreateConferenceProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConferenceProviderOutput, CreateConferenceProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConferenceProviderOutput, CreateConferenceProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConferenceProviderOutput, CreateConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -566,14 +545,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateContactInput : [no documentation found]
     ///
-    /// - Returns: `CreateContactOutputResponse` : [no documentation found]
+    /// - Returns: `CreateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createContact(input: CreateContactInput) async throws -> CreateContactOutputResponse
+    public func createContact(input: CreateContactInput) async throws -> CreateContactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -589,29 +568,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateContactInput, CreateContactOutputResponse, CreateContactOutputError>(id: "createContact")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateContactOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContactInput, CreateContactOutputResponse, CreateContactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContactInput, CreateContactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateContactInput, CreateContactOutput, CreateContactOutputError>(id: "createContact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateContactInput, CreateContactOutput, CreateContactOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContactInput, CreateContactOutput, CreateContactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContactInput, CreateContactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContactOutputResponse, CreateContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContactOutput, CreateContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateContactInput, CreateContactOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateContact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateContactInput, CreateContactOutputResponse>(xmlName: "CreateContactRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateContactInput, CreateContactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateContactInput, CreateContactOutput>(xAmzTarget: "AlexaForBusiness.CreateContact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateContactInput, CreateContactOutput>(xmlName: "CreateContactRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateContactInput, CreateContactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateContactOutputResponse, CreateContactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateContactOutput, CreateContactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContactOutputResponse, CreateContactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContactOutputResponse, CreateContactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateContactOutputResponse, CreateContactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContactOutput, CreateContactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContactOutput, CreateContactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateContactOutput, CreateContactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -621,14 +593,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createGatewayGroup(input: CreateGatewayGroupInput) async throws -> CreateGatewayGroupOutputResponse
+    public func createGatewayGroup(input: CreateGatewayGroupInput) async throws -> CreateGatewayGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -644,29 +616,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateGatewayGroupInput, CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(id: "createGatewayGroup")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateGatewayGroupOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateGatewayGroupInput, CreateGatewayGroupOutput, CreateGatewayGroupOutputError>(id: "createGatewayGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutput, CreateGatewayGroupOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutput, CreateGatewayGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGatewayGroupOutput, CreateGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateGatewayGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutputResponse>(xmlName: "CreateGatewayGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutput>(xAmzTarget: "AlexaForBusiness.CreateGatewayGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutput>(xmlName: "CreateGatewayGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGatewayGroupInput, CreateGatewayGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGatewayGroupOutput, CreateGatewayGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGatewayGroupOutput, CreateGatewayGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGatewayGroupOutput, CreateGatewayGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGatewayGroupOutput, CreateGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -676,7 +641,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,7 +651,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `InvalidCertificateAuthorityException` : The Certificate Authority can't issue or revoke a certificate.
     /// - `InvalidServiceLinkedRoleStateException` : The service linked role is locked for deletion.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutputResponse
+    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -702,29 +667,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(id: "createNetworkProfile")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateNetworkProfileOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateNetworkProfileInput, CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(id: "createNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput, CreateNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>(xmlName: "CreateNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>(xAmzTarget: "AlexaForBusiness.CreateNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>(xmlName: "CreateNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -734,7 +692,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -742,7 +700,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
+    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -758,29 +716,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProfileInput, CreateProfileOutputResponse, CreateProfileOutputError>(id: "createProfile")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProfileOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProfileInput, CreateProfileOutputResponse, CreateProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProfileInput, CreateProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateProfileInput, CreateProfileOutput, CreateProfileOutputError>(id: "createProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateProfileInput, CreateProfileOutput, CreateProfileOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProfileInput, CreateProfileOutput, CreateProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProfileInput, CreateProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProfileOutputResponse, CreateProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProfileOutput, CreateProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProfileInput, CreateProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProfileInput, CreateProfileOutputResponse>(xmlName: "CreateProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProfileInput, CreateProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProfileInput, CreateProfileOutput>(xAmzTarget: "AlexaForBusiness.CreateProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProfileInput, CreateProfileOutput>(xmlName: "CreateProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProfileInput, CreateProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProfileOutputResponse, CreateProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProfileOutput, CreateProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProfileOutputResponse, CreateProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProfileOutputResponse, CreateProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProfileOutputResponse, CreateProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProfileOutput, CreateProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProfileOutput, CreateProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProfileOutput, CreateProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -790,14 +741,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateRoomInput : [no documentation found]
     ///
-    /// - Returns: `CreateRoomOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutputResponse
+    public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -813,29 +764,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRoomInput, CreateRoomOutputResponse, CreateRoomOutputError>(id: "createRoom")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateRoomOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoomInput, CreateRoomOutputResponse, CreateRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRoomInput, CreateRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateRoomInput, CreateRoomOutput, CreateRoomOutputError>(id: "createRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateRoomInput, CreateRoomOutput, CreateRoomOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoomInput, CreateRoomOutput, CreateRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRoomInput, CreateRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoomOutputResponse, CreateRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoomOutput, CreateRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRoomInput, CreateRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRoomInput, CreateRoomOutputResponse>(xmlName: "CreateRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRoomInput, CreateRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRoomInput, CreateRoomOutput>(xAmzTarget: "AlexaForBusiness.CreateRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRoomInput, CreateRoomOutput>(xmlName: "CreateRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRoomInput, CreateRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoomOutputResponse, CreateRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoomOutput, CreateRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomOutputResponse, CreateRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomOutputResponse, CreateRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoomOutputResponse, CreateRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomOutput, CreateRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomOutput, CreateRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoomOutput, CreateRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -845,7 +789,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,7 +797,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createSkillGroup(input: CreateSkillGroupInput) async throws -> CreateSkillGroupOutputResponse
+    public func createSkillGroup(input: CreateSkillGroupInput) async throws -> CreateSkillGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -869,29 +813,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSkillGroupInput, CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(id: "createSkillGroup")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateSkillGroupOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSkillGroupInput, CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSkillGroupInput, CreateSkillGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSkillGroupInput, CreateSkillGroupOutput, CreateSkillGroupOutputError>(id: "createSkillGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateSkillGroupInput, CreateSkillGroupOutput, CreateSkillGroupOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSkillGroupInput, CreateSkillGroupOutput, CreateSkillGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSkillGroupInput, CreateSkillGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSkillGroupOutput, CreateSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateSkillGroupInput, CreateSkillGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateSkillGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSkillGroupInput, CreateSkillGroupOutputResponse>(xmlName: "CreateSkillGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSkillGroupInput, CreateSkillGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateSkillGroupInput, CreateSkillGroupOutput>(xAmzTarget: "AlexaForBusiness.CreateSkillGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSkillGroupInput, CreateSkillGroupOutput>(xmlName: "CreateSkillGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSkillGroupInput, CreateSkillGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSkillGroupOutput, CreateSkillGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSkillGroupOutput, CreateSkillGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSkillGroupOutput, CreateSkillGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSkillGroupOutput, CreateSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -901,7 +838,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,7 +846,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `ResourceInUseException` : The resource in the request is already in use.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -925,29 +862,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateUserOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput, CreateUserOutputError>(id: "createUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserInput, CreateUserOutput, CreateUserOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput, CreateUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutputResponse, CreateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutput, CreateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUserInput, CreateUserOutputResponse>(xAmzTarget: "AlexaForBusiness.CreateUser"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserInput, CreateUserOutputResponse>(xmlName: "CreateUserRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserInput, CreateUserOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUserInput, CreateUserOutput>(xAmzTarget: "AlexaForBusiness.CreateUser"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserInput, CreateUserOutput>(xmlName: "CreateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutputResponse, CreateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput, CreateUserOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutputResponse, CreateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutputResponse, CreateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutputResponse, CreateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput, CreateUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput, CreateUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput, CreateUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -957,14 +887,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteAddressBook(input: DeleteAddressBookInput) async throws -> DeleteAddressBookOutputResponse
+    public func deleteAddressBook(input: DeleteAddressBookInput) async throws -> DeleteAddressBookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -980,21 +910,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAddressBookInput, DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(id: "deleteAddressBook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAddressBookInput, DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAddressBookInput, DeleteAddressBookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteAddressBookInput, DeleteAddressBookOutput, DeleteAddressBookOutputError>(id: "deleteAddressBook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAddressBookInput, DeleteAddressBookOutput, DeleteAddressBookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAddressBookInput, DeleteAddressBookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAddressBookOutput, DeleteAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAddressBookInput, DeleteAddressBookOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteAddressBook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAddressBookInput, DeleteAddressBookOutputResponse>(xmlName: "DeleteAddressBookRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAddressBookInput, DeleteAddressBookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAddressBookInput, DeleteAddressBookOutput>(xAmzTarget: "AlexaForBusiness.DeleteAddressBook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAddressBookInput, DeleteAddressBookOutput>(xmlName: "DeleteAddressBookRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAddressBookInput, DeleteAddressBookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAddressBookOutput, DeleteAddressBookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAddressBookOutput, DeleteAddressBookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAddressBookOutput, DeleteAddressBookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAddressBookOutput, DeleteAddressBookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1004,14 +934,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteBusinessReportScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBusinessReportScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBusinessReportScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput) async throws -> DeleteBusinessReportScheduleOutputResponse
+    public func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput) async throws -> DeleteBusinessReportScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1027,21 +957,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(id: "deleteBusinessReportSchedule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutput, DeleteBusinessReportScheduleOutputError>(id: "deleteBusinessReportSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutput, DeleteBusinessReportScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBusinessReportScheduleOutput, DeleteBusinessReportScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteBusinessReportSchedule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse>(xmlName: "DeleteBusinessReportScheduleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutput>(xAmzTarget: "AlexaForBusiness.DeleteBusinessReportSchedule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutput>(xmlName: "DeleteBusinessReportScheduleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBusinessReportScheduleOutput, DeleteBusinessReportScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBusinessReportScheduleOutput, DeleteBusinessReportScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBusinessReportScheduleOutput, DeleteBusinessReportScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBusinessReportScheduleOutput, DeleteBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1051,13 +981,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func deleteConferenceProvider(input: DeleteConferenceProviderInput) async throws -> DeleteConferenceProviderOutputResponse
+    public func deleteConferenceProvider(input: DeleteConferenceProviderInput) async throws -> DeleteConferenceProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1073,21 +1003,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(id: "deleteConferenceProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConferenceProviderInput, DeleteConferenceProviderOutput, DeleteConferenceProviderOutputError>(id: "deleteConferenceProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutput, DeleteConferenceProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConferenceProviderOutput, DeleteConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteConferenceProvider"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse>(xmlName: "DeleteConferenceProviderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutput>(xAmzTarget: "AlexaForBusiness.DeleteConferenceProvider"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutput>(xmlName: "DeleteConferenceProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConferenceProviderOutput, DeleteConferenceProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConferenceProviderOutput, DeleteConferenceProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConferenceProviderOutput, DeleteConferenceProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConferenceProviderOutput, DeleteConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1097,14 +1027,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteContactInput : [no documentation found]
     ///
-    /// - Returns: `DeleteContactOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutputResponse
+    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1120,21 +1050,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteContactInput, DeleteContactOutputResponse, DeleteContactOutputError>(id: "deleteContact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContactInput, DeleteContactOutputResponse, DeleteContactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContactInput, DeleteContactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteContactInput, DeleteContactOutput, DeleteContactOutputError>(id: "deleteContact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContactInput, DeleteContactOutput, DeleteContactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContactInput, DeleteContactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteContactOutputResponse, DeleteContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteContactOutput, DeleteContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteContactInput, DeleteContactOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteContact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteContactInput, DeleteContactOutputResponse>(xmlName: "DeleteContactRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteContactInput, DeleteContactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteContactInput, DeleteContactOutput>(xAmzTarget: "AlexaForBusiness.DeleteContact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteContactInput, DeleteContactOutput>(xmlName: "DeleteContactRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteContactInput, DeleteContactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteContactOutputResponse, DeleteContactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteContactOutput, DeleteContactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContactOutputResponse, DeleteContactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContactOutputResponse, DeleteContactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteContactOutputResponse, DeleteContactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContactOutput, DeleteContactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContactOutput, DeleteContactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteContactOutput, DeleteContactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1144,7 +1074,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,7 +1082,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `InvalidCertificateAuthorityException` : The Certificate Authority can't issue or revoke a certificate.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutputResponse
+    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1168,21 +1098,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDeviceInput, DeleteDeviceOutputResponse, DeleteDeviceOutputError>(id: "deleteDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse, DeleteDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDeviceInput, DeleteDeviceOutput, DeleteDeviceOutputError>(id: "deleteDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceInput, DeleteDeviceOutput, DeleteDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceInput, DeleteDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeviceOutput, DeleteDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteDevice"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse>(xmlName: "DeleteDeviceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeviceInput, DeleteDeviceOutput>(xAmzTarget: "AlexaForBusiness.DeleteDevice"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeviceInput, DeleteDeviceOutput>(xmlName: "DeleteDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeviceInput, DeleteDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeviceOutputResponse, DeleteDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeviceOutput, DeleteDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceOutput, DeleteDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceOutput, DeleteDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceOutput, DeleteDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1192,7 +1122,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteDeviceUsageDataInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeviceUsageDataOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeviceUsageDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1200,7 +1130,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput) async throws -> DeleteDeviceUsageDataOutputResponse
+    public func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput) async throws -> DeleteDeviceUsageDataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1216,21 +1146,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(id: "deleteDeviceUsageData")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutput, DeleteDeviceUsageDataOutputError>(id: "deleteDeviceUsageData")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutput, DeleteDeviceUsageDataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeviceUsageDataOutput, DeleteDeviceUsageDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteDeviceUsageData"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse>(xmlName: "DeleteDeviceUsageDataRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutput>(xAmzTarget: "AlexaForBusiness.DeleteDeviceUsageData"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutput>(xmlName: "DeleteDeviceUsageDataRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeviceUsageDataOutput, DeleteDeviceUsageDataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceUsageDataOutput, DeleteDeviceUsageDataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceUsageDataOutput, DeleteDeviceUsageDataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceUsageDataOutput, DeleteDeviceUsageDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1240,13 +1170,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceAssociatedException` : Another resource is associated with the resource in the request.
-    public func deleteGatewayGroup(input: DeleteGatewayGroupInput) async throws -> DeleteGatewayGroupOutputResponse
+    public func deleteGatewayGroup(input: DeleteGatewayGroupInput) async throws -> DeleteGatewayGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1262,21 +1192,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(id: "deleteGatewayGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteGatewayGroupInput, DeleteGatewayGroupOutput, DeleteGatewayGroupOutputError>(id: "deleteGatewayGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutput, DeleteGatewayGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGatewayGroupOutput, DeleteGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteGatewayGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse>(xmlName: "DeleteGatewayGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutput>(xAmzTarget: "AlexaForBusiness.DeleteGatewayGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutput>(xmlName: "DeleteGatewayGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGatewayGroupOutput, DeleteGatewayGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGatewayGroupOutput, DeleteGatewayGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGatewayGroupOutput, DeleteGatewayGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGatewayGroupOutput, DeleteGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1286,7 +1216,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,7 +1224,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
     /// - `ResourceInUseException` : The resource in the request is already in use.
-    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutputResponse
+    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1310,21 +1240,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(id: "deleteNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteNetworkProfileInput, DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(id: "deleteNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>(xmlName: "DeleteNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>(xAmzTarget: "AlexaForBusiness.DeleteNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>(xmlName: "DeleteNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1334,14 +1264,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutputResponse
+    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1357,21 +1287,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProfileInput, DeleteProfileOutputResponse, DeleteProfileOutputError>(id: "deleteProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileInput, DeleteProfileOutputResponse, DeleteProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProfileInput, DeleteProfileOutput, DeleteProfileOutputError>(id: "deleteProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileInput, DeleteProfileOutput, DeleteProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProfileOutputResponse, DeleteProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProfileOutput, DeleteProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProfileInput, DeleteProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProfileInput, DeleteProfileOutputResponse>(xmlName: "DeleteProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProfileInput, DeleteProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProfileInput, DeleteProfileOutput>(xAmzTarget: "AlexaForBusiness.DeleteProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProfileInput, DeleteProfileOutput>(xmlName: "DeleteProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProfileInput, DeleteProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProfileOutputResponse, DeleteProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProfileOutput, DeleteProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileOutputResponse, DeleteProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileOutputResponse, DeleteProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileOutputResponse, DeleteProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileOutput, DeleteProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileOutput, DeleteProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileOutput, DeleteProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1381,14 +1311,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteRoomInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRoomOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutputResponse
+    public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1404,21 +1334,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRoomInput, DeleteRoomOutputResponse, DeleteRoomOutputError>(id: "deleteRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomInput, DeleteRoomOutputResponse, DeleteRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomInput, DeleteRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRoomInput, DeleteRoomOutput, DeleteRoomOutputError>(id: "deleteRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomInput, DeleteRoomOutput, DeleteRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomInput, DeleteRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomOutputResponse, DeleteRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomOutput, DeleteRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRoomInput, DeleteRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRoomInput, DeleteRoomOutputResponse>(xmlName: "DeleteRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRoomInput, DeleteRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRoomInput, DeleteRoomOutput>(xAmzTarget: "AlexaForBusiness.DeleteRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRoomInput, DeleteRoomOutput>(xmlName: "DeleteRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRoomInput, DeleteRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomOutputResponse, DeleteRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomOutput, DeleteRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomOutputResponse, DeleteRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomOutputResponse, DeleteRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomOutputResponse, DeleteRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomOutput, DeleteRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomOutput, DeleteRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomOutput, DeleteRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1428,13 +1358,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteRoomSkillParameterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRoomSkillParameterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRoomSkillParameterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func deleteRoomSkillParameter(input: DeleteRoomSkillParameterInput) async throws -> DeleteRoomSkillParameterOutputResponse
+    public func deleteRoomSkillParameter(input: DeleteRoomSkillParameterInput) async throws -> DeleteRoomSkillParameterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1450,21 +1380,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(id: "deleteRoomSkillParameter")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutput, DeleteRoomSkillParameterOutputError>(id: "deleteRoomSkillParameter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutput, DeleteRoomSkillParameterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomSkillParameterOutput, DeleteRoomSkillParameterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteRoomSkillParameter"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse>(xmlName: "DeleteRoomSkillParameterRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutput>(xAmzTarget: "AlexaForBusiness.DeleteRoomSkillParameter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutput>(xmlName: "DeleteRoomSkillParameterRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomSkillParameterOutput, DeleteRoomSkillParameterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomSkillParameterOutput, DeleteRoomSkillParameterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomSkillParameterOutput, DeleteRoomSkillParameterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomSkillParameterOutput, DeleteRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1474,14 +1404,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteSkillAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSkillAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSkillAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteSkillAuthorization(input: DeleteSkillAuthorizationInput) async throws -> DeleteSkillAuthorizationOutputResponse
+    public func deleteSkillAuthorization(input: DeleteSkillAuthorizationInput) async throws -> DeleteSkillAuthorizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1497,21 +1427,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(id: "deleteSkillAuthorization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutput, DeleteSkillAuthorizationOutputError>(id: "deleteSkillAuthorization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutput, DeleteSkillAuthorizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSkillAuthorizationOutput, DeleteSkillAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteSkillAuthorization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse>(xmlName: "DeleteSkillAuthorizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutput>(xAmzTarget: "AlexaForBusiness.DeleteSkillAuthorization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutput>(xmlName: "DeleteSkillAuthorizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSkillAuthorizationOutput, DeleteSkillAuthorizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSkillAuthorizationOutput, DeleteSkillAuthorizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSkillAuthorizationOutput, DeleteSkillAuthorizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSkillAuthorizationOutput, DeleteSkillAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1521,14 +1451,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteSkillGroup(input: DeleteSkillGroupInput) async throws -> DeleteSkillGroupOutputResponse
+    public func deleteSkillGroup(input: DeleteSkillGroupInput) async throws -> DeleteSkillGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1544,21 +1474,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(id: "deleteSkillGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSkillGroupInput, DeleteSkillGroupOutput, DeleteSkillGroupOutputError>(id: "deleteSkillGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutput, DeleteSkillGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSkillGroupOutput, DeleteSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteSkillGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse>(xmlName: "DeleteSkillGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutput>(xAmzTarget: "AlexaForBusiness.DeleteSkillGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutput>(xmlName: "DeleteSkillGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSkillGroupOutput, DeleteSkillGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSkillGroupOutput, DeleteSkillGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSkillGroupOutput, DeleteSkillGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSkillGroupOutput, DeleteSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1568,14 +1498,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1591,21 +1521,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutput, DeleteUserOutputError>(id: "deleteUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput, DeleteUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutput, DeleteUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteUserInput, DeleteUserOutputResponse>(xAmzTarget: "AlexaForBusiness.DeleteUser"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserInput, DeleteUserOutputResponse>(xmlName: "DeleteUserRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserInput, DeleteUserOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteUserInput, DeleteUserOutput>(xAmzTarget: "AlexaForBusiness.DeleteUser"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserInput, DeleteUserOutput>(xmlName: "DeleteUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutputResponse, DeleteUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutput, DeleteUserOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutput, DeleteUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput, DeleteUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutput, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1615,8 +1545,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DisassociateContactFromAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateContactFromAddressBookOutputResponse` : [no documentation found]
-    public func disassociateContactFromAddressBook(input: DisassociateContactFromAddressBookInput) async throws -> DisassociateContactFromAddressBookOutputResponse
+    /// - Returns: `DisassociateContactFromAddressBookOutput` : [no documentation found]
+    public func disassociateContactFromAddressBook(input: DisassociateContactFromAddressBookInput) async throws -> DisassociateContactFromAddressBookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1632,21 +1562,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(id: "disassociateContactFromAddressBook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutput, DisassociateContactFromAddressBookOutputError>(id: "disassociateContactFromAddressBook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutput, DisassociateContactFromAddressBookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateContactFromAddressBookOutput, DisassociateContactFromAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse>(xAmzTarget: "AlexaForBusiness.DisassociateContactFromAddressBook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse>(xmlName: "DisassociateContactFromAddressBookRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutput>(xAmzTarget: "AlexaForBusiness.DisassociateContactFromAddressBook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutput>(xmlName: "DisassociateContactFromAddressBookRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateContactFromAddressBookOutput, DisassociateContactFromAddressBookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateContactFromAddressBookOutput, DisassociateContactFromAddressBookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateContactFromAddressBookOutput, DisassociateContactFromAddressBookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateContactFromAddressBookOutput, DisassociateContactFromAddressBookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1656,14 +1586,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DisassociateDeviceFromRoomInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateDeviceFromRoomOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateDeviceFromRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
-    public func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput) async throws -> DisassociateDeviceFromRoomOutputResponse
+    public func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput) async throws -> DisassociateDeviceFromRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1679,21 +1609,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(id: "disassociateDeviceFromRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutput, DisassociateDeviceFromRoomOutputError>(id: "disassociateDeviceFromRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutput, DisassociateDeviceFromRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateDeviceFromRoomOutput, DisassociateDeviceFromRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.DisassociateDeviceFromRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse>(xmlName: "DisassociateDeviceFromRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutput>(xAmzTarget: "AlexaForBusiness.DisassociateDeviceFromRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutput>(xmlName: "DisassociateDeviceFromRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateDeviceFromRoomOutput, DisassociateDeviceFromRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateDeviceFromRoomOutput, DisassociateDeviceFromRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateDeviceFromRoomOutput, DisassociateDeviceFromRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateDeviceFromRoomOutput, DisassociateDeviceFromRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1703,14 +1633,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DisassociateSkillFromSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateSkillFromSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateSkillFromSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGroupInput) async throws -> DisassociateSkillFromSkillGroupOutputResponse
+    public func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGroupInput) async throws -> DisassociateSkillFromSkillGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1726,21 +1656,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(id: "disassociateSkillFromSkillGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutput, DisassociateSkillFromSkillGroupOutputError>(id: "disassociateSkillFromSkillGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutput, DisassociateSkillFromSkillGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSkillFromSkillGroupOutput, DisassociateSkillFromSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.DisassociateSkillFromSkillGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse>(xmlName: "DisassociateSkillFromSkillGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutput>(xAmzTarget: "AlexaForBusiness.DisassociateSkillFromSkillGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutput>(xmlName: "DisassociateSkillFromSkillGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSkillFromSkillGroupOutput, DisassociateSkillFromSkillGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillFromSkillGroupOutput, DisassociateSkillFromSkillGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillFromSkillGroupOutput, DisassociateSkillFromSkillGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillFromSkillGroupOutput, DisassociateSkillFromSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1750,14 +1680,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DisassociateSkillFromUsersInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateSkillFromUsersOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateSkillFromUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput) async throws -> DisassociateSkillFromUsersOutputResponse
+    public func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput) async throws -> DisassociateSkillFromUsersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1773,21 +1703,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(id: "disassociateSkillFromUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutput, DisassociateSkillFromUsersOutputError>(id: "disassociateSkillFromUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutput, DisassociateSkillFromUsersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSkillFromUsersOutput, DisassociateSkillFromUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse>(xAmzTarget: "AlexaForBusiness.DisassociateSkillFromUsers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse>(xmlName: "DisassociateSkillFromUsersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutput>(xAmzTarget: "AlexaForBusiness.DisassociateSkillFromUsers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutput>(xmlName: "DisassociateSkillFromUsersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSkillFromUsersOutput, DisassociateSkillFromUsersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillFromUsersOutput, DisassociateSkillFromUsersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillFromUsersOutput, DisassociateSkillFromUsersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillFromUsersOutput, DisassociateSkillFromUsersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1797,13 +1727,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter DisassociateSkillGroupFromRoomInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateSkillGroupFromRoomOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateSkillGroupFromRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput) async throws -> DisassociateSkillGroupFromRoomOutputResponse
+    public func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput) async throws -> DisassociateSkillGroupFromRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1819,21 +1749,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(id: "disassociateSkillGroupFromRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutput, DisassociateSkillGroupFromRoomOutputError>(id: "disassociateSkillGroupFromRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutput, DisassociateSkillGroupFromRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSkillGroupFromRoomOutput, DisassociateSkillGroupFromRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.DisassociateSkillGroupFromRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse>(xmlName: "DisassociateSkillGroupFromRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutput>(xAmzTarget: "AlexaForBusiness.DisassociateSkillGroupFromRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutput>(xmlName: "DisassociateSkillGroupFromRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSkillGroupFromRoomOutput, DisassociateSkillGroupFromRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillGroupFromRoomOutput, DisassociateSkillGroupFromRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillGroupFromRoomOutput, DisassociateSkillGroupFromRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillGroupFromRoomOutput, DisassociateSkillGroupFromRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1843,13 +1773,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ForgetSmartHomeAppliancesInput : [no documentation found]
     ///
-    /// - Returns: `ForgetSmartHomeAppliancesOutputResponse` : [no documentation found]
+    /// - Returns: `ForgetSmartHomeAppliancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func forgetSmartHomeAppliances(input: ForgetSmartHomeAppliancesInput) async throws -> ForgetSmartHomeAppliancesOutputResponse
+    public func forgetSmartHomeAppliances(input: ForgetSmartHomeAppliancesInput) async throws -> ForgetSmartHomeAppliancesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1865,21 +1795,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(id: "forgetSmartHomeAppliances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutput, ForgetSmartHomeAppliancesOutputError>(id: "forgetSmartHomeAppliances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutput, ForgetSmartHomeAppliancesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ForgetSmartHomeAppliancesOutput, ForgetSmartHomeAppliancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse>(xAmzTarget: "AlexaForBusiness.ForgetSmartHomeAppliances"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse>(xmlName: "ForgetSmartHomeAppliancesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutput>(xAmzTarget: "AlexaForBusiness.ForgetSmartHomeAppliances"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutput>(xmlName: "ForgetSmartHomeAppliancesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ForgetSmartHomeAppliancesOutput, ForgetSmartHomeAppliancesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ForgetSmartHomeAppliancesOutput, ForgetSmartHomeAppliancesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ForgetSmartHomeAppliancesOutput, ForgetSmartHomeAppliancesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ForgetSmartHomeAppliancesOutput, ForgetSmartHomeAppliancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1889,13 +1819,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `GetAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `GetAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getAddressBook(input: GetAddressBookInput) async throws -> GetAddressBookOutputResponse
+    public func getAddressBook(input: GetAddressBookInput) async throws -> GetAddressBookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1911,21 +1841,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAddressBookInput, GetAddressBookOutputResponse, GetAddressBookOutputError>(id: "getAddressBook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAddressBookInput, GetAddressBookOutputResponse, GetAddressBookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAddressBookInput, GetAddressBookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAddressBookInput, GetAddressBookOutput, GetAddressBookOutputError>(id: "getAddressBook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAddressBookInput, GetAddressBookOutput, GetAddressBookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAddressBookInput, GetAddressBookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAddressBookOutputResponse, GetAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAddressBookOutput, GetAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAddressBookInput, GetAddressBookOutputResponse>(xAmzTarget: "AlexaForBusiness.GetAddressBook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAddressBookInput, GetAddressBookOutputResponse>(xmlName: "GetAddressBookRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAddressBookInput, GetAddressBookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAddressBookInput, GetAddressBookOutput>(xAmzTarget: "AlexaForBusiness.GetAddressBook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAddressBookInput, GetAddressBookOutput>(xmlName: "GetAddressBookRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAddressBookInput, GetAddressBookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAddressBookOutputResponse, GetAddressBookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAddressBookOutput, GetAddressBookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAddressBookOutputResponse, GetAddressBookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAddressBookOutputResponse, GetAddressBookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAddressBookOutputResponse, GetAddressBookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAddressBookOutput, GetAddressBookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAddressBookOutput, GetAddressBookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAddressBookOutput, GetAddressBookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1935,13 +1865,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetConferencePreferenceInput : [no documentation found]
     ///
-    /// - Returns: `GetConferencePreferenceOutputResponse` : [no documentation found]
+    /// - Returns: `GetConferencePreferenceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getConferencePreference(input: GetConferencePreferenceInput) async throws -> GetConferencePreferenceOutputResponse
+    public func getConferencePreference(input: GetConferencePreferenceInput) async throws -> GetConferencePreferenceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1957,21 +1887,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(id: "getConferencePreference")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetConferencePreferenceInput, GetConferencePreferenceOutput, GetConferencePreferenceOutputError>(id: "getConferencePreference")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutput, GetConferencePreferenceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConferencePreferenceOutput, GetConferencePreferenceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse>(xAmzTarget: "AlexaForBusiness.GetConferencePreference"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse>(xmlName: "GetConferencePreferenceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutput>(xAmzTarget: "AlexaForBusiness.GetConferencePreference"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutput>(xmlName: "GetConferencePreferenceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConferencePreferenceOutput, GetConferencePreferenceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConferencePreferenceOutput, GetConferencePreferenceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConferencePreferenceOutput, GetConferencePreferenceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConferencePreferenceOutput, GetConferencePreferenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1981,13 +1911,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `GetConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `GetConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getConferenceProvider(input: GetConferenceProviderInput) async throws -> GetConferenceProviderOutputResponse
+    public func getConferenceProvider(input: GetConferenceProviderInput) async throws -> GetConferenceProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2003,21 +1933,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetConferenceProviderInput, GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(id: "getConferenceProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConferenceProviderInput, GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConferenceProviderInput, GetConferenceProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetConferenceProviderInput, GetConferenceProviderOutput, GetConferenceProviderOutputError>(id: "getConferenceProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConferenceProviderInput, GetConferenceProviderOutput, GetConferenceProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConferenceProviderInput, GetConferenceProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConferenceProviderOutput, GetConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConferenceProviderInput, GetConferenceProviderOutputResponse>(xAmzTarget: "AlexaForBusiness.GetConferenceProvider"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConferenceProviderInput, GetConferenceProviderOutputResponse>(xmlName: "GetConferenceProviderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConferenceProviderInput, GetConferenceProviderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConferenceProviderInput, GetConferenceProviderOutput>(xAmzTarget: "AlexaForBusiness.GetConferenceProvider"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConferenceProviderInput, GetConferenceProviderOutput>(xmlName: "GetConferenceProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConferenceProviderInput, GetConferenceProviderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConferenceProviderOutput, GetConferenceProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConferenceProviderOutput, GetConferenceProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConferenceProviderOutput, GetConferenceProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConferenceProviderOutput, GetConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2027,13 +1957,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetContactInput : [no documentation found]
     ///
-    /// - Returns: `GetContactOutputResponse` : [no documentation found]
+    /// - Returns: `GetContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getContact(input: GetContactInput) async throws -> GetContactOutputResponse
+    public func getContact(input: GetContactInput) async throws -> GetContactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2049,21 +1979,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetContactInput, GetContactOutputResponse, GetContactOutputError>(id: "getContact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactInput, GetContactOutputResponse, GetContactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactInput, GetContactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetContactInput, GetContactOutput, GetContactOutputError>(id: "getContact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactInput, GetContactOutput, GetContactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactInput, GetContactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContactOutputResponse, GetContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContactOutput, GetContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetContactInput, GetContactOutputResponse>(xAmzTarget: "AlexaForBusiness.GetContact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetContactInput, GetContactOutputResponse>(xmlName: "GetContactRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetContactInput, GetContactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetContactInput, GetContactOutput>(xAmzTarget: "AlexaForBusiness.GetContact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetContactInput, GetContactOutput>(xmlName: "GetContactRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetContactInput, GetContactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContactOutputResponse, GetContactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContactOutput, GetContactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactOutputResponse, GetContactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContactOutputResponse, GetContactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContactOutputResponse, GetContactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactOutput, GetContactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContactOutput, GetContactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContactOutput, GetContactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2073,13 +2003,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetDeviceInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutputResponse
+    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2095,21 +2025,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>(id: "getDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutput, GetDeviceOutputError>(id: "getDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutput, GetDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceOutput, GetDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDeviceInput, GetDeviceOutputResponse>(xAmzTarget: "AlexaForBusiness.GetDevice"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeviceInput, GetDeviceOutputResponse>(xmlName: "GetDeviceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeviceInput, GetDeviceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDeviceInput, GetDeviceOutput>(xAmzTarget: "AlexaForBusiness.GetDevice"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeviceInput, GetDeviceOutput>(xmlName: "GetDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeviceInput, GetDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceOutputResponse, GetDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceOutput, GetDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceOutputResponse, GetDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceOutput, GetDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceOutput, GetDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceOutput, GetDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2119,13 +2049,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetGatewayInput : [no documentation found]
     ///
-    /// - Returns: `GetGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `GetGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutputResponse
+    public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2141,21 +2071,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>(id: "getGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetGatewayInput, GetGatewayOutput, GetGatewayOutputError>(id: "getGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayInput, GetGatewayOutput, GetGatewayOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGatewayOutput, GetGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGatewayInput, GetGatewayOutputResponse>(xAmzTarget: "AlexaForBusiness.GetGateway"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGatewayInput, GetGatewayOutputResponse>(xmlName: "GetGatewayRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGatewayInput, GetGatewayOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGatewayInput, GetGatewayOutput>(xAmzTarget: "AlexaForBusiness.GetGateway"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGatewayInput, GetGatewayOutput>(xmlName: "GetGatewayRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGatewayInput, GetGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGatewayOutputResponse, GetGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGatewayOutput, GetGatewayOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayOutputResponse, GetGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayOutput, GetGatewayOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayOutput, GetGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGatewayOutput, GetGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2165,13 +2095,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getGatewayGroup(input: GetGatewayGroupInput) async throws -> GetGatewayGroupOutputResponse
+    public func getGatewayGroup(input: GetGatewayGroupInput) async throws -> GetGatewayGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2187,21 +2117,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetGatewayGroupInput, GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(id: "getGatewayGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayGroupInput, GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayGroupInput, GetGatewayGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetGatewayGroupInput, GetGatewayGroupOutput, GetGatewayGroupOutputError>(id: "getGatewayGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayGroupInput, GetGatewayGroupOutput, GetGatewayGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayGroupInput, GetGatewayGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGatewayGroupOutput, GetGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGatewayGroupInput, GetGatewayGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.GetGatewayGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGatewayGroupInput, GetGatewayGroupOutputResponse>(xmlName: "GetGatewayGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGatewayGroupInput, GetGatewayGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGatewayGroupInput, GetGatewayGroupOutput>(xAmzTarget: "AlexaForBusiness.GetGatewayGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGatewayGroupInput, GetGatewayGroupOutput>(xmlName: "GetGatewayGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGatewayGroupInput, GetGatewayGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGatewayGroupOutput, GetGatewayGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayGroupOutput, GetGatewayGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayGroupOutput, GetGatewayGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGatewayGroupOutput, GetGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2211,13 +2141,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetInvitationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetInvitationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetInvitationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getInvitationConfiguration(input: GetInvitationConfigurationInput) async throws -> GetInvitationConfigurationOutputResponse
+    public func getInvitationConfiguration(input: GetInvitationConfigurationInput) async throws -> GetInvitationConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2233,21 +2163,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(id: "getInvitationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetInvitationConfigurationInput, GetInvitationConfigurationOutput, GetInvitationConfigurationOutputError>(id: "getInvitationConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutput, GetInvitationConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInvitationConfigurationOutput, GetInvitationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse>(xAmzTarget: "AlexaForBusiness.GetInvitationConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse>(xmlName: "GetInvitationConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutput>(xAmzTarget: "AlexaForBusiness.GetInvitationConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutput>(xmlName: "GetInvitationConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInvitationConfigurationOutput, GetInvitationConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInvitationConfigurationOutput, GetInvitationConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInvitationConfigurationOutput, GetInvitationConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInvitationConfigurationOutput, GetInvitationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2257,14 +2187,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidSecretsManagerResourceException` : A password in SecretsManager is in an invalid state.
     /// - `NotFoundException` : The resource is not found.
-    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutputResponse
+    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2280,21 +2210,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(id: "getNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNetworkProfileInput, GetNetworkProfileOutput, GetNetworkProfileOutputError>(id: "getNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput, GetNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.GetNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>(xmlName: "GetNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>(xAmzTarget: "AlexaForBusiness.GetNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>(xmlName: "GetNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkProfileOutput, GetNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2304,13 +2234,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutputResponse
+    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2326,21 +2256,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProfileInput, GetProfileOutputResponse, GetProfileOutputError>(id: "getProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileInput, GetProfileOutputResponse, GetProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetProfileInput, GetProfileOutput, GetProfileOutputError>(id: "getProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileInput, GetProfileOutput, GetProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProfileOutputResponse, GetProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProfileOutput, GetProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProfileInput, GetProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.GetProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProfileInput, GetProfileOutputResponse>(xmlName: "GetProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProfileInput, GetProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProfileInput, GetProfileOutput>(xAmzTarget: "AlexaForBusiness.GetProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProfileInput, GetProfileOutput>(xmlName: "GetProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProfileInput, GetProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProfileOutputResponse, GetProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProfileOutput, GetProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileOutputResponse, GetProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileOutputResponse, GetProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProfileOutputResponse, GetProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileOutput, GetProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileOutput, GetProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProfileOutput, GetProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2350,13 +2280,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetRoomInput : [no documentation found]
     ///
-    /// - Returns: `GetRoomOutputResponse` : [no documentation found]
+    /// - Returns: `GetRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getRoom(input: GetRoomInput) async throws -> GetRoomOutputResponse
+    public func getRoom(input: GetRoomInput) async throws -> GetRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2372,21 +2302,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRoomInput, GetRoomOutputResponse, GetRoomOutputError>(id: "getRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomInput, GetRoomOutputResponse, GetRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomInput, GetRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRoomInput, GetRoomOutput, GetRoomOutputError>(id: "getRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomInput, GetRoomOutput, GetRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomInput, GetRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoomOutputResponse, GetRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoomOutput, GetRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRoomInput, GetRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.GetRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRoomInput, GetRoomOutputResponse>(xmlName: "GetRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRoomInput, GetRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRoomInput, GetRoomOutput>(xAmzTarget: "AlexaForBusiness.GetRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRoomInput, GetRoomOutput>(xmlName: "GetRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRoomInput, GetRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoomOutputResponse, GetRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoomOutput, GetRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomOutputResponse, GetRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomOutputResponse, GetRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoomOutputResponse, GetRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomOutput, GetRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomOutput, GetRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoomOutput, GetRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2396,13 +2326,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetRoomSkillParameterInput : [no documentation found]
     ///
-    /// - Returns: `GetRoomSkillParameterOutputResponse` : [no documentation found]
+    /// - Returns: `GetRoomSkillParameterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getRoomSkillParameter(input: GetRoomSkillParameterInput) async throws -> GetRoomSkillParameterOutputResponse
+    public func getRoomSkillParameter(input: GetRoomSkillParameterInput) async throws -> GetRoomSkillParameterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2418,21 +2348,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(id: "getRoomSkillParameter")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRoomSkillParameterInput, GetRoomSkillParameterOutput, GetRoomSkillParameterOutputError>(id: "getRoomSkillParameter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutput, GetRoomSkillParameterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoomSkillParameterOutput, GetRoomSkillParameterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse>(xAmzTarget: "AlexaForBusiness.GetRoomSkillParameter"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse>(xmlName: "GetRoomSkillParameterRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutput>(xAmzTarget: "AlexaForBusiness.GetRoomSkillParameter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutput>(xmlName: "GetRoomSkillParameterRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoomSkillParameterOutput, GetRoomSkillParameterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomSkillParameterOutput, GetRoomSkillParameterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomSkillParameterOutput, GetRoomSkillParameterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoomSkillParameterOutput, GetRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2442,13 +2372,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter GetSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getSkillGroup(input: GetSkillGroupInput) async throws -> GetSkillGroupOutputResponse
+    public func getSkillGroup(input: GetSkillGroupInput) async throws -> GetSkillGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2464,21 +2394,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSkillGroupInput, GetSkillGroupOutputResponse, GetSkillGroupOutputError>(id: "getSkillGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSkillGroupInput, GetSkillGroupOutputResponse, GetSkillGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSkillGroupInput, GetSkillGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSkillGroupInput, GetSkillGroupOutput, GetSkillGroupOutputError>(id: "getSkillGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSkillGroupInput, GetSkillGroupOutput, GetSkillGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSkillGroupInput, GetSkillGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSkillGroupOutputResponse, GetSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSkillGroupOutput, GetSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSkillGroupInput, GetSkillGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.GetSkillGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSkillGroupInput, GetSkillGroupOutputResponse>(xmlName: "GetSkillGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSkillGroupInput, GetSkillGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSkillGroupInput, GetSkillGroupOutput>(xAmzTarget: "AlexaForBusiness.GetSkillGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSkillGroupInput, GetSkillGroupOutput>(xmlName: "GetSkillGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSkillGroupInput, GetSkillGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSkillGroupOutputResponse, GetSkillGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSkillGroupOutput, GetSkillGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSkillGroupOutputResponse, GetSkillGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSkillGroupOutputResponse, GetSkillGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSkillGroupOutputResponse, GetSkillGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSkillGroupOutput, GetSkillGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSkillGroupOutput, GetSkillGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSkillGroupOutput, GetSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2488,8 +2418,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListBusinessReportSchedulesInput : [no documentation found]
     ///
-    /// - Returns: `ListBusinessReportSchedulesOutputResponse` : [no documentation found]
-    public func listBusinessReportSchedules(input: ListBusinessReportSchedulesInput) async throws -> ListBusinessReportSchedulesOutputResponse
+    /// - Returns: `ListBusinessReportSchedulesOutput` : [no documentation found]
+    public func listBusinessReportSchedules(input: ListBusinessReportSchedulesInput) async throws -> ListBusinessReportSchedulesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2505,21 +2435,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(id: "listBusinessReportSchedules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput, ListBusinessReportSchedulesOutputError>(id: "listBusinessReportSchedules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput, ListBusinessReportSchedulesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBusinessReportSchedulesOutput, ListBusinessReportSchedulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse>(xAmzTarget: "AlexaForBusiness.ListBusinessReportSchedules"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse>(xmlName: "ListBusinessReportSchedulesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput>(xAmzTarget: "AlexaForBusiness.ListBusinessReportSchedules"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput>(xmlName: "ListBusinessReportSchedulesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBusinessReportSchedulesOutput, ListBusinessReportSchedulesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBusinessReportSchedulesOutput, ListBusinessReportSchedulesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBusinessReportSchedulesOutput, ListBusinessReportSchedulesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBusinessReportSchedulesOutput, ListBusinessReportSchedulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2529,8 +2459,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListConferenceProvidersInput : [no documentation found]
     ///
-    /// - Returns: `ListConferenceProvidersOutputResponse` : [no documentation found]
-    public func listConferenceProviders(input: ListConferenceProvidersInput) async throws -> ListConferenceProvidersOutputResponse
+    /// - Returns: `ListConferenceProvidersOutput` : [no documentation found]
+    public func listConferenceProviders(input: ListConferenceProvidersInput) async throws -> ListConferenceProvidersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2546,21 +2476,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(id: "listConferenceProviders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListConferenceProvidersInput, ListConferenceProvidersOutput, ListConferenceProvidersOutputError>(id: "listConferenceProviders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutput, ListConferenceProvidersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConferenceProvidersOutput, ListConferenceProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse>(xAmzTarget: "AlexaForBusiness.ListConferenceProviders"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse>(xmlName: "ListConferenceProvidersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutput>(xAmzTarget: "AlexaForBusiness.ListConferenceProviders"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutput>(xmlName: "ListConferenceProvidersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConferenceProvidersOutput, ListConferenceProvidersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConferenceProvidersOutput, ListConferenceProvidersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConferenceProvidersOutput, ListConferenceProvidersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConferenceProvidersOutput, ListConferenceProvidersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2570,13 +2500,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListDeviceEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeviceEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutputResponse
+    public func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2592,21 +2522,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDeviceEventsInput, ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(id: "listDeviceEvents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDeviceEventsInput, ListDeviceEventsOutput, ListDeviceEventsOutputError>(id: "listDeviceEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceEventsInput, ListDeviceEventsOutput, ListDeviceEventsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceEventsInput, ListDeviceEventsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceEventsOutput, ListDeviceEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse>(xAmzTarget: "AlexaForBusiness.ListDeviceEvents"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse>(xmlName: "ListDeviceEventsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDeviceEventsInput, ListDeviceEventsOutput>(xAmzTarget: "AlexaForBusiness.ListDeviceEvents"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeviceEventsInput, ListDeviceEventsOutput>(xmlName: "ListDeviceEventsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeviceEventsInput, ListDeviceEventsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceEventsOutput, ListDeviceEventsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceEventsOutput, ListDeviceEventsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceEventsOutput, ListDeviceEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceEventsOutput, ListDeviceEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2616,8 +2546,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListGatewayGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListGatewayGroupsOutputResponse` : [no documentation found]
-    public func listGatewayGroups(input: ListGatewayGroupsInput) async throws -> ListGatewayGroupsOutputResponse
+    /// - Returns: `ListGatewayGroupsOutput` : [no documentation found]
+    public func listGatewayGroups(input: ListGatewayGroupsInput) async throws -> ListGatewayGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2633,21 +2563,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(id: "listGatewayGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListGatewayGroupsInput, ListGatewayGroupsOutput, ListGatewayGroupsOutputError>(id: "listGatewayGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutput, ListGatewayGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGatewayGroupsOutput, ListGatewayGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse>(xAmzTarget: "AlexaForBusiness.ListGatewayGroups"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse>(xmlName: "ListGatewayGroupsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutput>(xAmzTarget: "AlexaForBusiness.ListGatewayGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutput>(xmlName: "ListGatewayGroupsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGatewayGroupsOutput, ListGatewayGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewayGroupsOutput, ListGatewayGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewayGroupsOutput, ListGatewayGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewayGroupsOutput, ListGatewayGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2657,8 +2587,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListGatewaysInput : [no documentation found]
     ///
-    /// - Returns: `ListGatewaysOutputResponse` : [no documentation found]
-    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutputResponse
+    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2674,21 +2604,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>(id: "listGateways")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListGatewaysInput, ListGatewaysOutput, ListGatewaysOutputError>(id: "listGateways")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutput, ListGatewaysOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGatewaysOutput, ListGatewaysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>(xAmzTarget: "AlexaForBusiness.ListGateways"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>(xmlName: "ListGatewaysRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGatewaysInput, ListGatewaysOutput>(xAmzTarget: "AlexaForBusiness.ListGateways"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGatewaysInput, ListGatewaysOutput>(xmlName: "ListGatewaysRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGatewaysOutputResponse, ListGatewaysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGatewaysOutput, ListGatewaysOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewaysOutput, ListGatewaysOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewaysOutput, ListGatewaysOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewaysOutput, ListGatewaysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2698,8 +2628,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListSkillsInput : [no documentation found]
     ///
-    /// - Returns: `ListSkillsOutputResponse` : [no documentation found]
-    public func listSkills(input: ListSkillsInput) async throws -> ListSkillsOutputResponse
+    /// - Returns: `ListSkillsOutput` : [no documentation found]
+    public func listSkills(input: ListSkillsInput) async throws -> ListSkillsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2715,21 +2645,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSkillsInput, ListSkillsOutputResponse, ListSkillsOutputError>(id: "listSkills")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsInput, ListSkillsOutputResponse, ListSkillsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsInput, ListSkillsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSkillsInput, ListSkillsOutput, ListSkillsOutputError>(id: "listSkills")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsInput, ListSkillsOutput, ListSkillsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsInput, ListSkillsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSkillsOutputResponse, ListSkillsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSkillsOutput, ListSkillsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSkillsInput, ListSkillsOutputResponse>(xAmzTarget: "AlexaForBusiness.ListSkills"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSkillsInput, ListSkillsOutputResponse>(xmlName: "ListSkillsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSkillsInput, ListSkillsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSkillsInput, ListSkillsOutput>(xAmzTarget: "AlexaForBusiness.ListSkills"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSkillsInput, ListSkillsOutput>(xmlName: "ListSkillsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSkillsInput, ListSkillsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSkillsOutputResponse, ListSkillsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSkillsOutput, ListSkillsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsOutputResponse, ListSkillsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsOutputResponse, ListSkillsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSkillsOutputResponse, ListSkillsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsOutput, ListSkillsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsOutput, ListSkillsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSkillsOutput, ListSkillsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2739,8 +2669,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListSkillsStoreCategoriesInput : [no documentation found]
     ///
-    /// - Returns: `ListSkillsStoreCategoriesOutputResponse` : [no documentation found]
-    public func listSkillsStoreCategories(input: ListSkillsStoreCategoriesInput) async throws -> ListSkillsStoreCategoriesOutputResponse
+    /// - Returns: `ListSkillsStoreCategoriesOutput` : [no documentation found]
+    public func listSkillsStoreCategories(input: ListSkillsStoreCategoriesInput) async throws -> ListSkillsStoreCategoriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2756,21 +2686,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(id: "listSkillsStoreCategories")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput, ListSkillsStoreCategoriesOutputError>(id: "listSkillsStoreCategories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput, ListSkillsStoreCategoriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSkillsStoreCategoriesOutput, ListSkillsStoreCategoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse>(xAmzTarget: "AlexaForBusiness.ListSkillsStoreCategories"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse>(xmlName: "ListSkillsStoreCategoriesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput>(xAmzTarget: "AlexaForBusiness.ListSkillsStoreCategories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput>(xmlName: "ListSkillsStoreCategoriesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSkillsStoreCategoriesOutput, ListSkillsStoreCategoriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsStoreCategoriesOutput, ListSkillsStoreCategoriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsStoreCategoriesOutput, ListSkillsStoreCategoriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSkillsStoreCategoriesOutput, ListSkillsStoreCategoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2780,8 +2710,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListSkillsStoreSkillsByCategoryInput : [no documentation found]
     ///
-    /// - Returns: `ListSkillsStoreSkillsByCategoryOutputResponse` : [no documentation found]
-    public func listSkillsStoreSkillsByCategory(input: ListSkillsStoreSkillsByCategoryInput) async throws -> ListSkillsStoreSkillsByCategoryOutputResponse
+    /// - Returns: `ListSkillsStoreSkillsByCategoryOutput` : [no documentation found]
+    public func listSkillsStoreSkillsByCategory(input: ListSkillsStoreSkillsByCategoryInput) async throws -> ListSkillsStoreSkillsByCategoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2797,21 +2727,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(id: "listSkillsStoreSkillsByCategory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput, ListSkillsStoreSkillsByCategoryOutputError>(id: "listSkillsStoreSkillsByCategory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput, ListSkillsStoreSkillsByCategoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSkillsStoreSkillsByCategoryOutput, ListSkillsStoreSkillsByCategoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse>(xAmzTarget: "AlexaForBusiness.ListSkillsStoreSkillsByCategory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse>(xmlName: "ListSkillsStoreSkillsByCategoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput>(xAmzTarget: "AlexaForBusiness.ListSkillsStoreSkillsByCategory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput>(xmlName: "ListSkillsStoreSkillsByCategoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSkillsStoreSkillsByCategoryOutput, ListSkillsStoreSkillsByCategoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsStoreSkillsByCategoryOutput, ListSkillsStoreSkillsByCategoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsStoreSkillsByCategoryOutput, ListSkillsStoreSkillsByCategoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSkillsStoreSkillsByCategoryOutput, ListSkillsStoreSkillsByCategoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2821,13 +2751,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListSmartHomeAppliancesInput : [no documentation found]
     ///
-    /// - Returns: `ListSmartHomeAppliancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSmartHomeAppliancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func listSmartHomeAppliances(input: ListSmartHomeAppliancesInput) async throws -> ListSmartHomeAppliancesOutputResponse
+    public func listSmartHomeAppliances(input: ListSmartHomeAppliancesInput) async throws -> ListSmartHomeAppliancesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2843,21 +2773,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(id: "listSmartHomeAppliances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput, ListSmartHomeAppliancesOutputError>(id: "listSmartHomeAppliances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput, ListSmartHomeAppliancesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSmartHomeAppliancesOutput, ListSmartHomeAppliancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse>(xAmzTarget: "AlexaForBusiness.ListSmartHomeAppliances"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse>(xmlName: "ListSmartHomeAppliancesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput>(xAmzTarget: "AlexaForBusiness.ListSmartHomeAppliances"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput>(xmlName: "ListSmartHomeAppliancesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSmartHomeAppliancesOutput, ListSmartHomeAppliancesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSmartHomeAppliancesOutput, ListSmartHomeAppliancesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSmartHomeAppliancesOutput, ListSmartHomeAppliancesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSmartHomeAppliancesOutput, ListSmartHomeAppliancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2867,13 +2797,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2889,21 +2819,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutput, ListTagsOutputError>(id: "listTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutput, ListTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutputResponse, ListTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutput, ListTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsInput, ListTagsOutputResponse>(xAmzTarget: "AlexaForBusiness.ListTags"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsInput, ListTagsOutputResponse>(xmlName: "ListTagsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsInput, ListTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsInput, ListTagsOutput>(xAmzTarget: "AlexaForBusiness.ListTags"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsInput, ListTagsOutput>(xmlName: "ListTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsInput, ListTagsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsOutputResponse, ListTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsOutput, ListTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutput, ListTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutput, ListTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutput, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2913,13 +2843,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter PutConferencePreferenceInput : [no documentation found]
     ///
-    /// - Returns: `PutConferencePreferenceOutputResponse` : [no documentation found]
+    /// - Returns: `PutConferencePreferenceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func putConferencePreference(input: PutConferencePreferenceInput) async throws -> PutConferencePreferenceOutputResponse
+    public func putConferencePreference(input: PutConferencePreferenceInput) async throws -> PutConferencePreferenceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2935,21 +2865,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(id: "putConferencePreference")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutConferencePreferenceInput, PutConferencePreferenceOutput, PutConferencePreferenceOutputError>(id: "putConferencePreference")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutput, PutConferencePreferenceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConferencePreferenceOutput, PutConferencePreferenceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse>(xAmzTarget: "AlexaForBusiness.PutConferencePreference"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse>(xmlName: "PutConferencePreferenceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutput>(xAmzTarget: "AlexaForBusiness.PutConferencePreference"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutput>(xmlName: "PutConferencePreferenceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConferencePreferenceOutput, PutConferencePreferenceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConferencePreferenceOutput, PutConferencePreferenceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConferencePreferenceOutput, PutConferencePreferenceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConferencePreferenceOutput, PutConferencePreferenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2959,14 +2889,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter PutInvitationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutInvitationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutInvitationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func putInvitationConfiguration(input: PutInvitationConfigurationInput) async throws -> PutInvitationConfigurationOutputResponse
+    public func putInvitationConfiguration(input: PutInvitationConfigurationInput) async throws -> PutInvitationConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2982,21 +2912,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(id: "putInvitationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutInvitationConfigurationInput, PutInvitationConfigurationOutput, PutInvitationConfigurationOutputError>(id: "putInvitationConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutput, PutInvitationConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInvitationConfigurationOutput, PutInvitationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse>(xAmzTarget: "AlexaForBusiness.PutInvitationConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse>(xmlName: "PutInvitationConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutput>(xAmzTarget: "AlexaForBusiness.PutInvitationConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutput>(xmlName: "PutInvitationConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutInvitationConfigurationOutput, PutInvitationConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInvitationConfigurationOutput, PutInvitationConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInvitationConfigurationOutput, PutInvitationConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInvitationConfigurationOutput, PutInvitationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3006,13 +2936,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter PutRoomSkillParameterInput : [no documentation found]
     ///
-    /// - Returns: `PutRoomSkillParameterOutputResponse` : [no documentation found]
+    /// - Returns: `PutRoomSkillParameterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func putRoomSkillParameter(input: PutRoomSkillParameterInput) async throws -> PutRoomSkillParameterOutputResponse
+    public func putRoomSkillParameter(input: PutRoomSkillParameterInput) async throws -> PutRoomSkillParameterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3028,21 +2958,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(id: "putRoomSkillParameter")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutRoomSkillParameterInput, PutRoomSkillParameterOutput, PutRoomSkillParameterOutputError>(id: "putRoomSkillParameter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutput, PutRoomSkillParameterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRoomSkillParameterOutput, PutRoomSkillParameterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse>(xAmzTarget: "AlexaForBusiness.PutRoomSkillParameter"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse>(xmlName: "PutRoomSkillParameterRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutput>(xAmzTarget: "AlexaForBusiness.PutRoomSkillParameter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutput>(xmlName: "PutRoomSkillParameterRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRoomSkillParameterOutput, PutRoomSkillParameterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRoomSkillParameterOutput, PutRoomSkillParameterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRoomSkillParameterOutput, PutRoomSkillParameterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRoomSkillParameterOutput, PutRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3052,14 +2982,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter PutSkillAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `PutSkillAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `PutSkillAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `UnauthorizedException` : The caller has no permissions to operate on the resource involved in the API call.
-    public func putSkillAuthorization(input: PutSkillAuthorizationInput) async throws -> PutSkillAuthorizationOutputResponse
+    public func putSkillAuthorization(input: PutSkillAuthorizationInput) async throws -> PutSkillAuthorizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3075,21 +3005,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(id: "putSkillAuthorization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutSkillAuthorizationInput, PutSkillAuthorizationOutput, PutSkillAuthorizationOutputError>(id: "putSkillAuthorization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutput, PutSkillAuthorizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSkillAuthorizationOutput, PutSkillAuthorizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse>(xAmzTarget: "AlexaForBusiness.PutSkillAuthorization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse>(xmlName: "PutSkillAuthorizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutput>(xAmzTarget: "AlexaForBusiness.PutSkillAuthorization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutput>(xmlName: "PutSkillAuthorizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSkillAuthorizationOutput, PutSkillAuthorizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSkillAuthorizationOutput, PutSkillAuthorizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSkillAuthorizationOutput, PutSkillAuthorizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSkillAuthorizationOutput, PutSkillAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3099,7 +3029,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter RegisterAVSDeviceInput : [no documentation found]
     ///
-    /// - Returns: `RegisterAVSDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterAVSDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3108,7 +3038,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `InvalidDeviceException` : The device is in an invalid state.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    public func registerAVSDevice(input: RegisterAVSDeviceInput) async throws -> RegisterAVSDeviceOutputResponse
+    public func registerAVSDevice(input: RegisterAVSDeviceInput) async throws -> RegisterAVSDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3124,21 +3054,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(id: "registerAVSDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RegisterAVSDeviceInput, RegisterAVSDeviceOutput, RegisterAVSDeviceOutputError>(id: "registerAVSDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutput, RegisterAVSDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterAVSDeviceOutput, RegisterAVSDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse>(xAmzTarget: "AlexaForBusiness.RegisterAVSDevice"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse>(xmlName: "RegisterAVSDeviceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutput>(xAmzTarget: "AlexaForBusiness.RegisterAVSDevice"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutput>(xmlName: "RegisterAVSDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterAVSDeviceOutput, RegisterAVSDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterAVSDeviceOutput, RegisterAVSDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterAVSDeviceOutput, RegisterAVSDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterAVSDeviceOutput, RegisterAVSDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3148,14 +3078,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter RejectSkillInput : [no documentation found]
     ///
-    /// - Returns: `RejectSkillOutputResponse` : [no documentation found]
+    /// - Returns: `RejectSkillOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func rejectSkill(input: RejectSkillInput) async throws -> RejectSkillOutputResponse
+    public func rejectSkill(input: RejectSkillInput) async throws -> RejectSkillOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3171,21 +3101,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RejectSkillInput, RejectSkillOutputResponse, RejectSkillOutputError>(id: "rejectSkill")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectSkillInput, RejectSkillOutputResponse, RejectSkillOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectSkillInput, RejectSkillOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RejectSkillInput, RejectSkillOutput, RejectSkillOutputError>(id: "rejectSkill")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectSkillInput, RejectSkillOutput, RejectSkillOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectSkillInput, RejectSkillOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectSkillOutputResponse, RejectSkillOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectSkillOutput, RejectSkillOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RejectSkillInput, RejectSkillOutputResponse>(xAmzTarget: "AlexaForBusiness.RejectSkill"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RejectSkillInput, RejectSkillOutputResponse>(xmlName: "RejectSkillRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RejectSkillInput, RejectSkillOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RejectSkillInput, RejectSkillOutput>(xAmzTarget: "AlexaForBusiness.RejectSkill"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RejectSkillInput, RejectSkillOutput>(xmlName: "RejectSkillRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RejectSkillInput, RejectSkillOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectSkillOutputResponse, RejectSkillOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectSkillOutput, RejectSkillOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectSkillOutputResponse, RejectSkillOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectSkillOutputResponse, RejectSkillOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectSkillOutputResponse, RejectSkillOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectSkillOutput, RejectSkillOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectSkillOutput, RejectSkillOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectSkillOutput, RejectSkillOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3195,13 +3125,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ResolveRoomInput : [no documentation found]
     ///
-    /// - Returns: `ResolveRoomOutputResponse` : [no documentation found]
+    /// - Returns: `ResolveRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func resolveRoom(input: ResolveRoomInput) async throws -> ResolveRoomOutputResponse
+    public func resolveRoom(input: ResolveRoomInput) async throws -> ResolveRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3217,21 +3147,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResolveRoomInput, ResolveRoomOutputResponse, ResolveRoomOutputError>(id: "resolveRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveRoomInput, ResolveRoomOutputResponse, ResolveRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveRoomInput, ResolveRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ResolveRoomInput, ResolveRoomOutput, ResolveRoomOutputError>(id: "resolveRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveRoomInput, ResolveRoomOutput, ResolveRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveRoomInput, ResolveRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResolveRoomOutputResponse, ResolveRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResolveRoomOutput, ResolveRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ResolveRoomInput, ResolveRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.ResolveRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResolveRoomInput, ResolveRoomOutputResponse>(xmlName: "ResolveRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResolveRoomInput, ResolveRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ResolveRoomInput, ResolveRoomOutput>(xAmzTarget: "AlexaForBusiness.ResolveRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResolveRoomInput, ResolveRoomOutput>(xmlName: "ResolveRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResolveRoomInput, ResolveRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResolveRoomOutputResponse, ResolveRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResolveRoomOutput, ResolveRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveRoomOutputResponse, ResolveRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveRoomOutputResponse, ResolveRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveRoomOutputResponse, ResolveRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveRoomOutput, ResolveRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveRoomOutput, ResolveRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveRoomOutput, ResolveRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3241,14 +3171,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter RevokeInvitationInput : [no documentation found]
     ///
-    /// - Returns: `RevokeInvitationOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeInvitationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func revokeInvitation(input: RevokeInvitationInput) async throws -> RevokeInvitationOutputResponse
+    public func revokeInvitation(input: RevokeInvitationInput) async throws -> RevokeInvitationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3264,21 +3194,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RevokeInvitationInput, RevokeInvitationOutputResponse, RevokeInvitationOutputError>(id: "revokeInvitation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeInvitationInput, RevokeInvitationOutputResponse, RevokeInvitationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeInvitationInput, RevokeInvitationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RevokeInvitationInput, RevokeInvitationOutput, RevokeInvitationOutputError>(id: "revokeInvitation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeInvitationInput, RevokeInvitationOutput, RevokeInvitationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeInvitationInput, RevokeInvitationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeInvitationOutputResponse, RevokeInvitationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeInvitationOutput, RevokeInvitationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RevokeInvitationInput, RevokeInvitationOutputResponse>(xAmzTarget: "AlexaForBusiness.RevokeInvitation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeInvitationInput, RevokeInvitationOutputResponse>(xmlName: "RevokeInvitationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeInvitationInput, RevokeInvitationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RevokeInvitationInput, RevokeInvitationOutput>(xAmzTarget: "AlexaForBusiness.RevokeInvitation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeInvitationInput, RevokeInvitationOutput>(xmlName: "RevokeInvitationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeInvitationInput, RevokeInvitationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeInvitationOutputResponse, RevokeInvitationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeInvitationOutput, RevokeInvitationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeInvitationOutputResponse, RevokeInvitationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeInvitationOutputResponse, RevokeInvitationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeInvitationOutputResponse, RevokeInvitationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeInvitationOutput, RevokeInvitationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeInvitationOutput, RevokeInvitationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeInvitationOutput, RevokeInvitationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3288,8 +3218,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchAddressBooksInput : [no documentation found]
     ///
-    /// - Returns: `SearchAddressBooksOutputResponse` : [no documentation found]
-    public func searchAddressBooks(input: SearchAddressBooksInput) async throws -> SearchAddressBooksOutputResponse
+    /// - Returns: `SearchAddressBooksOutput` : [no documentation found]
+    public func searchAddressBooks(input: SearchAddressBooksInput) async throws -> SearchAddressBooksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3305,21 +3235,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchAddressBooksInput, SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(id: "searchAddressBooks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchAddressBooksInput, SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchAddressBooksInput, SearchAddressBooksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchAddressBooksInput, SearchAddressBooksOutput, SearchAddressBooksOutputError>(id: "searchAddressBooks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchAddressBooksInput, SearchAddressBooksOutput, SearchAddressBooksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchAddressBooksInput, SearchAddressBooksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchAddressBooksOutput, SearchAddressBooksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchAddressBooksInput, SearchAddressBooksOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchAddressBooks"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchAddressBooksInput, SearchAddressBooksOutputResponse>(xmlName: "SearchAddressBooksRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchAddressBooksInput, SearchAddressBooksOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchAddressBooksInput, SearchAddressBooksOutput>(xAmzTarget: "AlexaForBusiness.SearchAddressBooks"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchAddressBooksInput, SearchAddressBooksOutput>(xmlName: "SearchAddressBooksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchAddressBooksInput, SearchAddressBooksOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchAddressBooksOutput, SearchAddressBooksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchAddressBooksOutput, SearchAddressBooksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchAddressBooksOutput, SearchAddressBooksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchAddressBooksOutput, SearchAddressBooksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3329,8 +3259,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchContactsInput : [no documentation found]
     ///
-    /// - Returns: `SearchContactsOutputResponse` : [no documentation found]
-    public func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutputResponse
+    /// - Returns: `SearchContactsOutput` : [no documentation found]
+    public func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3346,21 +3276,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchContactsInput, SearchContactsOutputResponse, SearchContactsOutputError>(id: "searchContacts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchContactsInput, SearchContactsOutputResponse, SearchContactsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchContactsInput, SearchContactsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchContactsInput, SearchContactsOutput, SearchContactsOutputError>(id: "searchContacts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchContactsInput, SearchContactsOutput, SearchContactsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchContactsInput, SearchContactsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchContactsOutputResponse, SearchContactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchContactsOutput, SearchContactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchContactsInput, SearchContactsOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchContacts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchContactsInput, SearchContactsOutputResponse>(xmlName: "SearchContactsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchContactsInput, SearchContactsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchContactsInput, SearchContactsOutput>(xAmzTarget: "AlexaForBusiness.SearchContacts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchContactsInput, SearchContactsOutput>(xmlName: "SearchContactsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchContactsInput, SearchContactsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchContactsOutputResponse, SearchContactsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchContactsOutput, SearchContactsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchContactsOutputResponse, SearchContactsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchContactsOutputResponse, SearchContactsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchContactsOutputResponse, SearchContactsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchContactsOutput, SearchContactsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchContactsOutput, SearchContactsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchContactsOutput, SearchContactsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3370,8 +3300,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchDevicesInput : [no documentation found]
     ///
-    /// - Returns: `SearchDevicesOutputResponse` : [no documentation found]
-    public func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutputResponse
+    /// - Returns: `SearchDevicesOutput` : [no documentation found]
+    public func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3387,21 +3317,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchDevicesInput, SearchDevicesOutputResponse, SearchDevicesOutputError>(id: "searchDevices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchDevicesInput, SearchDevicesOutputResponse, SearchDevicesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchDevicesInput, SearchDevicesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchDevicesInput, SearchDevicesOutput, SearchDevicesOutputError>(id: "searchDevices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchDevicesInput, SearchDevicesOutput, SearchDevicesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchDevicesInput, SearchDevicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchDevicesOutputResponse, SearchDevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchDevicesOutput, SearchDevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchDevicesInput, SearchDevicesOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchDevices"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchDevicesInput, SearchDevicesOutputResponse>(xmlName: "SearchDevicesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchDevicesInput, SearchDevicesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchDevicesInput, SearchDevicesOutput>(xAmzTarget: "AlexaForBusiness.SearchDevices"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchDevicesInput, SearchDevicesOutput>(xmlName: "SearchDevicesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchDevicesInput, SearchDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchDevicesOutputResponse, SearchDevicesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchDevicesOutput, SearchDevicesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchDevicesOutputResponse, SearchDevicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchDevicesOutputResponse, SearchDevicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchDevicesOutputResponse, SearchDevicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchDevicesOutput, SearchDevicesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchDevicesOutput, SearchDevicesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchDevicesOutput, SearchDevicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3411,8 +3341,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchNetworkProfilesInput : [no documentation found]
     ///
-    /// - Returns: `SearchNetworkProfilesOutputResponse` : [no documentation found]
-    public func searchNetworkProfiles(input: SearchNetworkProfilesInput) async throws -> SearchNetworkProfilesOutputResponse
+    /// - Returns: `SearchNetworkProfilesOutput` : [no documentation found]
+    public func searchNetworkProfiles(input: SearchNetworkProfilesInput) async throws -> SearchNetworkProfilesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3428,21 +3358,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(id: "searchNetworkProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchNetworkProfilesInput, SearchNetworkProfilesOutput, SearchNetworkProfilesOutputError>(id: "searchNetworkProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutput, SearchNetworkProfilesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchNetworkProfilesOutput, SearchNetworkProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchNetworkProfiles"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse>(xmlName: "SearchNetworkProfilesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutput>(xAmzTarget: "AlexaForBusiness.SearchNetworkProfiles"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutput>(xmlName: "SearchNetworkProfilesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchNetworkProfilesOutput, SearchNetworkProfilesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchNetworkProfilesOutput, SearchNetworkProfilesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchNetworkProfilesOutput, SearchNetworkProfilesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchNetworkProfilesOutput, SearchNetworkProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3452,8 +3382,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchProfilesInput : [no documentation found]
     ///
-    /// - Returns: `SearchProfilesOutputResponse` : [no documentation found]
-    public func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutputResponse
+    /// - Returns: `SearchProfilesOutput` : [no documentation found]
+    public func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3469,21 +3399,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchProfilesInput, SearchProfilesOutputResponse, SearchProfilesOutputError>(id: "searchProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProfilesInput, SearchProfilesOutputResponse, SearchProfilesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProfilesInput, SearchProfilesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchProfilesInput, SearchProfilesOutput, SearchProfilesOutputError>(id: "searchProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProfilesInput, SearchProfilesOutput, SearchProfilesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProfilesInput, SearchProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProfilesOutputResponse, SearchProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProfilesOutput, SearchProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProfilesInput, SearchProfilesOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchProfiles"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProfilesInput, SearchProfilesOutputResponse>(xmlName: "SearchProfilesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProfilesInput, SearchProfilesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProfilesInput, SearchProfilesOutput>(xAmzTarget: "AlexaForBusiness.SearchProfiles"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProfilesInput, SearchProfilesOutput>(xmlName: "SearchProfilesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProfilesInput, SearchProfilesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProfilesOutputResponse, SearchProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProfilesOutput, SearchProfilesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProfilesOutputResponse, SearchProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProfilesOutputResponse, SearchProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProfilesOutputResponse, SearchProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProfilesOutput, SearchProfilesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProfilesOutput, SearchProfilesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProfilesOutput, SearchProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3493,8 +3423,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchRoomsInput : [no documentation found]
     ///
-    /// - Returns: `SearchRoomsOutputResponse` : [no documentation found]
-    public func searchRooms(input: SearchRoomsInput) async throws -> SearchRoomsOutputResponse
+    /// - Returns: `SearchRoomsOutput` : [no documentation found]
+    public func searchRooms(input: SearchRoomsInput) async throws -> SearchRoomsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3510,21 +3440,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchRoomsInput, SearchRoomsOutputResponse, SearchRoomsOutputError>(id: "searchRooms")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchRoomsInput, SearchRoomsOutputResponse, SearchRoomsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchRoomsInput, SearchRoomsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchRoomsInput, SearchRoomsOutput, SearchRoomsOutputError>(id: "searchRooms")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchRoomsInput, SearchRoomsOutput, SearchRoomsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchRoomsInput, SearchRoomsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchRoomsOutputResponse, SearchRoomsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchRoomsOutput, SearchRoomsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchRoomsInput, SearchRoomsOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchRooms"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchRoomsInput, SearchRoomsOutputResponse>(xmlName: "SearchRoomsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchRoomsInput, SearchRoomsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchRoomsInput, SearchRoomsOutput>(xAmzTarget: "AlexaForBusiness.SearchRooms"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchRoomsInput, SearchRoomsOutput>(xmlName: "SearchRoomsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchRoomsInput, SearchRoomsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchRoomsOutputResponse, SearchRoomsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchRoomsOutput, SearchRoomsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchRoomsOutputResponse, SearchRoomsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchRoomsOutputResponse, SearchRoomsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchRoomsOutputResponse, SearchRoomsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchRoomsOutput, SearchRoomsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchRoomsOutput, SearchRoomsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchRoomsOutput, SearchRoomsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3534,8 +3464,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchSkillGroupsInput : [no documentation found]
     ///
-    /// - Returns: `SearchSkillGroupsOutputResponse` : [no documentation found]
-    public func searchSkillGroups(input: SearchSkillGroupsInput) async throws -> SearchSkillGroupsOutputResponse
+    /// - Returns: `SearchSkillGroupsOutput` : [no documentation found]
+    public func searchSkillGroups(input: SearchSkillGroupsInput) async throws -> SearchSkillGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3551,21 +3481,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(id: "searchSkillGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchSkillGroupsInput, SearchSkillGroupsOutput, SearchSkillGroupsOutputError>(id: "searchSkillGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutput, SearchSkillGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchSkillGroupsOutput, SearchSkillGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchSkillGroups"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse>(xmlName: "SearchSkillGroupsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutput>(xAmzTarget: "AlexaForBusiness.SearchSkillGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutput>(xmlName: "SearchSkillGroupsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchSkillGroupsOutput, SearchSkillGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSkillGroupsOutput, SearchSkillGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSkillGroupsOutput, SearchSkillGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchSkillGroupsOutput, SearchSkillGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3575,8 +3505,8 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SearchUsersInput : [no documentation found]
     ///
-    /// - Returns: `SearchUsersOutputResponse` : [no documentation found]
-    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutputResponse
+    /// - Returns: `SearchUsersOutput` : [no documentation found]
+    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3592,21 +3522,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchUsersInput, SearchUsersOutputResponse, SearchUsersOutputError>(id: "searchUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchUsersInput, SearchUsersOutputResponse, SearchUsersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchUsersInput, SearchUsersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchUsersInput, SearchUsersOutput, SearchUsersOutputError>(id: "searchUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchUsersInput, SearchUsersOutput, SearchUsersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchUsersInput, SearchUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchUsersOutputResponse, SearchUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchUsersOutput, SearchUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchUsersInput, SearchUsersOutputResponse>(xAmzTarget: "AlexaForBusiness.SearchUsers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchUsersInput, SearchUsersOutputResponse>(xmlName: "SearchUsersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchUsersInput, SearchUsersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchUsersInput, SearchUsersOutput>(xAmzTarget: "AlexaForBusiness.SearchUsers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchUsersInput, SearchUsersOutput>(xmlName: "SearchUsersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchUsersInput, SearchUsersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchUsersOutputResponse, SearchUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchUsersOutput, SearchUsersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchUsersOutputResponse, SearchUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchUsersOutputResponse, SearchUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchUsersOutputResponse, SearchUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchUsersOutput, SearchUsersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchUsersOutput, SearchUsersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchUsersOutput, SearchUsersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3615,14 +3545,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SendAnnouncementInput : [no documentation found]
     ///
-    /// - Returns: `SendAnnouncementOutputResponse` : [no documentation found]
+    /// - Returns: `SendAnnouncementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func sendAnnouncement(input: SendAnnouncementInput) async throws -> SendAnnouncementOutputResponse
+    public func sendAnnouncement(input: SendAnnouncementInput) async throws -> SendAnnouncementOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3638,29 +3568,22 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendAnnouncementInput, SendAnnouncementOutputResponse, SendAnnouncementOutputError>(id: "sendAnnouncement")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<SendAnnouncementOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendAnnouncementInput, SendAnnouncementOutputResponse, SendAnnouncementOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendAnnouncementInput, SendAnnouncementOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendAnnouncementInput, SendAnnouncementOutput, SendAnnouncementOutputError>(id: "sendAnnouncement")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<SendAnnouncementInput, SendAnnouncementOutput, SendAnnouncementOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendAnnouncementInput, SendAnnouncementOutput, SendAnnouncementOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendAnnouncementInput, SendAnnouncementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendAnnouncementOutputResponse, SendAnnouncementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendAnnouncementOutput, SendAnnouncementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendAnnouncementInput, SendAnnouncementOutputResponse>(xAmzTarget: "AlexaForBusiness.SendAnnouncement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendAnnouncementInput, SendAnnouncementOutputResponse>(xmlName: "SendAnnouncementRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendAnnouncementInput, SendAnnouncementOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendAnnouncementInput, SendAnnouncementOutput>(xAmzTarget: "AlexaForBusiness.SendAnnouncement"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendAnnouncementInput, SendAnnouncementOutput>(xmlName: "SendAnnouncementRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendAnnouncementInput, SendAnnouncementOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendAnnouncementOutputResponse, SendAnnouncementOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendAnnouncementOutput, SendAnnouncementOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendAnnouncementOutputResponse, SendAnnouncementOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendAnnouncementOutputResponse, SendAnnouncementOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendAnnouncementOutputResponse, SendAnnouncementOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendAnnouncementOutput, SendAnnouncementOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendAnnouncementOutput, SendAnnouncementOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendAnnouncementOutput, SendAnnouncementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3670,7 +3593,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter SendInvitationInput : [no documentation found]
     ///
-    /// - Returns: `SendInvitationOutputResponse` : [no documentation found]
+    /// - Returns: `SendInvitationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3678,7 +3601,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `InvalidUserStatusException` : The attempt to update a user is invalid due to the user's current status.
     /// - `NotFoundException` : The resource is not found.
-    public func sendInvitation(input: SendInvitationInput) async throws -> SendInvitationOutputResponse
+    public func sendInvitation(input: SendInvitationInput) async throws -> SendInvitationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3694,21 +3617,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendInvitationInput, SendInvitationOutputResponse, SendInvitationOutputError>(id: "sendInvitation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendInvitationInput, SendInvitationOutputResponse, SendInvitationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendInvitationInput, SendInvitationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendInvitationInput, SendInvitationOutput, SendInvitationOutputError>(id: "sendInvitation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendInvitationInput, SendInvitationOutput, SendInvitationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendInvitationInput, SendInvitationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendInvitationOutputResponse, SendInvitationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendInvitationOutput, SendInvitationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendInvitationInput, SendInvitationOutputResponse>(xAmzTarget: "AlexaForBusiness.SendInvitation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendInvitationInput, SendInvitationOutputResponse>(xmlName: "SendInvitationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendInvitationInput, SendInvitationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendInvitationInput, SendInvitationOutput>(xAmzTarget: "AlexaForBusiness.SendInvitation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendInvitationInput, SendInvitationOutput>(xmlName: "SendInvitationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendInvitationInput, SendInvitationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendInvitationOutputResponse, SendInvitationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendInvitationOutput, SendInvitationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendInvitationOutputResponse, SendInvitationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendInvitationOutputResponse, SendInvitationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendInvitationOutputResponse, SendInvitationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendInvitationOutput, SendInvitationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendInvitationOutput, SendInvitationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendInvitationOutput, SendInvitationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3728,13 +3651,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter StartDeviceSyncInput : [no documentation found]
     ///
-    /// - Returns: `StartDeviceSyncOutputResponse` : [no documentation found]
+    /// - Returns: `StartDeviceSyncOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
-    public func startDeviceSync(input: StartDeviceSyncInput) async throws -> StartDeviceSyncOutputResponse
+    public func startDeviceSync(input: StartDeviceSyncInput) async throws -> StartDeviceSyncOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3750,21 +3673,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDeviceSyncInput, StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(id: "startDeviceSync")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDeviceSyncInput, StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDeviceSyncInput, StartDeviceSyncOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartDeviceSyncInput, StartDeviceSyncOutput, StartDeviceSyncOutputError>(id: "startDeviceSync")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDeviceSyncInput, StartDeviceSyncOutput, StartDeviceSyncOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDeviceSyncInput, StartDeviceSyncOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDeviceSyncOutput, StartDeviceSyncOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDeviceSyncInput, StartDeviceSyncOutputResponse>(xAmzTarget: "AlexaForBusiness.StartDeviceSync"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDeviceSyncInput, StartDeviceSyncOutputResponse>(xmlName: "StartDeviceSyncRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDeviceSyncInput, StartDeviceSyncOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDeviceSyncInput, StartDeviceSyncOutput>(xAmzTarget: "AlexaForBusiness.StartDeviceSync"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDeviceSyncInput, StartDeviceSyncOutput>(xmlName: "StartDeviceSyncRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDeviceSyncInput, StartDeviceSyncOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDeviceSyncOutput, StartDeviceSyncOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDeviceSyncOutput, StartDeviceSyncOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeviceSyncOutput, StartDeviceSyncOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDeviceSyncOutput, StartDeviceSyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3774,13 +3697,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter StartSmartHomeApplianceDiscoveryInput : [no documentation found]
     ///
-    /// - Returns: `StartSmartHomeApplianceDiscoveryOutputResponse` : [no documentation found]
+    /// - Returns: `StartSmartHomeApplianceDiscoveryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput) async throws -> StartSmartHomeApplianceDiscoveryOutputResponse
+    public func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput) async throws -> StartSmartHomeApplianceDiscoveryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3796,21 +3719,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(id: "startSmartHomeApplianceDiscovery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutput, StartSmartHomeApplianceDiscoveryOutputError>(id: "startSmartHomeApplianceDiscovery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutput, StartSmartHomeApplianceDiscoveryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSmartHomeApplianceDiscoveryOutput, StartSmartHomeApplianceDiscoveryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse>(xAmzTarget: "AlexaForBusiness.StartSmartHomeApplianceDiscovery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse>(xmlName: "StartSmartHomeApplianceDiscoveryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutput>(xAmzTarget: "AlexaForBusiness.StartSmartHomeApplianceDiscovery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutput>(xmlName: "StartSmartHomeApplianceDiscoveryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSmartHomeApplianceDiscoveryOutput, StartSmartHomeApplianceDiscoveryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSmartHomeApplianceDiscoveryOutput, StartSmartHomeApplianceDiscoveryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSmartHomeApplianceDiscoveryOutput, StartSmartHomeApplianceDiscoveryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSmartHomeApplianceDiscoveryOutput, StartSmartHomeApplianceDiscoveryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3820,13 +3743,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3842,21 +3765,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "AlexaForBusiness.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AlexaForBusiness.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3866,13 +3789,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3888,21 +3811,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "AlexaForBusiness.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AlexaForBusiness.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3912,7 +3835,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3920,7 +3843,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateAddressBook(input: UpdateAddressBookInput) async throws -> UpdateAddressBookOutputResponse
+    public func updateAddressBook(input: UpdateAddressBookInput) async throws -> UpdateAddressBookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3936,21 +3859,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAddressBookInput, UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(id: "updateAddressBook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAddressBookInput, UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAddressBookInput, UpdateAddressBookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateAddressBookInput, UpdateAddressBookOutput, UpdateAddressBookOutputError>(id: "updateAddressBook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAddressBookInput, UpdateAddressBookOutput, UpdateAddressBookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAddressBookInput, UpdateAddressBookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAddressBookOutput, UpdateAddressBookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAddressBookInput, UpdateAddressBookOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateAddressBook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAddressBookInput, UpdateAddressBookOutputResponse>(xmlName: "UpdateAddressBookRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAddressBookInput, UpdateAddressBookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAddressBookInput, UpdateAddressBookOutput>(xAmzTarget: "AlexaForBusiness.UpdateAddressBook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAddressBookInput, UpdateAddressBookOutput>(xmlName: "UpdateAddressBookRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAddressBookInput, UpdateAddressBookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAddressBookOutput, UpdateAddressBookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAddressBookOutput, UpdateAddressBookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAddressBookOutput, UpdateAddressBookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAddressBookOutput, UpdateAddressBookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3960,14 +3883,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateBusinessReportScheduleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateBusinessReportScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBusinessReportScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput) async throws -> UpdateBusinessReportScheduleOutputResponse
+    public func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput) async throws -> UpdateBusinessReportScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3983,21 +3906,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(id: "updateBusinessReportSchedule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutput, UpdateBusinessReportScheduleOutputError>(id: "updateBusinessReportSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutput, UpdateBusinessReportScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBusinessReportScheduleOutput, UpdateBusinessReportScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateBusinessReportSchedule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse>(xmlName: "UpdateBusinessReportScheduleRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutput>(xAmzTarget: "AlexaForBusiness.UpdateBusinessReportSchedule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutput>(xmlName: "UpdateBusinessReportScheduleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBusinessReportScheduleOutput, UpdateBusinessReportScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBusinessReportScheduleOutput, UpdateBusinessReportScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBusinessReportScheduleOutput, UpdateBusinessReportScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBusinessReportScheduleOutput, UpdateBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4007,13 +3930,13 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func updateConferenceProvider(input: UpdateConferenceProviderInput) async throws -> UpdateConferenceProviderOutputResponse
+    public func updateConferenceProvider(input: UpdateConferenceProviderInput) async throws -> UpdateConferenceProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4029,21 +3952,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(id: "updateConferenceProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateConferenceProviderInput, UpdateConferenceProviderOutput, UpdateConferenceProviderOutputError>(id: "updateConferenceProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutput, UpdateConferenceProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConferenceProviderOutput, UpdateConferenceProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateConferenceProvider"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse>(xmlName: "UpdateConferenceProviderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutput>(xAmzTarget: "AlexaForBusiness.UpdateConferenceProvider"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutput>(xmlName: "UpdateConferenceProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConferenceProviderOutput, UpdateConferenceProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConferenceProviderOutput, UpdateConferenceProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConferenceProviderOutput, UpdateConferenceProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConferenceProviderOutput, UpdateConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4053,14 +3976,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateContactInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContactOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutputResponse
+    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4076,21 +3999,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateContactInput, UpdateContactOutputResponse, UpdateContactOutputError>(id: "updateContact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContactInput, UpdateContactOutputResponse, UpdateContactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContactInput, UpdateContactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateContactInput, UpdateContactOutput, UpdateContactOutputError>(id: "updateContact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContactInput, UpdateContactOutput, UpdateContactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContactInput, UpdateContactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateContactOutputResponse, UpdateContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateContactOutput, UpdateContactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateContactInput, UpdateContactOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateContact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateContactInput, UpdateContactOutputResponse>(xmlName: "UpdateContactRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateContactInput, UpdateContactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateContactInput, UpdateContactOutput>(xAmzTarget: "AlexaForBusiness.UpdateContact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateContactInput, UpdateContactOutput>(xmlName: "UpdateContactRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateContactInput, UpdateContactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateContactOutputResponse, UpdateContactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateContactOutput, UpdateContactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContactOutputResponse, UpdateContactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContactOutputResponse, UpdateContactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateContactOutputResponse, UpdateContactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContactOutput, UpdateContactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContactOutput, UpdateContactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateContactOutput, UpdateContactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4100,7 +4023,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateDeviceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4108,7 +4031,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `NotFoundException` : The resource is not found.
-    public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutputResponse
+    public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4124,21 +4047,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDeviceInput, UpdateDeviceOutputResponse, UpdateDeviceOutputError>(id: "updateDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceInput, UpdateDeviceOutputResponse, UpdateDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceInput, UpdateDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDeviceInput, UpdateDeviceOutput, UpdateDeviceOutputError>(id: "updateDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceInput, UpdateDeviceOutput, UpdateDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceInput, UpdateDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDeviceOutput, UpdateDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDeviceInput, UpdateDeviceOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateDevice"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDeviceInput, UpdateDeviceOutputResponse>(xmlName: "UpdateDeviceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDeviceInput, UpdateDeviceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDeviceInput, UpdateDeviceOutput>(xAmzTarget: "AlexaForBusiness.UpdateDevice"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDeviceInput, UpdateDeviceOutput>(xmlName: "UpdateDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDeviceInput, UpdateDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDeviceOutputResponse, UpdateDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDeviceOutput, UpdateDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceOutput, UpdateDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceOutput, UpdateDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceOutput, UpdateDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4148,14 +4071,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateGatewayInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutputResponse
+    public func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4171,21 +4094,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateGatewayInput, UpdateGatewayOutputResponse, UpdateGatewayOutputError>(id: "updateGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayInput, UpdateGatewayOutputResponse, UpdateGatewayOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayInput, UpdateGatewayOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateGatewayInput, UpdateGatewayOutput, UpdateGatewayOutputError>(id: "updateGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayInput, UpdateGatewayOutput, UpdateGatewayOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayInput, UpdateGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewayOutputResponse, UpdateGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewayOutput, UpdateGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewayInput, UpdateGatewayOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateGateway"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewayInput, UpdateGatewayOutputResponse>(xmlName: "UpdateGatewayRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewayInput, UpdateGatewayOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewayInput, UpdateGatewayOutput>(xAmzTarget: "AlexaForBusiness.UpdateGateway"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewayInput, UpdateGatewayOutput>(xmlName: "UpdateGatewayRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewayInput, UpdateGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewayOutputResponse, UpdateGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewayOutput, UpdateGatewayOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayOutputResponse, UpdateGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayOutputResponse, UpdateGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayOutputResponse, UpdateGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayOutput, UpdateGatewayOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayOutput, UpdateGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayOutput, UpdateGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4195,14 +4118,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateGatewayGroup(input: UpdateGatewayGroupInput) async throws -> UpdateGatewayGroupOutputResponse
+    public func updateGatewayGroup(input: UpdateGatewayGroupInput) async throws -> UpdateGatewayGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4218,21 +4141,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(id: "updateGatewayGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateGatewayGroupInput, UpdateGatewayGroupOutput, UpdateGatewayGroupOutputError>(id: "updateGatewayGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutput, UpdateGatewayGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewayGroupOutput, UpdateGatewayGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateGatewayGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse>(xmlName: "UpdateGatewayGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutput>(xAmzTarget: "AlexaForBusiness.UpdateGatewayGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutput>(xmlName: "UpdateGatewayGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewayGroupOutput, UpdateGatewayGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayGroupOutput, UpdateGatewayGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayGroupOutput, UpdateGatewayGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayGroupOutput, UpdateGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4242,7 +4165,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4252,7 +4175,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `InvalidSecretsManagerResourceException` : A password in SecretsManager is in an invalid state.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutputResponse
+    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4268,21 +4191,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(id: "updateNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNetworkProfileInput, UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(id: "updateNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>(xmlName: "UpdateNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>(xAmzTarget: "AlexaForBusiness.UpdateNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>(xmlName: "UpdateNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4292,7 +4215,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4300,7 +4223,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
+    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4316,21 +4239,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProfileInput, UpdateProfileOutputResponse, UpdateProfileOutputError>(id: "updateProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProfileInput, UpdateProfileOutputResponse, UpdateProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProfileInput, UpdateProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateProfileInput, UpdateProfileOutput, UpdateProfileOutputError>(id: "updateProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProfileInput, UpdateProfileOutput, UpdateProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProfileInput, UpdateProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProfileOutputResponse, UpdateProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProfileOutput, UpdateProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProfileInput, UpdateProfileOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProfileInput, UpdateProfileOutputResponse>(xmlName: "UpdateProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProfileInput, UpdateProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProfileInput, UpdateProfileOutput>(xAmzTarget: "AlexaForBusiness.UpdateProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProfileInput, UpdateProfileOutput>(xmlName: "UpdateProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProfileInput, UpdateProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProfileOutputResponse, UpdateProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProfileOutput, UpdateProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProfileOutputResponse, UpdateProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProfileOutputResponse, UpdateProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProfileOutputResponse, UpdateProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProfileOutput, UpdateProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProfileOutput, UpdateProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProfileOutput, UpdateProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4340,14 +4263,14 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateRoomInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRoomOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutputResponse
+    public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4363,21 +4286,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRoomInput, UpdateRoomOutputResponse, UpdateRoomOutputError>(id: "updateRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomInput, UpdateRoomOutputResponse, UpdateRoomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoomInput, UpdateRoomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateRoomInput, UpdateRoomOutput, UpdateRoomOutputError>(id: "updateRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomInput, UpdateRoomOutput, UpdateRoomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoomInput, UpdateRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoomOutputResponse, UpdateRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoomOutput, UpdateRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRoomInput, UpdateRoomOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateRoom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRoomInput, UpdateRoomOutputResponse>(xmlName: "UpdateRoomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRoomInput, UpdateRoomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRoomInput, UpdateRoomOutput>(xAmzTarget: "AlexaForBusiness.UpdateRoom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRoomInput, UpdateRoomOutput>(xmlName: "UpdateRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRoomInput, UpdateRoomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoomOutputResponse, UpdateRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoomOutput, UpdateRoomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomOutputResponse, UpdateRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomOutputResponse, UpdateRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomOutputResponse, UpdateRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomOutput, UpdateRoomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomOutput, UpdateRoomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomOutput, UpdateRoomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4387,7 +4310,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// - Parameter UpdateSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4395,7 +4318,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateSkillGroup(input: UpdateSkillGroupInput) async throws -> UpdateSkillGroupOutputResponse
+    public func updateSkillGroup(input: UpdateSkillGroupInput) async throws -> UpdateSkillGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4411,21 +4334,21 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(id: "updateSkillGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateSkillGroupInput, UpdateSkillGroupOutput, UpdateSkillGroupOutputError>(id: "updateSkillGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutput, UpdateSkillGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSkillGroupOutput, UpdateSkillGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse>(xAmzTarget: "AlexaForBusiness.UpdateSkillGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse>(xmlName: "UpdateSkillGroupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutput>(xAmzTarget: "AlexaForBusiness.UpdateSkillGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutput>(xmlName: "UpdateSkillGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSkillGroupOutput, UpdateSkillGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSkillGroupOutput, UpdateSkillGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSkillGroupOutput, UpdateSkillGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSkillGroupOutput, UpdateSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

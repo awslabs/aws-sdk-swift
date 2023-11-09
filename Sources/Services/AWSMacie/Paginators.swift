@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MacieClient {
-    /// Paginate over `[ListMemberAccountsOutputResponse]` results.
+    /// Paginate over `[ListMemberAccountsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMemberAccountsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMemberAccountsOutputResponse`
-    public func listMemberAccountsPaginated(input: ListMemberAccountsInput) -> ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutputResponse>(input: input, inputKey: \ListMemberAccountsInput.nextToken, outputKey: \ListMemberAccountsOutputResponse.nextToken, paginationFunction: self.listMemberAccounts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMemberAccountsOutput`
+    public func listMemberAccountsPaginated(input: ListMemberAccountsInput) -> ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput>(input: input, inputKey: \ListMemberAccountsInput.nextToken, outputKey: \ListMemberAccountsOutput.nextToken, paginationFunction: self.listMemberAccounts(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListMemberAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MacieClient {
-    /// Paginate over `[ListS3ResourcesOutputResponse]` results.
+    /// Paginate over `[ListS3ResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListS3ResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListS3ResourcesOutputResponse`
-    public func listS3ResourcesPaginated(input: ListS3ResourcesInput) -> ClientRuntime.PaginatorSequence<ListS3ResourcesInput, ListS3ResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListS3ResourcesInput, ListS3ResourcesOutputResponse>(input: input, inputKey: \ListS3ResourcesInput.nextToken, outputKey: \ListS3ResourcesOutputResponse.nextToken, paginationFunction: self.listS3Resources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListS3ResourcesOutput`
+    public func listS3ResourcesPaginated(input: ListS3ResourcesInput) -> ClientRuntime.PaginatorSequence<ListS3ResourcesInput, ListS3ResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListS3ResourcesInput, ListS3ResourcesOutput>(input: input, inputKey: \ListS3ResourcesInput.nextToken, outputKey: \ListS3ResourcesOutput.nextToken, paginationFunction: self.listS3Resources(input:))
     }
 }
 

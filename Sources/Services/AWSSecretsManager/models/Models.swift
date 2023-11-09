@@ -50,25 +50,11 @@ extension CancelRotateSecretInputBody: Swift.Decodable {
     }
 }
 
-enum CancelRotateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CancelRotateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CancelRotateSecretOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CancelRotateSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CancelRotateSecretOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
             self.versionId = output.versionId
@@ -80,7 +66,7 @@ extension CancelRotateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelRotateSecretOutputResponse: Swift.Equatable {
+public struct CancelRotateSecretOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -100,13 +86,13 @@ public struct CancelRotateSecretOutputResponse: Swift.Equatable {
     }
 }
 
-struct CancelRotateSecretOutputResponseBody: Swift.Equatable {
+struct CancelRotateSecretOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
 }
 
-extension CancelRotateSecretOutputResponseBody: Swift.Decodable {
+extension CancelRotateSecretOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -121,6 +107,20 @@ extension CancelRotateSecretOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
+    }
+}
+
+enum CancelRotateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -189,7 +189,7 @@ extension CreateSecretInput: ClientRuntime.URLPathProvider {
 public struct CreateSecretInput: Swift.Equatable {
     /// A list of Regions and KMS keys to replicate secrets.
     public var addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
-    /// If you include SecretString or SecretBinary, then Secrets Manager creates an initial version for the secret, and this parameter specifies the unique identifier for the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include the value in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
+    /// If you include SecretString or SecretBinary, then Secrets Manager creates an initial version for the secret, and this parameter specifies the unique identifier for the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     ///
     /// * If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.
     ///
@@ -213,19 +213,7 @@ public struct CreateSecretInput: Swift.Equatable {
     public var secretBinary: ClientRuntime.Data?
     /// The text data to encrypt and store in this new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretString or SecretBinary must have a value, but not both. If you create a secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that a Lambda rotation function can parse.
     public var secretString: Swift.String?
-    /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example: [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}] Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see [Control access to secrets using tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac) and [Limit access to identities with tags that match secrets' tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2). For information about how to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json). If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. The following restrictions apply to tags:
-    ///
-    /// * Maximum number of tags per secret: 50
-    ///
-    /// * Maximum key length: 127 Unicode characters in UTF-8
-    ///
-    /// * Maximum value length: 255 Unicode characters in UTF-8
-    ///
-    /// * Tag keys and values are case sensitive.
-    ///
-    /// * Do not use the aws: prefix in your tag names or values because Amazon Web Services reserves it for Amazon Web Services use. You can't edit or delete tag names or values with this prefix. Tags with this prefix do not count against your tags per secret limit.
-    ///
-    /// * If you use your tagging schema across multiple services and resources, other services might have restrictions on allowed characters. Generally allowed characters: letters, spaces, and numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.
+    /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example: [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}] Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see [Control access to secrets using tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac) and [Limit access to identities with tags that match secrets' tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2). For information about how to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json). If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. For tag quotas and naming restrictions, see [Service quotas for Tagging](https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas) in the Amazon Web Services General Reference guide.
     public var tags: [SecretsManagerClientTypes.Tag]?
 
     public init(
@@ -318,31 +306,11 @@ extension CreateSecretInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionFailure": return try await EncryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSecretOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSecretOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
             self.replicationStatus = output.replicationStatus
@@ -356,7 +324,7 @@ extension CreateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSecretOutputResponse: Swift.Equatable {
+public struct CreateSecretOutput: Swift.Equatable {
     /// The ARN of the new secret. The ARN includes the name of the secret followed by six random characters. This ensures that if you create a new secret with the same name as a deleted secret, then users with access to the old secret don't get access to the new secret because the ARNs are different.
     public var arn: Swift.String?
     /// The name of the new secret.
@@ -386,14 +354,14 @@ public struct CreateSecretOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSecretOutputResponseBody: Swift.Equatable {
+struct CreateSecretOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
     let replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]?
 }
 
-extension CreateSecretOutputResponseBody: Swift.Decodable {
+extension CreateSecretOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -420,6 +388,26 @@ extension CreateSecretOutputResponseBody: Swift.Decodable {
             }
         }
         replicationStatus = replicationStatusDecoded0
+    }
+}
+
+enum CreateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionFailure": return try await EncryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -526,25 +514,11 @@ extension DeleteResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
         } else {
@@ -554,7 +528,7 @@ extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
+public struct DeleteResourcePolicyOutput: Swift.Equatable {
     /// The ARN of the secret that the resource-based policy was deleted for.
     public var arn: Swift.String?
     /// The name of the secret that the resource-based policy was deleted for.
@@ -570,12 +544,12 @@ public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyOutputResponseBody: Swift.Equatable {
+struct DeleteResourcePolicyOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
 }
 
-extension DeleteResourcePolicyOutputResponseBody: Swift.Decodable {
+extension DeleteResourcePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -587,6 +561,20 @@ extension DeleteResourcePolicyOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+    }
+}
+
+enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -662,25 +650,11 @@ extension DeleteSecretInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteSecretOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteSecretOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteSecretOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.deletionDate = output.deletionDate
             self.name = output.name
@@ -692,7 +666,7 @@ extension DeleteSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSecretOutputResponse: Swift.Equatable {
+public struct DeleteSecretOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date and time after which this secret Secrets Manager can permanently delete this secret, and it can no longer be restored. This value is the date and time of the delete request plus the number of days in RecoveryWindowInDays.
@@ -712,13 +686,13 @@ public struct DeleteSecretOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteSecretOutputResponseBody: Swift.Equatable {
+struct DeleteSecretOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let deletionDate: ClientRuntime.Date?
 }
 
-extension DeleteSecretOutputResponseBody: Swift.Decodable {
+extension DeleteSecretOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case deletionDate = "DeletionDate"
@@ -733,6 +707,20 @@ extension DeleteSecretOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let deletionDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deletionDate)
         deletionDate = deletionDateDecoded
+    }
+}
+
+enum DeleteSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -784,24 +772,11 @@ extension DescribeSecretInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSecretOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSecretOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSecretOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdDate = output.createdDate
             self.deletedDate = output.deletedDate
@@ -843,7 +818,7 @@ extension DescribeSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSecretOutputResponse: Swift.Equatable {
+public struct DescribeSecretOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date the secret was created.
@@ -938,7 +913,7 @@ public struct DescribeSecretOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSecretOutputResponseBody: Swift.Equatable {
+struct DescribeSecretOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -959,7 +934,7 @@ struct DescribeSecretOutputResponseBody: Swift.Equatable {
     let replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]?
 }
 
-extension DescribeSecretOutputResponseBody: Swift.Decodable {
+extension DescribeSecretOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case createdDate = "CreatedDate"
@@ -1053,6 +1028,19 @@ extension DescribeSecretOutputResponseBody: Swift.Decodable {
             }
         }
         replicationStatus = replicationStatusDecoded0
+    }
+}
+
+enum DescribeSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1360,29 +1348,16 @@ extension GetRandomPasswordInputBody: Swift.Decodable {
     }
 }
 
-enum GetRandomPasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRandomPasswordOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetRandomPasswordOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRandomPasswordOutputResponse(randomPassword: \"CONTENT_REDACTED\")"}
+        "GetRandomPasswordOutput(randomPassword: \"CONTENT_REDACTED\")"}
 }
 
-extension GetRandomPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRandomPasswordOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRandomPasswordOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRandomPasswordOutputBody = try responseDecoder.decode(responseBody: data)
             self.randomPassword = output.randomPassword
         } else {
             self.randomPassword = nil
@@ -1390,7 +1365,7 @@ extension GetRandomPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRandomPasswordOutputResponse: Swift.Equatable {
+public struct GetRandomPasswordOutput: Swift.Equatable {
     /// A string with the password.
     public var randomPassword: Swift.String?
 
@@ -1402,11 +1377,11 @@ public struct GetRandomPasswordOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRandomPasswordOutputResponseBody: Swift.Equatable {
+struct GetRandomPasswordOutputBody: Swift.Equatable {
     let randomPassword: Swift.String?
 }
 
-extension GetRandomPasswordOutputResponseBody: Swift.Decodable {
+extension GetRandomPasswordOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case randomPassword = "RandomPassword"
     }
@@ -1415,6 +1390,19 @@ extension GetRandomPasswordOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let randomPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .randomPassword)
         randomPassword = randomPasswordDecoded
+    }
+}
+
+enum GetRandomPasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1466,25 +1454,11 @@ extension GetResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
             self.resourcePolicy = output.resourcePolicy
@@ -1496,7 +1470,7 @@ extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutputResponse: Swift.Equatable {
+public struct GetResourcePolicyOutput: Swift.Equatable {
     /// The ARN of the secret that the resource-based policy was retrieved for.
     public var arn: Swift.String?
     /// The name of the secret that the resource-based policy was retrieved for.
@@ -1516,13 +1490,13 @@ public struct GetResourcePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputResponseBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let resourcePolicy: Swift.String?
 }
 
-extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
+extension GetResourcePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -1537,6 +1511,20 @@ extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
         resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1612,31 +1600,16 @@ extension GetSecretValueInputBody: Swift.Decodable {
     }
 }
 
-enum GetSecretValueOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSecretValueOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetSecretValueOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSecretValueOutputResponse(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), name: \(Swift.String(describing: name)), versionId: \(Swift.String(describing: versionId)), versionStages: \(Swift.String(describing: versionStages)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
+        "GetSecretValueOutput(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), name: \(Swift.String(describing: name)), versionId: \(Swift.String(describing: versionId)), versionStages: \(Swift.String(describing: versionStages)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
 }
 
-extension GetSecretValueOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSecretValueOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSecretValueOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSecretValueOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdDate = output.createdDate
             self.name = output.name
@@ -1656,7 +1629,7 @@ extension GetSecretValueOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSecretValueOutputResponse: Swift.Equatable {
+public struct GetSecretValueOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date and time that this version of the secret was created. If you don't specify which version in VersionId or VersionStage, then Secrets Manager uses the AWSCURRENT version.
@@ -1692,7 +1665,7 @@ public struct GetSecretValueOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSecretValueOutputResponseBody: Swift.Equatable {
+struct GetSecretValueOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
@@ -1702,7 +1675,7 @@ struct GetSecretValueOutputResponseBody: Swift.Equatable {
     let createdDate: ClientRuntime.Date?
 }
 
-extension GetSecretValueOutputResponseBody: Swift.Decodable {
+extension GetSecretValueOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case createdDate = "CreatedDate"
@@ -1738,6 +1711,21 @@ extension GetSecretValueOutputResponseBody: Swift.Decodable {
         versionStages = versionStagesDecoded0
         let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdDate)
         createdDate = createdDateDecoded
+    }
+}
+
+enum GetSecretValueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2106,25 +2094,11 @@ extension ListSecretVersionIdsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSecretVersionIdsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSecretVersionIdsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSecretVersionIdsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSecretVersionIdsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSecretVersionIdsOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
             self.nextToken = output.nextToken
@@ -2138,7 +2112,7 @@ extension ListSecretVersionIdsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListSecretVersionIdsOutputResponse: Swift.Equatable {
+public struct ListSecretVersionIdsOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -2162,14 +2136,14 @@ public struct ListSecretVersionIdsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSecretVersionIdsOutputResponseBody: Swift.Equatable {
+struct ListSecretVersionIdsOutputBody: Swift.Equatable {
     let versions: [SecretsManagerClientTypes.SecretVersionsListEntry]?
     let nextToken: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
 }
 
-extension ListSecretVersionIdsOutputResponseBody: Swift.Decodable {
+extension ListSecretVersionIdsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -2196,6 +2170,20 @@ extension ListSecretVersionIdsOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+    }
+}
+
+enum ListSecretVersionIdsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2306,25 +2294,11 @@ extension ListSecretsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSecretsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSecretsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSecretsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSecretsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSecretsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.secretList = output.secretList
         } else {
@@ -2334,7 +2308,7 @@ extension ListSecretsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecretsOutputResponse: Swift.Equatable {
+public struct ListSecretsOutput: Swift.Equatable {
     /// Secrets Manager includes this value if there's more output available than what is included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a long list. To get the next results, call ListSecrets again with this value.
     public var nextToken: Swift.String?
     /// A list of the secrets in the account.
@@ -2350,12 +2324,12 @@ public struct ListSecretsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSecretsOutputResponseBody: Swift.Equatable {
+struct ListSecretsOutputBody: Swift.Equatable {
     let secretList: [SecretsManagerClientTypes.SecretListEntry]?
     let nextToken: Swift.String?
 }
 
-extension ListSecretsOutputResponseBody: Swift.Decodable {
+extension ListSecretsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case secretList = "SecretList"
@@ -2376,6 +2350,20 @@ extension ListSecretsOutputResponseBody: Swift.Decodable {
         secretList = secretListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSecretsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2617,27 +2605,11 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PublicPolicyException": return try await PublicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
         } else {
@@ -2647,7 +2619,7 @@ extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+public struct PutResourcePolicyOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -2663,12 +2635,12 @@ public struct PutResourcePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
 }
 
-extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
+extension PutResourcePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -2680,6 +2652,22 @@ extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+    }
+}
+
+enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PublicPolicyException": return try await PublicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2727,7 +2715,7 @@ extension PutSecretValueInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutSecretValueInput: Swift.Equatable {
-    /// A unique identifier for the new version of the secret. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty because they generate a random UUID for you. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the Lambda rotation function processing. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness within the specified secret.
+    /// A unique identifier for the new version of the secret. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     ///
     /// * If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.
     ///
@@ -2805,29 +2793,11 @@ extension PutSecretValueInputBody: Swift.Decodable {
     }
 }
 
-enum PutSecretValueOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionFailure": return try await EncryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutSecretValueOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutSecretValueOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutSecretValueOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutSecretValueOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
             self.versionId = output.versionId
@@ -2841,7 +2811,7 @@ extension PutSecretValueOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSecretValueOutputResponse: Swift.Equatable {
+public struct PutSecretValueOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -2865,14 +2835,14 @@ public struct PutSecretValueOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutSecretValueOutputResponseBody: Swift.Equatable {
+struct PutSecretValueOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
     let versionStages: [Swift.String]?
 }
 
-extension PutSecretValueOutputResponseBody: Swift.Decodable {
+extension PutSecretValueOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -2899,6 +2869,24 @@ extension PutSecretValueOutputResponseBody: Swift.Decodable {
             }
         }
         versionStages = versionStagesDecoded0
+    }
+}
+
+enum PutSecretValueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionFailure": return try await EncryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2975,25 +2963,11 @@ extension RemoveRegionsFromReplicationInputBody: Swift.Decodable {
     }
 }
 
-enum RemoveRegionsFromReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RemoveRegionsFromReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveRegionsFromReplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveRegionsFromReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveRegionsFromReplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.replicationStatus = output.replicationStatus
         } else {
@@ -3003,7 +2977,7 @@ extension RemoveRegionsFromReplicationOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct RemoveRegionsFromReplicationOutputResponse: Swift.Equatable {
+public struct RemoveRegionsFromReplicationOutput: Swift.Equatable {
     /// The ARN of the primary secret.
     public var arn: Swift.String?
     /// The status of replicas for this secret after you remove Regions.
@@ -3019,12 +2993,12 @@ public struct RemoveRegionsFromReplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct RemoveRegionsFromReplicationOutputResponseBody: Swift.Equatable {
+struct RemoveRegionsFromReplicationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]?
 }
 
-extension RemoveRegionsFromReplicationOutputResponseBody: Swift.Decodable {
+extension RemoveRegionsFromReplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case replicationStatus = "ReplicationStatus"
@@ -3045,6 +3019,20 @@ extension RemoveRegionsFromReplicationOutputResponseBody: Swift.Decodable {
             }
         }
         replicationStatus = replicationStatusDecoded0
+    }
+}
+
+enum RemoveRegionsFromReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3178,25 +3166,11 @@ extension ReplicateSecretToRegionsInputBody: Swift.Decodable {
     }
 }
 
-enum ReplicateSecretToRegionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ReplicateSecretToRegionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ReplicateSecretToRegionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ReplicateSecretToRegionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ReplicateSecretToRegionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.replicationStatus = output.replicationStatus
         } else {
@@ -3206,7 +3180,7 @@ extension ReplicateSecretToRegionsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ReplicateSecretToRegionsOutputResponse: Swift.Equatable {
+public struct ReplicateSecretToRegionsOutput: Swift.Equatable {
     /// The ARN of the primary secret.
     public var arn: Swift.String?
     /// The status of replication.
@@ -3222,12 +3196,12 @@ public struct ReplicateSecretToRegionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ReplicateSecretToRegionsOutputResponseBody: Swift.Equatable {
+struct ReplicateSecretToRegionsOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]?
 }
 
-extension ReplicateSecretToRegionsOutputResponseBody: Swift.Decodable {
+extension ReplicateSecretToRegionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case replicationStatus = "ReplicationStatus"
@@ -3248,6 +3222,20 @@ extension ReplicateSecretToRegionsOutputResponseBody: Swift.Decodable {
             }
         }
         replicationStatus = replicationStatusDecoded0
+    }
+}
+
+enum ReplicateSecretToRegionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3484,25 +3472,11 @@ extension RestoreSecretInputBody: Swift.Decodable {
     }
 }
 
-enum RestoreSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RestoreSecretOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RestoreSecretOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RestoreSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RestoreSecretOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
         } else {
@@ -3512,7 +3486,7 @@ extension RestoreSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreSecretOutputResponse: Swift.Equatable {
+public struct RestoreSecretOutput: Swift.Equatable {
     /// The ARN of the secret that was restored.
     public var arn: Swift.String?
     /// The name of the secret that was restored.
@@ -3528,12 +3502,12 @@ public struct RestoreSecretOutputResponse: Swift.Equatable {
     }
 }
 
-struct RestoreSecretOutputResponseBody: Swift.Equatable {
+struct RestoreSecretOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
 }
 
-extension RestoreSecretOutputResponseBody: Swift.Decodable {
+extension RestoreSecretOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -3545,6 +3519,20 @@ extension RestoreSecretOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+    }
+}
+
+enum RestoreSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3584,7 +3572,7 @@ extension RotateSecretInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RotateSecretInput: Swift.Equatable {
-    /// A unique identifier for the new version of the secret that helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during rotation. This value becomes the VersionId of the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness within the specified secret.
+    /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     public var clientRequestToken: Swift.String?
     /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. By default, Secrets Manager rotates the secret immediately.
     public var rotateImmediately: Swift.Bool?
@@ -3644,25 +3632,11 @@ extension RotateSecretInputBody: Swift.Decodable {
     }
 }
 
-enum RotateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RotateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RotateSecretOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RotateSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RotateSecretOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
             self.versionId = output.versionId
@@ -3674,7 +3648,7 @@ extension RotateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RotateSecretOutputResponse: Swift.Equatable {
+public struct RotateSecretOutput: Swift.Equatable {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -3694,13 +3668,13 @@ public struct RotateSecretOutputResponse: Swift.Equatable {
     }
 }
 
-struct RotateSecretOutputResponseBody: Swift.Equatable {
+struct RotateSecretOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
 }
 
-extension RotateSecretOutputResponseBody: Swift.Decodable {
+extension RotateSecretOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -3715,6 +3689,20 @@ extension RotateSecretOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
+    }
+}
+
+enum RotateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4216,25 +4204,11 @@ extension StopReplicationToReplicaInputBody: Swift.Decodable {
     }
 }
 
-enum StopReplicationToReplicaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopReplicationToReplicaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopReplicationToReplicaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopReplicationToReplicaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopReplicationToReplicaOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
             self.arn = nil
@@ -4242,7 +4216,7 @@ extension StopReplicationToReplicaOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StopReplicationToReplicaOutputResponse: Swift.Equatable {
+public struct StopReplicationToReplicaOutput: Swift.Equatable {
     /// The ARN of the promoted secret. The ARN is the same as the original primary secret except the Region is changed.
     public var arn: Swift.String?
 
@@ -4254,11 +4228,11 @@ public struct StopReplicationToReplicaOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopReplicationToReplicaOutputResponseBody: Swift.Equatable {
+struct StopReplicationToReplicaOutputBody: Swift.Equatable {
     let arn: Swift.String?
 }
 
-extension StopReplicationToReplicaOutputResponseBody: Swift.Decodable {
+extension StopReplicationToReplicaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
     }
@@ -4267,6 +4241,20 @@ extension StopReplicationToReplicaOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+    }
+}
+
+enum StopReplicationToReplicaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4388,6 +4376,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4400,16 +4398,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagResourceInput: Swift.Encodable {
@@ -4485,6 +4473,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4497,16 +4495,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateSecretInput: Swift.CustomDebugStringConvertible {
@@ -4554,7 +4542,7 @@ extension UpdateSecretInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateSecretInput: Swift.Equatable {
-    /// If you include SecretString or SecretBinary, then Secrets Manager creates a new version for the secret, and this parameter specifies the unique identifier for the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include the value in the request. This value becomes the VersionId of the new version.
+    /// If you include SecretString or SecretBinary, then Secrets Manager creates a new version for the secret, and this parameter specifies the unique identifier for the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     public var clientRequestToken: Swift.String?
     /// The description of the secret.
     public var description: Swift.String?
@@ -4622,31 +4610,11 @@ extension UpdateSecretInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionFailure": return try await EncryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSecretOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSecretOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
             self.versionId = output.versionId
@@ -4658,7 +4626,7 @@ extension UpdateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecretOutputResponse: Swift.Equatable {
+public struct UpdateSecretOutput: Swift.Equatable {
     /// The ARN of the secret that was updated.
     public var arn: Swift.String?
     /// The name of the secret that was updated.
@@ -4678,13 +4646,13 @@ public struct UpdateSecretOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSecretOutputResponseBody: Swift.Equatable {
+struct UpdateSecretOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
 }
 
-extension UpdateSecretOutputResponseBody: Swift.Decodable {
+extension UpdateSecretOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -4699,6 +4667,26 @@ extension UpdateSecretOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
+    }
+}
+
+enum UpdateSecretOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionFailure": return try await EncryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4787,26 +4775,11 @@ extension UpdateSecretVersionStageInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSecretVersionStageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSecretVersionStageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSecretVersionStageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSecretVersionStageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSecretVersionStageOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
         } else {
@@ -4816,7 +4789,7 @@ extension UpdateSecretVersionStageOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateSecretVersionStageOutputResponse: Swift.Equatable {
+public struct UpdateSecretVersionStageOutput: Swift.Equatable {
     /// The ARN of the secret that was updated.
     public var arn: Swift.String?
     /// The name of the secret that was updated.
@@ -4832,12 +4805,12 @@ public struct UpdateSecretVersionStageOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSecretVersionStageOutputResponseBody: Swift.Equatable {
+struct UpdateSecretVersionStageOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
 }
 
-extension UpdateSecretVersionStageOutputResponseBody: Swift.Decodable {
+extension UpdateSecretVersionStageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case name = "Name"
@@ -4849,6 +4822,21 @@ extension UpdateSecretVersionStageOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+    }
+}
+
+enum UpdateSecretVersionStageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4912,26 +4900,11 @@ extension ValidateResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum ValidateResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ValidateResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ValidateResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ValidateResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ValidateResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyValidationPassed = output.policyValidationPassed
             self.validationErrors = output.validationErrors
         } else {
@@ -4941,7 +4914,7 @@ extension ValidateResourcePolicyOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ValidateResourcePolicyOutputResponse: Swift.Equatable {
+public struct ValidateResourcePolicyOutput: Swift.Equatable {
     /// True if your policy passes validation, otherwise false.
     public var policyValidationPassed: Swift.Bool
     /// Validation errors if your policy didn't pass validation.
@@ -4957,12 +4930,12 @@ public struct ValidateResourcePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct ValidateResourcePolicyOutputResponseBody: Swift.Equatable {
+struct ValidateResourcePolicyOutputBody: Swift.Equatable {
     let policyValidationPassed: Swift.Bool
     let validationErrors: [SecretsManagerClientTypes.ValidationErrorsEntry]?
 }
 
-extension ValidateResourcePolicyOutputResponseBody: Swift.Decodable {
+extension ValidateResourcePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyValidationPassed = "PolicyValidationPassed"
         case validationErrors = "ValidationErrors"
@@ -4983,6 +4956,21 @@ extension ValidateResourcePolicyOutputResponseBody: Swift.Decodable {
             }
         }
         validationErrors = validationErrorsDecoded0
+    }
+}
+
+enum ValidateResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MalformedPolicyDocumentException": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

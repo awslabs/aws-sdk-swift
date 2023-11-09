@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListBusinessReportSchedulesOutputResponse]` results.
+    /// Paginate over `[ListBusinessReportSchedulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBusinessReportSchedulesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBusinessReportSchedulesOutputResponse`
-    public func listBusinessReportSchedulesPaginated(input: ListBusinessReportSchedulesInput) -> ClientRuntime.PaginatorSequence<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse>(input: input, inputKey: \ListBusinessReportSchedulesInput.nextToken, outputKey: \ListBusinessReportSchedulesOutputResponse.nextToken, paginationFunction: self.listBusinessReportSchedules(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBusinessReportSchedulesOutput`
+    public func listBusinessReportSchedulesPaginated(input: ListBusinessReportSchedulesInput) -> ClientRuntime.PaginatorSequence<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput>(input: input, inputKey: \ListBusinessReportSchedulesInput.nextToken, outputKey: \ListBusinessReportSchedulesOutput.nextToken, paginationFunction: self.listBusinessReportSchedules(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListBusinessReportSchedulesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListConferenceProvidersOutputResponse]` results.
+    /// Paginate over `[ListConferenceProvidersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConferenceProvidersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConferenceProvidersOutputResponse`
-    public func listConferenceProvidersPaginated(input: ListConferenceProvidersInput) -> ClientRuntime.PaginatorSequence<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse>(input: input, inputKey: \ListConferenceProvidersInput.nextToken, outputKey: \ListConferenceProvidersOutputResponse.nextToken, paginationFunction: self.listConferenceProviders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConferenceProvidersOutput`
+    public func listConferenceProvidersPaginated(input: ListConferenceProvidersInput) -> ClientRuntime.PaginatorSequence<ListConferenceProvidersInput, ListConferenceProvidersOutput> {
+        return ClientRuntime.PaginatorSequence<ListConferenceProvidersInput, ListConferenceProvidersOutput>(input: input, inputKey: \ListConferenceProvidersInput.nextToken, outputKey: \ListConferenceProvidersOutput.nextToken, paginationFunction: self.listConferenceProviders(input:))
     }
 }
 
@@ -45,16 +45,16 @@ extension ListConferenceProvidersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListDeviceEventsOutputResponse]` results.
+    /// Paginate over `[ListDeviceEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeviceEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceEventsOutputResponse`
-    public func listDeviceEventsPaginated(input: ListDeviceEventsInput) -> ClientRuntime.PaginatorSequence<ListDeviceEventsInput, ListDeviceEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeviceEventsInput, ListDeviceEventsOutputResponse>(input: input, inputKey: \ListDeviceEventsInput.nextToken, outputKey: \ListDeviceEventsOutputResponse.nextToken, paginationFunction: self.listDeviceEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceEventsOutput`
+    public func listDeviceEventsPaginated(input: ListDeviceEventsInput) -> ClientRuntime.PaginatorSequence<ListDeviceEventsInput, ListDeviceEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeviceEventsInput, ListDeviceEventsOutput>(input: input, inputKey: \ListDeviceEventsInput.nextToken, outputKey: \ListDeviceEventsOutput.nextToken, paginationFunction: self.listDeviceEvents(input:))
     }
 }
 
@@ -68,16 +68,16 @@ extension ListDeviceEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListGatewayGroupsOutputResponse]` results.
+    /// Paginate over `[ListGatewayGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGatewayGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGatewayGroupsOutputResponse`
-    public func listGatewayGroupsPaginated(input: ListGatewayGroupsInput) -> ClientRuntime.PaginatorSequence<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse>(input: input, inputKey: \ListGatewayGroupsInput.nextToken, outputKey: \ListGatewayGroupsOutputResponse.nextToken, paginationFunction: self.listGatewayGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGatewayGroupsOutput`
+    public func listGatewayGroupsPaginated(input: ListGatewayGroupsInput) -> ClientRuntime.PaginatorSequence<ListGatewayGroupsInput, ListGatewayGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGatewayGroupsInput, ListGatewayGroupsOutput>(input: input, inputKey: \ListGatewayGroupsInput.nextToken, outputKey: \ListGatewayGroupsOutput.nextToken, paginationFunction: self.listGatewayGroups(input:))
     }
 }
 
@@ -89,16 +89,16 @@ extension ListGatewayGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListGatewaysOutputResponse]` results.
+    /// Paginate over `[ListGatewaysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGatewaysInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutputResponse`
-    public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutputResponse>(input: input, inputKey: \ListGatewaysInput.nextToken, outputKey: \ListGatewaysOutputResponse.nextToken, paginationFunction: self.listGateways(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutput`
+    public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput> {
+        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \ListGatewaysInput.nextToken, outputKey: \ListGatewaysOutput.nextToken, paginationFunction: self.listGateways(input:))
     }
 }
 
@@ -111,16 +111,16 @@ extension ListGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListSkillsOutputResponse]` results.
+    /// Paginate over `[ListSkillsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSkillsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsOutputResponse`
-    public func listSkillsPaginated(input: ListSkillsInput) -> ClientRuntime.PaginatorSequence<ListSkillsInput, ListSkillsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSkillsInput, ListSkillsOutputResponse>(input: input, inputKey: \ListSkillsInput.nextToken, outputKey: \ListSkillsOutputResponse.nextToken, paginationFunction: self.listSkills(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsOutput`
+    public func listSkillsPaginated(input: ListSkillsInput) -> ClientRuntime.PaginatorSequence<ListSkillsInput, ListSkillsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSkillsInput, ListSkillsOutput>(input: input, inputKey: \ListSkillsInput.nextToken, outputKey: \ListSkillsOutput.nextToken, paginationFunction: self.listSkills(input:))
     }
 }
 
@@ -135,16 +135,16 @@ extension ListSkillsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListSkillsStoreCategoriesOutputResponse]` results.
+    /// Paginate over `[ListSkillsStoreCategoriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSkillsStoreCategoriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsStoreCategoriesOutputResponse`
-    public func listSkillsStoreCategoriesPaginated(input: ListSkillsStoreCategoriesInput) -> ClientRuntime.PaginatorSequence<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse>(input: input, inputKey: \ListSkillsStoreCategoriesInput.nextToken, outputKey: \ListSkillsStoreCategoriesOutputResponse.nextToken, paginationFunction: self.listSkillsStoreCategories(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsStoreCategoriesOutput`
+    public func listSkillsStoreCategoriesPaginated(input: ListSkillsStoreCategoriesInput) -> ClientRuntime.PaginatorSequence<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput>(input: input, inputKey: \ListSkillsStoreCategoriesInput.nextToken, outputKey: \ListSkillsStoreCategoriesOutput.nextToken, paginationFunction: self.listSkillsStoreCategories(input:))
     }
 }
 
@@ -156,16 +156,16 @@ extension ListSkillsStoreCategoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListSkillsStoreSkillsByCategoryOutputResponse]` results.
+    /// Paginate over `[ListSkillsStoreSkillsByCategoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSkillsStoreSkillsByCategoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsStoreSkillsByCategoryOutputResponse`
-    public func listSkillsStoreSkillsByCategoryPaginated(input: ListSkillsStoreSkillsByCategoryInput) -> ClientRuntime.PaginatorSequence<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse>(input: input, inputKey: \ListSkillsStoreSkillsByCategoryInput.nextToken, outputKey: \ListSkillsStoreSkillsByCategoryOutputResponse.nextToken, paginationFunction: self.listSkillsStoreSkillsByCategory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsStoreSkillsByCategoryOutput`
+    public func listSkillsStoreSkillsByCategoryPaginated(input: ListSkillsStoreSkillsByCategoryInput) -> ClientRuntime.PaginatorSequence<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput>(input: input, inputKey: \ListSkillsStoreSkillsByCategoryInput.nextToken, outputKey: \ListSkillsStoreSkillsByCategoryOutput.nextToken, paginationFunction: self.listSkillsStoreSkillsByCategory(input:))
     }
 }
 
@@ -178,16 +178,16 @@ extension ListSkillsStoreSkillsByCategoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListSmartHomeAppliancesOutputResponse]` results.
+    /// Paginate over `[ListSmartHomeAppliancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSmartHomeAppliancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSmartHomeAppliancesOutputResponse`
-    public func listSmartHomeAppliancesPaginated(input: ListSmartHomeAppliancesInput) -> ClientRuntime.PaginatorSequence<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse>(input: input, inputKey: \ListSmartHomeAppliancesInput.nextToken, outputKey: \ListSmartHomeAppliancesOutputResponse.nextToken, paginationFunction: self.listSmartHomeAppliances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSmartHomeAppliancesOutput`
+    public func listSmartHomeAppliancesPaginated(input: ListSmartHomeAppliancesInput) -> ClientRuntime.PaginatorSequence<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput>(input: input, inputKey: \ListSmartHomeAppliancesInput.nextToken, outputKey: \ListSmartHomeAppliancesOutput.nextToken, paginationFunction: self.listSmartHomeAppliances(input:))
     }
 }
 
@@ -200,16 +200,16 @@ extension ListSmartHomeAppliancesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[ListTagsOutputResponse]` results.
+    /// Paginate over `[ListTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutputResponse`
-    public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutputResponse>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutputResponse.nextToken, paginationFunction: self.listTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
+    public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
     }
 }
 
@@ -222,16 +222,16 @@ extension ListTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchAddressBooksOutputResponse]` results.
+    /// Paginate over `[SearchAddressBooksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchAddressBooksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchAddressBooksOutputResponse`
-    public func searchAddressBooksPaginated(input: SearchAddressBooksInput) -> ClientRuntime.PaginatorSequence<SearchAddressBooksInput, SearchAddressBooksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchAddressBooksInput, SearchAddressBooksOutputResponse>(input: input, inputKey: \SearchAddressBooksInput.nextToken, outputKey: \SearchAddressBooksOutputResponse.nextToken, paginationFunction: self.searchAddressBooks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchAddressBooksOutput`
+    public func searchAddressBooksPaginated(input: SearchAddressBooksInput) -> ClientRuntime.PaginatorSequence<SearchAddressBooksInput, SearchAddressBooksOutput> {
+        return ClientRuntime.PaginatorSequence<SearchAddressBooksInput, SearchAddressBooksOutput>(input: input, inputKey: \SearchAddressBooksInput.nextToken, outputKey: \SearchAddressBooksOutput.nextToken, paginationFunction: self.searchAddressBooks(input:))
     }
 }
 
@@ -245,16 +245,16 @@ extension SearchAddressBooksInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchContactsOutputResponse]` results.
+    /// Paginate over `[SearchContactsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchContactsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchContactsOutputResponse`
-    public func searchContactsPaginated(input: SearchContactsInput) -> ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutputResponse>(input: input, inputKey: \SearchContactsInput.nextToken, outputKey: \SearchContactsOutputResponse.nextToken, paginationFunction: self.searchContacts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchContactsOutput`
+    public func searchContactsPaginated(input: SearchContactsInput) -> ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutput>(input: input, inputKey: \SearchContactsInput.nextToken, outputKey: \SearchContactsOutput.nextToken, paginationFunction: self.searchContacts(input:))
     }
 }
 
@@ -268,16 +268,16 @@ extension SearchContactsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchDevicesOutputResponse]` results.
+    /// Paginate over `[SearchDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchDevicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchDevicesOutputResponse`
-    public func searchDevicesPaginated(input: SearchDevicesInput) -> ClientRuntime.PaginatorSequence<SearchDevicesInput, SearchDevicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchDevicesInput, SearchDevicesOutputResponse>(input: input, inputKey: \SearchDevicesInput.nextToken, outputKey: \SearchDevicesOutputResponse.nextToken, paginationFunction: self.searchDevices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchDevicesOutput`
+    public func searchDevicesPaginated(input: SearchDevicesInput) -> ClientRuntime.PaginatorSequence<SearchDevicesInput, SearchDevicesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchDevicesInput, SearchDevicesOutput>(input: input, inputKey: \SearchDevicesInput.nextToken, outputKey: \SearchDevicesOutput.nextToken, paginationFunction: self.searchDevices(input:))
     }
 }
 
@@ -291,16 +291,16 @@ extension SearchDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchNetworkProfilesOutputResponse]` results.
+    /// Paginate over `[SearchNetworkProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchNetworkProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchNetworkProfilesOutputResponse`
-    public func searchNetworkProfilesPaginated(input: SearchNetworkProfilesInput) -> ClientRuntime.PaginatorSequence<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse>(input: input, inputKey: \SearchNetworkProfilesInput.nextToken, outputKey: \SearchNetworkProfilesOutputResponse.nextToken, paginationFunction: self.searchNetworkProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchNetworkProfilesOutput`
+    public func searchNetworkProfilesPaginated(input: SearchNetworkProfilesInput) -> ClientRuntime.PaginatorSequence<SearchNetworkProfilesInput, SearchNetworkProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchNetworkProfilesInput, SearchNetworkProfilesOutput>(input: input, inputKey: \SearchNetworkProfilesInput.nextToken, outputKey: \SearchNetworkProfilesOutput.nextToken, paginationFunction: self.searchNetworkProfiles(input:))
     }
 }
 
@@ -314,16 +314,16 @@ extension SearchNetworkProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchProfilesOutputResponse]` results.
+    /// Paginate over `[SearchProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchProfilesOutputResponse`
-    public func searchProfilesPaginated(input: SearchProfilesInput) -> ClientRuntime.PaginatorSequence<SearchProfilesInput, SearchProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchProfilesInput, SearchProfilesOutputResponse>(input: input, inputKey: \SearchProfilesInput.nextToken, outputKey: \SearchProfilesOutputResponse.nextToken, paginationFunction: self.searchProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchProfilesOutput`
+    public func searchProfilesPaginated(input: SearchProfilesInput) -> ClientRuntime.PaginatorSequence<SearchProfilesInput, SearchProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchProfilesInput, SearchProfilesOutput>(input: input, inputKey: \SearchProfilesInput.nextToken, outputKey: \SearchProfilesOutput.nextToken, paginationFunction: self.searchProfiles(input:))
     }
 }
 
@@ -337,16 +337,16 @@ extension SearchProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchRoomsOutputResponse]` results.
+    /// Paginate over `[SearchRoomsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchRoomsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchRoomsOutputResponse`
-    public func searchRoomsPaginated(input: SearchRoomsInput) -> ClientRuntime.PaginatorSequence<SearchRoomsInput, SearchRoomsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchRoomsInput, SearchRoomsOutputResponse>(input: input, inputKey: \SearchRoomsInput.nextToken, outputKey: \SearchRoomsOutputResponse.nextToken, paginationFunction: self.searchRooms(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchRoomsOutput`
+    public func searchRoomsPaginated(input: SearchRoomsInput) -> ClientRuntime.PaginatorSequence<SearchRoomsInput, SearchRoomsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchRoomsInput, SearchRoomsOutput>(input: input, inputKey: \SearchRoomsInput.nextToken, outputKey: \SearchRoomsOutput.nextToken, paginationFunction: self.searchRooms(input:))
     }
 }
 
@@ -360,16 +360,16 @@ extension SearchRoomsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchSkillGroupsOutputResponse]` results.
+    /// Paginate over `[SearchSkillGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchSkillGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchSkillGroupsOutputResponse`
-    public func searchSkillGroupsPaginated(input: SearchSkillGroupsInput) -> ClientRuntime.PaginatorSequence<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse>(input: input, inputKey: \SearchSkillGroupsInput.nextToken, outputKey: \SearchSkillGroupsOutputResponse.nextToken, paginationFunction: self.searchSkillGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchSkillGroupsOutput`
+    public func searchSkillGroupsPaginated(input: SearchSkillGroupsInput) -> ClientRuntime.PaginatorSequence<SearchSkillGroupsInput, SearchSkillGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchSkillGroupsInput, SearchSkillGroupsOutput>(input: input, inputKey: \SearchSkillGroupsInput.nextToken, outputKey: \SearchSkillGroupsOutput.nextToken, paginationFunction: self.searchSkillGroups(input:))
     }
 }
 
@@ -383,16 +383,16 @@ extension SearchSkillGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AlexaForBusinessClient {
-    /// Paginate over `[SearchUsersOutputResponse]` results.
+    /// Paginate over `[SearchUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchUsersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchUsersOutputResponse`
-    public func searchUsersPaginated(input: SearchUsersInput) -> ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutputResponse>(input: input, inputKey: \SearchUsersInput.nextToken, outputKey: \SearchUsersOutputResponse.nextToken, paginationFunction: self.searchUsers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchUsersOutput`
+    public func searchUsersPaginated(input: SearchUsersInput) -> ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput> {
+        return ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput>(input: input, inputKey: \SearchUsersInput.nextToken, outputKey: \SearchUsersOutput.nextToken, paginationFunction: self.searchUsers(input:))
     }
 }
 

@@ -8,7 +8,7 @@ public protocol AppFabricClientProtocol {
     ///
     /// - Parameter BatchGetUserAccessTasksInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetUserAccessTasksOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetUserAccessTasksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func batchGetUserAccessTasks(input: BatchGetUserAccessTasksInput) async throws -> BatchGetUserAccessTasksOutputResponse
+    func batchGetUserAccessTasks(input: BatchGetUserAccessTasksInput) async throws -> BatchGetUserAccessTasksOutput
     /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application.
     ///
     /// - Parameter ConnectAppAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `ConnectAppAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `ConnectAppAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func connectAppAuthorization(input: ConnectAppAuthorizationInput) async throws -> ConnectAppAuthorizationOutputResponse
+    func connectAppAuthorization(input: ConnectAppAuthorizationInput) async throws -> ConnectAppAuthorizationOutput
     /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application.
     ///
     /// - Parameter CreateAppAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createAppAuthorization(input: CreateAppAuthorizationInput) async throws -> CreateAppAuthorizationOutputResponse
+    func createAppAuthorization(input: CreateAppAuthorizationInput) async throws -> CreateAppAuthorizationOutput
     /// Creates an app bundle to collect data from an application using AppFabric.
     ///
     /// - Parameter CreateAppBundleInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppBundleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppBundleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,12 +66,12 @@ public protocol AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createAppBundle(input: CreateAppBundleInput) async throws -> CreateAppBundleOutputResponse
+    func createAppBundle(input: CreateAppBundleInput) async throws -> CreateAppBundleOutput
     /// Creates a data ingestion for an application.
     ///
     /// - Parameter CreateIngestionInput : [no documentation found]
     ///
-    /// - Returns: `CreateIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutputResponse
+    func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutput
     /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///
     /// - Parameter CreateIngestionDestinationInput : [no documentation found]
     ///
-    /// - Returns: `CreateIngestionDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIngestionDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -98,12 +98,12 @@ public protocol AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createIngestionDestination(input: CreateIngestionDestinationInput) async throws -> CreateIngestionDestinationOutputResponse
+    func createIngestionDestination(input: CreateIngestionDestinationInput) async throws -> CreateIngestionDestinationOutput
     /// Deletes an app authorization. You must delete the associated ingestion before you can delete an app authorization.
     ///
     /// - Parameter DeleteAppAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func deleteAppAuthorization(input: DeleteAppAuthorizationInput) async throws -> DeleteAppAuthorizationOutputResponse
+    func deleteAppAuthorization(input: DeleteAppAuthorizationInput) async throws -> DeleteAppAuthorizationOutput
     /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle.
     ///
     /// - Parameter DeleteAppBundleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppBundleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppBundleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,12 +128,12 @@ public protocol AppFabricClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func deleteAppBundle(input: DeleteAppBundleInput) async throws -> DeleteAppBundleOutputResponse
+    func deleteAppBundle(input: DeleteAppBundleInput) async throws -> DeleteAppBundleOutput
     /// Deletes an ingestion. You must stop (disable) the ingestion and you must delete all associated ingestion destinations before you can delete an app ingestion.
     ///
     /// - Parameter DeleteIngestionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -143,12 +143,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func deleteIngestion(input: DeleteIngestionInput) async throws -> DeleteIngestionOutputResponse
+    func deleteIngestion(input: DeleteIngestionInput) async throws -> DeleteIngestionOutput
     /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled.
     ///
     /// - Parameter DeleteIngestionDestinationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIngestionDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIngestionDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -158,12 +158,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func deleteIngestionDestination(input: DeleteIngestionDestinationInput) async throws -> DeleteIngestionDestinationOutputResponse
+    func deleteIngestionDestination(input: DeleteIngestionDestinationInput) async throws -> DeleteIngestionDestinationOutput
     /// Returns information about an app authorization.
     ///
     /// - Parameter GetAppAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `GetAppAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `GetAppAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,12 +173,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func getAppAuthorization(input: GetAppAuthorizationInput) async throws -> GetAppAuthorizationOutputResponse
+    func getAppAuthorization(input: GetAppAuthorizationInput) async throws -> GetAppAuthorizationOutput
     /// Returns information about an app bundle.
     ///
     /// - Parameter GetAppBundleInput : [no documentation found]
     ///
-    /// - Returns: `GetAppBundleOutputResponse` : [no documentation found]
+    /// - Returns: `GetAppBundleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,12 +188,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func getAppBundle(input: GetAppBundleInput) async throws -> GetAppBundleOutputResponse
+    func getAppBundle(input: GetAppBundleInput) async throws -> GetAppBundleOutput
     /// Returns information about an ingestion.
     ///
     /// - Parameter GetIngestionInput : [no documentation found]
     ///
-    /// - Returns: `GetIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `GetIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -203,12 +203,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func getIngestion(input: GetIngestionInput) async throws -> GetIngestionOutputResponse
+    func getIngestion(input: GetIngestionInput) async throws -> GetIngestionOutput
     /// Returns information about an ingestion destination.
     ///
     /// - Parameter GetIngestionDestinationInput : [no documentation found]
     ///
-    /// - Returns: `GetIngestionDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `GetIngestionDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -218,12 +218,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func getIngestionDestination(input: GetIngestionDestinationInput) async throws -> GetIngestionDestinationOutputResponse
+    func getIngestionDestination(input: GetIngestionDestinationInput) async throws -> GetIngestionDestinationOutput
     /// Returns a list of all app authorizations configured for an app bundle.
     ///
     /// - Parameter ListAppAuthorizationsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppAuthorizationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppAuthorizationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -233,12 +233,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listAppAuthorizations(input: ListAppAuthorizationsInput) async throws -> ListAppAuthorizationsOutputResponse
+    func listAppAuthorizations(input: ListAppAuthorizationsInput) async throws -> ListAppAuthorizationsOutput
     /// Returns a list of app bundles.
     ///
     /// - Parameter ListAppBundlesInput : [no documentation found]
     ///
-    /// - Returns: `ListAppBundlesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppBundlesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -247,12 +247,12 @@ public protocol AppFabricClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listAppBundles(input: ListAppBundlesInput) async throws -> ListAppBundlesOutputResponse
+    func listAppBundles(input: ListAppBundlesInput) async throws -> ListAppBundlesOutput
     /// Returns a list of all ingestion destinations configured for an ingestion.
     ///
     /// - Parameter ListIngestionDestinationsInput : [no documentation found]
     ///
-    /// - Returns: `ListIngestionDestinationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIngestionDestinationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -262,12 +262,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listIngestionDestinations(input: ListIngestionDestinationsInput) async throws -> ListIngestionDestinationsOutputResponse
+    func listIngestionDestinations(input: ListIngestionDestinationsInput) async throws -> ListIngestionDestinationsOutput
     /// Returns a list of all ingestions configured for an app bundle.
     ///
     /// - Parameter ListIngestionsInput : [no documentation found]
     ///
-    /// - Returns: `ListIngestionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIngestionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -277,12 +277,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutputResponse
+    func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutput
     /// Returns a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -292,12 +292,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts (enables) an ingestion, which collects data from an application.
     ///
     /// - Parameter StartIngestionInput : [no documentation found]
     ///
-    /// - Returns: `StartIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `StartIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -308,12 +308,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func startIngestion(input: StartIngestionInput) async throws -> StartIngestionOutputResponse
+    func startIngestion(input: StartIngestionInput) async throws -> StartIngestionOutput
     /// Starts the tasks to search user access status for a specific email address. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out.
     ///
     /// - Parameter StartUserAccessTasksInput : [no documentation found]
     ///
-    /// - Returns: `StartUserAccessTasksOutputResponse` : [no documentation found]
+    /// - Returns: `StartUserAccessTasksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,12 +323,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func startUserAccessTasks(input: StartUserAccessTasksInput) async throws -> StartUserAccessTasksOutputResponse
+    func startUserAccessTasks(input: StartUserAccessTasksInput) async throws -> StartUserAccessTasksOutput
     /// Stops (disables) an ingestion.
     ///
     /// - Parameter StopIngestionInput : [no documentation found]
     ///
-    /// - Returns: `StopIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `StopIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -339,12 +339,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func stopIngestion(input: StopIngestionInput) async throws -> StopIngestionOutputResponse
+    func stopIngestion(input: StopIngestionInput) async throws -> StopIngestionOutput
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -354,12 +354,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag or tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -369,12 +369,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state.
     ///
     /// - Parameter UpdateAppAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -384,12 +384,12 @@ public protocol AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func updateAppAuthorization(input: UpdateAppAuthorizationInput) async throws -> UpdateAppAuthorizationOutputResponse
+    func updateAppAuthorization(input: UpdateAppAuthorizationInput) async throws -> UpdateAppAuthorizationOutput
     /// Updates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///
     /// - Parameter UpdateIngestionDestinationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIngestionDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIngestionDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -401,7 +401,7 @@ public protocol AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func updateIngestionDestination(input: UpdateIngestionDestinationInput) async throws -> UpdateIngestionDestinationOutputResponse
+    func updateIngestionDestination(input: UpdateIngestionDestinationInput) async throws -> UpdateIngestionDestinationOutput
 }
 
 public enum AppFabricClientTypes {}

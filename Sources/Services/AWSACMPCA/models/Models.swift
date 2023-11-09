@@ -1001,27 +1001,11 @@ extension CreateCertificateAuthorityAuditReportInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCertificateAuthorityAuditReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArgsException": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestInProgressException": return try await RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateCertificateAuthorityAuditReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCertificateAuthorityAuditReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateCertificateAuthorityAuditReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateCertificateAuthorityAuditReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.auditReportId = output.auditReportId
             self.s3Key = output.s3Key
         } else {
@@ -1031,7 +1015,7 @@ extension CreateCertificateAuthorityAuditReportOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct CreateCertificateAuthorityAuditReportOutputResponse: Swift.Equatable {
+public struct CreateCertificateAuthorityAuditReportOutput: Swift.Equatable {
     /// An alphanumeric string that contains a report identifier.
     public var auditReportId: Swift.String?
     /// The key that uniquely identifies the report file in your S3 bucket.
@@ -1047,12 +1031,12 @@ public struct CreateCertificateAuthorityAuditReportOutputResponse: Swift.Equatab
     }
 }
 
-struct CreateCertificateAuthorityAuditReportOutputResponseBody: Swift.Equatable {
+struct CreateCertificateAuthorityAuditReportOutputBody: Swift.Equatable {
     let auditReportId: Swift.String?
     let s3Key: Swift.String?
 }
 
-extension CreateCertificateAuthorityAuditReportOutputResponseBody: Swift.Decodable {
+extension CreateCertificateAuthorityAuditReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case auditReportId = "AuditReportId"
         case s3Key = "S3Key"
@@ -1064,6 +1048,22 @@ extension CreateCertificateAuthorityAuditReportOutputResponseBody: Swift.Decodab
         auditReportId = auditReportIdDecoded
         let s3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Key)
         s3Key = s3KeyDecoded
+    }
+}
+
+enum CreateCertificateAuthorityAuditReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgsException": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestInProgressException": return try await RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1211,25 +1211,11 @@ extension CreateCertificateAuthorityInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArgsException": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPolicyException": return try await InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateCertificateAuthorityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateCertificateAuthorityOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificateAuthorityArn = output.certificateAuthorityArn
         } else {
             self.certificateAuthorityArn = nil
@@ -1237,7 +1223,7 @@ extension CreateCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct CreateCertificateAuthorityOutputResponse: Swift.Equatable {
+public struct CreateCertificateAuthorityOutput: Swift.Equatable {
     /// If successful, the Amazon Resource Name (ARN) of the certificate authority (CA). This is of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     public var certificateAuthorityArn: Swift.String?
 
@@ -1249,11 +1235,11 @@ public struct CreateCertificateAuthorityOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateCertificateAuthorityOutputResponseBody: Swift.Equatable {
+struct CreateCertificateAuthorityOutputBody: Swift.Equatable {
     let certificateAuthorityArn: Swift.String?
 }
 
-extension CreateCertificateAuthorityOutputResponseBody: Swift.Decodable {
+extension CreateCertificateAuthorityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateAuthorityArn = "CertificateAuthorityArn"
     }
@@ -1262,6 +1248,20 @@ extension CreateCertificateAuthorityOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let certificateAuthorityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateAuthorityArn)
         certificateAuthorityArn = certificateAuthorityArnDecoded
+    }
+}
+
+enum CreateCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgsException": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPolicyException": return try await InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1363,6 +1363,16 @@ extension CreatePermissionInputBody: Swift.Decodable {
     }
 }
 
+extension CreatePermissionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreatePermissionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CreatePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1377,16 +1387,6 @@ enum CreatePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreatePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreatePermissionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ACMPCAClientTypes.CrlConfiguration: Swift.Codable {
@@ -1728,6 +1728,16 @@ extension DeleteCertificateAuthorityInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCertificateAuthorityOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1740,16 +1750,6 @@ enum DeleteCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCertificateAuthorityOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePermissionInput: Swift.Encodable {
@@ -1825,6 +1825,16 @@ extension DeletePermissionInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePermissionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePermissionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1837,16 +1847,6 @@ enum DeletePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePermissionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePolicyInput: Swift.Encodable {
@@ -1897,6 +1897,16 @@ extension DeletePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1911,16 +1921,6 @@ enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeCertificateAuthorityAuditReportInput: Swift.Encodable {
@@ -1984,24 +1984,11 @@ extension DescribeCertificateAuthorityAuditReportInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCertificateAuthorityAuditReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArgsException": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCertificateAuthorityAuditReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCertificateAuthorityAuditReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCertificateAuthorityAuditReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCertificateAuthorityAuditReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.auditReportStatus = output.auditReportStatus
             self.createdAt = output.createdAt
             self.s3BucketName = output.s3BucketName
@@ -2015,7 +2002,7 @@ extension DescribeCertificateAuthorityAuditReportOutputResponse: ClientRuntime.H
     }
 }
 
-public struct DescribeCertificateAuthorityAuditReportOutputResponse: Swift.Equatable {
+public struct DescribeCertificateAuthorityAuditReportOutput: Swift.Equatable {
     /// Specifies whether report creation is in progress, has succeeded, or has failed.
     public var auditReportStatus: ACMPCAClientTypes.AuditReportStatus?
     /// The date and time at which the report was created.
@@ -2039,14 +2026,14 @@ public struct DescribeCertificateAuthorityAuditReportOutputResponse: Swift.Equat
     }
 }
 
-struct DescribeCertificateAuthorityAuditReportOutputResponseBody: Swift.Equatable {
+struct DescribeCertificateAuthorityAuditReportOutputBody: Swift.Equatable {
     let auditReportStatus: ACMPCAClientTypes.AuditReportStatus?
     let s3BucketName: Swift.String?
     let s3Key: Swift.String?
     let createdAt: ClientRuntime.Date?
 }
 
-extension DescribeCertificateAuthorityAuditReportOutputResponseBody: Swift.Decodable {
+extension DescribeCertificateAuthorityAuditReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case auditReportStatus = "AuditReportStatus"
         case createdAt = "CreatedAt"
@@ -2064,6 +2051,19 @@ extension DescribeCertificateAuthorityAuditReportOutputResponseBody: Swift.Decod
         s3Key = s3KeyDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
+    }
+}
+
+enum DescribeCertificateAuthorityAuditReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgsException": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2115,23 +2115,11 @@ extension DescribeCertificateAuthorityInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCertificateAuthorityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCertificateAuthorityOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificateAuthority = output.certificateAuthority
         } else {
             self.certificateAuthority = nil
@@ -2139,7 +2127,7 @@ extension DescribeCertificateAuthorityOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeCertificateAuthorityOutputResponse: Swift.Equatable {
+public struct DescribeCertificateAuthorityOutput: Swift.Equatable {
     /// A [CertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html) structure that contains information about your private CA.
     public var certificateAuthority: ACMPCAClientTypes.CertificateAuthority?
 
@@ -2151,11 +2139,11 @@ public struct DescribeCertificateAuthorityOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateAuthorityOutputResponseBody: Swift.Equatable {
+struct DescribeCertificateAuthorityOutputBody: Swift.Equatable {
     let certificateAuthority: ACMPCAClientTypes.CertificateAuthority?
 }
 
-extension DescribeCertificateAuthorityOutputResponseBody: Swift.Decodable {
+extension DescribeCertificateAuthorityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateAuthority = "CertificateAuthority"
     }
@@ -2164,6 +2152,18 @@ extension DescribeCertificateAuthorityOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let certificateAuthorityDecoded = try containerValues.decodeIfPresent(ACMPCAClientTypes.CertificateAuthority.self, forKey: .certificateAuthority)
         certificateAuthority = certificateAuthorityDecoded
+    }
+}
+
+enum DescribeCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2622,24 +2622,11 @@ extension GetCertificateAuthorityCertificateInputBody: Swift.Decodable {
     }
 }
 
-enum GetCertificateAuthorityCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCertificateAuthorityCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCertificateAuthorityCertificateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCertificateAuthorityCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCertificateAuthorityCertificateOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificate = output.certificate
             self.certificateChain = output.certificateChain
         } else {
@@ -2649,7 +2636,7 @@ extension GetCertificateAuthorityCertificateOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct GetCertificateAuthorityCertificateOutputResponse: Swift.Equatable {
+public struct GetCertificateAuthorityCertificateOutput: Swift.Equatable {
     /// Base64-encoded certificate authority (CA) certificate.
     public var certificate: Swift.String?
     /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. If this is a root CA, the value will be null.
@@ -2665,12 +2652,12 @@ public struct GetCertificateAuthorityCertificateOutputResponse: Swift.Equatable 
     }
 }
 
-struct GetCertificateAuthorityCertificateOutputResponseBody: Swift.Equatable {
+struct GetCertificateAuthorityCertificateOutputBody: Swift.Equatable {
     let certificate: Swift.String?
     let certificateChain: Swift.String?
 }
 
-extension GetCertificateAuthorityCertificateOutputResponseBody: Swift.Decodable {
+extension GetCertificateAuthorityCertificateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificate = "Certificate"
         case certificateChain = "CertificateChain"
@@ -2682,6 +2669,19 @@ extension GetCertificateAuthorityCertificateOutputResponseBody: Swift.Decodable 
         certificate = certificateDecoded
         let certificateChainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateChain)
         certificateChain = certificateChainDecoded
+    }
+}
+
+enum GetCertificateAuthorityCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2733,6 +2733,46 @@ extension GetCertificateAuthorityCsrInputBody: Swift.Decodable {
     }
 }
 
+extension GetCertificateAuthorityCsrOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCertificateAuthorityCsrOutputBody = try responseDecoder.decode(responseBody: data)
+            self.csr = output.csr
+        } else {
+            self.csr = nil
+        }
+    }
+}
+
+public struct GetCertificateAuthorityCsrOutput: Swift.Equatable {
+    /// The base64 PEM-encoded certificate signing request (CSR) for your private CA certificate.
+    public var csr: Swift.String?
+
+    public init(
+        csr: Swift.String? = nil
+    )
+    {
+        self.csr = csr
+    }
+}
+
+struct GetCertificateAuthorityCsrOutputBody: Swift.Equatable {
+    let csr: Swift.String?
+}
+
+extension GetCertificateAuthorityCsrOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case csr = "Csr"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let csrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .csr)
+        csr = csrDecoded
+    }
+}
+
 enum GetCertificateAuthorityCsrOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2745,46 +2785,6 @@ enum GetCertificateAuthorityCsrOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCertificateAuthorityCsrOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCertificateAuthorityCsrOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.csr = output.csr
-        } else {
-            self.csr = nil
-        }
-    }
-}
-
-public struct GetCertificateAuthorityCsrOutputResponse: Swift.Equatable {
-    /// The base64 PEM-encoded certificate signing request (CSR) for your private CA certificate.
-    public var csr: Swift.String?
-
-    public init(
-        csr: Swift.String? = nil
-    )
-    {
-        self.csr = csr
-    }
-}
-
-struct GetCertificateAuthorityCsrOutputResponseBody: Swift.Equatable {
-    let csr: Swift.String?
-}
-
-extension GetCertificateAuthorityCsrOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case csr = "Csr"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let csrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .csr)
-        csr = csrDecoded
     }
 }
 
@@ -2849,26 +2849,11 @@ extension GetCertificateInputBody: Swift.Decodable {
     }
 }
 
-enum GetCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestInProgressException": return try await RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCertificateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCertificateOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificate = output.certificate
             self.certificateChain = output.certificateChain
         } else {
@@ -2878,7 +2863,7 @@ extension GetCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCertificateOutputResponse: Swift.Equatable {
+public struct GetCertificateOutput: Swift.Equatable {
     /// The base64 PEM-encoded certificate specified by the CertificateArn parameter.
     public var certificate: Swift.String?
     /// The base64 PEM-encoded certificate chain that chains up to the root CA certificate that you used to sign your private CA certificate.
@@ -2894,12 +2879,12 @@ public struct GetCertificateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCertificateOutputResponseBody: Swift.Equatable {
+struct GetCertificateOutputBody: Swift.Equatable {
     let certificate: Swift.String?
     let certificateChain: Swift.String?
 }
 
-extension GetCertificateOutputResponseBody: Swift.Decodable {
+extension GetCertificateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificate = "Certificate"
         case certificateChain = "CertificateChain"
@@ -2911,6 +2896,21 @@ extension GetCertificateOutputResponseBody: Swift.Decodable {
         certificate = certificateDecoded
         let certificateChainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateChain)
         certificateChain = certificateChainDecoded
+    }
+}
+
+enum GetCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestInProgressException": return try await RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2962,25 +2962,11 @@ extension GetPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -2988,7 +2974,7 @@ extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyOutputResponse: Swift.Equatable {
+public struct GetPolicyOutput: Swift.Equatable {
     /// The policy attached to the private CA as a JSON document.
     public var policy: Swift.String?
 
@@ -3000,11 +2986,11 @@ public struct GetPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputResponseBody: Swift.Equatable {
+struct GetPolicyOutputBody: Swift.Equatable {
     let policy: Swift.String?
 }
 
-extension GetPolicyOutputResponseBody: Swift.Decodable {
+extension GetPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -3013,6 +2999,20 @@ extension GetPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3089,6 +3089,16 @@ extension ImportCertificateAuthorityCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension ImportCertificateAuthorityCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ImportCertificateAuthorityCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum ImportCertificateAuthorityCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3106,16 +3116,6 @@ enum ImportCertificateAuthorityCertificateOutputError: ClientRuntime.HttpRespons
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ImportCertificateAuthorityCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ImportCertificateAuthorityCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension InvalidArgsException {
@@ -3638,6 +3638,46 @@ extension IssueCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension IssueCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: IssueCertificateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificateArn = output.certificateArn
+        } else {
+            self.certificateArn = nil
+        }
+    }
+}
+
+public struct IssueCertificateOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial number. This is of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
+    public var certificateArn: Swift.String?
+
+    public init(
+        certificateArn: Swift.String? = nil
+    )
+    {
+        self.certificateArn = certificateArn
+    }
+}
+
+struct IssueCertificateOutputBody: Swift.Equatable {
+    let certificateArn: Swift.String?
+}
+
+extension IssueCertificateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateArn = "CertificateArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+    }
+}
+
 enum IssueCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3651,46 +3691,6 @@ enum IssueCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension IssueCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: IssueCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.certificateArn = output.certificateArn
-        } else {
-            self.certificateArn = nil
-        }
-    }
-}
-
-public struct IssueCertificateOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial number. This is of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
-    public var certificateArn: Swift.String?
-
-    public init(
-        certificateArn: Swift.String? = nil
-    )
-    {
-        self.certificateArn = certificateArn
-    }
-}
-
-struct IssueCertificateOutputResponseBody: Swift.Equatable {
-    let certificateArn: Swift.String?
-}
-
-extension IssueCertificateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case certificateArn = "CertificateArn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
-        certificateArn = certificateArnDecoded
     }
 }
 
@@ -4005,22 +4005,11 @@ extension ListCertificateAuthoritiesInputBody: Swift.Decodable {
     }
 }
 
-enum ListCertificateAuthoritiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCertificateAuthoritiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCertificateAuthoritiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCertificateAuthoritiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCertificateAuthoritiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificateAuthorities = output.certificateAuthorities
             self.nextToken = output.nextToken
         } else {
@@ -4030,7 +4019,7 @@ extension ListCertificateAuthoritiesOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListCertificateAuthoritiesOutputResponse: Swift.Equatable {
+public struct ListCertificateAuthoritiesOutput: Swift.Equatable {
     /// Summary information about each certificate authority you have created.
     public var certificateAuthorities: [ACMPCAClientTypes.CertificateAuthority]?
     /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
@@ -4046,12 +4035,12 @@ public struct ListCertificateAuthoritiesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCertificateAuthoritiesOutputResponseBody: Swift.Equatable {
+struct ListCertificateAuthoritiesOutputBody: Swift.Equatable {
     let certificateAuthorities: [ACMPCAClientTypes.CertificateAuthority]?
     let nextToken: Swift.String?
 }
 
-extension ListCertificateAuthoritiesOutputResponseBody: Swift.Decodable {
+extension ListCertificateAuthoritiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateAuthorities = "CertificateAuthorities"
         case nextToken = "NextToken"
@@ -4072,6 +4061,17 @@ extension ListCertificateAuthoritiesOutputResponseBody: Swift.Decodable {
         certificateAuthorities = certificateAuthoritiesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCertificateAuthoritiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4147,26 +4147,11 @@ extension ListPermissionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPermissionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPermissionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.permissions = output.permissions
         } else {
@@ -4176,7 +4161,7 @@ extension ListPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionsOutputResponse: Swift.Equatable {
+public struct ListPermissionsOutput: Swift.Equatable {
     /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
     public var nextToken: Swift.String?
     /// Summary information about each permission assigned by the specified private CA, including the action enabled, the policy provided, and the time of creation.
@@ -4192,12 +4177,12 @@ public struct ListPermissionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPermissionsOutputResponseBody: Swift.Equatable {
+struct ListPermissionsOutputBody: Swift.Equatable {
     let permissions: [ACMPCAClientTypes.Permission]?
     let nextToken: Swift.String?
 }
 
-extension ListPermissionsOutputResponseBody: Swift.Decodable {
+extension ListPermissionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case permissions = "Permissions"
@@ -4218,6 +4203,21 @@ extension ListPermissionsOutputResponseBody: Swift.Decodable {
         permissions = permissionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestFailedException": return try await RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4293,24 +4293,11 @@ extension ListTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -4320,7 +4307,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutputResponse: Swift.Equatable {
+public struct ListTagsOutput: Swift.Equatable {
     /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
     public var nextToken: Swift.String?
     /// The tags associated with your private CA.
@@ -4336,12 +4323,12 @@ public struct ListTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputResponseBody: Swift.Equatable {
+struct ListTagsOutputBody: Swift.Equatable {
     let tags: [ACMPCAClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsOutputResponseBody: Swift.Decodable {
+extension ListTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -4362,6 +4349,19 @@ extension ListTagsOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4970,6 +4970,16 @@ extension PutPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension PutPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4985,16 +4995,6 @@ enum PutPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ACMPCAClientTypes.Qualifier: Swift.Codable {
@@ -5333,6 +5333,16 @@ extension RestoreCertificateAuthorityInputBody: Swift.Decodable {
     }
 }
 
+extension RestoreCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RestoreCertificateAuthorityOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RestoreCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5344,16 +5354,6 @@ enum RestoreCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RestoreCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RestoreCertificateAuthorityOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ACMPCAClientTypes.RevocationConfiguration: Swift.Codable {
@@ -5525,6 +5525,16 @@ extension RevokeCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension RevokeCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RevokeCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RevokeCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5542,16 +5552,6 @@ enum RevokeCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RevokeCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RevokeCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ACMPCAClientTypes {
@@ -5749,6 +5749,16 @@ extension TagCertificateAuthorityInputBody: Swift.Decodable {
     }
 }
 
+extension TagCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagCertificateAuthorityOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5762,16 +5772,6 @@ enum TagCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagCertificateAuthorityOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TooManyTagsException {
@@ -5902,6 +5902,16 @@ extension UntagCertificateAuthorityInputBody: Swift.Decodable {
     }
 }
 
+extension UntagCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagCertificateAuthorityOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5914,16 +5924,6 @@ enum UntagCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagCertificateAuthorityOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateCertificateAuthorityInput: Swift.Encodable {
@@ -6006,6 +6006,16 @@ extension UpdateCertificateAuthorityInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateCertificateAuthorityOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6020,16 +6030,6 @@ enum UpdateCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateCertificateAuthorityOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ACMPCAClientTypes.Validity: Swift.Codable {

@@ -50,6 +50,47 @@ extension AcceptEnvironmentAccountConnectionInputBody: Swift.Decodable {
     }
 }
 
+extension AcceptEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AcceptEnvironmentAccountConnectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentAccountConnection = output.environmentAccountConnection
+        } else {
+            self.environmentAccountConnection = nil
+        }
+    }
+}
+
+public struct AcceptEnvironmentAccountConnectionOutput: Swift.Equatable {
+    /// The environment account connection data that's returned by Proton.
+    /// This member is required.
+    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+
+    public init(
+        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
+    )
+    {
+        self.environmentAccountConnection = environmentAccountConnection
+    }
+}
+
+struct AcceptEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+}
+
+extension AcceptEnvironmentAccountConnectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentAccountConnection
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
+        environmentAccountConnection = environmentAccountConnectionDecoded
+    }
+}
+
 enum AcceptEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -63,47 +104,6 @@ enum AcceptEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseEr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension AcceptEnvironmentAccountConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AcceptEnvironmentAccountConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentAccountConnection = output.environmentAccountConnection
-        } else {
-            self.environmentAccountConnection = nil
-        }
-    }
-}
-
-public struct AcceptEnvironmentAccountConnectionOutputResponse: Swift.Equatable {
-    /// The environment account connection data that's returned by Proton.
-    /// This member is required.
-    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-
-    public init(
-        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
-        self.environmentAccountConnection = environmentAccountConnection
-    }
-}
-
-struct AcceptEnvironmentAccountConnectionOutputResponseBody: Swift.Equatable {
-    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-}
-
-extension AcceptEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentAccountConnection
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
-        environmentAccountConnection = environmentAccountConnectionDecoded
     }
 }
 
@@ -332,6 +332,47 @@ extension CancelComponentDeploymentInputBody: Swift.Decodable {
     }
 }
 
+extension CancelComponentDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelComponentDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.component = output.component
+        } else {
+            self.component = nil
+        }
+    }
+}
+
+public struct CancelComponentDeploymentOutput: Swift.Equatable {
+    /// The detailed data of the component with the deployment that is being canceled.
+    /// This member is required.
+    public var component: ProtonClientTypes.Component?
+
+    public init(
+        component: ProtonClientTypes.Component? = nil
+    )
+    {
+        self.component = component
+    }
+}
+
+struct CancelComponentDeploymentOutputBody: Swift.Equatable {
+    let component: ProtonClientTypes.Component?
+}
+
+extension CancelComponentDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case component
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
+        component = componentDecoded
+    }
+}
+
 enum CancelComponentDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -345,47 +386,6 @@ enum CancelComponentDeploymentOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelComponentDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelComponentDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.component = output.component
-        } else {
-            self.component = nil
-        }
-    }
-}
-
-public struct CancelComponentDeploymentOutputResponse: Swift.Equatable {
-    /// The detailed data of the component with the deployment that is being canceled.
-    /// This member is required.
-    public var component: ProtonClientTypes.Component?
-
-    public init(
-        component: ProtonClientTypes.Component? = nil
-    )
-    {
-        self.component = component
-    }
-}
-
-struct CancelComponentDeploymentOutputResponseBody: Swift.Equatable {
-    let component: ProtonClientTypes.Component?
-}
-
-extension CancelComponentDeploymentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case component
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
-        component = componentDecoded
     }
 }
 
@@ -437,6 +437,47 @@ extension CancelEnvironmentDeploymentInputBody: Swift.Decodable {
     }
 }
 
+extension CancelEnvironmentDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelEnvironmentDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environment = output.environment
+        } else {
+            self.environment = nil
+        }
+    }
+}
+
+public struct CancelEnvironmentDeploymentOutput: Swift.Equatable {
+    /// The environment summary data that's returned by Proton.
+    /// This member is required.
+    public var environment: ProtonClientTypes.Environment?
+
+    public init(
+        environment: ProtonClientTypes.Environment? = nil
+    )
+    {
+        self.environment = environment
+    }
+}
+
+struct CancelEnvironmentDeploymentOutputBody: Swift.Equatable {
+    let environment: ProtonClientTypes.Environment?
+}
+
+extension CancelEnvironmentDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
+        environment = environmentDecoded
+    }
+}
+
 enum CancelEnvironmentDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -450,47 +491,6 @@ enum CancelEnvironmentDeploymentOutputError: ClientRuntime.HttpResponseErrorBind
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelEnvironmentDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelEnvironmentDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environment = output.environment
-        } else {
-            self.environment = nil
-        }
-    }
-}
-
-public struct CancelEnvironmentDeploymentOutputResponse: Swift.Equatable {
-    /// The environment summary data that's returned by Proton.
-    /// This member is required.
-    public var environment: ProtonClientTypes.Environment?
-
-    public init(
-        environment: ProtonClientTypes.Environment? = nil
-    )
-    {
-        self.environment = environment
-    }
-}
-
-struct CancelEnvironmentDeploymentOutputResponseBody: Swift.Equatable {
-    let environment: ProtonClientTypes.Environment?
-}
-
-extension CancelEnvironmentDeploymentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
-        environment = environmentDecoded
     }
 }
 
@@ -555,6 +555,47 @@ extension CancelServiceInstanceDeploymentInputBody: Swift.Decodable {
     }
 }
 
+extension CancelServiceInstanceDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelServiceInstanceDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceInstance = output.serviceInstance
+        } else {
+            self.serviceInstance = nil
+        }
+    }
+}
+
+public struct CancelServiceInstanceDeploymentOutput: Swift.Equatable {
+    /// The service instance summary data that's returned by Proton.
+    /// This member is required.
+    public var serviceInstance: ProtonClientTypes.ServiceInstance?
+
+    public init(
+        serviceInstance: ProtonClientTypes.ServiceInstance? = nil
+    )
+    {
+        self.serviceInstance = serviceInstance
+    }
+}
+
+struct CancelServiceInstanceDeploymentOutputBody: Swift.Equatable {
+    let serviceInstance: ProtonClientTypes.ServiceInstance?
+}
+
+extension CancelServiceInstanceDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstance
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
+        serviceInstance = serviceInstanceDecoded
+    }
+}
+
 enum CancelServiceInstanceDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -568,47 +609,6 @@ enum CancelServiceInstanceDeploymentOutputError: ClientRuntime.HttpResponseError
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelServiceInstanceDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelServiceInstanceDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceInstance = output.serviceInstance
-        } else {
-            self.serviceInstance = nil
-        }
-    }
-}
-
-public struct CancelServiceInstanceDeploymentOutputResponse: Swift.Equatable {
-    /// The service instance summary data that's returned by Proton.
-    /// This member is required.
-    public var serviceInstance: ProtonClientTypes.ServiceInstance?
-
-    public init(
-        serviceInstance: ProtonClientTypes.ServiceInstance? = nil
-    )
-    {
-        self.serviceInstance = serviceInstance
-    }
-}
-
-struct CancelServiceInstanceDeploymentOutputResponseBody: Swift.Equatable {
-    let serviceInstance: ProtonClientTypes.ServiceInstance?
-}
-
-extension CancelServiceInstanceDeploymentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceInstance
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
-        serviceInstance = serviceInstanceDecoded
     }
 }
 
@@ -660,6 +660,47 @@ extension CancelServicePipelineDeploymentInputBody: Swift.Decodable {
     }
 }
 
+extension CancelServicePipelineDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelServicePipelineDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pipeline = output.pipeline
+        } else {
+            self.pipeline = nil
+        }
+    }
+}
+
+public struct CancelServicePipelineDeploymentOutput: Swift.Equatable {
+    /// The service pipeline detail data that's returned by Proton.
+    /// This member is required.
+    public var pipeline: ProtonClientTypes.ServicePipeline?
+
+    public init(
+        pipeline: ProtonClientTypes.ServicePipeline? = nil
+    )
+    {
+        self.pipeline = pipeline
+    }
+}
+
+struct CancelServicePipelineDeploymentOutputBody: Swift.Equatable {
+    let pipeline: ProtonClientTypes.ServicePipeline?
+}
+
+extension CancelServicePipelineDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipeline
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServicePipeline.self, forKey: .pipeline)
+        pipeline = pipelineDecoded
+    }
+}
+
 enum CancelServicePipelineDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -673,47 +714,6 @@ enum CancelServicePipelineDeploymentOutputError: ClientRuntime.HttpResponseError
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelServicePipelineDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelServicePipelineDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pipeline = output.pipeline
-        } else {
-            self.pipeline = nil
-        }
-    }
-}
-
-public struct CancelServicePipelineDeploymentOutputResponse: Swift.Equatable {
-    /// The service pipeline detail data that's returned by Proton.
-    /// This member is required.
-    public var pipeline: ProtonClientTypes.ServicePipeline?
-
-    public init(
-        pipeline: ProtonClientTypes.ServicePipeline? = nil
-    )
-    {
-        self.pipeline = pipeline
-    }
-}
-
-struct CancelServicePipelineDeploymentOutputResponseBody: Swift.Equatable {
-    let pipeline: ProtonClientTypes.ServicePipeline?
-}
-
-extension CancelServicePipelineDeploymentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pipeline
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pipelineDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServicePipeline.self, forKey: .pipeline)
-        pipeline = pipelineDecoded
     }
 }
 
@@ -1606,6 +1606,47 @@ extension CreateComponentInputBody: Swift.Decodable {
     }
 }
 
+extension CreateComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.component = output.component
+        } else {
+            self.component = nil
+        }
+    }
+}
+
+public struct CreateComponentOutput: Swift.Equatable {
+    /// The detailed data of the created component.
+    /// This member is required.
+    public var component: ProtonClientTypes.Component?
+
+    public init(
+        component: ProtonClientTypes.Component? = nil
+    )
+    {
+        self.component = component
+    }
+}
+
+struct CreateComponentOutputBody: Swift.Equatable {
+    let component: ProtonClientTypes.Component?
+}
+
+extension CreateComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case component
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
+        component = componentDecoded
+    }
+}
+
 enum CreateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1620,47 +1661,6 @@ enum CreateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.component = output.component
-        } else {
-            self.component = nil
-        }
-    }
-}
-
-public struct CreateComponentOutputResponse: Swift.Equatable {
-    /// The detailed data of the created component.
-    /// This member is required.
-    public var component: ProtonClientTypes.Component?
-
-    public init(
-        component: ProtonClientTypes.Component? = nil
-    )
-    {
-        self.component = component
-    }
-}
-
-struct CreateComponentOutputResponseBody: Swift.Equatable {
-    let component: ProtonClientTypes.Component?
-}
-
-extension CreateComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case component
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
-        component = componentDecoded
     }
 }
 
@@ -1797,6 +1797,47 @@ extension CreateEnvironmentAccountConnectionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEnvironmentAccountConnectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentAccountConnection = output.environmentAccountConnection
+        } else {
+            self.environmentAccountConnection = nil
+        }
+    }
+}
+
+public struct CreateEnvironmentAccountConnectionOutput: Swift.Equatable {
+    /// The environment account connection detail data that's returned by Proton.
+    /// This member is required.
+    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+
+    public init(
+        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
+    )
+    {
+        self.environmentAccountConnection = environmentAccountConnection
+    }
+}
+
+struct CreateEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+}
+
+extension CreateEnvironmentAccountConnectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentAccountConnection
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
+        environmentAccountConnection = environmentAccountConnectionDecoded
+    }
+}
+
 enum CreateEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1810,47 +1851,6 @@ enum CreateEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseEr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateEnvironmentAccountConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEnvironmentAccountConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentAccountConnection = output.environmentAccountConnection
-        } else {
-            self.environmentAccountConnection = nil
-        }
-    }
-}
-
-public struct CreateEnvironmentAccountConnectionOutputResponse: Swift.Equatable {
-    /// The environment account connection detail data that's returned by Proton.
-    /// This member is required.
-    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-
-    public init(
-        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
-        self.environmentAccountConnection = environmentAccountConnection
-    }
-}
-
-struct CreateEnvironmentAccountConnectionOutputResponseBody: Swift.Equatable {
-    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-}
-
-extension CreateEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentAccountConnection
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
-        environmentAccountConnection = environmentAccountConnectionDecoded
     }
 }
 
@@ -2054,6 +2054,47 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environment = output.environment
+        } else {
+            self.environment = nil
+        }
+    }
+}
+
+public struct CreateEnvironmentOutput: Swift.Equatable {
+    /// The environment detail data that's returned by Proton.
+    /// This member is required.
+    public var environment: ProtonClientTypes.Environment?
+
+    public init(
+        environment: ProtonClientTypes.Environment? = nil
+    )
+    {
+        self.environment = environment
+    }
+}
+
+struct CreateEnvironmentOutputBody: Swift.Equatable {
+    let environment: ProtonClientTypes.Environment?
+}
+
+extension CreateEnvironmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
+        environment = environmentDecoded
+    }
+}
+
 enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2068,47 +2109,6 @@ enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environment = output.environment
-        } else {
-            self.environment = nil
-        }
-    }
-}
-
-public struct CreateEnvironmentOutputResponse: Swift.Equatable {
-    /// The environment detail data that's returned by Proton.
-    /// This member is required.
-    public var environment: ProtonClientTypes.Environment?
-
-    public init(
-        environment: ProtonClientTypes.Environment? = nil
-    )
-    {
-        self.environment = environment
-    }
-}
-
-struct CreateEnvironmentOutputResponseBody: Swift.Equatable {
-    let environment: ProtonClientTypes.Environment?
-}
-
-extension CreateEnvironmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
-        environment = environmentDecoded
     }
 }
 
@@ -2237,6 +2237,47 @@ extension CreateEnvironmentTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEnvironmentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentTemplate = output.environmentTemplate
+        } else {
+            self.environmentTemplate = nil
+        }
+    }
+}
+
+public struct CreateEnvironmentTemplateOutput: Swift.Equatable {
+    /// The environment template detail data that's returned by Proton.
+    /// This member is required.
+    public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
+
+    public init(
+        environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
+    )
+    {
+        self.environmentTemplate = environmentTemplate
+    }
+}
+
+struct CreateEnvironmentTemplateOutputBody: Swift.Equatable {
+    let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
+}
+
+extension CreateEnvironmentTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplate.self, forKey: .environmentTemplate)
+        environmentTemplate = environmentTemplateDecoded
+    }
+}
+
 enum CreateEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2250,47 +2291,6 @@ enum CreateEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateEnvironmentTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEnvironmentTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentTemplate = output.environmentTemplate
-        } else {
-            self.environmentTemplate = nil
-        }
-    }
-}
-
-public struct CreateEnvironmentTemplateOutputResponse: Swift.Equatable {
-    /// The environment template detail data that's returned by Proton.
-    /// This member is required.
-    public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
-
-    public init(
-        environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
-    )
-    {
-        self.environmentTemplate = environmentTemplate
-    }
-}
-
-struct CreateEnvironmentTemplateOutputResponseBody: Swift.Equatable {
-    let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
-}
-
-extension CreateEnvironmentTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplate.self, forKey: .environmentTemplate)
-        environmentTemplate = environmentTemplateDecoded
     }
 }
 
@@ -2420,6 +2420,47 @@ extension CreateEnvironmentTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEnvironmentTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentTemplateVersion = output.environmentTemplateVersion
+        } else {
+            self.environmentTemplateVersion = nil
+        }
+    }
+}
+
+public struct CreateEnvironmentTemplateVersionOutput: Swift.Equatable {
+    /// The environment template detail data that's returned by Proton.
+    /// This member is required.
+    public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
+
+    public init(
+        environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
+    )
+    {
+        self.environmentTemplateVersion = environmentTemplateVersion
+    }
+}
+
+struct CreateEnvironmentTemplateVersionOutputBody: Swift.Equatable {
+    let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
+}
+
+extension CreateEnvironmentTemplateVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentTemplateVersion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplateVersion.self, forKey: .environmentTemplateVersion)
+        environmentTemplateVersion = environmentTemplateVersionDecoded
+    }
+}
+
 enum CreateEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2434,47 +2475,6 @@ enum CreateEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErro
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateEnvironmentTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEnvironmentTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentTemplateVersion = output.environmentTemplateVersion
-        } else {
-            self.environmentTemplateVersion = nil
-        }
-    }
-}
-
-public struct CreateEnvironmentTemplateVersionOutputResponse: Swift.Equatable {
-    /// The environment template detail data that's returned by Proton.
-    /// This member is required.
-    public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
-
-    public init(
-        environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
-    )
-    {
-        self.environmentTemplateVersion = environmentTemplateVersion
-    }
-}
-
-struct CreateEnvironmentTemplateVersionOutputResponseBody: Swift.Equatable {
-    let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
-}
-
-extension CreateEnvironmentTemplateVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentTemplateVersion
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplateVersion.self, forKey: .environmentTemplateVersion)
-        environmentTemplateVersion = environmentTemplateVersionDecoded
     }
 }
 
@@ -2588,6 +2588,47 @@ extension CreateRepositoryInputBody: Swift.Decodable {
     }
 }
 
+extension CreateRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repository = output.repository
+        } else {
+            self.repository = nil
+        }
+    }
+}
+
+public struct CreateRepositoryOutput: Swift.Equatable {
+    /// The repository link's detail data that's returned by Proton.
+    /// This member is required.
+    public var repository: ProtonClientTypes.Repository?
+
+    public init(
+        repository: ProtonClientTypes.Repository? = nil
+    )
+    {
+        self.repository = repository
+    }
+}
+
+struct CreateRepositoryOutputBody: Swift.Equatable {
+    let repository: ProtonClientTypes.Repository?
+}
+
+extension CreateRepositoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repository
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Repository.self, forKey: .repository)
+        repository = repositoryDecoded
+    }
+}
+
 enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2601,47 +2642,6 @@ enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repository = output.repository
-        } else {
-            self.repository = nil
-        }
-    }
-}
-
-public struct CreateRepositoryOutputResponse: Swift.Equatable {
-    /// The repository link's detail data that's returned by Proton.
-    /// This member is required.
-    public var repository: ProtonClientTypes.Repository?
-
-    public init(
-        repository: ProtonClientTypes.Repository? = nil
-    )
-    {
-        self.repository = repository
-    }
-}
-
-struct CreateRepositoryOutputResponseBody: Swift.Equatable {
-    let repository: ProtonClientTypes.Repository?
-}
-
-extension CreateRepositoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repository
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Repository.self, forKey: .repository)
-        repository = repositoryDecoded
     }
 }
 
@@ -2960,6 +2960,47 @@ extension CreateServiceInstanceInputBody: Swift.Decodable {
     }
 }
 
+extension CreateServiceInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServiceInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceInstance = output.serviceInstance
+        } else {
+            self.serviceInstance = nil
+        }
+    }
+}
+
+public struct CreateServiceInstanceOutput: Swift.Equatable {
+    /// The detailed data of the service instance being created.
+    /// This member is required.
+    public var serviceInstance: ProtonClientTypes.ServiceInstance?
+
+    public init(
+        serviceInstance: ProtonClientTypes.ServiceInstance? = nil
+    )
+    {
+        self.serviceInstance = serviceInstance
+    }
+}
+
+struct CreateServiceInstanceOutputBody: Swift.Equatable {
+    let serviceInstance: ProtonClientTypes.ServiceInstance?
+}
+
+extension CreateServiceInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstance
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
+        serviceInstance = serviceInstanceDecoded
+    }
+}
+
 enum CreateServiceInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2976,44 +3017,44 @@ enum CreateServiceInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateServiceInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateServiceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateServiceInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceInstance = output.serviceInstance
+            let output: CreateServiceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.service = output.service
         } else {
-            self.serviceInstance = nil
+            self.service = nil
         }
     }
 }
 
-public struct CreateServiceInstanceOutputResponse: Swift.Equatable {
-    /// The detailed data of the service instance being created.
+public struct CreateServiceOutput: Swift.Equatable {
+    /// The service detail data that's returned by Proton.
     /// This member is required.
-    public var serviceInstance: ProtonClientTypes.ServiceInstance?
+    public var service: ProtonClientTypes.Service?
 
     public init(
-        serviceInstance: ProtonClientTypes.ServiceInstance? = nil
+        service: ProtonClientTypes.Service? = nil
     )
     {
-        self.serviceInstance = serviceInstance
+        self.service = service
     }
 }
 
-struct CreateServiceInstanceOutputResponseBody: Swift.Equatable {
-    let serviceInstance: ProtonClientTypes.ServiceInstance?
+struct CreateServiceOutputBody: Swift.Equatable {
+    let service: ProtonClientTypes.Service?
 }
 
-extension CreateServiceInstanceOutputResponseBody: Swift.Decodable {
+extension CreateServiceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceInstance
+        case service
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
-        serviceInstance = serviceInstanceDecoded
+        let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
+        service = serviceDecoded
     }
 }
 
@@ -3031,47 +3072,6 @@ enum CreateServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.service = output.service
-        } else {
-            self.service = nil
-        }
-    }
-}
-
-public struct CreateServiceOutputResponse: Swift.Equatable {
-    /// The service detail data that's returned by Proton.
-    /// This member is required.
-    public var service: ProtonClientTypes.Service?
-
-    public init(
-        service: ProtonClientTypes.Service? = nil
-    )
-    {
-        self.service = service
-    }
-}
-
-struct CreateServiceOutputResponseBody: Swift.Equatable {
-    let service: ProtonClientTypes.Service?
-}
-
-extension CreateServiceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case service
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
-        service = serviceDecoded
     }
 }
 
@@ -3175,6 +3175,46 @@ extension CreateServiceSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension CreateServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServiceSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct CreateServiceSyncConfigOutput: Swift.Equatable {
+    /// The detailed data of the Proton Ops file.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init(
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct CreateServiceSyncConfigOutputBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension CreateServiceSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
+    }
+}
+
 enum CreateServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3188,46 +3228,6 @@ enum CreateServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceSyncConfig = output.serviceSyncConfig
-        } else {
-            self.serviceSyncConfig = nil
-        }
-    }
-}
-
-public struct CreateServiceSyncConfigOutputResponse: Swift.Equatable {
-    /// The detailed data of the Proton Ops file.
-    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-
-    public init(
-        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
-        self.serviceSyncConfig = serviceSyncConfig
-    }
-}
-
-struct CreateServiceSyncConfigOutputResponseBody: Swift.Equatable {
-    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-}
-
-extension CreateServiceSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
-        serviceSyncConfig = serviceSyncConfigDecoded
     }
 }
 
@@ -3356,6 +3356,47 @@ extension CreateServiceTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension CreateServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServiceTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceTemplate = output.serviceTemplate
+        } else {
+            self.serviceTemplate = nil
+        }
+    }
+}
+
+public struct CreateServiceTemplateOutput: Swift.Equatable {
+    /// The service template detail data that's returned by Proton.
+    /// This member is required.
+    public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
+
+    public init(
+        serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
+    )
+    {
+        self.serviceTemplate = serviceTemplate
+    }
+}
+
+struct CreateServiceTemplateOutputBody: Swift.Equatable {
+    let serviceTemplate: ProtonClientTypes.ServiceTemplate?
+}
+
+extension CreateServiceTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplate.self, forKey: .serviceTemplate)
+        serviceTemplate = serviceTemplateDecoded
+    }
+}
+
 enum CreateServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3369,47 +3410,6 @@ enum CreateServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateServiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateServiceTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceTemplate = output.serviceTemplate
-        } else {
-            self.serviceTemplate = nil
-        }
-    }
-}
-
-public struct CreateServiceTemplateOutputResponse: Swift.Equatable {
-    /// The service template detail data that's returned by Proton.
-    /// This member is required.
-    public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
-
-    public init(
-        serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
-    )
-    {
-        self.serviceTemplate = serviceTemplate
-    }
-}
-
-struct CreateServiceTemplateOutputResponseBody: Swift.Equatable {
-    let serviceTemplate: ProtonClientTypes.ServiceTemplate?
-}
-
-extension CreateServiceTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplate.self, forKey: .serviceTemplate)
-        serviceTemplate = serviceTemplateDecoded
     }
 }
 
@@ -3588,6 +3588,47 @@ extension CreateServiceTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServiceTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceTemplateVersion = output.serviceTemplateVersion
+        } else {
+            self.serviceTemplateVersion = nil
+        }
+    }
+}
+
+public struct CreateServiceTemplateVersionOutput: Swift.Equatable {
+    /// The service template version summary of detail data that's returned by Proton.
+    /// This member is required.
+    public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
+
+    public init(
+        serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
+    )
+    {
+        self.serviceTemplateVersion = serviceTemplateVersion
+    }
+}
+
+struct CreateServiceTemplateVersionOutputBody: Swift.Equatable {
+    let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
+}
+
+extension CreateServiceTemplateVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceTemplateVersion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplateVersion.self, forKey: .serviceTemplateVersion)
+        serviceTemplateVersion = serviceTemplateVersionDecoded
+    }
+}
+
 enum CreateServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3602,47 +3643,6 @@ enum CreateServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateServiceTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateServiceTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceTemplateVersion = output.serviceTemplateVersion
-        } else {
-            self.serviceTemplateVersion = nil
-        }
-    }
-}
-
-public struct CreateServiceTemplateVersionOutputResponse: Swift.Equatable {
-    /// The service template version summary of detail data that's returned by Proton.
-    /// This member is required.
-    public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
-
-    public init(
-        serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
-    )
-    {
-        self.serviceTemplateVersion = serviceTemplateVersion
-    }
-}
-
-struct CreateServiceTemplateVersionOutputResponseBody: Swift.Equatable {
-    let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
-}
-
-extension CreateServiceTemplateVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceTemplateVersion
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplateVersion.self, forKey: .serviceTemplateVersion)
-        serviceTemplateVersion = serviceTemplateVersionDecoded
     }
 }
 
@@ -3758,6 +3758,46 @@ extension CreateTemplateSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension CreateTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTemplateSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.templateSyncConfig = output.templateSyncConfig
+        } else {
+            self.templateSyncConfig = nil
+        }
+    }
+}
+
+public struct CreateTemplateSyncConfigOutput: Swift.Equatable {
+    /// The template sync configuration detail data that's returned by Proton.
+    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+
+    public init(
+        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
+    )
+    {
+        self.templateSyncConfig = templateSyncConfig
+    }
+}
+
+struct CreateTemplateSyncConfigOutputBody: Swift.Equatable {
+    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+}
+
+extension CreateTemplateSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case templateSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
+        templateSyncConfig = templateSyncConfigDecoded
+    }
+}
+
 enum CreateTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3771,46 +3811,6 @@ enum CreateTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateTemplateSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateTemplateSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.templateSyncConfig = output.templateSyncConfig
-        } else {
-            self.templateSyncConfig = nil
-        }
-    }
-}
-
-public struct CreateTemplateSyncConfigOutputResponse: Swift.Equatable {
-    /// The template sync configuration detail data that's returned by Proton.
-    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-
-    public init(
-        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
-        self.templateSyncConfig = templateSyncConfig
-    }
-}
-
-struct CreateTemplateSyncConfigOutputResponseBody: Swift.Equatable {
-    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-}
-
-extension CreateTemplateSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case templateSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
-        templateSyncConfig = templateSyncConfigDecoded
     }
 }
 
@@ -3862,6 +3862,46 @@ extension DeleteComponentInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.component = output.component
+        } else {
+            self.component = nil
+        }
+    }
+}
+
+public struct DeleteComponentOutput: Swift.Equatable {
+    /// The detailed data of the component being deleted.
+    public var component: ProtonClientTypes.Component?
+
+    public init(
+        component: ProtonClientTypes.Component? = nil
+    )
+    {
+        self.component = component
+    }
+}
+
+struct DeleteComponentOutputBody: Swift.Equatable {
+    let component: ProtonClientTypes.Component?
+}
+
+extension DeleteComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case component
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
+        component = componentDecoded
+    }
+}
+
 enum DeleteComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3875,46 +3915,6 @@ enum DeleteComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.component = output.component
-        } else {
-            self.component = nil
-        }
-    }
-}
-
-public struct DeleteComponentOutputResponse: Swift.Equatable {
-    /// The detailed data of the component being deleted.
-    public var component: ProtonClientTypes.Component?
-
-    public init(
-        component: ProtonClientTypes.Component? = nil
-    )
-    {
-        self.component = component
-    }
-}
-
-struct DeleteComponentOutputResponseBody: Swift.Equatable {
-    let component: ProtonClientTypes.Component?
-}
-
-extension DeleteComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case component
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
-        component = componentDecoded
     }
 }
 
@@ -3966,6 +3966,46 @@ extension DeleteDeploymentInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deployment = output.deployment
+        } else {
+            self.deployment = nil
+        }
+    }
+}
+
+public struct DeleteDeploymentOutput: Swift.Equatable {
+    /// The detailed data of the deployment being deleted.
+    public var deployment: ProtonClientTypes.Deployment?
+
+    public init(
+        deployment: ProtonClientTypes.Deployment? = nil
+    )
+    {
+        self.deployment = deployment
+    }
+}
+
+struct DeleteDeploymentOutputBody: Swift.Equatable {
+    let deployment: ProtonClientTypes.Deployment?
+}
+
+extension DeleteDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Deployment.self, forKey: .deployment)
+        deployment = deploymentDecoded
+    }
+}
+
 enum DeleteDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3978,46 +4018,6 @@ enum DeleteDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deployment = output.deployment
-        } else {
-            self.deployment = nil
-        }
-    }
-}
-
-public struct DeleteDeploymentOutputResponse: Swift.Equatable {
-    /// The detailed data of the deployment being deleted.
-    public var deployment: ProtonClientTypes.Deployment?
-
-    public init(
-        deployment: ProtonClientTypes.Deployment? = nil
-    )
-    {
-        self.deployment = deployment
-    }
-}
-
-struct DeleteDeploymentOutputResponseBody: Swift.Equatable {
-    let deployment: ProtonClientTypes.Deployment?
-}
-
-extension DeleteDeploymentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deployment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Deployment.self, forKey: .deployment)
-        deployment = deploymentDecoded
     }
 }
 
@@ -4069,6 +4069,46 @@ extension DeleteEnvironmentAccountConnectionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteEnvironmentAccountConnectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentAccountConnection = output.environmentAccountConnection
+        } else {
+            self.environmentAccountConnection = nil
+        }
+    }
+}
+
+public struct DeleteEnvironmentAccountConnectionOutput: Swift.Equatable {
+    /// The detailed data of the environment account connection being deleted.
+    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+
+    public init(
+        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
+    )
+    {
+        self.environmentAccountConnection = environmentAccountConnection
+    }
+}
+
+struct DeleteEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+}
+
+extension DeleteEnvironmentAccountConnectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentAccountConnection
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
+        environmentAccountConnection = environmentAccountConnectionDecoded
+    }
+}
+
 enum DeleteEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4082,46 +4122,6 @@ enum DeleteEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseEr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEnvironmentAccountConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteEnvironmentAccountConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentAccountConnection = output.environmentAccountConnection
-        } else {
-            self.environmentAccountConnection = nil
-        }
-    }
-}
-
-public struct DeleteEnvironmentAccountConnectionOutputResponse: Swift.Equatable {
-    /// The detailed data of the environment account connection being deleted.
-    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-
-    public init(
-        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
-        self.environmentAccountConnection = environmentAccountConnection
-    }
-}
-
-struct DeleteEnvironmentAccountConnectionOutputResponseBody: Swift.Equatable {
-    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-}
-
-extension DeleteEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentAccountConnection
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
-        environmentAccountConnection = environmentAccountConnectionDecoded
     }
 }
 
@@ -4173,6 +4173,46 @@ extension DeleteEnvironmentInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEnvironmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environment = output.environment
+        } else {
+            self.environment = nil
+        }
+    }
+}
+
+public struct DeleteEnvironmentOutput: Swift.Equatable {
+    /// The detailed data of the environment being deleted.
+    public var environment: ProtonClientTypes.Environment?
+
+    public init(
+        environment: ProtonClientTypes.Environment? = nil
+    )
+    {
+        self.environment = environment
+    }
+}
+
+struct DeleteEnvironmentOutputBody: Swift.Equatable {
+    let environment: ProtonClientTypes.Environment?
+}
+
+extension DeleteEnvironmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
+        environment = environmentDecoded
+    }
+}
+
 enum DeleteEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4186,46 +4226,6 @@ enum DeleteEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environment = output.environment
-        } else {
-            self.environment = nil
-        }
-    }
-}
-
-public struct DeleteEnvironmentOutputResponse: Swift.Equatable {
-    /// The detailed data of the environment being deleted.
-    public var environment: ProtonClientTypes.Environment?
-
-    public init(
-        environment: ProtonClientTypes.Environment? = nil
-    )
-    {
-        self.environment = environment
-    }
-}
-
-struct DeleteEnvironmentOutputResponseBody: Swift.Equatable {
-    let environment: ProtonClientTypes.Environment?
-}
-
-extension DeleteEnvironmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
-        environment = environmentDecoded
     }
 }
 
@@ -4277,6 +4277,46 @@ extension DeleteEnvironmentTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteEnvironmentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentTemplate = output.environmentTemplate
+        } else {
+            self.environmentTemplate = nil
+        }
+    }
+}
+
+public struct DeleteEnvironmentTemplateOutput: Swift.Equatable {
+    /// The detailed data of the environment template being deleted.
+    public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
+
+    public init(
+        environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
+    )
+    {
+        self.environmentTemplate = environmentTemplate
+    }
+}
+
+struct DeleteEnvironmentTemplateOutputBody: Swift.Equatable {
+    let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
+}
+
+extension DeleteEnvironmentTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplate.self, forKey: .environmentTemplate)
+        environmentTemplate = environmentTemplateDecoded
+    }
+}
+
 enum DeleteEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4290,46 +4330,6 @@ enum DeleteEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEnvironmentTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteEnvironmentTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentTemplate = output.environmentTemplate
-        } else {
-            self.environmentTemplate = nil
-        }
-    }
-}
-
-public struct DeleteEnvironmentTemplateOutputResponse: Swift.Equatable {
-    /// The detailed data of the environment template being deleted.
-    public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
-
-    public init(
-        environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
-    )
-    {
-        self.environmentTemplate = environmentTemplate
-    }
-}
-
-struct DeleteEnvironmentTemplateOutputResponseBody: Swift.Equatable {
-    let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
-}
-
-extension DeleteEnvironmentTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplate.self, forKey: .environmentTemplate)
-        environmentTemplate = environmentTemplateDecoded
     }
 }
 
@@ -4407,6 +4407,46 @@ extension DeleteEnvironmentTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteEnvironmentTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentTemplateVersion = output.environmentTemplateVersion
+        } else {
+            self.environmentTemplateVersion = nil
+        }
+    }
+}
+
+public struct DeleteEnvironmentTemplateVersionOutput: Swift.Equatable {
+    /// The detailed data of the environment template version being deleted.
+    public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
+
+    public init(
+        environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
+    )
+    {
+        self.environmentTemplateVersion = environmentTemplateVersion
+    }
+}
+
+struct DeleteEnvironmentTemplateVersionOutputBody: Swift.Equatable {
+    let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
+}
+
+extension DeleteEnvironmentTemplateVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentTemplateVersion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplateVersion.self, forKey: .environmentTemplateVersion)
+        environmentTemplateVersion = environmentTemplateVersionDecoded
+    }
+}
+
 enum DeleteEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4420,46 +4460,6 @@ enum DeleteEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErro
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEnvironmentTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteEnvironmentTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentTemplateVersion = output.environmentTemplateVersion
-        } else {
-            self.environmentTemplateVersion = nil
-        }
-    }
-}
-
-public struct DeleteEnvironmentTemplateVersionOutputResponse: Swift.Equatable {
-    /// The detailed data of the environment template version being deleted.
-    public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
-
-    public init(
-        environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
-    )
-    {
-        self.environmentTemplateVersion = environmentTemplateVersion
-    }
-}
-
-struct DeleteEnvironmentTemplateVersionOutputResponseBody: Swift.Equatable {
-    let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
-}
-
-extension DeleteEnvironmentTemplateVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentTemplateVersion
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplateVersion.self, forKey: .environmentTemplateVersion)
-        environmentTemplateVersion = environmentTemplateVersionDecoded
     }
 }
 
@@ -4524,6 +4524,46 @@ extension DeleteRepositoryInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repository = output.repository
+        } else {
+            self.repository = nil
+        }
+    }
+}
+
+public struct DeleteRepositoryOutput: Swift.Equatable {
+    /// The deleted repository link's detail data that's returned by Proton.
+    public var repository: ProtonClientTypes.Repository?
+
+    public init(
+        repository: ProtonClientTypes.Repository? = nil
+    )
+    {
+        self.repository = repository
+    }
+}
+
+struct DeleteRepositoryOutputBody: Swift.Equatable {
+    let repository: ProtonClientTypes.Repository?
+}
+
+extension DeleteRepositoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repository
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Repository.self, forKey: .repository)
+        repository = repositoryDecoded
+    }
+}
+
 enum DeleteRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4537,46 +4577,6 @@ enum DeleteRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repository = output.repository
-        } else {
-            self.repository = nil
-        }
-    }
-}
-
-public struct DeleteRepositoryOutputResponse: Swift.Equatable {
-    /// The deleted repository link's detail data that's returned by Proton.
-    public var repository: ProtonClientTypes.Repository?
-
-    public init(
-        repository: ProtonClientTypes.Repository? = nil
-    )
-    {
-        self.repository = repository
-    }
-}
-
-struct DeleteRepositoryOutputResponseBody: Swift.Equatable {
-    let repository: ProtonClientTypes.Repository?
-}
-
-extension DeleteRepositoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repository
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Repository.self, forKey: .repository)
-        repository = repositoryDecoded
     }
 }
 
@@ -4628,6 +4628,46 @@ extension DeleteServiceInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteServiceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.service = output.service
+        } else {
+            self.service = nil
+        }
+    }
+}
+
+public struct DeleteServiceOutput: Swift.Equatable {
+    /// The detailed data of the service being deleted.
+    public var service: ProtonClientTypes.Service?
+
+    public init(
+        service: ProtonClientTypes.Service? = nil
+    )
+    {
+        self.service = service
+    }
+}
+
+struct DeleteServiceOutputBody: Swift.Equatable {
+    let service: ProtonClientTypes.Service?
+}
+
+extension DeleteServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case service
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
+        service = serviceDecoded
+    }
+}
+
 enum DeleteServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4641,46 +4681,6 @@ enum DeleteServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.service = output.service
-        } else {
-            self.service = nil
-        }
-    }
-}
-
-public struct DeleteServiceOutputResponse: Swift.Equatable {
-    /// The detailed data of the service being deleted.
-    public var service: ProtonClientTypes.Service?
-
-    public init(
-        service: ProtonClientTypes.Service? = nil
-    )
-    {
-        self.service = service
-    }
-}
-
-struct DeleteServiceOutputResponseBody: Swift.Equatable {
-    let service: ProtonClientTypes.Service?
-}
-
-extension DeleteServiceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case service
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
-        service = serviceDecoded
     }
 }
 
@@ -4732,6 +4732,46 @@ extension DeleteServiceSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteServiceSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct DeleteServiceSyncConfigOutput: Swift.Equatable {
+    /// The detailed data for the service sync config.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init(
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct DeleteServiceSyncConfigOutputBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension DeleteServiceSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
+    }
+}
+
 enum DeleteServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4745,46 +4785,6 @@ enum DeleteServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceSyncConfig = output.serviceSyncConfig
-        } else {
-            self.serviceSyncConfig = nil
-        }
-    }
-}
-
-public struct DeleteServiceSyncConfigOutputResponse: Swift.Equatable {
-    /// The detailed data for the service sync config.
-    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-
-    public init(
-        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
-        self.serviceSyncConfig = serviceSyncConfig
-    }
-}
-
-struct DeleteServiceSyncConfigOutputResponseBody: Swift.Equatable {
-    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-}
-
-extension DeleteServiceSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
-        serviceSyncConfig = serviceSyncConfigDecoded
     }
 }
 
@@ -4836,6 +4836,46 @@ extension DeleteServiceTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteServiceTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceTemplate = output.serviceTemplate
+        } else {
+            self.serviceTemplate = nil
+        }
+    }
+}
+
+public struct DeleteServiceTemplateOutput: Swift.Equatable {
+    /// The detailed data of the service template being deleted.
+    public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
+
+    public init(
+        serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
+    )
+    {
+        self.serviceTemplate = serviceTemplate
+    }
+}
+
+struct DeleteServiceTemplateOutputBody: Swift.Equatable {
+    let serviceTemplate: ProtonClientTypes.ServiceTemplate?
+}
+
+extension DeleteServiceTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplate.self, forKey: .serviceTemplate)
+        serviceTemplate = serviceTemplateDecoded
+    }
+}
+
 enum DeleteServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4849,46 +4889,6 @@ enum DeleteServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteServiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteServiceTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceTemplate = output.serviceTemplate
-        } else {
-            self.serviceTemplate = nil
-        }
-    }
-}
-
-public struct DeleteServiceTemplateOutputResponse: Swift.Equatable {
-    /// The detailed data of the service template being deleted.
-    public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
-
-    public init(
-        serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
-    )
-    {
-        self.serviceTemplate = serviceTemplate
-    }
-}
-
-struct DeleteServiceTemplateOutputResponseBody: Swift.Equatable {
-    let serviceTemplate: ProtonClientTypes.ServiceTemplate?
-}
-
-extension DeleteServiceTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplate.self, forKey: .serviceTemplate)
-        serviceTemplate = serviceTemplateDecoded
     }
 }
 
@@ -4966,6 +4966,46 @@ extension DeleteServiceTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteServiceTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceTemplateVersion = output.serviceTemplateVersion
+        } else {
+            self.serviceTemplateVersion = nil
+        }
+    }
+}
+
+public struct DeleteServiceTemplateVersionOutput: Swift.Equatable {
+    /// The detailed data of the service template version being deleted.
+    public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
+
+    public init(
+        serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
+    )
+    {
+        self.serviceTemplateVersion = serviceTemplateVersion
+    }
+}
+
+struct DeleteServiceTemplateVersionOutputBody: Swift.Equatable {
+    let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
+}
+
+extension DeleteServiceTemplateVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceTemplateVersion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplateVersion.self, forKey: .serviceTemplateVersion)
+        serviceTemplateVersion = serviceTemplateVersionDecoded
+    }
+}
+
 enum DeleteServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4979,46 +5019,6 @@ enum DeleteServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteServiceTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteServiceTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceTemplateVersion = output.serviceTemplateVersion
-        } else {
-            self.serviceTemplateVersion = nil
-        }
-    }
-}
-
-public struct DeleteServiceTemplateVersionOutputResponse: Swift.Equatable {
-    /// The detailed data of the service template version being deleted.
-    public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
-
-    public init(
-        serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
-    )
-    {
-        self.serviceTemplateVersion = serviceTemplateVersion
-    }
-}
-
-struct DeleteServiceTemplateVersionOutputResponseBody: Swift.Equatable {
-    let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
-}
-
-extension DeleteServiceTemplateVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceTemplateVersion
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplateVersion.self, forKey: .serviceTemplateVersion)
-        serviceTemplateVersion = serviceTemplateVersionDecoded
     }
 }
 
@@ -5083,6 +5083,46 @@ extension DeleteTemplateSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteTemplateSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.templateSyncConfig = output.templateSyncConfig
+        } else {
+            self.templateSyncConfig = nil
+        }
+    }
+}
+
+public struct DeleteTemplateSyncConfigOutput: Swift.Equatable {
+    /// The template sync configuration detail data that's returned by Proton.
+    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+
+    public init(
+        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
+    )
+    {
+        self.templateSyncConfig = templateSyncConfig
+    }
+}
+
+struct DeleteTemplateSyncConfigOutputBody: Swift.Equatable {
+    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+}
+
+extension DeleteTemplateSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case templateSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
+        templateSyncConfig = templateSyncConfigDecoded
+    }
+}
+
 enum DeleteTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5096,46 +5136,6 @@ enum DeleteTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteTemplateSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteTemplateSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.templateSyncConfig = output.templateSyncConfig
-        } else {
-            self.templateSyncConfig = nil
-        }
-    }
-}
-
-public struct DeleteTemplateSyncConfigOutputResponse: Swift.Equatable {
-    /// The template sync configuration detail data that's returned by Proton.
-    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-
-    public init(
-        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
-        self.templateSyncConfig = templateSyncConfig
-    }
-}
-
-struct DeleteTemplateSyncConfigOutputResponseBody: Swift.Equatable {
-    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-}
-
-extension DeleteTemplateSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case templateSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
-        templateSyncConfig = templateSyncConfigDecoded
     }
 }
 
@@ -7218,6 +7218,46 @@ extension GetAccountSettingsInputBody: Swift.Decodable {
     }
 }
 
+extension GetAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAccountSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountSettings = output.accountSettings
+        } else {
+            self.accountSettings = nil
+        }
+    }
+}
+
+public struct GetAccountSettingsOutput: Swift.Equatable {
+    /// The Proton pipeline service role detail data that's returned by Proton.
+    public var accountSettings: ProtonClientTypes.AccountSettings?
+
+    public init(
+        accountSettings: ProtonClientTypes.AccountSettings? = nil
+    )
+    {
+        self.accountSettings = accountSettings
+    }
+}
+
+struct GetAccountSettingsOutputBody: Swift.Equatable {
+    let accountSettings: ProtonClientTypes.AccountSettings?
+}
+
+extension GetAccountSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountSettings
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountSettingsDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.AccountSettings.self, forKey: .accountSettings)
+        accountSettings = accountSettingsDecoded
+    }
+}
+
 enum GetAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7230,46 +7270,6 @@ enum GetAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.accountSettings = output.accountSettings
-        } else {
-            self.accountSettings = nil
-        }
-    }
-}
-
-public struct GetAccountSettingsOutputResponse: Swift.Equatable {
-    /// The Proton pipeline service role detail data that's returned by Proton.
-    public var accountSettings: ProtonClientTypes.AccountSettings?
-
-    public init(
-        accountSettings: ProtonClientTypes.AccountSettings? = nil
-    )
-    {
-        self.accountSettings = accountSettings
-    }
-}
-
-struct GetAccountSettingsOutputResponseBody: Swift.Equatable {
-    let accountSettings: ProtonClientTypes.AccountSettings?
-}
-
-extension GetAccountSettingsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accountSettings
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accountSettingsDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.AccountSettings.self, forKey: .accountSettings)
-        accountSettings = accountSettingsDecoded
     }
 }
 
@@ -7321,6 +7321,46 @@ extension GetComponentInputBody: Swift.Decodable {
     }
 }
 
+extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.component = output.component
+        } else {
+            self.component = nil
+        }
+    }
+}
+
+public struct GetComponentOutput: Swift.Equatable {
+    /// The detailed data of the requested component.
+    public var component: ProtonClientTypes.Component?
+
+    public init(
+        component: ProtonClientTypes.Component? = nil
+    )
+    {
+        self.component = component
+    }
+}
+
+struct GetComponentOutputBody: Swift.Equatable {
+    let component: ProtonClientTypes.Component?
+}
+
+extension GetComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case component
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
+        component = componentDecoded
+    }
+}
+
 enum GetComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7333,46 +7373,6 @@ enum GetComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.component = output.component
-        } else {
-            self.component = nil
-        }
-    }
-}
-
-public struct GetComponentOutputResponse: Swift.Equatable {
-    /// The detailed data of the requested component.
-    public var component: ProtonClientTypes.Component?
-
-    public init(
-        component: ProtonClientTypes.Component? = nil
-    )
-    {
-        self.component = component
-    }
-}
-
-struct GetComponentOutputResponseBody: Swift.Equatable {
-    let component: ProtonClientTypes.Component?
-}
-
-extension GetComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case component
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
-        component = componentDecoded
     }
 }
 
@@ -7472,6 +7472,46 @@ extension GetDeploymentInputBody: Swift.Decodable {
     }
 }
 
+extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deployment = output.deployment
+        } else {
+            self.deployment = nil
+        }
+    }
+}
+
+public struct GetDeploymentOutput: Swift.Equatable {
+    /// The detailed data of the requested deployment.
+    public var deployment: ProtonClientTypes.Deployment?
+
+    public init(
+        deployment: ProtonClientTypes.Deployment? = nil
+    )
+    {
+        self.deployment = deployment
+    }
+}
+
+struct GetDeploymentOutputBody: Swift.Equatable {
+    let deployment: ProtonClientTypes.Deployment?
+}
+
+extension GetDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Deployment.self, forKey: .deployment)
+        deployment = deploymentDecoded
+    }
+}
+
 enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7484,46 +7524,6 @@ enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deployment = output.deployment
-        } else {
-            self.deployment = nil
-        }
-    }
-}
-
-public struct GetDeploymentOutputResponse: Swift.Equatable {
-    /// The detailed data of the requested deployment.
-    public var deployment: ProtonClientTypes.Deployment?
-
-    public init(
-        deployment: ProtonClientTypes.Deployment? = nil
-    )
-    {
-        self.deployment = deployment
-    }
-}
-
-struct GetDeploymentOutputResponseBody: Swift.Equatable {
-    let deployment: ProtonClientTypes.Deployment?
-}
-
-extension GetDeploymentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deployment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Deployment.self, forKey: .deployment)
-        deployment = deploymentDecoded
     }
 }
 
@@ -7575,26 +7575,11 @@ extension GetEnvironmentAccountConnectionInputBody: Swift.Decodable {
     }
 }
 
-enum GetEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnvironmentAccountConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnvironmentAccountConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnvironmentAccountConnectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.environmentAccountConnection = output.environmentAccountConnection
         } else {
             self.environmentAccountConnection = nil
@@ -7602,7 +7587,7 @@ extension GetEnvironmentAccountConnectionOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetEnvironmentAccountConnectionOutputResponse: Swift.Equatable {
+public struct GetEnvironmentAccountConnectionOutput: Swift.Equatable {
     /// The detailed data of the requested environment account connection.
     /// This member is required.
     public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
@@ -7615,11 +7600,11 @@ public struct GetEnvironmentAccountConnectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentAccountConnectionOutputResponseBody: Swift.Equatable {
+struct GetEnvironmentAccountConnectionOutputBody: Swift.Equatable {
     let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 }
 
-extension GetEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable {
+extension GetEnvironmentAccountConnectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case environmentAccountConnection
     }
@@ -7628,6 +7613,21 @@ extension GetEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
         environmentAccountConnection = environmentAccountConnectionDecoded
+    }
+}
+
+enum GetEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7679,26 +7679,11 @@ extension GetEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-enum GetEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
             self.environment = output.environment
         } else {
             self.environment = nil
@@ -7706,7 +7691,7 @@ extension GetEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnvironmentOutputResponse: Swift.Equatable {
+public struct GetEnvironmentOutput: Swift.Equatable {
     /// The detailed data of the requested environment.
     /// This member is required.
     public var environment: ProtonClientTypes.Environment?
@@ -7719,11 +7704,11 @@ public struct GetEnvironmentOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentOutputResponseBody: Swift.Equatable {
+struct GetEnvironmentOutputBody: Swift.Equatable {
     let environment: ProtonClientTypes.Environment?
 }
 
-extension GetEnvironmentOutputResponseBody: Swift.Decodable {
+extension GetEnvironmentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case environment
     }
@@ -7732,6 +7717,21 @@ extension GetEnvironmentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
+    }
+}
+
+enum GetEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7783,26 +7783,11 @@ extension GetEnvironmentTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum GetEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnvironmentTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnvironmentTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnvironmentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.environmentTemplate = output.environmentTemplate
         } else {
             self.environmentTemplate = nil
@@ -7810,7 +7795,7 @@ extension GetEnvironmentTemplateOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetEnvironmentTemplateOutputResponse: Swift.Equatable {
+public struct GetEnvironmentTemplateOutput: Swift.Equatable {
     /// The detailed data of the requested environment template.
     /// This member is required.
     public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
@@ -7823,11 +7808,11 @@ public struct GetEnvironmentTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentTemplateOutputResponseBody: Swift.Equatable {
+struct GetEnvironmentTemplateOutputBody: Swift.Equatable {
     let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
 }
 
-extension GetEnvironmentTemplateOutputResponseBody: Swift.Decodable {
+extension GetEnvironmentTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case environmentTemplate
     }
@@ -7836,6 +7821,21 @@ extension GetEnvironmentTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplate.self, forKey: .environmentTemplate)
         environmentTemplate = environmentTemplateDecoded
+    }
+}
+
+enum GetEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7913,26 +7913,11 @@ extension GetEnvironmentTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
-enum GetEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnvironmentTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnvironmentTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnvironmentTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.environmentTemplateVersion = output.environmentTemplateVersion
         } else {
             self.environmentTemplateVersion = nil
@@ -7940,7 +7925,7 @@ extension GetEnvironmentTemplateVersionOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetEnvironmentTemplateVersionOutputResponse: Swift.Equatable {
+public struct GetEnvironmentTemplateVersionOutput: Swift.Equatable {
     /// The detailed data of the requested environment template version.
     /// This member is required.
     public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
@@ -7953,11 +7938,11 @@ public struct GetEnvironmentTemplateVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentTemplateVersionOutputResponseBody: Swift.Equatable {
+struct GetEnvironmentTemplateVersionOutputBody: Swift.Equatable {
     let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
 }
 
-extension GetEnvironmentTemplateVersionOutputResponseBody: Swift.Decodable {
+extension GetEnvironmentTemplateVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case environmentTemplateVersion
     }
@@ -7966,6 +7951,21 @@ extension GetEnvironmentTemplateVersionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplateVersion.self, forKey: .environmentTemplateVersion)
         environmentTemplateVersion = environmentTemplateVersionDecoded
+    }
+}
+
+enum GetEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8030,26 +8030,11 @@ extension GetRepositoryInputBody: Swift.Decodable {
     }
 }
 
-enum GetRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRepositoryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
             self.repository = output.repository
         } else {
             self.repository = nil
@@ -8057,7 +8042,7 @@ extension GetRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRepositoryOutputResponse: Swift.Equatable {
+public struct GetRepositoryOutput: Swift.Equatable {
     /// The repository link's detail data that's returned by Proton.
     /// This member is required.
     public var repository: ProtonClientTypes.Repository?
@@ -8070,11 +8055,11 @@ public struct GetRepositoryOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRepositoryOutputResponseBody: Swift.Equatable {
+struct GetRepositoryOutputBody: Swift.Equatable {
     let repository: ProtonClientTypes.Repository?
 }
 
-extension GetRepositoryOutputResponseBody: Swift.Decodable {
+extension GetRepositoryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repository
     }
@@ -8083,6 +8068,21 @@ extension GetRepositoryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Repository.self, forKey: .repository)
         repository = repositoryDecoded
+    }
+}
+
+enum GetRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8173,6 +8173,46 @@ extension GetRepositorySyncStatusInputBody: Swift.Decodable {
     }
 }
 
+extension GetRepositorySyncStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRepositorySyncStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.latestSync = output.latestSync
+        } else {
+            self.latestSync = nil
+        }
+    }
+}
+
+public struct GetRepositorySyncStatusOutput: Swift.Equatable {
+    /// The repository sync status detail data that's returned by Proton.
+    public var latestSync: ProtonClientTypes.RepositorySyncAttempt?
+
+    public init(
+        latestSync: ProtonClientTypes.RepositorySyncAttempt? = nil
+    )
+    {
+        self.latestSync = latestSync
+    }
+}
+
+struct GetRepositorySyncStatusOutputBody: Swift.Equatable {
+    let latestSync: ProtonClientTypes.RepositorySyncAttempt?
+}
+
+extension GetRepositorySyncStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case latestSync
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let latestSyncDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.RepositorySyncAttempt.self, forKey: .latestSync)
+        latestSync = latestSyncDecoded
+    }
+}
+
 enum GetRepositorySyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8185,46 +8225,6 @@ enum GetRepositorySyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetRepositorySyncStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetRepositorySyncStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.latestSync = output.latestSync
-        } else {
-            self.latestSync = nil
-        }
-    }
-}
-
-public struct GetRepositorySyncStatusOutputResponse: Swift.Equatable {
-    /// The repository sync status detail data that's returned by Proton.
-    public var latestSync: ProtonClientTypes.RepositorySyncAttempt?
-
-    public init(
-        latestSync: ProtonClientTypes.RepositorySyncAttempt? = nil
-    )
-    {
-        self.latestSync = latestSync
-    }
-}
-
-struct GetRepositorySyncStatusOutputResponseBody: Swift.Equatable {
-    let latestSync: ProtonClientTypes.RepositorySyncAttempt?
-}
-
-extension GetRepositorySyncStatusOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case latestSync
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let latestSyncDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.RepositorySyncAttempt.self, forKey: .latestSync)
-        latestSync = latestSyncDecoded
     }
 }
 
@@ -8256,25 +8256,11 @@ extension GetResourcesSummaryInputBody: Swift.Decodable {
     }
 }
 
-enum GetResourcesSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetResourcesSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResourcesSummaryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetResourcesSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetResourcesSummaryOutputBody = try responseDecoder.decode(responseBody: data)
             self.counts = output.counts
         } else {
             self.counts = nil
@@ -8282,7 +8268,7 @@ extension GetResourcesSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcesSummaryOutputResponse: Swift.Equatable {
+public struct GetResourcesSummaryOutput: Swift.Equatable {
     /// Summary counts of each Proton resource type.
     /// This member is required.
     public var counts: ProtonClientTypes.CountsSummary?
@@ -8295,11 +8281,11 @@ public struct GetResourcesSummaryOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResourcesSummaryOutputResponseBody: Swift.Equatable {
+struct GetResourcesSummaryOutputBody: Swift.Equatable {
     let counts: ProtonClientTypes.CountsSummary?
 }
 
-extension GetResourcesSummaryOutputResponseBody: Swift.Decodable {
+extension GetResourcesSummaryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case counts
     }
@@ -8308,6 +8294,20 @@ extension GetResourcesSummaryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countsDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.CountsSummary.self, forKey: .counts)
         counts = countsDecoded
+    }
+}
+
+enum GetResourcesSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8420,26 +8420,11 @@ extension GetServiceInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetServiceInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.serviceInstance = output.serviceInstance
         } else {
             self.serviceInstance = nil
@@ -8447,7 +8432,7 @@ extension GetServiceInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceInstanceOutputResponse: Swift.Equatable {
+public struct GetServiceInstanceOutput: Swift.Equatable {
     /// The detailed data of the requested service instance.
     /// This member is required.
     public var serviceInstance: ProtonClientTypes.ServiceInstance?
@@ -8460,11 +8445,11 @@ public struct GetServiceInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServiceInstanceOutputResponseBody: Swift.Equatable {
+struct GetServiceInstanceOutputBody: Swift.Equatable {
     let serviceInstance: ProtonClientTypes.ServiceInstance?
 }
 
-extension GetServiceInstanceOutputResponseBody: Swift.Decodable {
+extension GetServiceInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serviceInstance
     }
@@ -8473,6 +8458,21 @@ extension GetServiceInstanceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
         serviceInstance = serviceInstanceDecoded
+    }
+}
+
+enum GetServiceInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8537,26 +8537,11 @@ extension GetServiceInstanceSyncStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceInstanceSyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetServiceInstanceSyncStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceInstanceSyncStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceInstanceSyncStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceInstanceSyncStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.desiredState = output.desiredState
             self.latestSuccessfulSync = output.latestSuccessfulSync
             self.latestSync = output.latestSync
@@ -8568,7 +8553,7 @@ extension GetServiceInstanceSyncStatusOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetServiceInstanceSyncStatusOutputResponse: Swift.Equatable {
+public struct GetServiceInstanceSyncStatusOutput: Swift.Equatable {
     /// The service instance sync desired state that's returned by Proton
     public var desiredState: ProtonClientTypes.Revision?
     /// The detailed data of the latest successful sync with the service instance.
@@ -8588,13 +8573,13 @@ public struct GetServiceInstanceSyncStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServiceInstanceSyncStatusOutputResponseBody: Swift.Equatable {
+struct GetServiceInstanceSyncStatusOutputBody: Swift.Equatable {
     let latestSync: ProtonClientTypes.ResourceSyncAttempt?
     let latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt?
     let desiredState: ProtonClientTypes.Revision?
 }
 
-extension GetServiceInstanceSyncStatusOutputResponseBody: Swift.Decodable {
+extension GetServiceInstanceSyncStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredState
         case latestSuccessfulSync
@@ -8612,7 +8597,7 @@ extension GetServiceInstanceSyncStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
-enum GetServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
+enum GetServiceInstanceSyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -8627,11 +8612,11 @@ enum GetServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetServiceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceOutputBody = try responseDecoder.decode(responseBody: data)
             self.service = output.service
         } else {
             self.service = nil
@@ -8639,7 +8624,7 @@ extension GetServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceOutputResponse: Swift.Equatable {
+public struct GetServiceOutput: Swift.Equatable {
     /// The detailed data of the requested service.
     public var service: ProtonClientTypes.Service?
 
@@ -8651,11 +8636,11 @@ public struct GetServiceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServiceOutputResponseBody: Swift.Equatable {
+struct GetServiceOutputBody: Swift.Equatable {
     let service: ProtonClientTypes.Service?
 }
 
-extension GetServiceOutputResponseBody: Swift.Decodable {
+extension GetServiceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case service
     }
@@ -8664,6 +8649,21 @@ extension GetServiceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
+    }
+}
+
+enum GetServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8727,6 +8727,46 @@ extension GetServiceSyncBlockerSummaryInputBody: Swift.Decodable {
     }
 }
 
+extension GetServiceSyncBlockerSummaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetServiceSyncBlockerSummaryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncBlockerSummary = output.serviceSyncBlockerSummary
+        } else {
+            self.serviceSyncBlockerSummary = nil
+        }
+    }
+}
+
+public struct GetServiceSyncBlockerSummaryOutput: Swift.Equatable {
+    /// The detailed data of the requested service sync blocker summary.
+    public var serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
+
+    public init(
+        serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary? = nil
+    )
+    {
+        self.serviceSyncBlockerSummary = serviceSyncBlockerSummary
+    }
+}
+
+struct GetServiceSyncBlockerSummaryOutputBody: Swift.Equatable {
+    let serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
+}
+
+extension GetServiceSyncBlockerSummaryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncBlockerSummary
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncBlockerSummaryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncBlockerSummary.self, forKey: .serviceSyncBlockerSummary)
+        serviceSyncBlockerSummary = serviceSyncBlockerSummaryDecoded
+    }
+}
+
 enum GetServiceSyncBlockerSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8739,46 +8779,6 @@ enum GetServiceSyncBlockerSummaryOutputError: ClientRuntime.HttpResponseErrorBin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetServiceSyncBlockerSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetServiceSyncBlockerSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceSyncBlockerSummary = output.serviceSyncBlockerSummary
-        } else {
-            self.serviceSyncBlockerSummary = nil
-        }
-    }
-}
-
-public struct GetServiceSyncBlockerSummaryOutputResponse: Swift.Equatable {
-    /// The detailed data of the requested service sync blocker summary.
-    public var serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
-
-    public init(
-        serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary? = nil
-    )
-    {
-        self.serviceSyncBlockerSummary = serviceSyncBlockerSummary
-    }
-}
-
-struct GetServiceSyncBlockerSummaryOutputResponseBody: Swift.Equatable {
-    let serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
-}
-
-extension GetServiceSyncBlockerSummaryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceSyncBlockerSummary
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceSyncBlockerSummaryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncBlockerSummary.self, forKey: .serviceSyncBlockerSummary)
-        serviceSyncBlockerSummary = serviceSyncBlockerSummaryDecoded
     }
 }
 
@@ -8830,6 +8830,46 @@ extension GetServiceSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension GetServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetServiceSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct GetServiceSyncConfigOutput: Swift.Equatable {
+    /// The detailed data of the requested service sync configuration.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init(
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct GetServiceSyncConfigOutputBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension GetServiceSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
+    }
+}
+
 enum GetServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8842,46 +8882,6 @@ enum GetServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceSyncConfig = output.serviceSyncConfig
-        } else {
-            self.serviceSyncConfig = nil
-        }
-    }
-}
-
-public struct GetServiceSyncConfigOutputResponse: Swift.Equatable {
-    /// The detailed data of the requested service sync configuration.
-    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-
-    public init(
-        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
-        self.serviceSyncConfig = serviceSyncConfig
-    }
-}
-
-struct GetServiceSyncConfigOutputResponseBody: Swift.Equatable {
-    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-}
-
-extension GetServiceSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
-        serviceSyncConfig = serviceSyncConfigDecoded
     }
 }
 
@@ -8933,26 +8933,11 @@ extension GetServiceTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetServiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.serviceTemplate = output.serviceTemplate
         } else {
             self.serviceTemplate = nil
@@ -8960,7 +8945,7 @@ extension GetServiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceTemplateOutputResponse: Swift.Equatable {
+public struct GetServiceTemplateOutput: Swift.Equatable {
     /// The detailed data of the requested service template.
     /// This member is required.
     public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
@@ -8973,11 +8958,11 @@ public struct GetServiceTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServiceTemplateOutputResponseBody: Swift.Equatable {
+struct GetServiceTemplateOutputBody: Swift.Equatable {
     let serviceTemplate: ProtonClientTypes.ServiceTemplate?
 }
 
-extension GetServiceTemplateOutputResponseBody: Swift.Decodable {
+extension GetServiceTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serviceTemplate
     }
@@ -8986,6 +8971,21 @@ extension GetServiceTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplate.self, forKey: .serviceTemplate)
         serviceTemplate = serviceTemplateDecoded
+    }
+}
+
+enum GetServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9063,26 +9063,11 @@ extension GetServiceTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetServiceTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.serviceTemplateVersion = output.serviceTemplateVersion
         } else {
             self.serviceTemplateVersion = nil
@@ -9090,7 +9075,7 @@ extension GetServiceTemplateVersionOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetServiceTemplateVersionOutputResponse: Swift.Equatable {
+public struct GetServiceTemplateVersionOutput: Swift.Equatable {
     /// The detailed data of the requested service template version.
     /// This member is required.
     public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
@@ -9103,11 +9088,11 @@ public struct GetServiceTemplateVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServiceTemplateVersionOutputResponseBody: Swift.Equatable {
+struct GetServiceTemplateVersionOutputBody: Swift.Equatable {
     let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
 }
 
-extension GetServiceTemplateVersionOutputResponseBody: Swift.Decodable {
+extension GetServiceTemplateVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serviceTemplateVersion
     }
@@ -9116,6 +9101,21 @@ extension GetServiceTemplateVersionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplateVersion.self, forKey: .serviceTemplateVersion)
         serviceTemplateVersion = serviceTemplateVersionDecoded
+    }
+}
+
+enum GetServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9180,6 +9180,46 @@ extension GetTemplateSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension GetTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTemplateSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.templateSyncConfig = output.templateSyncConfig
+        } else {
+            self.templateSyncConfig = nil
+        }
+    }
+}
+
+public struct GetTemplateSyncConfigOutput: Swift.Equatable {
+    /// The template sync configuration detail data that's returned by Proton.
+    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+
+    public init(
+        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
+    )
+    {
+        self.templateSyncConfig = templateSyncConfig
+    }
+}
+
+struct GetTemplateSyncConfigOutputBody: Swift.Equatable {
+    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+}
+
+extension GetTemplateSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case templateSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
+        templateSyncConfig = templateSyncConfigDecoded
+    }
+}
+
 enum GetTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9192,46 +9232,6 @@ enum GetTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetTemplateSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetTemplateSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.templateSyncConfig = output.templateSyncConfig
-        } else {
-            self.templateSyncConfig = nil
-        }
-    }
-}
-
-public struct GetTemplateSyncConfigOutputResponse: Swift.Equatable {
-    /// The template sync configuration detail data that's returned by Proton.
-    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-
-    public init(
-        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
-        self.templateSyncConfig = templateSyncConfig
-    }
-}
-
-struct GetTemplateSyncConfigOutputResponseBody: Swift.Equatable {
-    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-}
-
-extension GetTemplateSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case templateSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
-        templateSyncConfig = templateSyncConfigDecoded
     }
 }
 
@@ -9309,26 +9309,11 @@ extension GetTemplateSyncStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetTemplateSyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetTemplateSyncStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetTemplateSyncStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetTemplateSyncStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetTemplateSyncStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.desiredState = output.desiredState
             self.latestSuccessfulSync = output.latestSuccessfulSync
             self.latestSync = output.latestSync
@@ -9340,7 +9325,7 @@ extension GetTemplateSyncStatusOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetTemplateSyncStatusOutputResponse: Swift.Equatable {
+public struct GetTemplateSyncStatusOutput: Swift.Equatable {
     /// The template sync desired state that's returned by Proton.
     public var desiredState: ProtonClientTypes.Revision?
     /// The details of the last successful sync that's returned by Proton.
@@ -9360,13 +9345,13 @@ public struct GetTemplateSyncStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetTemplateSyncStatusOutputResponseBody: Swift.Equatable {
+struct GetTemplateSyncStatusOutputBody: Swift.Equatable {
     let latestSync: ProtonClientTypes.ResourceSyncAttempt?
     let latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt?
     let desiredState: ProtonClientTypes.Revision?
 }
 
-extension GetTemplateSyncStatusOutputResponseBody: Swift.Decodable {
+extension GetTemplateSyncStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredState
         case latestSuccessfulSync
@@ -9381,6 +9366,21 @@ extension GetTemplateSyncStatusOutputResponseBody: Swift.Decodable {
         latestSuccessfulSync = latestSuccessfulSyncDecoded
         let desiredStateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Revision.self, forKey: .desiredState)
         desiredState = desiredStateDecoded
+    }
+}
+
+enum GetTemplateSyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9517,26 +9517,11 @@ extension ListComponentOutputsInputBody: Swift.Decodable {
     }
 }
 
-enum ListComponentOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListComponentOutputsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListComponentOutputsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListComponentOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListComponentOutputsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.outputs = output.outputs
         } else {
@@ -9546,7 +9531,7 @@ extension ListComponentOutputsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListComponentOutputsOutputResponse: Swift.Equatable {
+public struct ListComponentOutputsOutput: Swift.Equatable {
     /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
     public var nextToken: Swift.String?
     /// An array of component Infrastructure as Code (IaC) outputs.
@@ -9563,12 +9548,12 @@ public struct ListComponentOutputsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListComponentOutputsOutputResponseBody: Swift.Equatable {
+struct ListComponentOutputsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
 
-extension ListComponentOutputsOutputResponseBody: Swift.Decodable {
+extension ListComponentOutputsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case outputs
@@ -9589,6 +9574,21 @@ extension ListComponentOutputsOutputResponseBody: Swift.Decodable {
             }
         }
         outputs = outputsDecoded0
+    }
+}
+
+enum ListComponentOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9652,26 +9652,11 @@ extension ListComponentProvisionedResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum ListComponentProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListComponentProvisionedResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListComponentProvisionedResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListComponentProvisionedResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListComponentProvisionedResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.provisionedResources = output.provisionedResources
         } else {
@@ -9681,7 +9666,7 @@ extension ListComponentProvisionedResourcesOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct ListComponentProvisionedResourcesOutputResponse: Swift.Equatable {
+public struct ListComponentProvisionedResourcesOutput: Swift.Equatable {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
     public var nextToken: Swift.String?
     /// An array of provisioned resources for a component.
@@ -9698,12 +9683,12 @@ public struct ListComponentProvisionedResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListComponentProvisionedResourcesOutputResponseBody: Swift.Equatable {
+struct ListComponentProvisionedResourcesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
 
-extension ListComponentProvisionedResourcesOutputResponseBody: Swift.Decodable {
+extension ListComponentProvisionedResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case provisionedResources
@@ -9724,6 +9709,21 @@ extension ListComponentProvisionedResourcesOutputResponseBody: Swift.Decodable {
             }
         }
         provisionedResources = provisionedResourcesDecoded0
+    }
+}
+
+enum ListComponentProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9822,25 +9822,11 @@ extension ListComponentsInputBody: Swift.Decodable {
     }
 }
 
-enum ListComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListComponentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.components = output.components
             self.nextToken = output.nextToken
         } else {
@@ -9850,7 +9836,7 @@ extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutputResponse: Swift.Equatable {
+public struct ListComponentsOutput: Swift.Equatable {
     /// An array of components with summary data.
     /// This member is required.
     public var components: [ProtonClientTypes.ComponentSummary]?
@@ -9867,12 +9853,12 @@ public struct ListComponentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputResponseBody: Swift.Equatable {
+struct ListComponentsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let components: [ProtonClientTypes.ComponentSummary]?
 }
 
-extension ListComponentsOutputResponseBody: Swift.Decodable {
+extension ListComponentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case components
         case nextToken
@@ -9893,6 +9879,20 @@ extension ListComponentsOutputResponseBody: Swift.Decodable {
             }
         }
         components = componentsDecoded0
+    }
+}
+
+enum ListComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10003,26 +10003,11 @@ extension ListDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDeploymentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deployments = output.deployments
             self.nextToken = output.nextToken
         } else {
@@ -10032,7 +10017,7 @@ extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentsOutputResponse: Swift.Equatable {
+public struct ListDeploymentsOutput: Swift.Equatable {
     /// An array of deployment with summary data.
     /// This member is required.
     public var deployments: [ProtonClientTypes.DeploymentSummary]?
@@ -10049,12 +10034,12 @@ public struct ListDeploymentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputResponseBody: Swift.Equatable {
+struct ListDeploymentsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let deployments: [ProtonClientTypes.DeploymentSummary]?
 }
 
-extension ListDeploymentsOutputResponseBody: Swift.Decodable {
+extension ListDeploymentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deployments
         case nextToken
@@ -10075,6 +10060,21 @@ extension ListDeploymentsOutputResponseBody: Swift.Decodable {
             }
         }
         deployments = deploymentsDecoded0
+    }
+}
+
+enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10186,25 +10186,11 @@ extension ListEnvironmentAccountConnectionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListEnvironmentAccountConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnvironmentAccountConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnvironmentAccountConnectionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnvironmentAccountConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnvironmentAccountConnectionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.environmentAccountConnections = output.environmentAccountConnections
             self.nextToken = output.nextToken
         } else {
@@ -10214,7 +10200,7 @@ extension ListEnvironmentAccountConnectionsOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct ListEnvironmentAccountConnectionsOutputResponse: Swift.Equatable {
+public struct ListEnvironmentAccountConnectionsOutput: Swift.Equatable {
     /// An array of environment account connections with details that's returned by Proton.
     /// This member is required.
     public var environmentAccountConnections: [ProtonClientTypes.EnvironmentAccountConnectionSummary]?
@@ -10231,12 +10217,12 @@ public struct ListEnvironmentAccountConnectionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentAccountConnectionsOutputResponseBody: Swift.Equatable {
+struct ListEnvironmentAccountConnectionsOutputBody: Swift.Equatable {
     let environmentAccountConnections: [ProtonClientTypes.EnvironmentAccountConnectionSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListEnvironmentAccountConnectionsOutputResponseBody: Swift.Decodable {
+extension ListEnvironmentAccountConnectionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case environmentAccountConnections
         case nextToken
@@ -10257,6 +10243,20 @@ extension ListEnvironmentAccountConnectionsOutputResponseBody: Swift.Decodable {
         environmentAccountConnections = environmentAccountConnectionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEnvironmentAccountConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10332,26 +10332,11 @@ extension ListEnvironmentOutputsInputBody: Swift.Decodable {
     }
 }
 
-enum ListEnvironmentOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnvironmentOutputsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnvironmentOutputsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnvironmentOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnvironmentOutputsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.outputs = output.outputs
         } else {
@@ -10361,7 +10346,7 @@ extension ListEnvironmentOutputsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListEnvironmentOutputsOutputResponse: Swift.Equatable {
+public struct ListEnvironmentOutputsOutput: Swift.Equatable {
     /// A token that indicates the location of the next environment output in the array of environment outputs, after the current requested list of environment outputs.
     public var nextToken: Swift.String?
     /// An array of environment outputs with detail data.
@@ -10378,12 +10363,12 @@ public struct ListEnvironmentOutputsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentOutputsOutputResponseBody: Swift.Equatable {
+struct ListEnvironmentOutputsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
 
-extension ListEnvironmentOutputsOutputResponseBody: Swift.Decodable {
+extension ListEnvironmentOutputsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case outputs
@@ -10404,6 +10389,21 @@ extension ListEnvironmentOutputsOutputResponseBody: Swift.Decodable {
             }
         }
         outputs = outputsDecoded0
+    }
+}
+
+enum ListEnvironmentOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10467,26 +10467,11 @@ extension ListEnvironmentProvisionedResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum ListEnvironmentProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnvironmentProvisionedResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnvironmentProvisionedResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnvironmentProvisionedResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnvironmentProvisionedResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.provisionedResources = output.provisionedResources
         } else {
@@ -10496,7 +10481,7 @@ extension ListEnvironmentProvisionedResourcesOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct ListEnvironmentProvisionedResourcesOutputResponse: Swift.Equatable {
+public struct ListEnvironmentProvisionedResourcesOutput: Swift.Equatable {
     /// A token that indicates the location of the next environment provisioned resource in the array of provisioned resources, after the current requested list of environment provisioned resources.
     public var nextToken: Swift.String?
     /// An array of environment provisioned resources.
@@ -10513,12 +10498,12 @@ public struct ListEnvironmentProvisionedResourcesOutputResponse: Swift.Equatable
     }
 }
 
-struct ListEnvironmentProvisionedResourcesOutputResponseBody: Swift.Equatable {
+struct ListEnvironmentProvisionedResourcesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
 
-extension ListEnvironmentProvisionedResourcesOutputResponseBody: Swift.Decodable {
+extension ListEnvironmentProvisionedResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case provisionedResources
@@ -10539,6 +10524,21 @@ extension ListEnvironmentProvisionedResourcesOutputResponseBody: Swift.Decodable
             }
         }
         provisionedResources = provisionedResourcesDecoded0
+    }
+}
+
+enum ListEnvironmentProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10626,26 +10626,11 @@ extension ListEnvironmentTemplateVersionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListEnvironmentTemplateVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnvironmentTemplateVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnvironmentTemplateVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnvironmentTemplateVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnvironmentTemplateVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templateVersions = output.templateVersions
         } else {
@@ -10655,7 +10640,7 @@ extension ListEnvironmentTemplateVersionsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListEnvironmentTemplateVersionsOutputResponse: Swift.Equatable {
+public struct ListEnvironmentTemplateVersionsOutput: Swift.Equatable {
     /// A token that indicates the location of the next major or minor version in the array of major or minor versions of an environment template, after the list of major or minor versions that was previously requested.
     public var nextToken: Swift.String?
     /// An array of major or minor versions of an environment template detail data.
@@ -10672,12 +10657,12 @@ public struct ListEnvironmentTemplateVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentTemplateVersionsOutputResponseBody: Swift.Equatable {
+struct ListEnvironmentTemplateVersionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let templateVersions: [ProtonClientTypes.EnvironmentTemplateVersionSummary]?
 }
 
-extension ListEnvironmentTemplateVersionsOutputResponseBody: Swift.Decodable {
+extension ListEnvironmentTemplateVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case templateVersions
@@ -10698,6 +10683,21 @@ extension ListEnvironmentTemplateVersionsOutputResponseBody: Swift.Decodable {
             }
         }
         templateVersions = templateVersionsDecoded0
+    }
+}
+
+enum ListEnvironmentTemplateVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10760,25 +10760,11 @@ extension ListEnvironmentTemplatesInputBody: Swift.Decodable {
     }
 }
 
-enum ListEnvironmentTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnvironmentTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnvironmentTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnvironmentTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnvironmentTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templates = output.templates
         } else {
@@ -10788,7 +10774,7 @@ extension ListEnvironmentTemplatesOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListEnvironmentTemplatesOutputResponse: Swift.Equatable {
+public struct ListEnvironmentTemplatesOutput: Swift.Equatable {
     /// A token that indicates the location of the next environment template in the array of environment templates, after the current requested list of environment templates.
     public var nextToken: Swift.String?
     /// An array of environment templates with detail data.
@@ -10805,12 +10791,12 @@ public struct ListEnvironmentTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentTemplatesOutputResponseBody: Swift.Equatable {
+struct ListEnvironmentTemplatesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let templates: [ProtonClientTypes.EnvironmentTemplateSummary]?
 }
 
-extension ListEnvironmentTemplatesOutputResponseBody: Swift.Decodable {
+extension ListEnvironmentTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case templates
@@ -10831,6 +10817,20 @@ extension ListEnvironmentTemplatesOutputResponseBody: Swift.Decodable {
             }
         }
         templates = templatesDecoded0
+    }
+}
+
+enum ListEnvironmentTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10917,26 +10917,11 @@ extension ListEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnvironmentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.environments = output.environments
             self.nextToken = output.nextToken
         } else {
@@ -10946,7 +10931,7 @@ extension ListEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentsOutputResponse: Swift.Equatable {
+public struct ListEnvironmentsOutput: Swift.Equatable {
     /// An array of environment detail data summaries.
     /// This member is required.
     public var environments: [ProtonClientTypes.EnvironmentSummary]?
@@ -10963,12 +10948,12 @@ public struct ListEnvironmentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsOutputResponseBody: Swift.Equatable {
+struct ListEnvironmentsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let environments: [ProtonClientTypes.EnvironmentSummary]?
 }
 
-extension ListEnvironmentsOutputResponseBody: Swift.Decodable {
+extension ListEnvironmentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case environments
         case nextToken
@@ -10989,6 +10974,21 @@ extension ListEnvironmentsOutputResponseBody: Swift.Decodable {
             }
         }
         environments = environmentsDecoded0
+    }
+}
+
+enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11051,26 +11051,11 @@ extension ListRepositoriesInputBody: Swift.Decodable {
     }
 }
 
-enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRepositoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositories = output.repositories
         } else {
@@ -11080,7 +11065,7 @@ extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRepositoriesOutputResponse: Swift.Equatable {
+public struct ListRepositoriesOutput: Swift.Equatable {
     /// A token that indicates the location of the next repository in the array of repositories, after the current requested list of repositories.
     public var nextToken: Swift.String?
     /// An array of repository links.
@@ -11097,12 +11082,12 @@ public struct ListRepositoriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesOutputResponseBody: Swift.Equatable {
+struct ListRepositoriesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let repositories: [ProtonClientTypes.RepositorySummary]?
 }
 
-extension ListRepositoriesOutputResponseBody: Swift.Decodable {
+extension ListRepositoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case repositories
@@ -11123,6 +11108,21 @@ extension ListRepositoriesOutputResponseBody: Swift.Decodable {
             }
         }
         repositories = repositoriesDecoded0
+    }
+}
+
+enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11212,25 +11212,11 @@ extension ListRepositorySyncDefinitionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRepositorySyncDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRepositorySyncDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRepositorySyncDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRepositorySyncDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRepositorySyncDefinitionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.syncDefinitions = output.syncDefinitions
         } else {
@@ -11240,7 +11226,7 @@ extension ListRepositorySyncDefinitionsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListRepositorySyncDefinitionsOutputResponse: Swift.Equatable {
+public struct ListRepositorySyncDefinitionsOutput: Swift.Equatable {
     /// A token that indicates the location of the next repository sync definition in the array of repository sync definitions, after the current requested list of repository sync definitions.
     public var nextToken: Swift.String?
     /// An array of repository sync definitions.
@@ -11257,12 +11243,12 @@ public struct ListRepositorySyncDefinitionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRepositorySyncDefinitionsOutputResponseBody: Swift.Equatable {
+struct ListRepositorySyncDefinitionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let syncDefinitions: [ProtonClientTypes.RepositorySyncDefinition]?
 }
 
-extension ListRepositorySyncDefinitionsOutputResponseBody: Swift.Decodable {
+extension ListRepositorySyncDefinitionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case syncDefinitions
@@ -11283,6 +11269,20 @@ extension ListRepositorySyncDefinitionsOutputResponseBody: Swift.Decodable {
             }
         }
         syncDefinitions = syncDefinitionsDecoded0
+    }
+}
+
+enum ListRepositorySyncDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11371,26 +11371,11 @@ extension ListServiceInstanceOutputsInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceInstanceOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServiceInstanceOutputsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceInstanceOutputsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceInstanceOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceInstanceOutputsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.outputs = output.outputs
         } else {
@@ -11400,7 +11385,7 @@ extension ListServiceInstanceOutputsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListServiceInstanceOutputsOutputResponse: Swift.Equatable {
+public struct ListServiceInstanceOutputsOutput: Swift.Equatable {
     /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
     public var nextToken: Swift.String?
     /// An array of service instance Infrastructure as Code (IaC) outputs.
@@ -11417,12 +11402,12 @@ public struct ListServiceInstanceOutputsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServiceInstanceOutputsOutputResponseBody: Swift.Equatable {
+struct ListServiceInstanceOutputsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
 
-extension ListServiceInstanceOutputsOutputResponseBody: Swift.Decodable {
+extension ListServiceInstanceOutputsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case outputs
@@ -11443,6 +11428,21 @@ extension ListServiceInstanceOutputsOutputResponseBody: Swift.Decodable {
             }
         }
         outputs = outputsDecoded0
+    }
+}
+
+enum ListServiceInstanceOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11519,26 +11519,11 @@ extension ListServiceInstanceProvisionedResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceInstanceProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServiceInstanceProvisionedResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceInstanceProvisionedResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceInstanceProvisionedResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceInstanceProvisionedResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.provisionedResources = output.provisionedResources
         } else {
@@ -11548,7 +11533,7 @@ extension ListServiceInstanceProvisionedResourcesOutputResponse: ClientRuntime.H
     }
 }
 
-public struct ListServiceInstanceProvisionedResourcesOutputResponse: Swift.Equatable {
+public struct ListServiceInstanceProvisionedResourcesOutput: Swift.Equatable {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
     public var nextToken: Swift.String?
     /// An array of provisioned resources for a service instance.
@@ -11565,12 +11550,12 @@ public struct ListServiceInstanceProvisionedResourcesOutputResponse: Swift.Equat
     }
 }
 
-struct ListServiceInstanceProvisionedResourcesOutputResponseBody: Swift.Equatable {
+struct ListServiceInstanceProvisionedResourcesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
 
-extension ListServiceInstanceProvisionedResourcesOutputResponseBody: Swift.Decodable {
+extension ListServiceInstanceProvisionedResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case provisionedResources
@@ -11591,6 +11576,21 @@ extension ListServiceInstanceProvisionedResourcesOutputResponseBody: Swift.Decod
             }
         }
         provisionedResources = provisionedResourcesDecoded0
+    }
+}
+
+enum ListServiceInstanceProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11814,26 +11814,11 @@ extension ListServiceInstancesInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServiceInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.serviceInstances = output.serviceInstances
         } else {
@@ -11843,7 +11828,7 @@ extension ListServiceInstancesOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListServiceInstancesOutputResponse: Swift.Equatable {
+public struct ListServiceInstancesOutput: Swift.Equatable {
     /// A token that indicates the location of the next service instance in the array of service instances, after the current requested list of service instances.
     public var nextToken: Swift.String?
     /// An array of service instances with summary data.
@@ -11860,12 +11845,12 @@ public struct ListServiceInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServiceInstancesOutputResponseBody: Swift.Equatable {
+struct ListServiceInstancesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let serviceInstances: [ProtonClientTypes.ServiceInstanceSummary]?
 }
 
-extension ListServiceInstancesOutputResponseBody: Swift.Decodable {
+extension ListServiceInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case serviceInstances
@@ -11886,6 +11871,21 @@ extension ListServiceInstancesOutputResponseBody: Swift.Decodable {
             }
         }
         serviceInstances = serviceInstancesDecoded0
+    }
+}
+
+enum ListServiceInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12008,26 +12008,11 @@ extension ListServicePipelineOutputsInputBody: Swift.Decodable {
     }
 }
 
-enum ListServicePipelineOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServicePipelineOutputsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServicePipelineOutputsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServicePipelineOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServicePipelineOutputsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.outputs = output.outputs
         } else {
@@ -12037,7 +12022,7 @@ extension ListServicePipelineOutputsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListServicePipelineOutputsOutputResponse: Swift.Equatable {
+public struct ListServicePipelineOutputsOutput: Swift.Equatable {
     /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
     public var nextToken: Swift.String?
     /// An array of service pipeline Infrastructure as Code (IaC) outputs.
@@ -12054,12 +12039,12 @@ public struct ListServicePipelineOutputsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServicePipelineOutputsOutputResponseBody: Swift.Equatable {
+struct ListServicePipelineOutputsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
 
-extension ListServicePipelineOutputsOutputResponseBody: Swift.Decodable {
+extension ListServicePipelineOutputsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case outputs
@@ -12080,6 +12065,21 @@ extension ListServicePipelineOutputsOutputResponseBody: Swift.Decodable {
             }
         }
         outputs = outputsDecoded0
+    }
+}
+
+enum ListServicePipelineOutputsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12143,26 +12143,11 @@ extension ListServicePipelineProvisionedResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum ListServicePipelineProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServicePipelineProvisionedResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServicePipelineProvisionedResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServicePipelineProvisionedResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServicePipelineProvisionedResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.provisionedResources = output.provisionedResources
         } else {
@@ -12172,7 +12157,7 @@ extension ListServicePipelineProvisionedResourcesOutputResponse: ClientRuntime.H
     }
 }
 
-public struct ListServicePipelineProvisionedResourcesOutputResponse: Swift.Equatable {
+public struct ListServicePipelineProvisionedResourcesOutput: Swift.Equatable {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
     public var nextToken: Swift.String?
     /// An array of provisioned resources for a service and pipeline.
@@ -12189,12 +12174,12 @@ public struct ListServicePipelineProvisionedResourcesOutputResponse: Swift.Equat
     }
 }
 
-struct ListServicePipelineProvisionedResourcesOutputResponseBody: Swift.Equatable {
+struct ListServicePipelineProvisionedResourcesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
 
-extension ListServicePipelineProvisionedResourcesOutputResponseBody: Swift.Decodable {
+extension ListServicePipelineProvisionedResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case provisionedResources
@@ -12215,6 +12200,21 @@ extension ListServicePipelineProvisionedResourcesOutputResponseBody: Swift.Decod
             }
         }
         provisionedResources = provisionedResourcesDecoded0
+    }
+}
+
+enum ListServicePipelineProvisionedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12302,26 +12302,11 @@ extension ListServiceTemplateVersionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceTemplateVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServiceTemplateVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceTemplateVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceTemplateVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceTemplateVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templateVersions = output.templateVersions
         } else {
@@ -12331,7 +12316,7 @@ extension ListServiceTemplateVersionsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListServiceTemplateVersionsOutputResponse: Swift.Equatable {
+public struct ListServiceTemplateVersionsOutput: Swift.Equatable {
     /// A token that indicates the location of the next major or minor version in the array of major or minor versions of a service template, after the current requested list of service major or minor versions.
     public var nextToken: Swift.String?
     /// An array of major or minor versions of a service template with detail data.
@@ -12348,12 +12333,12 @@ public struct ListServiceTemplateVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServiceTemplateVersionsOutputResponseBody: Swift.Equatable {
+struct ListServiceTemplateVersionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let templateVersions: [ProtonClientTypes.ServiceTemplateVersionSummary]?
 }
 
-extension ListServiceTemplateVersionsOutputResponseBody: Swift.Decodable {
+extension ListServiceTemplateVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case templateVersions
@@ -12374,6 +12359,21 @@ extension ListServiceTemplateVersionsOutputResponseBody: Swift.Decodable {
             }
         }
         templateVersions = templateVersionsDecoded0
+    }
+}
+
+enum ListServiceTemplateVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12436,25 +12436,11 @@ extension ListServiceTemplatesInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServiceTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templates = output.templates
         } else {
@@ -12464,7 +12450,7 @@ extension ListServiceTemplatesOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListServiceTemplatesOutputResponse: Swift.Equatable {
+public struct ListServiceTemplatesOutput: Swift.Equatable {
     /// A token that indicates the location of the next service template in the array of service templates, after the current requested list of service templates.
     public var nextToken: Swift.String?
     /// An array of service templates with detail data.
@@ -12481,12 +12467,12 @@ public struct ListServiceTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServiceTemplatesOutputResponseBody: Swift.Equatable {
+struct ListServiceTemplatesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let templates: [ProtonClientTypes.ServiceTemplateSummary]?
 }
 
-extension ListServiceTemplatesOutputResponseBody: Swift.Decodable {
+extension ListServiceTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case templates
@@ -12507,6 +12493,20 @@ extension ListServiceTemplatesOutputResponseBody: Swift.Decodable {
             }
         }
         templates = templatesDecoded0
+    }
+}
+
+enum ListServiceTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12569,25 +12569,11 @@ extension ListServicesInputBody: Swift.Decodable {
     }
 }
 
-enum ListServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServicesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServicesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.services = output.services
         } else {
@@ -12597,7 +12583,7 @@ extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServicesOutputResponse: Swift.Equatable {
+public struct ListServicesOutput: Swift.Equatable {
     /// A token that indicates the location of the next service in the array of services, after the current requested list of services.
     public var nextToken: Swift.String?
     /// An array of services with summaries of detail data.
@@ -12614,12 +12600,12 @@ public struct ListServicesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServicesOutputResponseBody: Swift.Equatable {
+struct ListServicesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let services: [ProtonClientTypes.ServiceSummary]?
 }
 
-extension ListServicesOutputResponseBody: Swift.Decodable {
+extension ListServicesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case services
@@ -12640,6 +12626,20 @@ extension ListServicesOutputResponseBody: Swift.Decodable {
             }
         }
         services = servicesDecoded0
+    }
+}
+
+enum ListServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12687,26 +12687,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -12716,7 +12701,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A token that indicates the location of the next resource tag in the array of resource tags, after the current requested list of resource tags.
     public var nextToken: Swift.String?
     /// A list of resource tags with detail data.
@@ -12733,12 +12718,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [ProtonClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case tags
@@ -12759,6 +12744,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12875,6 +12875,16 @@ extension NotifyResourceDeploymentStatusChangeInputBody: Swift.Decodable {
     }
 }
 
+extension NotifyResourceDeploymentStatusChangeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct NotifyResourceDeploymentStatusChangeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum NotifyResourceDeploymentStatusChangeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12890,16 +12900,6 @@ enum NotifyResourceDeploymentStatusChangeOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension NotifyResourceDeploymentStatusChangeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct NotifyResourceDeploymentStatusChangeOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ProtonClientTypes.Output: Swift.Codable {
@@ -13118,6 +13118,47 @@ extension RejectEnvironmentAccountConnectionInputBody: Swift.Decodable {
     }
 }
 
+extension RejectEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RejectEnvironmentAccountConnectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentAccountConnection = output.environmentAccountConnection
+        } else {
+            self.environmentAccountConnection = nil
+        }
+    }
+}
+
+public struct RejectEnvironmentAccountConnectionOutput: Swift.Equatable {
+    /// The environment connection account detail data that's returned by Proton.
+    /// This member is required.
+    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+
+    public init(
+        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
+    )
+    {
+        self.environmentAccountConnection = environmentAccountConnection
+    }
+}
+
+struct RejectEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+}
+
+extension RejectEnvironmentAccountConnectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentAccountConnection
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
+        environmentAccountConnection = environmentAccountConnectionDecoded
+    }
+}
+
 enum RejectEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13131,47 +13172,6 @@ enum RejectEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseEr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RejectEnvironmentAccountConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RejectEnvironmentAccountConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentAccountConnection = output.environmentAccountConnection
-        } else {
-            self.environmentAccountConnection = nil
-        }
-    }
-}
-
-public struct RejectEnvironmentAccountConnectionOutputResponse: Swift.Equatable {
-    /// The environment connection account detail data that's returned by Proton.
-    /// This member is required.
-    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-
-    public init(
-        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
-        self.environmentAccountConnection = environmentAccountConnection
-    }
-}
-
-struct RejectEnvironmentAccountConnectionOutputResponseBody: Swift.Equatable {
-    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-}
-
-extension RejectEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentAccountConnection
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
-        environmentAccountConnection = environmentAccountConnectionDecoded
     }
 }
 
@@ -16483,6 +16483,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16497,16 +16507,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ProtonClientTypes.TemplateSyncConfig: Swift.Codable {
@@ -16832,6 +16832,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16846,16 +16856,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAccountSettingsInput: Swift.Encodable {
@@ -16941,26 +16941,11 @@ extension UpdateAccountSettingsInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAccountSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountSettings = output.accountSettings
         } else {
             self.accountSettings = nil
@@ -16968,7 +16953,7 @@ extension UpdateAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateAccountSettingsOutputResponse: Swift.Equatable {
+public struct UpdateAccountSettingsOutput: Swift.Equatable {
     /// The Proton pipeline service role and repository data shared across the Amazon Web Services account.
     /// This member is required.
     public var accountSettings: ProtonClientTypes.AccountSettings?
@@ -16981,11 +16966,11 @@ public struct UpdateAccountSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsOutputResponseBody: Swift.Equatable {
+struct UpdateAccountSettingsOutputBody: Swift.Equatable {
     let accountSettings: ProtonClientTypes.AccountSettings?
 }
 
-extension UpdateAccountSettingsOutputResponseBody: Swift.Decodable {
+extension UpdateAccountSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountSettings
     }
@@ -16994,6 +16979,21 @@ extension UpdateAccountSettingsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountSettingsDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.AccountSettings.self, forKey: .accountSettings)
         accountSettings = accountSettingsDecoded
+    }
+}
+
+enum UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -17135,6 +17135,47 @@ extension UpdateComponentInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.component = output.component
+        } else {
+            self.component = nil
+        }
+    }
+}
+
+public struct UpdateComponentOutput: Swift.Equatable {
+    /// The detailed data of the updated component.
+    /// This member is required.
+    public var component: ProtonClientTypes.Component?
+
+    public init(
+        component: ProtonClientTypes.Component? = nil
+    )
+    {
+        self.component = component
+    }
+}
+
+struct UpdateComponentOutputBody: Swift.Equatable {
+    let component: ProtonClientTypes.Component?
+}
+
+extension UpdateComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case component
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
+        component = componentDecoded
+    }
+}
+
 enum UpdateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17149,47 +17190,6 @@ enum UpdateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.component = output.component
-        } else {
-            self.component = nil
-        }
-    }
-}
-
-public struct UpdateComponentOutputResponse: Swift.Equatable {
-    /// The detailed data of the updated component.
-    /// This member is required.
-    public var component: ProtonClientTypes.Component?
-
-    public init(
-        component: ProtonClientTypes.Component? = nil
-    )
-    {
-        self.component = component
-    }
-}
-
-struct UpdateComponentOutputResponseBody: Swift.Equatable {
-    let component: ProtonClientTypes.Component?
-}
-
-extension UpdateComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case component
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
-        component = componentDecoded
     }
 }
 
@@ -17277,6 +17277,47 @@ extension UpdateEnvironmentAccountConnectionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEnvironmentAccountConnectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentAccountConnection = output.environmentAccountConnection
+        } else {
+            self.environmentAccountConnection = nil
+        }
+    }
+}
+
+public struct UpdateEnvironmentAccountConnectionOutput: Swift.Equatable {
+    /// The environment account connection detail data that's returned by Proton.
+    /// This member is required.
+    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+
+    public init(
+        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
+    )
+    {
+        self.environmentAccountConnection = environmentAccountConnection
+    }
+}
+
+struct UpdateEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
+}
+
+extension UpdateEnvironmentAccountConnectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentAccountConnection
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
+        environmentAccountConnection = environmentAccountConnectionDecoded
+    }
+}
+
 enum UpdateEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17290,47 +17331,6 @@ enum UpdateEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseEr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateEnvironmentAccountConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateEnvironmentAccountConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentAccountConnection = output.environmentAccountConnection
-        } else {
-            self.environmentAccountConnection = nil
-        }
-    }
-}
-
-public struct UpdateEnvironmentAccountConnectionOutputResponse: Swift.Equatable {
-    /// The environment account connection detail data that's returned by Proton.
-    /// This member is required.
-    public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-
-    public init(
-        environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
-        self.environmentAccountConnection = environmentAccountConnection
-    }
-}
-
-struct UpdateEnvironmentAccountConnectionOutputResponseBody: Swift.Equatable {
-    let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
-}
-
-extension UpdateEnvironmentAccountConnectionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentAccountConnection
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentAccountConnectionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentAccountConnection.self, forKey: .environmentAccountConnection)
-        environmentAccountConnection = environmentAccountConnectionDecoded
     }
 }
 
@@ -17508,6 +17508,47 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environment = output.environment
+        } else {
+            self.environment = nil
+        }
+    }
+}
+
+public struct UpdateEnvironmentOutput: Swift.Equatable {
+    /// The environment detail data that's returned by Proton.
+    /// This member is required.
+    public var environment: ProtonClientTypes.Environment?
+
+    public init(
+        environment: ProtonClientTypes.Environment? = nil
+    )
+    {
+        self.environment = environment
+    }
+}
+
+struct UpdateEnvironmentOutputBody: Swift.Equatable {
+    let environment: ProtonClientTypes.Environment?
+}
+
+extension UpdateEnvironmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
+        environment = environmentDecoded
+    }
+}
+
 enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17521,47 +17562,6 @@ enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environment = output.environment
-        } else {
-            self.environment = nil
-        }
-    }
-}
-
-public struct UpdateEnvironmentOutputResponse: Swift.Equatable {
-    /// The environment detail data that's returned by Proton.
-    /// This member is required.
-    public var environment: ProtonClientTypes.Environment?
-
-    public init(
-        environment: ProtonClientTypes.Environment? = nil
-    )
-    {
-        self.environment = environment
-    }
-}
-
-struct UpdateEnvironmentOutputResponseBody: Swift.Equatable {
-    let environment: ProtonClientTypes.Environment?
-}
-
-extension UpdateEnvironmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Environment.self, forKey: .environment)
-        environment = environmentDecoded
     }
 }
 
@@ -17642,6 +17642,47 @@ extension UpdateEnvironmentTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEnvironmentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentTemplate = output.environmentTemplate
+        } else {
+            self.environmentTemplate = nil
+        }
+    }
+}
+
+public struct UpdateEnvironmentTemplateOutput: Swift.Equatable {
+    /// The environment template detail data that's returned by Proton.
+    /// This member is required.
+    public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
+
+    public init(
+        environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
+    )
+    {
+        self.environmentTemplate = environmentTemplate
+    }
+}
+
+struct UpdateEnvironmentTemplateOutputBody: Swift.Equatable {
+    let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
+}
+
+extension UpdateEnvironmentTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplate.self, forKey: .environmentTemplate)
+        environmentTemplate = environmentTemplateDecoded
+    }
+}
+
 enum UpdateEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17655,47 +17696,6 @@ enum UpdateEnvironmentTemplateOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateEnvironmentTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateEnvironmentTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentTemplate = output.environmentTemplate
-        } else {
-            self.environmentTemplate = nil
-        }
-    }
-}
-
-public struct UpdateEnvironmentTemplateOutputResponse: Swift.Equatable {
-    /// The environment template detail data that's returned by Proton.
-    /// This member is required.
-    public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
-
-    public init(
-        environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
-    )
-    {
-        self.environmentTemplate = environmentTemplate
-    }
-}
-
-struct UpdateEnvironmentTemplateOutputResponseBody: Swift.Equatable {
-    let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
-}
-
-extension UpdateEnvironmentTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplate.self, forKey: .environmentTemplate)
-        environmentTemplate = environmentTemplateDecoded
     }
 }
 
@@ -17802,6 +17802,47 @@ extension UpdateEnvironmentTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEnvironmentTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentTemplateVersion = output.environmentTemplateVersion
+        } else {
+            self.environmentTemplateVersion = nil
+        }
+    }
+}
+
+public struct UpdateEnvironmentTemplateVersionOutput: Swift.Equatable {
+    /// The environment template version detail data that's returned by Proton.
+    /// This member is required.
+    public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
+
+    public init(
+        environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
+    )
+    {
+        self.environmentTemplateVersion = environmentTemplateVersion
+    }
+}
+
+struct UpdateEnvironmentTemplateVersionOutputBody: Swift.Equatable {
+    let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
+}
+
+extension UpdateEnvironmentTemplateVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentTemplateVersion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplateVersion.self, forKey: .environmentTemplateVersion)
+        environmentTemplateVersion = environmentTemplateVersionDecoded
+    }
+}
+
 enum UpdateEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17815,47 +17856,6 @@ enum UpdateEnvironmentTemplateVersionOutputError: ClientRuntime.HttpResponseErro
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateEnvironmentTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateEnvironmentTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.environmentTemplateVersion = output.environmentTemplateVersion
-        } else {
-            self.environmentTemplateVersion = nil
-        }
-    }
-}
-
-public struct UpdateEnvironmentTemplateVersionOutputResponse: Swift.Equatable {
-    /// The environment template version detail data that's returned by Proton.
-    /// This member is required.
-    public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
-
-    public init(
-        environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
-    )
-    {
-        self.environmentTemplateVersion = environmentTemplateVersion
-    }
-}
-
-struct UpdateEnvironmentTemplateVersionOutputResponseBody: Swift.Equatable {
-    let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
-}
-
-extension UpdateEnvironmentTemplateVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case environmentTemplateVersion
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let environmentTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.EnvironmentTemplateVersion.self, forKey: .environmentTemplateVersion)
-        environmentTemplateVersion = environmentTemplateVersionDecoded
     }
 }
 
@@ -18063,6 +18063,47 @@ extension UpdateServiceInstanceInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateServiceInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateServiceInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceInstance = output.serviceInstance
+        } else {
+            self.serviceInstance = nil
+        }
+    }
+}
+
+public struct UpdateServiceInstanceOutput: Swift.Equatable {
+    /// The service instance summary data that's returned by Proton.
+    /// This member is required.
+    public var serviceInstance: ProtonClientTypes.ServiceInstance?
+
+    public init(
+        serviceInstance: ProtonClientTypes.ServiceInstance? = nil
+    )
+    {
+        self.serviceInstance = serviceInstance
+    }
+}
+
+struct UpdateServiceInstanceOutputBody: Swift.Equatable {
+    let serviceInstance: ProtonClientTypes.ServiceInstance?
+}
+
+extension UpdateServiceInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstance
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
+        serviceInstance = serviceInstanceDecoded
+    }
+}
+
 enum UpdateServiceInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18079,44 +18120,44 @@ enum UpdateServiceInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateServiceInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateServiceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateServiceInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceInstance = output.serviceInstance
+            let output: UpdateServiceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.service = output.service
         } else {
-            self.serviceInstance = nil
+            self.service = nil
         }
     }
 }
 
-public struct UpdateServiceInstanceOutputResponse: Swift.Equatable {
-    /// The service instance summary data that's returned by Proton.
+public struct UpdateServiceOutput: Swift.Equatable {
+    /// The service detail data that's returned by Proton.
     /// This member is required.
-    public var serviceInstance: ProtonClientTypes.ServiceInstance?
+    public var service: ProtonClientTypes.Service?
 
     public init(
-        serviceInstance: ProtonClientTypes.ServiceInstance? = nil
+        service: ProtonClientTypes.Service? = nil
     )
     {
-        self.serviceInstance = serviceInstance
+        self.service = service
     }
 }
 
-struct UpdateServiceInstanceOutputResponseBody: Swift.Equatable {
-    let serviceInstance: ProtonClientTypes.ServiceInstance?
+struct UpdateServiceOutputBody: Swift.Equatable {
+    let service: ProtonClientTypes.Service?
 }
 
-extension UpdateServiceInstanceOutputResponseBody: Swift.Decodable {
+extension UpdateServiceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceInstance
+        case service
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
-        serviceInstance = serviceInstanceDecoded
+        let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
+        service = serviceDecoded
     }
 }
 
@@ -18134,47 +18175,6 @@ enum UpdateServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.service = output.service
-        } else {
-            self.service = nil
-        }
-    }
-}
-
-public struct UpdateServiceOutputResponse: Swift.Equatable {
-    /// The service detail data that's returned by Proton.
-    /// This member is required.
-    public var service: ProtonClientTypes.Service?
-
-    public init(
-        service: ProtonClientTypes.Service? = nil
-    )
-    {
-        self.service = service
-    }
-}
-
-struct UpdateServiceOutputResponseBody: Swift.Equatable {
-    let service: ProtonClientTypes.Service?
-}
-
-extension UpdateServiceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case service
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
-        service = serviceDecoded
     }
 }
 
@@ -18281,6 +18281,47 @@ extension UpdateServicePipelineInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateServicePipelineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateServicePipelineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pipeline = output.pipeline
+        } else {
+            self.pipeline = nil
+        }
+    }
+}
+
+public struct UpdateServicePipelineOutput: Swift.Equatable {
+    /// The pipeline details that are returned by Proton.
+    /// This member is required.
+    public var pipeline: ProtonClientTypes.ServicePipeline?
+
+    public init(
+        pipeline: ProtonClientTypes.ServicePipeline? = nil
+    )
+    {
+        self.pipeline = pipeline
+    }
+}
+
+struct UpdateServicePipelineOutputBody: Swift.Equatable {
+    let pipeline: ProtonClientTypes.ServicePipeline?
+}
+
+extension UpdateServicePipelineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipeline
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServicePipeline.self, forKey: .pipeline)
+        pipeline = pipelineDecoded
+    }
+}
+
 enum UpdateServicePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18294,47 +18335,6 @@ enum UpdateServicePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateServicePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateServicePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pipeline = output.pipeline
-        } else {
-            self.pipeline = nil
-        }
-    }
-}
-
-public struct UpdateServicePipelineOutputResponse: Swift.Equatable {
-    /// The pipeline details that are returned by Proton.
-    /// This member is required.
-    public var pipeline: ProtonClientTypes.ServicePipeline?
-
-    public init(
-        pipeline: ProtonClientTypes.ServicePipeline? = nil
-    )
-    {
-        self.pipeline = pipeline
-    }
-}
-
-struct UpdateServicePipelineOutputResponseBody: Swift.Equatable {
-    let pipeline: ProtonClientTypes.ServicePipeline?
-}
-
-extension UpdateServicePipelineOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pipeline
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pipelineDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServicePipeline.self, forKey: .pipeline)
-        pipeline = pipelineDecoded
     }
 }
 
@@ -18399,27 +18399,11 @@ extension UpdateServiceSyncBlockerInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateServiceSyncBlockerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateServiceSyncBlockerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateServiceSyncBlockerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateServiceSyncBlockerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateServiceSyncBlockerOutputBody = try responseDecoder.decode(responseBody: data)
             self.serviceInstanceName = output.serviceInstanceName
             self.serviceName = output.serviceName
             self.serviceSyncBlocker = output.serviceSyncBlocker
@@ -18431,7 +18415,7 @@ extension UpdateServiceSyncBlockerOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateServiceSyncBlockerOutputResponse: Swift.Equatable {
+public struct UpdateServiceSyncBlockerOutput: Swift.Equatable {
     /// The name of the service instance that you want to update the service sync blocker for.
     public var serviceInstanceName: Swift.String?
     /// The name of the service that you want to update the service sync blocker for.
@@ -18453,13 +18437,13 @@ public struct UpdateServiceSyncBlockerOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSyncBlockerOutputResponseBody: Swift.Equatable {
+struct UpdateServiceSyncBlockerOutputBody: Swift.Equatable {
     let serviceName: Swift.String?
     let serviceInstanceName: Swift.String?
     let serviceSyncBlocker: ProtonClientTypes.SyncBlocker?
 }
 
-extension UpdateServiceSyncBlockerOutputResponseBody: Swift.Decodable {
+extension UpdateServiceSyncBlockerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serviceInstanceName
         case serviceName
@@ -18474,6 +18458,22 @@ extension UpdateServiceSyncBlockerOutputResponseBody: Swift.Decodable {
         serviceInstanceName = serviceInstanceNameDecoded
         let serviceSyncBlockerDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.SyncBlocker.self, forKey: .serviceSyncBlocker)
         serviceSyncBlocker = serviceSyncBlockerDecoded
+    }
+}
+
+enum UpdateServiceSyncBlockerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -18577,6 +18577,46 @@ extension UpdateServiceSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateServiceSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct UpdateServiceSyncConfigOutput: Swift.Equatable {
+    /// The detailed data of the Proton Ops file.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init(
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct UpdateServiceSyncConfigOutputBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension UpdateServiceSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
+    }
+}
+
 enum UpdateServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18590,46 +18630,6 @@ enum UpdateServiceSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceSyncConfig = output.serviceSyncConfig
-        } else {
-            self.serviceSyncConfig = nil
-        }
-    }
-}
-
-public struct UpdateServiceSyncConfigOutputResponse: Swift.Equatable {
-    /// The detailed data of the Proton Ops file.
-    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-
-    public init(
-        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
-        self.serviceSyncConfig = serviceSyncConfig
-    }
-}
-
-struct UpdateServiceSyncConfigOutputResponseBody: Swift.Equatable {
-    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
-}
-
-extension UpdateServiceSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
-        serviceSyncConfig = serviceSyncConfigDecoded
     }
 }
 
@@ -18710,6 +18710,47 @@ extension UpdateServiceTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateServiceTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceTemplate = output.serviceTemplate
+        } else {
+            self.serviceTemplate = nil
+        }
+    }
+}
+
+public struct UpdateServiceTemplateOutput: Swift.Equatable {
+    /// The service template detail data that's returned by Proton.
+    /// This member is required.
+    public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
+
+    public init(
+        serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
+    )
+    {
+        self.serviceTemplate = serviceTemplate
+    }
+}
+
+struct UpdateServiceTemplateOutputBody: Swift.Equatable {
+    let serviceTemplate: ProtonClientTypes.ServiceTemplate?
+}
+
+extension UpdateServiceTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplate.self, forKey: .serviceTemplate)
+        serviceTemplate = serviceTemplateDecoded
+    }
+}
+
 enum UpdateServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18723,47 +18764,6 @@ enum UpdateServiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateServiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateServiceTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceTemplate = output.serviceTemplate
-        } else {
-            self.serviceTemplate = nil
-        }
-    }
-}
-
-public struct UpdateServiceTemplateOutputResponse: Swift.Equatable {
-    /// The service template detail data that's returned by Proton.
-    /// This member is required.
-    public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
-
-    public init(
-        serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
-    )
-    {
-        self.serviceTemplate = serviceTemplate
-    }
-}
-
-struct UpdateServiceTemplateOutputResponseBody: Swift.Equatable {
-    let serviceTemplate: ProtonClientTypes.ServiceTemplate?
-}
-
-extension UpdateServiceTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceTemplateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplate.self, forKey: .serviceTemplate)
-        serviceTemplate = serviceTemplateDecoded
     }
 }
 
@@ -18918,6 +18918,47 @@ extension UpdateServiceTemplateVersionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateServiceTemplateVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceTemplateVersion = output.serviceTemplateVersion
+        } else {
+            self.serviceTemplateVersion = nil
+        }
+    }
+}
+
+public struct UpdateServiceTemplateVersionOutput: Swift.Equatable {
+    /// The service template version detail data that's returned by Proton.
+    /// This member is required.
+    public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
+
+    public init(
+        serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
+    )
+    {
+        self.serviceTemplateVersion = serviceTemplateVersion
+    }
+}
+
+struct UpdateServiceTemplateVersionOutputBody: Swift.Equatable {
+    let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
+}
+
+extension UpdateServiceTemplateVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceTemplateVersion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplateVersion.self, forKey: .serviceTemplateVersion)
+        serviceTemplateVersion = serviceTemplateVersionDecoded
+    }
+}
+
 enum UpdateServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18931,47 +18972,6 @@ enum UpdateServiceTemplateVersionOutputError: ClientRuntime.HttpResponseErrorBin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateServiceTemplateVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateServiceTemplateVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceTemplateVersion = output.serviceTemplateVersion
-        } else {
-            self.serviceTemplateVersion = nil
-        }
-    }
-}
-
-public struct UpdateServiceTemplateVersionOutputResponse: Swift.Equatable {
-    /// The service template version detail data that's returned by Proton.
-    /// This member is required.
-    public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
-
-    public init(
-        serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
-    )
-    {
-        self.serviceTemplateVersion = serviceTemplateVersion
-    }
-}
-
-struct UpdateServiceTemplateVersionOutputResponseBody: Swift.Equatable {
-    let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
-}
-
-extension UpdateServiceTemplateVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceTemplateVersion
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceTemplateVersionDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceTemplateVersion.self, forKey: .serviceTemplateVersion)
-        serviceTemplateVersion = serviceTemplateVersionDecoded
     }
 }
 
@@ -19087,6 +19087,46 @@ extension UpdateTemplateSyncConfigInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTemplateSyncConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.templateSyncConfig = output.templateSyncConfig
+        } else {
+            self.templateSyncConfig = nil
+        }
+    }
+}
+
+public struct UpdateTemplateSyncConfigOutput: Swift.Equatable {
+    /// The template sync configuration detail data that's returned by Proton.
+    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+
+    public init(
+        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
+    )
+    {
+        self.templateSyncConfig = templateSyncConfig
+    }
+}
+
+struct UpdateTemplateSyncConfigOutputBody: Swift.Equatable {
+    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
+}
+
+extension UpdateTemplateSyncConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case templateSyncConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
+        templateSyncConfig = templateSyncConfigDecoded
+    }
+}
+
 enum UpdateTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -19100,46 +19140,6 @@ enum UpdateTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateTemplateSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateTemplateSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.templateSyncConfig = output.templateSyncConfig
-        } else {
-            self.templateSyncConfig = nil
-        }
-    }
-}
-
-public struct UpdateTemplateSyncConfigOutputResponse: Swift.Equatable {
-    /// The template sync configuration detail data that's returned by Proton.
-    public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-
-    public init(
-        templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
-        self.templateSyncConfig = templateSyncConfig
-    }
-}
-
-struct UpdateTemplateSyncConfigOutputResponseBody: Swift.Equatable {
-    let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
-}
-
-extension UpdateTemplateSyncConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case templateSyncConfig
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let templateSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.TemplateSyncConfig.self, forKey: .templateSyncConfig)
-        templateSyncConfig = templateSyncConfigDecoded
     }
 }
 

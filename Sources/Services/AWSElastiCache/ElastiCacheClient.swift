@@ -67,7 +67,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter AddTagsToResourceInput : Represents the input of an AddTagsToResource operation.
     ///
-    /// - Returns: `AddTagsToResourceOutputResponse` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    /// - Returns: `AddTagsToResourceOutput` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,7 +84,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -100,20 +100,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutput, AddTagsToResourceOutputError>(id: "addTagsToResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput, AddTagsToResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(xmlName: "AddTagsToResourceMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(xmlName: "AddTagsToResourceMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsToResourceOutput, AddTagsToResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -122,7 +122,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter AuthorizeCacheSecurityGroupIngressInput : Represents the input of an AuthorizeCacheSecurityGroupIngress operation.
     ///
-    /// - Returns: `AuthorizeCacheSecurityGroupIngressOutputResponse` : [no documentation found]
+    /// - Returns: `AuthorizeCacheSecurityGroupIngressOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,7 +132,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func authorizeCacheSecurityGroupIngress(input: AuthorizeCacheSecurityGroupIngressInput) async throws -> AuthorizeCacheSecurityGroupIngressOutputResponse
+    public func authorizeCacheSecurityGroupIngress(input: AuthorizeCacheSecurityGroupIngressInput) async throws -> AuthorizeCacheSecurityGroupIngressOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -148,20 +148,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(id: "authorizeCacheSecurityGroupIngress")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutput, AuthorizeCacheSecurityGroupIngressOutputError>(id: "authorizeCacheSecurityGroupIngress")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutput, AuthorizeCacheSecurityGroupIngressOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AuthorizeCacheSecurityGroupIngressOutput, AuthorizeCacheSecurityGroupIngressOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse>(xmlName: "AuthorizeCacheSecurityGroupIngressMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutput>(xmlName: "AuthorizeCacheSecurityGroupIngressMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AuthorizeCacheSecurityGroupIngressOutput, AuthorizeCacheSecurityGroupIngressOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeCacheSecurityGroupIngressOutput, AuthorizeCacheSecurityGroupIngressOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeCacheSecurityGroupIngressOutput, AuthorizeCacheSecurityGroupIngressOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeCacheSecurityGroupIngressOutput, AuthorizeCacheSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -170,14 +170,14 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter BatchApplyUpdateActionInput : [no documentation found]
     ///
-    /// - Returns: `BatchApplyUpdateActionOutputResponse` : [no documentation found]
+    /// - Returns: `BatchApplyUpdateActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
-    public func batchApplyUpdateAction(input: BatchApplyUpdateActionInput) async throws -> BatchApplyUpdateActionOutputResponse
+    public func batchApplyUpdateAction(input: BatchApplyUpdateActionInput) async throws -> BatchApplyUpdateActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -193,20 +193,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(id: "batchApplyUpdateAction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutput, BatchApplyUpdateActionOutputError>(id: "batchApplyUpdateAction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutput, BatchApplyUpdateActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchApplyUpdateActionOutput, BatchApplyUpdateActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse>(xmlName: "BatchApplyUpdateActionMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutput>(xmlName: "BatchApplyUpdateActionMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchApplyUpdateActionOutput, BatchApplyUpdateActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchApplyUpdateActionOutput, BatchApplyUpdateActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchApplyUpdateActionOutput, BatchApplyUpdateActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchApplyUpdateActionOutput, BatchApplyUpdateActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -215,14 +215,14 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter BatchStopUpdateActionInput : [no documentation found]
     ///
-    /// - Returns: `BatchStopUpdateActionOutputResponse` : [no documentation found]
+    /// - Returns: `BatchStopUpdateActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
-    public func batchStopUpdateAction(input: BatchStopUpdateActionInput) async throws -> BatchStopUpdateActionOutputResponse
+    public func batchStopUpdateAction(input: BatchStopUpdateActionInput) async throws -> BatchStopUpdateActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -238,20 +238,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(id: "batchStopUpdateAction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchStopUpdateActionInput, BatchStopUpdateActionOutput, BatchStopUpdateActionOutputError>(id: "batchStopUpdateAction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutput, BatchStopUpdateActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStopUpdateActionOutput, BatchStopUpdateActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse>(xmlName: "BatchStopUpdateActionMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutput>(xmlName: "BatchStopUpdateActionMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStopUpdateActionOutput, BatchStopUpdateActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStopUpdateActionOutput, BatchStopUpdateActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStopUpdateActionOutput, BatchStopUpdateActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStopUpdateActionOutput, BatchStopUpdateActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -260,7 +260,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CompleteMigrationInput : [no documentation found]
     ///
-    /// - Returns: `CompleteMigrationOutputResponse` : [no documentation found]
+    /// - Returns: `CompleteMigrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,7 +268,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ReplicationGroupNotUnderMigrationFault` : The designated replication group is not available for data migration.
-    public func completeMigration(input: CompleteMigrationInput) async throws -> CompleteMigrationOutputResponse
+    public func completeMigration(input: CompleteMigrationInput) async throws -> CompleteMigrationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -284,20 +284,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CompleteMigrationInput, CompleteMigrationOutputResponse, CompleteMigrationOutputError>(id: "completeMigration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMigrationInput, CompleteMigrationOutputResponse, CompleteMigrationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteMigrationInput, CompleteMigrationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CompleteMigrationInput, CompleteMigrationOutput, CompleteMigrationOutputError>(id: "completeMigration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMigrationInput, CompleteMigrationOutput, CompleteMigrationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteMigrationInput, CompleteMigrationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteMigrationOutputResponse, CompleteMigrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteMigrationOutput, CompleteMigrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CompleteMigrationInput, CompleteMigrationOutputResponse>(xmlName: "CompleteMigrationMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CompleteMigrationInput, CompleteMigrationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CompleteMigrationInput, CompleteMigrationOutput>(xmlName: "CompleteMigrationMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CompleteMigrationInput, CompleteMigrationOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteMigrationOutputResponse, CompleteMigrationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteMigrationOutput, CompleteMigrationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMigrationOutputResponse, CompleteMigrationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMigrationOutputResponse, CompleteMigrationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMigrationOutputResponse, CompleteMigrationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMigrationOutput, CompleteMigrationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMigrationOutput, CompleteMigrationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMigrationOutput, CompleteMigrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -322,7 +322,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CopySnapshotInput : Represents the input of a CopySnapshotMessage operation.
     ///
-    /// - Returns: `CopySnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `CopySnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -334,7 +334,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutputResponse
+    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -350,20 +350,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>(id: "copySnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CopySnapshotInput, CopySnapshotOutput, CopySnapshotOutputError>(id: "copySnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopySnapshotInput, CopySnapshotOutput, CopySnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopySnapshotInput, CopySnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopySnapshotOutput, CopySnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>(xmlName: "CopySnapshotMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopySnapshotInput, CopySnapshotOutput>(xmlName: "CopySnapshotMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopySnapshotInput, CopySnapshotOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopySnapshotOutputResponse, CopySnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopySnapshotOutput, CopySnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopySnapshotOutput, CopySnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopySnapshotOutput, CopySnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopySnapshotOutput, CopySnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -372,7 +372,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateCacheClusterInput : Represents the input of a CreateCacheCluster operation.
     ///
-    /// - Returns: `CreateCacheClusterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCacheClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -391,7 +391,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheCluster(input: CreateCacheClusterInput) async throws -> CreateCacheClusterOutputResponse
+    public func createCacheCluster(input: CreateCacheClusterInput) async throws -> CreateCacheClusterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -407,20 +407,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCacheClusterInput, CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(id: "createCacheCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheClusterInput, CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheClusterInput, CreateCacheClusterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCacheClusterInput, CreateCacheClusterOutput, CreateCacheClusterOutputError>(id: "createCacheCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheClusterInput, CreateCacheClusterOutput, CreateCacheClusterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheClusterInput, CreateCacheClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheClusterOutput, CreateCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheClusterInput, CreateCacheClusterOutputResponse>(xmlName: "CreateCacheClusterMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheClusterInput, CreateCacheClusterOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheClusterInput, CreateCacheClusterOutput>(xmlName: "CreateCacheClusterMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheClusterInput, CreateCacheClusterOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheClusterOutput, CreateCacheClusterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheClusterOutput, CreateCacheClusterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheClusterOutput, CreateCacheClusterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheClusterOutput, CreateCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -433,7 +433,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateCacheParameterGroupInput : Represents the input of a CreateCacheParameterGroup operation.
     ///
-    /// - Returns: `CreateCacheParameterGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCacheParameterGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,7 +444,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheParameterGroup(input: CreateCacheParameterGroupInput) async throws -> CreateCacheParameterGroupOutputResponse
+    public func createCacheParameterGroup(input: CreateCacheParameterGroupInput) async throws -> CreateCacheParameterGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -460,20 +460,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(id: "createCacheParameterGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutput, CreateCacheParameterGroupOutputError>(id: "createCacheParameterGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutput, CreateCacheParameterGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheParameterGroupOutput, CreateCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse>(xmlName: "CreateCacheParameterGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutput>(xmlName: "CreateCacheParameterGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheParameterGroupOutput, CreateCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheParameterGroupOutput, CreateCacheParameterGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheParameterGroupOutput, CreateCacheParameterGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheParameterGroupOutput, CreateCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -482,7 +482,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateCacheSecurityGroupInput : Represents the input of a CreateCacheSecurityGroup operation.
     ///
-    /// - Returns: `CreateCacheSecurityGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCacheSecurityGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -492,7 +492,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheSecurityGroup(input: CreateCacheSecurityGroupInput) async throws -> CreateCacheSecurityGroupOutputResponse
+    public func createCacheSecurityGroup(input: CreateCacheSecurityGroupInput) async throws -> CreateCacheSecurityGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -508,20 +508,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(id: "createCacheSecurityGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutput, CreateCacheSecurityGroupOutputError>(id: "createCacheSecurityGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutput, CreateCacheSecurityGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheSecurityGroupOutput, CreateCacheSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse>(xmlName: "CreateCacheSecurityGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutput>(xmlName: "CreateCacheSecurityGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheSecurityGroupOutput, CreateCacheSecurityGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheSecurityGroupOutput, CreateCacheSecurityGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheSecurityGroupOutput, CreateCacheSecurityGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheSecurityGroupOutput, CreateCacheSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -530,7 +530,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateCacheSubnetGroupInput : Represents the input of a CreateCacheSubnetGroup operation.
     ///
-    /// - Returns: `CreateCacheSubnetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCacheSubnetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -541,7 +541,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidSubnet` : An invalid subnet identifier was specified.
     /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheSubnetGroup(input: CreateCacheSubnetGroupInput) async throws -> CreateCacheSubnetGroupOutputResponse
+    public func createCacheSubnetGroup(input: CreateCacheSubnetGroupInput) async throws -> CreateCacheSubnetGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -557,20 +557,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(id: "createCacheSubnetGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutput, CreateCacheSubnetGroupOutputError>(id: "createCacheSubnetGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutput, CreateCacheSubnetGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCacheSubnetGroupOutput, CreateCacheSubnetGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse>(xmlName: "CreateCacheSubnetGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutput>(xmlName: "CreateCacheSubnetGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCacheSubnetGroupOutput, CreateCacheSubnetGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheSubnetGroupOutput, CreateCacheSubnetGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheSubnetGroupOutput, CreateCacheSubnetGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheSubnetGroupOutput, CreateCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -583,7 +583,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,7 +593,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func createGlobalReplicationGroup(input: CreateGlobalReplicationGroupInput) async throws -> CreateGlobalReplicationGroupOutputResponse
+    public func createGlobalReplicationGroup(input: CreateGlobalReplicationGroupInput) async throws -> CreateGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -609,20 +609,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(id: "createGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutput, CreateGlobalReplicationGroupOutputError>(id: "createGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutput, CreateGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGlobalReplicationGroupOutput, CreateGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse>(xmlName: "CreateGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutput>(xmlName: "CreateGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGlobalReplicationGroupOutput, CreateGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGlobalReplicationGroupOutput, CreateGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGlobalReplicationGroupOutput, CreateGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalReplicationGroupOutput, CreateGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -631,7 +631,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateReplicationGroupInput : Represents the input of a CreateReplicationGroup operation.
     ///
-    /// - Returns: `CreateReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,7 +655,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ReplicationGroupAlreadyExistsFault` : The specified replication group already exists.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func createReplicationGroup(input: CreateReplicationGroupInput) async throws -> CreateReplicationGroupOutputResponse
+    public func createReplicationGroup(input: CreateReplicationGroupInput) async throws -> CreateReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -671,20 +671,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(id: "createReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateReplicationGroupInput, CreateReplicationGroupOutput, CreateReplicationGroupOutputError>(id: "createReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutput, CreateReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateReplicationGroupOutput, CreateReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse>(xmlName: "CreateReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutput>(xmlName: "CreateReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateReplicationGroupOutput, CreateReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationGroupOutput, CreateReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationGroupOutput, CreateReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationGroupOutput, CreateReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -693,7 +693,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateSnapshotInput : Represents the input of a CreateSnapshot operation.
     ///
-    /// - Returns: `CreateSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,7 +715,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutputResponse
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -731,20 +731,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(id: "createSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutput, CreateSnapshotOutputError>(id: "createSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutput, CreateSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSnapshotOutput, CreateSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>(xmlName: "CreateSnapshotMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(xmlName: "CreateSnapshotMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSnapshotOutput, CreateSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutput, CreateSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput, CreateSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutput, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -753,7 +753,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,7 +765,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserAlreadyExistsFault` : A user with this ID already exists.
     /// - `UserQuotaExceededFault` : The quota of users has been exceeded.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -781,20 +781,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput, CreateUserOutputError>(id: "createUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput, CreateUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutputResponse, CreateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutput, CreateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserInput, CreateUserOutputResponse>(xmlName: "CreateUserMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserInput, CreateUserOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserInput, CreateUserOutput>(xmlName: "CreateUserMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutputResponse, CreateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput, CreateUserOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutputResponse, CreateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutputResponse, CreateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutputResponse, CreateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput, CreateUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput, CreateUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput, CreateUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -803,7 +803,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter CreateUserGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -816,7 +816,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `UserGroupAlreadyExistsFault` : The user group with this ID already exists.
     /// - `UserGroupQuotaExceededFault` : The number of users exceeds the user group limit.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func createUserGroup(input: CreateUserGroupInput) async throws -> CreateUserGroupOutputResponse
+    public func createUserGroup(input: CreateUserGroupInput) async throws -> CreateUserGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -832,20 +832,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserGroupInput, CreateUserGroupOutputResponse, CreateUserGroupOutputError>(id: "createUserGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserGroupInput, CreateUserGroupOutputResponse, CreateUserGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserGroupInput, CreateUserGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateUserGroupInput, CreateUserGroupOutput, CreateUserGroupOutputError>(id: "createUserGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserGroupInput, CreateUserGroupOutput, CreateUserGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserGroupInput, CreateUserGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserGroupOutputResponse, CreateUserGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserGroupOutput, CreateUserGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserGroupInput, CreateUserGroupOutputResponse>(xmlName: "CreateUserGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserGroupInput, CreateUserGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserGroupInput, CreateUserGroupOutput>(xmlName: "CreateUserGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserGroupInput, CreateUserGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserGroupOutputResponse, CreateUserGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserGroupOutput, CreateUserGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserGroupOutputResponse, CreateUserGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserGroupOutputResponse, CreateUserGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserGroupOutputResponse, CreateUserGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserGroupOutput, CreateUserGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserGroupOutput, CreateUserGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserGroupOutput, CreateUserGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -854,7 +854,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DecreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DecreaseNodeGroupsInGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,7 +863,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func decreaseNodeGroupsInGlobalReplicationGroup(input: DecreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse
+    public func decreaseNodeGroupsInGlobalReplicationGroup(input: DecreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -879,20 +879,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(id: "decreaseNodeGroupsInGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutput, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(id: "decreaseNodeGroupsInGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutput, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutput, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse>(xmlName: "DecreaseNodeGroupsInGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutput>(xmlName: "DecreaseNodeGroupsInGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DecreaseNodeGroupsInGlobalReplicationGroupOutput, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecreaseNodeGroupsInGlobalReplicationGroupOutput, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutput, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutput, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -901,7 +901,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DecreaseReplicaCountInput : [no documentation found]
     ///
-    /// - Returns: `DecreaseReplicaCountOutputResponse` : [no documentation found]
+    /// - Returns: `DecreaseReplicaCountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -918,7 +918,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NoOperationFault` : The operation was not performed because no changes were required.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func decreaseReplicaCount(input: DecreaseReplicaCountInput) async throws -> DecreaseReplicaCountOutputResponse
+    public func decreaseReplicaCount(input: DecreaseReplicaCountInput) async throws -> DecreaseReplicaCountOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -934,20 +934,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(id: "decreaseReplicaCount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DecreaseReplicaCountInput, DecreaseReplicaCountOutput, DecreaseReplicaCountOutputError>(id: "decreaseReplicaCount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutput, DecreaseReplicaCountOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DecreaseReplicaCountOutput, DecreaseReplicaCountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse>(xmlName: "DecreaseReplicaCountMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutput>(xmlName: "DecreaseReplicaCountMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DecreaseReplicaCountOutput, DecreaseReplicaCountOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecreaseReplicaCountOutput, DecreaseReplicaCountOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecreaseReplicaCountOutput, DecreaseReplicaCountOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecreaseReplicaCountOutput, DecreaseReplicaCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -970,7 +970,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteCacheClusterInput : Represents the input of a DeleteCacheCluster operation.
     ///
-    /// - Returns: `DeleteCacheClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCacheClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,7 +989,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
-    public func deleteCacheCluster(input: DeleteCacheClusterInput) async throws -> DeleteCacheClusterOutputResponse
+    public func deleteCacheCluster(input: DeleteCacheClusterInput) async throws -> DeleteCacheClusterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1005,20 +1005,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(id: "deleteCacheCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCacheClusterInput, DeleteCacheClusterOutput, DeleteCacheClusterOutputError>(id: "deleteCacheCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutput, DeleteCacheClusterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheClusterOutput, DeleteCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse>(xmlName: "DeleteCacheClusterMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutput>(xmlName: "DeleteCacheClusterMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheClusterOutput, DeleteCacheClusterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheClusterOutput, DeleteCacheClusterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheClusterOutput, DeleteCacheClusterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheClusterOutput, DeleteCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1027,7 +1027,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteCacheParameterGroupInput : Represents the input of a DeleteCacheParameterGroup operation.
     ///
-    /// - Returns: `DeleteCacheParameterGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCacheParameterGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1036,7 +1036,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheParameterGroupStateFault` : The current state of the cache parameter group does not allow the requested operation to occur.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func deleteCacheParameterGroup(input: DeleteCacheParameterGroupInput) async throws -> DeleteCacheParameterGroupOutputResponse
+    public func deleteCacheParameterGroup(input: DeleteCacheParameterGroupInput) async throws -> DeleteCacheParameterGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1052,20 +1052,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(id: "deleteCacheParameterGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutput, DeleteCacheParameterGroupOutputError>(id: "deleteCacheParameterGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutput, DeleteCacheParameterGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheParameterGroupOutput, DeleteCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse>(xmlName: "DeleteCacheParameterGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutput>(xmlName: "DeleteCacheParameterGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheParameterGroupOutput, DeleteCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheParameterGroupOutput, DeleteCacheParameterGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheParameterGroupOutput, DeleteCacheParameterGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheParameterGroupOutput, DeleteCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1074,7 +1074,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteCacheSecurityGroupInput : Represents the input of a DeleteCacheSecurityGroup operation.
     ///
-    /// - Returns: `DeleteCacheSecurityGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCacheSecurityGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1083,7 +1083,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func deleteCacheSecurityGroup(input: DeleteCacheSecurityGroupInput) async throws -> DeleteCacheSecurityGroupOutputResponse
+    public func deleteCacheSecurityGroup(input: DeleteCacheSecurityGroupInput) async throws -> DeleteCacheSecurityGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1099,20 +1099,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(id: "deleteCacheSecurityGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutput, DeleteCacheSecurityGroupOutputError>(id: "deleteCacheSecurityGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutput, DeleteCacheSecurityGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheSecurityGroupOutput, DeleteCacheSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse>(xmlName: "DeleteCacheSecurityGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutput>(xmlName: "DeleteCacheSecurityGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheSecurityGroupOutput, DeleteCacheSecurityGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheSecurityGroupOutput, DeleteCacheSecurityGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheSecurityGroupOutput, DeleteCacheSecurityGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheSecurityGroupOutput, DeleteCacheSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1121,14 +1121,14 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteCacheSubnetGroupInput : Represents the input of a DeleteCacheSubnetGroup operation.
     ///
-    /// - Returns: `DeleteCacheSubnetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCacheSubnetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CacheSubnetGroupInUse` : The requested cache subnet group is currently in use.
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
-    public func deleteCacheSubnetGroup(input: DeleteCacheSubnetGroupInput) async throws -> DeleteCacheSubnetGroupOutputResponse
+    public func deleteCacheSubnetGroup(input: DeleteCacheSubnetGroupInput) async throws -> DeleteCacheSubnetGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1144,20 +1144,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(id: "deleteCacheSubnetGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutput, DeleteCacheSubnetGroupOutputError>(id: "deleteCacheSubnetGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutput, DeleteCacheSubnetGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCacheSubnetGroupOutput, DeleteCacheSubnetGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse>(xmlName: "DeleteCacheSubnetGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutput>(xmlName: "DeleteCacheSubnetGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCacheSubnetGroupOutput, DeleteCacheSubnetGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheSubnetGroupOutput, DeleteCacheSubnetGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheSubnetGroupOutput, DeleteCacheSubnetGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheSubnetGroupOutput, DeleteCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1173,7 +1173,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1181,7 +1181,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func deleteGlobalReplicationGroup(input: DeleteGlobalReplicationGroupInput) async throws -> DeleteGlobalReplicationGroupOutputResponse
+    public func deleteGlobalReplicationGroup(input: DeleteGlobalReplicationGroupInput) async throws -> DeleteGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1197,20 +1197,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(id: "deleteGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutput, DeleteGlobalReplicationGroupOutputError>(id: "deleteGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutput, DeleteGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGlobalReplicationGroupOutput, DeleteGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse>(xmlName: "DeleteGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutput>(xmlName: "DeleteGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGlobalReplicationGroupOutput, DeleteGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGlobalReplicationGroupOutput, DeleteGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGlobalReplicationGroupOutput, DeleteGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalReplicationGroupOutput, DeleteGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1219,7 +1219,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteReplicationGroupInput : Represents the input of a DeleteReplicationGroup operation.
     ///
-    /// - Returns: `DeleteReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1238,7 +1238,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
-    public func deleteReplicationGroup(input: DeleteReplicationGroupInput) async throws -> DeleteReplicationGroupOutputResponse
+    public func deleteReplicationGroup(input: DeleteReplicationGroupInput) async throws -> DeleteReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1254,20 +1254,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(id: "deleteReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteReplicationGroupInput, DeleteReplicationGroupOutput, DeleteReplicationGroupOutputError>(id: "deleteReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutput, DeleteReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReplicationGroupOutput, DeleteReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse>(xmlName: "DeleteReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutput>(xmlName: "DeleteReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReplicationGroupOutput, DeleteReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationGroupOutput, DeleteReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationGroupOutput, DeleteReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationGroupOutput, DeleteReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1276,7 +1276,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteSnapshotInput : Represents the input of a DeleteSnapshot operation.
     ///
-    /// - Returns: `DeleteSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1285,7 +1285,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidSnapshotStateFault` : The current state of the snapshot does not allow the requested operation to occur.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutputResponse
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1301,20 +1301,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(id: "deleteSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutput, DeleteSnapshotOutputError>(id: "deleteSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput, DeleteSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>(xmlName: "DeleteSnapshotMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(xmlName: "DeleteSnapshotMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSnapshotOutput, DeleteSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1323,7 +1323,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,7 +1333,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidUserStateFault` : The user is not in active state.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1349,20 +1349,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutput, DeleteUserOutputError>(id: "deleteUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput, DeleteUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutput, DeleteUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserInput, DeleteUserOutputResponse>(xmlName: "DeleteUserMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserInput, DeleteUserOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserInput, DeleteUserOutput>(xmlName: "DeleteUserMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutputResponse, DeleteUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutput, DeleteUserOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutput, DeleteUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput, DeleteUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutput, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1371,7 +1371,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DeleteUserGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1380,7 +1380,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func deleteUserGroup(input: DeleteUserGroupInput) async throws -> DeleteUserGroupOutputResponse
+    public func deleteUserGroup(input: DeleteUserGroupInput) async throws -> DeleteUserGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1396,20 +1396,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserGroupInput, DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(id: "deleteUserGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserGroupInput, DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserGroupInput, DeleteUserGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteUserGroupInput, DeleteUserGroupOutput, DeleteUserGroupOutputError>(id: "deleteUserGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserGroupInput, DeleteUserGroupOutput, DeleteUserGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserGroupInput, DeleteUserGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserGroupOutput, DeleteUserGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserGroupInput, DeleteUserGroupOutputResponse>(xmlName: "DeleteUserGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserGroupInput, DeleteUserGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserGroupInput, DeleteUserGroupOutput>(xmlName: "DeleteUserGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserGroupInput, DeleteUserGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserGroupOutput, DeleteUserGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserGroupOutput, DeleteUserGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserGroupOutput, DeleteUserGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserGroupOutput, DeleteUserGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1418,7 +1418,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeCacheClustersInput : Represents the input of a DescribeCacheClusters operation.
     ///
-    /// - Returns: `DescribeCacheClustersOutputResponse` : Represents the output of a DescribeCacheClusters operation.
+    /// - Returns: `DescribeCacheClustersOutput` : Represents the output of a DescribeCacheClusters operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1426,7 +1426,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheClusters(input: DescribeCacheClustersInput) async throws -> DescribeCacheClustersOutputResponse
+    public func describeCacheClusters(input: DescribeCacheClustersInput) async throws -> DescribeCacheClustersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1442,20 +1442,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(id: "describeCacheClusters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCacheClustersInput, DescribeCacheClustersOutput, DescribeCacheClustersOutputError>(id: "describeCacheClusters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutput, DescribeCacheClustersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheClustersOutput, DescribeCacheClustersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>(xmlName: "DescribeCacheClustersMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutput>(xmlName: "DescribeCacheClustersMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheClustersOutput, DescribeCacheClustersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheClustersOutput, DescribeCacheClustersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheClustersOutput, DescribeCacheClustersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheClustersOutput, DescribeCacheClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1464,8 +1464,8 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeCacheEngineVersionsInput : Represents the input of a DescribeCacheEngineVersions operation.
     ///
-    /// - Returns: `DescribeCacheEngineVersionsOutputResponse` : Represents the output of a [DescribeCacheEngineVersions] operation.
-    public func describeCacheEngineVersions(input: DescribeCacheEngineVersionsInput) async throws -> DescribeCacheEngineVersionsOutputResponse
+    /// - Returns: `DescribeCacheEngineVersionsOutput` : Represents the output of a [DescribeCacheEngineVersions] operation.
+    public func describeCacheEngineVersions(input: DescribeCacheEngineVersionsInput) async throws -> DescribeCacheEngineVersionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1481,20 +1481,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(id: "describeCacheEngineVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput, DescribeCacheEngineVersionsOutputError>(id: "describeCacheEngineVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput, DescribeCacheEngineVersionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheEngineVersionsOutput, DescribeCacheEngineVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse>(xmlName: "DescribeCacheEngineVersionsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput>(xmlName: "DescribeCacheEngineVersionsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheEngineVersionsOutput, DescribeCacheEngineVersionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheEngineVersionsOutput, DescribeCacheEngineVersionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheEngineVersionsOutput, DescribeCacheEngineVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheEngineVersionsOutput, DescribeCacheEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1503,7 +1503,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeCacheParameterGroupsInput : Represents the input of a DescribeCacheParameterGroups operation.
     ///
-    /// - Returns: `DescribeCacheParameterGroupsOutputResponse` : Represents the output of a DescribeCacheParameterGroups operation.
+    /// - Returns: `DescribeCacheParameterGroupsOutput` : Represents the output of a DescribeCacheParameterGroups operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,7 +1511,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheParameterGroups(input: DescribeCacheParameterGroupsInput) async throws -> DescribeCacheParameterGroupsOutputResponse
+    public func describeCacheParameterGroups(input: DescribeCacheParameterGroupsInput) async throws -> DescribeCacheParameterGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1527,20 +1527,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(id: "describeCacheParameterGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput, DescribeCacheParameterGroupsOutputError>(id: "describeCacheParameterGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput, DescribeCacheParameterGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheParameterGroupsOutput, DescribeCacheParameterGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse>(xmlName: "DescribeCacheParameterGroupsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput>(xmlName: "DescribeCacheParameterGroupsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheParameterGroupsOutput, DescribeCacheParameterGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheParameterGroupsOutput, DescribeCacheParameterGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheParameterGroupsOutput, DescribeCacheParameterGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheParameterGroupsOutput, DescribeCacheParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1549,7 +1549,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeCacheParametersInput : Represents the input of a DescribeCacheParameters operation.
     ///
-    /// - Returns: `DescribeCacheParametersOutputResponse` : Represents the output of a DescribeCacheParameters operation.
+    /// - Returns: `DescribeCacheParametersOutput` : Represents the output of a DescribeCacheParameters operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1557,7 +1557,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheParameters(input: DescribeCacheParametersInput) async throws -> DescribeCacheParametersOutputResponse
+    public func describeCacheParameters(input: DescribeCacheParametersInput) async throws -> DescribeCacheParametersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1573,20 +1573,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(id: "describeCacheParameters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCacheParametersInput, DescribeCacheParametersOutput, DescribeCacheParametersOutputError>(id: "describeCacheParameters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutput, DescribeCacheParametersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheParametersOutput, DescribeCacheParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse>(xmlName: "DescribeCacheParametersMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutput>(xmlName: "DescribeCacheParametersMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheParametersOutput, DescribeCacheParametersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheParametersOutput, DescribeCacheParametersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheParametersOutput, DescribeCacheParametersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheParametersOutput, DescribeCacheParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1595,7 +1595,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeCacheSecurityGroupsInput : Represents the input of a DescribeCacheSecurityGroups operation.
     ///
-    /// - Returns: `DescribeCacheSecurityGroupsOutputResponse` : Represents the output of a DescribeCacheSecurityGroups operation.
+    /// - Returns: `DescribeCacheSecurityGroupsOutput` : Represents the output of a DescribeCacheSecurityGroups operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1603,7 +1603,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheSecurityGroups(input: DescribeCacheSecurityGroupsInput) async throws -> DescribeCacheSecurityGroupsOutputResponse
+    public func describeCacheSecurityGroups(input: DescribeCacheSecurityGroupsInput) async throws -> DescribeCacheSecurityGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1619,20 +1619,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(id: "describeCacheSecurityGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput, DescribeCacheSecurityGroupsOutputError>(id: "describeCacheSecurityGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput, DescribeCacheSecurityGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheSecurityGroupsOutput, DescribeCacheSecurityGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse>(xmlName: "DescribeCacheSecurityGroupsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput>(xmlName: "DescribeCacheSecurityGroupsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheSecurityGroupsOutput, DescribeCacheSecurityGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheSecurityGroupsOutput, DescribeCacheSecurityGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheSecurityGroupsOutput, DescribeCacheSecurityGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheSecurityGroupsOutput, DescribeCacheSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1641,13 +1641,13 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeCacheSubnetGroupsInput : Represents the input of a DescribeCacheSubnetGroups operation.
     ///
-    /// - Returns: `DescribeCacheSubnetGroupsOutputResponse` : Represents the output of a DescribeCacheSubnetGroups operation.
+    /// - Returns: `DescribeCacheSubnetGroupsOutput` : Represents the output of a DescribeCacheSubnetGroups operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
-    public func describeCacheSubnetGroups(input: DescribeCacheSubnetGroupsInput) async throws -> DescribeCacheSubnetGroupsOutputResponse
+    public func describeCacheSubnetGroups(input: DescribeCacheSubnetGroupsInput) async throws -> DescribeCacheSubnetGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1663,20 +1663,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(id: "describeCacheSubnetGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput, DescribeCacheSubnetGroupsOutputError>(id: "describeCacheSubnetGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput, DescribeCacheSubnetGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCacheSubnetGroupsOutput, DescribeCacheSubnetGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse>(xmlName: "DescribeCacheSubnetGroupsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput>(xmlName: "DescribeCacheSubnetGroupsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCacheSubnetGroupsOutput, DescribeCacheSubnetGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheSubnetGroupsOutput, DescribeCacheSubnetGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheSubnetGroupsOutput, DescribeCacheSubnetGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheSubnetGroupsOutput, DescribeCacheSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1685,14 +1685,14 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeEngineDefaultParametersInput : Represents the input of a DescribeEngineDefaultParameters operation.
     ///
-    /// - Returns: `DescribeEngineDefaultParametersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEngineDefaultParametersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutputResponse
+    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1708,20 +1708,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(id: "describeEngineDefaultParameters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput, DescribeEngineDefaultParametersOutputError>(id: "describeEngineDefaultParameters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput, DescribeEngineDefaultParametersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEngineDefaultParametersOutput, DescribeEngineDefaultParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>(xmlName: "DescribeEngineDefaultParametersMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(xmlName: "DescribeEngineDefaultParametersMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEngineDefaultParametersOutput, DescribeEngineDefaultParametersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultParametersOutput, DescribeEngineDefaultParametersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultParametersOutput, DescribeEngineDefaultParametersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultParametersOutput, DescribeEngineDefaultParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1730,14 +1730,14 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeEventsInput : Represents the input of a DescribeEvents operation.
     ///
-    /// - Returns: `DescribeEventsOutputResponse` : Represents the output of a DescribeEvents operation.
+    /// - Returns: `DescribeEventsOutput` : Represents the output of a DescribeEvents operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1753,20 +1753,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutput, DescribeEventsOutputError>(id: "describeEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutput, DescribeEventsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventsOutput, DescribeEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>(xmlName: "DescribeEventsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventsInput, DescribeEventsOutput>(xmlName: "DescribeEventsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventsInput, DescribeEventsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventsOutputResponse, DescribeEventsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventsOutput, DescribeEventsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutput, DescribeEventsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutput, DescribeEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutput, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1775,7 +1775,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeGlobalReplicationGroupsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeGlobalReplicationGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeGlobalReplicationGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1783,7 +1783,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeGlobalReplicationGroups(input: DescribeGlobalReplicationGroupsInput) async throws -> DescribeGlobalReplicationGroupsOutputResponse
+    public func describeGlobalReplicationGroups(input: DescribeGlobalReplicationGroupsInput) async throws -> DescribeGlobalReplicationGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1799,20 +1799,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(id: "describeGlobalReplicationGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput, DescribeGlobalReplicationGroupsOutputError>(id: "describeGlobalReplicationGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput, DescribeGlobalReplicationGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeGlobalReplicationGroupsOutput, DescribeGlobalReplicationGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse>(xmlName: "DescribeGlobalReplicationGroupsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput>(xmlName: "DescribeGlobalReplicationGroupsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeGlobalReplicationGroupsOutput, DescribeGlobalReplicationGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGlobalReplicationGroupsOutput, DescribeGlobalReplicationGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGlobalReplicationGroupsOutput, DescribeGlobalReplicationGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalReplicationGroupsOutput, DescribeGlobalReplicationGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1821,7 +1821,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeReplicationGroupsInput : Represents the input of a DescribeReplicationGroups operation.
     ///
-    /// - Returns: `DescribeReplicationGroupsOutputResponse` : Represents the output of a DescribeReplicationGroups operation.
+    /// - Returns: `DescribeReplicationGroupsOutput` : Represents the output of a DescribeReplicationGroups operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1829,7 +1829,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func describeReplicationGroups(input: DescribeReplicationGroupsInput) async throws -> DescribeReplicationGroupsOutputResponse
+    public func describeReplicationGroups(input: DescribeReplicationGroupsInput) async throws -> DescribeReplicationGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1845,20 +1845,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(id: "describeReplicationGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput, DescribeReplicationGroupsOutputError>(id: "describeReplicationGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput, DescribeReplicationGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReplicationGroupsOutput, DescribeReplicationGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>(xmlName: "DescribeReplicationGroupsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>(xmlName: "DescribeReplicationGroupsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReplicationGroupsOutput, DescribeReplicationGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationGroupsOutput, DescribeReplicationGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationGroupsOutput, DescribeReplicationGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationGroupsOutput, DescribeReplicationGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1867,7 +1867,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeReservedCacheNodesInput : Represents the input of a DescribeReservedCacheNodes operation.
     ///
-    /// - Returns: `DescribeReservedCacheNodesOutputResponse` : Represents the output of a DescribeReservedCacheNodes operation.
+    /// - Returns: `DescribeReservedCacheNodesOutput` : Represents the output of a DescribeReservedCacheNodes operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1875,7 +1875,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
-    public func describeReservedCacheNodes(input: DescribeReservedCacheNodesInput) async throws -> DescribeReservedCacheNodesOutputResponse
+    public func describeReservedCacheNodes(input: DescribeReservedCacheNodesInput) async throws -> DescribeReservedCacheNodesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1891,20 +1891,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(id: "describeReservedCacheNodes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput, DescribeReservedCacheNodesOutputError>(id: "describeReservedCacheNodes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput, DescribeReservedCacheNodesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservedCacheNodesOutput, DescribeReservedCacheNodesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse>(xmlName: "DescribeReservedCacheNodesMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput>(xmlName: "DescribeReservedCacheNodesMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReservedCacheNodesOutput, DescribeReservedCacheNodesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedCacheNodesOutput, DescribeReservedCacheNodesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedCacheNodesOutput, DescribeReservedCacheNodesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedCacheNodesOutput, DescribeReservedCacheNodesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1913,7 +1913,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeReservedCacheNodesOfferingsInput : Represents the input of a DescribeReservedCacheNodesOfferings operation.
     ///
-    /// - Returns: `DescribeReservedCacheNodesOfferingsOutputResponse` : Represents the output of a DescribeReservedCacheNodesOfferings operation.
+    /// - Returns: `DescribeReservedCacheNodesOfferingsOutput` : Represents the output of a DescribeReservedCacheNodesOfferings operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1921,7 +1921,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
-    public func describeReservedCacheNodesOfferings(input: DescribeReservedCacheNodesOfferingsInput) async throws -> DescribeReservedCacheNodesOfferingsOutputResponse
+    public func describeReservedCacheNodesOfferings(input: DescribeReservedCacheNodesOfferingsInput) async throws -> DescribeReservedCacheNodesOfferingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1937,20 +1937,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(id: "describeReservedCacheNodesOfferings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput, DescribeReservedCacheNodesOfferingsOutputError>(id: "describeReservedCacheNodesOfferings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput, DescribeReservedCacheNodesOfferingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservedCacheNodesOfferingsOutput, DescribeReservedCacheNodesOfferingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse>(xmlName: "DescribeReservedCacheNodesOfferingsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput>(xmlName: "DescribeReservedCacheNodesOfferingsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReservedCacheNodesOfferingsOutput, DescribeReservedCacheNodesOfferingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedCacheNodesOfferingsOutput, DescribeReservedCacheNodesOfferingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedCacheNodesOfferingsOutput, DescribeReservedCacheNodesOfferingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedCacheNodesOfferingsOutput, DescribeReservedCacheNodesOfferingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1959,7 +1959,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServiceUpdatesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServiceUpdatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,7 +1967,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
-    public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutputResponse
+    public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1983,20 +1983,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(id: "describeServiceUpdates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput, DescribeServiceUpdatesOutputError>(id: "describeServiceUpdates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput, DescribeServiceUpdatesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceUpdatesOutput, DescribeServiceUpdatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>(xmlName: "DescribeServiceUpdatesMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(xmlName: "DescribeServiceUpdatesMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceUpdatesOutput, DescribeServiceUpdatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceUpdatesOutput, DescribeServiceUpdatesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceUpdatesOutput, DescribeServiceUpdatesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceUpdatesOutput, DescribeServiceUpdatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2005,7 +2005,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeSnapshotsInput : Represents the input of a DescribeSnapshotsMessage operation.
     ///
-    /// - Returns: `DescribeSnapshotsOutputResponse` : Represents the output of a DescribeSnapshots operation.
+    /// - Returns: `DescribeSnapshotsOutput` : Represents the output of a DescribeSnapshots operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2014,7 +2014,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
-    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutputResponse
+    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2030,20 +2030,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(id: "describeSnapshots")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(id: "describeSnapshots")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput, DescribeSnapshotsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(xmlName: "DescribeSnapshotsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(xmlName: "DescribeSnapshotsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2052,14 +2052,14 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeUpdateActionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUpdateActionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUpdateActionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeUpdateActions(input: DescribeUpdateActionsInput) async throws -> DescribeUpdateActionsOutputResponse
+    public func describeUpdateActions(input: DescribeUpdateActionsInput) async throws -> DescribeUpdateActionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2075,20 +2075,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(id: "describeUpdateActions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeUpdateActionsInput, DescribeUpdateActionsOutput, DescribeUpdateActionsOutputError>(id: "describeUpdateActions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutput, DescribeUpdateActionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUpdateActionsOutput, DescribeUpdateActionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse>(xmlName: "DescribeUpdateActionsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutput>(xmlName: "DescribeUpdateActionsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUpdateActionsOutput, DescribeUpdateActionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateActionsOutput, DescribeUpdateActionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateActionsOutput, DescribeUpdateActionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateActionsOutput, DescribeUpdateActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2097,7 +2097,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeUserGroupsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUserGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUserGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2105,7 +2105,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func describeUserGroups(input: DescribeUserGroupsInput) async throws -> DescribeUserGroupsOutputResponse
+    public func describeUserGroups(input: DescribeUserGroupsInput) async throws -> DescribeUserGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2121,20 +2121,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(id: "describeUserGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeUserGroupsInput, DescribeUserGroupsOutput, DescribeUserGroupsOutputError>(id: "describeUserGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutput, DescribeUserGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUserGroupsOutput, DescribeUserGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse>(xmlName: "DescribeUserGroupsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutput>(xmlName: "DescribeUserGroupsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUserGroupsOutput, DescribeUserGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserGroupsOutput, DescribeUserGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserGroupsOutput, DescribeUserGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserGroupsOutput, DescribeUserGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2143,7 +2143,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DescribeUsersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUsersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2151,7 +2151,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutputResponse
+    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2167,20 +2167,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>(id: "describeUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUsersInput, DescribeUsersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeUsersInput, DescribeUsersOutput, DescribeUsersOutputError>(id: "describeUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUsersInput, DescribeUsersOutput, DescribeUsersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUsersInput, DescribeUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUsersOutput, DescribeUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUsersInput, DescribeUsersOutputResponse>(xmlName: "DescribeUsersMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUsersInput, DescribeUsersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUsersInput, DescribeUsersOutput>(xmlName: "DescribeUsersMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUsersInput, DescribeUsersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUsersOutputResponse, DescribeUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUsersOutput, DescribeUsersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUsersOutput, DescribeUsersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUsersOutput, DescribeUsersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUsersOutput, DescribeUsersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2189,7 +2189,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter DisassociateGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2198,7 +2198,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func disassociateGlobalReplicationGroup(input: DisassociateGlobalReplicationGroupInput) async throws -> DisassociateGlobalReplicationGroupOutputResponse
+    public func disassociateGlobalReplicationGroup(input: DisassociateGlobalReplicationGroupInput) async throws -> DisassociateGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2214,20 +2214,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(id: "disassociateGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutput, DisassociateGlobalReplicationGroupOutputError>(id: "disassociateGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutput, DisassociateGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateGlobalReplicationGroupOutput, DisassociateGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse>(xmlName: "DisassociateGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutput>(xmlName: "DisassociateGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateGlobalReplicationGroupOutput, DisassociateGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateGlobalReplicationGroupOutput, DisassociateGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateGlobalReplicationGroupOutput, DisassociateGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateGlobalReplicationGroupOutput, DisassociateGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2236,7 +2236,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter FailoverGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `FailoverGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `FailoverGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2245,7 +2245,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func failoverGlobalReplicationGroup(input: FailoverGlobalReplicationGroupInput) async throws -> FailoverGlobalReplicationGroupOutputResponse
+    public func failoverGlobalReplicationGroup(input: FailoverGlobalReplicationGroupInput) async throws -> FailoverGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2261,20 +2261,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(id: "failoverGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutput, FailoverGlobalReplicationGroupOutputError>(id: "failoverGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutput, FailoverGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<FailoverGlobalReplicationGroupOutput, FailoverGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse>(xmlName: "FailoverGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutput>(xmlName: "FailoverGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, FailoverGlobalReplicationGroupOutput, FailoverGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverGlobalReplicationGroupOutput, FailoverGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverGlobalReplicationGroupOutput, FailoverGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverGlobalReplicationGroupOutput, FailoverGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2283,7 +2283,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter IncreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `IncreaseNodeGroupsInGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,7 +2291,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func increaseNodeGroupsInGlobalReplicationGroup(input: IncreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse
+    public func increaseNodeGroupsInGlobalReplicationGroup(input: IncreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2307,20 +2307,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(id: "increaseNodeGroupsInGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutput, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(id: "increaseNodeGroupsInGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutput, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutput, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse>(xmlName: "IncreaseNodeGroupsInGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutput>(xmlName: "IncreaseNodeGroupsInGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IncreaseNodeGroupsInGlobalReplicationGroupOutput, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IncreaseNodeGroupsInGlobalReplicationGroupOutput, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutput, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutput, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2329,7 +2329,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter IncreaseReplicaCountInput : [no documentation found]
     ///
-    /// - Returns: `IncreaseReplicaCountOutputResponse` : [no documentation found]
+    /// - Returns: `IncreaseReplicaCountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2346,7 +2346,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `NoOperationFault` : The operation was not performed because no changes were required.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func increaseReplicaCount(input: IncreaseReplicaCountInput) async throws -> IncreaseReplicaCountOutputResponse
+    public func increaseReplicaCount(input: IncreaseReplicaCountInput) async throws -> IncreaseReplicaCountOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2362,20 +2362,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(id: "increaseReplicaCount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse>())
+        var operation = ClientRuntime.OperationStack<IncreaseReplicaCountInput, IncreaseReplicaCountOutput, IncreaseReplicaCountOutputError>(id: "increaseReplicaCount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutput, IncreaseReplicaCountOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IncreaseReplicaCountOutput, IncreaseReplicaCountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse>(xmlName: "IncreaseReplicaCountMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutput>(xmlName: "IncreaseReplicaCountMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IncreaseReplicaCountOutput, IncreaseReplicaCountOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IncreaseReplicaCountOutput, IncreaseReplicaCountOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IncreaseReplicaCountOutput, IncreaseReplicaCountOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IncreaseReplicaCountOutput, IncreaseReplicaCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2384,7 +2384,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ListAllowedNodeTypeModificationsInput : The input parameters for the ListAllowedNodeTypeModifications operation.
     ///
-    /// - Returns: `ListAllowedNodeTypeModificationsOutputResponse` : Represents the allowed node types you can use to modify your cluster or replication group.
+    /// - Returns: `ListAllowedNodeTypeModificationsOutput` : Represents the allowed node types you can use to modify your cluster or replication group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2393,7 +2393,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func listAllowedNodeTypeModifications(input: ListAllowedNodeTypeModificationsInput) async throws -> ListAllowedNodeTypeModificationsOutputResponse
+    public func listAllowedNodeTypeModifications(input: ListAllowedNodeTypeModificationsInput) async throws -> ListAllowedNodeTypeModificationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2409,20 +2409,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(id: "listAllowedNodeTypeModifications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutput, ListAllowedNodeTypeModificationsOutputError>(id: "listAllowedNodeTypeModifications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutput, ListAllowedNodeTypeModificationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAllowedNodeTypeModificationsOutput, ListAllowedNodeTypeModificationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse>(xmlName: "ListAllowedNodeTypeModificationsMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutput>(xmlName: "ListAllowedNodeTypeModificationsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAllowedNodeTypeModificationsOutput, ListAllowedNodeTypeModificationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAllowedNodeTypeModificationsOutput, ListAllowedNodeTypeModificationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAllowedNodeTypeModificationsOutput, ListAllowedNodeTypeModificationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAllowedNodeTypeModificationsOutput, ListAllowedNodeTypeModificationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2431,7 +2431,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : The input parameters for the ListTagsForResource operation.
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    /// - Returns: `ListTagsForResourceOutput` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2447,7 +2447,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2463,20 +2463,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2485,7 +2485,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyCacheClusterInput : Represents the input of a ModifyCacheCluster operation.
     ///
-    /// - Returns: `ModifyCacheClusterOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyCacheClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2501,7 +2501,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
     /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
-    public func modifyCacheCluster(input: ModifyCacheClusterInput) async throws -> ModifyCacheClusterOutputResponse
+    public func modifyCacheCluster(input: ModifyCacheClusterInput) async throws -> ModifyCacheClusterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2517,20 +2517,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(id: "modifyCacheCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyCacheClusterInput, ModifyCacheClusterOutput, ModifyCacheClusterOutputError>(id: "modifyCacheCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutput, ModifyCacheClusterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyCacheClusterOutput, ModifyCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse>(xmlName: "ModifyCacheClusterMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutput>(xmlName: "ModifyCacheClusterMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyCacheClusterOutput, ModifyCacheClusterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheClusterOutput, ModifyCacheClusterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheClusterOutput, ModifyCacheClusterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheClusterOutput, ModifyCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2539,7 +2539,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyCacheParameterGroupInput : Represents the input of a ModifyCacheParameterGroup operation.
     ///
-    /// - Returns: `ModifyCacheParameterGroupOutputResponse` : Represents the output of one of the following operations:
+    /// - Returns: `ModifyCacheParameterGroupOutput` : Represents the output of one of the following operations:
     ///
     /// * ModifyCacheParameterGroup
     ///
@@ -2553,7 +2553,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func modifyCacheParameterGroup(input: ModifyCacheParameterGroupInput) async throws -> ModifyCacheParameterGroupOutputResponse
+    public func modifyCacheParameterGroup(input: ModifyCacheParameterGroupInput) async throws -> ModifyCacheParameterGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2569,20 +2569,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(id: "modifyCacheParameterGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutput, ModifyCacheParameterGroupOutputError>(id: "modifyCacheParameterGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutput, ModifyCacheParameterGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyCacheParameterGroupOutput, ModifyCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse>(xmlName: "ModifyCacheParameterGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutput>(xmlName: "ModifyCacheParameterGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyCacheParameterGroupOutput, ModifyCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheParameterGroupOutput, ModifyCacheParameterGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheParameterGroupOutput, ModifyCacheParameterGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheParameterGroupOutput, ModifyCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2591,7 +2591,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyCacheSubnetGroupInput : Represents the input of a ModifyCacheSubnetGroup operation.
     ///
-    /// - Returns: `ModifyCacheSubnetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyCacheSubnetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,7 +2601,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidSubnet` : An invalid subnet identifier was specified.
     /// - `SubnetInUse` : The requested subnet is being used by another cache subnet group.
     /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
-    public func modifyCacheSubnetGroup(input: ModifyCacheSubnetGroupInput) async throws -> ModifyCacheSubnetGroupOutputResponse
+    public func modifyCacheSubnetGroup(input: ModifyCacheSubnetGroupInput) async throws -> ModifyCacheSubnetGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2617,20 +2617,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(id: "modifyCacheSubnetGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutput, ModifyCacheSubnetGroupOutputError>(id: "modifyCacheSubnetGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutput, ModifyCacheSubnetGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyCacheSubnetGroupOutput, ModifyCacheSubnetGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse>(xmlName: "ModifyCacheSubnetGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutput>(xmlName: "ModifyCacheSubnetGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyCacheSubnetGroupOutput, ModifyCacheSubnetGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheSubnetGroupOutput, ModifyCacheSubnetGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheSubnetGroupOutput, ModifyCacheSubnetGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheSubnetGroupOutput, ModifyCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2639,7 +2639,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `ModifyGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,7 +2647,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func modifyGlobalReplicationGroup(input: ModifyGlobalReplicationGroupInput) async throws -> ModifyGlobalReplicationGroupOutputResponse
+    public func modifyGlobalReplicationGroup(input: ModifyGlobalReplicationGroupInput) async throws -> ModifyGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2663,20 +2663,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(id: "modifyGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutput, ModifyGlobalReplicationGroupOutputError>(id: "modifyGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutput, ModifyGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyGlobalReplicationGroupOutput, ModifyGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse>(xmlName: "ModifyGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutput>(xmlName: "ModifyGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyGlobalReplicationGroupOutput, ModifyGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyGlobalReplicationGroupOutput, ModifyGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyGlobalReplicationGroupOutput, ModifyGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyGlobalReplicationGroupOutput, ModifyGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2692,7 +2692,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyReplicationGroupInput : Represents the input of a ModifyReplicationGroups operation.
     ///
-    /// - Returns: `ModifyReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2713,7 +2713,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func modifyReplicationGroup(input: ModifyReplicationGroupInput) async throws -> ModifyReplicationGroupOutputResponse
+    public func modifyReplicationGroup(input: ModifyReplicationGroupInput) async throws -> ModifyReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2729,20 +2729,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(id: "modifyReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyReplicationGroupInput, ModifyReplicationGroupOutput, ModifyReplicationGroupOutputError>(id: "modifyReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutput, ModifyReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyReplicationGroupOutput, ModifyReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse>(xmlName: "ModifyReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutput>(xmlName: "ModifyReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyReplicationGroupOutput, ModifyReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationGroupOutput, ModifyReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationGroupOutput, ModifyReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationGroupOutput, ModifyReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2751,7 +2751,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyReplicationGroupShardConfigurationInput : Represents the input for a ModifyReplicationGroupShardConfiguration operation.
     ///
-    /// - Returns: `ModifyReplicationGroupShardConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyReplicationGroupShardConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2766,7 +2766,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeGroupsPerReplicationGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum allowed number of node groups (shards) in a single replication group. The default maximum is 90
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func modifyReplicationGroupShardConfiguration(input: ModifyReplicationGroupShardConfigurationInput) async throws -> ModifyReplicationGroupShardConfigurationOutputResponse
+    public func modifyReplicationGroupShardConfiguration(input: ModifyReplicationGroupShardConfigurationInput) async throws -> ModifyReplicationGroupShardConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2782,20 +2782,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(id: "modifyReplicationGroupShardConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutput, ModifyReplicationGroupShardConfigurationOutputError>(id: "modifyReplicationGroupShardConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutput, ModifyReplicationGroupShardConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyReplicationGroupShardConfigurationOutput, ModifyReplicationGroupShardConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse>(xmlName: "ModifyReplicationGroupShardConfigurationMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutput>(xmlName: "ModifyReplicationGroupShardConfigurationMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyReplicationGroupShardConfigurationOutput, ModifyReplicationGroupShardConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationGroupShardConfigurationOutput, ModifyReplicationGroupShardConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationGroupShardConfigurationOutput, ModifyReplicationGroupShardConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationGroupShardConfigurationOutput, ModifyReplicationGroupShardConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2804,7 +2804,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyUserInput : [no documentation found]
     ///
-    /// - Returns: `ModifyUserOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2814,7 +2814,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidUserStateFault` : The user is not in active state.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func modifyUser(input: ModifyUserInput) async throws -> ModifyUserOutputResponse
+    public func modifyUser(input: ModifyUserInput) async throws -> ModifyUserOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2830,20 +2830,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyUserInput, ModifyUserOutputResponse, ModifyUserOutputError>(id: "modifyUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyUserInput, ModifyUserOutputResponse, ModifyUserOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyUserInput, ModifyUserOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyUserInput, ModifyUserOutput, ModifyUserOutputError>(id: "modifyUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyUserInput, ModifyUserOutput, ModifyUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyUserInput, ModifyUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyUserOutputResponse, ModifyUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyUserOutput, ModifyUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyUserInput, ModifyUserOutputResponse>(xmlName: "ModifyUserMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyUserInput, ModifyUserOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyUserInput, ModifyUserOutput>(xmlName: "ModifyUserMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyUserInput, ModifyUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyUserOutputResponse, ModifyUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyUserOutput, ModifyUserOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyUserOutputResponse, ModifyUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyUserOutputResponse, ModifyUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyUserOutputResponse, ModifyUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyUserOutput, ModifyUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyUserOutput, ModifyUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyUserOutput, ModifyUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2852,7 +2852,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ModifyUserGroupInput : [no documentation found]
     ///
-    /// - Returns: `ModifyUserGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyUserGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2865,7 +2865,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func modifyUserGroup(input: ModifyUserGroupInput) async throws -> ModifyUserGroupOutputResponse
+    public func modifyUserGroup(input: ModifyUserGroupInput) async throws -> ModifyUserGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2881,20 +2881,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyUserGroupInput, ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(id: "modifyUserGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyUserGroupInput, ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyUserGroupInput, ModifyUserGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyUserGroupInput, ModifyUserGroupOutput, ModifyUserGroupOutputError>(id: "modifyUserGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyUserGroupInput, ModifyUserGroupOutput, ModifyUserGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyUserGroupInput, ModifyUserGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyUserGroupOutput, ModifyUserGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyUserGroupInput, ModifyUserGroupOutputResponse>(xmlName: "ModifyUserGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyUserGroupInput, ModifyUserGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyUserGroupInput, ModifyUserGroupOutput>(xmlName: "ModifyUserGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyUserGroupInput, ModifyUserGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyUserGroupOutput, ModifyUserGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyUserGroupOutput, ModifyUserGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyUserGroupOutput, ModifyUserGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyUserGroupOutput, ModifyUserGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2903,7 +2903,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter PurchaseReservedCacheNodesOfferingInput : Represents the input of a PurchaseReservedCacheNodesOffering operation.
     ///
-    /// - Returns: `PurchaseReservedCacheNodesOfferingOutputResponse` : [no documentation found]
+    /// - Returns: `PurchaseReservedCacheNodesOfferingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2914,7 +2914,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ReservedCacheNodeQuotaExceededFault` : The request cannot be processed because it would exceed the user's cache node quota.
     /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func purchaseReservedCacheNodesOffering(input: PurchaseReservedCacheNodesOfferingInput) async throws -> PurchaseReservedCacheNodesOfferingOutputResponse
+    public func purchaseReservedCacheNodesOffering(input: PurchaseReservedCacheNodesOfferingInput) async throws -> PurchaseReservedCacheNodesOfferingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2930,20 +2930,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(id: "purchaseReservedCacheNodesOffering")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutput, PurchaseReservedCacheNodesOfferingOutputError>(id: "purchaseReservedCacheNodesOffering")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutput, PurchaseReservedCacheNodesOfferingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseReservedCacheNodesOfferingOutput, PurchaseReservedCacheNodesOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse>(xmlName: "PurchaseReservedCacheNodesOfferingMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutput>(xmlName: "PurchaseReservedCacheNodesOfferingMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseReservedCacheNodesOfferingOutput, PurchaseReservedCacheNodesOfferingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedCacheNodesOfferingOutput, PurchaseReservedCacheNodesOfferingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedCacheNodesOfferingOutput, PurchaseReservedCacheNodesOfferingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedCacheNodesOfferingOutput, PurchaseReservedCacheNodesOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2952,7 +2952,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter RebalanceSlotsInGlobalReplicationGroupInput : [no documentation found]
     ///
-    /// - Returns: `RebalanceSlotsInGlobalReplicationGroupOutputResponse` : [no documentation found]
+    /// - Returns: `RebalanceSlotsInGlobalReplicationGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2960,7 +2960,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func rebalanceSlotsInGlobalReplicationGroup(input: RebalanceSlotsInGlobalReplicationGroupInput) async throws -> RebalanceSlotsInGlobalReplicationGroupOutputResponse
+    public func rebalanceSlotsInGlobalReplicationGroup(input: RebalanceSlotsInGlobalReplicationGroupInput) async throws -> RebalanceSlotsInGlobalReplicationGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2976,20 +2976,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(id: "rebalanceSlotsInGlobalReplicationGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutput, RebalanceSlotsInGlobalReplicationGroupOutputError>(id: "rebalanceSlotsInGlobalReplicationGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutput, RebalanceSlotsInGlobalReplicationGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebalanceSlotsInGlobalReplicationGroupOutput, RebalanceSlotsInGlobalReplicationGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse>(xmlName: "RebalanceSlotsInGlobalReplicationGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutput>(xmlName: "RebalanceSlotsInGlobalReplicationGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RebalanceSlotsInGlobalReplicationGroupOutput, RebalanceSlotsInGlobalReplicationGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebalanceSlotsInGlobalReplicationGroupOutput, RebalanceSlotsInGlobalReplicationGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebalanceSlotsInGlobalReplicationGroupOutput, RebalanceSlotsInGlobalReplicationGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebalanceSlotsInGlobalReplicationGroupOutput, RebalanceSlotsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2998,14 +2998,14 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter RebootCacheClusterInput : Represents the input of a RebootCacheCluster operation.
     ///
-    /// - Returns: `RebootCacheClusterOutputResponse` : [no documentation found]
+    /// - Returns: `RebootCacheClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
-    public func rebootCacheCluster(input: RebootCacheClusterInput) async throws -> RebootCacheClusterOutputResponse
+    public func rebootCacheCluster(input: RebootCacheClusterInput) async throws -> RebootCacheClusterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3021,20 +3021,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RebootCacheClusterInput, RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(id: "rebootCacheCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootCacheClusterInput, RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootCacheClusterInput, RebootCacheClusterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RebootCacheClusterInput, RebootCacheClusterOutput, RebootCacheClusterOutputError>(id: "rebootCacheCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootCacheClusterInput, RebootCacheClusterOutput, RebootCacheClusterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootCacheClusterInput, RebootCacheClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebootCacheClusterOutput, RebootCacheClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RebootCacheClusterInput, RebootCacheClusterOutputResponse>(xmlName: "RebootCacheClusterMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RebootCacheClusterInput, RebootCacheClusterOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RebootCacheClusterInput, RebootCacheClusterOutput>(xmlName: "RebootCacheClusterMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RebootCacheClusterInput, RebootCacheClusterOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RebootCacheClusterOutput, RebootCacheClusterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootCacheClusterOutput, RebootCacheClusterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootCacheClusterOutput, RebootCacheClusterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootCacheClusterOutput, RebootCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3043,7 +3043,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter RemoveTagsFromResourceInput : Represents the input of a RemoveTagsFromResource operation.
     ///
-    /// - Returns: `RemoveTagsFromResourceOutputResponse` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    /// - Returns: `RemoveTagsFromResourceOutput` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3060,7 +3060,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `TagNotFoundFault` : The requested tag was not found on this resource.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3076,20 +3076,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(xmlName: "RemoveTagsFromResourceMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(xmlName: "RemoveTagsFromResourceMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3098,7 +3098,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter ResetCacheParameterGroupInput : Represents the input of a ResetCacheParameterGroup operation.
     ///
-    /// - Returns: `ResetCacheParameterGroupOutputResponse` : Represents the output of one of the following operations:
+    /// - Returns: `ResetCacheParameterGroupOutput` : Represents the output of one of the following operations:
     ///
     /// * ModifyCacheParameterGroup
     ///
@@ -3112,7 +3112,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func resetCacheParameterGroup(input: ResetCacheParameterGroupInput) async throws -> ResetCacheParameterGroupOutputResponse
+    public func resetCacheParameterGroup(input: ResetCacheParameterGroupInput) async throws -> ResetCacheParameterGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3128,20 +3128,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(id: "resetCacheParameterGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutput, ResetCacheParameterGroupOutputError>(id: "resetCacheParameterGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutput, ResetCacheParameterGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetCacheParameterGroupOutput, ResetCacheParameterGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse>(xmlName: "ResetCacheParameterGroupMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutput>(xmlName: "ResetCacheParameterGroupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetCacheParameterGroupOutput, ResetCacheParameterGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetCacheParameterGroupOutput, ResetCacheParameterGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetCacheParameterGroupOutput, ResetCacheParameterGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetCacheParameterGroupOutput, ResetCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3150,7 +3150,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter RevokeCacheSecurityGroupIngressInput : Represents the input of a RevokeCacheSecurityGroupIngress operation.
     ///
-    /// - Returns: `RevokeCacheSecurityGroupIngressOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeCacheSecurityGroupIngressOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3160,7 +3160,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func revokeCacheSecurityGroupIngress(input: RevokeCacheSecurityGroupIngressInput) async throws -> RevokeCacheSecurityGroupIngressOutputResponse
+    public func revokeCacheSecurityGroupIngress(input: RevokeCacheSecurityGroupIngressInput) async throws -> RevokeCacheSecurityGroupIngressOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3176,20 +3176,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(id: "revokeCacheSecurityGroupIngress")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutput, RevokeCacheSecurityGroupIngressOutputError>(id: "revokeCacheSecurityGroupIngress")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutput, RevokeCacheSecurityGroupIngressOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeCacheSecurityGroupIngressOutput, RevokeCacheSecurityGroupIngressOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse>(xmlName: "RevokeCacheSecurityGroupIngressMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutput>(xmlName: "RevokeCacheSecurityGroupIngressMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeCacheSecurityGroupIngressOutput, RevokeCacheSecurityGroupIngressOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeCacheSecurityGroupIngressOutput, RevokeCacheSecurityGroupIngressOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeCacheSecurityGroupIngressOutput, RevokeCacheSecurityGroupIngressOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeCacheSecurityGroupIngressOutput, RevokeCacheSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3198,7 +3198,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter StartMigrationInput : [no documentation found]
     ///
-    /// - Returns: `StartMigrationOutputResponse` : [no documentation found]
+    /// - Returns: `StartMigrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3207,7 +3207,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutputResponse
+    public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3223,20 +3223,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMigrationInput, StartMigrationOutputResponse, StartMigrationOutputError>(id: "startMigration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMigrationInput, StartMigrationOutputResponse, StartMigrationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMigrationInput, StartMigrationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartMigrationInput, StartMigrationOutput, StartMigrationOutputError>(id: "startMigration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMigrationInput, StartMigrationOutput, StartMigrationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMigrationInput, StartMigrationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMigrationOutputResponse, StartMigrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMigrationOutput, StartMigrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMigrationInput, StartMigrationOutputResponse>(xmlName: "StartMigrationMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMigrationInput, StartMigrationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMigrationInput, StartMigrationOutput>(xmlName: "StartMigrationMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMigrationInput, StartMigrationOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMigrationOutputResponse, StartMigrationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMigrationOutput, StartMigrationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMigrationOutputResponse, StartMigrationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMigrationOutputResponse, StartMigrationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMigrationOutputResponse, StartMigrationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMigrationOutput, StartMigrationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMigrationOutput, StartMigrationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMigrationOutput, StartMigrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3276,7 +3276,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter TestFailoverInput : [no documentation found]
     ///
-    /// - Returns: `TestFailoverOutputResponse` : [no documentation found]
+    /// - Returns: `TestFailoverOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3290,7 +3290,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeGroupNotFoundFault` : The node group specified by the NodeGroupId parameter could not be found. Please verify that the node group exists and that you spelled the NodeGroupId value correctly.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `TestFailoverNotAvailableFault` : The TestFailover action is not available.
-    public func testFailover(input: TestFailoverInput) async throws -> TestFailoverOutputResponse
+    public func testFailover(input: TestFailoverInput) async throws -> TestFailoverOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3306,20 +3306,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TestFailoverInput, TestFailoverOutputResponse, TestFailoverOutputError>(id: "testFailover")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestFailoverInput, TestFailoverOutputResponse, TestFailoverOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestFailoverInput, TestFailoverOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TestFailoverInput, TestFailoverOutput, TestFailoverOutputError>(id: "testFailover")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestFailoverInput, TestFailoverOutput, TestFailoverOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestFailoverInput, TestFailoverOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestFailoverOutputResponse, TestFailoverOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestFailoverOutput, TestFailoverOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestFailoverInput, TestFailoverOutputResponse>(xmlName: "TestFailoverMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestFailoverInput, TestFailoverOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestFailoverInput, TestFailoverOutput>(xmlName: "TestFailoverMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestFailoverInput, TestFailoverOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestFailoverOutputResponse, TestFailoverOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestFailoverOutput, TestFailoverOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestFailoverOutputResponse, TestFailoverOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestFailoverOutputResponse, TestFailoverOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestFailoverOutputResponse, TestFailoverOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestFailoverOutput, TestFailoverOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestFailoverOutput, TestFailoverOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestFailoverOutput, TestFailoverOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3328,7 +3328,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// - Parameter TestMigrationInput : [no documentation found]
     ///
-    /// - Returns: `TestMigrationOutputResponse` : [no documentation found]
+    /// - Returns: `TestMigrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3337,7 +3337,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func testMigration(input: TestMigrationInput) async throws -> TestMigrationOutputResponse
+    public func testMigration(input: TestMigrationInput) async throws -> TestMigrationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3353,20 +3353,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TestMigrationInput, TestMigrationOutputResponse, TestMigrationOutputError>(id: "testMigration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestMigrationInput, TestMigrationOutputResponse, TestMigrationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestMigrationInput, TestMigrationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TestMigrationInput, TestMigrationOutput, TestMigrationOutputError>(id: "testMigration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestMigrationInput, TestMigrationOutput, TestMigrationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestMigrationInput, TestMigrationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestMigrationOutputResponse, TestMigrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestMigrationOutput, TestMigrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestMigrationInput, TestMigrationOutputResponse>(xmlName: "TestMigrationMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestMigrationInput, TestMigrationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestMigrationInput, TestMigrationOutput>(xmlName: "TestMigrationMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestMigrationInput, TestMigrationOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestMigrationOutputResponse, TestMigrationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestMigrationOutput, TestMigrationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestMigrationOutputResponse, TestMigrationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestMigrationOutputResponse, TestMigrationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestMigrationOutputResponse, TestMigrationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestMigrationOutput, TestMigrationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestMigrationOutput, TestMigrationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestMigrationOutput, TestMigrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

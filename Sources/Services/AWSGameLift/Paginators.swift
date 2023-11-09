@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension GameLiftClient {
-    /// Paginate over `[DescribeFleetAttributesOutputResponse]` results.
+    /// Paginate over `[DescribeFleetAttributesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFleetAttributesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAttributesOutputResponse`
-    public func describeFleetAttributesPaginated(input: DescribeFleetAttributesInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAttributesInput, DescribeFleetAttributesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFleetAttributesInput, DescribeFleetAttributesOutputResponse>(input: input, inputKey: \DescribeFleetAttributesInput.nextToken, outputKey: \DescribeFleetAttributesOutputResponse.nextToken, paginationFunction: self.describeFleetAttributes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAttributesOutput`
+    public func describeFleetAttributesPaginated(input: DescribeFleetAttributesInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAttributesInput, DescribeFleetAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(input: input, inputKey: \DescribeFleetAttributesInput.nextToken, outputKey: \DescribeFleetAttributesOutput.nextToken, paginationFunction: self.describeFleetAttributes(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeFleetAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeFleetAttributesInput, Output == DescribeFleetAttributesOutputResponse {
+extension PaginatorSequence where Input == DescribeFleetAttributesInput, Output == DescribeFleetAttributesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetAttributesPaginated`
     /// to access the nested member `[GameLiftClientTypes.FleetAttributes]`
     /// - Returns: `[GameLiftClientTypes.FleetAttributes]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeFleetAttributesInput, Output 
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeFleetCapacityOutputResponse]` results.
+    /// Paginate over `[DescribeFleetCapacityOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFleetCapacityInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetCapacityOutputResponse`
-    public func describeFleetCapacityPaginated(input: DescribeFleetCapacityInput) -> ClientRuntime.PaginatorSequence<DescribeFleetCapacityInput, DescribeFleetCapacityOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFleetCapacityInput, DescribeFleetCapacityOutputResponse>(input: input, inputKey: \DescribeFleetCapacityInput.nextToken, outputKey: \DescribeFleetCapacityOutputResponse.nextToken, paginationFunction: self.describeFleetCapacity(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetCapacityOutput`
+    public func describeFleetCapacityPaginated(input: DescribeFleetCapacityInput) -> ClientRuntime.PaginatorSequence<DescribeFleetCapacityInput, DescribeFleetCapacityOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(input: input, inputKey: \DescribeFleetCapacityInput.nextToken, outputKey: \DescribeFleetCapacityOutput.nextToken, paginationFunction: self.describeFleetCapacity(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension DescribeFleetCapacityInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeFleetCapacityInput, Output == DescribeFleetCapacityOutputResponse {
+extension PaginatorSequence where Input == DescribeFleetCapacityInput, Output == DescribeFleetCapacityOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetCapacityPaginated`
     /// to access the nested member `[GameLiftClientTypes.FleetCapacity]`
     /// - Returns: `[GameLiftClientTypes.FleetCapacity]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == DescribeFleetCapacityInput, Output ==
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeFleetEventsOutputResponse]` results.
+    /// Paginate over `[DescribeFleetEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFleetEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetEventsOutputResponse`
-    public func describeFleetEventsPaginated(input: DescribeFleetEventsInput) -> ClientRuntime.PaginatorSequence<DescribeFleetEventsInput, DescribeFleetEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFleetEventsInput, DescribeFleetEventsOutputResponse>(input: input, inputKey: \DescribeFleetEventsInput.nextToken, outputKey: \DescribeFleetEventsOutputResponse.nextToken, paginationFunction: self.describeFleetEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetEventsOutput`
+    public func describeFleetEventsPaginated(input: DescribeFleetEventsInput) -> ClientRuntime.PaginatorSequence<DescribeFleetEventsInput, DescribeFleetEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFleetEventsInput, DescribeFleetEventsOutput>(input: input, inputKey: \DescribeFleetEventsInput.nextToken, outputKey: \DescribeFleetEventsOutput.nextToken, paginationFunction: self.describeFleetEvents(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension DescribeFleetEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeFleetEventsInput, Output == DescribeFleetEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeFleetEventsInput, Output == DescribeFleetEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetEventsPaginated`
     /// to access the nested member `[GameLiftClientTypes.Event]`
     /// - Returns: `[GameLiftClientTypes.Event]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == DescribeFleetEventsInput, Output == D
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeFleetLocationAttributesOutputResponse]` results.
+    /// Paginate over `[DescribeFleetLocationAttributesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFleetLocationAttributesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetLocationAttributesOutputResponse`
-    public func describeFleetLocationAttributesPaginated(input: DescribeFleetLocationAttributesInput) -> ClientRuntime.PaginatorSequence<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutputResponse>(input: input, inputKey: \DescribeFleetLocationAttributesInput.nextToken, outputKey: \DescribeFleetLocationAttributesOutputResponse.nextToken, paginationFunction: self.describeFleetLocationAttributes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetLocationAttributesOutput`
+    public func describeFleetLocationAttributesPaginated(input: DescribeFleetLocationAttributesInput) -> ClientRuntime.PaginatorSequence<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(input: input, inputKey: \DescribeFleetLocationAttributesInput.nextToken, outputKey: \DescribeFleetLocationAttributesOutput.nextToken, paginationFunction: self.describeFleetLocationAttributes(input:))
     }
 }
 
@@ -121,16 +121,16 @@ extension DescribeFleetLocationAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeFleetUtilizationOutputResponse]` results.
+    /// Paginate over `[DescribeFleetUtilizationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFleetUtilizationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetUtilizationOutputResponse`
-    public func describeFleetUtilizationPaginated(input: DescribeFleetUtilizationInput) -> ClientRuntime.PaginatorSequence<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutputResponse>(input: input, inputKey: \DescribeFleetUtilizationInput.nextToken, outputKey: \DescribeFleetUtilizationOutputResponse.nextToken, paginationFunction: self.describeFleetUtilization(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetUtilizationOutput`
+    public func describeFleetUtilizationPaginated(input: DescribeFleetUtilizationInput) -> ClientRuntime.PaginatorSequence<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(input: input, inputKey: \DescribeFleetUtilizationInput.nextToken, outputKey: \DescribeFleetUtilizationOutput.nextToken, paginationFunction: self.describeFleetUtilization(input:))
     }
 }
 
@@ -143,7 +143,7 @@ extension DescribeFleetUtilizationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeFleetUtilizationInput, Output == DescribeFleetUtilizationOutputResponse {
+extension PaginatorSequence where Input == DescribeFleetUtilizationInput, Output == DescribeFleetUtilizationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetUtilizationPaginated`
     /// to access the nested member `[GameLiftClientTypes.FleetUtilization]`
     /// - Returns: `[GameLiftClientTypes.FleetUtilization]`
@@ -152,16 +152,16 @@ extension PaginatorSequence where Input == DescribeFleetUtilizationInput, Output
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeGameServerInstancesOutputResponse]` results.
+    /// Paginate over `[DescribeGameServerInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeGameServerInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameServerInstancesOutputResponse`
-    public func describeGameServerInstancesPaginated(input: DescribeGameServerInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutputResponse>(input: input, inputKey: \DescribeGameServerInstancesInput.nextToken, outputKey: \DescribeGameServerInstancesOutputResponse.nextToken, paginationFunction: self.describeGameServerInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameServerInstancesOutput`
+    public func describeGameServerInstancesPaginated(input: DescribeGameServerInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(input: input, inputKey: \DescribeGameServerInstancesInput.nextToken, outputKey: \DescribeGameServerInstancesOutput.nextToken, paginationFunction: self.describeGameServerInstances(input:))
     }
 }
 
@@ -175,7 +175,7 @@ extension DescribeGameServerInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGameServerInstancesInput, Output == DescribeGameServerInstancesOutputResponse {
+extension PaginatorSequence where Input == DescribeGameServerInstancesInput, Output == DescribeGameServerInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGameServerInstancesPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameServerInstance]`
     /// - Returns: `[GameLiftClientTypes.GameServerInstance]`
@@ -184,16 +184,16 @@ extension PaginatorSequence where Input == DescribeGameServerInstancesInput, Out
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeGameSessionDetailsOutputResponse]` results.
+    /// Paginate over `[DescribeGameSessionDetailsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeGameSessionDetailsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionDetailsOutputResponse`
-    public func describeGameSessionDetailsPaginated(input: DescribeGameSessionDetailsInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutputResponse>(input: input, inputKey: \DescribeGameSessionDetailsInput.nextToken, outputKey: \DescribeGameSessionDetailsOutputResponse.nextToken, paginationFunction: self.describeGameSessionDetails(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionDetailsOutput`
+    public func describeGameSessionDetailsPaginated(input: DescribeGameSessionDetailsInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(input: input, inputKey: \DescribeGameSessionDetailsInput.nextToken, outputKey: \DescribeGameSessionDetailsOutput.nextToken, paginationFunction: self.describeGameSessionDetails(input:))
     }
 }
 
@@ -210,7 +210,7 @@ extension DescribeGameSessionDetailsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGameSessionDetailsInput, Output == DescribeGameSessionDetailsOutputResponse {
+extension PaginatorSequence where Input == DescribeGameSessionDetailsInput, Output == DescribeGameSessionDetailsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGameSessionDetailsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSessionDetail]`
     /// - Returns: `[GameLiftClientTypes.GameSessionDetail]`
@@ -219,16 +219,16 @@ extension PaginatorSequence where Input == DescribeGameSessionDetailsInput, Outp
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeGameSessionQueuesOutputResponse]` results.
+    /// Paginate over `[DescribeGameSessionQueuesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeGameSessionQueuesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionQueuesOutputResponse`
-    public func describeGameSessionQueuesPaginated(input: DescribeGameSessionQueuesInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutputResponse>(input: input, inputKey: \DescribeGameSessionQueuesInput.nextToken, outputKey: \DescribeGameSessionQueuesOutputResponse.nextToken, paginationFunction: self.describeGameSessionQueues(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionQueuesOutput`
+    public func describeGameSessionQueuesPaginated(input: DescribeGameSessionQueuesInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(input: input, inputKey: \DescribeGameSessionQueuesInput.nextToken, outputKey: \DescribeGameSessionQueuesOutput.nextToken, paginationFunction: self.describeGameSessionQueues(input:))
     }
 }
 
@@ -241,7 +241,7 @@ extension DescribeGameSessionQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGameSessionQueuesInput, Output == DescribeGameSessionQueuesOutputResponse {
+extension PaginatorSequence where Input == DescribeGameSessionQueuesInput, Output == DescribeGameSessionQueuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGameSessionQueuesPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSessionQueue]`
     /// - Returns: `[GameLiftClientTypes.GameSessionQueue]`
@@ -250,16 +250,16 @@ extension PaginatorSequence where Input == DescribeGameSessionQueuesInput, Outpu
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeGameSessionsOutputResponse]` results.
+    /// Paginate over `[DescribeGameSessionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeGameSessionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionsOutputResponse`
-    public func describeGameSessionsPaginated(input: DescribeGameSessionsInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionsInput, DescribeGameSessionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeGameSessionsInput, DescribeGameSessionsOutputResponse>(input: input, inputKey: \DescribeGameSessionsInput.nextToken, outputKey: \DescribeGameSessionsOutputResponse.nextToken, paginationFunction: self.describeGameSessions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionsOutput`
+    public func describeGameSessionsPaginated(input: DescribeGameSessionsInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionsInput, DescribeGameSessionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeGameSessionsInput, DescribeGameSessionsOutput>(input: input, inputKey: \DescribeGameSessionsInput.nextToken, outputKey: \DescribeGameSessionsOutput.nextToken, paginationFunction: self.describeGameSessions(input:))
     }
 }
 
@@ -276,7 +276,7 @@ extension DescribeGameSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGameSessionsInput, Output == DescribeGameSessionsOutputResponse {
+extension PaginatorSequence where Input == DescribeGameSessionsInput, Output == DescribeGameSessionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGameSessionsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSession]`
     /// - Returns: `[GameLiftClientTypes.GameSession]`
@@ -285,16 +285,16 @@ extension PaginatorSequence where Input == DescribeGameSessionsInput, Output == 
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeInstancesOutputResponse]` results.
+    /// Paginate over `[DescribeInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancesOutputResponse`
-    public func describeInstancesPaginated(input: DescribeInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutputResponse>(input: input, inputKey: \DescribeInstancesInput.nextToken, outputKey: \DescribeInstancesOutputResponse.nextToken, paginationFunction: self.describeInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancesOutput`
+    public func describeInstancesPaginated(input: DescribeInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput>(input: input, inputKey: \DescribeInstancesInput.nextToken, outputKey: \DescribeInstancesOutput.nextToken, paginationFunction: self.describeInstances(input:))
     }
 }
 
@@ -309,7 +309,7 @@ extension DescribeInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeInstancesInput, Output == DescribeInstancesOutputResponse {
+extension PaginatorSequence where Input == DescribeInstancesInput, Output == DescribeInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeInstancesPaginated`
     /// to access the nested member `[GameLiftClientTypes.Instance]`
     /// - Returns: `[GameLiftClientTypes.Instance]`
@@ -318,16 +318,16 @@ extension PaginatorSequence where Input == DescribeInstancesInput, Output == Des
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeMatchmakingConfigurationsOutputResponse]` results.
+    /// Paginate over `[DescribeMatchmakingConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeMatchmakingConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMatchmakingConfigurationsOutputResponse`
-    public func describeMatchmakingConfigurationsPaginated(input: DescribeMatchmakingConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutputResponse>(input: input, inputKey: \DescribeMatchmakingConfigurationsInput.nextToken, outputKey: \DescribeMatchmakingConfigurationsOutputResponse.nextToken, paginationFunction: self.describeMatchmakingConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMatchmakingConfigurationsOutput`
+    public func describeMatchmakingConfigurationsPaginated(input: DescribeMatchmakingConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(input: input, inputKey: \DescribeMatchmakingConfigurationsInput.nextToken, outputKey: \DescribeMatchmakingConfigurationsOutput.nextToken, paginationFunction: self.describeMatchmakingConfigurations(input:))
     }
 }
 
@@ -341,7 +341,7 @@ extension DescribeMatchmakingConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeMatchmakingConfigurationsInput, Output == DescribeMatchmakingConfigurationsOutputResponse {
+extension PaginatorSequence where Input == DescribeMatchmakingConfigurationsInput, Output == DescribeMatchmakingConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeMatchmakingConfigurationsPaginated`
     /// to access the nested member `[GameLiftClientTypes.MatchmakingConfiguration]`
     /// - Returns: `[GameLiftClientTypes.MatchmakingConfiguration]`
@@ -350,16 +350,16 @@ extension PaginatorSequence where Input == DescribeMatchmakingConfigurationsInpu
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeMatchmakingRuleSetsOutputResponse]` results.
+    /// Paginate over `[DescribeMatchmakingRuleSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeMatchmakingRuleSetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMatchmakingRuleSetsOutputResponse`
-    public func describeMatchmakingRuleSetsPaginated(input: DescribeMatchmakingRuleSetsInput) -> ClientRuntime.PaginatorSequence<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutputResponse>(input: input, inputKey: \DescribeMatchmakingRuleSetsInput.nextToken, outputKey: \DescribeMatchmakingRuleSetsOutputResponse.nextToken, paginationFunction: self.describeMatchmakingRuleSets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMatchmakingRuleSetsOutput`
+    public func describeMatchmakingRuleSetsPaginated(input: DescribeMatchmakingRuleSetsInput) -> ClientRuntime.PaginatorSequence<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(input: input, inputKey: \DescribeMatchmakingRuleSetsInput.nextToken, outputKey: \DescribeMatchmakingRuleSetsOutput.nextToken, paginationFunction: self.describeMatchmakingRuleSets(input:))
     }
 }
 
@@ -372,7 +372,7 @@ extension DescribeMatchmakingRuleSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeMatchmakingRuleSetsInput, Output == DescribeMatchmakingRuleSetsOutputResponse {
+extension PaginatorSequence where Input == DescribeMatchmakingRuleSetsInput, Output == DescribeMatchmakingRuleSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeMatchmakingRuleSetsPaginated`
     /// to access the nested member `[GameLiftClientTypes.MatchmakingRuleSet]`
     /// - Returns: `[GameLiftClientTypes.MatchmakingRuleSet]`
@@ -381,16 +381,16 @@ extension PaginatorSequence where Input == DescribeMatchmakingRuleSetsInput, Out
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribePlayerSessionsOutputResponse]` results.
+    /// Paginate over `[DescribePlayerSessionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribePlayerSessionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribePlayerSessionsOutputResponse`
-    public func describePlayerSessionsPaginated(input: DescribePlayerSessionsInput) -> ClientRuntime.PaginatorSequence<DescribePlayerSessionsInput, DescribePlayerSessionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribePlayerSessionsInput, DescribePlayerSessionsOutputResponse>(input: input, inputKey: \DescribePlayerSessionsInput.nextToken, outputKey: \DescribePlayerSessionsOutputResponse.nextToken, paginationFunction: self.describePlayerSessions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePlayerSessionsOutput`
+    public func describePlayerSessionsPaginated(input: DescribePlayerSessionsInput) -> ClientRuntime.PaginatorSequence<DescribePlayerSessionsInput, DescribePlayerSessionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(input: input, inputKey: \DescribePlayerSessionsInput.nextToken, outputKey: \DescribePlayerSessionsOutput.nextToken, paginationFunction: self.describePlayerSessions(input:))
     }
 }
 
@@ -406,7 +406,7 @@ extension DescribePlayerSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribePlayerSessionsInput, Output == DescribePlayerSessionsOutputResponse {
+extension PaginatorSequence where Input == DescribePlayerSessionsInput, Output == DescribePlayerSessionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePlayerSessionsPaginated`
     /// to access the nested member `[GameLiftClientTypes.PlayerSession]`
     /// - Returns: `[GameLiftClientTypes.PlayerSession]`
@@ -415,16 +415,16 @@ extension PaginatorSequence where Input == DescribePlayerSessionsInput, Output =
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[DescribeScalingPoliciesOutputResponse]` results.
+    /// Paginate over `[DescribeScalingPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeScalingPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingPoliciesOutputResponse`
-    public func describeScalingPoliciesPaginated(input: DescribeScalingPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse>(input: input, inputKey: \DescribeScalingPoliciesInput.nextToken, outputKey: \DescribeScalingPoliciesOutputResponse.nextToken, paginationFunction: self.describeScalingPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingPoliciesOutput`
+    public func describeScalingPoliciesPaginated(input: DescribeScalingPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(input: input, inputKey: \DescribeScalingPoliciesInput.nextToken, outputKey: \DescribeScalingPoliciesOutput.nextToken, paginationFunction: self.describeScalingPolicies(input:))
     }
 }
 
@@ -439,7 +439,7 @@ extension DescribeScalingPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeScalingPoliciesInput, Output == DescribeScalingPoliciesOutputResponse {
+extension PaginatorSequence where Input == DescribeScalingPoliciesInput, Output == DescribeScalingPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeScalingPoliciesPaginated`
     /// to access the nested member `[GameLiftClientTypes.ScalingPolicy]`
     /// - Returns: `[GameLiftClientTypes.ScalingPolicy]`
@@ -448,16 +448,16 @@ extension PaginatorSequence where Input == DescribeScalingPoliciesInput, Output 
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListAliasesOutputResponse]` results.
+    /// Paginate over `[ListAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAliasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutputResponse`
-    public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutputResponse.nextToken, paginationFunction: self.listAliases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
+    public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutput.nextToken, paginationFunction: self.listAliases(input:))
     }
 }
 
@@ -471,7 +471,7 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutputResponse {
+extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
     /// to access the nested member `[GameLiftClientTypes.Alias]`
     /// - Returns: `[GameLiftClientTypes.Alias]`
@@ -480,16 +480,16 @@ extension PaginatorSequence where Input == ListAliasesInput, Output == ListAlias
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListBuildsOutputResponse]` results.
+    /// Paginate over `[ListBuildsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBuildsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBuildsOutputResponse`
-    public func listBuildsPaginated(input: ListBuildsInput) -> ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutputResponse>(input: input, inputKey: \ListBuildsInput.nextToken, outputKey: \ListBuildsOutputResponse.nextToken, paginationFunction: self.listBuilds(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBuildsOutput`
+    public func listBuildsPaginated(input: ListBuildsInput) -> ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput>(input: input, inputKey: \ListBuildsInput.nextToken, outputKey: \ListBuildsOutput.nextToken, paginationFunction: self.listBuilds(input:))
     }
 }
 
@@ -502,7 +502,7 @@ extension ListBuildsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBuildsInput, Output == ListBuildsOutputResponse {
+extension PaginatorSequence where Input == ListBuildsInput, Output == ListBuildsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBuildsPaginated`
     /// to access the nested member `[GameLiftClientTypes.Build]`
     /// - Returns: `[GameLiftClientTypes.Build]`
@@ -511,16 +511,16 @@ extension PaginatorSequence where Input == ListBuildsInput, Output == ListBuilds
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListComputeOutputResponse]` results.
+    /// Paginate over `[ListComputeOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListComputeInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListComputeOutputResponse`
-    public func listComputePaginated(input: ListComputeInput) -> ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutputResponse>(input: input, inputKey: \ListComputeInput.nextToken, outputKey: \ListComputeOutputResponse.nextToken, paginationFunction: self.listCompute(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComputeOutput`
+    public func listComputePaginated(input: ListComputeInput) -> ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutput> {
+        return ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutput>(input: input, inputKey: \ListComputeInput.nextToken, outputKey: \ListComputeOutput.nextToken, paginationFunction: self.listCompute(input:))
     }
 }
 
@@ -534,7 +534,7 @@ extension ListComputeInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListComputeInput, Output == ListComputeOutputResponse {
+extension PaginatorSequence where Input == ListComputeInput, Output == ListComputeOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listComputePaginated`
     /// to access the nested member `[GameLiftClientTypes.Compute]`
     /// - Returns: `[GameLiftClientTypes.Compute]`
@@ -543,16 +543,16 @@ extension PaginatorSequence where Input == ListComputeInput, Output == ListCompu
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListFleetsOutputResponse]` results.
+    /// Paginate over `[ListFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFleetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutputResponse`
-    public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutputResponse>(input: input, inputKey: \ListFleetsInput.nextToken, outputKey: \ListFleetsOutputResponse.nextToken, paginationFunction: self.listFleets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutput`
+    public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput>(input: input, inputKey: \ListFleetsInput.nextToken, outputKey: \ListFleetsOutput.nextToken, paginationFunction: self.listFleets(input:))
     }
 }
 
@@ -566,7 +566,7 @@ extension ListFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFleetsInput, Output == ListFleetsOutputResponse {
+extension PaginatorSequence where Input == ListFleetsInput, Output == ListFleetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFleetsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -575,16 +575,16 @@ extension PaginatorSequence where Input == ListFleetsInput, Output == ListFleets
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListGameServerGroupsOutputResponse]` results.
+    /// Paginate over `[ListGameServerGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGameServerGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGameServerGroupsOutputResponse`
-    public func listGameServerGroupsPaginated(input: ListGameServerGroupsInput) -> ClientRuntime.PaginatorSequence<ListGameServerGroupsInput, ListGameServerGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGameServerGroupsInput, ListGameServerGroupsOutputResponse>(input: input, inputKey: \ListGameServerGroupsInput.nextToken, outputKey: \ListGameServerGroupsOutputResponse.nextToken, paginationFunction: self.listGameServerGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGameServerGroupsOutput`
+    public func listGameServerGroupsPaginated(input: ListGameServerGroupsInput) -> ClientRuntime.PaginatorSequence<ListGameServerGroupsInput, ListGameServerGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGameServerGroupsInput, ListGameServerGroupsOutput>(input: input, inputKey: \ListGameServerGroupsInput.nextToken, outputKey: \ListGameServerGroupsOutput.nextToken, paginationFunction: self.listGameServerGroups(input:))
     }
 }
 
@@ -596,7 +596,7 @@ extension ListGameServerGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGameServerGroupsInput, Output == ListGameServerGroupsOutputResponse {
+extension PaginatorSequence where Input == ListGameServerGroupsInput, Output == ListGameServerGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGameServerGroupsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameServerGroup]`
     /// - Returns: `[GameLiftClientTypes.GameServerGroup]`
@@ -605,16 +605,16 @@ extension PaginatorSequence where Input == ListGameServerGroupsInput, Output == 
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListGameServersOutputResponse]` results.
+    /// Paginate over `[ListGameServersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGameServersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGameServersOutputResponse`
-    public func listGameServersPaginated(input: ListGameServersInput) -> ClientRuntime.PaginatorSequence<ListGameServersInput, ListGameServersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGameServersInput, ListGameServersOutputResponse>(input: input, inputKey: \ListGameServersInput.nextToken, outputKey: \ListGameServersOutputResponse.nextToken, paginationFunction: self.listGameServers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGameServersOutput`
+    public func listGameServersPaginated(input: ListGameServersInput) -> ClientRuntime.PaginatorSequence<ListGameServersInput, ListGameServersOutput> {
+        return ClientRuntime.PaginatorSequence<ListGameServersInput, ListGameServersOutput>(input: input, inputKey: \ListGameServersInput.nextToken, outputKey: \ListGameServersOutput.nextToken, paginationFunction: self.listGameServers(input:))
     }
 }
 
@@ -628,7 +628,7 @@ extension ListGameServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGameServersInput, Output == ListGameServersOutputResponse {
+extension PaginatorSequence where Input == ListGameServersInput, Output == ListGameServersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGameServersPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameServer]`
     /// - Returns: `[GameLiftClientTypes.GameServer]`
@@ -637,16 +637,16 @@ extension PaginatorSequence where Input == ListGameServersInput, Output == ListG
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListLocationsOutputResponse]` results.
+    /// Paginate over `[ListLocationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLocationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLocationsOutputResponse`
-    public func listLocationsPaginated(input: ListLocationsInput) -> ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutputResponse>(input: input, inputKey: \ListLocationsInput.nextToken, outputKey: \ListLocationsOutputResponse.nextToken, paginationFunction: self.listLocations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLocationsOutput`
+    public func listLocationsPaginated(input: ListLocationsInput) -> ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput>(input: input, inputKey: \ListLocationsInput.nextToken, outputKey: \ListLocationsOutput.nextToken, paginationFunction: self.listLocations(input:))
     }
 }
 
@@ -659,7 +659,7 @@ extension ListLocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLocationsInput, Output == ListLocationsOutputResponse {
+extension PaginatorSequence where Input == ListLocationsInput, Output == ListLocationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLocationsPaginated`
     /// to access the nested member `[GameLiftClientTypes.LocationModel]`
     /// - Returns: `[GameLiftClientTypes.LocationModel]`
@@ -668,16 +668,16 @@ extension PaginatorSequence where Input == ListLocationsInput, Output == ListLoc
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[ListScriptsOutputResponse]` results.
+    /// Paginate over `[ListScriptsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListScriptsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListScriptsOutputResponse`
-    public func listScriptsPaginated(input: ListScriptsInput) -> ClientRuntime.PaginatorSequence<ListScriptsInput, ListScriptsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListScriptsInput, ListScriptsOutputResponse>(input: input, inputKey: \ListScriptsInput.nextToken, outputKey: \ListScriptsOutputResponse.nextToken, paginationFunction: self.listScripts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScriptsOutput`
+    public func listScriptsPaginated(input: ListScriptsInput) -> ClientRuntime.PaginatorSequence<ListScriptsInput, ListScriptsOutput> {
+        return ClientRuntime.PaginatorSequence<ListScriptsInput, ListScriptsOutput>(input: input, inputKey: \ListScriptsInput.nextToken, outputKey: \ListScriptsOutput.nextToken, paginationFunction: self.listScripts(input:))
     }
 }
 
@@ -689,7 +689,7 @@ extension ListScriptsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListScriptsInput, Output == ListScriptsOutputResponse {
+extension PaginatorSequence where Input == ListScriptsInput, Output == ListScriptsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listScriptsPaginated`
     /// to access the nested member `[GameLiftClientTypes.Script]`
     /// - Returns: `[GameLiftClientTypes.Script]`
@@ -698,16 +698,16 @@ extension PaginatorSequence where Input == ListScriptsInput, Output == ListScrip
     }
 }
 extension GameLiftClient {
-    /// Paginate over `[SearchGameSessionsOutputResponse]` results.
+    /// Paginate over `[SearchGameSessionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchGameSessionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchGameSessionsOutputResponse`
-    public func searchGameSessionsPaginated(input: SearchGameSessionsInput) -> ClientRuntime.PaginatorSequence<SearchGameSessionsInput, SearchGameSessionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchGameSessionsInput, SearchGameSessionsOutputResponse>(input: input, inputKey: \SearchGameSessionsInput.nextToken, outputKey: \SearchGameSessionsOutputResponse.nextToken, paginationFunction: self.searchGameSessions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchGameSessionsOutput`
+    public func searchGameSessionsPaginated(input: SearchGameSessionsInput) -> ClientRuntime.PaginatorSequence<SearchGameSessionsInput, SearchGameSessionsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchGameSessionsInput, SearchGameSessionsOutput>(input: input, inputKey: \SearchGameSessionsInput.nextToken, outputKey: \SearchGameSessionsOutput.nextToken, paginationFunction: self.searchGameSessions(input:))
     }
 }
 
@@ -724,7 +724,7 @@ extension SearchGameSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchGameSessionsInput, Output == SearchGameSessionsOutputResponse {
+extension PaginatorSequence where Input == SearchGameSessionsInput, Output == SearchGameSessionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchGameSessionsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSession]`
     /// - Returns: `[GameLiftClientTypes.GameSession]`

@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension EMRClientProtocol {
 
-    static func clusterRunningWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+    static func clusterRunningWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "RUNNING"
@@ -16,7 +16,7 @@ extension EMRClientProtocol {
                 let state = status?.state
                 return JMESUtils.compare(state, ==, "RUNNING")
             }),
-            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "WAITING"
@@ -26,7 +26,7 @@ extension EMRClientProtocol {
                 let state = status?.state
                 return JMESUtils.compare(state, ==, "WAITING")
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "TERMINATING"
@@ -36,7 +36,7 @@ extension EMRClientProtocol {
                 let state = status?.state
                 return JMESUtils.compare(state, ==, "TERMINATING")
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "TERMINATED"
@@ -46,7 +46,7 @@ extension EMRClientProtocol {
                 let state = status?.state
                 return JMESUtils.compare(state, ==, "TERMINATED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "TERMINATED_WITH_ERRORS"
@@ -57,7 +57,7 @@ extension EMRClientProtocol {
                 return JMESUtils.compare(state, ==, "TERMINATED_WITH_ERRORS")
             }),
         ]
-        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterRunning event on the describeCluster operation.
@@ -71,14 +71,14 @@ extension EMRClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterRunning(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutputResponse> {
+    public func waitUntilClusterRunning(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutput> {
         let waiter = Waiter(config: try Self.clusterRunningWaiterConfig(), operation: self.describeCluster(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func clusterTerminatedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+    static func clusterTerminatedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "TERMINATED"
@@ -88,7 +88,7 @@ extension EMRClientProtocol {
                 let state = status?.state
                 return JMESUtils.compare(state, ==, "TERMINATED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "TERMINATED_WITH_ERRORS"
@@ -99,7 +99,7 @@ extension EMRClientProtocol {
                 return JMESUtils.compare(state, ==, "TERMINATED_WITH_ERRORS")
             }),
         ]
-        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterTerminated event on the describeCluster operation.
@@ -113,14 +113,14 @@ extension EMRClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterTerminated(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutputResponse> {
+    public func waitUntilClusterTerminated(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutput> {
         let waiter = Waiter(config: try Self.clusterTerminatedWaiterConfig(), operation: self.describeCluster(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func stepCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStepInput, DescribeStepOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeStepInput, DescribeStepOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeStepInput, result: Result<DescribeStepOutputResponse, Error>) -> Bool in
+    static func stepCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStepInput, DescribeStepOutput> {
+        let acceptors: [WaiterConfiguration<DescribeStepInput, DescribeStepOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStepInput, result: Result<DescribeStepOutput, Error>) -> Bool in
                 // JMESPath expression: "Step.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "COMPLETED"
@@ -130,7 +130,7 @@ extension EMRClientProtocol {
                 let state = status?.state
                 return JMESUtils.compare(state, ==, "COMPLETED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeStepInput, result: Result<DescribeStepOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStepInput, result: Result<DescribeStepOutput, Error>) -> Bool in
                 // JMESPath expression: "Step.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -140,7 +140,7 @@ extension EMRClientProtocol {
                 let state = status?.state
                 return JMESUtils.compare(state, ==, "FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeStepInput, result: Result<DescribeStepOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeStepInput, result: Result<DescribeStepOutput, Error>) -> Bool in
                 // JMESPath expression: "Step.Status.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CANCELLED"
@@ -151,7 +151,7 @@ extension EMRClientProtocol {
                 return JMESUtils.compare(state, ==, "CANCELLED")
             }),
         ]
-        return try WaiterConfiguration<DescribeStepInput, DescribeStepOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeStepInput, DescribeStepOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StepComplete event on the describeStep operation.
@@ -165,7 +165,7 @@ extension EMRClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStepComplete(options: WaiterOptions, input: DescribeStepInput) async throws -> WaiterOutcome<DescribeStepOutputResponse> {
+    public func waitUntilStepComplete(options: WaiterOptions, input: DescribeStepInput) async throws -> WaiterOutcome<DescribeStepOutput> {
         let waiter = Waiter(config: try Self.stepCompleteWaiterConfig(), operation: self.describeStep(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

@@ -71,7 +71,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter AssociateOriginationIdentityInput : [no documentation found]
     ///
-    /// - Returns: `AssociateOriginationIdentityOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateOriginationIdentityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,7 +83,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func associateOriginationIdentity(input: AssociateOriginationIdentityInput) async throws -> AssociateOriginationIdentityOutputResponse
+    public func associateOriginationIdentity(input: AssociateOriginationIdentityInput) async throws -> AssociateOriginationIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -99,29 +99,22 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutputResponse, AssociateOriginationIdentityOutputError>(id: "associateOriginationIdentity")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<AssociateOriginationIdentityOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutputResponse, AssociateOriginationIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>(id: "associateOriginationIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateOriginationIdentityOutputResponse, AssociateOriginationIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.AssociateOriginationIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutputResponse>(xmlName: "AssociateOriginationIdentityRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(xAmzTarget: "PinpointSMSVoiceV2.AssociateOriginationIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(xmlName: "AssociateOriginationIdentityRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateOriginationIdentityOutputResponse, AssociateOriginationIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateOriginationIdentityOutputResponse, AssociateOriginationIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateOriginationIdentityOutputResponse, AssociateOriginationIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateOriginationIdentityOutputResponse, AssociateOriginationIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateOriginationIdentityOutput, AssociateOriginationIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -130,7 +123,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter CreateConfigurationSetInput : [no documentation found]
     ///
-    /// - Returns: `CreateConfigurationSetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConfigurationSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,7 +134,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutputResponse
+    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -157,29 +150,22 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(id: "createConfigurationSet")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateConfigurationSetOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateConfigurationSetInput, CreateConfigurationSetOutput, CreateConfigurationSetOutputError>(id: "createConfigurationSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput, CreateConfigurationSetOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput, CreateConfigurationSetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConfigurationSetOutput, CreateConfigurationSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.CreateConfigurationSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>(xmlName: "CreateConfigurationSetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateConfigurationSet"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(xmlName: "CreateConfigurationSetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConfigurationSetOutput, CreateConfigurationSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetOutput, CreateConfigurationSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutput, CreateConfigurationSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetOutput, CreateConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -188,7 +174,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter CreateEventDestinationInput : [no documentation found]
     ///
-    /// - Returns: `CreateEventDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEventDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -200,7 +186,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createEventDestination(input: CreateEventDestinationInput) async throws -> CreateEventDestinationOutputResponse
+    public func createEventDestination(input: CreateEventDestinationInput) async throws -> CreateEventDestinationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -216,29 +202,22 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateEventDestinationInput, CreateEventDestinationOutputResponse, CreateEventDestinationOutputError>(id: "createEventDestination")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateEventDestinationOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventDestinationInput, CreateEventDestinationOutputResponse, CreateEventDestinationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventDestinationInput, CreateEventDestinationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateEventDestinationInput, CreateEventDestinationOutput, CreateEventDestinationOutputError>(id: "createEventDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput, CreateEventDestinationOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput, CreateEventDestinationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventDestinationOutputResponse, CreateEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventDestinationOutput, CreateEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateEventDestinationInput, CreateEventDestinationOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.CreateEventDestination"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEventDestinationInput, CreateEventDestinationOutputResponse>(xmlName: "CreateEventDestinationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventDestinationInput, CreateEventDestinationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateEventDestination"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(xmlName: "CreateEventDestinationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventDestinationOutputResponse, CreateEventDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventDestinationOutput, CreateEventDestinationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventDestinationOutputResponse, CreateEventDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventDestinationOutputResponse, CreateEventDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventDestinationOutputResponse, CreateEventDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventDestinationOutput, CreateEventDestinationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventDestinationOutput, CreateEventDestinationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventDestinationOutput, CreateEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -247,7 +226,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter CreateOptOutListInput : [no documentation found]
     ///
-    /// - Returns: `CreateOptOutListOutputResponse` : [no documentation found]
+    /// - Returns: `CreateOptOutListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -258,7 +237,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createOptOutList(input: CreateOptOutListInput) async throws -> CreateOptOutListOutputResponse
+    public func createOptOutList(input: CreateOptOutListInput) async throws -> CreateOptOutListOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -274,29 +253,22 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateOptOutListInput, CreateOptOutListOutputResponse, CreateOptOutListOutputError>(id: "createOptOutList")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateOptOutListOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOptOutListInput, CreateOptOutListOutputResponse, CreateOptOutListOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOptOutListInput, CreateOptOutListOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateOptOutListInput, CreateOptOutListOutput, CreateOptOutListOutputError>(id: "createOptOutList")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateOptOutListInput, CreateOptOutListOutput, CreateOptOutListOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOptOutListInput, CreateOptOutListOutput, CreateOptOutListOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOptOutListInput, CreateOptOutListOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOptOutListOutputResponse, CreateOptOutListOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOptOutListOutput, CreateOptOutListOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateOptOutListInput, CreateOptOutListOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.CreateOptOutList"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateOptOutListInput, CreateOptOutListOutputResponse>(xmlName: "CreateOptOutListRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOptOutListInput, CreateOptOutListOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateOptOutList"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(xmlName: "CreateOptOutListRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOptOutListOutputResponse, CreateOptOutListOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOptOutListOutput, CreateOptOutListOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOptOutListOutputResponse, CreateOptOutListOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOptOutListOutputResponse, CreateOptOutListOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOptOutListOutputResponse, CreateOptOutListOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOptOutListOutput, CreateOptOutListOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOptOutListOutput, CreateOptOutListOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOptOutListOutput, CreateOptOutListOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -305,7 +277,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter CreatePoolInput : [no documentation found]
     ///
-    /// - Returns: `CreatePoolOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePoolOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -317,7 +289,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createPool(input: CreatePoolInput) async throws -> CreatePoolOutputResponse
+    public func createPool(input: CreatePoolInput) async throws -> CreatePoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -333,29 +305,22 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePoolInput, CreatePoolOutputResponse, CreatePoolOutputError>(id: "createPool")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePoolOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePoolInput, CreatePoolOutputResponse, CreatePoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePoolInput, CreatePoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePoolInput, CreatePoolOutput, CreatePoolOutputError>(id: "createPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePoolInput, CreatePoolOutput, CreatePoolOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePoolInput, CreatePoolOutput, CreatePoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePoolInput, CreatePoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePoolOutputResponse, CreatePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePoolOutput, CreatePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePoolInput, CreatePoolOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.CreatePool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePoolInput, CreatePoolOutputResponse>(xmlName: "CreatePoolRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePoolInput, CreatePoolOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePoolInput, CreatePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreatePool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePoolInput, CreatePoolOutput>(xmlName: "CreatePoolRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePoolInput, CreatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePoolOutputResponse, CreatePoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePoolOutput, CreatePoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePoolOutputResponse, CreatePoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePoolOutputResponse, CreatePoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePoolOutputResponse, CreatePoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePoolOutput, CreatePoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePoolOutput, CreatePoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePoolOutput, CreatePoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -364,7 +329,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteConfigurationSetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConfigurationSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigurationSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -374,7 +339,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutputResponse
+    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -390,21 +355,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(id: "deleteConfigurationSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConfigurationSetInput, DeleteConfigurationSetOutput, DeleteConfigurationSetOutputError>(id: "deleteConfigurationSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput, DeleteConfigurationSetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationSetOutput, DeleteConfigurationSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteConfigurationSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse>(xmlName: "DeleteConfigurationSetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteConfigurationSet"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(xmlName: "DeleteConfigurationSetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationSetOutput, DeleteConfigurationSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetOutput, DeleteConfigurationSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutput, DeleteConfigurationSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetOutput, DeleteConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -413,7 +378,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteDefaultMessageTypeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDefaultMessageTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDefaultMessageTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -423,7 +388,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteDefaultMessageType(input: DeleteDefaultMessageTypeInput) async throws -> DeleteDefaultMessageTypeOutputResponse
+    public func deleteDefaultMessageType(input: DeleteDefaultMessageTypeInput) async throws -> DeleteDefaultMessageTypeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -439,21 +404,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutputResponse, DeleteDefaultMessageTypeOutputError>(id: "deleteDefaultMessageType")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutputResponse, DeleteDefaultMessageTypeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput, DeleteDefaultMessageTypeOutputError>(id: "deleteDefaultMessageType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput, DeleteDefaultMessageTypeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDefaultMessageTypeOutputResponse, DeleteDefaultMessageTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDefaultMessageTypeOutput, DeleteDefaultMessageTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultMessageType"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutputResponse>(xmlName: "DeleteDefaultMessageTypeRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultMessageType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(xmlName: "DeleteDefaultMessageTypeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDefaultMessageTypeOutputResponse, DeleteDefaultMessageTypeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDefaultMessageTypeOutput, DeleteDefaultMessageTypeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDefaultMessageTypeOutputResponse, DeleteDefaultMessageTypeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDefaultMessageTypeOutputResponse, DeleteDefaultMessageTypeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDefaultMessageTypeOutputResponse, DeleteDefaultMessageTypeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDefaultMessageTypeOutput, DeleteDefaultMessageTypeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDefaultMessageTypeOutput, DeleteDefaultMessageTypeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDefaultMessageTypeOutput, DeleteDefaultMessageTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -462,7 +427,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteDefaultSenderIdInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDefaultSenderIdOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDefaultSenderIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,7 +437,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteDefaultSenderId(input: DeleteDefaultSenderIdInput) async throws -> DeleteDefaultSenderIdOutputResponse
+    public func deleteDefaultSenderId(input: DeleteDefaultSenderIdInput) async throws -> DeleteDefaultSenderIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -488,21 +453,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutputResponse, DeleteDefaultSenderIdOutputError>(id: "deleteDefaultSenderId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutputResponse, DeleteDefaultSenderIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput, DeleteDefaultSenderIdOutputError>(id: "deleteDefaultSenderId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput, DeleteDefaultSenderIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDefaultSenderIdOutputResponse, DeleteDefaultSenderIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDefaultSenderIdOutput, DeleteDefaultSenderIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultSenderId"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutputResponse>(xmlName: "DeleteDefaultSenderIdRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultSenderId"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(xmlName: "DeleteDefaultSenderIdRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDefaultSenderIdOutputResponse, DeleteDefaultSenderIdOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDefaultSenderIdOutput, DeleteDefaultSenderIdOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDefaultSenderIdOutputResponse, DeleteDefaultSenderIdOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDefaultSenderIdOutputResponse, DeleteDefaultSenderIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDefaultSenderIdOutputResponse, DeleteDefaultSenderIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDefaultSenderIdOutput, DeleteDefaultSenderIdOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDefaultSenderIdOutput, DeleteDefaultSenderIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDefaultSenderIdOutput, DeleteDefaultSenderIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -511,7 +476,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteEventDestinationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,7 +486,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteEventDestination(input: DeleteEventDestinationInput) async throws -> DeleteEventDestinationOutputResponse
+    public func deleteEventDestination(input: DeleteEventDestinationInput) async throws -> DeleteEventDestinationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -537,21 +502,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteEventDestinationInput, DeleteEventDestinationOutputResponse, DeleteEventDestinationOutputError>(id: "deleteEventDestination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutputResponse, DeleteEventDestinationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteEventDestinationInput, DeleteEventDestinationOutput, DeleteEventDestinationOutputError>(id: "deleteEventDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput, DeleteEventDestinationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventDestinationOutputResponse, DeleteEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventDestinationOutput, DeleteEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteEventDestination"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutputResponse>(xmlName: "DeleteEventDestinationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteEventDestination"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(xmlName: "DeleteEventDestinationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventDestinationOutputResponse, DeleteEventDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventDestinationOutput, DeleteEventDestinationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventDestinationOutputResponse, DeleteEventDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventDestinationOutputResponse, DeleteEventDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventDestinationOutputResponse, DeleteEventDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventDestinationOutput, DeleteEventDestinationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventDestinationOutput, DeleteEventDestinationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventDestinationOutput, DeleteEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -560,7 +525,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteKeywordInput : [no documentation found]
     ///
-    /// - Returns: `DeleteKeywordOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteKeywordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,7 +536,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteKeyword(input: DeleteKeywordInput) async throws -> DeleteKeywordOutputResponse
+    public func deleteKeyword(input: DeleteKeywordInput) async throws -> DeleteKeywordOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -587,21 +552,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteKeywordInput, DeleteKeywordOutputResponse, DeleteKeywordOutputError>(id: "deleteKeyword")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeywordInput, DeleteKeywordOutputResponse, DeleteKeywordOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeywordInput, DeleteKeywordOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteKeywordInput, DeleteKeywordOutput, DeleteKeywordOutputError>(id: "deleteKeyword")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeywordInput, DeleteKeywordOutput, DeleteKeywordOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeywordInput, DeleteKeywordOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteKeywordOutputResponse, DeleteKeywordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteKeywordOutput, DeleteKeywordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteKeywordInput, DeleteKeywordOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteKeyword"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteKeywordInput, DeleteKeywordOutputResponse>(xmlName: "DeleteKeywordRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteKeywordInput, DeleteKeywordOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteKeyword"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(xmlName: "DeleteKeywordRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteKeywordOutputResponse, DeleteKeywordOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteKeywordOutput, DeleteKeywordOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeywordOutputResponse, DeleteKeywordOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeywordOutputResponse, DeleteKeywordOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteKeywordOutputResponse, DeleteKeywordOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeywordOutput, DeleteKeywordOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeywordOutput, DeleteKeywordOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteKeywordOutput, DeleteKeywordOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -610,7 +575,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteOptOutListInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOptOutListOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOptOutListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,7 +586,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteOptOutList(input: DeleteOptOutListInput) async throws -> DeleteOptOutListOutputResponse
+    public func deleteOptOutList(input: DeleteOptOutListInput) async throws -> DeleteOptOutListOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -637,21 +602,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOptOutListInput, DeleteOptOutListOutputResponse, DeleteOptOutListOutputError>(id: "deleteOptOutList")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOptOutListInput, DeleteOptOutListOutputResponse, DeleteOptOutListOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOptOutListInput, DeleteOptOutListOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteOptOutListInput, DeleteOptOutListOutput, DeleteOptOutListOutputError>(id: "deleteOptOutList")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput, DeleteOptOutListOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOptOutListOutputResponse, DeleteOptOutListOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOptOutListOutput, DeleteOptOutListOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOptOutListInput, DeleteOptOutListOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptOutList"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOptOutListInput, DeleteOptOutListOutputResponse>(xmlName: "DeleteOptOutListRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOptOutListInput, DeleteOptOutListOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptOutList"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(xmlName: "DeleteOptOutListRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOptOutListOutputResponse, DeleteOptOutListOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOptOutListOutput, DeleteOptOutListOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOptOutListOutputResponse, DeleteOptOutListOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOptOutListOutputResponse, DeleteOptOutListOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOptOutListOutputResponse, DeleteOptOutListOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOptOutListOutput, DeleteOptOutListOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOptOutListOutput, DeleteOptOutListOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOptOutListOutput, DeleteOptOutListOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -660,7 +625,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteOptedOutNumberInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOptedOutNumberOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOptedOutNumberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,7 +636,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteOptedOutNumber(input: DeleteOptedOutNumberInput) async throws -> DeleteOptedOutNumberOutputResponse
+    public func deleteOptedOutNumber(input: DeleteOptedOutNumberInput) async throws -> DeleteOptedOutNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -687,21 +652,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutputResponse, DeleteOptedOutNumberOutputError>(id: "deleteOptedOutNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutputResponse, DeleteOptedOutNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput, DeleteOptedOutNumberOutputError>(id: "deleteOptedOutNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput, DeleteOptedOutNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOptedOutNumberOutputResponse, DeleteOptedOutNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOptedOutNumberOutput, DeleteOptedOutNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptedOutNumber"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutputResponse>(xmlName: "DeleteOptedOutNumberRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptedOutNumber"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(xmlName: "DeleteOptedOutNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOptedOutNumberOutputResponse, DeleteOptedOutNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOptedOutNumberOutput, DeleteOptedOutNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOptedOutNumberOutputResponse, DeleteOptedOutNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOptedOutNumberOutputResponse, DeleteOptedOutNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOptedOutNumberOutputResponse, DeleteOptedOutNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOptedOutNumberOutput, DeleteOptedOutNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOptedOutNumberOutput, DeleteOptedOutNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOptedOutNumberOutput, DeleteOptedOutNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -710,7 +675,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeletePoolInput : [no documentation found]
     ///
-    /// - Returns: `DeletePoolOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePoolOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -721,7 +686,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deletePool(input: DeletePoolInput) async throws -> DeletePoolOutputResponse
+    public func deletePool(input: DeletePoolInput) async throws -> DeletePoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -737,21 +702,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePoolInput, DeletePoolOutputResponse, DeletePoolOutputError>(id: "deletePool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePoolInput, DeletePoolOutputResponse, DeletePoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePoolInput, DeletePoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePoolInput, DeletePoolOutput, DeletePoolOutputError>(id: "deletePool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePoolInput, DeletePoolOutput, DeletePoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePoolInput, DeletePoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePoolOutputResponse, DeletePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePoolOutput, DeletePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePoolInput, DeletePoolOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeletePool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePoolInput, DeletePoolOutputResponse>(xmlName: "DeletePoolRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePoolInput, DeletePoolOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePoolInput, DeletePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeletePool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePoolInput, DeletePoolOutput>(xmlName: "DeletePoolRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePoolInput, DeletePoolOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePoolOutputResponse, DeletePoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePoolOutput, DeletePoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePoolOutputResponse, DeletePoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePoolOutputResponse, DeletePoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePoolOutputResponse, DeletePoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePoolOutput, DeletePoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePoolOutput, DeletePoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePoolOutput, DeletePoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -760,7 +725,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteTextMessageSpendLimitOverrideInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTextMessageSpendLimitOverrideOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTextMessageSpendLimitOverrideOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,7 +734,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteTextMessageSpendLimitOverride(input: DeleteTextMessageSpendLimitOverrideInput) async throws -> DeleteTextMessageSpendLimitOverrideOutputResponse
+    public func deleteTextMessageSpendLimitOverride(input: DeleteTextMessageSpendLimitOverrideInput) async throws -> DeleteTextMessageSpendLimitOverrideOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -785,21 +750,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutputResponse, DeleteTextMessageSpendLimitOverrideOutputError>(id: "deleteTextMessageSpendLimitOverride")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutputResponse, DeleteTextMessageSpendLimitOverrideOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput, DeleteTextMessageSpendLimitOverrideOutputError>(id: "deleteTextMessageSpendLimitOverride")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput, DeleteTextMessageSpendLimitOverrideOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTextMessageSpendLimitOverrideOutputResponse, DeleteTextMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTextMessageSpendLimitOverrideOutput, DeleteTextMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteTextMessageSpendLimitOverride"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutputResponse>(xmlName: "DeleteTextMessageSpendLimitOverrideRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteTextMessageSpendLimitOverride"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(xmlName: "DeleteTextMessageSpendLimitOverrideRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTextMessageSpendLimitOverrideOutputResponse, DeleteTextMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTextMessageSpendLimitOverrideOutput, DeleteTextMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTextMessageSpendLimitOverrideOutputResponse, DeleteTextMessageSpendLimitOverrideOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTextMessageSpendLimitOverrideOutputResponse, DeleteTextMessageSpendLimitOverrideOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTextMessageSpendLimitOverrideOutputResponse, DeleteTextMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTextMessageSpendLimitOverrideOutput, DeleteTextMessageSpendLimitOverrideOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTextMessageSpendLimitOverrideOutput, DeleteTextMessageSpendLimitOverrideOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTextMessageSpendLimitOverrideOutput, DeleteTextMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -808,7 +773,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DeleteVoiceMessageSpendLimitOverrideInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVoiceMessageSpendLimitOverrideOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVoiceMessageSpendLimitOverrideOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,7 +782,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteVoiceMessageSpendLimitOverride(input: DeleteVoiceMessageSpendLimitOverrideInput) async throws -> DeleteVoiceMessageSpendLimitOverrideOutputResponse
+    public func deleteVoiceMessageSpendLimitOverride(input: DeleteVoiceMessageSpendLimitOverrideInput) async throws -> DeleteVoiceMessageSpendLimitOverrideOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -833,21 +798,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutputResponse, DeleteVoiceMessageSpendLimitOverrideOutputError>(id: "deleteVoiceMessageSpendLimitOverride")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutputResponse, DeleteVoiceMessageSpendLimitOverrideOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput, DeleteVoiceMessageSpendLimitOverrideOutputError>(id: "deleteVoiceMessageSpendLimitOverride")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput, DeleteVoiceMessageSpendLimitOverrideOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceMessageSpendLimitOverrideOutputResponse, DeleteVoiceMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput, DeleteVoiceMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DeleteVoiceMessageSpendLimitOverride"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutputResponse>(xmlName: "DeleteVoiceMessageSpendLimitOverrideRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteVoiceMessageSpendLimitOverride"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(xmlName: "DeleteVoiceMessageSpendLimitOverrideRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceMessageSpendLimitOverrideOutputResponse, DeleteVoiceMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceMessageSpendLimitOverrideOutput, DeleteVoiceMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceMessageSpendLimitOverrideOutputResponse, DeleteVoiceMessageSpendLimitOverrideOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceMessageSpendLimitOverrideOutputResponse, DeleteVoiceMessageSpendLimitOverrideOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceMessageSpendLimitOverrideOutputResponse, DeleteVoiceMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceMessageSpendLimitOverrideOutput, DeleteVoiceMessageSpendLimitOverrideOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput, DeleteVoiceMessageSpendLimitOverrideOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput, DeleteVoiceMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -856,7 +821,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeAccountAttributesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,7 +830,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutputResponse
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -881,21 +846,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(id: "describeAccountAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, DescribeAccountAttributesOutputError>(id: "describeAccountAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, DescribeAccountAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAttributesOutput, DescribeAccountAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountAttributes"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>(xmlName: "DescribeAccountAttributesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountAttributes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(xmlName: "DescribeAccountAttributesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAttributesOutput, DescribeAccountAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAttributesOutput, DescribeAccountAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput, DescribeAccountAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAttributesOutput, DescribeAccountAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -904,7 +869,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeAccountLimitsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountLimitsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountLimitsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -913,7 +878,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutputResponse
+    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -929,21 +894,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(id: "describeAccountLimits")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAccountLimitsInput, DescribeAccountLimitsOutput, DescribeAccountLimitsOutputError>(id: "describeAccountLimits")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput, DescribeAccountLimitsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountLimitsOutput, DescribeAccountLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountLimits"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse>(xmlName: "DescribeAccountLimitsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountLimits"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(xmlName: "DescribeAccountLimitsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountLimitsOutput, DescribeAccountLimitsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountLimitsOutput, DescribeAccountLimitsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutput, DescribeAccountLimitsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountLimitsOutput, DescribeAccountLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -952,7 +917,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeConfigurationSetsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConfigurationSetsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConfigurationSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -962,7 +927,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeConfigurationSets(input: DescribeConfigurationSetsInput) async throws -> DescribeConfigurationSetsOutputResponse
+    public func describeConfigurationSets(input: DescribeConfigurationSetsInput) async throws -> DescribeConfigurationSetsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -978,21 +943,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutputResponse, DescribeConfigurationSetsOutputError>(id: "describeConfigurationSets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutputResponse, DescribeConfigurationSetsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput, DescribeConfigurationSetsOutputError>(id: "describeConfigurationSets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput, DescribeConfigurationSetsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationSetsOutputResponse, DescribeConfigurationSetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConfigurationSetsOutput, DescribeConfigurationSetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeConfigurationSets"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutputResponse>(xmlName: "DescribeConfigurationSetsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeConfigurationSets"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(xmlName: "DescribeConfigurationSetsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationSetsOutputResponse, DescribeConfigurationSetsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationSetsOutput, DescribeConfigurationSetsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationSetsOutputResponse, DescribeConfigurationSetsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationSetsOutputResponse, DescribeConfigurationSetsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationSetsOutputResponse, DescribeConfigurationSetsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationSetsOutput, DescribeConfigurationSetsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationSetsOutput, DescribeConfigurationSetsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationSetsOutput, DescribeConfigurationSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1001,7 +966,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeKeywordsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeKeywordsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeKeywordsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,7 +976,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeKeywords(input: DescribeKeywordsInput) async throws -> DescribeKeywordsOutputResponse
+    public func describeKeywords(input: DescribeKeywordsInput) async throws -> DescribeKeywordsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1027,21 +992,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeKeywordsInput, DescribeKeywordsOutputResponse, DescribeKeywordsOutputError>(id: "describeKeywords")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeywordsInput, DescribeKeywordsOutputResponse, DescribeKeywordsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeKeywordsInput, DescribeKeywordsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeKeywordsInput, DescribeKeywordsOutput, DescribeKeywordsOutputError>(id: "describeKeywords")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput, DescribeKeywordsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeKeywordsOutputResponse, DescribeKeywordsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeKeywordsOutput, DescribeKeywordsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeKeywordsInput, DescribeKeywordsOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeKeywords"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeKeywordsInput, DescribeKeywordsOutputResponse>(xmlName: "DescribeKeywordsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeKeywordsInput, DescribeKeywordsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeKeywords"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(xmlName: "DescribeKeywordsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeKeywordsOutputResponse, DescribeKeywordsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeKeywordsOutput, DescribeKeywordsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeKeywordsOutputResponse, DescribeKeywordsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeywordsOutputResponse, DescribeKeywordsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeywordsOutputResponse, DescribeKeywordsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeKeywordsOutput, DescribeKeywordsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeywordsOutput, DescribeKeywordsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeywordsOutput, DescribeKeywordsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1050,7 +1015,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeOptOutListsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOptOutListsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOptOutListsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1060,7 +1025,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeOptOutLists(input: DescribeOptOutListsInput) async throws -> DescribeOptOutListsOutputResponse
+    public func describeOptOutLists(input: DescribeOptOutListsInput) async throws -> DescribeOptOutListsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1076,21 +1041,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeOptOutListsInput, DescribeOptOutListsOutputResponse, DescribeOptOutListsOutputError>(id: "describeOptOutLists")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutputResponse, DescribeOptOutListsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeOptOutListsInput, DescribeOptOutListsOutput, DescribeOptOutListsOutputError>(id: "describeOptOutLists")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput, DescribeOptOutListsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOptOutListsOutputResponse, DescribeOptOutListsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOptOutListsOutput, DescribeOptOutListsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptOutLists"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutputResponse>(xmlName: "DescribeOptOutListsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptOutLists"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(xmlName: "DescribeOptOutListsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOptOutListsOutputResponse, DescribeOptOutListsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOptOutListsOutput, DescribeOptOutListsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOptOutListsOutputResponse, DescribeOptOutListsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOptOutListsOutputResponse, DescribeOptOutListsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOptOutListsOutputResponse, DescribeOptOutListsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOptOutListsOutput, DescribeOptOutListsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOptOutListsOutput, DescribeOptOutListsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOptOutListsOutput, DescribeOptOutListsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1099,7 +1064,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeOptedOutNumbersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOptedOutNumbersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOptedOutNumbersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,7 +1074,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeOptedOutNumbers(input: DescribeOptedOutNumbersInput) async throws -> DescribeOptedOutNumbersOutputResponse
+    public func describeOptedOutNumbers(input: DescribeOptedOutNumbersInput) async throws -> DescribeOptedOutNumbersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1125,21 +1090,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutputResponse, DescribeOptedOutNumbersOutputError>(id: "describeOptedOutNumbers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutputResponse, DescribeOptedOutNumbersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput, DescribeOptedOutNumbersOutputError>(id: "describeOptedOutNumbers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput, DescribeOptedOutNumbersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOptedOutNumbersOutputResponse, DescribeOptedOutNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOptedOutNumbersOutput, DescribeOptedOutNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptedOutNumbers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutputResponse>(xmlName: "DescribeOptedOutNumbersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptedOutNumbers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(xmlName: "DescribeOptedOutNumbersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOptedOutNumbersOutputResponse, DescribeOptedOutNumbersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOptedOutNumbersOutput, DescribeOptedOutNumbersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOptedOutNumbersOutputResponse, DescribeOptedOutNumbersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOptedOutNumbersOutputResponse, DescribeOptedOutNumbersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOptedOutNumbersOutputResponse, DescribeOptedOutNumbersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOptedOutNumbersOutput, DescribeOptedOutNumbersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOptedOutNumbersOutput, DescribeOptedOutNumbersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOptedOutNumbersOutput, DescribeOptedOutNumbersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1148,7 +1113,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribePhoneNumbersInput : [no documentation found]
     ///
-    /// - Returns: `DescribePhoneNumbersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePhoneNumbersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1158,7 +1123,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describePhoneNumbers(input: DescribePhoneNumbersInput) async throws -> DescribePhoneNumbersOutputResponse
+    public func describePhoneNumbers(input: DescribePhoneNumbersInput) async throws -> DescribePhoneNumbersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1174,21 +1139,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePhoneNumbersInput, DescribePhoneNumbersOutputResponse, DescribePhoneNumbersOutputError>(id: "describePhoneNumbers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutputResponse, DescribePhoneNumbersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribePhoneNumbersInput, DescribePhoneNumbersOutput, DescribePhoneNumbersOutputError>(id: "describePhoneNumbers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput, DescribePhoneNumbersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePhoneNumbersOutputResponse, DescribePhoneNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePhoneNumbersOutput, DescribePhoneNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribePhoneNumbers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutputResponse>(xmlName: "DescribePhoneNumbersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribePhoneNumbers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(xmlName: "DescribePhoneNumbersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePhoneNumbersOutputResponse, DescribePhoneNumbersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePhoneNumbersOutput, DescribePhoneNumbersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePhoneNumbersOutputResponse, DescribePhoneNumbersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePhoneNumbersOutputResponse, DescribePhoneNumbersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePhoneNumbersOutputResponse, DescribePhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePhoneNumbersOutput, DescribePhoneNumbersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePhoneNumbersOutput, DescribePhoneNumbersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePhoneNumbersOutput, DescribePhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1197,7 +1162,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribePoolsInput : [no documentation found]
     ///
-    /// - Returns: `DescribePoolsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePoolsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1207,7 +1172,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describePools(input: DescribePoolsInput) async throws -> DescribePoolsOutputResponse
+    public func describePools(input: DescribePoolsInput) async throws -> DescribePoolsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1223,21 +1188,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePoolsInput, DescribePoolsOutputResponse, DescribePoolsOutputError>(id: "describePools")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePoolsInput, DescribePoolsOutputResponse, DescribePoolsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePoolsInput, DescribePoolsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribePoolsInput, DescribePoolsOutput, DescribePoolsOutputError>(id: "describePools")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePoolsInput, DescribePoolsOutput, DescribePoolsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePoolsInput, DescribePoolsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePoolsOutputResponse, DescribePoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePoolsOutput, DescribePoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePoolsInput, DescribePoolsOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribePools"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePoolsInput, DescribePoolsOutputResponse>(xmlName: "DescribePoolsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePoolsInput, DescribePoolsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePoolsInput, DescribePoolsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribePools"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePoolsInput, DescribePoolsOutput>(xmlName: "DescribePoolsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePoolsInput, DescribePoolsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePoolsOutputResponse, DescribePoolsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePoolsOutput, DescribePoolsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePoolsOutputResponse, DescribePoolsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePoolsOutputResponse, DescribePoolsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePoolsOutputResponse, DescribePoolsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePoolsOutput, DescribePoolsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePoolsOutput, DescribePoolsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePoolsOutput, DescribePoolsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1246,7 +1211,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeSenderIdsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSenderIdsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSenderIdsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,7 +1221,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeSenderIds(input: DescribeSenderIdsInput) async throws -> DescribeSenderIdsOutputResponse
+    public func describeSenderIds(input: DescribeSenderIdsInput) async throws -> DescribeSenderIdsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1272,21 +1237,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSenderIdsInput, DescribeSenderIdsOutputResponse, DescribeSenderIdsOutputError>(id: "describeSenderIds")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutputResponse, DescribeSenderIdsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSenderIdsInput, DescribeSenderIdsOutput, DescribeSenderIdsOutputError>(id: "describeSenderIds")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput, DescribeSenderIdsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSenderIdsOutputResponse, DescribeSenderIdsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSenderIdsOutput, DescribeSenderIdsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSenderIds"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutputResponse>(xmlName: "DescribeSenderIdsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSenderIds"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(xmlName: "DescribeSenderIdsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSenderIdsOutputResponse, DescribeSenderIdsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSenderIdsOutput, DescribeSenderIdsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSenderIdsOutputResponse, DescribeSenderIdsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSenderIdsOutputResponse, DescribeSenderIdsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSenderIdsOutputResponse, DescribeSenderIdsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSenderIdsOutput, DescribeSenderIdsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSenderIdsOutput, DescribeSenderIdsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSenderIdsOutput, DescribeSenderIdsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1295,7 +1260,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DescribeSpendLimitsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSpendLimitsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSpendLimitsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1304,7 +1269,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeSpendLimits(input: DescribeSpendLimitsInput) async throws -> DescribeSpendLimitsOutputResponse
+    public func describeSpendLimits(input: DescribeSpendLimitsInput) async throws -> DescribeSpendLimitsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1320,21 +1285,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSpendLimitsInput, DescribeSpendLimitsOutputResponse, DescribeSpendLimitsOutputError>(id: "describeSpendLimits")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutputResponse, DescribeSpendLimitsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSpendLimitsInput, DescribeSpendLimitsOutput, DescribeSpendLimitsOutputError>(id: "describeSpendLimits")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput, DescribeSpendLimitsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSpendLimitsOutputResponse, DescribeSpendLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSpendLimitsOutput, DescribeSpendLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSpendLimits"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutputResponse>(xmlName: "DescribeSpendLimitsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSpendLimits"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(xmlName: "DescribeSpendLimitsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSpendLimitsOutputResponse, DescribeSpendLimitsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSpendLimitsOutput, DescribeSpendLimitsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSpendLimitsOutputResponse, DescribeSpendLimitsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSpendLimitsOutputResponse, DescribeSpendLimitsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSpendLimitsOutputResponse, DescribeSpendLimitsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSpendLimitsOutput, DescribeSpendLimitsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSpendLimitsOutput, DescribeSpendLimitsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSpendLimitsOutput, DescribeSpendLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1343,7 +1308,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter DisassociateOriginationIdentityInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateOriginationIdentityOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateOriginationIdentityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1354,7 +1319,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func disassociateOriginationIdentity(input: DisassociateOriginationIdentityInput) async throws -> DisassociateOriginationIdentityOutputResponse
+    public func disassociateOriginationIdentity(input: DisassociateOriginationIdentityInput) async throws -> DisassociateOriginationIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1370,29 +1335,22 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutputResponse, DisassociateOriginationIdentityOutputError>(id: "disassociateOriginationIdentity")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DisassociateOriginationIdentityOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutputResponse, DisassociateOriginationIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>(id: "disassociateOriginationIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateOriginationIdentityOutputResponse, DisassociateOriginationIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.DisassociateOriginationIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutputResponse>(xmlName: "DisassociateOriginationIdentityRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(xAmzTarget: "PinpointSMSVoiceV2.DisassociateOriginationIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(xmlName: "DisassociateOriginationIdentityRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateOriginationIdentityOutputResponse, DisassociateOriginationIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateOriginationIdentityOutputResponse, DisassociateOriginationIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateOriginationIdentityOutputResponse, DisassociateOriginationIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateOriginationIdentityOutputResponse, DisassociateOriginationIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateOriginationIdentityOutput, DisassociateOriginationIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1401,7 +1359,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter ListPoolOriginationIdentitiesInput : [no documentation found]
     ///
-    /// - Returns: `ListPoolOriginationIdentitiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListPoolOriginationIdentitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,7 +1369,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func listPoolOriginationIdentities(input: ListPoolOriginationIdentitiesInput) async throws -> ListPoolOriginationIdentitiesOutputResponse
+    public func listPoolOriginationIdentities(input: ListPoolOriginationIdentitiesInput) async throws -> ListPoolOriginationIdentitiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1427,21 +1385,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutputResponse, ListPoolOriginationIdentitiesOutputError>(id: "listPoolOriginationIdentities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutputResponse, ListPoolOriginationIdentitiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput, ListPoolOriginationIdentitiesOutputError>(id: "listPoolOriginationIdentities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput, ListPoolOriginationIdentitiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoolOriginationIdentitiesOutputResponse, ListPoolOriginationIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoolOriginationIdentitiesOutput, ListPoolOriginationIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.ListPoolOriginationIdentities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutputResponse>(xmlName: "ListPoolOriginationIdentitiesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListPoolOriginationIdentities"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(xmlName: "ListPoolOriginationIdentitiesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoolOriginationIdentitiesOutputResponse, ListPoolOriginationIdentitiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoolOriginationIdentitiesOutput, ListPoolOriginationIdentitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoolOriginationIdentitiesOutputResponse, ListPoolOriginationIdentitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoolOriginationIdentitiesOutputResponse, ListPoolOriginationIdentitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoolOriginationIdentitiesOutputResponse, ListPoolOriginationIdentitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoolOriginationIdentitiesOutput, ListPoolOriginationIdentitiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoolOriginationIdentitiesOutput, ListPoolOriginationIdentitiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoolOriginationIdentitiesOutput, ListPoolOriginationIdentitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1450,7 +1408,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1460,7 +1418,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1476,21 +1434,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1499,7 +1457,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter PutKeywordInput : [no documentation found]
     ///
-    /// - Returns: `PutKeywordOutputResponse` : [no documentation found]
+    /// - Returns: `PutKeywordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,7 +1469,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func putKeyword(input: PutKeywordInput) async throws -> PutKeywordOutputResponse
+    public func putKeyword(input: PutKeywordInput) async throws -> PutKeywordOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1527,21 +1485,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutKeywordInput, PutKeywordOutputResponse, PutKeywordOutputError>(id: "putKeyword")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutKeywordInput, PutKeywordOutputResponse, PutKeywordOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutKeywordInput, PutKeywordOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutKeywordInput, PutKeywordOutput, PutKeywordOutputError>(id: "putKeyword")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutKeywordInput, PutKeywordOutput, PutKeywordOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutKeywordInput, PutKeywordOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutKeywordOutputResponse, PutKeywordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutKeywordOutput, PutKeywordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutKeywordInput, PutKeywordOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.PutKeyword"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutKeywordInput, PutKeywordOutputResponse>(xmlName: "PutKeywordRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutKeywordInput, PutKeywordOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutKeywordInput, PutKeywordOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutKeyword"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutKeywordInput, PutKeywordOutput>(xmlName: "PutKeywordRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutKeywordInput, PutKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutKeywordOutputResponse, PutKeywordOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutKeywordOutput, PutKeywordOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutKeywordOutputResponse, PutKeywordOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutKeywordOutputResponse, PutKeywordOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutKeywordOutputResponse, PutKeywordOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutKeywordOutput, PutKeywordOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutKeywordOutput, PutKeywordOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutKeywordOutput, PutKeywordOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1550,7 +1508,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter PutOptedOutNumberInput : [no documentation found]
     ///
-    /// - Returns: `PutOptedOutNumberOutputResponse` : [no documentation found]
+    /// - Returns: `PutOptedOutNumberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1560,7 +1518,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func putOptedOutNumber(input: PutOptedOutNumberInput) async throws -> PutOptedOutNumberOutputResponse
+    public func putOptedOutNumber(input: PutOptedOutNumberInput) async throws -> PutOptedOutNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1576,21 +1534,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutOptedOutNumberInput, PutOptedOutNumberOutputResponse, PutOptedOutNumberOutputError>(id: "putOptedOutNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutputResponse, PutOptedOutNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutOptedOutNumberInput, PutOptedOutNumberOutput, PutOptedOutNumberOutputError>(id: "putOptedOutNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput, PutOptedOutNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOptedOutNumberOutputResponse, PutOptedOutNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOptedOutNumberOutput, PutOptedOutNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.PutOptedOutNumber"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutputResponse>(xmlName: "PutOptedOutNumberRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutOptedOutNumber"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(xmlName: "PutOptedOutNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOptedOutNumberOutputResponse, PutOptedOutNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOptedOutNumberOutput, PutOptedOutNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOptedOutNumberOutputResponse, PutOptedOutNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOptedOutNumberOutputResponse, PutOptedOutNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOptedOutNumberOutputResponse, PutOptedOutNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOptedOutNumberOutput, PutOptedOutNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOptedOutNumberOutput, PutOptedOutNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOptedOutNumberOutput, PutOptedOutNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1599,7 +1557,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter ReleasePhoneNumberInput : [no documentation found]
     ///
-    /// - Returns: `ReleasePhoneNumberOutputResponse` : [no documentation found]
+    /// - Returns: `ReleasePhoneNumberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,7 +1568,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutputResponse
+    public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1626,21 +1584,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ReleasePhoneNumberInput, ReleasePhoneNumberOutputResponse, ReleasePhoneNumberOutputError>(id: "releasePhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutputResponse, ReleasePhoneNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ReleasePhoneNumberInput, ReleasePhoneNumberOutput, ReleasePhoneNumberOutputError>(id: "releasePhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput, ReleasePhoneNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReleasePhoneNumberOutputResponse, ReleasePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReleasePhoneNumberOutput, ReleasePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.ReleasePhoneNumber"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutputResponse>(xmlName: "ReleasePhoneNumberRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.ReleasePhoneNumber"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(xmlName: "ReleasePhoneNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReleasePhoneNumberOutputResponse, ReleasePhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReleasePhoneNumberOutput, ReleasePhoneNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReleasePhoneNumberOutputResponse, ReleasePhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReleasePhoneNumberOutputResponse, ReleasePhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReleasePhoneNumberOutputResponse, ReleasePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReleasePhoneNumberOutput, ReleasePhoneNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReleasePhoneNumberOutput, ReleasePhoneNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReleasePhoneNumberOutput, ReleasePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1649,7 +1607,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter RequestPhoneNumberInput : [no documentation found]
     ///
-    /// - Returns: `RequestPhoneNumberOutputResponse` : [no documentation found]
+    /// - Returns: `RequestPhoneNumberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1661,7 +1619,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func requestPhoneNumber(input: RequestPhoneNumberInput) async throws -> RequestPhoneNumberOutputResponse
+    public func requestPhoneNumber(input: RequestPhoneNumberInput) async throws -> RequestPhoneNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1677,29 +1635,22 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RequestPhoneNumberInput, RequestPhoneNumberOutputResponse, RequestPhoneNumberOutputError>(id: "requestPhoneNumber")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RequestPhoneNumberOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutputResponse, RequestPhoneNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RequestPhoneNumberInput, RequestPhoneNumberOutput, RequestPhoneNumberOutputError>(id: "requestPhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput, RequestPhoneNumberOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput, RequestPhoneNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RequestPhoneNumberOutputResponse, RequestPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RequestPhoneNumberOutput, RequestPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.RequestPhoneNumber"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutputResponse>(xmlName: "RequestPhoneNumberRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.RequestPhoneNumber"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(xmlName: "RequestPhoneNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RequestPhoneNumberOutputResponse, RequestPhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RequestPhoneNumberOutput, RequestPhoneNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RequestPhoneNumberOutputResponse, RequestPhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RequestPhoneNumberOutputResponse, RequestPhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RequestPhoneNumberOutputResponse, RequestPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RequestPhoneNumberOutput, RequestPhoneNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RequestPhoneNumberOutput, RequestPhoneNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RequestPhoneNumberOutput, RequestPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1708,7 +1659,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter SendTextMessageInput : [no documentation found]
     ///
-    /// - Returns: `SendTextMessageOutputResponse` : [no documentation found]
+    /// - Returns: `SendTextMessageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1720,7 +1671,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func sendTextMessage(input: SendTextMessageInput) async throws -> SendTextMessageOutputResponse
+    public func sendTextMessage(input: SendTextMessageInput) async throws -> SendTextMessageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1736,21 +1687,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendTextMessageInput, SendTextMessageOutputResponse, SendTextMessageOutputError>(id: "sendTextMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTextMessageInput, SendTextMessageOutputResponse, SendTextMessageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTextMessageInput, SendTextMessageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendTextMessageInput, SendTextMessageOutput, SendTextMessageOutputError>(id: "sendTextMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTextMessageInput, SendTextMessageOutput, SendTextMessageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTextMessageInput, SendTextMessageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTextMessageOutputResponse, SendTextMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTextMessageOutput, SendTextMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTextMessageInput, SendTextMessageOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.SendTextMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTextMessageInput, SendTextMessageOutputResponse>(xmlName: "SendTextMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTextMessageInput, SendTextMessageOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTextMessageInput, SendTextMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendTextMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTextMessageInput, SendTextMessageOutput>(xmlName: "SendTextMessageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTextMessageInput, SendTextMessageOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTextMessageOutputResponse, SendTextMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTextMessageOutput, SendTextMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTextMessageOutputResponse, SendTextMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTextMessageOutputResponse, SendTextMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTextMessageOutputResponse, SendTextMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTextMessageOutput, SendTextMessageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTextMessageOutput, SendTextMessageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTextMessageOutput, SendTextMessageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1759,7 +1710,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter SendVoiceMessageInput : [no documentation found]
     ///
-    /// - Returns: `SendVoiceMessageOutputResponse` : [no documentation found]
+    /// - Returns: `SendVoiceMessageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1771,7 +1722,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutputResponse
+    public func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1787,21 +1738,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendVoiceMessageInput, SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>(id: "sendVoiceMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendVoiceMessageInput, SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendVoiceMessageInput, SendVoiceMessageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendVoiceMessageInput, SendVoiceMessageOutput, SendVoiceMessageOutputError>(id: "sendVoiceMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput, SendVoiceMessageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendVoiceMessageOutput, SendVoiceMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendVoiceMessageInput, SendVoiceMessageOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.SendVoiceMessage"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendVoiceMessageInput, SendVoiceMessageOutputResponse>(xmlName: "SendVoiceMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendVoiceMessageInput, SendVoiceMessageOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendVoiceMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(xmlName: "SendVoiceMessageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendVoiceMessageOutput, SendVoiceMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendVoiceMessageOutputResponse, SendVoiceMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendVoiceMessageOutput, SendVoiceMessageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendVoiceMessageOutput, SendVoiceMessageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendVoiceMessageOutput, SendVoiceMessageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1810,7 +1761,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter SetDefaultMessageTypeInput : [no documentation found]
     ///
-    /// - Returns: `SetDefaultMessageTypeOutputResponse` : [no documentation found]
+    /// - Returns: `SetDefaultMessageTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,7 +1771,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setDefaultMessageType(input: SetDefaultMessageTypeInput) async throws -> SetDefaultMessageTypeOutputResponse
+    public func setDefaultMessageType(input: SetDefaultMessageTypeInput) async throws -> SetDefaultMessageTypeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1836,21 +1787,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutputResponse, SetDefaultMessageTypeOutputError>(id: "setDefaultMessageType")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutputResponse, SetDefaultMessageTypeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput, SetDefaultMessageTypeOutputError>(id: "setDefaultMessageType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput, SetDefaultMessageTypeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDefaultMessageTypeOutputResponse, SetDefaultMessageTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDefaultMessageTypeOutput, SetDefaultMessageTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultMessageType"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutputResponse>(xmlName: "SetDefaultMessageTypeRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultMessageType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(xmlName: "SetDefaultMessageTypeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDefaultMessageTypeOutputResponse, SetDefaultMessageTypeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDefaultMessageTypeOutput, SetDefaultMessageTypeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultMessageTypeOutputResponse, SetDefaultMessageTypeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultMessageTypeOutputResponse, SetDefaultMessageTypeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultMessageTypeOutputResponse, SetDefaultMessageTypeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultMessageTypeOutput, SetDefaultMessageTypeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultMessageTypeOutput, SetDefaultMessageTypeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultMessageTypeOutput, SetDefaultMessageTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1859,7 +1810,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter SetDefaultSenderIdInput : [no documentation found]
     ///
-    /// - Returns: `SetDefaultSenderIdOutputResponse` : [no documentation found]
+    /// - Returns: `SetDefaultSenderIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,7 +1820,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setDefaultSenderId(input: SetDefaultSenderIdInput) async throws -> SetDefaultSenderIdOutputResponse
+    public func setDefaultSenderId(input: SetDefaultSenderIdInput) async throws -> SetDefaultSenderIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1885,21 +1836,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetDefaultSenderIdInput, SetDefaultSenderIdOutputResponse, SetDefaultSenderIdOutputError>(id: "setDefaultSenderId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutputResponse, SetDefaultSenderIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetDefaultSenderIdInput, SetDefaultSenderIdOutput, SetDefaultSenderIdOutputError>(id: "setDefaultSenderId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput, SetDefaultSenderIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDefaultSenderIdOutputResponse, SetDefaultSenderIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDefaultSenderIdOutput, SetDefaultSenderIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultSenderId"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutputResponse>(xmlName: "SetDefaultSenderIdRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultSenderId"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(xmlName: "SetDefaultSenderIdRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDefaultSenderIdOutputResponse, SetDefaultSenderIdOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDefaultSenderIdOutput, SetDefaultSenderIdOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultSenderIdOutputResponse, SetDefaultSenderIdOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultSenderIdOutputResponse, SetDefaultSenderIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultSenderIdOutputResponse, SetDefaultSenderIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultSenderIdOutput, SetDefaultSenderIdOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultSenderIdOutput, SetDefaultSenderIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultSenderIdOutput, SetDefaultSenderIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1908,7 +1859,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter SetTextMessageSpendLimitOverrideInput : [no documentation found]
     ///
-    /// - Returns: `SetTextMessageSpendLimitOverrideOutputResponse` : [no documentation found]
+    /// - Returns: `SetTextMessageSpendLimitOverrideOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1917,7 +1868,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setTextMessageSpendLimitOverride(input: SetTextMessageSpendLimitOverrideInput) async throws -> SetTextMessageSpendLimitOverrideOutputResponse
+    public func setTextMessageSpendLimitOverride(input: SetTextMessageSpendLimitOverrideInput) async throws -> SetTextMessageSpendLimitOverrideOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1933,21 +1884,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutputResponse, SetTextMessageSpendLimitOverrideOutputError>(id: "setTextMessageSpendLimitOverride")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutputResponse, SetTextMessageSpendLimitOverrideOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput, SetTextMessageSpendLimitOverrideOutputError>(id: "setTextMessageSpendLimitOverride")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput, SetTextMessageSpendLimitOverrideOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetTextMessageSpendLimitOverrideOutputResponse, SetTextMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetTextMessageSpendLimitOverrideOutput, SetTextMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.SetTextMessageSpendLimitOverride"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutputResponse>(xmlName: "SetTextMessageSpendLimitOverrideRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetTextMessageSpendLimitOverride"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(xmlName: "SetTextMessageSpendLimitOverrideRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetTextMessageSpendLimitOverrideOutputResponse, SetTextMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetTextMessageSpendLimitOverrideOutput, SetTextMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTextMessageSpendLimitOverrideOutputResponse, SetTextMessageSpendLimitOverrideOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTextMessageSpendLimitOverrideOutputResponse, SetTextMessageSpendLimitOverrideOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetTextMessageSpendLimitOverrideOutputResponse, SetTextMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTextMessageSpendLimitOverrideOutput, SetTextMessageSpendLimitOverrideOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTextMessageSpendLimitOverrideOutput, SetTextMessageSpendLimitOverrideOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetTextMessageSpendLimitOverrideOutput, SetTextMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1956,7 +1907,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter SetVoiceMessageSpendLimitOverrideInput : [no documentation found]
     ///
-    /// - Returns: `SetVoiceMessageSpendLimitOverrideOutputResponse` : [no documentation found]
+    /// - Returns: `SetVoiceMessageSpendLimitOverrideOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,7 +1916,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setVoiceMessageSpendLimitOverride(input: SetVoiceMessageSpendLimitOverrideInput) async throws -> SetVoiceMessageSpendLimitOverrideOutputResponse
+    public func setVoiceMessageSpendLimitOverride(input: SetVoiceMessageSpendLimitOverrideInput) async throws -> SetVoiceMessageSpendLimitOverrideOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1981,21 +1932,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutputResponse, SetVoiceMessageSpendLimitOverrideOutputError>(id: "setVoiceMessageSpendLimitOverride")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutputResponse, SetVoiceMessageSpendLimitOverrideOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput, SetVoiceMessageSpendLimitOverrideOutputError>(id: "setVoiceMessageSpendLimitOverride")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput, SetVoiceMessageSpendLimitOverrideOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetVoiceMessageSpendLimitOverrideOutputResponse, SetVoiceMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetVoiceMessageSpendLimitOverrideOutput, SetVoiceMessageSpendLimitOverrideOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.SetVoiceMessageSpendLimitOverride"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutputResponse>(xmlName: "SetVoiceMessageSpendLimitOverrideRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetVoiceMessageSpendLimitOverride"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(xmlName: "SetVoiceMessageSpendLimitOverrideRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetVoiceMessageSpendLimitOverrideOutputResponse, SetVoiceMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetVoiceMessageSpendLimitOverrideOutput, SetVoiceMessageSpendLimitOverrideOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetVoiceMessageSpendLimitOverrideOutputResponse, SetVoiceMessageSpendLimitOverrideOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVoiceMessageSpendLimitOverrideOutputResponse, SetVoiceMessageSpendLimitOverrideOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetVoiceMessageSpendLimitOverrideOutputResponse, SetVoiceMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetVoiceMessageSpendLimitOverrideOutput, SetVoiceMessageSpendLimitOverrideOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVoiceMessageSpendLimitOverrideOutput, SetVoiceMessageSpendLimitOverrideOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetVoiceMessageSpendLimitOverrideOutput, SetVoiceMessageSpendLimitOverrideOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2004,7 +1955,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,7 +1966,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2031,21 +1982,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2054,7 +2005,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2064,7 +2015,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2080,21 +2031,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2103,7 +2054,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter UpdateEventDestinationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEventDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEventDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2114,7 +2065,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func updateEventDestination(input: UpdateEventDestinationInput) async throws -> UpdateEventDestinationOutputResponse
+    public func updateEventDestination(input: UpdateEventDestinationInput) async throws -> UpdateEventDestinationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2130,21 +2081,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateEventDestinationInput, UpdateEventDestinationOutputResponse, UpdateEventDestinationOutputError>(id: "updateEventDestination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutputResponse, UpdateEventDestinationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateEventDestinationInput, UpdateEventDestinationOutput, UpdateEventDestinationOutputError>(id: "updateEventDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput, UpdateEventDestinationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventDestinationOutputResponse, UpdateEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventDestinationOutput, UpdateEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.UpdateEventDestination"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutputResponse>(xmlName: "UpdateEventDestinationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateEventDestination"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(xmlName: "UpdateEventDestinationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventDestinationOutputResponse, UpdateEventDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventDestinationOutput, UpdateEventDestinationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventDestinationOutputResponse, UpdateEventDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventDestinationOutputResponse, UpdateEventDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventDestinationOutputResponse, UpdateEventDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventDestinationOutput, UpdateEventDestinationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventDestinationOutput, UpdateEventDestinationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventDestinationOutput, UpdateEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2153,7 +2104,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter UpdatePhoneNumberInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePhoneNumberOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2164,7 +2115,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutputResponse
+    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2180,21 +2131,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(id: "updatePhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(id: "updatePhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePhoneNumber"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse>(xmlName: "UpdatePhoneNumberRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePhoneNumber"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(xmlName: "UpdatePhoneNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2203,7 +2154,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     ///
     /// - Parameter UpdatePoolInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePoolOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePoolOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2214,7 +2165,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func updatePool(input: UpdatePoolInput) async throws -> UpdatePoolOutputResponse
+    public func updatePool(input: UpdatePoolInput) async throws -> UpdatePoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2230,21 +2181,21 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePoolInput, UpdatePoolOutputResponse, UpdatePoolOutputError>(id: "updatePool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePoolInput, UpdatePoolOutputResponse, UpdatePoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePoolInput, UpdatePoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePoolInput, UpdatePoolOutput, UpdatePoolOutputError>(id: "updatePool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePoolInput, UpdatePoolOutput, UpdatePoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePoolInput, UpdatePoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePoolOutputResponse, UpdatePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePoolOutput, UpdatePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePoolInput, UpdatePoolOutputResponse>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePoolInput, UpdatePoolOutputResponse>(xmlName: "UpdatePoolRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePoolInput, UpdatePoolOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePoolInput, UpdatePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePoolInput, UpdatePoolOutput>(xmlName: "UpdatePoolRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePoolInput, UpdatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePoolOutputResponse, UpdatePoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePoolOutput, UpdatePoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePoolOutputResponse, UpdatePoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePoolOutputResponse, UpdatePoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePoolOutputResponse, UpdatePoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePoolOutput, UpdatePoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePoolOutput, UpdatePoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePoolOutput, UpdatePoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

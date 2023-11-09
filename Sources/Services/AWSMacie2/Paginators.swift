@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension Macie2Client {
-    /// Paginate over `[DescribeBucketsOutputResponse]` results.
+    /// Paginate over `[DescribeBucketsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeBucketsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBucketsOutputResponse`
-    public func describeBucketsPaginated(input: DescribeBucketsInput) -> ClientRuntime.PaginatorSequence<DescribeBucketsInput, DescribeBucketsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeBucketsInput, DescribeBucketsOutputResponse>(input: input, inputKey: \DescribeBucketsInput.nextToken, outputKey: \DescribeBucketsOutputResponse.nextToken, paginationFunction: self.describeBuckets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBucketsOutput`
+    public func describeBucketsPaginated(input: DescribeBucketsInput) -> ClientRuntime.PaginatorSequence<DescribeBucketsInput, DescribeBucketsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeBucketsInput, DescribeBucketsOutput>(input: input, inputKey: \DescribeBucketsInput.nextToken, outputKey: \DescribeBucketsOutput.nextToken, paginationFunction: self.describeBuckets(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeBucketsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeBucketsInput, Output == DescribeBucketsOutputResponse {
+extension PaginatorSequence where Input == DescribeBucketsInput, Output == DescribeBucketsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBucketsPaginated`
     /// to access the nested member `[Macie2ClientTypes.BucketMetadata]`
     /// - Returns: `[Macie2ClientTypes.BucketMetadata]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeBucketsInput, Output == Descr
     }
 }
 extension Macie2Client {
-    /// Paginate over `[GetUsageStatisticsOutputResponse]` results.
+    /// Paginate over `[GetUsageStatisticsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetUsageStatisticsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetUsageStatisticsOutputResponse`
-    public func getUsageStatisticsPaginated(input: GetUsageStatisticsInput) -> ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutputResponse>(input: input, inputKey: \GetUsageStatisticsInput.nextToken, outputKey: \GetUsageStatisticsOutputResponse.nextToken, paginationFunction: self.getUsageStatistics(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUsageStatisticsOutput`
+    public func getUsageStatisticsPaginated(input: GetUsageStatisticsInput) -> ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput> {
+        return ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput>(input: input, inputKey: \GetUsageStatisticsInput.nextToken, outputKey: \GetUsageStatisticsOutput.nextToken, paginationFunction: self.getUsageStatistics(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension GetUsageStatisticsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetUsageStatisticsInput, Output == GetUsageStatisticsOutputResponse {
+extension PaginatorSequence where Input == GetUsageStatisticsInput, Output == GetUsageStatisticsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getUsageStatisticsPaginated`
     /// to access the nested member `[Macie2ClientTypes.UsageRecord]`
     /// - Returns: `[Macie2ClientTypes.UsageRecord]`
@@ -68,16 +68,16 @@ extension PaginatorSequence where Input == GetUsageStatisticsInput, Output == Ge
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListAllowListsOutputResponse]` results.
+    /// Paginate over `[ListAllowListsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAllowListsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAllowListsOutputResponse`
-    public func listAllowListsPaginated(input: ListAllowListsInput) -> ClientRuntime.PaginatorSequence<ListAllowListsInput, ListAllowListsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAllowListsInput, ListAllowListsOutputResponse>(input: input, inputKey: \ListAllowListsInput.nextToken, outputKey: \ListAllowListsOutputResponse.nextToken, paginationFunction: self.listAllowLists(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAllowListsOutput`
+    public func listAllowListsPaginated(input: ListAllowListsInput) -> ClientRuntime.PaginatorSequence<ListAllowListsInput, ListAllowListsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAllowListsInput, ListAllowListsOutput>(input: input, inputKey: \ListAllowListsInput.nextToken, outputKey: \ListAllowListsOutput.nextToken, paginationFunction: self.listAllowLists(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension ListAllowListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAllowListsInput, Output == ListAllowListsOutputResponse {
+extension PaginatorSequence where Input == ListAllowListsInput, Output == ListAllowListsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAllowListsPaginated`
     /// to access the nested member `[Macie2ClientTypes.AllowListSummary]`
     /// - Returns: `[Macie2ClientTypes.AllowListSummary]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == ListAllowListsInput, Output == ListAl
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListClassificationJobsOutputResponse]` results.
+    /// Paginate over `[ListClassificationJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClassificationJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClassificationJobsOutputResponse`
-    public func listClassificationJobsPaginated(input: ListClassificationJobsInput) -> ClientRuntime.PaginatorSequence<ListClassificationJobsInput, ListClassificationJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClassificationJobsInput, ListClassificationJobsOutputResponse>(input: input, inputKey: \ListClassificationJobsInput.nextToken, outputKey: \ListClassificationJobsOutputResponse.nextToken, paginationFunction: self.listClassificationJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClassificationJobsOutput`
+    public func listClassificationJobsPaginated(input: ListClassificationJobsInput) -> ClientRuntime.PaginatorSequence<ListClassificationJobsInput, ListClassificationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClassificationJobsInput, ListClassificationJobsOutput>(input: input, inputKey: \ListClassificationJobsInput.nextToken, outputKey: \ListClassificationJobsOutput.nextToken, paginationFunction: self.listClassificationJobs(input:))
     }
 }
 
@@ -121,7 +121,7 @@ extension ListClassificationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClassificationJobsInput, Output == ListClassificationJobsOutputResponse {
+extension PaginatorSequence where Input == ListClassificationJobsInput, Output == ListClassificationJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClassificationJobsPaginated`
     /// to access the nested member `[Macie2ClientTypes.JobSummary]`
     /// - Returns: `[Macie2ClientTypes.JobSummary]`
@@ -130,16 +130,16 @@ extension PaginatorSequence where Input == ListClassificationJobsInput, Output =
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListClassificationScopesOutputResponse]` results.
+    /// Paginate over `[ListClassificationScopesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClassificationScopesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClassificationScopesOutputResponse`
-    public func listClassificationScopesPaginated(input: ListClassificationScopesInput) -> ClientRuntime.PaginatorSequence<ListClassificationScopesInput, ListClassificationScopesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClassificationScopesInput, ListClassificationScopesOutputResponse>(input: input, inputKey: \ListClassificationScopesInput.nextToken, outputKey: \ListClassificationScopesOutputResponse.nextToken, paginationFunction: self.listClassificationScopes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClassificationScopesOutput`
+    public func listClassificationScopesPaginated(input: ListClassificationScopesInput) -> ClientRuntime.PaginatorSequence<ListClassificationScopesInput, ListClassificationScopesOutput> {
+        return ClientRuntime.PaginatorSequence<ListClassificationScopesInput, ListClassificationScopesOutput>(input: input, inputKey: \ListClassificationScopesInput.nextToken, outputKey: \ListClassificationScopesOutput.nextToken, paginationFunction: self.listClassificationScopes(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListClassificationScopesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClassificationScopesInput, Output == ListClassificationScopesOutputResponse {
+extension PaginatorSequence where Input == ListClassificationScopesInput, Output == ListClassificationScopesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClassificationScopesPaginated`
     /// to access the nested member `[Macie2ClientTypes.ClassificationScopeSummary]`
     /// - Returns: `[Macie2ClientTypes.ClassificationScopeSummary]`
@@ -160,16 +160,16 @@ extension PaginatorSequence where Input == ListClassificationScopesInput, Output
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListCustomDataIdentifiersOutputResponse]` results.
+    /// Paginate over `[ListCustomDataIdentifiersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCustomDataIdentifiersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomDataIdentifiersOutputResponse`
-    public func listCustomDataIdentifiersPaginated(input: ListCustomDataIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutputResponse>(input: input, inputKey: \ListCustomDataIdentifiersInput.nextToken, outputKey: \ListCustomDataIdentifiersOutputResponse.nextToken, paginationFunction: self.listCustomDataIdentifiers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomDataIdentifiersOutput`
+    public func listCustomDataIdentifiersPaginated(input: ListCustomDataIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutput>(input: input, inputKey: \ListCustomDataIdentifiersInput.nextToken, outputKey: \ListCustomDataIdentifiersOutput.nextToken, paginationFunction: self.listCustomDataIdentifiers(input:))
     }
 }
 
@@ -181,7 +181,7 @@ extension ListCustomDataIdentifiersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCustomDataIdentifiersInput, Output == ListCustomDataIdentifiersOutputResponse {
+extension PaginatorSequence where Input == ListCustomDataIdentifiersInput, Output == ListCustomDataIdentifiersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomDataIdentifiersPaginated`
     /// to access the nested member `[Macie2ClientTypes.CustomDataIdentifierSummary]`
     /// - Returns: `[Macie2ClientTypes.CustomDataIdentifierSummary]`
@@ -190,16 +190,16 @@ extension PaginatorSequence where Input == ListCustomDataIdentifiersInput, Outpu
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListFindingsOutputResponse]` results.
+    /// Paginate over `[ListFindingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFindingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsOutputResponse`
-    public func listFindingsPaginated(input: ListFindingsInput) -> ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutputResponse>(input: input, inputKey: \ListFindingsInput.nextToken, outputKey: \ListFindingsOutputResponse.nextToken, paginationFunction: self.listFindings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsOutput`
+    public func listFindingsPaginated(input: ListFindingsInput) -> ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \ListFindingsInput.nextToken, outputKey: \ListFindingsOutput.nextToken, paginationFunction: self.listFindings(input:))
     }
 }
 
@@ -213,7 +213,7 @@ extension ListFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFindingsInput, Output == ListFindingsOutputResponse {
+extension PaginatorSequence where Input == ListFindingsInput, Output == ListFindingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -222,16 +222,16 @@ extension PaginatorSequence where Input == ListFindingsInput, Output == ListFind
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListFindingsFiltersOutputResponse]` results.
+    /// Paginate over `[ListFindingsFiltersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFindingsFiltersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsFiltersOutputResponse`
-    public func listFindingsFiltersPaginated(input: ListFindingsFiltersInput) -> ClientRuntime.PaginatorSequence<ListFindingsFiltersInput, ListFindingsFiltersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFindingsFiltersInput, ListFindingsFiltersOutputResponse>(input: input, inputKey: \ListFindingsFiltersInput.nextToken, outputKey: \ListFindingsFiltersOutputResponse.nextToken, paginationFunction: self.listFindingsFilters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsFiltersOutput`
+    public func listFindingsFiltersPaginated(input: ListFindingsFiltersInput) -> ClientRuntime.PaginatorSequence<ListFindingsFiltersInput, ListFindingsFiltersOutput> {
+        return ClientRuntime.PaginatorSequence<ListFindingsFiltersInput, ListFindingsFiltersOutput>(input: input, inputKey: \ListFindingsFiltersInput.nextToken, outputKey: \ListFindingsFiltersOutput.nextToken, paginationFunction: self.listFindingsFilters(input:))
     }
 }
 
@@ -243,7 +243,7 @@ extension ListFindingsFiltersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFindingsFiltersInput, Output == ListFindingsFiltersOutputResponse {
+extension PaginatorSequence where Input == ListFindingsFiltersInput, Output == ListFindingsFiltersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsFiltersPaginated`
     /// to access the nested member `[Macie2ClientTypes.FindingsFilterListItem]`
     /// - Returns: `[Macie2ClientTypes.FindingsFilterListItem]`
@@ -252,16 +252,16 @@ extension PaginatorSequence where Input == ListFindingsFiltersInput, Output == L
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListInvitationsOutputResponse]` results.
+    /// Paginate over `[ListInvitationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInvitationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutputResponse`
-    public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutputResponse>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutputResponse.nextToken, paginationFunction: self.listInvitations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
+    public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
     }
 }
 
@@ -273,7 +273,7 @@ extension ListInvitationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInvitationsInput, Output == ListInvitationsOutputResponse {
+extension PaginatorSequence where Input == ListInvitationsInput, Output == ListInvitationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInvitationsPaginated`
     /// to access the nested member `[Macie2ClientTypes.Invitation]`
     /// - Returns: `[Macie2ClientTypes.Invitation]`
@@ -282,16 +282,16 @@ extension PaginatorSequence where Input == ListInvitationsInput, Output == ListI
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListManagedDataIdentifiersOutputResponse]` results.
+    /// Paginate over `[ListManagedDataIdentifiersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListManagedDataIdentifiersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedDataIdentifiersOutputResponse`
-    public func listManagedDataIdentifiersPaginated(input: ListManagedDataIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutputResponse>(input: input, inputKey: \ListManagedDataIdentifiersInput.nextToken, outputKey: \ListManagedDataIdentifiersOutputResponse.nextToken, paginationFunction: self.listManagedDataIdentifiers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedDataIdentifiersOutput`
+    public func listManagedDataIdentifiersPaginated(input: ListManagedDataIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutput> {
+        return ClientRuntime.PaginatorSequence<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutput>(input: input, inputKey: \ListManagedDataIdentifiersInput.nextToken, outputKey: \ListManagedDataIdentifiersOutput.nextToken, paginationFunction: self.listManagedDataIdentifiers(input:))
     }
 }
 
@@ -302,7 +302,7 @@ extension ListManagedDataIdentifiersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListManagedDataIdentifiersInput, Output == ListManagedDataIdentifiersOutputResponse {
+extension PaginatorSequence where Input == ListManagedDataIdentifiersInput, Output == ListManagedDataIdentifiersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listManagedDataIdentifiersPaginated`
     /// to access the nested member `[Macie2ClientTypes.ManagedDataIdentifierSummary]`
     /// - Returns: `[Macie2ClientTypes.ManagedDataIdentifierSummary]`
@@ -311,16 +311,16 @@ extension PaginatorSequence where Input == ListManagedDataIdentifiersInput, Outp
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListMembersOutputResponse]` results.
+    /// Paginate over `[ListMembersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMembersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutputResponse`
-    public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutputResponse>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutputResponse.nextToken, paginationFunction: self.listMembers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
+    public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
+        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
     }
 }
 
@@ -333,7 +333,7 @@ extension ListMembersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListMembersInput, Output == ListMembersOutputResponse {
+extension PaginatorSequence where Input == ListMembersInput, Output == ListMembersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMembersPaginated`
     /// to access the nested member `[Macie2ClientTypes.Member]`
     /// - Returns: `[Macie2ClientTypes.Member]`
@@ -342,16 +342,16 @@ extension PaginatorSequence where Input == ListMembersInput, Output == ListMembe
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListOrganizationAdminAccountsOutputResponse]` results.
+    /// Paginate over `[ListOrganizationAdminAccountsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOrganizationAdminAccountsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationAdminAccountsOutputResponse`
-    public func listOrganizationAdminAccountsPaginated(input: ListOrganizationAdminAccountsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutputResponse>(input: input, inputKey: \ListOrganizationAdminAccountsInput.nextToken, outputKey: \ListOrganizationAdminAccountsOutputResponse.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationAdminAccountsOutput`
+    public func listOrganizationAdminAccountsPaginated(input: ListOrganizationAdminAccountsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \ListOrganizationAdminAccountsInput.nextToken, outputKey: \ListOrganizationAdminAccountsOutput.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
     }
 }
 
@@ -363,7 +363,7 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOrganizationAdminAccountsInput, Output == ListOrganizationAdminAccountsOutputResponse {
+extension PaginatorSequence where Input == ListOrganizationAdminAccountsInput, Output == ListOrganizationAdminAccountsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOrganizationAdminAccountsPaginated`
     /// to access the nested member `[Macie2ClientTypes.AdminAccount]`
     /// - Returns: `[Macie2ClientTypes.AdminAccount]`
@@ -372,16 +372,16 @@ extension PaginatorSequence where Input == ListOrganizationAdminAccountsInput, O
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListResourceProfileArtifactsOutputResponse]` results.
+    /// Paginate over `[ListResourceProfileArtifactsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourceProfileArtifactsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceProfileArtifactsOutputResponse`
-    public func listResourceProfileArtifactsPaginated(input: ListResourceProfileArtifactsInput) -> ClientRuntime.PaginatorSequence<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutputResponse>(input: input, inputKey: \ListResourceProfileArtifactsInput.nextToken, outputKey: \ListResourceProfileArtifactsOutputResponse.nextToken, paginationFunction: self.listResourceProfileArtifacts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceProfileArtifactsOutput`
+    public func listResourceProfileArtifactsPaginated(input: ListResourceProfileArtifactsInput) -> ClientRuntime.PaginatorSequence<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutput>(input: input, inputKey: \ListResourceProfileArtifactsInput.nextToken, outputKey: \ListResourceProfileArtifactsOutput.nextToken, paginationFunction: self.listResourceProfileArtifacts(input:))
     }
 }
 
@@ -393,7 +393,7 @@ extension ListResourceProfileArtifactsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResourceProfileArtifactsInput, Output == ListResourceProfileArtifactsOutputResponse {
+extension PaginatorSequence where Input == ListResourceProfileArtifactsInput, Output == ListResourceProfileArtifactsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourceProfileArtifactsPaginated`
     /// to access the nested member `[Macie2ClientTypes.ResourceProfileArtifact]`
     /// - Returns: `[Macie2ClientTypes.ResourceProfileArtifact]`
@@ -402,16 +402,16 @@ extension PaginatorSequence where Input == ListResourceProfileArtifactsInput, Ou
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListResourceProfileDetectionsOutputResponse]` results.
+    /// Paginate over `[ListResourceProfileDetectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourceProfileDetectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceProfileDetectionsOutputResponse`
-    public func listResourceProfileDetectionsPaginated(input: ListResourceProfileDetectionsInput) -> ClientRuntime.PaginatorSequence<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutputResponse>(input: input, inputKey: \ListResourceProfileDetectionsInput.nextToken, outputKey: \ListResourceProfileDetectionsOutputResponse.nextToken, paginationFunction: self.listResourceProfileDetections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceProfileDetectionsOutput`
+    public func listResourceProfileDetectionsPaginated(input: ListResourceProfileDetectionsInput) -> ClientRuntime.PaginatorSequence<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutput>(input: input, inputKey: \ListResourceProfileDetectionsInput.nextToken, outputKey: \ListResourceProfileDetectionsOutput.nextToken, paginationFunction: self.listResourceProfileDetections(input:))
     }
 }
 
@@ -424,7 +424,7 @@ extension ListResourceProfileDetectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResourceProfileDetectionsInput, Output == ListResourceProfileDetectionsOutputResponse {
+extension PaginatorSequence where Input == ListResourceProfileDetectionsInput, Output == ListResourceProfileDetectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourceProfileDetectionsPaginated`
     /// to access the nested member `[Macie2ClientTypes.Detection]`
     /// - Returns: `[Macie2ClientTypes.Detection]`
@@ -433,16 +433,16 @@ extension PaginatorSequence where Input == ListResourceProfileDetectionsInput, O
     }
 }
 extension Macie2Client {
-    /// Paginate over `[ListSensitivityInspectionTemplatesOutputResponse]` results.
+    /// Paginate over `[ListSensitivityInspectionTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSensitivityInspectionTemplatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSensitivityInspectionTemplatesOutputResponse`
-    public func listSensitivityInspectionTemplatesPaginated(input: ListSensitivityInspectionTemplatesInput) -> ClientRuntime.PaginatorSequence<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutputResponse>(input: input, inputKey: \ListSensitivityInspectionTemplatesInput.nextToken, outputKey: \ListSensitivityInspectionTemplatesOutputResponse.nextToken, paginationFunction: self.listSensitivityInspectionTemplates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSensitivityInspectionTemplatesOutput`
+    public func listSensitivityInspectionTemplatesPaginated(input: ListSensitivityInspectionTemplatesInput) -> ClientRuntime.PaginatorSequence<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutput>(input: input, inputKey: \ListSensitivityInspectionTemplatesInput.nextToken, outputKey: \ListSensitivityInspectionTemplatesOutput.nextToken, paginationFunction: self.listSensitivityInspectionTemplates(input:))
     }
 }
 
@@ -454,7 +454,7 @@ extension ListSensitivityInspectionTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSensitivityInspectionTemplatesInput, Output == ListSensitivityInspectionTemplatesOutputResponse {
+extension PaginatorSequence where Input == ListSensitivityInspectionTemplatesInput, Output == ListSensitivityInspectionTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSensitivityInspectionTemplatesPaginated`
     /// to access the nested member `[Macie2ClientTypes.SensitivityInspectionTemplatesEntry]`
     /// - Returns: `[Macie2ClientTypes.SensitivityInspectionTemplatesEntry]`
@@ -463,16 +463,16 @@ extension PaginatorSequence where Input == ListSensitivityInspectionTemplatesInp
     }
 }
 extension Macie2Client {
-    /// Paginate over `[SearchResourcesOutputResponse]` results.
+    /// Paginate over `[SearchResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutputResponse`
-    public func searchResourcesPaginated(input: SearchResourcesInput) -> ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutputResponse>(input: input, inputKey: \SearchResourcesInput.nextToken, outputKey: \SearchResourcesOutputResponse.nextToken, paginationFunction: self.searchResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutput`
+    public func searchResourcesPaginated(input: SearchResourcesInput) -> ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput>(input: input, inputKey: \SearchResourcesInput.nextToken, outputKey: \SearchResourcesOutput.nextToken, paginationFunction: self.searchResources(input:))
     }
 }
 
@@ -486,7 +486,7 @@ extension SearchResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchResourcesInput, Output == SearchResourcesOutputResponse {
+extension PaginatorSequence where Input == SearchResourcesInput, Output == SearchResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchResourcesPaginated`
     /// to access the nested member `[Macie2ClientTypes.MatchingResource]`
     /// - Returns: `[Macie2ClientTypes.MatchingResource]`

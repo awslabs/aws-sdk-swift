@@ -71,7 +71,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter CreateActivityInput : [no documentation found]
     ///
-    /// - Returns: `CreateActivityOutputResponse` : [no documentation found]
+    /// - Returns: `CreateActivityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,7 +79,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ActivityLimitExceeded` : The maximum number of activities has been reached. Existing activities must be deleted before a new activity can be created.
     /// - `InvalidName` : The provided name is not valid.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
-    public func createActivity(input: CreateActivityInput) async throws -> CreateActivityOutputResponse
+    public func createActivity(input: CreateActivityInput) async throws -> CreateActivityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -95,21 +95,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateActivityInput, CreateActivityOutputResponse, CreateActivityOutputError>(id: "createActivity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateActivityInput, CreateActivityOutputResponse, CreateActivityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateActivityInput, CreateActivityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateActivityInput, CreateActivityOutput, CreateActivityOutputError>(id: "createActivity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateActivityInput, CreateActivityOutput, CreateActivityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateActivityInput, CreateActivityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateActivityOutputResponse, CreateActivityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateActivityOutput, CreateActivityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateActivityInput, CreateActivityOutputResponse>(xAmzTarget: "AWSStepFunctions.CreateActivity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateActivityInput, CreateActivityOutputResponse>(xmlName: "CreateActivityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateActivityInput, CreateActivityOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateActivityInput, CreateActivityOutput>(xAmzTarget: "AWSStepFunctions.CreateActivity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateActivityInput, CreateActivityOutput>(xmlName: "CreateActivityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateActivityInput, CreateActivityOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateActivityOutputResponse, CreateActivityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateActivityOutput, CreateActivityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateActivityOutputResponse, CreateActivityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateActivityOutputResponse, CreateActivityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateActivityOutputResponse, CreateActivityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateActivityOutput, CreateActivityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateActivityOutput, CreateActivityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateActivityOutput, CreateActivityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -118,7 +118,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter CreateStateMachineInput : [no documentation found]
     ///
-    /// - Returns: `CreateStateMachineOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStateMachineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -135,7 +135,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineTypeNotSupported` :
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createStateMachine(input: CreateStateMachineInput) async throws -> CreateStateMachineOutputResponse
+    public func createStateMachine(input: CreateStateMachineInput) async throws -> CreateStateMachineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -151,21 +151,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateStateMachineInput, CreateStateMachineOutputResponse, CreateStateMachineOutputError>(id: "createStateMachine")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStateMachineInput, CreateStateMachineOutputResponse, CreateStateMachineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStateMachineInput, CreateStateMachineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateStateMachineInput, CreateStateMachineOutput, CreateStateMachineOutputError>(id: "createStateMachine")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStateMachineInput, CreateStateMachineOutput, CreateStateMachineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStateMachineInput, CreateStateMachineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStateMachineOutputResponse, CreateStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStateMachineOutput, CreateStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateStateMachineInput, CreateStateMachineOutputResponse>(xAmzTarget: "AWSStepFunctions.CreateStateMachine"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateStateMachineInput, CreateStateMachineOutputResponse>(xmlName: "CreateStateMachineInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStateMachineInput, CreateStateMachineOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateStateMachineInput, CreateStateMachineOutput>(xAmzTarget: "AWSStepFunctions.CreateStateMachine"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateStateMachineInput, CreateStateMachineOutput>(xmlName: "CreateStateMachineInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStateMachineInput, CreateStateMachineOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStateMachineOutputResponse, CreateStateMachineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStateMachineOutput, CreateStateMachineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStateMachineOutputResponse, CreateStateMachineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStateMachineOutputResponse, CreateStateMachineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStateMachineOutputResponse, CreateStateMachineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStateMachineOutput, CreateStateMachineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStateMachineOutput, CreateStateMachineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStateMachineOutput, CreateStateMachineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -182,7 +182,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter CreateStateMachineAliasInput : [no documentation found]
     ///
-    /// - Returns: `CreateStateMachineAliasOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStateMachineAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,7 +194,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. HTTP Status Code: 402
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createStateMachineAlias(input: CreateStateMachineAliasInput) async throws -> CreateStateMachineAliasOutputResponse
+    public func createStateMachineAlias(input: CreateStateMachineAliasInput) async throws -> CreateStateMachineAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -210,21 +210,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateStateMachineAliasInput, CreateStateMachineAliasOutputResponse, CreateStateMachineAliasOutputError>(id: "createStateMachineAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutputResponse, CreateStateMachineAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateStateMachineAliasInput, CreateStateMachineAliasOutput, CreateStateMachineAliasOutputError>(id: "createStateMachineAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutput, CreateStateMachineAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStateMachineAliasOutputResponse, CreateStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStateMachineAliasOutput, CreateStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutputResponse>(xAmzTarget: "AWSStepFunctions.CreateStateMachineAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutputResponse>(xmlName: "CreateStateMachineAliasInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutput>(xAmzTarget: "AWSStepFunctions.CreateStateMachineAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutput>(xmlName: "CreateStateMachineAliasInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStateMachineAliasInput, CreateStateMachineAliasOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStateMachineAliasOutputResponse, CreateStateMachineAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStateMachineAliasOutput, CreateStateMachineAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStateMachineAliasOutputResponse, CreateStateMachineAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStateMachineAliasOutputResponse, CreateStateMachineAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStateMachineAliasOutputResponse, CreateStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStateMachineAliasOutput, CreateStateMachineAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStateMachineAliasOutput, CreateStateMachineAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStateMachineAliasOutput, CreateStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -233,13 +233,13 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DeleteActivityInput : [no documentation found]
     ///
-    /// - Returns: `DeleteActivityOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteActivityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func deleteActivity(input: DeleteActivityInput) async throws -> DeleteActivityOutputResponse
+    public func deleteActivity(input: DeleteActivityInput) async throws -> DeleteActivityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -255,21 +255,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteActivityInput, DeleteActivityOutputResponse, DeleteActivityOutputError>(id: "deleteActivity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteActivityInput, DeleteActivityOutputResponse, DeleteActivityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteActivityInput, DeleteActivityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteActivityInput, DeleteActivityOutput, DeleteActivityOutputError>(id: "deleteActivity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteActivityInput, DeleteActivityOutput, DeleteActivityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteActivityInput, DeleteActivityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteActivityOutputResponse, DeleteActivityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteActivityOutput, DeleteActivityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteActivityInput, DeleteActivityOutputResponse>(xAmzTarget: "AWSStepFunctions.DeleteActivity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteActivityInput, DeleteActivityOutputResponse>(xmlName: "DeleteActivityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteActivityInput, DeleteActivityOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteActivityInput, DeleteActivityOutput>(xAmzTarget: "AWSStepFunctions.DeleteActivity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteActivityInput, DeleteActivityOutput>(xmlName: "DeleteActivityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteActivityInput, DeleteActivityOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteActivityOutputResponse, DeleteActivityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteActivityOutput, DeleteActivityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteActivityOutputResponse, DeleteActivityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteActivityOutputResponse, DeleteActivityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteActivityOutputResponse, DeleteActivityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteActivityOutput, DeleteActivityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteActivityOutput, DeleteActivityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteActivityOutput, DeleteActivityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -285,14 +285,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DeleteStateMachineInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStateMachineOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStateMachineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteStateMachine(input: DeleteStateMachineInput) async throws -> DeleteStateMachineOutputResponse
+    public func deleteStateMachine(input: DeleteStateMachineInput) async throws -> DeleteStateMachineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -308,21 +308,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteStateMachineInput, DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(id: "deleteStateMachine")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStateMachineInput, DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStateMachineInput, DeleteStateMachineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteStateMachineInput, DeleteStateMachineOutput, DeleteStateMachineOutputError>(id: "deleteStateMachine")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStateMachineInput, DeleteStateMachineOutput, DeleteStateMachineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStateMachineInput, DeleteStateMachineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStateMachineOutput, DeleteStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStateMachineInput, DeleteStateMachineOutputResponse>(xAmzTarget: "AWSStepFunctions.DeleteStateMachine"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStateMachineInput, DeleteStateMachineOutputResponse>(xmlName: "DeleteStateMachineInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStateMachineInput, DeleteStateMachineOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStateMachineInput, DeleteStateMachineOutput>(xAmzTarget: "AWSStepFunctions.DeleteStateMachine"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStateMachineInput, DeleteStateMachineOutput>(xmlName: "DeleteStateMachineInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStateMachineInput, DeleteStateMachineOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStateMachineOutput, DeleteStateMachineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStateMachineOutput, DeleteStateMachineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStateMachineOutput, DeleteStateMachineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStateMachineOutput, DeleteStateMachineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -339,7 +339,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DeleteStateMachineAliasInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStateMachineAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStateMachineAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -348,7 +348,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteStateMachineAlias(input: DeleteStateMachineAliasInput) async throws -> DeleteStateMachineAliasOutputResponse
+    public func deleteStateMachineAlias(input: DeleteStateMachineAliasInput) async throws -> DeleteStateMachineAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -364,21 +364,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutputResponse, DeleteStateMachineAliasOutputError>(id: "deleteStateMachineAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutputResponse, DeleteStateMachineAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutput, DeleteStateMachineAliasOutputError>(id: "deleteStateMachineAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutput, DeleteStateMachineAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStateMachineAliasOutputResponse, DeleteStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStateMachineAliasOutput, DeleteStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutputResponse>(xAmzTarget: "AWSStepFunctions.DeleteStateMachineAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutputResponse>(xmlName: "DeleteStateMachineAliasInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutput>(xAmzTarget: "AWSStepFunctions.DeleteStateMachineAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutput>(xmlName: "DeleteStateMachineAliasInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStateMachineAliasInput, DeleteStateMachineAliasOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStateMachineAliasOutputResponse, DeleteStateMachineAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStateMachineAliasOutput, DeleteStateMachineAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStateMachineAliasOutputResponse, DeleteStateMachineAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStateMachineAliasOutputResponse, DeleteStateMachineAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStateMachineAliasOutputResponse, DeleteStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStateMachineAliasOutput, DeleteStateMachineAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStateMachineAliasOutput, DeleteStateMachineAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStateMachineAliasOutput, DeleteStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -391,7 +391,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DeleteStateMachineVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStateMachineVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStateMachineVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -399,7 +399,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteStateMachineVersion(input: DeleteStateMachineVersionInput) async throws -> DeleteStateMachineVersionOutputResponse
+    public func deleteStateMachineVersion(input: DeleteStateMachineVersionInput) async throws -> DeleteStateMachineVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -415,21 +415,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutputResponse, DeleteStateMachineVersionOutputError>(id: "deleteStateMachineVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutputResponse, DeleteStateMachineVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutput, DeleteStateMachineVersionOutputError>(id: "deleteStateMachineVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutput, DeleteStateMachineVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStateMachineVersionOutputResponse, DeleteStateMachineVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStateMachineVersionOutput, DeleteStateMachineVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutputResponse>(xAmzTarget: "AWSStepFunctions.DeleteStateMachineVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutputResponse>(xmlName: "DeleteStateMachineVersionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutput>(xAmzTarget: "AWSStepFunctions.DeleteStateMachineVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutput>(xmlName: "DeleteStateMachineVersionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStateMachineVersionInput, DeleteStateMachineVersionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStateMachineVersionOutputResponse, DeleteStateMachineVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStateMachineVersionOutput, DeleteStateMachineVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStateMachineVersionOutputResponse, DeleteStateMachineVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStateMachineVersionOutputResponse, DeleteStateMachineVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStateMachineVersionOutputResponse, DeleteStateMachineVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStateMachineVersionOutput, DeleteStateMachineVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStateMachineVersionOutput, DeleteStateMachineVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStateMachineVersionOutput, DeleteStateMachineVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -438,14 +438,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DescribeActivityInput : [no documentation found]
     ///
-    /// - Returns: `DescribeActivityOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeActivityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ActivityDoesNotExist` : The specified activity does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func describeActivity(input: DescribeActivityInput) async throws -> DescribeActivityOutputResponse
+    public func describeActivity(input: DescribeActivityInput) async throws -> DescribeActivityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -461,21 +461,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeActivityInput, DescribeActivityOutputResponse, DescribeActivityOutputError>(id: "describeActivity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActivityInput, DescribeActivityOutputResponse, DescribeActivityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActivityInput, DescribeActivityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeActivityInput, DescribeActivityOutput, DescribeActivityOutputError>(id: "describeActivity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActivityInput, DescribeActivityOutput, DescribeActivityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActivityInput, DescribeActivityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeActivityOutputResponse, DescribeActivityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeActivityOutput, DescribeActivityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeActivityInput, DescribeActivityOutputResponse>(xAmzTarget: "AWSStepFunctions.DescribeActivity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeActivityInput, DescribeActivityOutputResponse>(xmlName: "DescribeActivityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeActivityInput, DescribeActivityOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeActivityInput, DescribeActivityOutput>(xAmzTarget: "AWSStepFunctions.DescribeActivity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeActivityInput, DescribeActivityOutput>(xmlName: "DescribeActivityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeActivityInput, DescribeActivityOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeActivityOutputResponse, DescribeActivityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeActivityOutput, DescribeActivityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActivityOutputResponse, DescribeActivityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActivityOutputResponse, DescribeActivityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeActivityOutputResponse, DescribeActivityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActivityOutput, DescribeActivityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActivityOutput, DescribeActivityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeActivityOutput, DescribeActivityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -484,14 +484,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DescribeExecutionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutputResponse
+    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -507,21 +507,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeExecutionInput, DescribeExecutionOutputResponse, DescribeExecutionOutputError>(id: "describeExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExecutionInput, DescribeExecutionOutputResponse, DescribeExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExecutionInput, DescribeExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeExecutionInput, DescribeExecutionOutput, DescribeExecutionOutputError>(id: "describeExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExecutionInput, DescribeExecutionOutput, DescribeExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExecutionInput, DescribeExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeExecutionOutputResponse, DescribeExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeExecutionOutput, DescribeExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeExecutionInput, DescribeExecutionOutputResponse>(xAmzTarget: "AWSStepFunctions.DescribeExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeExecutionInput, DescribeExecutionOutputResponse>(xmlName: "DescribeExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeExecutionInput, DescribeExecutionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(xAmzTarget: "AWSStepFunctions.DescribeExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(xmlName: "DescribeExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeExecutionOutputResponse, DescribeExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeExecutionOutput, DescribeExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExecutionOutputResponse, DescribeExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExecutionOutputResponse, DescribeExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExecutionOutputResponse, DescribeExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExecutionOutput, DescribeExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExecutionOutput, DescribeExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExecutionOutput, DescribeExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -530,14 +530,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DescribeMapRunInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMapRunOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMapRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
-    public func describeMapRun(input: DescribeMapRunInput) async throws -> DescribeMapRunOutputResponse
+    public func describeMapRun(input: DescribeMapRunInput) async throws -> DescribeMapRunOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -553,21 +553,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeMapRunInput, DescribeMapRunOutputResponse, DescribeMapRunOutputError>(id: "describeMapRun")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMapRunInput, DescribeMapRunOutputResponse, DescribeMapRunOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMapRunInput, DescribeMapRunOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeMapRunInput, DescribeMapRunOutput, DescribeMapRunOutputError>(id: "describeMapRun")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMapRunInput, DescribeMapRunOutput, DescribeMapRunOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMapRunInput, DescribeMapRunOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMapRunOutputResponse, DescribeMapRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMapRunOutput, DescribeMapRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeMapRunInput, DescribeMapRunOutputResponse>(xAmzTarget: "AWSStepFunctions.DescribeMapRun"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeMapRunInput, DescribeMapRunOutputResponse>(xmlName: "DescribeMapRunInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeMapRunInput, DescribeMapRunOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeMapRunInput, DescribeMapRunOutput>(xAmzTarget: "AWSStepFunctions.DescribeMapRun"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeMapRunInput, DescribeMapRunOutput>(xmlName: "DescribeMapRunInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeMapRunInput, DescribeMapRunOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMapRunOutputResponse, DescribeMapRunOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMapRunOutput, DescribeMapRunOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMapRunOutputResponse, DescribeMapRunOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMapRunOutputResponse, DescribeMapRunOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMapRunOutputResponse, DescribeMapRunOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMapRunOutput, DescribeMapRunOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMapRunOutput, DescribeMapRunOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMapRunOutput, DescribeMapRunOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -585,14 +585,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DescribeStateMachineInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStateMachineOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStateMachineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
-    public func describeStateMachine(input: DescribeStateMachineInput) async throws -> DescribeStateMachineOutputResponse
+    public func describeStateMachine(input: DescribeStateMachineInput) async throws -> DescribeStateMachineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -608,21 +608,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeStateMachineInput, DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(id: "describeStateMachine")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineInput, DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineInput, DescribeStateMachineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeStateMachineInput, DescribeStateMachineOutput, DescribeStateMachineOutputError>(id: "describeStateMachine")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineInput, DescribeStateMachineOutput, DescribeStateMachineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineInput, DescribeStateMachineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStateMachineOutput, DescribeStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStateMachineInput, DescribeStateMachineOutputResponse>(xAmzTarget: "AWSStepFunctions.DescribeStateMachine"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStateMachineInput, DescribeStateMachineOutputResponse>(xmlName: "DescribeStateMachineInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStateMachineInput, DescribeStateMachineOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStateMachineInput, DescribeStateMachineOutput>(xAmzTarget: "AWSStepFunctions.DescribeStateMachine"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStateMachineInput, DescribeStateMachineOutput>(xmlName: "DescribeStateMachineInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStateMachineInput, DescribeStateMachineOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStateMachineOutput, DescribeStateMachineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineOutput, DescribeStateMachineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineOutput, DescribeStateMachineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineOutput, DescribeStateMachineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -639,7 +639,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DescribeStateMachineAliasInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStateMachineAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStateMachineAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,7 +647,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func describeStateMachineAlias(input: DescribeStateMachineAliasInput) async throws -> DescribeStateMachineAliasOutputResponse
+    public func describeStateMachineAlias(input: DescribeStateMachineAliasInput) async throws -> DescribeStateMachineAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -663,21 +663,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutputResponse, DescribeStateMachineAliasOutputError>(id: "describeStateMachineAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutputResponse, DescribeStateMachineAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutput, DescribeStateMachineAliasOutputError>(id: "describeStateMachineAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutput, DescribeStateMachineAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStateMachineAliasOutputResponse, DescribeStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStateMachineAliasOutput, DescribeStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutputResponse>(xAmzTarget: "AWSStepFunctions.DescribeStateMachineAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutputResponse>(xmlName: "DescribeStateMachineAliasInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutput>(xAmzTarget: "AWSStepFunctions.DescribeStateMachineAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutput>(xmlName: "DescribeStateMachineAliasInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStateMachineAliasInput, DescribeStateMachineAliasOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStateMachineAliasOutputResponse, DescribeStateMachineAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStateMachineAliasOutput, DescribeStateMachineAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineAliasOutputResponse, DescribeStateMachineAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineAliasOutputResponse, DescribeStateMachineAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineAliasOutputResponse, DescribeStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineAliasOutput, DescribeStateMachineAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineAliasOutput, DescribeStateMachineAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineAliasOutput, DescribeStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -686,14 +686,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter DescribeStateMachineForExecutionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStateMachineForExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStateMachineForExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func describeStateMachineForExecution(input: DescribeStateMachineForExecutionInput) async throws -> DescribeStateMachineForExecutionOutputResponse
+    public func describeStateMachineForExecution(input: DescribeStateMachineForExecutionInput) async throws -> DescribeStateMachineForExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -709,21 +709,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(id: "describeStateMachineForExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutput, DescribeStateMachineForExecutionOutputError>(id: "describeStateMachineForExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutput, DescribeStateMachineForExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStateMachineForExecutionOutput, DescribeStateMachineForExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse>(xAmzTarget: "AWSStepFunctions.DescribeStateMachineForExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse>(xmlName: "DescribeStateMachineForExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutput>(xAmzTarget: "AWSStepFunctions.DescribeStateMachineForExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutput>(xmlName: "DescribeStateMachineForExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStateMachineForExecutionOutput, DescribeStateMachineForExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineForExecutionOutput, DescribeStateMachineForExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineForExecutionOutput, DescribeStateMachineForExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineForExecutionOutput, DescribeStateMachineForExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -732,7 +732,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter GetActivityTaskInput : [no documentation found]
     ///
-    /// - Returns: `GetActivityTaskOutputResponse` : [no documentation found]
+    /// - Returns: `GetActivityTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,7 +740,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ActivityDoesNotExist` : The specified activity does not exist.
     /// - `ActivityWorkerLimitExceeded` : The maximum number of workers concurrently polling for activity tasks has been reached.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func getActivityTask(input: GetActivityTaskInput) async throws -> GetActivityTaskOutputResponse
+    public func getActivityTask(input: GetActivityTaskInput) async throws -> GetActivityTaskOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -756,21 +756,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetActivityTaskInput, GetActivityTaskOutputResponse, GetActivityTaskOutputError>(id: "getActivityTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActivityTaskInput, GetActivityTaskOutputResponse, GetActivityTaskOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActivityTaskInput, GetActivityTaskOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetActivityTaskInput, GetActivityTaskOutput, GetActivityTaskOutputError>(id: "getActivityTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActivityTaskInput, GetActivityTaskOutput, GetActivityTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActivityTaskInput, GetActivityTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetActivityTaskOutputResponse, GetActivityTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetActivityTaskOutput, GetActivityTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetActivityTaskInput, GetActivityTaskOutputResponse>(xAmzTarget: "AWSStepFunctions.GetActivityTask"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetActivityTaskInput, GetActivityTaskOutputResponse>(xmlName: "GetActivityTaskInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetActivityTaskInput, GetActivityTaskOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetActivityTaskInput, GetActivityTaskOutput>(xAmzTarget: "AWSStepFunctions.GetActivityTask"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetActivityTaskInput, GetActivityTaskOutput>(xmlName: "GetActivityTaskInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetActivityTaskInput, GetActivityTaskOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetActivityTaskOutputResponse, GetActivityTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetActivityTaskOutput, GetActivityTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetActivityTaskOutputResponse, GetActivityTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetActivityTaskOutputResponse, GetActivityTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetActivityTaskOutputResponse, GetActivityTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetActivityTaskOutput, GetActivityTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetActivityTaskOutput, GetActivityTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetActivityTaskOutput, GetActivityTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -779,7 +779,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter GetExecutionHistoryInput : [no documentation found]
     ///
-    /// - Returns: `GetExecutionHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `GetExecutionHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -787,7 +787,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
-    public func getExecutionHistory(input: GetExecutionHistoryInput) async throws -> GetExecutionHistoryOutputResponse
+    public func getExecutionHistory(input: GetExecutionHistoryInput) async throws -> GetExecutionHistoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -803,21 +803,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(id: "getExecutionHistory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetExecutionHistoryInput, GetExecutionHistoryOutput, GetExecutionHistoryOutputError>(id: "getExecutionHistory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutput, GetExecutionHistoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetExecutionHistoryOutput, GetExecutionHistoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse>(xAmzTarget: "AWSStepFunctions.GetExecutionHistory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse>(xmlName: "GetExecutionHistoryInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutput>(xAmzTarget: "AWSStepFunctions.GetExecutionHistory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutput>(xmlName: "GetExecutionHistoryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetExecutionHistoryOutput, GetExecutionHistoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExecutionHistoryOutput, GetExecutionHistoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExecutionHistoryOutput, GetExecutionHistoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetExecutionHistoryOutput, GetExecutionHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -826,13 +826,13 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter ListActivitiesInput : [no documentation found]
     ///
-    /// - Returns: `ListActivitiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListActivitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidToken` : The provided token is not valid.
-    public func listActivities(input: ListActivitiesInput) async throws -> ListActivitiesOutputResponse
+    public func listActivities(input: ListActivitiesInput) async throws -> ListActivitiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -848,21 +848,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListActivitiesInput, ListActivitiesOutputResponse, ListActivitiesOutputError>(id: "listActivities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActivitiesInput, ListActivitiesOutputResponse, ListActivitiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActivitiesInput, ListActivitiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListActivitiesInput, ListActivitiesOutput, ListActivitiesOutputError>(id: "listActivities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActivitiesInput, ListActivitiesOutput, ListActivitiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActivitiesInput, ListActivitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListActivitiesOutputResponse, ListActivitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListActivitiesOutput, ListActivitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListActivitiesInput, ListActivitiesOutputResponse>(xAmzTarget: "AWSStepFunctions.ListActivities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListActivitiesInput, ListActivitiesOutputResponse>(xmlName: "ListActivitiesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListActivitiesInput, ListActivitiesOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListActivitiesInput, ListActivitiesOutput>(xAmzTarget: "AWSStepFunctions.ListActivities"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListActivitiesInput, ListActivitiesOutput>(xmlName: "ListActivitiesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListActivitiesInput, ListActivitiesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListActivitiesOutputResponse, ListActivitiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListActivitiesOutput, ListActivitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActivitiesOutputResponse, ListActivitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActivitiesOutputResponse, ListActivitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListActivitiesOutputResponse, ListActivitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActivitiesOutput, ListActivitiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActivitiesOutput, ListActivitiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListActivitiesOutput, ListActivitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -871,7 +871,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter ListExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,7 +882,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `StateMachineTypeNotSupported` :
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutputResponse
+    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -898,21 +898,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListExecutionsInput, ListExecutionsOutputResponse, ListExecutionsOutputError>(id: "listExecutions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExecutionsInput, ListExecutionsOutputResponse, ListExecutionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExecutionsInput, ListExecutionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListExecutionsInput, ListExecutionsOutput, ListExecutionsOutputError>(id: "listExecutions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExecutionsInput, ListExecutionsOutput, ListExecutionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExecutionsInput, ListExecutionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListExecutionsOutputResponse, ListExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListExecutionsOutput, ListExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListExecutionsInput, ListExecutionsOutputResponse>(xAmzTarget: "AWSStepFunctions.ListExecutions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListExecutionsInput, ListExecutionsOutputResponse>(xmlName: "ListExecutionsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListExecutionsInput, ListExecutionsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListExecutionsInput, ListExecutionsOutput>(xAmzTarget: "AWSStepFunctions.ListExecutions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListExecutionsInput, ListExecutionsOutput>(xmlName: "ListExecutionsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListExecutionsInput, ListExecutionsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListExecutionsOutputResponse, ListExecutionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListExecutionsOutput, ListExecutionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExecutionsOutputResponse, ListExecutionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExecutionsOutputResponse, ListExecutionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExecutionsOutputResponse, ListExecutionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExecutionsOutput, ListExecutionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExecutionsOutput, ListExecutionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExecutionsOutput, ListExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -921,7 +921,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter ListMapRunsInput : [no documentation found]
     ///
-    /// - Returns: `ListMapRunsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMapRunsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,7 +929,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
-    public func listMapRuns(input: ListMapRunsInput) async throws -> ListMapRunsOutputResponse
+    public func listMapRuns(input: ListMapRunsInput) async throws -> ListMapRunsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -945,21 +945,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMapRunsInput, ListMapRunsOutputResponse, ListMapRunsOutputError>(id: "listMapRuns")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMapRunsInput, ListMapRunsOutputResponse, ListMapRunsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMapRunsInput, ListMapRunsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMapRunsInput, ListMapRunsOutput, ListMapRunsOutputError>(id: "listMapRuns")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMapRunsInput, ListMapRunsOutput, ListMapRunsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMapRunsInput, ListMapRunsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMapRunsOutputResponse, ListMapRunsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMapRunsOutput, ListMapRunsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMapRunsInput, ListMapRunsOutputResponse>(xAmzTarget: "AWSStepFunctions.ListMapRuns"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMapRunsInput, ListMapRunsOutputResponse>(xmlName: "ListMapRunsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMapRunsInput, ListMapRunsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMapRunsInput, ListMapRunsOutput>(xAmzTarget: "AWSStepFunctions.ListMapRuns"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMapRunsInput, ListMapRunsOutput>(xmlName: "ListMapRunsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMapRunsInput, ListMapRunsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMapRunsOutputResponse, ListMapRunsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMapRunsOutput, ListMapRunsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMapRunsOutputResponse, ListMapRunsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMapRunsOutputResponse, ListMapRunsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMapRunsOutputResponse, ListMapRunsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMapRunsOutput, ListMapRunsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMapRunsOutput, ListMapRunsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMapRunsOutput, ListMapRunsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -976,7 +976,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter ListStateMachineAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListStateMachineAliasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStateMachineAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -986,7 +986,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
-    public func listStateMachineAliases(input: ListStateMachineAliasesInput) async throws -> ListStateMachineAliasesOutputResponse
+    public func listStateMachineAliases(input: ListStateMachineAliasesInput) async throws -> ListStateMachineAliasesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1002,21 +1002,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStateMachineAliasesInput, ListStateMachineAliasesOutputResponse, ListStateMachineAliasesOutputError>(id: "listStateMachineAliases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutputResponse, ListStateMachineAliasesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListStateMachineAliasesInput, ListStateMachineAliasesOutput, ListStateMachineAliasesOutputError>(id: "listStateMachineAliases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutput, ListStateMachineAliasesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStateMachineAliasesOutputResponse, ListStateMachineAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStateMachineAliasesOutput, ListStateMachineAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutputResponse>(xAmzTarget: "AWSStepFunctions.ListStateMachineAliases"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutputResponse>(xmlName: "ListStateMachineAliasesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutput>(xAmzTarget: "AWSStepFunctions.ListStateMachineAliases"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutput>(xmlName: "ListStateMachineAliasesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStateMachineAliasesInput, ListStateMachineAliasesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStateMachineAliasesOutputResponse, ListStateMachineAliasesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStateMachineAliasesOutput, ListStateMachineAliasesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStateMachineAliasesOutputResponse, ListStateMachineAliasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStateMachineAliasesOutputResponse, ListStateMachineAliasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStateMachineAliasesOutputResponse, ListStateMachineAliasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStateMachineAliasesOutput, ListStateMachineAliasesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStateMachineAliasesOutput, ListStateMachineAliasesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStateMachineAliasesOutput, ListStateMachineAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1029,7 +1029,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter ListStateMachineVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListStateMachineVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStateMachineVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,7 +1037,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listStateMachineVersions(input: ListStateMachineVersionsInput) async throws -> ListStateMachineVersionsOutputResponse
+    public func listStateMachineVersions(input: ListStateMachineVersionsInput) async throws -> ListStateMachineVersionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1053,21 +1053,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStateMachineVersionsInput, ListStateMachineVersionsOutputResponse, ListStateMachineVersionsOutputError>(id: "listStateMachineVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutputResponse, ListStateMachineVersionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListStateMachineVersionsInput, ListStateMachineVersionsOutput, ListStateMachineVersionsOutputError>(id: "listStateMachineVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutput, ListStateMachineVersionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStateMachineVersionsOutputResponse, ListStateMachineVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStateMachineVersionsOutput, ListStateMachineVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutputResponse>(xAmzTarget: "AWSStepFunctions.ListStateMachineVersions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutputResponse>(xmlName: "ListStateMachineVersionsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutput>(xAmzTarget: "AWSStepFunctions.ListStateMachineVersions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutput>(xmlName: "ListStateMachineVersionsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStateMachineVersionsInput, ListStateMachineVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStateMachineVersionsOutputResponse, ListStateMachineVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStateMachineVersionsOutput, ListStateMachineVersionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStateMachineVersionsOutputResponse, ListStateMachineVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStateMachineVersionsOutputResponse, ListStateMachineVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStateMachineVersionsOutputResponse, ListStateMachineVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStateMachineVersionsOutput, ListStateMachineVersionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStateMachineVersionsOutput, ListStateMachineVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStateMachineVersionsOutput, ListStateMachineVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1076,13 +1076,13 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter ListStateMachinesInput : [no documentation found]
     ///
-    /// - Returns: `ListStateMachinesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStateMachinesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidToken` : The provided token is not valid.
-    public func listStateMachines(input: ListStateMachinesInput) async throws -> ListStateMachinesOutputResponse
+    public func listStateMachines(input: ListStateMachinesInput) async throws -> ListStateMachinesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1098,21 +1098,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStateMachinesInput, ListStateMachinesOutputResponse, ListStateMachinesOutputError>(id: "listStateMachines")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStateMachinesInput, ListStateMachinesOutputResponse, ListStateMachinesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStateMachinesInput, ListStateMachinesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListStateMachinesInput, ListStateMachinesOutput, ListStateMachinesOutputError>(id: "listStateMachines")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStateMachinesInput, ListStateMachinesOutput, ListStateMachinesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStateMachinesInput, ListStateMachinesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStateMachinesOutputResponse, ListStateMachinesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStateMachinesOutput, ListStateMachinesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStateMachinesInput, ListStateMachinesOutputResponse>(xAmzTarget: "AWSStepFunctions.ListStateMachines"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStateMachinesInput, ListStateMachinesOutputResponse>(xmlName: "ListStateMachinesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStateMachinesInput, ListStateMachinesOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStateMachinesInput, ListStateMachinesOutput>(xAmzTarget: "AWSStepFunctions.ListStateMachines"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStateMachinesInput, ListStateMachinesOutput>(xmlName: "ListStateMachinesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStateMachinesInput, ListStateMachinesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStateMachinesOutputResponse, ListStateMachinesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStateMachinesOutput, ListStateMachinesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStateMachinesOutputResponse, ListStateMachinesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStateMachinesOutputResponse, ListStateMachinesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStateMachinesOutputResponse, ListStateMachinesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStateMachinesOutput, ListStateMachinesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStateMachinesOutput, ListStateMachinesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStateMachinesOutput, ListStateMachinesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1121,14 +1121,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1144,21 +1144,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "AWSStepFunctions.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSStepFunctions.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1171,7 +1171,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter PublishStateMachineVersionInput : [no documentation found]
     ///
-    /// - Returns: `PublishStateMachineVersionOutputResponse` : [no documentation found]
+    /// - Returns: `PublishStateMachineVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,7 +1182,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func publishStateMachineVersion(input: PublishStateMachineVersionInput) async throws -> PublishStateMachineVersionOutputResponse
+    public func publishStateMachineVersion(input: PublishStateMachineVersionInput) async throws -> PublishStateMachineVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1198,21 +1198,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PublishStateMachineVersionInput, PublishStateMachineVersionOutputResponse, PublishStateMachineVersionOutputError>(id: "publishStateMachineVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutputResponse, PublishStateMachineVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PublishStateMachineVersionInput, PublishStateMachineVersionOutput, PublishStateMachineVersionOutputError>(id: "publishStateMachineVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutput, PublishStateMachineVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishStateMachineVersionOutputResponse, PublishStateMachineVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishStateMachineVersionOutput, PublishStateMachineVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutputResponse>(xAmzTarget: "AWSStepFunctions.PublishStateMachineVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutputResponse>(xmlName: "PublishStateMachineVersionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutput>(xAmzTarget: "AWSStepFunctions.PublishStateMachineVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutput>(xmlName: "PublishStateMachineVersionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishStateMachineVersionInput, PublishStateMachineVersionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishStateMachineVersionOutputResponse, PublishStateMachineVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishStateMachineVersionOutput, PublishStateMachineVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishStateMachineVersionOutputResponse, PublishStateMachineVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishStateMachineVersionOutputResponse, PublishStateMachineVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishStateMachineVersionOutputResponse, PublishStateMachineVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishStateMachineVersionOutput, PublishStateMachineVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishStateMachineVersionOutput, PublishStateMachineVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishStateMachineVersionOutput, PublishStateMachineVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1221,7 +1221,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter SendTaskFailureInput : [no documentation found]
     ///
-    /// - Returns: `SendTaskFailureOutputResponse` : [no documentation found]
+    /// - Returns: `SendTaskFailureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,7 +1229,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `TaskDoesNotExist` : [no documentation found]
     /// - `TaskTimedOut` : [no documentation found]
-    public func sendTaskFailure(input: SendTaskFailureInput) async throws -> SendTaskFailureOutputResponse
+    public func sendTaskFailure(input: SendTaskFailureInput) async throws -> SendTaskFailureOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1245,21 +1245,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendTaskFailureInput, SendTaskFailureOutputResponse, SendTaskFailureOutputError>(id: "sendTaskFailure")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskFailureInput, SendTaskFailureOutputResponse, SendTaskFailureOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskFailureInput, SendTaskFailureOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendTaskFailureInput, SendTaskFailureOutput, SendTaskFailureOutputError>(id: "sendTaskFailure")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskFailureInput, SendTaskFailureOutput, SendTaskFailureOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskFailureInput, SendTaskFailureOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTaskFailureOutputResponse, SendTaskFailureOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTaskFailureOutput, SendTaskFailureOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTaskFailureInput, SendTaskFailureOutputResponse>(xAmzTarget: "AWSStepFunctions.SendTaskFailure"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTaskFailureInput, SendTaskFailureOutputResponse>(xmlName: "SendTaskFailureInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTaskFailureInput, SendTaskFailureOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTaskFailureInput, SendTaskFailureOutput>(xAmzTarget: "AWSStepFunctions.SendTaskFailure"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTaskFailureInput, SendTaskFailureOutput>(xmlName: "SendTaskFailureInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTaskFailureInput, SendTaskFailureOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTaskFailureOutputResponse, SendTaskFailureOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTaskFailureOutput, SendTaskFailureOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskFailureOutputResponse, SendTaskFailureOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskFailureOutputResponse, SendTaskFailureOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTaskFailureOutputResponse, SendTaskFailureOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskFailureOutput, SendTaskFailureOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskFailureOutput, SendTaskFailureOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTaskFailureOutput, SendTaskFailureOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1268,7 +1268,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter SendTaskHeartbeatInput : [no documentation found]
     ///
-    /// - Returns: `SendTaskHeartbeatOutputResponse` : [no documentation found]
+    /// - Returns: `SendTaskHeartbeatOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1276,7 +1276,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `TaskDoesNotExist` : [no documentation found]
     /// - `TaskTimedOut` : [no documentation found]
-    public func sendTaskHeartbeat(input: SendTaskHeartbeatInput) async throws -> SendTaskHeartbeatOutputResponse
+    public func sendTaskHeartbeat(input: SendTaskHeartbeatInput) async throws -> SendTaskHeartbeatOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1292,21 +1292,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(id: "sendTaskHeartbeat")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendTaskHeartbeatInput, SendTaskHeartbeatOutput, SendTaskHeartbeatOutputError>(id: "sendTaskHeartbeat")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutput, SendTaskHeartbeatOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTaskHeartbeatOutput, SendTaskHeartbeatOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse>(xAmzTarget: "AWSStepFunctions.SendTaskHeartbeat"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse>(xmlName: "SendTaskHeartbeatInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutput>(xAmzTarget: "AWSStepFunctions.SendTaskHeartbeat"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutput>(xmlName: "SendTaskHeartbeatInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTaskHeartbeatOutput, SendTaskHeartbeatOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskHeartbeatOutput, SendTaskHeartbeatOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskHeartbeatOutput, SendTaskHeartbeatOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTaskHeartbeatOutput, SendTaskHeartbeatOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1315,7 +1315,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter SendTaskSuccessInput : [no documentation found]
     ///
-    /// - Returns: `SendTaskSuccessOutputResponse` : [no documentation found]
+    /// - Returns: `SendTaskSuccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1324,7 +1324,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `TaskDoesNotExist` : [no documentation found]
     /// - `TaskTimedOut` : [no documentation found]
-    public func sendTaskSuccess(input: SendTaskSuccessInput) async throws -> SendTaskSuccessOutputResponse
+    public func sendTaskSuccess(input: SendTaskSuccessInput) async throws -> SendTaskSuccessOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1340,21 +1340,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendTaskSuccessInput, SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(id: "sendTaskSuccess")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskSuccessInput, SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskSuccessInput, SendTaskSuccessOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendTaskSuccessInput, SendTaskSuccessOutput, SendTaskSuccessOutputError>(id: "sendTaskSuccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskSuccessInput, SendTaskSuccessOutput, SendTaskSuccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskSuccessInput, SendTaskSuccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendTaskSuccessOutput, SendTaskSuccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTaskSuccessInput, SendTaskSuccessOutputResponse>(xAmzTarget: "AWSStepFunctions.SendTaskSuccess"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTaskSuccessInput, SendTaskSuccessOutputResponse>(xmlName: "SendTaskSuccessInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTaskSuccessInput, SendTaskSuccessOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendTaskSuccessInput, SendTaskSuccessOutput>(xAmzTarget: "AWSStepFunctions.SendTaskSuccess"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendTaskSuccessInput, SendTaskSuccessOutput>(xmlName: "SendTaskSuccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendTaskSuccessInput, SendTaskSuccessOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendTaskSuccessOutput, SendTaskSuccessOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskSuccessOutput, SendTaskSuccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskSuccessOutput, SendTaskSuccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTaskSuccessOutput, SendTaskSuccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1372,7 +1372,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter StartExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1385,7 +1385,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func startExecution(input: StartExecutionInput) async throws -> StartExecutionOutputResponse
+    public func startExecution(input: StartExecutionInput) async throws -> StartExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1401,21 +1401,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartExecutionInput, StartExecutionOutputResponse, StartExecutionOutputError>(id: "startExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartExecutionInput, StartExecutionOutputResponse, StartExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartExecutionInput, StartExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartExecutionInput, StartExecutionOutput, StartExecutionOutputError>(id: "startExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartExecutionInput, StartExecutionOutput, StartExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartExecutionInput, StartExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartExecutionOutputResponse, StartExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartExecutionOutput, StartExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartExecutionInput, StartExecutionOutputResponse>(xAmzTarget: "AWSStepFunctions.StartExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartExecutionInput, StartExecutionOutputResponse>(xmlName: "StartExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartExecutionInput, StartExecutionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartExecutionInput, StartExecutionOutput>(xAmzTarget: "AWSStepFunctions.StartExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartExecutionInput, StartExecutionOutput>(xmlName: "StartExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartExecutionInput, StartExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartExecutionOutputResponse, StartExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartExecutionOutput, StartExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExecutionOutputResponse, StartExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExecutionOutputResponse, StartExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartExecutionOutputResponse, StartExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExecutionOutput, StartExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExecutionOutput, StartExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartExecutionOutput, StartExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1424,7 +1424,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter StartSyncExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartSyncExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartSyncExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1435,7 +1435,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `StateMachineTypeNotSupported` :
-    public func startSyncExecution(input: StartSyncExecutionInput) async throws -> StartSyncExecutionOutputResponse
+    public func startSyncExecution(input: StartSyncExecutionInput) async throws -> StartSyncExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1451,21 +1451,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSyncExecutionInput, StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(id: "startSyncExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSyncExecutionInput, StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSyncExecutionInput, StartSyncExecutionOutputResponse>(hostPrefix: "sync-"))
+        var operation = ClientRuntime.OperationStack<StartSyncExecutionInput, StartSyncExecutionOutput, StartSyncExecutionOutputError>(id: "startSyncExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSyncExecutionInput, StartSyncExecutionOutput, StartSyncExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSyncExecutionInput, StartSyncExecutionOutput>(hostPrefix: "sync-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSyncExecutionOutput, StartSyncExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSyncExecutionInput, StartSyncExecutionOutputResponse>(xAmzTarget: "AWSStepFunctions.StartSyncExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSyncExecutionInput, StartSyncExecutionOutputResponse>(xmlName: "StartSyncExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSyncExecutionInput, StartSyncExecutionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSyncExecutionInput, StartSyncExecutionOutput>(xAmzTarget: "AWSStepFunctions.StartSyncExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSyncExecutionInput, StartSyncExecutionOutput>(xmlName: "StartSyncExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSyncExecutionInput, StartSyncExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSyncExecutionOutput, StartSyncExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSyncExecutionOutput, StartSyncExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSyncExecutionOutput, StartSyncExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSyncExecutionOutput, StartSyncExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1474,7 +1474,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter StopExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StopExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StopExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,7 +1482,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func stopExecution(input: StopExecutionInput) async throws -> StopExecutionOutputResponse
+    public func stopExecution(input: StopExecutionInput) async throws -> StopExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1498,21 +1498,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopExecutionInput, StopExecutionOutputResponse, StopExecutionOutputError>(id: "stopExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopExecutionInput, StopExecutionOutputResponse, StopExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopExecutionInput, StopExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopExecutionInput, StopExecutionOutput, StopExecutionOutputError>(id: "stopExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopExecutionInput, StopExecutionOutput, StopExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopExecutionInput, StopExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopExecutionOutputResponse, StopExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopExecutionOutput, StopExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopExecutionInput, StopExecutionOutputResponse>(xAmzTarget: "AWSStepFunctions.StopExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopExecutionInput, StopExecutionOutputResponse>(xmlName: "StopExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopExecutionInput, StopExecutionOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopExecutionInput, StopExecutionOutput>(xAmzTarget: "AWSStepFunctions.StopExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopExecutionInput, StopExecutionOutput>(xmlName: "StopExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopExecutionInput, StopExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopExecutionOutputResponse, StopExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopExecutionOutput, StopExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopExecutionOutputResponse, StopExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopExecutionOutputResponse, StopExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopExecutionOutputResponse, StopExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopExecutionOutput, StopExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopExecutionOutput, StopExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopExecutionOutput, StopExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1521,7 +1521,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1529,7 +1529,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1545,21 +1545,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "AWSStepFunctions.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSStepFunctions.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1568,14 +1568,14 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1591,21 +1591,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "AWSStepFunctions.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSStepFunctions.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1614,7 +1614,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter UpdateMapRunInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMapRunOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMapRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,7 +1622,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateMapRun(input: UpdateMapRunInput) async throws -> UpdateMapRunOutputResponse
+    public func updateMapRun(input: UpdateMapRunInput) async throws -> UpdateMapRunOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1638,21 +1638,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateMapRunInput, UpdateMapRunOutputResponse, UpdateMapRunOutputError>(id: "updateMapRun")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMapRunInput, UpdateMapRunOutputResponse, UpdateMapRunOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMapRunInput, UpdateMapRunOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateMapRunInput, UpdateMapRunOutput, UpdateMapRunOutputError>(id: "updateMapRun")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMapRunInput, UpdateMapRunOutput, UpdateMapRunOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMapRunInput, UpdateMapRunOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMapRunOutputResponse, UpdateMapRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMapRunOutput, UpdateMapRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateMapRunInput, UpdateMapRunOutputResponse>(xAmzTarget: "AWSStepFunctions.UpdateMapRun"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMapRunInput, UpdateMapRunOutputResponse>(xmlName: "UpdateMapRunInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMapRunInput, UpdateMapRunOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateMapRunInput, UpdateMapRunOutput>(xAmzTarget: "AWSStepFunctions.UpdateMapRun"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMapRunInput, UpdateMapRunOutput>(xmlName: "UpdateMapRunInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMapRunInput, UpdateMapRunOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMapRunOutputResponse, UpdateMapRunOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMapRunOutput, UpdateMapRunOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMapRunOutputResponse, UpdateMapRunOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMapRunOutputResponse, UpdateMapRunOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMapRunOutputResponse, UpdateMapRunOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMapRunOutput, UpdateMapRunOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMapRunOutput, UpdateMapRunOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMapRunOutput, UpdateMapRunOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1670,7 +1670,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter UpdateStateMachineInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStateMachineOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStateMachineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,7 +1685,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateStateMachine(input: UpdateStateMachineInput) async throws -> UpdateStateMachineOutputResponse
+    public func updateStateMachine(input: UpdateStateMachineInput) async throws -> UpdateStateMachineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1701,21 +1701,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateStateMachineInput, UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(id: "updateStateMachine")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStateMachineInput, UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStateMachineInput, UpdateStateMachineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateStateMachineInput, UpdateStateMachineOutput, UpdateStateMachineOutputError>(id: "updateStateMachine")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStateMachineInput, UpdateStateMachineOutput, UpdateStateMachineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStateMachineInput, UpdateStateMachineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStateMachineOutput, UpdateStateMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateStateMachineInput, UpdateStateMachineOutputResponse>(xAmzTarget: "AWSStepFunctions.UpdateStateMachine"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateStateMachineInput, UpdateStateMachineOutputResponse>(xmlName: "UpdateStateMachineInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStateMachineInput, UpdateStateMachineOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateStateMachineInput, UpdateStateMachineOutput>(xAmzTarget: "AWSStepFunctions.UpdateStateMachine"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateStateMachineInput, UpdateStateMachineOutput>(xmlName: "UpdateStateMachineInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStateMachineInput, UpdateStateMachineOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStateMachineOutput, UpdateStateMachineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStateMachineOutput, UpdateStateMachineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStateMachineOutput, UpdateStateMachineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStateMachineOutput, UpdateStateMachineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1732,7 +1732,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// - Parameter UpdateStateMachineAliasInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStateMachineAliasOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStateMachineAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1741,7 +1741,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateStateMachineAlias(input: UpdateStateMachineAliasInput) async throws -> UpdateStateMachineAliasOutputResponse
+    public func updateStateMachineAlias(input: UpdateStateMachineAliasInput) async throws -> UpdateStateMachineAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1757,21 +1757,21 @@ extension SFNClient: SFNClientProtocol {
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutputResponse, UpdateStateMachineAliasOutputError>(id: "updateStateMachineAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutputResponse, UpdateStateMachineAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutput, UpdateStateMachineAliasOutputError>(id: "updateStateMachineAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutput, UpdateStateMachineAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStateMachineAliasOutputResponse, UpdateStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStateMachineAliasOutput, UpdateStateMachineAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutputResponse>(xAmzTarget: "AWSStepFunctions.UpdateStateMachineAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutputResponse>(xmlName: "UpdateStateMachineAliasInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutput>(xAmzTarget: "AWSStepFunctions.UpdateStateMachineAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutput>(xmlName: "UpdateStateMachineAliasInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStateMachineAliasInput, UpdateStateMachineAliasOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStateMachineAliasOutputResponse, UpdateStateMachineAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStateMachineAliasOutput, UpdateStateMachineAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStateMachineAliasOutputResponse, UpdateStateMachineAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStateMachineAliasOutputResponse, UpdateStateMachineAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStateMachineAliasOutputResponse, UpdateStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStateMachineAliasOutput, UpdateStateMachineAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStateMachineAliasOutput, UpdateStateMachineAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStateMachineAliasOutput, UpdateStateMachineAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

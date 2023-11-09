@@ -8,7 +8,7 @@ public protocol EvidentlyClientProtocol {
     ///
     /// - Parameter BatchEvaluateFeatureInput : [no documentation found]
     ///
-    /// - Returns: `BatchEvaluateFeatureOutputResponse` : [no documentation found]
+    /// - Returns: `BatchEvaluateFeatureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func batchEvaluateFeature(input: BatchEvaluateFeatureInput) async throws -> BatchEvaluateFeatureOutputResponse
+    func batchEvaluateFeature(input: BatchEvaluateFeatureInput) async throws -> BatchEvaluateFeatureOutput
     /// Creates an Evidently experiment. Before you create an experiment, you must create the feature to use for the experiment. An experiment helps you make feature design decisions based on evidence and data. An experiment can test as many as five variations at once. Evidently collects experiment data and analyzes it by statistical methods, and provides clear recommendations about which variations perform better. You can optionally specify a segment to have the experiment consider only certain audience types in the experiment, such as using only user sessions from a certain location or who use a certain internet browser. Don't use this operation to update an existing experiment. Instead, use [UpdateExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateExperiment.html).
     ///
     /// - Parameter CreateExperimentInput : [no documentation found]
     ///
-    /// - Returns: `CreateExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -32,12 +32,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutputResponse
+    func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutput
     /// Creates an Evidently feature that you want to launch or test. You can define up to five variations of a feature, and use these variations in your launches and experiments. A feature must be created in a project. For information about creating a project, see [CreateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateProject.html). Don't use this operation to update an existing feature. Instead, use [UpdateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateFeature.html).
     ///
     /// - Parameter CreateFeatureInput : [no documentation found]
     ///
-    /// - Returns: `CreateFeatureOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFeatureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,12 +47,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func createFeature(input: CreateFeatureInput) async throws -> CreateFeatureOutputResponse
+    func createFeature(input: CreateFeatureInput) async throws -> CreateFeatureOutput
     /// Creates a launch of a given feature. Before you create a launch, you must create the feature to use for the launch. You can use a launch to safely validate new features by serving them to a specified percentage of your users while you roll out the feature. You can monitor the performance of the new feature to help you decide when to ramp up traffic to more users. This helps you reduce risk and identify unintended consequences before you fully launch the feature. Don't use this operation to update an existing launch. Instead, use [UpdateLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateLaunch.html).
     ///
     /// - Parameter CreateLaunchInput : [no documentation found]
     ///
-    /// - Returns: `CreateLaunchOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLaunchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -62,12 +62,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func createLaunch(input: CreateLaunchInput) async throws -> CreateLaunchOutputResponse
+    func createLaunch(input: CreateLaunchInput) async throws -> CreateLaunchOutput
     /// Creates a project, which is the logical object in Evidently that can contain features, launches, and experiments. Use projects to group similar features together. To update an existing project, use [UpdateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateProject.html).
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
     ///
-    /// - Returns: `CreateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,12 +76,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
     /// Use this operation to define a segment of your audience. A segment is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users, users in Europe, or Firefox browser users in Europe who also fit other criteria that your application collects, such as age. Using a segment in an experiment limits that experiment to evaluate only the users who match the segment criteria. Using one or more segments in a launch allows you to define different traffic splits for the different audience segments. For more information about segment pattern syntax, see [ Segment rule pattern syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html#CloudWatch-Evidently-segments-syntax.html). The pattern that you define for a segment is matched against the value of evaluationContext, which is passed into Evidently in the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html) operation, when Evidently assigns a feature variation to a user.
     ///
     /// - Parameter CreateSegmentInput : [no documentation found]
     ///
-    /// - Returns: `CreateSegmentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSegmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -90,12 +90,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutputResponse
+    func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutput
     /// Deletes an Evidently experiment. The feature used for the experiment is not deleted. To stop an experiment without deleting it, use [StopExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_StopExperiment.html).
     ///
     /// - Parameter DeleteExperimentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,12 +106,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceUnavailableException` : The service was unavailable. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutputResponse
+    func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutput
     /// Deletes an Evidently feature.
     ///
     /// - Parameter DeleteFeatureInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFeatureOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFeatureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -121,12 +121,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func deleteFeature(input: DeleteFeatureInput) async throws -> DeleteFeatureOutputResponse
+    func deleteFeature(input: DeleteFeatureInput) async throws -> DeleteFeatureOutput
     /// Deletes an Evidently launch. The feature used for the launch is not deleted. To stop a launch without deleting it, use [StopLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_StopLaunch.html).
     ///
     /// - Parameter DeleteLaunchInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLaunchOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLaunchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -136,12 +136,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func deleteLaunch(input: DeleteLaunchInput) async throws -> DeleteLaunchOutputResponse
+    func deleteLaunch(input: DeleteLaunchInput) async throws -> DeleteLaunchOutput
     /// Deletes an Evidently project. Before you can delete a project, you must delete all the features that the project contains. To delete a feature, use [DeleteFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_DeleteFeature.html).
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -151,12 +151,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
     /// Deletes a segment. You can't delete a segment that is being used in a launch or experiment, even if that launch or experiment is not currently running.
     ///
     /// - Parameter DeleteSegmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSegmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSegmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -166,12 +166,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutputResponse
+    func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutput
     /// This operation assigns a feature variation to one given user session. You pass in an entityID that represents the user. Evidently then checks the evaluation rules and assigns the variation. The first rules that are evaluated are the override rules. If the user's entityID matches an override rule, the user is served the variation specified by that rule. If there is a current launch with this feature that uses segment overrides, and if the user session's evaluationContext matches a segment rule defined in a segment override, the configuration in the segment overrides is used. For more information about segments, see [CreateSegment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSegment.html) and [Use segments to focus your audience](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html). If there is a launch with no segment overrides, the user might be assigned to a variation in the launch. The chance of this depends on the percentage of users that are allocated to that launch. If the user is enrolled in the launch, the variation they are served depends on the allocation of the various feature variations used for the launch. If the user is not assigned to a launch, and there is an ongoing experiment for this feature, the user might be assigned to a variation in the experiment. The chance of this depends on the percentage of users that are allocated to that experiment. If the experiment uses a segment, then only user sessions with evaluationContext values that match the segment rule are used in the experiment. If the user is enrolled in the experiment, the variation they are served depends on the allocation of the various feature variations used for the experiment. If the user is not assigned to a launch or experiment, they are served the default variation.
     ///
     /// - Parameter EvaluateFeatureInput : [no documentation found]
     ///
-    /// - Returns: `EvaluateFeatureOutputResponse` : [no documentation found]
+    /// - Returns: `EvaluateFeatureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -180,12 +180,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func evaluateFeature(input: EvaluateFeatureInput) async throws -> EvaluateFeatureOutputResponse
+    func evaluateFeature(input: EvaluateFeatureInput) async throws -> EvaluateFeatureOutput
     /// Returns the details about one experiment. You must already know the experiment name. To retrieve a list of experiments in your account, use [ListExperiments](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListExperiments.html).
     ///
     /// - Parameter GetExperimentInput : [no documentation found]
     ///
-    /// - Returns: `GetExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `GetExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,12 +194,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutputResponse
+    func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutput
     /// Retrieves the results of a running or completed experiment. No results are available until there have been 100 events for each variation and at least 10 minutes have passed since the start of the experiment. To increase the statistical power, Evidently performs an additional offline p-value analysis at the end of the experiment. Offline p-value analysis can detect statistical significance in some cases where the anytime p-values used during the experiment do not find statistical significance. Experiment results are available up to 63 days after the start of the experiment. They are not available after that because of CloudWatch data retention policies.
     ///
     /// - Parameter GetExperimentResultsInput : [no documentation found]
     ///
-    /// - Returns: `GetExperimentResultsOutputResponse` : [no documentation found]
+    /// - Returns: `GetExperimentResultsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func getExperimentResults(input: GetExperimentResultsInput) async throws -> GetExperimentResultsOutputResponse
+    func getExperimentResults(input: GetExperimentResultsInput) async throws -> GetExperimentResultsOutput
     /// Returns the details about one feature. You must already know the feature name. To retrieve a list of features in your account, use [ListFeatures](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListFeatures.html).
     ///
     /// - Parameter GetFeatureInput : [no documentation found]
     ///
-    /// - Returns: `GetFeatureOutputResponse` : [no documentation found]
+    /// - Returns: `GetFeatureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -223,12 +223,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func getFeature(input: GetFeatureInput) async throws -> GetFeatureOutputResponse
+    func getFeature(input: GetFeatureInput) async throws -> GetFeatureOutput
     /// Returns the details about one launch. You must already know the launch name. To retrieve a list of launches in your account, use [ListLaunches](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListLaunches.html).
     ///
     /// - Parameter GetLaunchInput : [no documentation found]
     ///
-    /// - Returns: `GetLaunchOutputResponse` : [no documentation found]
+    /// - Returns: `GetLaunchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -237,12 +237,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func getLaunch(input: GetLaunchInput) async throws -> GetLaunchOutputResponse
+    func getLaunch(input: GetLaunchInput) async throws -> GetLaunchOutput
     /// Returns the details about one launch. You must already know the project name. To retrieve a list of projects in your account, use [ListProjects](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListProjects.html).
     ///
     /// - Parameter GetProjectInput : [no documentation found]
     ///
-    /// - Returns: `GetProjectOutputResponse` : [no documentation found]
+    /// - Returns: `GetProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -251,12 +251,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func getProject(input: GetProjectInput) async throws -> GetProjectOutputResponse
+    func getProject(input: GetProjectInput) async throws -> GetProjectOutput
     /// Returns information about the specified segment. Specify the segment you want to view by specifying its ARN.
     ///
     /// - Parameter GetSegmentInput : [no documentation found]
     ///
-    /// - Returns: `GetSegmentOutputResponse` : [no documentation found]
+    /// - Returns: `GetSegmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -265,12 +265,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutputResponse
+    func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutput
     /// Returns configuration details about all the experiments in the specified project.
     ///
     /// - Parameter ListExperimentsInput : [no documentation found]
     ///
-    /// - Returns: `ListExperimentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListExperimentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -278,12 +278,12 @@ public protocol EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutputResponse
+    func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput
     /// Returns configuration details about all the features in the specified project.
     ///
     /// - Parameter ListFeaturesInput : [no documentation found]
     ///
-    /// - Returns: `ListFeaturesOutputResponse` : [no documentation found]
+    /// - Returns: `ListFeaturesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -292,12 +292,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func listFeatures(input: ListFeaturesInput) async throws -> ListFeaturesOutputResponse
+    func listFeatures(input: ListFeaturesInput) async throws -> ListFeaturesOutput
     /// Returns configuration details about all the launches in the specified project.
     ///
     /// - Parameter ListLaunchesInput : [no documentation found]
     ///
-    /// - Returns: `ListLaunchesOutputResponse` : [no documentation found]
+    /// - Returns: `ListLaunchesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -305,12 +305,12 @@ public protocol EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func listLaunches(input: ListLaunchesInput) async throws -> ListLaunchesOutputResponse
+    func listLaunches(input: ListLaunchesInput) async throws -> ListLaunchesOutput
     /// Returns configuration details about all the projects in the current Region in your account.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,12 +318,12 @@ public protocol EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
     /// Use this operation to find which experiments or launches are using a specified segment.
     ///
     /// - Parameter ListSegmentReferencesInput : [no documentation found]
     ///
-    /// - Returns: `ListSegmentReferencesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSegmentReferencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -332,12 +332,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func listSegmentReferences(input: ListSegmentReferencesInput) async throws -> ListSegmentReferencesOutputResponse
+    func listSegmentReferences(input: ListSegmentReferencesInput) async throws -> ListSegmentReferencesOutput
     /// Returns a list of audience segments that you have created in your account in this Region.
     ///
     /// - Parameter ListSegmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListSegmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSegmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -345,12 +345,12 @@ public protocol EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func listSegments(input: ListSegmentsInput) async throws -> ListSegmentsOutputResponse
+    func listSegments(input: ListSegmentsInput) async throws -> ListSegmentsOutput
     /// Displays the tags associated with an Evidently resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -358,12 +358,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Sends performance events to Evidently. These events can be used to evaluate a launch or an experiment.
     ///
     /// - Parameter PutProjectEventsInput : [no documentation found]
     ///
-    /// - Returns: `PutProjectEventsOutputResponse` : [no documentation found]
+    /// - Returns: `PutProjectEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -372,12 +372,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func putProjectEvents(input: PutProjectEventsInput) async throws -> PutProjectEventsOutputResponse
+    func putProjectEvents(input: PutProjectEventsInput) async throws -> PutProjectEventsOutput
     /// Starts an existing experiment. To create an experiment, use [CreateExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateExperiment.html).
     ///
     /// - Parameter StartExperimentInput : [no documentation found]
     ///
-    /// - Returns: `StartExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `StartExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -388,12 +388,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutputResponse
+    func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutput
     /// Starts an existing launch. To create a launch, use [CreateLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateLaunch.html).
     ///
     /// - Parameter StartLaunchInput : [no documentation found]
     ///
-    /// - Returns: `StartLaunchOutputResponse` : [no documentation found]
+    /// - Returns: `StartLaunchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -404,12 +404,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func startLaunch(input: StartLaunchInput) async throws -> StartLaunchOutputResponse
+    func startLaunch(input: StartLaunchInput) async throws -> StartLaunchOutput
     /// Stops an experiment that is currently running. If you stop an experiment, you can't resume it or restart it.
     ///
     /// - Parameter StopExperimentInput : [no documentation found]
     ///
-    /// - Returns: `StopExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `StopExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -420,12 +420,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutputResponse
+    func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutput
     /// Stops a launch that is currently running. After you stop a launch, you will not be able to resume it or restart it. Also, it will not be evaluated as a rule for traffic allocation, and the traffic that was allocated to the launch will instead be available to the feature's experiment, if there is one. Otherwise, all traffic will be served the default variation after the launch is stopped.
     ///
     /// - Parameter StopLaunchInput : [no documentation found]
     ///
-    /// - Returns: `StopLaunchOutputResponse` : [no documentation found]
+    /// - Returns: `StopLaunchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -434,12 +434,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func stopLaunch(input: StopLaunchInput) async throws -> StopLaunchOutputResponse
+    func stopLaunch(input: StopLaunchInput) async throws -> StopLaunchOutput
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Evidently resource. Projects, features, launches, and experiments can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,12 +447,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Use this operation to test a rules pattern that you plan to use to create an audience segment. For more information about segments, see [CreateSegment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSegment.html).
     ///
     /// - Parameter TestSegmentPatternInput : [no documentation found]
     ///
-    /// - Returns: `TestSegmentPatternOutputResponse` : [no documentation found]
+    /// - Returns: `TestSegmentPatternOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,12 +460,12 @@ public protocol EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func testSegmentPattern(input: TestSegmentPatternInput) async throws -> TestSegmentPatternOutputResponse
+    func testSegmentPattern(input: TestSegmentPatternInput) async throws -> TestSegmentPatternOutput
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -473,12 +473,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an Evidently experiment. Don't use this operation to update an experiment's tag. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
     /// - Parameter UpdateExperimentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,12 +487,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutputResponse
+    func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutput
     /// Updates an existing feature. You can't use this operation to update the tags of an existing feature. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
     /// - Parameter UpdateFeatureInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFeatureOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFeatureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,12 +502,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func updateFeature(input: UpdateFeatureInput) async throws -> UpdateFeatureOutputResponse
+    func updateFeature(input: UpdateFeatureInput) async throws -> UpdateFeatureOutput
     /// Updates a launch of a given feature. Don't use this operation to update the tags of an existing launch. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
     /// - Parameter UpdateLaunchInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLaunchOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLaunchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,12 +516,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func updateLaunch(input: UpdateLaunchInput) async throws -> UpdateLaunchOutputResponse
+    func updateLaunch(input: UpdateLaunchInput) async throws -> UpdateLaunchOutput
     /// Updates the description of an existing project. To create a new project, use [CreateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateProject.html). Don't use this operation to update the data storage options of a project. Instead, use [UpdateProjectDataDelivery](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateProjectDataDelivery.html). Don't use this operation to update the tags of a project. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -531,12 +531,12 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
     /// Updates the data storage options for this project. If you store evaluation events, you an keep them and analyze them on your own. If you choose not to store evaluation events, Evidently deletes them after using them to produce metrics and other experiment results that you can view. You can't specify both cloudWatchLogs and s3Destination in the same operation.
     ///
     /// - Parameter UpdateProjectDataDeliveryInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProjectDataDeliveryOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProjectDataDeliveryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,7 +546,7 @@ public protocol EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    func updateProjectDataDelivery(input: UpdateProjectDataDeliveryInput) async throws -> UpdateProjectDataDeliveryOutputResponse
+    func updateProjectDataDelivery(input: UpdateProjectDataDeliveryInput) async throws -> UpdateProjectDataDeliveryOutput
 }
 
 public enum EvidentlyClientTypes {}

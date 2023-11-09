@@ -72,7 +72,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter AddTagsToResourceInput : [no documentation found]
     ///
-    /// - Returns: `AddTagsToResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,7 +80,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -96,21 +96,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutput, AddTagsToResourceOutputError>(id: "addTagsToResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput, AddTagsToResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(xAmzTarget: "CloudHsmFrontendService.AddTagsToResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(xmlName: "AddTagsToResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(xAmzTarget: "CloudHsmFrontendService.AddTagsToResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(xmlName: "AddTagsToResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsToResourceOutput, AddTagsToResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -120,7 +120,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter CreateHapgInput : Contains the inputs for the [CreateHapgRequest] action.
     ///
-    /// - Returns: `CreateHapgOutputResponse` : Contains the output of the [CreateHAPartitionGroup] action.
+    /// - Returns: `CreateHapgOutput` : Contains the output of the [CreateHAPartitionGroup] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,7 +128,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func createHapg(input: CreateHapgInput) async throws -> CreateHapgOutputResponse
+    public func createHapg(input: CreateHapgInput) async throws -> CreateHapgOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -144,21 +144,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateHapgInput, CreateHapgOutputResponse, CreateHapgOutputError>(id: "createHapg")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHapgInput, CreateHapgOutputResponse, CreateHapgOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHapgInput, CreateHapgOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateHapgInput, CreateHapgOutput, CreateHapgOutputError>(id: "createHapg")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHapgInput, CreateHapgOutput, CreateHapgOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHapgInput, CreateHapgOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateHapgOutputResponse, CreateHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateHapgOutput, CreateHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateHapgInput, CreateHapgOutputResponse>(xAmzTarget: "CloudHsmFrontendService.CreateHapg"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateHapgInput, CreateHapgOutputResponse>(xmlName: "CreateHapgRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateHapgInput, CreateHapgOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateHapgInput, CreateHapgOutput>(xAmzTarget: "CloudHsmFrontendService.CreateHapg"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateHapgInput, CreateHapgOutput>(xmlName: "CreateHapgRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateHapgInput, CreateHapgOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateHapgOutputResponse, CreateHapgOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateHapgOutput, CreateHapgOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHapgOutputResponse, CreateHapgOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHapgOutputResponse, CreateHapgOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHapgOutputResponse, CreateHapgOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHapgOutput, CreateHapgOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHapgOutput, CreateHapgOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHapgOutput, CreateHapgOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -168,7 +168,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter CreateHsmInput : Contains the inputs for the CreateHsm operation.
     ///
-    /// - Returns: `CreateHsmOutputResponse` : Contains the output of the CreateHsm operation.
+    /// - Returns: `CreateHsmOutput` : Contains the output of the CreateHsm operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,7 +176,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutputResponse
+    public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -192,21 +192,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateHsmInput, CreateHsmOutputResponse, CreateHsmOutputError>(id: "createHsm")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHsmInput, CreateHsmOutputResponse, CreateHsmOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHsmInput, CreateHsmOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateHsmInput, CreateHsmOutput, CreateHsmOutputError>(id: "createHsm")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHsmInput, CreateHsmOutput, CreateHsmOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHsmInput, CreateHsmOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateHsmOutputResponse, CreateHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateHsmOutput, CreateHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateHsmInput, CreateHsmOutputResponse>(xAmzTarget: "CloudHsmFrontendService.CreateHsm"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateHsmInput, CreateHsmOutputResponse>(xmlName: "CreateHsmRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateHsmInput, CreateHsmOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateHsmInput, CreateHsmOutput>(xAmzTarget: "CloudHsmFrontendService.CreateHsm"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateHsmInput, CreateHsmOutput>(xmlName: "CreateHsmRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateHsmInput, CreateHsmOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateHsmOutputResponse, CreateHsmOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateHsmOutput, CreateHsmOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHsmOutputResponse, CreateHsmOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHsmOutputResponse, CreateHsmOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHsmOutputResponse, CreateHsmOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHsmOutput, CreateHsmOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHsmOutput, CreateHsmOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHsmOutput, CreateHsmOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -216,7 +216,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter CreateLunaClientInput : Contains the inputs for the [CreateLunaClient] action.
     ///
-    /// - Returns: `CreateLunaClientOutputResponse` : Contains the output of the [CreateLunaClient] action.
+    /// - Returns: `CreateLunaClientOutput` : Contains the output of the [CreateLunaClient] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -224,7 +224,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func createLunaClient(input: CreateLunaClientInput) async throws -> CreateLunaClientOutputResponse
+    public func createLunaClient(input: CreateLunaClientInput) async throws -> CreateLunaClientOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -240,21 +240,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLunaClientInput, CreateLunaClientOutputResponse, CreateLunaClientOutputError>(id: "createLunaClient")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLunaClientInput, CreateLunaClientOutputResponse, CreateLunaClientOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLunaClientInput, CreateLunaClientOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateLunaClientInput, CreateLunaClientOutput, CreateLunaClientOutputError>(id: "createLunaClient")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLunaClientInput, CreateLunaClientOutput, CreateLunaClientOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLunaClientInput, CreateLunaClientOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLunaClientOutputResponse, CreateLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLunaClientOutput, CreateLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLunaClientInput, CreateLunaClientOutputResponse>(xAmzTarget: "CloudHsmFrontendService.CreateLunaClient"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLunaClientInput, CreateLunaClientOutputResponse>(xmlName: "CreateLunaClientRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLunaClientInput, CreateLunaClientOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLunaClientInput, CreateLunaClientOutput>(xAmzTarget: "CloudHsmFrontendService.CreateLunaClient"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLunaClientInput, CreateLunaClientOutput>(xmlName: "CreateLunaClientRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLunaClientInput, CreateLunaClientOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLunaClientOutputResponse, CreateLunaClientOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLunaClientOutput, CreateLunaClientOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLunaClientOutputResponse, CreateLunaClientOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLunaClientOutputResponse, CreateLunaClientOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLunaClientOutputResponse, CreateLunaClientOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLunaClientOutput, CreateLunaClientOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLunaClientOutput, CreateLunaClientOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLunaClientOutput, CreateLunaClientOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -264,7 +264,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter DeleteHapgInput : Contains the inputs for the [DeleteHapg] action.
     ///
-    /// - Returns: `DeleteHapgOutputResponse` : Contains the output of the [DeleteHapg] action.
+    /// - Returns: `DeleteHapgOutput` : Contains the output of the [DeleteHapg] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -272,7 +272,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func deleteHapg(input: DeleteHapgInput) async throws -> DeleteHapgOutputResponse
+    public func deleteHapg(input: DeleteHapgInput) async throws -> DeleteHapgOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -288,21 +288,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteHapgInput, DeleteHapgOutputResponse, DeleteHapgOutputError>(id: "deleteHapg")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHapgInput, DeleteHapgOutputResponse, DeleteHapgOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHapgInput, DeleteHapgOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteHapgInput, DeleteHapgOutput, DeleteHapgOutputError>(id: "deleteHapg")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHapgInput, DeleteHapgOutput, DeleteHapgOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHapgInput, DeleteHapgOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteHapgOutputResponse, DeleteHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteHapgOutput, DeleteHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteHapgInput, DeleteHapgOutputResponse>(xAmzTarget: "CloudHsmFrontendService.DeleteHapg"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteHapgInput, DeleteHapgOutputResponse>(xmlName: "DeleteHapgRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteHapgInput, DeleteHapgOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteHapgInput, DeleteHapgOutput>(xAmzTarget: "CloudHsmFrontendService.DeleteHapg"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteHapgInput, DeleteHapgOutput>(xmlName: "DeleteHapgRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteHapgInput, DeleteHapgOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHapgOutputResponse, DeleteHapgOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHapgOutput, DeleteHapgOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHapgOutputResponse, DeleteHapgOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHapgOutputResponse, DeleteHapgOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHapgOutputResponse, DeleteHapgOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHapgOutput, DeleteHapgOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHapgOutput, DeleteHapgOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHapgOutput, DeleteHapgOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -312,7 +312,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter DeleteHsmInput : Contains the inputs for the [DeleteHsm] operation.
     ///
-    /// - Returns: `DeleteHsmOutputResponse` : Contains the output of the [DeleteHsm] operation.
+    /// - Returns: `DeleteHsmOutput` : Contains the output of the [DeleteHsm] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -320,7 +320,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutputResponse
+    public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -336,21 +336,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteHsmInput, DeleteHsmOutputResponse, DeleteHsmOutputError>(id: "deleteHsm")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHsmInput, DeleteHsmOutputResponse, DeleteHsmOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHsmInput, DeleteHsmOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteHsmInput, DeleteHsmOutput, DeleteHsmOutputError>(id: "deleteHsm")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHsmInput, DeleteHsmOutput, DeleteHsmOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHsmInput, DeleteHsmOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteHsmOutputResponse, DeleteHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteHsmOutput, DeleteHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteHsmInput, DeleteHsmOutputResponse>(xAmzTarget: "CloudHsmFrontendService.DeleteHsm"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteHsmInput, DeleteHsmOutputResponse>(xmlName: "DeleteHsmRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteHsmInput, DeleteHsmOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteHsmInput, DeleteHsmOutput>(xAmzTarget: "CloudHsmFrontendService.DeleteHsm"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteHsmInput, DeleteHsmOutput>(xmlName: "DeleteHsmRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteHsmInput, DeleteHsmOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHsmOutputResponse, DeleteHsmOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHsmOutput, DeleteHsmOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHsmOutputResponse, DeleteHsmOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHsmOutputResponse, DeleteHsmOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHsmOutputResponse, DeleteHsmOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHsmOutput, DeleteHsmOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHsmOutput, DeleteHsmOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHsmOutput, DeleteHsmOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -360,7 +360,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter DeleteLunaClientInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLunaClientOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLunaClientOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -368,7 +368,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func deleteLunaClient(input: DeleteLunaClientInput) async throws -> DeleteLunaClientOutputResponse
+    public func deleteLunaClient(input: DeleteLunaClientInput) async throws -> DeleteLunaClientOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -384,21 +384,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteLunaClientInput, DeleteLunaClientOutputResponse, DeleteLunaClientOutputError>(id: "deleteLunaClient")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLunaClientInput, DeleteLunaClientOutputResponse, DeleteLunaClientOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLunaClientInput, DeleteLunaClientOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteLunaClientInput, DeleteLunaClientOutput, DeleteLunaClientOutputError>(id: "deleteLunaClient")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLunaClientInput, DeleteLunaClientOutput, DeleteLunaClientOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLunaClientInput, DeleteLunaClientOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLunaClientOutputResponse, DeleteLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLunaClientOutput, DeleteLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLunaClientInput, DeleteLunaClientOutputResponse>(xAmzTarget: "CloudHsmFrontendService.DeleteLunaClient"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLunaClientInput, DeleteLunaClientOutputResponse>(xmlName: "DeleteLunaClientRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLunaClientInput, DeleteLunaClientOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLunaClientInput, DeleteLunaClientOutput>(xAmzTarget: "CloudHsmFrontendService.DeleteLunaClient"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLunaClientInput, DeleteLunaClientOutput>(xmlName: "DeleteLunaClientRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLunaClientInput, DeleteLunaClientOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLunaClientOutputResponse, DeleteLunaClientOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLunaClientOutput, DeleteLunaClientOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLunaClientOutputResponse, DeleteLunaClientOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLunaClientOutputResponse, DeleteLunaClientOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLunaClientOutputResponse, DeleteLunaClientOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLunaClientOutput, DeleteLunaClientOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLunaClientOutput, DeleteLunaClientOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLunaClientOutput, DeleteLunaClientOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -408,7 +408,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter DescribeHapgInput : Contains the inputs for the [DescribeHapg] action.
     ///
-    /// - Returns: `DescribeHapgOutputResponse` : Contains the output of the [DescribeHapg] action.
+    /// - Returns: `DescribeHapgOutput` : Contains the output of the [DescribeHapg] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +416,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func describeHapg(input: DescribeHapgInput) async throws -> DescribeHapgOutputResponse
+    public func describeHapg(input: DescribeHapgInput) async throws -> DescribeHapgOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -432,21 +432,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeHapgInput, DescribeHapgOutputResponse, DescribeHapgOutputError>(id: "describeHapg")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHapgInput, DescribeHapgOutputResponse, DescribeHapgOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHapgInput, DescribeHapgOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeHapgInput, DescribeHapgOutput, DescribeHapgOutputError>(id: "describeHapg")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHapgInput, DescribeHapgOutput, DescribeHapgOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHapgInput, DescribeHapgOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHapgOutputResponse, DescribeHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHapgOutput, DescribeHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeHapgInput, DescribeHapgOutputResponse>(xAmzTarget: "CloudHsmFrontendService.DescribeHapg"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeHapgInput, DescribeHapgOutputResponse>(xmlName: "DescribeHapgRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHapgInput, DescribeHapgOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeHapgInput, DescribeHapgOutput>(xAmzTarget: "CloudHsmFrontendService.DescribeHapg"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeHapgInput, DescribeHapgOutput>(xmlName: "DescribeHapgRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHapgInput, DescribeHapgOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHapgOutputResponse, DescribeHapgOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHapgOutput, DescribeHapgOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHapgOutputResponse, DescribeHapgOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHapgOutputResponse, DescribeHapgOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHapgOutputResponse, DescribeHapgOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHapgOutput, DescribeHapgOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHapgOutput, DescribeHapgOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHapgOutput, DescribeHapgOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -456,7 +456,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter DescribeHsmInput : Contains the inputs for the [DescribeHsm] operation.
     ///
-    /// - Returns: `DescribeHsmOutputResponse` : Contains the output of the [DescribeHsm] operation.
+    /// - Returns: `DescribeHsmOutput` : Contains the output of the [DescribeHsm] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -464,7 +464,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func describeHsm(input: DescribeHsmInput) async throws -> DescribeHsmOutputResponse
+    public func describeHsm(input: DescribeHsmInput) async throws -> DescribeHsmOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -480,21 +480,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeHsmInput, DescribeHsmOutputResponse, DescribeHsmOutputError>(id: "describeHsm")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHsmInput, DescribeHsmOutputResponse, DescribeHsmOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHsmInput, DescribeHsmOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeHsmInput, DescribeHsmOutput, DescribeHsmOutputError>(id: "describeHsm")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHsmInput, DescribeHsmOutput, DescribeHsmOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHsmInput, DescribeHsmOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHsmOutputResponse, DescribeHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHsmOutput, DescribeHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeHsmInput, DescribeHsmOutputResponse>(xAmzTarget: "CloudHsmFrontendService.DescribeHsm"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeHsmInput, DescribeHsmOutputResponse>(xmlName: "DescribeHsmRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHsmInput, DescribeHsmOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeHsmInput, DescribeHsmOutput>(xAmzTarget: "CloudHsmFrontendService.DescribeHsm"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeHsmInput, DescribeHsmOutput>(xmlName: "DescribeHsmRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHsmInput, DescribeHsmOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHsmOutputResponse, DescribeHsmOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHsmOutput, DescribeHsmOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHsmOutputResponse, DescribeHsmOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHsmOutputResponse, DescribeHsmOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHsmOutputResponse, DescribeHsmOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHsmOutput, DescribeHsmOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHsmOutput, DescribeHsmOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHsmOutput, DescribeHsmOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -504,7 +504,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter DescribeLunaClientInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLunaClientOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLunaClientOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,7 +512,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func describeLunaClient(input: DescribeLunaClientInput) async throws -> DescribeLunaClientOutputResponse
+    public func describeLunaClient(input: DescribeLunaClientInput) async throws -> DescribeLunaClientOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -528,21 +528,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLunaClientInput, DescribeLunaClientOutputResponse, DescribeLunaClientOutputError>(id: "describeLunaClient")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLunaClientInput, DescribeLunaClientOutputResponse, DescribeLunaClientOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLunaClientInput, DescribeLunaClientOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeLunaClientInput, DescribeLunaClientOutput, DescribeLunaClientOutputError>(id: "describeLunaClient")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLunaClientInput, DescribeLunaClientOutput, DescribeLunaClientOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLunaClientInput, DescribeLunaClientOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLunaClientOutputResponse, DescribeLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLunaClientOutput, DescribeLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLunaClientInput, DescribeLunaClientOutputResponse>(xAmzTarget: "CloudHsmFrontendService.DescribeLunaClient"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLunaClientInput, DescribeLunaClientOutputResponse>(xmlName: "DescribeLunaClientRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLunaClientInput, DescribeLunaClientOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLunaClientInput, DescribeLunaClientOutput>(xAmzTarget: "CloudHsmFrontendService.DescribeLunaClient"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLunaClientInput, DescribeLunaClientOutput>(xmlName: "DescribeLunaClientRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLunaClientInput, DescribeLunaClientOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLunaClientOutputResponse, DescribeLunaClientOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLunaClientOutput, DescribeLunaClientOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLunaClientOutputResponse, DescribeLunaClientOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLunaClientOutputResponse, DescribeLunaClientOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLunaClientOutputResponse, DescribeLunaClientOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLunaClientOutput, DescribeLunaClientOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLunaClientOutput, DescribeLunaClientOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLunaClientOutput, DescribeLunaClientOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -552,7 +552,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter GetConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,7 +560,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func getConfig(input: GetConfigInput) async throws -> GetConfigOutputResponse
+    public func getConfig(input: GetConfigInput) async throws -> GetConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -576,21 +576,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetConfigInput, GetConfigOutputResponse, GetConfigOutputError>(id: "getConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigInput, GetConfigOutputResponse, GetConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigInput, GetConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetConfigInput, GetConfigOutput, GetConfigOutputError>(id: "getConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigInput, GetConfigOutput, GetConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigInput, GetConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigOutputResponse, GetConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigOutput, GetConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConfigInput, GetConfigOutputResponse>(xAmzTarget: "CloudHsmFrontendService.GetConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConfigInput, GetConfigOutputResponse>(xmlName: "GetConfigRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConfigInput, GetConfigOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetConfigInput, GetConfigOutput>(xAmzTarget: "CloudHsmFrontendService.GetConfig"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetConfigInput, GetConfigOutput>(xmlName: "GetConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConfigInput, GetConfigOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConfigOutputResponse, GetConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConfigOutput, GetConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigOutputResponse, GetConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigOutputResponse, GetConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigOutputResponse, GetConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigOutput, GetConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigOutput, GetConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigOutput, GetConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -600,7 +600,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ListAvailableZonesInput : Contains the inputs for the [ListAvailableZones] action.
     ///
-    /// - Returns: `ListAvailableZonesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAvailableZonesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -608,7 +608,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listAvailableZones(input: ListAvailableZonesInput) async throws -> ListAvailableZonesOutputResponse
+    public func listAvailableZones(input: ListAvailableZonesInput) async throws -> ListAvailableZonesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -624,21 +624,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAvailableZonesInput, ListAvailableZonesOutputResponse, ListAvailableZonesOutputError>(id: "listAvailableZones")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableZonesInput, ListAvailableZonesOutputResponse, ListAvailableZonesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableZonesInput, ListAvailableZonesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListAvailableZonesInput, ListAvailableZonesOutput, ListAvailableZonesOutputError>(id: "listAvailableZones")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableZonesInput, ListAvailableZonesOutput, ListAvailableZonesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableZonesInput, ListAvailableZonesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAvailableZonesOutputResponse, ListAvailableZonesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAvailableZonesOutput, ListAvailableZonesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAvailableZonesInput, ListAvailableZonesOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ListAvailableZones"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAvailableZonesInput, ListAvailableZonesOutputResponse>(xmlName: "ListAvailableZonesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAvailableZonesInput, ListAvailableZonesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAvailableZonesInput, ListAvailableZonesOutput>(xAmzTarget: "CloudHsmFrontendService.ListAvailableZones"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAvailableZonesInput, ListAvailableZonesOutput>(xmlName: "ListAvailableZonesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAvailableZonesInput, ListAvailableZonesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAvailableZonesOutputResponse, ListAvailableZonesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAvailableZonesOutput, ListAvailableZonesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableZonesOutputResponse, ListAvailableZonesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableZonesOutputResponse, ListAvailableZonesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableZonesOutputResponse, ListAvailableZonesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableZonesOutput, ListAvailableZonesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableZonesOutput, ListAvailableZonesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableZonesOutput, ListAvailableZonesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -648,7 +648,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ListHapgsInput : [no documentation found]
     ///
-    /// - Returns: `ListHapgsOutputResponse` : [no documentation found]
+    /// - Returns: `ListHapgsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,7 +656,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listHapgs(input: ListHapgsInput) async throws -> ListHapgsOutputResponse
+    public func listHapgs(input: ListHapgsInput) async throws -> ListHapgsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -672,21 +672,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListHapgsInput, ListHapgsOutputResponse, ListHapgsOutputError>(id: "listHapgs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHapgsInput, ListHapgsOutputResponse, ListHapgsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHapgsInput, ListHapgsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListHapgsInput, ListHapgsOutput, ListHapgsOutputError>(id: "listHapgs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHapgsInput, ListHapgsOutput, ListHapgsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHapgsInput, ListHapgsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHapgsOutputResponse, ListHapgsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHapgsOutput, ListHapgsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHapgsInput, ListHapgsOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ListHapgs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListHapgsInput, ListHapgsOutputResponse>(xmlName: "ListHapgsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHapgsInput, ListHapgsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHapgsInput, ListHapgsOutput>(xAmzTarget: "CloudHsmFrontendService.ListHapgs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListHapgsInput, ListHapgsOutput>(xmlName: "ListHapgsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHapgsInput, ListHapgsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHapgsOutputResponse, ListHapgsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHapgsOutput, ListHapgsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHapgsOutputResponse, ListHapgsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHapgsOutputResponse, ListHapgsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHapgsOutputResponse, ListHapgsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHapgsOutput, ListHapgsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHapgsOutput, ListHapgsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHapgsOutput, ListHapgsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -696,7 +696,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ListHsmsInput : [no documentation found]
     ///
-    /// - Returns: `ListHsmsOutputResponse` : Contains the output of the ListHsms operation.
+    /// - Returns: `ListHsmsOutput` : Contains the output of the ListHsms operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,7 +704,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listHsms(input: ListHsmsInput) async throws -> ListHsmsOutputResponse
+    public func listHsms(input: ListHsmsInput) async throws -> ListHsmsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -720,21 +720,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListHsmsInput, ListHsmsOutputResponse, ListHsmsOutputError>(id: "listHsms")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHsmsInput, ListHsmsOutputResponse, ListHsmsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHsmsInput, ListHsmsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListHsmsInput, ListHsmsOutput, ListHsmsOutputError>(id: "listHsms")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHsmsInput, ListHsmsOutput, ListHsmsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHsmsInput, ListHsmsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHsmsOutputResponse, ListHsmsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHsmsOutput, ListHsmsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHsmsInput, ListHsmsOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ListHsms"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListHsmsInput, ListHsmsOutputResponse>(xmlName: "ListHsmsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHsmsInput, ListHsmsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHsmsInput, ListHsmsOutput>(xAmzTarget: "CloudHsmFrontendService.ListHsms"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListHsmsInput, ListHsmsOutput>(xmlName: "ListHsmsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHsmsInput, ListHsmsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHsmsOutputResponse, ListHsmsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHsmsOutput, ListHsmsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHsmsOutputResponse, ListHsmsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHsmsOutputResponse, ListHsmsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHsmsOutputResponse, ListHsmsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHsmsOutput, ListHsmsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHsmsOutput, ListHsmsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHsmsOutput, ListHsmsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -744,7 +744,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ListLunaClientsInput : [no documentation found]
     ///
-    /// - Returns: `ListLunaClientsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLunaClientsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,7 +752,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listLunaClients(input: ListLunaClientsInput) async throws -> ListLunaClientsOutputResponse
+    public func listLunaClients(input: ListLunaClientsInput) async throws -> ListLunaClientsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -768,21 +768,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLunaClientsInput, ListLunaClientsOutputResponse, ListLunaClientsOutputError>(id: "listLunaClients")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLunaClientsInput, ListLunaClientsOutputResponse, ListLunaClientsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLunaClientsInput, ListLunaClientsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLunaClientsInput, ListLunaClientsOutput, ListLunaClientsOutputError>(id: "listLunaClients")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLunaClientsInput, ListLunaClientsOutput, ListLunaClientsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLunaClientsInput, ListLunaClientsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLunaClientsOutputResponse, ListLunaClientsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLunaClientsOutput, ListLunaClientsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLunaClientsInput, ListLunaClientsOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ListLunaClients"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLunaClientsInput, ListLunaClientsOutputResponse>(xmlName: "ListLunaClientsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLunaClientsInput, ListLunaClientsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLunaClientsInput, ListLunaClientsOutput>(xAmzTarget: "CloudHsmFrontendService.ListLunaClients"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLunaClientsInput, ListLunaClientsOutput>(xmlName: "ListLunaClientsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLunaClientsInput, ListLunaClientsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLunaClientsOutputResponse, ListLunaClientsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLunaClientsOutput, ListLunaClientsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLunaClientsOutputResponse, ListLunaClientsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLunaClientsOutputResponse, ListLunaClientsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLunaClientsOutputResponse, ListLunaClientsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLunaClientsOutput, ListLunaClientsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLunaClientsOutput, ListLunaClientsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLunaClientsOutput, ListLunaClientsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -792,7 +792,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,7 +800,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -816,21 +816,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "CloudHsmFrontendService.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -840,7 +840,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ModifyHapgInput : [no documentation found]
     ///
-    /// - Returns: `ModifyHapgOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyHapgOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,7 +848,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func modifyHapg(input: ModifyHapgInput) async throws -> ModifyHapgOutputResponse
+    public func modifyHapg(input: ModifyHapgInput) async throws -> ModifyHapgOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -864,21 +864,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyHapgInput, ModifyHapgOutputResponse, ModifyHapgOutputError>(id: "modifyHapg")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyHapgInput, ModifyHapgOutputResponse, ModifyHapgOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyHapgInput, ModifyHapgOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyHapgInput, ModifyHapgOutput, ModifyHapgOutputError>(id: "modifyHapg")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyHapgInput, ModifyHapgOutput, ModifyHapgOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyHapgInput, ModifyHapgOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyHapgOutputResponse, ModifyHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyHapgOutput, ModifyHapgOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ModifyHapgInput, ModifyHapgOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ModifyHapg"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyHapgInput, ModifyHapgOutputResponse>(xmlName: "ModifyHapgRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyHapgInput, ModifyHapgOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ModifyHapgInput, ModifyHapgOutput>(xAmzTarget: "CloudHsmFrontendService.ModifyHapg"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyHapgInput, ModifyHapgOutput>(xmlName: "ModifyHapgRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyHapgInput, ModifyHapgOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyHapgOutputResponse, ModifyHapgOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyHapgOutput, ModifyHapgOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyHapgOutputResponse, ModifyHapgOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyHapgOutputResponse, ModifyHapgOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyHapgOutputResponse, ModifyHapgOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyHapgOutput, ModifyHapgOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyHapgOutput, ModifyHapgOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyHapgOutput, ModifyHapgOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -888,7 +888,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ModifyHsmInput : Contains the inputs for the [ModifyHsm] operation.
     ///
-    /// - Returns: `ModifyHsmOutputResponse` : Contains the output of the [ModifyHsm] operation.
+    /// - Returns: `ModifyHsmOutput` : Contains the output of the [ModifyHsm] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -896,7 +896,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func modifyHsm(input: ModifyHsmInput) async throws -> ModifyHsmOutputResponse
+    public func modifyHsm(input: ModifyHsmInput) async throws -> ModifyHsmOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -912,21 +912,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyHsmInput, ModifyHsmOutputResponse, ModifyHsmOutputError>(id: "modifyHsm")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyHsmInput, ModifyHsmOutputResponse, ModifyHsmOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyHsmInput, ModifyHsmOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyHsmInput, ModifyHsmOutput, ModifyHsmOutputError>(id: "modifyHsm")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyHsmInput, ModifyHsmOutput, ModifyHsmOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyHsmInput, ModifyHsmOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyHsmOutputResponse, ModifyHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyHsmOutput, ModifyHsmOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ModifyHsmInput, ModifyHsmOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ModifyHsm"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyHsmInput, ModifyHsmOutputResponse>(xmlName: "ModifyHsmRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyHsmInput, ModifyHsmOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ModifyHsmInput, ModifyHsmOutput>(xAmzTarget: "CloudHsmFrontendService.ModifyHsm"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyHsmInput, ModifyHsmOutput>(xmlName: "ModifyHsmRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyHsmInput, ModifyHsmOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyHsmOutputResponse, ModifyHsmOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyHsmOutput, ModifyHsmOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyHsmOutputResponse, ModifyHsmOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyHsmOutputResponse, ModifyHsmOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyHsmOutputResponse, ModifyHsmOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyHsmOutput, ModifyHsmOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyHsmOutput, ModifyHsmOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyHsmOutput, ModifyHsmOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -936,13 +936,13 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter ModifyLunaClientInput : [no documentation found]
     ///
-    /// - Returns: `ModifyLunaClientOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyLunaClientOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
-    public func modifyLunaClient(input: ModifyLunaClientInput) async throws -> ModifyLunaClientOutputResponse
+    public func modifyLunaClient(input: ModifyLunaClientInput) async throws -> ModifyLunaClientOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -958,21 +958,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyLunaClientInput, ModifyLunaClientOutputResponse, ModifyLunaClientOutputError>(id: "modifyLunaClient")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyLunaClientInput, ModifyLunaClientOutputResponse, ModifyLunaClientOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyLunaClientInput, ModifyLunaClientOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ModifyLunaClientInput, ModifyLunaClientOutput, ModifyLunaClientOutputError>(id: "modifyLunaClient")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyLunaClientInput, ModifyLunaClientOutput, ModifyLunaClientOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyLunaClientInput, ModifyLunaClientOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyLunaClientOutputResponse, ModifyLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyLunaClientOutput, ModifyLunaClientOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ModifyLunaClientInput, ModifyLunaClientOutputResponse>(xAmzTarget: "CloudHsmFrontendService.ModifyLunaClient"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyLunaClientInput, ModifyLunaClientOutputResponse>(xmlName: "ModifyLunaClientRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyLunaClientInput, ModifyLunaClientOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ModifyLunaClientInput, ModifyLunaClientOutput>(xAmzTarget: "CloudHsmFrontendService.ModifyLunaClient"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyLunaClientInput, ModifyLunaClientOutput>(xmlName: "ModifyLunaClientRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyLunaClientInput, ModifyLunaClientOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyLunaClientOutputResponse, ModifyLunaClientOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyLunaClientOutput, ModifyLunaClientOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyLunaClientOutputResponse, ModifyLunaClientOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyLunaClientOutputResponse, ModifyLunaClientOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyLunaClientOutputResponse, ModifyLunaClientOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyLunaClientOutput, ModifyLunaClientOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyLunaClientOutput, ModifyLunaClientOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyLunaClientOutput, ModifyLunaClientOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -982,7 +982,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
     ///
-    /// - Returns: `RemoveTagsFromResourceOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,7 +990,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1006,21 +1006,21 @@ extension CloudHSMClient: CloudHSMClientProtocol {
                       .withSigningName(value: "cloudhsm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(xAmzTarget: "CloudHsmFrontendService.RemoveTagsFromResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(xmlName: "RemoveTagsFromResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(xAmzTarget: "CloudHsmFrontendService.RemoveTagsFromResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(xmlName: "RemoveTagsFromResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

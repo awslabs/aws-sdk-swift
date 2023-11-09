@@ -14,7 +14,7 @@ public protocol PIClientProtocol {
     ///
     /// - Parameter CreatePerformanceAnalysisReportInput : [no documentation found]
     ///
-    /// - Returns: `CreatePerformanceAnalysisReportOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePerformanceAnalysisReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22,12 +22,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func createPerformanceAnalysisReport(input: CreatePerformanceAnalysisReportInput) async throws -> CreatePerformanceAnalysisReportOutputResponse
+    func createPerformanceAnalysisReport(input: CreatePerformanceAnalysisReportInput) async throws -> CreatePerformanceAnalysisReportOutput
     /// Deletes a performance analysis report.
     ///
     /// - Parameter DeletePerformanceAnalysisReportInput : [no documentation found]
     ///
-    /// - Returns: `DeletePerformanceAnalysisReportOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePerformanceAnalysisReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func deletePerformanceAnalysisReport(input: DeletePerformanceAnalysisReportInput) async throws -> DeletePerformanceAnalysisReportOutputResponse
+    func deletePerformanceAnalysisReport(input: DeletePerformanceAnalysisReportInput) async throws -> DeletePerformanceAnalysisReportOutput
     /// For a specific time period, retrieve the top N dimension keys for a metric. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
     ///
     /// - Parameter DescribeDimensionKeysInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDimensionKeysOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDimensionKeysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,12 +48,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func describeDimensionKeys(input: DescribeDimensionKeysInput) async throws -> DescribeDimensionKeysOutputResponse
+    func describeDimensionKeys(input: DescribeDimensionKeysInput) async throws -> DescribeDimensionKeysOutput
     /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
     ///
     /// - Parameter GetDimensionKeyDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetDimensionKeyDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDimensionKeyDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,12 +61,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func getDimensionKeyDetails(input: GetDimensionKeyDetailsInput) async throws -> GetDimensionKeyDetailsOutputResponse
+    func getDimensionKeyDetails(input: GetDimensionKeyDetailsInput) async throws -> GetDimensionKeyDetailsOutput
     /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights include the description and recommendation fields.
     ///
     /// - Parameter GetPerformanceAnalysisReportInput : [no documentation found]
     ///
-    /// - Returns: `GetPerformanceAnalysisReportOutputResponse` : [no documentation found]
+    /// - Returns: `GetPerformanceAnalysisReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -74,12 +74,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func getPerformanceAnalysisReport(input: GetPerformanceAnalysisReportInput) async throws -> GetPerformanceAnalysisReportOutputResponse
+    func getPerformanceAnalysisReport(input: GetPerformanceAnalysisReportInput) async throws -> GetPerformanceAnalysisReportOutput
     /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance.
     ///
     /// - Parameter GetResourceMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -87,12 +87,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func getResourceMetadata(input: GetResourceMetadataInput) async throws -> GetResourceMetadataOutputResponse
+    func getResourceMetadata(input: GetResourceMetadataInput) async throws -> GetResourceMetadataOutput
     /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
     ///
     /// - Parameter GetResourceMetricsInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceMetricsOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceMetricsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -100,12 +100,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func getResourceMetrics(input: GetResourceMetricsInput) async throws -> GetResourceMetricsOutputResponse
+    func getResourceMetrics(input: GetResourceMetricsInput) async throws -> GetResourceMetricsOutput
     /// Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
     ///
     /// - Parameter ListAvailableResourceDimensionsInput : [no documentation found]
     ///
-    /// - Returns: `ListAvailableResourceDimensionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAvailableResourceDimensionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func listAvailableResourceDimensions(input: ListAvailableResourceDimensionsInput) async throws -> ListAvailableResourceDimensionsOutputResponse
+    func listAvailableResourceDimensions(input: ListAvailableResourceDimensionsInput) async throws -> ListAvailableResourceDimensionsOutput
     /// Retrieve metrics of the specified types that can be queried for a specified DB instance.
     ///
     /// - Parameter ListAvailableResourceMetricsInput : [no documentation found]
     ///
-    /// - Returns: `ListAvailableResourceMetricsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAvailableResourceMetricsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -126,12 +126,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func listAvailableResourceMetrics(input: ListAvailableResourceMetricsInput) async throws -> ListAvailableResourceMetricsOutputResponse
+    func listAvailableResourceMetrics(input: ListAvailableResourceMetricsInput) async throws -> ListAvailableResourceMetricsOutput
     /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
     ///
     /// - Parameter ListPerformanceAnalysisReportsInput : [no documentation found]
     ///
-    /// - Returns: `ListPerformanceAnalysisReportsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPerformanceAnalysisReportsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func listPerformanceAnalysisReports(input: ListPerformanceAnalysisReportsInput) async throws -> ListPerformanceAnalysisReportsOutputResponse
+    func listPerformanceAnalysisReports(input: ListPerformanceAnalysisReportsInput) async throws -> ListPerformanceAnalysisReportsOutput
     /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -152,12 +152,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds metadata tags to the Amazon RDS Performance Insights resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Deletes the metadata tags from the Amazon RDS Performance Insights resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -178,7 +178,7 @@ public protocol PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum PIClientTypes {}

@@ -8,19 +8,19 @@ public protocol DynamoDBStreamsClientProtocol {
     ///
     /// - Parameter DescribeStreamInput : Represents the input of a DescribeStream operation.
     ///
-    /// - Returns: `DescribeStreamOutputResponse` : Represents the output of a DescribeStream operation.
+    /// - Returns: `DescribeStreamOutput` : Represents the output of a DescribeStream operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
-    func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutputResponse
+    func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput
     /// Retrieves the stream records from a given shard. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records. GetRecords can retrieve a maximum of 1 MB of data or 1000 stream records, whichever comes first.
     ///
     /// - Parameter GetRecordsInput : Represents the input of a GetRecords operation.
     ///
-    /// - Returns: `GetRecordsOutputResponse` : Represents the output of a GetRecords operation.
+    /// - Returns: `GetRecordsOutput` : Represents the output of a GetRecords operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol DynamoDBStreamsClientProtocol {
     /// * You request a shard iterator with a sequence number older than the trim point (24 hours).
     ///
     /// * You obtain a shard iterator, but before you use the iterator in a GetRecords request, a stream record in the shard exceeds the 24 hour period and is trimmed. This causes the iterator to access a record that no longer exists.
-    func getRecords(input: GetRecordsInput) async throws -> GetRecordsOutputResponse
+    func getRecords(input: GetRecordsInput) async throws -> GetRecordsOutput
     /// Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard. A shard iterator expires 15 minutes after it is returned to the requester.
     ///
     /// - Parameter GetShardIteratorInput : Represents the input of a GetShardIterator operation.
     ///
-    /// - Returns: `GetShardIteratorOutputResponse` : Represents the output of a GetShardIterator operation.
+    /// - Returns: `GetShardIteratorOutput` : Represents the output of a GetShardIterator operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,19 +51,19 @@ public protocol DynamoDBStreamsClientProtocol {
     /// * You request a shard iterator with a sequence number older than the trim point (24 hours).
     ///
     /// * You obtain a shard iterator, but before you use the iterator in a GetRecords request, a stream record in the shard exceeds the 24 hour period and is trimmed. This causes the iterator to access a record that no longer exists.
-    func getShardIterator(input: GetShardIteratorInput) async throws -> GetShardIteratorOutputResponse
+    func getShardIterator(input: GetShardIteratorInput) async throws -> GetShardIteratorOutput
     /// Returns an array of stream ARNs associated with the current account and endpoint. If the TableName parameter is present, then ListStreams will return only the streams ARNs for that table. You can call ListStreams at a maximum rate of 5 times per second.
     ///
     /// - Parameter ListStreamsInput : Represents the input of a ListStreams operation.
     ///
-    /// - Returns: `ListStreamsOutputResponse` : Represents the output of a ListStreams operation.
+    /// - Returns: `ListStreamsOutput` : Represents the output of a ListStreams operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
-    func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutputResponse
+    func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
 }
 
 public enum DynamoDBStreamsClientTypes {}

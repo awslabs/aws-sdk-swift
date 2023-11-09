@@ -71,7 +71,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter AddProfilePermissionInput : [no documentation found]
     ///
-    /// - Returns: `AddProfilePermissionOutputResponse` : [no documentation found]
+    /// - Returns: `AddProfilePermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,7 +83,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ServiceLimitExceededException` : The client is making a request that exceeds service limits.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func addProfilePermission(input: AddProfilePermissionInput) async throws -> AddProfilePermissionOutputResponse
+    public func addProfilePermission(input: AddProfilePermissionInput) async throws -> AddProfilePermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -99,20 +99,20 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddProfilePermissionInput, AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(id: "addProfilePermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddProfilePermissionInput, AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddProfilePermissionInput, AddProfilePermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddProfilePermissionInput, AddProfilePermissionOutput, AddProfilePermissionOutputError>(id: "addProfilePermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput, AddProfilePermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddProfilePermissionOutput, AddProfilePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddProfilePermissionInput, AddProfilePermissionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddProfilePermissionInput, AddProfilePermissionOutputResponse>(xmlName: "AddProfilePermissionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput>(xmlName: "AddProfilePermissionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddProfilePermissionOutput, AddProfilePermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddProfilePermissionOutput, AddProfilePermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddProfilePermissionOutput, AddProfilePermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddProfilePermissionOutput, AddProfilePermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -121,7 +121,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter CancelSigningProfileInput : [no documentation found]
     ///
-    /// - Returns: `CancelSigningProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CancelSigningProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -130,7 +130,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func cancelSigningProfile(input: CancelSigningProfileInput) async throws -> CancelSigningProfileOutputResponse
+    public func cancelSigningProfile(input: CancelSigningProfileInput) async throws -> CancelSigningProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -146,17 +146,17 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelSigningProfileInput, CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(id: "cancelSigningProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSigningProfileInput, CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSigningProfileInput, CancelSigningProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelSigningProfileInput, CancelSigningProfileOutput, CancelSigningProfileOutputError>(id: "cancelSigningProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSigningProfileInput, CancelSigningProfileOutput, CancelSigningProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSigningProfileInput, CancelSigningProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSigningProfileOutput, CancelSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSigningProfileOutput, CancelSigningProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSigningProfileOutput, CancelSigningProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSigningProfileOutput, CancelSigningProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSigningProfileOutput, CancelSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -165,7 +165,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter DescribeSigningJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSigningJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSigningJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,7 +174,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func describeSigningJob(input: DescribeSigningJobInput) async throws -> DescribeSigningJobOutputResponse
+    public func describeSigningJob(input: DescribeSigningJobInput) async throws -> DescribeSigningJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -190,17 +190,17 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSigningJobInput, DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(id: "describeSigningJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSigningJobInput, DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSigningJobInput, DescribeSigningJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSigningJobInput, DescribeSigningJobOutput, DescribeSigningJobOutputError>(id: "describeSigningJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSigningJobInput, DescribeSigningJobOutput, DescribeSigningJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSigningJobInput, DescribeSigningJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSigningJobOutput, DescribeSigningJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSigningJobOutput, DescribeSigningJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSigningJobOutput, DescribeSigningJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSigningJobOutput, DescribeSigningJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSigningJobOutput, DescribeSigningJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -209,7 +209,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter GetRevocationStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetRevocationStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetRevocationStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -218,7 +218,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func getRevocationStatus(input: GetRevocationStatusInput) async throws -> GetRevocationStatusOutputResponse
+    public func getRevocationStatus(input: GetRevocationStatusInput) async throws -> GetRevocationStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -234,18 +234,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRevocationStatusInput, GetRevocationStatusOutputResponse, GetRevocationStatusOutputError>(id: "getRevocationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRevocationStatusInput, GetRevocationStatusOutputResponse, GetRevocationStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRevocationStatusInput, GetRevocationStatusOutputResponse>(hostPrefix: "verification."))
+        var operation = ClientRuntime.OperationStack<GetRevocationStatusInput, GetRevocationStatusOutput, GetRevocationStatusOutputError>(id: "getRevocationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput, GetRevocationStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(hostPrefix: "verification."))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRevocationStatusOutputResponse, GetRevocationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRevocationStatusOutput, GetRevocationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRevocationStatusInput, GetRevocationStatusOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRevocationStatusOutputResponse, GetRevocationStatusOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRevocationStatusOutput, GetRevocationStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRevocationStatusOutputResponse, GetRevocationStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRevocationStatusOutputResponse, GetRevocationStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRevocationStatusOutputResponse, GetRevocationStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRevocationStatusOutput, GetRevocationStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRevocationStatusOutput, GetRevocationStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRevocationStatusOutput, GetRevocationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -254,7 +254,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter GetSigningPlatformInput : [no documentation found]
     ///
-    /// - Returns: `GetSigningPlatformOutputResponse` : [no documentation found]
+    /// - Returns: `GetSigningPlatformOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,7 +263,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func getSigningPlatform(input: GetSigningPlatformInput) async throws -> GetSigningPlatformOutputResponse
+    public func getSigningPlatform(input: GetSigningPlatformInput) async throws -> GetSigningPlatformOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -279,17 +279,17 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSigningPlatformInput, GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(id: "getSigningPlatform")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningPlatformInput, GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningPlatformInput, GetSigningPlatformOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSigningPlatformInput, GetSigningPlatformOutput, GetSigningPlatformOutputError>(id: "getSigningPlatform")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningPlatformInput, GetSigningPlatformOutput, GetSigningPlatformOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningPlatformInput, GetSigningPlatformOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSigningPlatformOutput, GetSigningPlatformOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSigningPlatformOutput, GetSigningPlatformOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSigningPlatformOutput, GetSigningPlatformOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSigningPlatformOutput, GetSigningPlatformOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSigningPlatformOutput, GetSigningPlatformOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -298,7 +298,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter GetSigningProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetSigningProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetSigningProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -307,7 +307,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func getSigningProfile(input: GetSigningProfileInput) async throws -> GetSigningProfileOutputResponse
+    public func getSigningProfile(input: GetSigningProfileInput) async throws -> GetSigningProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -323,18 +323,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSigningProfileInput, GetSigningProfileOutputResponse, GetSigningProfileOutputError>(id: "getSigningProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningProfileInput, GetSigningProfileOutputResponse, GetSigningProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningProfileInput, GetSigningProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSigningProfileInput, GetSigningProfileOutput, GetSigningProfileOutputError>(id: "getSigningProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningProfileInput, GetSigningProfileOutput, GetSigningProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningProfileInput, GetSigningProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSigningProfileOutputResponse, GetSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSigningProfileOutput, GetSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSigningProfileInput, GetSigningProfileOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSigningProfileOutputResponse, GetSigningProfileOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSigningProfileInput, GetSigningProfileOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSigningProfileOutput, GetSigningProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSigningProfileOutputResponse, GetSigningProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSigningProfileOutputResponse, GetSigningProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSigningProfileOutputResponse, GetSigningProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSigningProfileOutput, GetSigningProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSigningProfileOutput, GetSigningProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSigningProfileOutput, GetSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -343,7 +343,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter ListProfilePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `ListProfilePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProfilePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -353,7 +353,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func listProfilePermissions(input: ListProfilePermissionsInput) async throws -> ListProfilePermissionsOutputResponse
+    public func listProfilePermissions(input: ListProfilePermissionsInput) async throws -> ListProfilePermissionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -369,18 +369,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProfilePermissionsInput, ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(id: "listProfilePermissions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProfilePermissionsInput, ListProfilePermissionsOutput, ListProfilePermissionsOutputError>(id: "listProfilePermissions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutput, ListProfilePermissionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProfilePermissionsOutput, ListProfilePermissionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProfilePermissionsOutput, ListProfilePermissionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfilePermissionsOutput, ListProfilePermissionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfilePermissionsOutput, ListProfilePermissionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProfilePermissionsOutput, ListProfilePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -389,7 +389,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter ListSigningJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListSigningJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSigningJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -398,7 +398,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func listSigningJobs(input: ListSigningJobsInput) async throws -> ListSigningJobsOutputResponse
+    public func listSigningJobs(input: ListSigningJobsInput) async throws -> ListSigningJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -414,18 +414,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSigningJobsInput, ListSigningJobsOutputResponse, ListSigningJobsOutputError>(id: "listSigningJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningJobsInput, ListSigningJobsOutputResponse, ListSigningJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningJobsInput, ListSigningJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSigningJobsInput, ListSigningJobsOutput, ListSigningJobsOutputError>(id: "listSigningJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningJobsInput, ListSigningJobsOutput, ListSigningJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningJobsInput, ListSigningJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningJobsOutputResponse, ListSigningJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningJobsOutput, ListSigningJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSigningJobsInput, ListSigningJobsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningJobsOutputResponse, ListSigningJobsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSigningJobsInput, ListSigningJobsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningJobsOutput, ListSigningJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningJobsOutputResponse, ListSigningJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningJobsOutputResponse, ListSigningJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningJobsOutputResponse, ListSigningJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningJobsOutput, ListSigningJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningJobsOutput, ListSigningJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningJobsOutput, ListSigningJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -434,7 +434,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter ListSigningPlatformsInput : [no documentation found]
     ///
-    /// - Returns: `ListSigningPlatformsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSigningPlatformsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,7 +443,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func listSigningPlatforms(input: ListSigningPlatformsInput) async throws -> ListSigningPlatformsOutputResponse
+    public func listSigningPlatforms(input: ListSigningPlatformsInput) async throws -> ListSigningPlatformsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -459,18 +459,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(id: "listSigningPlatforms")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSigningPlatformsInput, ListSigningPlatformsOutput, ListSigningPlatformsOutputError>(id: "listSigningPlatforms")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutput, ListSigningPlatformsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningPlatformsOutput, ListSigningPlatformsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningPlatformsOutput, ListSigningPlatformsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningPlatformsOutput, ListSigningPlatformsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningPlatformsOutput, ListSigningPlatformsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningPlatformsOutput, ListSigningPlatformsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -479,7 +479,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter ListSigningProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListSigningProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSigningProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +487,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func listSigningProfiles(input: ListSigningProfilesInput) async throws -> ListSigningProfilesOutputResponse
+    public func listSigningProfiles(input: ListSigningProfilesInput) async throws -> ListSigningProfilesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -503,18 +503,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSigningProfilesInput, ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(id: "listSigningProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningProfilesInput, ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningProfilesInput, ListSigningProfilesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSigningProfilesInput, ListSigningProfilesOutput, ListSigningProfilesOutputError>(id: "listSigningProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningProfilesInput, ListSigningProfilesOutput, ListSigningProfilesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningProfilesInput, ListSigningProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningProfilesOutput, ListSigningProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSigningProfilesInput, ListSigningProfilesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSigningProfilesInput, ListSigningProfilesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningProfilesOutput, ListSigningProfilesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningProfilesOutput, ListSigningProfilesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningProfilesOutput, ListSigningProfilesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningProfilesOutput, ListSigningProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -523,7 +523,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,7 +532,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -548,17 +548,17 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -567,7 +567,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter PutSigningProfileInput : [no documentation found]
     ///
-    /// - Returns: `PutSigningProfileOutputResponse` : [no documentation found]
+    /// - Returns: `PutSigningProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,7 +577,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func putSigningProfile(input: PutSigningProfileInput) async throws -> PutSigningProfileOutputResponse
+    public func putSigningProfile(input: PutSigningProfileInput) async throws -> PutSigningProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -593,20 +593,20 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSigningProfileInput, PutSigningProfileOutputResponse, PutSigningProfileOutputError>(id: "putSigningProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSigningProfileInput, PutSigningProfileOutputResponse, PutSigningProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSigningProfileInput, PutSigningProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutSigningProfileInput, PutSigningProfileOutput, PutSigningProfileOutputError>(id: "putSigningProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSigningProfileInput, PutSigningProfileOutput, PutSigningProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSigningProfileInput, PutSigningProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSigningProfileOutputResponse, PutSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSigningProfileOutput, PutSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSigningProfileInput, PutSigningProfileOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutSigningProfileInput, PutSigningProfileOutputResponse>(xmlName: "PutSigningProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSigningProfileInput, PutSigningProfileOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutSigningProfileInput, PutSigningProfileOutput>(xmlName: "PutSigningProfileRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSigningProfileOutputResponse, PutSigningProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSigningProfileOutput, PutSigningProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSigningProfileOutputResponse, PutSigningProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSigningProfileOutputResponse, PutSigningProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSigningProfileOutputResponse, PutSigningProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSigningProfileOutput, PutSigningProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSigningProfileOutput, PutSigningProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSigningProfileOutput, PutSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -615,7 +615,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter RemoveProfilePermissionInput : [no documentation found]
     ///
-    /// - Returns: `RemoveProfilePermissionOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveProfilePermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,7 +626,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func removeProfilePermission(input: RemoveProfilePermissionInput) async throws -> RemoveProfilePermissionOutputResponse
+    public func removeProfilePermission(input: RemoveProfilePermissionInput) async throws -> RemoveProfilePermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -642,18 +642,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveProfilePermissionInput, RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(id: "removeProfilePermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveProfilePermissionInput, RemoveProfilePermissionOutput, RemoveProfilePermissionOutputError>(id: "removeProfilePermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutput, RemoveProfilePermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveProfilePermissionOutput, RemoveProfilePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveProfilePermissionOutput, RemoveProfilePermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveProfilePermissionOutput, RemoveProfilePermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveProfilePermissionOutput, RemoveProfilePermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveProfilePermissionOutput, RemoveProfilePermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -662,7 +662,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter RevokeSignatureInput : [no documentation found]
     ///
-    /// - Returns: `RevokeSignatureOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeSignatureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -672,7 +672,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func revokeSignature(input: RevokeSignatureInput) async throws -> RevokeSignatureOutputResponse
+    public func revokeSignature(input: RevokeSignatureInput) async throws -> RevokeSignatureOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -688,20 +688,20 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RevokeSignatureInput, RevokeSignatureOutputResponse, RevokeSignatureOutputError>(id: "revokeSignature")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeSignatureInput, RevokeSignatureOutputResponse, RevokeSignatureOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeSignatureInput, RevokeSignatureOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RevokeSignatureInput, RevokeSignatureOutput, RevokeSignatureOutputError>(id: "revokeSignature")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeSignatureInput, RevokeSignatureOutput, RevokeSignatureOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeSignatureInput, RevokeSignatureOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeSignatureOutputResponse, RevokeSignatureOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeSignatureOutput, RevokeSignatureOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeSignatureInput, RevokeSignatureOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeSignatureInput, RevokeSignatureOutputResponse>(xmlName: "RevokeSignatureRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeSignatureInput, RevokeSignatureOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeSignatureInput, RevokeSignatureOutput>(xmlName: "RevokeSignatureRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeSignatureOutputResponse, RevokeSignatureOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeSignatureOutput, RevokeSignatureOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeSignatureOutputResponse, RevokeSignatureOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeSignatureOutputResponse, RevokeSignatureOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeSignatureOutputResponse, RevokeSignatureOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeSignatureOutput, RevokeSignatureOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeSignatureOutput, RevokeSignatureOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeSignatureOutput, RevokeSignatureOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -710,7 +710,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter RevokeSigningProfileInput : [no documentation found]
     ///
-    /// - Returns: `RevokeSigningProfileOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeSigningProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -720,7 +720,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func revokeSigningProfile(input: RevokeSigningProfileInput) async throws -> RevokeSigningProfileOutputResponse
+    public func revokeSigningProfile(input: RevokeSigningProfileInput) async throws -> RevokeSigningProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -736,20 +736,20 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(id: "revokeSigningProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RevokeSigningProfileInput, RevokeSigningProfileOutput, RevokeSigningProfileOutputError>(id: "revokeSigningProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput, RevokeSigningProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeSigningProfileOutput, RevokeSigningProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse>(xmlName: "RevokeSigningProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput>(xmlName: "RevokeSigningProfileRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeSigningProfileOutput, RevokeSigningProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeSigningProfileOutput, RevokeSigningProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeSigningProfileOutput, RevokeSigningProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeSigningProfileOutput, RevokeSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -758,7 +758,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter SignPayloadInput : [no documentation found]
     ///
-    /// - Returns: `SignPayloadOutputResponse` : [no documentation found]
+    /// - Returns: `SignPayloadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,7 +768,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func signPayload(input: SignPayloadInput) async throws -> SignPayloadOutputResponse
+    public func signPayload(input: SignPayloadInput) async throws -> SignPayloadOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -784,20 +784,20 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SignPayloadInput, SignPayloadOutputResponse, SignPayloadOutputError>(id: "signPayload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignPayloadInput, SignPayloadOutputResponse, SignPayloadOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignPayloadInput, SignPayloadOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SignPayloadInput, SignPayloadOutput, SignPayloadOutputError>(id: "signPayload")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignPayloadInput, SignPayloadOutput, SignPayloadOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignPayloadInput, SignPayloadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SignPayloadOutputResponse, SignPayloadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SignPayloadOutput, SignPayloadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SignPayloadInput, SignPayloadOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SignPayloadInput, SignPayloadOutputResponse>(xmlName: "SignPayloadRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SignPayloadInput, SignPayloadOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SignPayloadInput, SignPayloadOutput>(xmlName: "SignPayloadRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SignPayloadOutputResponse, SignPayloadOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SignPayloadOutput, SignPayloadOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignPayloadOutputResponse, SignPayloadOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignPayloadOutputResponse, SignPayloadOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignPayloadOutputResponse, SignPayloadOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignPayloadOutput, SignPayloadOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignPayloadOutput, SignPayloadOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignPayloadOutput, SignPayloadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -819,7 +819,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter StartSigningJobInput : [no documentation found]
     ///
-    /// - Returns: `StartSigningJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartSigningJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,7 +830,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Instead of this error, TooManyRequestsException should be used.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func startSigningJob(input: StartSigningJobInput) async throws -> StartSigningJobOutputResponse
+    public func startSigningJob(input: StartSigningJobInput) async throws -> StartSigningJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -846,28 +846,21 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSigningJobInput, StartSigningJobOutputResponse, StartSigningJobOutputError>(id: "startSigningJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSigningJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSigningJobInput, StartSigningJobOutputResponse, StartSigningJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSigningJobInput, StartSigningJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartSigningJobInput, StartSigningJobOutput, StartSigningJobOutputError>(id: "startSigningJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartSigningJobInput, StartSigningJobOutput, StartSigningJobOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSigningJobInput, StartSigningJobOutput, StartSigningJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSigningJobInput, StartSigningJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSigningJobOutputResponse, StartSigningJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSigningJobOutput, StartSigningJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSigningJobInput, StartSigningJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSigningJobInput, StartSigningJobOutputResponse>(xmlName: "StartSigningJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSigningJobInput, StartSigningJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSigningJobInput, StartSigningJobOutput>(xmlName: "StartSigningJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSigningJobOutputResponse, StartSigningJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSigningJobOutput, StartSigningJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSigningJobOutputResponse, StartSigningJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSigningJobOutputResponse, StartSigningJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSigningJobOutputResponse, StartSigningJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSigningJobOutput, StartSigningJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSigningJobOutput, StartSigningJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSigningJobOutput, StartSigningJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -876,7 +869,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -885,7 +878,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -901,20 +894,20 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -923,7 +916,7 @@ extension SignerClient: SignerClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,7 +925,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -948,18 +941,18 @@ extension SignerClient: SignerClientProtocol {
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

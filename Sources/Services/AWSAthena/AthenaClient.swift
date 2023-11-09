@@ -71,14 +71,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter BatchGetNamedQueryInput : Contains an array of named query IDs.
     ///
-    /// - Returns: `BatchGetNamedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetNamedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func batchGetNamedQuery(input: BatchGetNamedQueryInput) async throws -> BatchGetNamedQueryOutputResponse
+    public func batchGetNamedQuery(input: BatchGetNamedQueryInput) async throws -> BatchGetNamedQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -94,21 +94,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(id: "batchGetNamedQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetNamedQueryInput, BatchGetNamedQueryOutput, BatchGetNamedQueryOutputError>(id: "batchGetNamedQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput, BatchGetNamedQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetNamedQueryOutput, BatchGetNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse>(xAmzTarget: "AmazonAthena.BatchGetNamedQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse>(xmlName: "BatchGetNamedQueryInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>(xAmzTarget: "AmazonAthena.BatchGetNamedQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>(xmlName: "BatchGetNamedQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetNamedQueryOutput, BatchGetNamedQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetNamedQueryOutput, BatchGetNamedQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetNamedQueryOutput, BatchGetNamedQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetNamedQueryOutput, BatchGetNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -117,14 +117,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter BatchGetPreparedStatementInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetPreparedStatementOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetPreparedStatementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func batchGetPreparedStatement(input: BatchGetPreparedStatementInput) async throws -> BatchGetPreparedStatementOutputResponse
+    public func batchGetPreparedStatement(input: BatchGetPreparedStatementInput) async throws -> BatchGetPreparedStatementOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -140,21 +140,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(id: "batchGetPreparedStatement")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput, BatchGetPreparedStatementOutputError>(id: "batchGetPreparedStatement")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput, BatchGetPreparedStatementOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetPreparedStatementOutput, BatchGetPreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse>(xAmzTarget: "AmazonAthena.BatchGetPreparedStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse>(xmlName: "BatchGetPreparedStatementInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>(xAmzTarget: "AmazonAthena.BatchGetPreparedStatement"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>(xmlName: "BatchGetPreparedStatementInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetPreparedStatementOutput, BatchGetPreparedStatementOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetPreparedStatementOutput, BatchGetPreparedStatementOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetPreparedStatementOutput, BatchGetPreparedStatementOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetPreparedStatementOutput, BatchGetPreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -163,14 +163,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter BatchGetQueryExecutionInput : Contains an array of query execution IDs.
     ///
-    /// - Returns: `BatchGetQueryExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetQueryExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func batchGetQueryExecution(input: BatchGetQueryExecutionInput) async throws -> BatchGetQueryExecutionOutputResponse
+    public func batchGetQueryExecution(input: BatchGetQueryExecutionInput) async throws -> BatchGetQueryExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -186,21 +186,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(id: "batchGetQueryExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput, BatchGetQueryExecutionOutputError>(id: "batchGetQueryExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput, BatchGetQueryExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetQueryExecutionOutput, BatchGetQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse>(xAmzTarget: "AmazonAthena.BatchGetQueryExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse>(xmlName: "BatchGetQueryExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>(xAmzTarget: "AmazonAthena.BatchGetQueryExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>(xmlName: "BatchGetQueryExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetQueryExecutionOutput, BatchGetQueryExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetQueryExecutionOutput, BatchGetQueryExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetQueryExecutionOutput, BatchGetQueryExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetQueryExecutionOutput, BatchGetQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -209,14 +209,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CancelCapacityReservationInput : [no documentation found]
     ///
-    /// - Returns: `CancelCapacityReservationOutputResponse` : [no documentation found]
+    /// - Returns: `CancelCapacityReservationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutputResponse
+    public func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -232,21 +232,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelCapacityReservationInput, CancelCapacityReservationOutputResponse, CancelCapacityReservationOutputError>(id: "cancelCapacityReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutputResponse, CancelCapacityReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelCapacityReservationInput, CancelCapacityReservationOutput, CancelCapacityReservationOutputError>(id: "cancelCapacityReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput, CancelCapacityReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelCapacityReservationOutputResponse, CancelCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelCapacityReservationOutput, CancelCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutputResponse>(xAmzTarget: "AmazonAthena.CancelCapacityReservation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutputResponse>(xmlName: "CancelCapacityReservationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(xAmzTarget: "AmazonAthena.CancelCapacityReservation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(xmlName: "CancelCapacityReservationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelCapacityReservationOutputResponse, CancelCapacityReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelCapacityReservationOutput, CancelCapacityReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelCapacityReservationOutputResponse, CancelCapacityReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelCapacityReservationOutputResponse, CancelCapacityReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelCapacityReservationOutputResponse, CancelCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelCapacityReservationOutput, CancelCapacityReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelCapacityReservationOutput, CancelCapacityReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelCapacityReservationOutput, CancelCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -255,14 +255,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CreateCapacityReservationInput : [no documentation found]
     ///
-    /// - Returns: `CreateCapacityReservationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCapacityReservationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutputResponse
+    public func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -278,21 +278,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCapacityReservationInput, CreateCapacityReservationOutputResponse, CreateCapacityReservationOutputError>(id: "createCapacityReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutputResponse, CreateCapacityReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCapacityReservationInput, CreateCapacityReservationOutput, CreateCapacityReservationOutputError>(id: "createCapacityReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput, CreateCapacityReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCapacityReservationOutputResponse, CreateCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCapacityReservationOutput, CreateCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutputResponse>(xAmzTarget: "AmazonAthena.CreateCapacityReservation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutputResponse>(xmlName: "CreateCapacityReservationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(xAmzTarget: "AmazonAthena.CreateCapacityReservation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(xmlName: "CreateCapacityReservationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCapacityReservationOutputResponse, CreateCapacityReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCapacityReservationOutput, CreateCapacityReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCapacityReservationOutputResponse, CreateCapacityReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCapacityReservationOutputResponse, CreateCapacityReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCapacityReservationOutputResponse, CreateCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCapacityReservationOutput, CreateCapacityReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCapacityReservationOutput, CreateCapacityReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCapacityReservationOutput, CreateCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -301,14 +301,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CreateDataCatalogInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataCatalogOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataCatalogOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createDataCatalog(input: CreateDataCatalogInput) async throws -> CreateDataCatalogOutputResponse
+    public func createDataCatalog(input: CreateDataCatalogInput) async throws -> CreateDataCatalogOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -324,21 +324,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDataCatalogInput, CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(id: "createDataCatalog")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataCatalogInput, CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataCatalogInput, CreateDataCatalogOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDataCatalogInput, CreateDataCatalogOutput, CreateDataCatalogOutputError>(id: "createDataCatalog")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput, CreateDataCatalogOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDataCatalogOutput, CreateDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDataCatalogInput, CreateDataCatalogOutputResponse>(xAmzTarget: "AmazonAthena.CreateDataCatalog"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDataCatalogInput, CreateDataCatalogOutputResponse>(xmlName: "CreateDataCatalogInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDataCatalogInput, CreateDataCatalogOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>(xAmzTarget: "AmazonAthena.CreateDataCatalog"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>(xmlName: "CreateDataCatalogInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDataCatalogOutput, CreateDataCatalogOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataCatalogOutput, CreateDataCatalogOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataCatalogOutput, CreateDataCatalogOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataCatalogOutput, CreateDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -347,14 +347,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CreateNamedQueryInput : [no documentation found]
     ///
-    /// - Returns: `CreateNamedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNamedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createNamedQuery(input: CreateNamedQueryInput) async throws -> CreateNamedQueryOutputResponse
+    public func createNamedQuery(input: CreateNamedQueryInput) async throws -> CreateNamedQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -370,29 +370,22 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNamedQueryInput, CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(id: "createNamedQuery")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateNamedQueryOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNamedQueryInput, CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNamedQueryInput, CreateNamedQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateNamedQueryInput, CreateNamedQueryOutput, CreateNamedQueryOutputError>(id: "createNamedQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput, CreateNamedQueryOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput, CreateNamedQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNamedQueryOutput, CreateNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNamedQueryInput, CreateNamedQueryOutputResponse>(xAmzTarget: "AmazonAthena.CreateNamedQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNamedQueryInput, CreateNamedQueryOutputResponse>(xmlName: "CreateNamedQueryInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNamedQueryInput, CreateNamedQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>(xAmzTarget: "AmazonAthena.CreateNamedQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>(xmlName: "CreateNamedQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNamedQueryOutput, CreateNamedQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNamedQueryOutput, CreateNamedQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNamedQueryOutput, CreateNamedQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNamedQueryOutput, CreateNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -401,7 +394,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CreateNotebookInput : [no documentation found]
     ///
-    /// - Returns: `CreateNotebookOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNotebookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +402,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func createNotebook(input: CreateNotebookInput) async throws -> CreateNotebookOutputResponse
+    public func createNotebook(input: CreateNotebookInput) async throws -> CreateNotebookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -425,21 +418,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNotebookInput, CreateNotebookOutputResponse, CreateNotebookOutputError>(id: "createNotebook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotebookInput, CreateNotebookOutputResponse, CreateNotebookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNotebookInput, CreateNotebookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateNotebookInput, CreateNotebookOutput, CreateNotebookOutputError>(id: "createNotebook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotebookInput, CreateNotebookOutput, CreateNotebookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNotebookInput, CreateNotebookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNotebookOutputResponse, CreateNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNotebookOutput, CreateNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNotebookInput, CreateNotebookOutputResponse>(xAmzTarget: "AmazonAthena.CreateNotebook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNotebookInput, CreateNotebookOutputResponse>(xmlName: "CreateNotebookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNotebookInput, CreateNotebookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNotebookInput, CreateNotebookOutput>(xAmzTarget: "AmazonAthena.CreateNotebook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNotebookInput, CreateNotebookOutput>(xmlName: "CreateNotebookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNotebookInput, CreateNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNotebookOutputResponse, CreateNotebookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNotebookOutput, CreateNotebookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotebookOutputResponse, CreateNotebookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotebookOutputResponse, CreateNotebookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNotebookOutputResponse, CreateNotebookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotebookOutput, CreateNotebookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotebookOutput, CreateNotebookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNotebookOutput, CreateNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -448,14 +441,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CreatePreparedStatementInput : [no documentation found]
     ///
-    /// - Returns: `CreatePreparedStatementOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePreparedStatementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createPreparedStatement(input: CreatePreparedStatementInput) async throws -> CreatePreparedStatementOutputResponse
+    public func createPreparedStatement(input: CreatePreparedStatementInput) async throws -> CreatePreparedStatementOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -471,21 +464,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(id: "createPreparedStatement")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePreparedStatementInput, CreatePreparedStatementOutput, CreatePreparedStatementOutputError>(id: "createPreparedStatement")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput, CreatePreparedStatementOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePreparedStatementOutput, CreatePreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse>(xAmzTarget: "AmazonAthena.CreatePreparedStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse>(xmlName: "CreatePreparedStatementInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>(xAmzTarget: "AmazonAthena.CreatePreparedStatement"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>(xmlName: "CreatePreparedStatementInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePreparedStatementOutput, CreatePreparedStatementOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePreparedStatementOutput, CreatePreparedStatementOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePreparedStatementOutput, CreatePreparedStatementOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePreparedStatementOutput, CreatePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -494,7 +487,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CreatePresignedNotebookUrlInput : [no documentation found]
     ///
-    /// - Returns: `CreatePresignedNotebookUrlOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePresignedNotebookUrlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,7 +495,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func createPresignedNotebookUrl(input: CreatePresignedNotebookUrlInput) async throws -> CreatePresignedNotebookUrlOutputResponse
+    public func createPresignedNotebookUrl(input: CreatePresignedNotebookUrlInput) async throws -> CreatePresignedNotebookUrlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -518,21 +511,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(id: "createPresignedNotebookUrl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput, CreatePresignedNotebookUrlOutputError>(id: "createPresignedNotebookUrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput, CreatePresignedNotebookUrlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePresignedNotebookUrlOutput, CreatePresignedNotebookUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse>(xAmzTarget: "AmazonAthena.CreatePresignedNotebookUrl"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse>(xmlName: "CreatePresignedNotebookUrlRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>(xAmzTarget: "AmazonAthena.CreatePresignedNotebookUrl"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>(xmlName: "CreatePresignedNotebookUrlRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePresignedNotebookUrlOutput, CreatePresignedNotebookUrlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePresignedNotebookUrlOutput, CreatePresignedNotebookUrlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePresignedNotebookUrlOutput, CreatePresignedNotebookUrlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePresignedNotebookUrlOutput, CreatePresignedNotebookUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -541,14 +534,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter CreateWorkGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorkGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorkGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createWorkGroup(input: CreateWorkGroupInput) async throws -> CreateWorkGroupOutputResponse
+    public func createWorkGroup(input: CreateWorkGroupInput) async throws -> CreateWorkGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -564,21 +557,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWorkGroupInput, CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(id: "createWorkGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkGroupInput, CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkGroupInput, CreateWorkGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateWorkGroupInput, CreateWorkGroupOutput, CreateWorkGroupOutputError>(id: "createWorkGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput, CreateWorkGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorkGroupOutput, CreateWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateWorkGroupInput, CreateWorkGroupOutputResponse>(xAmzTarget: "AmazonAthena.CreateWorkGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorkGroupInput, CreateWorkGroupOutputResponse>(xmlName: "CreateWorkGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorkGroupInput, CreateWorkGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>(xAmzTarget: "AmazonAthena.CreateWorkGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>(xmlName: "CreateWorkGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorkGroupOutput, CreateWorkGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkGroupOutput, CreateWorkGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkGroupOutput, CreateWorkGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkGroupOutput, CreateWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -587,14 +580,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter DeleteCapacityReservationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCapacityReservationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCapacityReservationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteCapacityReservation(input: DeleteCapacityReservationInput) async throws -> DeleteCapacityReservationOutputResponse
+    public func deleteCapacityReservation(input: DeleteCapacityReservationInput) async throws -> DeleteCapacityReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -610,21 +603,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCapacityReservationInput, DeleteCapacityReservationOutputResponse, DeleteCapacityReservationOutputError>(id: "deleteCapacityReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutputResponse, DeleteCapacityReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCapacityReservationInput, DeleteCapacityReservationOutput, DeleteCapacityReservationOutputError>(id: "deleteCapacityReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput, DeleteCapacityReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCapacityReservationOutputResponse, DeleteCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCapacityReservationOutput, DeleteCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutputResponse>(xAmzTarget: "AmazonAthena.DeleteCapacityReservation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutputResponse>(xmlName: "DeleteCapacityReservationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>(xAmzTarget: "AmazonAthena.DeleteCapacityReservation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>(xmlName: "DeleteCapacityReservationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCapacityReservationOutputResponse, DeleteCapacityReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCapacityReservationOutput, DeleteCapacityReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCapacityReservationOutputResponse, DeleteCapacityReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCapacityReservationOutputResponse, DeleteCapacityReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCapacityReservationOutputResponse, DeleteCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCapacityReservationOutput, DeleteCapacityReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCapacityReservationOutput, DeleteCapacityReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCapacityReservationOutput, DeleteCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -633,14 +626,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter DeleteDataCatalogInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataCatalogOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataCatalogOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteDataCatalog(input: DeleteDataCatalogInput) async throws -> DeleteDataCatalogOutputResponse
+    public func deleteDataCatalog(input: DeleteDataCatalogInput) async throws -> DeleteDataCatalogOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -656,21 +649,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(id: "deleteDataCatalog")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDataCatalogInput, DeleteDataCatalogOutput, DeleteDataCatalogOutputError>(id: "deleteDataCatalog")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput, DeleteDataCatalogOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDataCatalogOutput, DeleteDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse>(xAmzTarget: "AmazonAthena.DeleteDataCatalog"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse>(xmlName: "DeleteDataCatalogInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>(xAmzTarget: "AmazonAthena.DeleteDataCatalog"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>(xmlName: "DeleteDataCatalogInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDataCatalogOutput, DeleteDataCatalogOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataCatalogOutput, DeleteDataCatalogOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataCatalogOutput, DeleteDataCatalogOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataCatalogOutput, DeleteDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -679,14 +672,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter DeleteNamedQueryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNamedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNamedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteNamedQuery(input: DeleteNamedQueryInput) async throws -> DeleteNamedQueryOutputResponse
+    public func deleteNamedQuery(input: DeleteNamedQueryInput) async throws -> DeleteNamedQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -702,29 +695,22 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNamedQueryInput, DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(id: "deleteNamedQuery")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteNamedQueryOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.namedQueryId == nil {
-                copiedInput.namedQueryId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteNamedQueryInput, DeleteNamedQueryOutput, DeleteNamedQueryOutputError>(id: "deleteNamedQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput, DeleteNamedQueryOutputError>(keyPath: \.namedQueryId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput, DeleteNamedQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNamedQueryOutput, DeleteNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutputResponse>(xAmzTarget: "AmazonAthena.DeleteNamedQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutputResponse>(xmlName: "DeleteNamedQueryInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>(xAmzTarget: "AmazonAthena.DeleteNamedQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>(xmlName: "DeleteNamedQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNamedQueryOutput, DeleteNamedQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNamedQueryOutput, DeleteNamedQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNamedQueryOutput, DeleteNamedQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNamedQueryOutput, DeleteNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -733,7 +719,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter DeleteNotebookInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNotebookOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNotebookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,7 +727,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func deleteNotebook(input: DeleteNotebookInput) async throws -> DeleteNotebookOutputResponse
+    public func deleteNotebook(input: DeleteNotebookInput) async throws -> DeleteNotebookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -757,21 +743,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNotebookInput, DeleteNotebookOutputResponse, DeleteNotebookOutputError>(id: "deleteNotebook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotebookInput, DeleteNotebookOutputResponse, DeleteNotebookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotebookInput, DeleteNotebookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteNotebookInput, DeleteNotebookOutput, DeleteNotebookOutputError>(id: "deleteNotebook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotebookInput, DeleteNotebookOutput, DeleteNotebookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotebookInput, DeleteNotebookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNotebookOutputResponse, DeleteNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNotebookOutput, DeleteNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNotebookInput, DeleteNotebookOutputResponse>(xAmzTarget: "AmazonAthena.DeleteNotebook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNotebookInput, DeleteNotebookOutputResponse>(xmlName: "DeleteNotebookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNotebookInput, DeleteNotebookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNotebookInput, DeleteNotebookOutput>(xAmzTarget: "AmazonAthena.DeleteNotebook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNotebookInput, DeleteNotebookOutput>(xmlName: "DeleteNotebookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNotebookInput, DeleteNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNotebookOutputResponse, DeleteNotebookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNotebookOutput, DeleteNotebookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotebookOutputResponse, DeleteNotebookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotebookOutputResponse, DeleteNotebookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNotebookOutputResponse, DeleteNotebookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotebookOutput, DeleteNotebookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotebookOutput, DeleteNotebookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNotebookOutput, DeleteNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -780,7 +766,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter DeletePreparedStatementInput : [no documentation found]
     ///
-    /// - Returns: `DeletePreparedStatementOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePreparedStatementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,7 +774,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func deletePreparedStatement(input: DeletePreparedStatementInput) async throws -> DeletePreparedStatementOutputResponse
+    public func deletePreparedStatement(input: DeletePreparedStatementInput) async throws -> DeletePreparedStatementOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -804,21 +790,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(id: "deletePreparedStatement")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePreparedStatementInput, DeletePreparedStatementOutput, DeletePreparedStatementOutputError>(id: "deletePreparedStatement")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput, DeletePreparedStatementOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePreparedStatementOutput, DeletePreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse>(xAmzTarget: "AmazonAthena.DeletePreparedStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse>(xmlName: "DeletePreparedStatementInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>(xAmzTarget: "AmazonAthena.DeletePreparedStatement"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>(xmlName: "DeletePreparedStatementInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePreparedStatementOutput, DeletePreparedStatementOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePreparedStatementOutput, DeletePreparedStatementOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePreparedStatementOutput, DeletePreparedStatementOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePreparedStatementOutput, DeletePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -827,14 +813,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter DeleteWorkGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorkGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteWorkGroup(input: DeleteWorkGroupInput) async throws -> DeleteWorkGroupOutputResponse
+    public func deleteWorkGroup(input: DeleteWorkGroupInput) async throws -> DeleteWorkGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -850,21 +836,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(id: "deleteWorkGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteWorkGroupInput, DeleteWorkGroupOutput, DeleteWorkGroupOutputError>(id: "deleteWorkGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput, DeleteWorkGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorkGroupOutput, DeleteWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse>(xAmzTarget: "AmazonAthena.DeleteWorkGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse>(xmlName: "DeleteWorkGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>(xAmzTarget: "AmazonAthena.DeleteWorkGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>(xmlName: "DeleteWorkGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWorkGroupOutput, DeleteWorkGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkGroupOutput, DeleteWorkGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkGroupOutput, DeleteWorkGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkGroupOutput, DeleteWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -873,7 +859,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ExportNotebookInput : [no documentation found]
     ///
-    /// - Returns: `ExportNotebookOutputResponse` : [no documentation found]
+    /// - Returns: `ExportNotebookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,7 +867,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func exportNotebook(input: ExportNotebookInput) async throws -> ExportNotebookOutputResponse
+    public func exportNotebook(input: ExportNotebookInput) async throws -> ExportNotebookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -897,21 +883,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExportNotebookInput, ExportNotebookOutputResponse, ExportNotebookOutputError>(id: "exportNotebook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportNotebookInput, ExportNotebookOutputResponse, ExportNotebookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportNotebookInput, ExportNotebookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ExportNotebookInput, ExportNotebookOutput, ExportNotebookOutputError>(id: "exportNotebook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportNotebookInput, ExportNotebookOutput, ExportNotebookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportNotebookInput, ExportNotebookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportNotebookOutputResponse, ExportNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportNotebookOutput, ExportNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportNotebookInput, ExportNotebookOutputResponse>(xAmzTarget: "AmazonAthena.ExportNotebook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExportNotebookInput, ExportNotebookOutputResponse>(xmlName: "ExportNotebookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportNotebookInput, ExportNotebookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportNotebookInput, ExportNotebookOutput>(xAmzTarget: "AmazonAthena.ExportNotebook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExportNotebookInput, ExportNotebookOutput>(xmlName: "ExportNotebookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportNotebookInput, ExportNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportNotebookOutputResponse, ExportNotebookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportNotebookOutput, ExportNotebookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportNotebookOutputResponse, ExportNotebookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportNotebookOutputResponse, ExportNotebookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportNotebookOutputResponse, ExportNotebookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportNotebookOutput, ExportNotebookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportNotebookOutput, ExportNotebookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportNotebookOutput, ExportNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -920,7 +906,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetCalculationExecutionInput : [no documentation found]
     ///
-    /// - Returns: `GetCalculationExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `GetCalculationExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -928,7 +914,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getCalculationExecution(input: GetCalculationExecutionInput) async throws -> GetCalculationExecutionOutputResponse
+    public func getCalculationExecution(input: GetCalculationExecutionInput) async throws -> GetCalculationExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -944,21 +930,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(id: "getCalculationExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCalculationExecutionInput, GetCalculationExecutionOutput, GetCalculationExecutionOutputError>(id: "getCalculationExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput, GetCalculationExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCalculationExecutionOutput, GetCalculationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse>(xAmzTarget: "AmazonAthena.GetCalculationExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse>(xmlName: "GetCalculationExecutionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>(xAmzTarget: "AmazonAthena.GetCalculationExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>(xmlName: "GetCalculationExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCalculationExecutionOutput, GetCalculationExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionOutput, GetCalculationExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionOutput, GetCalculationExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionOutput, GetCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -967,7 +953,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetCalculationExecutionCodeInput : [no documentation found]
     ///
-    /// - Returns: `GetCalculationExecutionCodeOutputResponse` : [no documentation found]
+    /// - Returns: `GetCalculationExecutionCodeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -975,7 +961,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getCalculationExecutionCode(input: GetCalculationExecutionCodeInput) async throws -> GetCalculationExecutionCodeOutputResponse
+    public func getCalculationExecutionCode(input: GetCalculationExecutionCodeInput) async throws -> GetCalculationExecutionCodeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -991,21 +977,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(id: "getCalculationExecutionCode")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput, GetCalculationExecutionCodeOutputError>(id: "getCalculationExecutionCode")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput, GetCalculationExecutionCodeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCalculationExecutionCodeOutput, GetCalculationExecutionCodeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse>(xAmzTarget: "AmazonAthena.GetCalculationExecutionCode"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse>(xmlName: "GetCalculationExecutionCodeRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>(xAmzTarget: "AmazonAthena.GetCalculationExecutionCode"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>(xmlName: "GetCalculationExecutionCodeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCalculationExecutionCodeOutput, GetCalculationExecutionCodeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionCodeOutput, GetCalculationExecutionCodeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionCodeOutput, GetCalculationExecutionCodeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionCodeOutput, GetCalculationExecutionCodeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1014,7 +1000,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetCalculationExecutionStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetCalculationExecutionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetCalculationExecutionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,7 +1008,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getCalculationExecutionStatus(input: GetCalculationExecutionStatusInput) async throws -> GetCalculationExecutionStatusOutputResponse
+    public func getCalculationExecutionStatus(input: GetCalculationExecutionStatusInput) async throws -> GetCalculationExecutionStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1038,21 +1024,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(id: "getCalculationExecutionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput, GetCalculationExecutionStatusOutputError>(id: "getCalculationExecutionStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput, GetCalculationExecutionStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCalculationExecutionStatusOutput, GetCalculationExecutionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse>(xAmzTarget: "AmazonAthena.GetCalculationExecutionStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse>(xmlName: "GetCalculationExecutionStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>(xAmzTarget: "AmazonAthena.GetCalculationExecutionStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>(xmlName: "GetCalculationExecutionStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCalculationExecutionStatusOutput, GetCalculationExecutionStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionStatusOutput, GetCalculationExecutionStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionStatusOutput, GetCalculationExecutionStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionStatusOutput, GetCalculationExecutionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1061,14 +1047,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetCapacityAssignmentConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetCapacityAssignmentConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetCapacityAssignmentConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getCapacityAssignmentConfiguration(input: GetCapacityAssignmentConfigurationInput) async throws -> GetCapacityAssignmentConfigurationOutputResponse
+    public func getCapacityAssignmentConfiguration(input: GetCapacityAssignmentConfigurationInput) async throws -> GetCapacityAssignmentConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1084,21 +1070,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutputResponse, GetCapacityAssignmentConfigurationOutputError>(id: "getCapacityAssignmentConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutputResponse, GetCapacityAssignmentConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput, GetCapacityAssignmentConfigurationOutputError>(id: "getCapacityAssignmentConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput, GetCapacityAssignmentConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCapacityAssignmentConfigurationOutputResponse, GetCapacityAssignmentConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCapacityAssignmentConfigurationOutput, GetCapacityAssignmentConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutputResponse>(xAmzTarget: "AmazonAthena.GetCapacityAssignmentConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutputResponse>(xmlName: "GetCapacityAssignmentConfigurationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>(xAmzTarget: "AmazonAthena.GetCapacityAssignmentConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>(xmlName: "GetCapacityAssignmentConfigurationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCapacityAssignmentConfigurationOutputResponse, GetCapacityAssignmentConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCapacityAssignmentConfigurationOutput, GetCapacityAssignmentConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCapacityAssignmentConfigurationOutputResponse, GetCapacityAssignmentConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCapacityAssignmentConfigurationOutputResponse, GetCapacityAssignmentConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCapacityAssignmentConfigurationOutputResponse, GetCapacityAssignmentConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCapacityAssignmentConfigurationOutput, GetCapacityAssignmentConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCapacityAssignmentConfigurationOutput, GetCapacityAssignmentConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCapacityAssignmentConfigurationOutput, GetCapacityAssignmentConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1107,14 +1093,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetCapacityReservationInput : [no documentation found]
     ///
-    /// - Returns: `GetCapacityReservationOutputResponse` : [no documentation found]
+    /// - Returns: `GetCapacityReservationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getCapacityReservation(input: GetCapacityReservationInput) async throws -> GetCapacityReservationOutputResponse
+    public func getCapacityReservation(input: GetCapacityReservationInput) async throws -> GetCapacityReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1130,21 +1116,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCapacityReservationInput, GetCapacityReservationOutputResponse, GetCapacityReservationOutputError>(id: "getCapacityReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCapacityReservationInput, GetCapacityReservationOutputResponse, GetCapacityReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCapacityReservationInput, GetCapacityReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCapacityReservationInput, GetCapacityReservationOutput, GetCapacityReservationOutputError>(id: "getCapacityReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput, GetCapacityReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCapacityReservationOutputResponse, GetCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCapacityReservationOutput, GetCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCapacityReservationInput, GetCapacityReservationOutputResponse>(xAmzTarget: "AmazonAthena.GetCapacityReservation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCapacityReservationInput, GetCapacityReservationOutputResponse>(xmlName: "GetCapacityReservationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCapacityReservationInput, GetCapacityReservationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>(xAmzTarget: "AmazonAthena.GetCapacityReservation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>(xmlName: "GetCapacityReservationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCapacityReservationOutputResponse, GetCapacityReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCapacityReservationOutput, GetCapacityReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCapacityReservationOutputResponse, GetCapacityReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCapacityReservationOutputResponse, GetCapacityReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCapacityReservationOutputResponse, GetCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCapacityReservationOutput, GetCapacityReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCapacityReservationOutput, GetCapacityReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCapacityReservationOutput, GetCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1153,14 +1139,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetDataCatalogInput : [no documentation found]
     ///
-    /// - Returns: `GetDataCatalogOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataCatalogOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getDataCatalog(input: GetDataCatalogInput) async throws -> GetDataCatalogOutputResponse
+    public func getDataCatalog(input: GetDataCatalogInput) async throws -> GetDataCatalogOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1176,21 +1162,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDataCatalogInput, GetDataCatalogOutputResponse, GetDataCatalogOutputError>(id: "getDataCatalog")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataCatalogInput, GetDataCatalogOutputResponse, GetDataCatalogOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataCatalogInput, GetDataCatalogOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDataCatalogInput, GetDataCatalogOutput, GetDataCatalogOutputError>(id: "getDataCatalog")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataCatalogInput, GetDataCatalogOutput, GetDataCatalogOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataCatalogInput, GetDataCatalogOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataCatalogOutputResponse, GetDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataCatalogOutput, GetDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDataCatalogInput, GetDataCatalogOutputResponse>(xAmzTarget: "AmazonAthena.GetDataCatalog"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDataCatalogInput, GetDataCatalogOutputResponse>(xmlName: "GetDataCatalogInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDataCatalogInput, GetDataCatalogOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDataCatalogInput, GetDataCatalogOutput>(xAmzTarget: "AmazonAthena.GetDataCatalog"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDataCatalogInput, GetDataCatalogOutput>(xmlName: "GetDataCatalogInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDataCatalogInput, GetDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDataCatalogOutputResponse, GetDataCatalogOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDataCatalogOutput, GetDataCatalogOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataCatalogOutputResponse, GetDataCatalogOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataCatalogOutputResponse, GetDataCatalogOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataCatalogOutputResponse, GetDataCatalogOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataCatalogOutput, GetDataCatalogOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataCatalogOutput, GetDataCatalogOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataCatalogOutput, GetDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1199,7 +1185,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetDatabaseInput : [no documentation found]
     ///
-    /// - Returns: `GetDatabaseOutputResponse` : [no documentation found]
+    /// - Returns: `GetDatabaseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1207,7 +1193,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutputResponse
+    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1223,21 +1209,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDatabaseInput, GetDatabaseOutputResponse, GetDatabaseOutputError>(id: "getDatabase")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatabaseInput, GetDatabaseOutputResponse, GetDatabaseOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatabaseInput, GetDatabaseOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDatabaseInput, GetDatabaseOutput, GetDatabaseOutputError>(id: "getDatabase")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatabaseInput, GetDatabaseOutput, GetDatabaseOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatabaseInput, GetDatabaseOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDatabaseOutputResponse, GetDatabaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDatabaseOutput, GetDatabaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDatabaseInput, GetDatabaseOutputResponse>(xAmzTarget: "AmazonAthena.GetDatabase"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDatabaseInput, GetDatabaseOutputResponse>(xmlName: "GetDatabaseInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDatabaseInput, GetDatabaseOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDatabaseInput, GetDatabaseOutput>(xAmzTarget: "AmazonAthena.GetDatabase"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDatabaseInput, GetDatabaseOutput>(xmlName: "GetDatabaseInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDatabaseInput, GetDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDatabaseOutputResponse, GetDatabaseOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDatabaseOutput, GetDatabaseOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatabaseOutputResponse, GetDatabaseOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatabaseOutputResponse, GetDatabaseOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatabaseOutputResponse, GetDatabaseOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatabaseOutput, GetDatabaseOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatabaseOutput, GetDatabaseOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatabaseOutput, GetDatabaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1246,14 +1232,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetNamedQueryInput : [no documentation found]
     ///
-    /// - Returns: `GetNamedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `GetNamedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getNamedQuery(input: GetNamedQueryInput) async throws -> GetNamedQueryOutputResponse
+    public func getNamedQuery(input: GetNamedQueryInput) async throws -> GetNamedQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1269,21 +1255,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNamedQueryInput, GetNamedQueryOutputResponse, GetNamedQueryOutputError>(id: "getNamedQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNamedQueryInput, GetNamedQueryOutputResponse, GetNamedQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNamedQueryInput, GetNamedQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNamedQueryInput, GetNamedQueryOutput, GetNamedQueryOutputError>(id: "getNamedQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNamedQueryInput, GetNamedQueryOutput, GetNamedQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNamedQueryInput, GetNamedQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNamedQueryOutputResponse, GetNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNamedQueryOutput, GetNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNamedQueryInput, GetNamedQueryOutputResponse>(xAmzTarget: "AmazonAthena.GetNamedQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNamedQueryInput, GetNamedQueryOutputResponse>(xmlName: "GetNamedQueryInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNamedQueryInput, GetNamedQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNamedQueryInput, GetNamedQueryOutput>(xAmzTarget: "AmazonAthena.GetNamedQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNamedQueryInput, GetNamedQueryOutput>(xmlName: "GetNamedQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNamedQueryInput, GetNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNamedQueryOutputResponse, GetNamedQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNamedQueryOutput, GetNamedQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNamedQueryOutputResponse, GetNamedQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNamedQueryOutputResponse, GetNamedQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNamedQueryOutputResponse, GetNamedQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNamedQueryOutput, GetNamedQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNamedQueryOutput, GetNamedQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNamedQueryOutput, GetNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1292,7 +1278,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetNotebookMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetNotebookMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetNotebookMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,7 +1286,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func getNotebookMetadata(input: GetNotebookMetadataInput) async throws -> GetNotebookMetadataOutputResponse
+    public func getNotebookMetadata(input: GetNotebookMetadataInput) async throws -> GetNotebookMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1316,21 +1302,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(id: "getNotebookMetadata")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNotebookMetadataInput, GetNotebookMetadataOutput, GetNotebookMetadataOutputError>(id: "getNotebookMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput, GetNotebookMetadataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNotebookMetadataOutput, GetNotebookMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse>(xAmzTarget: "AmazonAthena.GetNotebookMetadata"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse>(xmlName: "GetNotebookMetadataInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>(xAmzTarget: "AmazonAthena.GetNotebookMetadata"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>(xmlName: "GetNotebookMetadataInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNotebookMetadataOutput, GetNotebookMetadataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNotebookMetadataOutput, GetNotebookMetadataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNotebookMetadataOutput, GetNotebookMetadataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNotebookMetadataOutput, GetNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1339,7 +1325,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetPreparedStatementInput : [no documentation found]
     ///
-    /// - Returns: `GetPreparedStatementOutputResponse` : [no documentation found]
+    /// - Returns: `GetPreparedStatementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1347,7 +1333,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getPreparedStatement(input: GetPreparedStatementInput) async throws -> GetPreparedStatementOutputResponse
+    public func getPreparedStatement(input: GetPreparedStatementInput) async throws -> GetPreparedStatementOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1363,21 +1349,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPreparedStatementInput, GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(id: "getPreparedStatement")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPreparedStatementInput, GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPreparedStatementInput, GetPreparedStatementOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPreparedStatementInput, GetPreparedStatementOutput, GetPreparedStatementOutputError>(id: "getPreparedStatement")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput, GetPreparedStatementOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPreparedStatementOutput, GetPreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPreparedStatementInput, GetPreparedStatementOutputResponse>(xAmzTarget: "AmazonAthena.GetPreparedStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPreparedStatementInput, GetPreparedStatementOutputResponse>(xmlName: "GetPreparedStatementInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPreparedStatementInput, GetPreparedStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>(xAmzTarget: "AmazonAthena.GetPreparedStatement"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>(xmlName: "GetPreparedStatementInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPreparedStatementOutput, GetPreparedStatementOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPreparedStatementOutput, GetPreparedStatementOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPreparedStatementOutput, GetPreparedStatementOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPreparedStatementOutput, GetPreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1386,14 +1372,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetQueryExecutionInput : [no documentation found]
     ///
-    /// - Returns: `GetQueryExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `GetQueryExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getQueryExecution(input: GetQueryExecutionInput) async throws -> GetQueryExecutionOutputResponse
+    public func getQueryExecution(input: GetQueryExecutionInput) async throws -> GetQueryExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1409,21 +1395,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetQueryExecutionInput, GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(id: "getQueryExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryExecutionInput, GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryExecutionInput, GetQueryExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetQueryExecutionInput, GetQueryExecutionOutput, GetQueryExecutionOutputError>(id: "getQueryExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput, GetQueryExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryExecutionOutput, GetQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryExecutionInput, GetQueryExecutionOutputResponse>(xAmzTarget: "AmazonAthena.GetQueryExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryExecutionInput, GetQueryExecutionOutputResponse>(xmlName: "GetQueryExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryExecutionInput, GetQueryExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>(xAmzTarget: "AmazonAthena.GetQueryExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>(xmlName: "GetQueryExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryExecutionOutput, GetQueryExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryExecutionOutput, GetQueryExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryExecutionOutput, GetQueryExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryExecutionOutput, GetQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1432,7 +1418,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetQueryResultsInput : [no documentation found]
     ///
-    /// - Returns: `GetQueryResultsOutputResponse` : [no documentation found]
+    /// - Returns: `GetQueryResultsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1440,7 +1426,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutputResponse
+    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1456,21 +1442,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetQueryResultsInput, GetQueryResultsOutputResponse, GetQueryResultsOutputError>(id: "getQueryResults")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse, GetQueryResultsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetQueryResultsInput, GetQueryResultsOutput, GetQueryResultsOutputError>(id: "getQueryResults")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryResultsInput, GetQueryResultsOutput, GetQueryResultsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryResultsInput, GetQueryResultsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryResultsOutput, GetQueryResultsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(xAmzTarget: "AmazonAthena.GetQueryResults"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(xmlName: "GetQueryResultsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(xAmzTarget: "AmazonAthena.GetQueryResults"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(xmlName: "GetQueryResultsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryResultsOutputResponse, GetQueryResultsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryResultsOutput, GetQueryResultsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryResultsOutput, GetQueryResultsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryResultsOutput, GetQueryResultsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryResultsOutput, GetQueryResultsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1479,14 +1465,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetQueryRuntimeStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `GetQueryRuntimeStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `GetQueryRuntimeStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getQueryRuntimeStatistics(input: GetQueryRuntimeStatisticsInput) async throws -> GetQueryRuntimeStatisticsOutputResponse
+    public func getQueryRuntimeStatistics(input: GetQueryRuntimeStatisticsInput) async throws -> GetQueryRuntimeStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1502,21 +1488,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(id: "getQueryRuntimeStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput, GetQueryRuntimeStatisticsOutputError>(id: "getQueryRuntimeStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput, GetQueryRuntimeStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryRuntimeStatisticsOutput, GetQueryRuntimeStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse>(xAmzTarget: "AmazonAthena.GetQueryRuntimeStatistics"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse>(xmlName: "GetQueryRuntimeStatisticsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>(xAmzTarget: "AmazonAthena.GetQueryRuntimeStatistics"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>(xmlName: "GetQueryRuntimeStatisticsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryRuntimeStatisticsOutput, GetQueryRuntimeStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryRuntimeStatisticsOutput, GetQueryRuntimeStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryRuntimeStatisticsOutput, GetQueryRuntimeStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryRuntimeStatisticsOutput, GetQueryRuntimeStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1525,7 +1511,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetSessionInput : [no documentation found]
     ///
-    /// - Returns: `GetSessionOutputResponse` : [no documentation found]
+    /// - Returns: `GetSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1533,7 +1519,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getSession(input: GetSessionInput) async throws -> GetSessionOutputResponse
+    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1549,21 +1535,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSessionInput, GetSessionOutputResponse, GetSessionOutputError>(id: "getSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionInput, GetSessionOutputResponse, GetSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSessionInput, GetSessionOutput, GetSessionOutputError>(id: "getSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionInput, GetSessionOutput, GetSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSessionOutputResponse, GetSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSessionOutput, GetSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSessionInput, GetSessionOutputResponse>(xAmzTarget: "AmazonAthena.GetSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSessionInput, GetSessionOutputResponse>(xmlName: "GetSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSessionInput, GetSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSessionInput, GetSessionOutput>(xAmzTarget: "AmazonAthena.GetSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSessionInput, GetSessionOutput>(xmlName: "GetSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSessionInput, GetSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSessionOutputResponse, GetSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSessionOutput, GetSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionOutputResponse, GetSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionOutputResponse, GetSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionOutputResponse, GetSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionOutput, GetSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionOutput, GetSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionOutput, GetSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1572,7 +1558,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetSessionStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetSessionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetSessionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1580,7 +1566,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getSessionStatus(input: GetSessionStatusInput) async throws -> GetSessionStatusOutputResponse
+    public func getSessionStatus(input: GetSessionStatusInput) async throws -> GetSessionStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1596,21 +1582,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSessionStatusInput, GetSessionStatusOutputResponse, GetSessionStatusOutputError>(id: "getSessionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionStatusInput, GetSessionStatusOutputResponse, GetSessionStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionStatusInput, GetSessionStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSessionStatusInput, GetSessionStatusOutput, GetSessionStatusOutputError>(id: "getSessionStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionStatusInput, GetSessionStatusOutput, GetSessionStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionStatusInput, GetSessionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSessionStatusOutputResponse, GetSessionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSessionStatusOutput, GetSessionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSessionStatusInput, GetSessionStatusOutputResponse>(xAmzTarget: "AmazonAthena.GetSessionStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSessionStatusInput, GetSessionStatusOutputResponse>(xmlName: "GetSessionStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSessionStatusInput, GetSessionStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSessionStatusInput, GetSessionStatusOutput>(xAmzTarget: "AmazonAthena.GetSessionStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSessionStatusInput, GetSessionStatusOutput>(xmlName: "GetSessionStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSessionStatusInput, GetSessionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSessionStatusOutputResponse, GetSessionStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSessionStatusOutput, GetSessionStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionStatusOutputResponse, GetSessionStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionStatusOutputResponse, GetSessionStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionStatusOutputResponse, GetSessionStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionStatusOutput, GetSessionStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionStatusOutput, GetSessionStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionStatusOutput, GetSessionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1619,7 +1605,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetTableMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetTableMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetTableMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1627,7 +1613,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func getTableMetadata(input: GetTableMetadataInput) async throws -> GetTableMetadataOutputResponse
+    public func getTableMetadata(input: GetTableMetadataInput) async throws -> GetTableMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1643,21 +1629,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTableMetadataInput, GetTableMetadataOutputResponse, GetTableMetadataOutputError>(id: "getTableMetadata")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTableMetadataInput, GetTableMetadataOutputResponse, GetTableMetadataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTableMetadataInput, GetTableMetadataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTableMetadataInput, GetTableMetadataOutput, GetTableMetadataOutputError>(id: "getTableMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTableMetadataInput, GetTableMetadataOutput, GetTableMetadataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTableMetadataInput, GetTableMetadataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTableMetadataOutputResponse, GetTableMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTableMetadataOutput, GetTableMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTableMetadataInput, GetTableMetadataOutputResponse>(xAmzTarget: "AmazonAthena.GetTableMetadata"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTableMetadataInput, GetTableMetadataOutputResponse>(xmlName: "GetTableMetadataInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTableMetadataInput, GetTableMetadataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTableMetadataInput, GetTableMetadataOutput>(xAmzTarget: "AmazonAthena.GetTableMetadata"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTableMetadataInput, GetTableMetadataOutput>(xmlName: "GetTableMetadataInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTableMetadataInput, GetTableMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTableMetadataOutputResponse, GetTableMetadataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTableMetadataOutput, GetTableMetadataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTableMetadataOutputResponse, GetTableMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTableMetadataOutputResponse, GetTableMetadataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTableMetadataOutputResponse, GetTableMetadataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTableMetadataOutput, GetTableMetadataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTableMetadataOutput, GetTableMetadataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTableMetadataOutput, GetTableMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1666,14 +1652,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter GetWorkGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetWorkGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getWorkGroup(input: GetWorkGroupInput) async throws -> GetWorkGroupOutputResponse
+    public func getWorkGroup(input: GetWorkGroupInput) async throws -> GetWorkGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1689,21 +1675,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWorkGroupInput, GetWorkGroupOutputResponse, GetWorkGroupOutputError>(id: "getWorkGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkGroupInput, GetWorkGroupOutputResponse, GetWorkGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkGroupInput, GetWorkGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetWorkGroupInput, GetWorkGroupOutput, GetWorkGroupOutputError>(id: "getWorkGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkGroupInput, GetWorkGroupOutput, GetWorkGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkGroupInput, GetWorkGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWorkGroupOutputResponse, GetWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWorkGroupOutput, GetWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetWorkGroupInput, GetWorkGroupOutputResponse>(xAmzTarget: "AmazonAthena.GetWorkGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetWorkGroupInput, GetWorkGroupOutputResponse>(xmlName: "GetWorkGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetWorkGroupInput, GetWorkGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetWorkGroupInput, GetWorkGroupOutput>(xAmzTarget: "AmazonAthena.GetWorkGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetWorkGroupInput, GetWorkGroupOutput>(xmlName: "GetWorkGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetWorkGroupInput, GetWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWorkGroupOutputResponse, GetWorkGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWorkGroupOutput, GetWorkGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkGroupOutputResponse, GetWorkGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkGroupOutputResponse, GetWorkGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorkGroupOutputResponse, GetWorkGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkGroupOutput, GetWorkGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkGroupOutput, GetWorkGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorkGroupOutput, GetWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1712,7 +1698,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ImportNotebookInput : [no documentation found]
     ///
-    /// - Returns: `ImportNotebookOutputResponse` : [no documentation found]
+    /// - Returns: `ImportNotebookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1720,7 +1706,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func importNotebook(input: ImportNotebookInput) async throws -> ImportNotebookOutputResponse
+    public func importNotebook(input: ImportNotebookInput) async throws -> ImportNotebookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1736,21 +1722,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportNotebookInput, ImportNotebookOutputResponse, ImportNotebookOutputError>(id: "importNotebook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportNotebookInput, ImportNotebookOutputResponse, ImportNotebookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportNotebookInput, ImportNotebookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportNotebookInput, ImportNotebookOutput, ImportNotebookOutputError>(id: "importNotebook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportNotebookInput, ImportNotebookOutput, ImportNotebookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportNotebookInput, ImportNotebookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportNotebookOutputResponse, ImportNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportNotebookOutput, ImportNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportNotebookInput, ImportNotebookOutputResponse>(xAmzTarget: "AmazonAthena.ImportNotebook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportNotebookInput, ImportNotebookOutputResponse>(xmlName: "ImportNotebookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportNotebookInput, ImportNotebookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportNotebookInput, ImportNotebookOutput>(xAmzTarget: "AmazonAthena.ImportNotebook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportNotebookInput, ImportNotebookOutput>(xmlName: "ImportNotebookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportNotebookInput, ImportNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportNotebookOutputResponse, ImportNotebookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportNotebookOutput, ImportNotebookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportNotebookOutputResponse, ImportNotebookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportNotebookOutputResponse, ImportNotebookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportNotebookOutputResponse, ImportNotebookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportNotebookOutput, ImportNotebookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportNotebookOutput, ImportNotebookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportNotebookOutput, ImportNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1759,7 +1745,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListApplicationDPUSizesInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationDPUSizesOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationDPUSizesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,7 +1753,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func listApplicationDPUSizes(input: ListApplicationDPUSizesInput) async throws -> ListApplicationDPUSizesOutputResponse
+    public func listApplicationDPUSizes(input: ListApplicationDPUSizesInput) async throws -> ListApplicationDPUSizesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1783,21 +1769,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(id: "listApplicationDPUSizes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput, ListApplicationDPUSizesOutputError>(id: "listApplicationDPUSizes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput, ListApplicationDPUSizesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApplicationDPUSizesOutput, ListApplicationDPUSizesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse>(xAmzTarget: "AmazonAthena.ListApplicationDPUSizes"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse>(xmlName: "ListApplicationDPUSizesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(xAmzTarget: "AmazonAthena.ListApplicationDPUSizes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(xmlName: "ListApplicationDPUSizesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationDPUSizesOutput, ListApplicationDPUSizesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationDPUSizesOutput, ListApplicationDPUSizesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationDPUSizesOutput, ListApplicationDPUSizesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationDPUSizesOutput, ListApplicationDPUSizesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1806,7 +1792,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListCalculationExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListCalculationExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCalculationExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1814,7 +1800,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutputResponse
+    public func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1830,21 +1816,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(id: "listCalculationExecutions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCalculationExecutionsInput, ListCalculationExecutionsOutput, ListCalculationExecutionsOutputError>(id: "listCalculationExecutions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput, ListCalculationExecutionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCalculationExecutionsOutput, ListCalculationExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse>(xAmzTarget: "AmazonAthena.ListCalculationExecutions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse>(xmlName: "ListCalculationExecutionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(xAmzTarget: "AmazonAthena.ListCalculationExecutions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(xmlName: "ListCalculationExecutionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCalculationExecutionsOutput, ListCalculationExecutionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCalculationExecutionsOutput, ListCalculationExecutionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCalculationExecutionsOutput, ListCalculationExecutionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCalculationExecutionsOutput, ListCalculationExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1853,14 +1839,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListCapacityReservationsInput : [no documentation found]
     ///
-    /// - Returns: `ListCapacityReservationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCapacityReservationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listCapacityReservations(input: ListCapacityReservationsInput) async throws -> ListCapacityReservationsOutputResponse
+    public func listCapacityReservations(input: ListCapacityReservationsInput) async throws -> ListCapacityReservationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1876,21 +1862,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse, ListCapacityReservationsOutputError>(id: "listCapacityReservations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse, ListCapacityReservationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCapacityReservationsInput, ListCapacityReservationsOutput, ListCapacityReservationsOutputError>(id: "listCapacityReservations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput, ListCapacityReservationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCapacityReservationsOutputResponse, ListCapacityReservationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCapacityReservationsOutput, ListCapacityReservationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse>(xAmzTarget: "AmazonAthena.ListCapacityReservations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse>(xmlName: "ListCapacityReservationsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>(xAmzTarget: "AmazonAthena.ListCapacityReservations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>(xmlName: "ListCapacityReservationsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCapacityReservationsOutputResponse, ListCapacityReservationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCapacityReservationsOutput, ListCapacityReservationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCapacityReservationsOutputResponse, ListCapacityReservationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCapacityReservationsOutputResponse, ListCapacityReservationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCapacityReservationsOutputResponse, ListCapacityReservationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCapacityReservationsOutput, ListCapacityReservationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCapacityReservationsOutput, ListCapacityReservationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCapacityReservationsOutput, ListCapacityReservationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1899,14 +1885,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListDataCatalogsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataCatalogsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataCatalogsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutputResponse
+    public func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1922,21 +1908,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDataCatalogsInput, ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(id: "listDataCatalogs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataCatalogsInput, ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataCatalogsInput, ListDataCatalogsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDataCatalogsInput, ListDataCatalogsOutput, ListDataCatalogsOutputError>(id: "listDataCatalogs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput, ListDataCatalogsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDataCatalogsOutput, ListDataCatalogsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDataCatalogsInput, ListDataCatalogsOutputResponse>(xAmzTarget: "AmazonAthena.ListDataCatalogs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDataCatalogsInput, ListDataCatalogsOutputResponse>(xmlName: "ListDataCatalogsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDataCatalogsInput, ListDataCatalogsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>(xAmzTarget: "AmazonAthena.ListDataCatalogs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>(xmlName: "ListDataCatalogsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDataCatalogsOutput, ListDataCatalogsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataCatalogsOutput, ListDataCatalogsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataCatalogsOutput, ListDataCatalogsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataCatalogsOutput, ListDataCatalogsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1945,7 +1931,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListDatabasesInput : [no documentation found]
     ///
-    /// - Returns: `ListDatabasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatabasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1953,7 +1939,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutputResponse
+    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1969,21 +1955,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDatabasesInput, ListDatabasesOutputResponse, ListDatabasesOutputError>(id: "listDatabases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatabasesInput, ListDatabasesOutputResponse, ListDatabasesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDatabasesInput, ListDatabasesOutput, ListDatabasesOutputError>(id: "listDatabases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatabasesInput, ListDatabasesOutput, ListDatabasesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatabasesInput, ListDatabasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDatabasesOutputResponse, ListDatabasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDatabasesOutput, ListDatabasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>(xAmzTarget: "AmazonAthena.ListDatabases"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>(xmlName: "ListDatabasesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDatabasesInput, ListDatabasesOutput>(xAmzTarget: "AmazonAthena.ListDatabases"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDatabasesInput, ListDatabasesOutput>(xmlName: "ListDatabasesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDatabasesInput, ListDatabasesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDatabasesOutputResponse, ListDatabasesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDatabasesOutput, ListDatabasesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatabasesOutputResponse, ListDatabasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatabasesOutputResponse, ListDatabasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatabasesOutputResponse, ListDatabasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatabasesOutput, ListDatabasesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatabasesOutput, ListDatabasesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatabasesOutput, ListDatabasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1992,14 +1978,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListEngineVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListEngineVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEngineVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutputResponse
+    public func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2015,21 +2001,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEngineVersionsInput, ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(id: "listEngineVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEngineVersionsInput, ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEngineVersionsInput, ListEngineVersionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListEngineVersionsInput, ListEngineVersionsOutput, ListEngineVersionsOutputError>(id: "listEngineVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput, ListEngineVersionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEngineVersionsOutput, ListEngineVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEngineVersionsInput, ListEngineVersionsOutputResponse>(xAmzTarget: "AmazonAthena.ListEngineVersions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEngineVersionsInput, ListEngineVersionsOutputResponse>(xmlName: "ListEngineVersionsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEngineVersionsInput, ListEngineVersionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>(xAmzTarget: "AmazonAthena.ListEngineVersions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>(xmlName: "ListEngineVersionsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEngineVersionsOutput, ListEngineVersionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEngineVersionsOutput, ListEngineVersionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEngineVersionsOutput, ListEngineVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEngineVersionsOutput, ListEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2038,7 +2024,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListExecutorsInput : [no documentation found]
     ///
-    /// - Returns: `ListExecutorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListExecutorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2046,7 +2032,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listExecutors(input: ListExecutorsInput) async throws -> ListExecutorsOutputResponse
+    public func listExecutors(input: ListExecutorsInput) async throws -> ListExecutorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2062,21 +2048,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListExecutorsInput, ListExecutorsOutputResponse, ListExecutorsOutputError>(id: "listExecutors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExecutorsInput, ListExecutorsOutputResponse, ListExecutorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExecutorsInput, ListExecutorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListExecutorsInput, ListExecutorsOutput, ListExecutorsOutputError>(id: "listExecutors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExecutorsInput, ListExecutorsOutput, ListExecutorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExecutorsInput, ListExecutorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListExecutorsOutputResponse, ListExecutorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListExecutorsOutput, ListExecutorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListExecutorsInput, ListExecutorsOutputResponse>(xAmzTarget: "AmazonAthena.ListExecutors"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListExecutorsInput, ListExecutorsOutputResponse>(xmlName: "ListExecutorsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListExecutorsInput, ListExecutorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListExecutorsInput, ListExecutorsOutput>(xAmzTarget: "AmazonAthena.ListExecutors"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListExecutorsInput, ListExecutorsOutput>(xmlName: "ListExecutorsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListExecutorsInput, ListExecutorsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListExecutorsOutputResponse, ListExecutorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListExecutorsOutput, ListExecutorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExecutorsOutputResponse, ListExecutorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExecutorsOutputResponse, ListExecutorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExecutorsOutputResponse, ListExecutorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExecutorsOutput, ListExecutorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExecutorsOutput, ListExecutorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExecutorsOutput, ListExecutorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2085,14 +2071,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListNamedQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListNamedQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListNamedQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listNamedQueries(input: ListNamedQueriesInput) async throws -> ListNamedQueriesOutputResponse
+    public func listNamedQueries(input: ListNamedQueriesInput) async throws -> ListNamedQueriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2108,21 +2094,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNamedQueriesInput, ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(id: "listNamedQueries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNamedQueriesInput, ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNamedQueriesInput, ListNamedQueriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNamedQueriesInput, ListNamedQueriesOutput, ListNamedQueriesOutputError>(id: "listNamedQueries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput, ListNamedQueriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNamedQueriesOutput, ListNamedQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNamedQueriesInput, ListNamedQueriesOutputResponse>(xAmzTarget: "AmazonAthena.ListNamedQueries"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNamedQueriesInput, ListNamedQueriesOutputResponse>(xmlName: "ListNamedQueriesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNamedQueriesInput, ListNamedQueriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>(xAmzTarget: "AmazonAthena.ListNamedQueries"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>(xmlName: "ListNamedQueriesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNamedQueriesOutput, ListNamedQueriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNamedQueriesOutput, ListNamedQueriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNamedQueriesOutput, ListNamedQueriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNamedQueriesOutput, ListNamedQueriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2131,7 +2117,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListNotebookMetadataInput : [no documentation found]
     ///
-    /// - Returns: `ListNotebookMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `ListNotebookMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2139,7 +2125,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func listNotebookMetadata(input: ListNotebookMetadataInput) async throws -> ListNotebookMetadataOutputResponse
+    public func listNotebookMetadata(input: ListNotebookMetadataInput) async throws -> ListNotebookMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2155,21 +2141,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(id: "listNotebookMetadata")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNotebookMetadataInput, ListNotebookMetadataOutput, ListNotebookMetadataOutputError>(id: "listNotebookMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput, ListNotebookMetadataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotebookMetadataOutput, ListNotebookMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse>(xAmzTarget: "AmazonAthena.ListNotebookMetadata"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse>(xmlName: "ListNotebookMetadataInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>(xAmzTarget: "AmazonAthena.ListNotebookMetadata"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>(xmlName: "ListNotebookMetadataInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNotebookMetadataOutput, ListNotebookMetadataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookMetadataOutput, ListNotebookMetadataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookMetadataOutput, ListNotebookMetadataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotebookMetadataOutput, ListNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2178,7 +2164,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListNotebookSessionsInput : [no documentation found]
     ///
-    /// - Returns: `ListNotebookSessionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListNotebookSessionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2186,7 +2172,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listNotebookSessions(input: ListNotebookSessionsInput) async throws -> ListNotebookSessionsOutputResponse
+    public func listNotebookSessions(input: ListNotebookSessionsInput) async throws -> ListNotebookSessionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2202,21 +2188,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(id: "listNotebookSessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNotebookSessionsInput, ListNotebookSessionsOutput, ListNotebookSessionsOutputError>(id: "listNotebookSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput, ListNotebookSessionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotebookSessionsOutput, ListNotebookSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse>(xAmzTarget: "AmazonAthena.ListNotebookSessions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse>(xmlName: "ListNotebookSessionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>(xAmzTarget: "AmazonAthena.ListNotebookSessions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>(xmlName: "ListNotebookSessionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNotebookSessionsOutput, ListNotebookSessionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookSessionsOutput, ListNotebookSessionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookSessionsOutput, ListNotebookSessionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotebookSessionsOutput, ListNotebookSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2225,14 +2211,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListPreparedStatementsInput : [no documentation found]
     ///
-    /// - Returns: `ListPreparedStatementsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPreparedStatementsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listPreparedStatements(input: ListPreparedStatementsInput) async throws -> ListPreparedStatementsOutputResponse
+    public func listPreparedStatements(input: ListPreparedStatementsInput) async throws -> ListPreparedStatementsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2248,21 +2234,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(id: "listPreparedStatements")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPreparedStatementsInput, ListPreparedStatementsOutput, ListPreparedStatementsOutputError>(id: "listPreparedStatements")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput, ListPreparedStatementsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPreparedStatementsOutput, ListPreparedStatementsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse>(xAmzTarget: "AmazonAthena.ListPreparedStatements"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse>(xmlName: "ListPreparedStatementsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>(xAmzTarget: "AmazonAthena.ListPreparedStatements"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>(xmlName: "ListPreparedStatementsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPreparedStatementsOutput, ListPreparedStatementsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPreparedStatementsOutput, ListPreparedStatementsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPreparedStatementsOutput, ListPreparedStatementsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPreparedStatementsOutput, ListPreparedStatementsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2271,14 +2257,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListQueryExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListQueryExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListQueryExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listQueryExecutions(input: ListQueryExecutionsInput) async throws -> ListQueryExecutionsOutputResponse
+    public func listQueryExecutions(input: ListQueryExecutionsInput) async throws -> ListQueryExecutionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2294,21 +2280,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(id: "listQueryExecutions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListQueryExecutionsInput, ListQueryExecutionsOutput, ListQueryExecutionsOutputError>(id: "listQueryExecutions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput, ListQueryExecutionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueryExecutionsOutput, ListQueryExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse>(xAmzTarget: "AmazonAthena.ListQueryExecutions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse>(xmlName: "ListQueryExecutionsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>(xAmzTarget: "AmazonAthena.ListQueryExecutions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>(xmlName: "ListQueryExecutionsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueryExecutionsOutput, ListQueryExecutionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueryExecutionsOutput, ListQueryExecutionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueryExecutionsOutput, ListQueryExecutionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueryExecutionsOutput, ListQueryExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2317,7 +2303,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListSessionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSessionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSessionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2325,7 +2311,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutputResponse
+    public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2341,21 +2327,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSessionsInput, ListSessionsOutputResponse, ListSessionsOutputError>(id: "listSessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSessionsInput, ListSessionsOutputResponse, ListSessionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSessionsInput, ListSessionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSessionsInput, ListSessionsOutput, ListSessionsOutputError>(id: "listSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSessionsInput, ListSessionsOutput, ListSessionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSessionsInput, ListSessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSessionsOutputResponse, ListSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSessionsOutput, ListSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSessionsInput, ListSessionsOutputResponse>(xAmzTarget: "AmazonAthena.ListSessions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSessionsInput, ListSessionsOutputResponse>(xmlName: "ListSessionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSessionsInput, ListSessionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSessionsInput, ListSessionsOutput>(xAmzTarget: "AmazonAthena.ListSessions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSessionsInput, ListSessionsOutput>(xmlName: "ListSessionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSessionsInput, ListSessionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSessionsOutputResponse, ListSessionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSessionsOutput, ListSessionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSessionsOutputResponse, ListSessionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSessionsOutputResponse, ListSessionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSessionsOutputResponse, ListSessionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSessionsOutput, ListSessionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSessionsOutput, ListSessionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSessionsOutput, ListSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2364,7 +2350,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListTableMetadataInput : [no documentation found]
     ///
-    /// - Returns: `ListTableMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `ListTableMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2372,7 +2358,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func listTableMetadata(input: ListTableMetadataInput) async throws -> ListTableMetadataOutputResponse
+    public func listTableMetadata(input: ListTableMetadataInput) async throws -> ListTableMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2388,21 +2374,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTableMetadataInput, ListTableMetadataOutputResponse, ListTableMetadataOutputError>(id: "listTableMetadata")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTableMetadataInput, ListTableMetadataOutputResponse, ListTableMetadataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTableMetadataInput, ListTableMetadataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTableMetadataInput, ListTableMetadataOutput, ListTableMetadataOutputError>(id: "listTableMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTableMetadataInput, ListTableMetadataOutput, ListTableMetadataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTableMetadataInput, ListTableMetadataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTableMetadataOutputResponse, ListTableMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTableMetadataOutput, ListTableMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTableMetadataInput, ListTableMetadataOutputResponse>(xAmzTarget: "AmazonAthena.ListTableMetadata"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTableMetadataInput, ListTableMetadataOutputResponse>(xmlName: "ListTableMetadataInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTableMetadataInput, ListTableMetadataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTableMetadataInput, ListTableMetadataOutput>(xAmzTarget: "AmazonAthena.ListTableMetadata"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTableMetadataInput, ListTableMetadataOutput>(xmlName: "ListTableMetadataInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTableMetadataInput, ListTableMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTableMetadataOutputResponse, ListTableMetadataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTableMetadataOutput, ListTableMetadataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTableMetadataOutputResponse, ListTableMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTableMetadataOutputResponse, ListTableMetadataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTableMetadataOutputResponse, ListTableMetadataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTableMetadataOutput, ListTableMetadataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTableMetadataOutput, ListTableMetadataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTableMetadataOutput, ListTableMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2411,7 +2397,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2419,7 +2405,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2435,21 +2421,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "AmazonAthena.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonAthena.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2458,14 +2444,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter ListWorkGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorkGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listWorkGroups(input: ListWorkGroupsInput) async throws -> ListWorkGroupsOutputResponse
+    public func listWorkGroups(input: ListWorkGroupsInput) async throws -> ListWorkGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2481,21 +2467,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWorkGroupsInput, ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(id: "listWorkGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkGroupsInput, ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkGroupsInput, ListWorkGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListWorkGroupsInput, ListWorkGroupsOutput, ListWorkGroupsOutputError>(id: "listWorkGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput, ListWorkGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorkGroupsOutput, ListWorkGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListWorkGroupsInput, ListWorkGroupsOutputResponse>(xAmzTarget: "AmazonAthena.ListWorkGroups"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorkGroupsInput, ListWorkGroupsOutputResponse>(xmlName: "ListWorkGroupsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorkGroupsInput, ListWorkGroupsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>(xAmzTarget: "AmazonAthena.ListWorkGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>(xmlName: "ListWorkGroupsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorkGroupsOutput, ListWorkGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkGroupsOutput, ListWorkGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkGroupsOutput, ListWorkGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkGroupsOutput, ListWorkGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2504,14 +2490,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter PutCapacityAssignmentConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutCapacityAssignmentConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutCapacityAssignmentConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func putCapacityAssignmentConfiguration(input: PutCapacityAssignmentConfigurationInput) async throws -> PutCapacityAssignmentConfigurationOutputResponse
+    public func putCapacityAssignmentConfiguration(input: PutCapacityAssignmentConfigurationInput) async throws -> PutCapacityAssignmentConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2527,21 +2513,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutputResponse, PutCapacityAssignmentConfigurationOutputError>(id: "putCapacityAssignmentConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutputResponse, PutCapacityAssignmentConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput, PutCapacityAssignmentConfigurationOutputError>(id: "putCapacityAssignmentConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput, PutCapacityAssignmentConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutCapacityAssignmentConfigurationOutputResponse, PutCapacityAssignmentConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutCapacityAssignmentConfigurationOutput, PutCapacityAssignmentConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutputResponse>(xAmzTarget: "AmazonAthena.PutCapacityAssignmentConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutputResponse>(xmlName: "PutCapacityAssignmentConfigurationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>(xAmzTarget: "AmazonAthena.PutCapacityAssignmentConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>(xmlName: "PutCapacityAssignmentConfigurationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutCapacityAssignmentConfigurationOutputResponse, PutCapacityAssignmentConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutCapacityAssignmentConfigurationOutput, PutCapacityAssignmentConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCapacityAssignmentConfigurationOutputResponse, PutCapacityAssignmentConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCapacityAssignmentConfigurationOutputResponse, PutCapacityAssignmentConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutCapacityAssignmentConfigurationOutputResponse, PutCapacityAssignmentConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCapacityAssignmentConfigurationOutput, PutCapacityAssignmentConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCapacityAssignmentConfigurationOutput, PutCapacityAssignmentConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutCapacityAssignmentConfigurationOutput, PutCapacityAssignmentConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2550,7 +2536,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter StartCalculationExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartCalculationExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartCalculationExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2558,7 +2544,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func startCalculationExecution(input: StartCalculationExecutionInput) async throws -> StartCalculationExecutionOutputResponse
+    public func startCalculationExecution(input: StartCalculationExecutionInput) async throws -> StartCalculationExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2574,21 +2560,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(id: "startCalculationExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartCalculationExecutionInput, StartCalculationExecutionOutput, StartCalculationExecutionOutputError>(id: "startCalculationExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput, StartCalculationExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartCalculationExecutionOutput, StartCalculationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse>(xAmzTarget: "AmazonAthena.StartCalculationExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse>(xmlName: "StartCalculationExecutionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>(xAmzTarget: "AmazonAthena.StartCalculationExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>(xmlName: "StartCalculationExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartCalculationExecutionOutput, StartCalculationExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCalculationExecutionOutput, StartCalculationExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCalculationExecutionOutput, StartCalculationExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCalculationExecutionOutput, StartCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2597,7 +2583,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter StartQueryExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartQueryExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartQueryExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2605,7 +2591,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func startQueryExecution(input: StartQueryExecutionInput) async throws -> StartQueryExecutionOutputResponse
+    public func startQueryExecution(input: StartQueryExecutionInput) async throws -> StartQueryExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2621,29 +2607,22 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartQueryExecutionInput, StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(id: "startQueryExecution")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartQueryExecutionOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartQueryExecutionInput, StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartQueryExecutionInput, StartQueryExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartQueryExecutionInput, StartQueryExecutionOutput, StartQueryExecutionOutputError>(id: "startQueryExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput, StartQueryExecutionOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput, StartQueryExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartQueryExecutionOutput, StartQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartQueryExecutionInput, StartQueryExecutionOutputResponse>(xAmzTarget: "AmazonAthena.StartQueryExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartQueryExecutionInput, StartQueryExecutionOutputResponse>(xmlName: "StartQueryExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartQueryExecutionInput, StartQueryExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>(xAmzTarget: "AmazonAthena.StartQueryExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>(xmlName: "StartQueryExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartQueryExecutionOutput, StartQueryExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartQueryExecutionOutput, StartQueryExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartQueryExecutionOutput, StartQueryExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartQueryExecutionOutput, StartQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2652,7 +2631,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter StartSessionInput : [no documentation found]
     ///
-    /// - Returns: `StartSessionOutputResponse` : [no documentation found]
+    /// - Returns: `StartSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2662,7 +2641,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     /// - `SessionAlreadyExistsException` : The specified session already exists.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func startSession(input: StartSessionInput) async throws -> StartSessionOutputResponse
+    public func startSession(input: StartSessionInput) async throws -> StartSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2678,21 +2657,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSessionInput, StartSessionOutputResponse, StartSessionOutputError>(id: "startSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSessionInput, StartSessionOutputResponse, StartSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSessionInput, StartSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartSessionInput, StartSessionOutput, StartSessionOutputError>(id: "startSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSessionInput, StartSessionOutput, StartSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSessionInput, StartSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSessionOutputResponse, StartSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSessionOutput, StartSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSessionInput, StartSessionOutputResponse>(xAmzTarget: "AmazonAthena.StartSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSessionInput, StartSessionOutputResponse>(xmlName: "StartSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSessionInput, StartSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSessionInput, StartSessionOutput>(xAmzTarget: "AmazonAthena.StartSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSessionInput, StartSessionOutput>(xmlName: "StartSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSessionInput, StartSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSessionOutputResponse, StartSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSessionOutput, StartSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSessionOutputResponse, StartSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSessionOutputResponse, StartSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSessionOutputResponse, StartSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSessionOutput, StartSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSessionOutput, StartSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSessionOutput, StartSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2701,7 +2680,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter StopCalculationExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StopCalculationExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StopCalculationExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2709,7 +2688,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func stopCalculationExecution(input: StopCalculationExecutionInput) async throws -> StopCalculationExecutionOutputResponse
+    public func stopCalculationExecution(input: StopCalculationExecutionInput) async throws -> StopCalculationExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2725,21 +2704,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(id: "stopCalculationExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopCalculationExecutionInput, StopCalculationExecutionOutput, StopCalculationExecutionOutputError>(id: "stopCalculationExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput, StopCalculationExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopCalculationExecutionOutput, StopCalculationExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse>(xAmzTarget: "AmazonAthena.StopCalculationExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse>(xmlName: "StopCalculationExecutionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>(xAmzTarget: "AmazonAthena.StopCalculationExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>(xmlName: "StopCalculationExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopCalculationExecutionOutput, StopCalculationExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopCalculationExecutionOutput, StopCalculationExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopCalculationExecutionOutput, StopCalculationExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopCalculationExecutionOutput, StopCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2748,14 +2727,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter StopQueryExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StopQueryExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StopQueryExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func stopQueryExecution(input: StopQueryExecutionInput) async throws -> StopQueryExecutionOutputResponse
+    public func stopQueryExecution(input: StopQueryExecutionInput) async throws -> StopQueryExecutionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2771,29 +2750,22 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopQueryExecutionInput, StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(id: "stopQueryExecution")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StopQueryExecutionOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.queryExecutionId == nil {
-                copiedInput.queryExecutionId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopQueryExecutionInput, StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopQueryExecutionInput, StopQueryExecutionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopQueryExecutionInput, StopQueryExecutionOutput, StopQueryExecutionOutputError>(id: "stopQueryExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput, StopQueryExecutionOutputError>(keyPath: \.queryExecutionId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput, StopQueryExecutionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopQueryExecutionOutput, StopQueryExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopQueryExecutionInput, StopQueryExecutionOutputResponse>(xAmzTarget: "AmazonAthena.StopQueryExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopQueryExecutionInput, StopQueryExecutionOutputResponse>(xmlName: "StopQueryExecutionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopQueryExecutionInput, StopQueryExecutionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>(xAmzTarget: "AmazonAthena.StopQueryExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>(xmlName: "StopQueryExecutionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopQueryExecutionOutput, StopQueryExecutionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopQueryExecutionOutput, StopQueryExecutionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopQueryExecutionOutput, StopQueryExecutionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopQueryExecutionOutput, StopQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2802,7 +2774,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2810,7 +2782,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2826,21 +2798,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "AmazonAthena.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonAthena.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2849,7 +2821,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter TerminateSessionInput : [no documentation found]
     ///
-    /// - Returns: `TerminateSessionOutputResponse` : [no documentation found]
+    /// - Returns: `TerminateSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2857,7 +2829,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutputResponse
+    public func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2873,21 +2845,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TerminateSessionInput, TerminateSessionOutputResponse, TerminateSessionOutputError>(id: "terminateSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSessionInput, TerminateSessionOutputResponse, TerminateSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateSessionInput, TerminateSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TerminateSessionInput, TerminateSessionOutput, TerminateSessionOutputError>(id: "terminateSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSessionInput, TerminateSessionOutput, TerminateSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateSessionInput, TerminateSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateSessionOutputResponse, TerminateSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateSessionOutput, TerminateSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TerminateSessionInput, TerminateSessionOutputResponse>(xAmzTarget: "AmazonAthena.TerminateSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TerminateSessionInput, TerminateSessionOutputResponse>(xmlName: "TerminateSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TerminateSessionInput, TerminateSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TerminateSessionInput, TerminateSessionOutput>(xAmzTarget: "AmazonAthena.TerminateSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TerminateSessionInput, TerminateSessionOutput>(xmlName: "TerminateSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TerminateSessionInput, TerminateSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateSessionOutputResponse, TerminateSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateSessionOutput, TerminateSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSessionOutputResponse, TerminateSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSessionOutputResponse, TerminateSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSessionOutputResponse, TerminateSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSessionOutput, TerminateSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSessionOutput, TerminateSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSessionOutput, TerminateSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2896,7 +2868,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2904,7 +2876,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2920,21 +2892,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "AmazonAthena.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonAthena.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2943,14 +2915,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UpdateCapacityReservationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCapacityReservationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCapacityReservationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateCapacityReservation(input: UpdateCapacityReservationInput) async throws -> UpdateCapacityReservationOutputResponse
+    public func updateCapacityReservation(input: UpdateCapacityReservationInput) async throws -> UpdateCapacityReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2966,21 +2938,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateCapacityReservationInput, UpdateCapacityReservationOutputResponse, UpdateCapacityReservationOutputError>(id: "updateCapacityReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutputResponse, UpdateCapacityReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateCapacityReservationInput, UpdateCapacityReservationOutput, UpdateCapacityReservationOutputError>(id: "updateCapacityReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput, UpdateCapacityReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCapacityReservationOutputResponse, UpdateCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCapacityReservationOutput, UpdateCapacityReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutputResponse>(xAmzTarget: "AmazonAthena.UpdateCapacityReservation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutputResponse>(xmlName: "UpdateCapacityReservationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>(xAmzTarget: "AmazonAthena.UpdateCapacityReservation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>(xmlName: "UpdateCapacityReservationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCapacityReservationOutputResponse, UpdateCapacityReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCapacityReservationOutput, UpdateCapacityReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCapacityReservationOutputResponse, UpdateCapacityReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCapacityReservationOutputResponse, UpdateCapacityReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCapacityReservationOutputResponse, UpdateCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCapacityReservationOutput, UpdateCapacityReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCapacityReservationOutput, UpdateCapacityReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCapacityReservationOutput, UpdateCapacityReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2989,14 +2961,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UpdateDataCatalogInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataCatalogOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataCatalogOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateDataCatalog(input: UpdateDataCatalogInput) async throws -> UpdateDataCatalogOutputResponse
+    public func updateDataCatalog(input: UpdateDataCatalogInput) async throws -> UpdateDataCatalogOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3012,21 +2984,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(id: "updateDataCatalog")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDataCatalogInput, UpdateDataCatalogOutput, UpdateDataCatalogOutputError>(id: "updateDataCatalog")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput, UpdateDataCatalogOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDataCatalogOutput, UpdateDataCatalogOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse>(xAmzTarget: "AmazonAthena.UpdateDataCatalog"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse>(xmlName: "UpdateDataCatalogInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>(xAmzTarget: "AmazonAthena.UpdateDataCatalog"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>(xmlName: "UpdateDataCatalogInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDataCatalogOutput, UpdateDataCatalogOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataCatalogOutput, UpdateDataCatalogOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataCatalogOutput, UpdateDataCatalogOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataCatalogOutput, UpdateDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3035,14 +3007,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UpdateNamedQueryInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNamedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNamedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateNamedQuery(input: UpdateNamedQueryInput) async throws -> UpdateNamedQueryOutputResponse
+    public func updateNamedQuery(input: UpdateNamedQueryInput) async throws -> UpdateNamedQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3058,21 +3030,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(id: "updateNamedQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNamedQueryInput, UpdateNamedQueryOutput, UpdateNamedQueryOutputError>(id: "updateNamedQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput, UpdateNamedQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNamedQueryOutput, UpdateNamedQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse>(xAmzTarget: "AmazonAthena.UpdateNamedQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse>(xmlName: "UpdateNamedQueryInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>(xAmzTarget: "AmazonAthena.UpdateNamedQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>(xmlName: "UpdateNamedQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNamedQueryOutput, UpdateNamedQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNamedQueryOutput, UpdateNamedQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNamedQueryOutput, UpdateNamedQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNamedQueryOutput, UpdateNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3081,7 +3053,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UpdateNotebookInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNotebookOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNotebookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3089,7 +3061,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func updateNotebook(input: UpdateNotebookInput) async throws -> UpdateNotebookOutputResponse
+    public func updateNotebook(input: UpdateNotebookInput) async throws -> UpdateNotebookOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3105,21 +3077,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNotebookInput, UpdateNotebookOutputResponse, UpdateNotebookOutputError>(id: "updateNotebook")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookInput, UpdateNotebookOutputResponse, UpdateNotebookOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookInput, UpdateNotebookOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNotebookInput, UpdateNotebookOutput, UpdateNotebookOutputError>(id: "updateNotebook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookInput, UpdateNotebookOutput, UpdateNotebookOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookInput, UpdateNotebookOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNotebookOutputResponse, UpdateNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNotebookOutput, UpdateNotebookOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookInput, UpdateNotebookOutputResponse>(xAmzTarget: "AmazonAthena.UpdateNotebook"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNotebookInput, UpdateNotebookOutputResponse>(xmlName: "UpdateNotebookInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNotebookInput, UpdateNotebookOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookInput, UpdateNotebookOutput>(xAmzTarget: "AmazonAthena.UpdateNotebook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNotebookInput, UpdateNotebookOutput>(xmlName: "UpdateNotebookInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNotebookInput, UpdateNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNotebookOutputResponse, UpdateNotebookOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNotebookOutput, UpdateNotebookOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookOutputResponse, UpdateNotebookOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookOutputResponse, UpdateNotebookOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookOutputResponse, UpdateNotebookOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookOutput, UpdateNotebookOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookOutput, UpdateNotebookOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookOutput, UpdateNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3128,7 +3100,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UpdateNotebookMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNotebookMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNotebookMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3136,7 +3108,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func updateNotebookMetadata(input: UpdateNotebookMetadataInput) async throws -> UpdateNotebookMetadataOutputResponse
+    public func updateNotebookMetadata(input: UpdateNotebookMetadataInput) async throws -> UpdateNotebookMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3152,21 +3124,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(id: "updateNotebookMetadata")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput, UpdateNotebookMetadataOutputError>(id: "updateNotebookMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput, UpdateNotebookMetadataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNotebookMetadataOutput, UpdateNotebookMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse>(xAmzTarget: "AmazonAthena.UpdateNotebookMetadata"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse>(xmlName: "UpdateNotebookMetadataInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>(xAmzTarget: "AmazonAthena.UpdateNotebookMetadata"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>(xmlName: "UpdateNotebookMetadataInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNotebookMetadataOutput, UpdateNotebookMetadataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookMetadataOutput, UpdateNotebookMetadataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookMetadataOutput, UpdateNotebookMetadataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookMetadataOutput, UpdateNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3175,7 +3147,7 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UpdatePreparedStatementInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePreparedStatementOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePreparedStatementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3183,7 +3155,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func updatePreparedStatement(input: UpdatePreparedStatementInput) async throws -> UpdatePreparedStatementOutputResponse
+    public func updatePreparedStatement(input: UpdatePreparedStatementInput) async throws -> UpdatePreparedStatementOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3199,21 +3171,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(id: "updatePreparedStatement")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePreparedStatementInput, UpdatePreparedStatementOutput, UpdatePreparedStatementOutputError>(id: "updatePreparedStatement")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput, UpdatePreparedStatementOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePreparedStatementOutput, UpdatePreparedStatementOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse>(xAmzTarget: "AmazonAthena.UpdatePreparedStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse>(xmlName: "UpdatePreparedStatementInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>(xAmzTarget: "AmazonAthena.UpdatePreparedStatement"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>(xmlName: "UpdatePreparedStatementInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePreparedStatementOutput, UpdatePreparedStatementOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePreparedStatementOutput, UpdatePreparedStatementOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePreparedStatementOutput, UpdatePreparedStatementOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePreparedStatementOutput, UpdatePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3222,14 +3194,14 @@ extension AthenaClient: AthenaClientProtocol {
     ///
     /// - Parameter UpdateWorkGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorkGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorkGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateWorkGroup(input: UpdateWorkGroupInput) async throws -> UpdateWorkGroupOutputResponse
+    public func updateWorkGroup(input: UpdateWorkGroupInput) async throws -> UpdateWorkGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3245,21 +3217,21 @@ extension AthenaClient: AthenaClientProtocol {
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(id: "updateWorkGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateWorkGroupInput, UpdateWorkGroupOutput, UpdateWorkGroupOutputError>(id: "updateWorkGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput, UpdateWorkGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWorkGroupOutput, UpdateWorkGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse>(xAmzTarget: "AmazonAthena.UpdateWorkGroup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse>(xmlName: "UpdateWorkGroupInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>(xAmzTarget: "AmazonAthena.UpdateWorkGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>(xmlName: "UpdateWorkGroupInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWorkGroupOutput, UpdateWorkGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkGroupOutput, UpdateWorkGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkGroupOutput, UpdateWorkGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkGroupOutput, UpdateWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

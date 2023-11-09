@@ -309,6 +309,16 @@ extension CreateSlackChannelConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension CreateSlackChannelConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateSlackChannelConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CreateSlackChannelConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -322,16 +332,6 @@ enum CreateSlackChannelConfigurationOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateSlackChannelConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateSlackChannelConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccountAliasInput: ClientRuntime.URLPathProvider {
@@ -354,6 +354,16 @@ extension DeleteAccountAliasInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAccountAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccountAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -365,16 +375,6 @@ enum DeleteAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteAccountAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccountAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSlackChannelConfigurationInput: Swift.Encodable {
@@ -438,6 +438,16 @@ extension DeleteSlackChannelConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSlackChannelConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSlackChannelConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSlackChannelConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -451,16 +461,6 @@ enum DeleteSlackChannelConfigurationOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSlackChannelConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSlackChannelConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSlackWorkspaceConfigurationInput: Swift.Encodable {
@@ -511,6 +511,16 @@ extension DeleteSlackWorkspaceConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSlackWorkspaceConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSlackWorkspaceConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSlackWorkspaceConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -524,16 +534,6 @@ enum DeleteSlackWorkspaceConfigurationOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSlackWorkspaceConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSlackWorkspaceConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GetAccountAliasInput: ClientRuntime.URLPathProvider {
@@ -556,22 +556,11 @@ extension GetAccountAliasInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAccountAliasOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccountAliasOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccountAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccountAliasOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountAlias = output.accountAlias
         } else {
             self.accountAlias = nil
@@ -579,7 +568,7 @@ extension GetAccountAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountAliasOutputResponse: Swift.Equatable {
+public struct GetAccountAliasOutput: Swift.Equatable {
     /// An alias or short name for an Amazon Web Services account.
     public var accountAlias: Swift.String?
 
@@ -591,11 +580,11 @@ public struct GetAccountAliasOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccountAliasOutputResponseBody: Swift.Equatable {
+struct GetAccountAliasOutputBody: Swift.Equatable {
     let accountAlias: Swift.String?
 }
 
-extension GetAccountAliasOutputResponseBody: Swift.Decodable {
+extension GetAccountAliasOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountAlias
     }
@@ -604,6 +593,17 @@ extension GetAccountAliasOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountAlias)
         accountAlias = accountAliasDecoded
+    }
+}
+
+enum GetAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -709,23 +709,11 @@ extension ListSlackChannelConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSlackChannelConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSlackChannelConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSlackChannelConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSlackChannelConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSlackChannelConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.slackChannelConfigurations = output.slackChannelConfigurations
         } else {
@@ -735,7 +723,7 @@ extension ListSlackChannelConfigurationsOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListSlackChannelConfigurationsOutputResponse: Swift.Equatable {
+public struct ListSlackChannelConfigurationsOutput: Swift.Equatable {
     /// The point where pagination should resume when the response returns only partial results.
     public var nextToken: Swift.String?
     /// The configurations for a Slack channel.
@@ -752,12 +740,12 @@ public struct ListSlackChannelConfigurationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSlackChannelConfigurationsOutputResponseBody: Swift.Equatable {
+struct ListSlackChannelConfigurationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let slackChannelConfigurations: [SupportAppClientTypes.SlackChannelConfiguration]?
 }
 
-extension ListSlackChannelConfigurationsOutputResponseBody: Swift.Decodable {
+extension ListSlackChannelConfigurationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case slackChannelConfigurations
@@ -778,6 +766,18 @@ extension ListSlackChannelConfigurationsOutputResponseBody: Swift.Decodable {
             }
         }
         slackChannelConfigurations = slackChannelConfigurationsDecoded0
+    }
+}
+
+enum ListSlackChannelConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -828,23 +828,11 @@ extension ListSlackWorkspaceConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSlackWorkspaceConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSlackWorkspaceConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSlackWorkspaceConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSlackWorkspaceConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSlackWorkspaceConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.slackWorkspaceConfigurations = output.slackWorkspaceConfigurations
         } else {
@@ -854,7 +842,7 @@ extension ListSlackWorkspaceConfigurationsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ListSlackWorkspaceConfigurationsOutputResponse: Swift.Equatable {
+public struct ListSlackWorkspaceConfigurationsOutput: Swift.Equatable {
     /// The point where pagination should resume when the response returns only partial results.
     public var nextToken: Swift.String?
     /// The configurations for a Slack workspace.
@@ -870,12 +858,12 @@ public struct ListSlackWorkspaceConfigurationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSlackWorkspaceConfigurationsOutputResponseBody: Swift.Equatable {
+struct ListSlackWorkspaceConfigurationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let slackWorkspaceConfigurations: [SupportAppClientTypes.SlackWorkspaceConfiguration]?
 }
 
-extension ListSlackWorkspaceConfigurationsOutputResponseBody: Swift.Decodable {
+extension ListSlackWorkspaceConfigurationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case slackWorkspaceConfigurations
@@ -896,6 +884,18 @@ extension ListSlackWorkspaceConfigurationsOutputResponseBody: Swift.Decodable {
             }
         }
         slackWorkspaceConfigurations = slackWorkspaceConfigurationsDecoded0
+    }
+}
+
+enum ListSlackWorkspaceConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -982,6 +982,16 @@ extension PutAccountAliasInputBody: Swift.Decodable {
     }
 }
 
+extension PutAccountAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutAccountAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -993,16 +1003,6 @@ enum PutAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutAccountAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutAccountAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RegisterSlackWorkspaceForOrganizationInput: Swift.Encodable {
@@ -1053,26 +1053,11 @@ extension RegisterSlackWorkspaceForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum RegisterSlackWorkspaceForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RegisterSlackWorkspaceForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RegisterSlackWorkspaceForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RegisterSlackWorkspaceForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RegisterSlackWorkspaceForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountType = output.accountType
             self.teamId = output.teamId
             self.teamName = output.teamName
@@ -1084,7 +1069,7 @@ extension RegisterSlackWorkspaceForOrganizationOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct RegisterSlackWorkspaceForOrganizationOutputResponse: Swift.Equatable {
+public struct RegisterSlackWorkspaceForOrganizationOutput: Swift.Equatable {
     /// Whether the Amazon Web Services account is a management or member account that's part of an organization in Organizations.
     public var accountType: SupportAppClientTypes.AccountType?
     /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG.
@@ -1104,13 +1089,13 @@ public struct RegisterSlackWorkspaceForOrganizationOutputResponse: Swift.Equatab
     }
 }
 
-struct RegisterSlackWorkspaceForOrganizationOutputResponseBody: Swift.Equatable {
+struct RegisterSlackWorkspaceForOrganizationOutputBody: Swift.Equatable {
     let teamId: Swift.String?
     let teamName: Swift.String?
     let accountType: SupportAppClientTypes.AccountType?
 }
 
-extension RegisterSlackWorkspaceForOrganizationOutputResponseBody: Swift.Decodable {
+extension RegisterSlackWorkspaceForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountType
         case teamId
@@ -1125,6 +1110,21 @@ extension RegisterSlackWorkspaceForOrganizationOutputResponseBody: Swift.Decodab
         teamName = teamNameDecoded
         let accountTypeDecoded = try containerValues.decodeIfPresent(SupportAppClientTypes.AccountType.self, forKey: .accountType)
         accountType = accountTypeDecoded
+    }
+}
+
+enum RegisterSlackWorkspaceForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1552,26 +1552,11 @@ extension UpdateSlackChannelConfigurationInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSlackChannelConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSlackChannelConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSlackChannelConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSlackChannelConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSlackChannelConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.channelId = output.channelId
             self.channelName = output.channelName
             self.channelRoleArn = output.channelRoleArn
@@ -1593,7 +1578,7 @@ extension UpdateSlackChannelConfigurationOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct UpdateSlackChannelConfigurationOutputResponse: Swift.Equatable {
+public struct UpdateSlackChannelConfigurationOutput: Swift.Equatable {
     /// The channel ID in Slack. This ID identifies a channel within a Slack workspace.
     public var channelId: Swift.String?
     /// The name of the Slack channel that you configure for the Amazon Web Services Support App.
@@ -1633,7 +1618,7 @@ public struct UpdateSlackChannelConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSlackChannelConfigurationOutputResponseBody: Swift.Equatable {
+struct UpdateSlackChannelConfigurationOutputBody: Swift.Equatable {
     let teamId: Swift.String?
     let channelId: Swift.String?
     let channelName: Swift.String?
@@ -1644,7 +1629,7 @@ struct UpdateSlackChannelConfigurationOutputResponseBody: Swift.Equatable {
     let channelRoleArn: Swift.String?
 }
 
-extension UpdateSlackChannelConfigurationOutputResponseBody: Swift.Decodable {
+extension UpdateSlackChannelConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelId
         case channelName
@@ -1674,6 +1659,21 @@ extension UpdateSlackChannelConfigurationOutputResponseBody: Swift.Decodable {
         notifyOnCaseSeverity = notifyOnCaseSeverityDecoded
         let channelRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelRoleArn)
         channelRoleArn = channelRoleArnDecoded
+    }
+}
+
+enum UpdateSlackChannelConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodeGuruReviewerClient {
-    /// Paginate over `[ListCodeReviewsOutputResponse]` results.
+    /// Paginate over `[ListCodeReviewsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCodeReviewsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCodeReviewsOutputResponse`
-    public func listCodeReviewsPaginated(input: ListCodeReviewsInput) -> ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutputResponse>(input: input, inputKey: \ListCodeReviewsInput.nextToken, outputKey: \ListCodeReviewsOutputResponse.nextToken, paginationFunction: self.listCodeReviews(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCodeReviewsOutput`
+    public func listCodeReviewsPaginated(input: ListCodeReviewsInput) -> ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutput>(input: input, inputKey: \ListCodeReviewsInput.nextToken, outputKey: \ListCodeReviewsOutput.nextToken, paginationFunction: self.listCodeReviews(input:))
     }
 }
 
@@ -28,16 +28,16 @@ extension ListCodeReviewsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeGuruReviewerClient {
-    /// Paginate over `[ListRecommendationFeedbackOutputResponse]` results.
+    /// Paginate over `[ListRecommendationFeedbackOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRecommendationFeedbackInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationFeedbackOutputResponse`
-    public func listRecommendationFeedbackPaginated(input: ListRecommendationFeedbackInput) -> ClientRuntime.PaginatorSequence<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutputResponse>(input: input, inputKey: \ListRecommendationFeedbackInput.nextToken, outputKey: \ListRecommendationFeedbackOutputResponse.nextToken, paginationFunction: self.listRecommendationFeedback(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationFeedbackOutput`
+    public func listRecommendationFeedbackPaginated(input: ListRecommendationFeedbackInput) -> ClientRuntime.PaginatorSequence<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutput>(input: input, inputKey: \ListRecommendationFeedbackInput.nextToken, outputKey: \ListRecommendationFeedbackOutput.nextToken, paginationFunction: self.listRecommendationFeedback(input:))
     }
 }
 
@@ -52,16 +52,16 @@ extension ListRecommendationFeedbackInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeGuruReviewerClient {
-    /// Paginate over `[ListRecommendationsOutputResponse]` results.
+    /// Paginate over `[ListRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRecommendationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutputResponse`
-    public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutputResponse>(input: input, inputKey: \ListRecommendationsInput.nextToken, outputKey: \ListRecommendationsOutputResponse.nextToken, paginationFunction: self.listRecommendations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutput`
+    public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \ListRecommendationsInput.nextToken, outputKey: \ListRecommendationsOutput.nextToken, paginationFunction: self.listRecommendations(input:))
     }
 }
 
@@ -74,16 +74,16 @@ extension ListRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeGuruReviewerClient {
-    /// Paginate over `[ListRepositoryAssociationsOutputResponse]` results.
+    /// Paginate over `[ListRepositoryAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRepositoryAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoryAssociationsOutputResponse`
-    public func listRepositoryAssociationsPaginated(input: ListRepositoryAssociationsInput) -> ClientRuntime.PaginatorSequence<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutputResponse>(input: input, inputKey: \ListRepositoryAssociationsInput.nextToken, outputKey: \ListRepositoryAssociationsOutputResponse.nextToken, paginationFunction: self.listRepositoryAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoryAssociationsOutput`
+    public func listRepositoryAssociationsPaginated(input: ListRepositoryAssociationsInput) -> ClientRuntime.PaginatorSequence<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutput>(input: input, inputKey: \ListRepositoryAssociationsInput.nextToken, outputKey: \ListRepositoryAssociationsOutput.nextToken, paginationFunction: self.listRepositoryAssociations(input:))
     }
 }
 
@@ -99,7 +99,7 @@ extension ListRepositoryAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRepositoryAssociationsInput, Output == ListRepositoryAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListRepositoryAssociationsInput, Output == ListRepositoryAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRepositoryAssociationsPaginated`
     /// to access the nested member `[CodeGuruReviewerClientTypes.RepositoryAssociationSummary]`
     /// - Returns: `[CodeGuruReviewerClientTypes.RepositoryAssociationSummary]`

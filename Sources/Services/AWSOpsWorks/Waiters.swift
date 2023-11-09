@@ -4,22 +4,22 @@ import ClientRuntime
 
 extension OpsWorksClientProtocol {
 
-    static func appExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAppsInput, DescribeAppsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAppsInput, DescribeAppsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAppsInput, result: Result<DescribeAppsOutputResponse, Error>) -> Bool in
+    static func appExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAppsInput, DescribeAppsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAppsInput, DescribeAppsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAppsInput, result: Result<DescribeAppsOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .failure, matcher: { (input: DescribeAppsInput, result: Result<DescribeAppsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeAppsInput, result: Result<DescribeAppsOutput, Error>) -> Bool in
                 switch result {
                     case .success: return false
                     case .failure: return true
                 }
             }),
         ]
-        return try WaiterConfiguration<DescribeAppsInput, DescribeAppsOutputResponse>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAppsInput, DescribeAppsOutput>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AppExists event on the describeApps operation.
@@ -33,14 +33,14 @@ extension OpsWorksClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAppExists(options: WaiterOptions, input: DescribeAppsInput) async throws -> WaiterOutcome<DescribeAppsOutputResponse> {
+    public func waitUntilAppExists(options: WaiterOptions, input: DescribeAppsInput) async throws -> WaiterOutcome<DescribeAppsOutput> {
         let waiter = Waiter(config: try Self.appExistsWaiterConfig(), operation: self.describeApps(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func deploymentSuccessfulWaiterConfig() throws -> WaiterConfiguration<DescribeDeploymentsInput, DescribeDeploymentsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDeploymentsInput, DescribeDeploymentsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDeploymentsInput, result: Result<DescribeDeploymentsOutputResponse, Error>) -> Bool in
+    static func deploymentSuccessfulWaiterConfig() throws -> WaiterConfiguration<DescribeDeploymentsInput, DescribeDeploymentsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDeploymentsInput, DescribeDeploymentsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDeploymentsInput, result: Result<DescribeDeploymentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Deployments[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "successful"
@@ -52,7 +52,7 @@ extension OpsWorksClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "successful") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeDeploymentsInput, result: Result<DescribeDeploymentsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDeploymentsInput, result: Result<DescribeDeploymentsOutput, Error>) -> Bool in
                 // JMESPath expression: "Deployments[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -65,7 +65,7 @@ extension OpsWorksClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDeploymentsInput, DescribeDeploymentsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDeploymentsInput, DescribeDeploymentsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DeploymentSuccessful event on the describeDeployments operation.
@@ -79,14 +79,14 @@ extension OpsWorksClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDeploymentSuccessful(options: WaiterOptions, input: DescribeDeploymentsInput) async throws -> WaiterOutcome<DescribeDeploymentsOutputResponse> {
+    public func waitUntilDeploymentSuccessful(options: WaiterOptions, input: DescribeDeploymentsInput) async throws -> WaiterOutcome<DescribeDeploymentsOutput> {
         let waiter = Waiter(config: try Self.deploymentSuccessfulWaiterConfig(), operation: self.describeDeployments(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func instanceOnlineWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+    static func instanceOnlineWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "online"
@@ -98,7 +98,7 @@ extension OpsWorksClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "online") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "setup_failed"
@@ -110,7 +110,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "setup_failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "shutting_down"
@@ -122,7 +122,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "shutting_down") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "start_failed"
@@ -134,7 +134,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "start_failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopped"
@@ -146,7 +146,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopped") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopping"
@@ -158,7 +158,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopping") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "terminating"
@@ -170,7 +170,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "terminating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "terminated"
@@ -182,7 +182,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "terminated") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stop_failed"
@@ -195,7 +195,7 @@ extension OpsWorksClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stop_failed") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the InstanceOnline event on the describeInstances operation.
@@ -209,14 +209,14 @@ extension OpsWorksClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilInstanceOnline(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutputResponse> {
+    public func waitUntilInstanceOnline(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutput> {
         let waiter = Waiter(config: try Self.instanceOnlineWaiterConfig(), operation: self.describeInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func instanceRegisteredWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+    static func instanceRegisteredWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "registered"
@@ -228,7 +228,7 @@ extension OpsWorksClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "registered") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "setup_failed"
@@ -240,7 +240,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "setup_failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "shutting_down"
@@ -252,7 +252,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "shutting_down") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopped"
@@ -264,7 +264,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopped") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stopping"
@@ -276,7 +276,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stopping") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "terminating"
@@ -288,7 +288,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "terminating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "terminated"
@@ -300,7 +300,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "terminated") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stop_failed"
@@ -313,7 +313,7 @@ extension OpsWorksClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stop_failed") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the InstanceRegistered event on the describeInstances operation.
@@ -327,14 +327,14 @@ extension OpsWorksClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilInstanceRegistered(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutputResponse> {
+    public func waitUntilInstanceRegistered(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutput> {
         let waiter = Waiter(config: try Self.instanceRegisteredWaiterConfig(), operation: self.describeInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func instanceStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+    static func instanceStoppedWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "stopped"
@@ -346,7 +346,7 @@ extension OpsWorksClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "stopped") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "booting"
@@ -358,7 +358,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "booting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "pending"
@@ -370,7 +370,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "pending") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "rebooting"
@@ -382,7 +382,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "rebooting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "requested"
@@ -394,7 +394,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "requested") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "running_setup"
@@ -406,7 +406,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "running_setup") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "setup_failed"
@@ -418,7 +418,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "setup_failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "start_failed"
@@ -430,7 +430,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "start_failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "stop_failed"
@@ -443,7 +443,7 @@ extension OpsWorksClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "stop_failed") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the InstanceStopped event on the describeInstances operation.
@@ -457,14 +457,14 @@ extension OpsWorksClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilInstanceStopped(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutputResponse> {
+    public func waitUntilInstanceStopped(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutput> {
         let waiter = Waiter(config: try Self.instanceStoppedWaiterConfig(), operation: self.describeInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func instanceTerminatedWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+    static func instanceTerminatedWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "terminated"
@@ -476,11 +476,11 @@ extension OpsWorksClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "terminated") } ?? false)
             }),
-            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "booting"
@@ -492,7 +492,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "booting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "online"
@@ -504,7 +504,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "online") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "pending"
@@ -516,7 +516,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "pending") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "rebooting"
@@ -528,7 +528,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "rebooting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "requested"
@@ -540,7 +540,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "requested") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "running_setup"
@@ -552,7 +552,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "running_setup") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "setup_failed"
@@ -564,7 +564,7 @@ extension OpsWorksClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "setup_failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "start_failed"
@@ -577,7 +577,7 @@ extension OpsWorksClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "start_failed") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the InstanceTerminated event on the describeInstances operation.
@@ -591,7 +591,7 @@ extension OpsWorksClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilInstanceTerminated(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutputResponse> {
+    public func waitUntilInstanceTerminated(options: WaiterOptions, input: DescribeInstancesInput) async throws -> WaiterOutcome<DescribeInstancesOutput> {
         let waiter = Waiter(config: try Self.instanceTerminatedWaiterConfig(), operation: self.describeInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

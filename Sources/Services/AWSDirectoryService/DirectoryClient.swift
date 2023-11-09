@@ -71,7 +71,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter AcceptSharedDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `AcceptSharedDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptSharedDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,7 +81,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func acceptSharedDirectory(input: AcceptSharedDirectoryInput) async throws -> AcceptSharedDirectoryOutputResponse
+    public func acceptSharedDirectory(input: AcceptSharedDirectoryInput) async throws -> AcceptSharedDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -97,21 +97,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(id: "acceptSharedDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput, AcceptSharedDirectoryOutputError>(id: "acceptSharedDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput, AcceptSharedDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptSharedDirectoryOutput, AcceptSharedDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.AcceptSharedDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse>(xmlName: "AcceptSharedDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.AcceptSharedDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput>(xmlName: "AcceptSharedDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptSharedDirectoryOutput, AcceptSharedDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptSharedDirectoryOutput, AcceptSharedDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptSharedDirectoryOutput, AcceptSharedDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptSharedDirectoryOutput, AcceptSharedDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -120,7 +120,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter AddIpRoutesInput : [no documentation found]
     ///
-    /// - Returns: `AddIpRoutesOutputResponse` : [no documentation found]
+    /// - Returns: `AddIpRoutesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,7 +132,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `IpRouteLimitExceededException` : The maximum allowed number of IP addresses was exceeded. The default limit is 100 IP address blocks.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func addIpRoutes(input: AddIpRoutesInput) async throws -> AddIpRoutesOutputResponse
+    public func addIpRoutes(input: AddIpRoutesInput) async throws -> AddIpRoutesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -148,21 +148,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddIpRoutesInput, AddIpRoutesOutputResponse, AddIpRoutesOutputError>(id: "addIpRoutes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddIpRoutesInput, AddIpRoutesOutputResponse, AddIpRoutesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddIpRoutesInput, AddIpRoutesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddIpRoutesInput, AddIpRoutesOutput, AddIpRoutesOutputError>(id: "addIpRoutes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddIpRoutesInput, AddIpRoutesOutput, AddIpRoutesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddIpRoutesInput, AddIpRoutesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddIpRoutesOutputResponse, AddIpRoutesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddIpRoutesOutput, AddIpRoutesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddIpRoutesInput, AddIpRoutesOutputResponse>(xAmzTarget: "DirectoryService_20150416.AddIpRoutes"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddIpRoutesInput, AddIpRoutesOutputResponse>(xmlName: "AddIpRoutesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddIpRoutesInput, AddIpRoutesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddIpRoutesInput, AddIpRoutesOutput>(xAmzTarget: "DirectoryService_20150416.AddIpRoutes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddIpRoutesInput, AddIpRoutesOutput>(xmlName: "AddIpRoutesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddIpRoutesInput, AddIpRoutesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddIpRoutesOutputResponse, AddIpRoutesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddIpRoutesOutput, AddIpRoutesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddIpRoutesOutputResponse, AddIpRoutesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddIpRoutesOutputResponse, AddIpRoutesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddIpRoutesOutputResponse, AddIpRoutesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddIpRoutesOutput, AddIpRoutesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddIpRoutesOutput, AddIpRoutesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddIpRoutesOutput, AddIpRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -171,7 +171,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter AddRegionInput : [no documentation found]
     ///
-    /// - Returns: `AddRegionOutputResponse` : [no documentation found]
+    /// - Returns: `AddRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -186,7 +186,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `RegionLimitExceededException` : You have reached the limit for maximum number of simultaneous Region replications per directory.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func addRegion(input: AddRegionInput) async throws -> AddRegionOutputResponse
+    public func addRegion(input: AddRegionInput) async throws -> AddRegionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -202,21 +202,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddRegionInput, AddRegionOutputResponse, AddRegionOutputError>(id: "addRegion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRegionInput, AddRegionOutputResponse, AddRegionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRegionInput, AddRegionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddRegionInput, AddRegionOutput, AddRegionOutputError>(id: "addRegion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRegionInput, AddRegionOutput, AddRegionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRegionInput, AddRegionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddRegionOutputResponse, AddRegionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddRegionOutput, AddRegionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddRegionInput, AddRegionOutputResponse>(xAmzTarget: "DirectoryService_20150416.AddRegion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddRegionInput, AddRegionOutputResponse>(xmlName: "AddRegionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddRegionInput, AddRegionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddRegionInput, AddRegionOutput>(xAmzTarget: "DirectoryService_20150416.AddRegion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddRegionInput, AddRegionOutput>(xmlName: "AddRegionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddRegionInput, AddRegionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddRegionOutputResponse, AddRegionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddRegionOutput, AddRegionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRegionOutputResponse, AddRegionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRegionOutputResponse, AddRegionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRegionOutputResponse, AddRegionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRegionOutput, AddRegionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRegionOutput, AddRegionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRegionOutput, AddRegionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -225,7 +225,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter AddTagsToResourceInput : [no documentation found]
     ///
-    /// - Returns: `AddTagsToResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -235,7 +235,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -251,21 +251,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutput, AddTagsToResourceOutputError>(id: "addTagsToResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput, AddTagsToResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(xAmzTarget: "DirectoryService_20150416.AddTagsToResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(xmlName: "AddTagsToResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(xAmzTarget: "DirectoryService_20150416.AddTagsToResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(xmlName: "AddTagsToResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsToResourceOutput, AddTagsToResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutput, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -274,7 +274,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CancelSchemaExtensionInput : [no documentation found]
     ///
-    /// - Returns: `CancelSchemaExtensionOutputResponse` : [no documentation found]
+    /// - Returns: `CancelSchemaExtensionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -282,7 +282,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func cancelSchemaExtension(input: CancelSchemaExtensionInput) async throws -> CancelSchemaExtensionOutputResponse
+    public func cancelSchemaExtension(input: CancelSchemaExtensionInput) async throws -> CancelSchemaExtensionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -298,21 +298,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(id: "cancelSchemaExtension")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelSchemaExtensionInput, CancelSchemaExtensionOutput, CancelSchemaExtensionOutputError>(id: "cancelSchemaExtension")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutput, CancelSchemaExtensionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSchemaExtensionOutput, CancelSchemaExtensionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse>(xAmzTarget: "DirectoryService_20150416.CancelSchemaExtension"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse>(xmlName: "CancelSchemaExtensionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutput>(xAmzTarget: "DirectoryService_20150416.CancelSchemaExtension"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutput>(xmlName: "CancelSchemaExtensionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSchemaExtensionOutput, CancelSchemaExtensionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSchemaExtensionOutput, CancelSchemaExtensionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSchemaExtensionOutput, CancelSchemaExtensionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSchemaExtensionOutput, CancelSchemaExtensionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -321,7 +321,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ConnectDirectoryInput : Contains the inputs for the [ConnectDirectory] operation.
     ///
-    /// - Returns: `ConnectDirectoryOutputResponse` : Contains the results of the [ConnectDirectory] operation.
+    /// - Returns: `ConnectDirectoryOutput` : Contains the results of the [ConnectDirectory] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -330,7 +330,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `DirectoryLimitExceededException` : The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func connectDirectory(input: ConnectDirectoryInput) async throws -> ConnectDirectoryOutputResponse
+    public func connectDirectory(input: ConnectDirectoryInput) async throws -> ConnectDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -346,21 +346,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ConnectDirectoryInput, ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(id: "connectDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConnectDirectoryInput, ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConnectDirectoryInput, ConnectDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ConnectDirectoryInput, ConnectDirectoryOutput, ConnectDirectoryOutputError>(id: "connectDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConnectDirectoryInput, ConnectDirectoryOutput, ConnectDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConnectDirectoryInput, ConnectDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConnectDirectoryOutput, ConnectDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ConnectDirectoryInput, ConnectDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.ConnectDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConnectDirectoryInput, ConnectDirectoryOutputResponse>(xmlName: "ConnectDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConnectDirectoryInput, ConnectDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ConnectDirectoryInput, ConnectDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.ConnectDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConnectDirectoryInput, ConnectDirectoryOutput>(xmlName: "ConnectDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConnectDirectoryInput, ConnectDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConnectDirectoryOutput, ConnectDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConnectDirectoryOutput, ConnectDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConnectDirectoryOutput, ConnectDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConnectDirectoryOutput, ConnectDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -369,7 +369,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateAliasInput : Contains the inputs for the [CreateAlias] operation.
     ///
-    /// - Returns: `CreateAliasOutputResponse` : Contains the results of the [CreateAlias] operation.
+    /// - Returns: `CreateAliasOutput` : Contains the results of the [CreateAlias] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -379,7 +379,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -395,21 +395,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>(id: "createAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutput, CreateAliasOutputError>(id: "createAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutput, CreateAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAliasOutput, CreateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAliasInput, CreateAliasOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAliasInput, CreateAliasOutputResponse>(xmlName: "CreateAliasRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAliasInput, CreateAliasOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAliasInput, CreateAliasOutput>(xAmzTarget: "DirectoryService_20150416.CreateAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAliasInput, CreateAliasOutput>(xmlName: "CreateAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAliasInput, CreateAliasOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAliasOutputResponse, CreateAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAliasOutput, CreateAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutputResponse, CreateAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutput, CreateAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutput, CreateAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutput, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -418,7 +418,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateComputerInput : Contains the inputs for the [CreateComputer] operation.
     ///
-    /// - Returns: `CreateComputerOutputResponse` : Contains the results for the [CreateComputer] operation.
+    /// - Returns: `CreateComputerOutput` : Contains the results for the [CreateComputer] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -431,7 +431,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createComputer(input: CreateComputerInput) async throws -> CreateComputerOutputResponse
+    public func createComputer(input: CreateComputerInput) async throws -> CreateComputerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -447,21 +447,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateComputerInput, CreateComputerOutputResponse, CreateComputerOutputError>(id: "createComputer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateComputerInput, CreateComputerOutputResponse, CreateComputerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateComputerInput, CreateComputerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateComputerInput, CreateComputerOutput, CreateComputerOutputError>(id: "createComputer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateComputerInput, CreateComputerOutput, CreateComputerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateComputerInput, CreateComputerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateComputerOutputResponse, CreateComputerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateComputerOutput, CreateComputerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateComputerInput, CreateComputerOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateComputer"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateComputerInput, CreateComputerOutputResponse>(xmlName: "CreateComputerRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateComputerInput, CreateComputerOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateComputerInput, CreateComputerOutput>(xAmzTarget: "DirectoryService_20150416.CreateComputer"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateComputerInput, CreateComputerOutput>(xmlName: "CreateComputerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateComputerInput, CreateComputerOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateComputerOutputResponse, CreateComputerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateComputerOutput, CreateComputerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComputerOutputResponse, CreateComputerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComputerOutputResponse, CreateComputerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateComputerOutputResponse, CreateComputerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComputerOutput, CreateComputerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComputerOutput, CreateComputerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateComputerOutput, CreateComputerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -470,7 +470,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateConditionalForwarderInput : Initiates the creation of a conditional forwarder for your Directory Service for Microsoft Active Directory. Conditional forwarders are required in order to set up a trust relationship with another domain.
     ///
-    /// - Returns: `CreateConditionalForwarderOutputResponse` : The result of a CreateConditinalForwarder request.
+    /// - Returns: `CreateConditionalForwarderOutput` : The result of a CreateConditinalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,7 +482,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createConditionalForwarder(input: CreateConditionalForwarderInput) async throws -> CreateConditionalForwarderOutputResponse
+    public func createConditionalForwarder(input: CreateConditionalForwarderInput) async throws -> CreateConditionalForwarderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -498,21 +498,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(id: "createConditionalForwarder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateConditionalForwarderInput, CreateConditionalForwarderOutput, CreateConditionalForwarderOutputError>(id: "createConditionalForwarder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutput, CreateConditionalForwarderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConditionalForwarderOutput, CreateConditionalForwarderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateConditionalForwarder"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse>(xmlName: "CreateConditionalForwarderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutput>(xAmzTarget: "DirectoryService_20150416.CreateConditionalForwarder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutput>(xmlName: "CreateConditionalForwarderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConditionalForwarderOutput, CreateConditionalForwarderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConditionalForwarderOutput, CreateConditionalForwarderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConditionalForwarderOutput, CreateConditionalForwarderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConditionalForwarderOutput, CreateConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -521,7 +521,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateDirectoryInput : Contains the inputs for the [CreateDirectory] operation.
     ///
-    /// - Returns: `CreateDirectoryOutputResponse` : Contains the results of the [CreateDirectory] operation.
+    /// - Returns: `CreateDirectoryOutput` : Contains the results of the [CreateDirectory] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -530,7 +530,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `DirectoryLimitExceededException` : The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutputResponse
+    public func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -546,21 +546,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDirectoryInput, CreateDirectoryOutputResponse, CreateDirectoryOutputError>(id: "createDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse, CreateDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDirectoryInput, CreateDirectoryOutput, CreateDirectoryOutputError>(id: "createDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDirectoryInput, CreateDirectoryOutput, CreateDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDirectoryInput, CreateDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDirectoryOutput, CreateDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse>(xmlName: "CreateDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDirectoryInput, CreateDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.CreateDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDirectoryInput, CreateDirectoryOutput>(xmlName: "CreateDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDirectoryInput, CreateDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDirectoryOutputResponse, CreateDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDirectoryOutput, CreateDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDirectoryOutput, CreateDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDirectoryOutput, CreateDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDirectoryOutput, CreateDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -569,7 +569,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -580,7 +580,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createLogSubscription(input: CreateLogSubscriptionInput) async throws -> CreateLogSubscriptionOutputResponse
+    public func createLogSubscription(input: CreateLogSubscriptionInput) async throws -> CreateLogSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -596,21 +596,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(id: "createLogSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateLogSubscriptionInput, CreateLogSubscriptionOutput, CreateLogSubscriptionOutputError>(id: "createLogSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutput, CreateLogSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLogSubscriptionOutput, CreateLogSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateLogSubscription"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse>(xmlName: "CreateLogSubscriptionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutput>(xAmzTarget: "DirectoryService_20150416.CreateLogSubscription"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutput>(xmlName: "CreateLogSubscriptionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLogSubscriptionOutput, CreateLogSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLogSubscriptionOutput, CreateLogSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLogSubscriptionOutput, CreateLogSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLogSubscriptionOutput, CreateLogSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -619,7 +619,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateMicrosoftADInput : Creates an Managed Microsoft AD directory.
     ///
-    /// - Returns: `CreateMicrosoftADOutputResponse` : Result of a CreateMicrosoftAD request.
+    /// - Returns: `CreateMicrosoftADOutput` : Result of a CreateMicrosoftAD request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,7 +629,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createMicrosoftAD(input: CreateMicrosoftADInput) async throws -> CreateMicrosoftADOutputResponse
+    public func createMicrosoftAD(input: CreateMicrosoftADInput) async throws -> CreateMicrosoftADOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -645,21 +645,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(id: "createMicrosoftAD")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateMicrosoftADInput, CreateMicrosoftADOutput, CreateMicrosoftADOutputError>(id: "createMicrosoftAD")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutput, CreateMicrosoftADOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMicrosoftADOutput, CreateMicrosoftADOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateMicrosoftAD"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse>(xmlName: "CreateMicrosoftADRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutput>(xAmzTarget: "DirectoryService_20150416.CreateMicrosoftAD"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutput>(xmlName: "CreateMicrosoftADRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMicrosoftADOutput, CreateMicrosoftADOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMicrosoftADOutput, CreateMicrosoftADOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMicrosoftADOutput, CreateMicrosoftADOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMicrosoftADOutput, CreateMicrosoftADOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -668,7 +668,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateSnapshotInput : Contains the inputs for the [CreateSnapshot] operation.
     ///
-    /// - Returns: `CreateSnapshotOutputResponse` : Contains the results of the [CreateSnapshot] operation.
+    /// - Returns: `CreateSnapshotOutput` : Contains the results of the [CreateSnapshot] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -678,7 +678,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutputResponse
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -694,21 +694,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(id: "createSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutput, CreateSnapshotOutputError>(id: "createSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutput, CreateSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSnapshotOutput, CreateSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateSnapshot"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>(xmlName: "CreateSnapshotRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(xAmzTarget: "DirectoryService_20150416.CreateSnapshot"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(xmlName: "CreateSnapshotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSnapshotOutput, CreateSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutput, CreateSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput, CreateSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutput, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -717,7 +717,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter CreateTrustInput : Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain.
     ///
-    /// - Returns: `CreateTrustOutputResponse` : The result of a CreateTrust request.
+    /// - Returns: `CreateTrustOutput` : The result of a CreateTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,7 +728,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createTrust(input: CreateTrustInput) async throws -> CreateTrustOutputResponse
+    public func createTrust(input: CreateTrustInput) async throws -> CreateTrustOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -744,21 +744,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTrustInput, CreateTrustOutputResponse, CreateTrustOutputError>(id: "createTrust")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustInput, CreateTrustOutputResponse, CreateTrustOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustInput, CreateTrustOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTrustInput, CreateTrustOutput, CreateTrustOutputError>(id: "createTrust")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustInput, CreateTrustOutput, CreateTrustOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustInput, CreateTrustOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrustOutputResponse, CreateTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrustOutput, CreateTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTrustInput, CreateTrustOutputResponse>(xAmzTarget: "DirectoryService_20150416.CreateTrust"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTrustInput, CreateTrustOutputResponse>(xmlName: "CreateTrustRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrustInput, CreateTrustOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTrustInput, CreateTrustOutput>(xAmzTarget: "DirectoryService_20150416.CreateTrust"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTrustInput, CreateTrustOutput>(xmlName: "CreateTrustRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrustInput, CreateTrustOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrustOutputResponse, CreateTrustOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrustOutput, CreateTrustOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustOutputResponse, CreateTrustOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustOutputResponse, CreateTrustOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustOutputResponse, CreateTrustOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustOutput, CreateTrustOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustOutput, CreateTrustOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustOutput, CreateTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -767,7 +767,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DeleteConditionalForwarderInput : Deletes a conditional forwarder.
     ///
-    /// - Returns: `DeleteConditionalForwarderOutputResponse` : The result of a DeleteConditionalForwarder request.
+    /// - Returns: `DeleteConditionalForwarderOutput` : The result of a DeleteConditionalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,7 +778,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deleteConditionalForwarder(input: DeleteConditionalForwarderInput) async throws -> DeleteConditionalForwarderOutputResponse
+    public func deleteConditionalForwarder(input: DeleteConditionalForwarderInput) async throws -> DeleteConditionalForwarderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -794,21 +794,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(id: "deleteConditionalForwarder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput, DeleteConditionalForwarderOutputError>(id: "deleteConditionalForwarder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput, DeleteConditionalForwarderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConditionalForwarderOutput, DeleteConditionalForwarderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse>(xAmzTarget: "DirectoryService_20150416.DeleteConditionalForwarder"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse>(xmlName: "DeleteConditionalForwarderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput>(xAmzTarget: "DirectoryService_20150416.DeleteConditionalForwarder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput>(xmlName: "DeleteConditionalForwarderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConditionalForwarderOutput, DeleteConditionalForwarderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConditionalForwarderOutput, DeleteConditionalForwarderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConditionalForwarderOutput, DeleteConditionalForwarderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConditionalForwarderOutput, DeleteConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -817,7 +817,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DeleteDirectoryInput : Contains the inputs for the [DeleteDirectory] operation.
     ///
-    /// - Returns: `DeleteDirectoryOutputResponse` : Contains the results of the [DeleteDirectory] operation.
+    /// - Returns: `DeleteDirectoryOutput` : Contains the results of the [DeleteDirectory] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,7 +825,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutputResponse
+    public func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -841,21 +841,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDirectoryInput, DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(id: "deleteDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDirectoryInput, DeleteDirectoryOutput, DeleteDirectoryOutputError>(id: "deleteDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput, DeleteDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDirectoryOutput, DeleteDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.DeleteDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse>(xmlName: "DeleteDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.DeleteDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>(xmlName: "DeleteDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDirectoryOutput, DeleteDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDirectoryOutput, DeleteDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDirectoryOutput, DeleteDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDirectoryOutput, DeleteDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -864,7 +864,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DeleteLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,7 +873,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deleteLogSubscription(input: DeleteLogSubscriptionInput) async throws -> DeleteLogSubscriptionOutputResponse
+    public func deleteLogSubscription(input: DeleteLogSubscriptionInput) async throws -> DeleteLogSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -889,21 +889,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(id: "deleteLogSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput, DeleteLogSubscriptionOutputError>(id: "deleteLogSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput, DeleteLogSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLogSubscriptionOutput, DeleteLogSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse>(xAmzTarget: "DirectoryService_20150416.DeleteLogSubscription"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse>(xmlName: "DeleteLogSubscriptionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput>(xAmzTarget: "DirectoryService_20150416.DeleteLogSubscription"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput>(xmlName: "DeleteLogSubscriptionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLogSubscriptionOutput, DeleteLogSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLogSubscriptionOutput, DeleteLogSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLogSubscriptionOutput, DeleteLogSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLogSubscriptionOutput, DeleteLogSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -912,7 +912,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DeleteSnapshotInput : Contains the inputs for the [DeleteSnapshot] operation.
     ///
-    /// - Returns: `DeleteSnapshotOutputResponse` : Contains the results of the [DeleteSnapshot] operation.
+    /// - Returns: `DeleteSnapshotOutput` : Contains the results of the [DeleteSnapshot] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,7 +921,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutputResponse
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -937,21 +937,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(id: "deleteSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutput, DeleteSnapshotOutputError>(id: "deleteSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput, DeleteSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>(xAmzTarget: "DirectoryService_20150416.DeleteSnapshot"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>(xmlName: "DeleteSnapshotRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(xAmzTarget: "DirectoryService_20150416.DeleteSnapshot"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(xmlName: "DeleteSnapshotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSnapshotOutput, DeleteSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotOutput, DeleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -960,7 +960,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DeleteTrustInput : Deletes the local side of an existing trust relationship between the Managed Microsoft AD directory and the external domain.
     ///
-    /// - Returns: `DeleteTrustOutputResponse` : The result of a DeleteTrust request.
+    /// - Returns: `DeleteTrustOutput` : The result of a DeleteTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,7 +970,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deleteTrust(input: DeleteTrustInput) async throws -> DeleteTrustOutputResponse
+    public func deleteTrust(input: DeleteTrustInput) async throws -> DeleteTrustOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -986,21 +986,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTrustInput, DeleteTrustOutputResponse, DeleteTrustOutputError>(id: "deleteTrust")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustInput, DeleteTrustOutputResponse, DeleteTrustOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustInput, DeleteTrustOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTrustInput, DeleteTrustOutput, DeleteTrustOutputError>(id: "deleteTrust")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustInput, DeleteTrustOutput, DeleteTrustOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustInput, DeleteTrustOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrustOutputResponse, DeleteTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrustOutput, DeleteTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTrustInput, DeleteTrustOutputResponse>(xAmzTarget: "DirectoryService_20150416.DeleteTrust"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTrustInput, DeleteTrustOutputResponse>(xmlName: "DeleteTrustRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTrustInput, DeleteTrustOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTrustInput, DeleteTrustOutput>(xAmzTarget: "DirectoryService_20150416.DeleteTrust"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTrustInput, DeleteTrustOutput>(xmlName: "DeleteTrustRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTrustInput, DeleteTrustOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrustOutputResponse, DeleteTrustOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrustOutput, DeleteTrustOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustOutputResponse, DeleteTrustOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustOutputResponse, DeleteTrustOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustOutputResponse, DeleteTrustOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustOutput, DeleteTrustOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustOutput, DeleteTrustOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustOutput, DeleteTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1009,7 +1009,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DeregisterCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,7 +1022,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deregisterCertificate(input: DeregisterCertificateInput) async throws -> DeregisterCertificateOutputResponse
+    public func deregisterCertificate(input: DeregisterCertificateInput) async throws -> DeregisterCertificateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1038,21 +1038,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeregisterCertificateInput, DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(id: "deregisterCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterCertificateInput, DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterCertificateInput, DeregisterCertificateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeregisterCertificateInput, DeregisterCertificateOutput, DeregisterCertificateOutputError>(id: "deregisterCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterCertificateInput, DeregisterCertificateOutput, DeregisterCertificateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterCertificateInput, DeregisterCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterCertificateOutput, DeregisterCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterCertificateInput, DeregisterCertificateOutputResponse>(xAmzTarget: "DirectoryService_20150416.DeregisterCertificate"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterCertificateInput, DeregisterCertificateOutputResponse>(xmlName: "DeregisterCertificateRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterCertificateInput, DeregisterCertificateOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterCertificateInput, DeregisterCertificateOutput>(xAmzTarget: "DirectoryService_20150416.DeregisterCertificate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterCertificateInput, DeregisterCertificateOutput>(xmlName: "DeregisterCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterCertificateInput, DeregisterCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterCertificateOutput, DeregisterCertificateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterCertificateOutput, DeregisterCertificateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterCertificateOutput, DeregisterCertificateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterCertificateOutput, DeregisterCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1061,7 +1061,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DeregisterEventTopicInput : Removes the specified directory as a publisher to the specified Amazon SNS topic.
     ///
-    /// - Returns: `DeregisterEventTopicOutputResponse` : The result of a DeregisterEventTopic request.
+    /// - Returns: `DeregisterEventTopicOutput` : The result of a DeregisterEventTopic request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1070,7 +1070,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func deregisterEventTopic(input: DeregisterEventTopicInput) async throws -> DeregisterEventTopicOutputResponse
+    public func deregisterEventTopic(input: DeregisterEventTopicInput) async throws -> DeregisterEventTopicOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1086,21 +1086,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(id: "deregisterEventTopic")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeregisterEventTopicInput, DeregisterEventTopicOutput, DeregisterEventTopicOutputError>(id: "deregisterEventTopic")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutput, DeregisterEventTopicOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterEventTopicOutput, DeregisterEventTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse>(xAmzTarget: "DirectoryService_20150416.DeregisterEventTopic"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse>(xmlName: "DeregisterEventTopicRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutput>(xAmzTarget: "DirectoryService_20150416.DeregisterEventTopic"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutput>(xmlName: "DeregisterEventTopicRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterEventTopicOutput, DeregisterEventTopicOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterEventTopicOutput, DeregisterEventTopicOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterEventTopicOutput, DeregisterEventTopicOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterEventTopicOutput, DeregisterEventTopicOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1109,7 +1109,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,7 +1120,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutputResponse
+    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1136,21 +1136,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCertificateInput, DescribeCertificateOutputResponse, DescribeCertificateOutputError>(id: "describeCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse, DescribeCertificateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCertificateInput, DescribeCertificateOutput, DescribeCertificateOutputError>(id: "describeCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCertificateInput, DescribeCertificateOutput, DescribeCertificateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCertificateOutput, DescribeCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeCertificate"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse>(xmlName: "DescribeCertificateRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(xAmzTarget: "DirectoryService_20150416.DescribeCertificate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(xmlName: "DescribeCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCertificateOutputResponse, DescribeCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCertificateOutput, DescribeCertificateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificateOutput, DescribeCertificateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificateOutput, DescribeCertificateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificateOutput, DescribeCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1159,7 +1159,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeClientAuthenticationSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeClientAuthenticationSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeClientAuthenticationSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,7 +1170,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeClientAuthenticationSettings(input: DescribeClientAuthenticationSettingsInput) async throws -> DescribeClientAuthenticationSettingsOutputResponse
+    public func describeClientAuthenticationSettings(input: DescribeClientAuthenticationSettingsInput) async throws -> DescribeClientAuthenticationSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1186,21 +1186,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(id: "describeClientAuthenticationSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput, DescribeClientAuthenticationSettingsOutputError>(id: "describeClientAuthenticationSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput, DescribeClientAuthenticationSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClientAuthenticationSettingsOutput, DescribeClientAuthenticationSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeClientAuthenticationSettings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse>(xmlName: "DescribeClientAuthenticationSettingsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>(xAmzTarget: "DirectoryService_20150416.DescribeClientAuthenticationSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>(xmlName: "DescribeClientAuthenticationSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeClientAuthenticationSettingsOutput, DescribeClientAuthenticationSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClientAuthenticationSettingsOutput, DescribeClientAuthenticationSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClientAuthenticationSettingsOutput, DescribeClientAuthenticationSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClientAuthenticationSettingsOutput, DescribeClientAuthenticationSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1209,7 +1209,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeConditionalForwardersInput : Describes a conditional forwarder.
     ///
-    /// - Returns: `DescribeConditionalForwardersOutputResponse` : The result of a DescribeConditionalForwarder request.
+    /// - Returns: `DescribeConditionalForwardersOutput` : The result of a DescribeConditionalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1220,7 +1220,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeConditionalForwarders(input: DescribeConditionalForwardersInput) async throws -> DescribeConditionalForwardersOutputResponse
+    public func describeConditionalForwarders(input: DescribeConditionalForwardersInput) async throws -> DescribeConditionalForwardersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1236,21 +1236,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(id: "describeConditionalForwarders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput, DescribeConditionalForwardersOutputError>(id: "describeConditionalForwarders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput, DescribeConditionalForwardersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConditionalForwardersOutput, DescribeConditionalForwardersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeConditionalForwarders"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse>(xmlName: "DescribeConditionalForwardersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput>(xAmzTarget: "DirectoryService_20150416.DescribeConditionalForwarders"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput>(xmlName: "DescribeConditionalForwardersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConditionalForwardersOutput, DescribeConditionalForwardersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConditionalForwardersOutput, DescribeConditionalForwardersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConditionalForwardersOutput, DescribeConditionalForwardersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConditionalForwardersOutput, DescribeConditionalForwardersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1259,7 +1259,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeDirectoriesInput : Contains the inputs for the [DescribeDirectories] operation.
     ///
-    /// - Returns: `DescribeDirectoriesOutputResponse` : Contains the results of the [DescribeDirectories] operation.
+    /// - Returns: `DescribeDirectoriesOutput` : Contains the results of the [DescribeDirectories] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,7 +1269,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeDirectories(input: DescribeDirectoriesInput) async throws -> DescribeDirectoriesOutputResponse
+    public func describeDirectories(input: DescribeDirectoriesInput) async throws -> DescribeDirectoriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1285,21 +1285,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(id: "describeDirectories")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDirectoriesInput, DescribeDirectoriesOutput, DescribeDirectoriesOutputError>(id: "describeDirectories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutput, DescribeDirectoriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDirectoriesOutput, DescribeDirectoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeDirectories"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse>(xmlName: "DescribeDirectoriesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutput>(xAmzTarget: "DirectoryService_20150416.DescribeDirectories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutput>(xmlName: "DescribeDirectoriesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDirectoriesOutput, DescribeDirectoriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDirectoriesOutput, DescribeDirectoriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDirectoriesOutput, DescribeDirectoriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDirectoriesOutput, DescribeDirectoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1308,7 +1308,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeDomainControllersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDomainControllersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDomainControllersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1319,7 +1319,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeDomainControllers(input: DescribeDomainControllersInput) async throws -> DescribeDomainControllersOutputResponse
+    public func describeDomainControllers(input: DescribeDomainControllersInput) async throws -> DescribeDomainControllersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1335,21 +1335,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(id: "describeDomainControllers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDomainControllersInput, DescribeDomainControllersOutput, DescribeDomainControllersOutputError>(id: "describeDomainControllers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutput, DescribeDomainControllersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainControllersOutput, DescribeDomainControllersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeDomainControllers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse>(xmlName: "DescribeDomainControllersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutput>(xAmzTarget: "DirectoryService_20150416.DescribeDomainControllers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutput>(xmlName: "DescribeDomainControllersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDomainControllersOutput, DescribeDomainControllersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainControllersOutput, DescribeDomainControllersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainControllersOutput, DescribeDomainControllersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainControllersOutput, DescribeDomainControllersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1358,7 +1358,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeEventTopicsInput : Describes event topics.
     ///
-    /// - Returns: `DescribeEventTopicsOutputResponse` : The result of a DescribeEventTopic request.
+    /// - Returns: `DescribeEventTopicsOutput` : The result of a DescribeEventTopic request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1367,7 +1367,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeEventTopics(input: DescribeEventTopicsInput) async throws -> DescribeEventTopicsOutputResponse
+    public func describeEventTopics(input: DescribeEventTopicsInput) async throws -> DescribeEventTopicsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1383,21 +1383,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(id: "describeEventTopics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventTopicsInput, DescribeEventTopicsOutput, DescribeEventTopicsOutputError>(id: "describeEventTopics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutput, DescribeEventTopicsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventTopicsOutput, DescribeEventTopicsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeEventTopics"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse>(xmlName: "DescribeEventTopicsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutput>(xAmzTarget: "DirectoryService_20150416.DescribeEventTopics"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutput>(xmlName: "DescribeEventTopicsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventTopicsOutput, DescribeEventTopicsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventTopicsOutput, DescribeEventTopicsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventTopicsOutput, DescribeEventTopicsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventTopicsOutput, DescribeEventTopicsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1406,7 +1406,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeLDAPSSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLDAPSSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLDAPSSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,7 +1417,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeLDAPSSettings(input: DescribeLDAPSSettingsInput) async throws -> DescribeLDAPSSettingsOutputResponse
+    public func describeLDAPSSettings(input: DescribeLDAPSSettingsInput) async throws -> DescribeLDAPSSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1433,21 +1433,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(id: "describeLDAPSSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput, DescribeLDAPSSettingsOutputError>(id: "describeLDAPSSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput, DescribeLDAPSSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLDAPSSettingsOutput, DescribeLDAPSSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeLDAPSSettings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse>(xmlName: "DescribeLDAPSSettingsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>(xAmzTarget: "DirectoryService_20150416.DescribeLDAPSSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>(xmlName: "DescribeLDAPSSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLDAPSSettingsOutput, DescribeLDAPSSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLDAPSSettingsOutput, DescribeLDAPSSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLDAPSSettingsOutput, DescribeLDAPSSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLDAPSSettingsOutput, DescribeLDAPSSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1456,7 +1456,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeRegionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRegionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRegionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,7 +1468,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutputResponse
+    public func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1484,21 +1484,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRegionsInput, DescribeRegionsOutputResponse, DescribeRegionsOutputError>(id: "describeRegions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRegionsInput, DescribeRegionsOutputResponse, DescribeRegionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRegionsInput, DescribeRegionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRegionsInput, DescribeRegionsOutput, DescribeRegionsOutputError>(id: "describeRegions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRegionsInput, DescribeRegionsOutput, DescribeRegionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRegionsInput, DescribeRegionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRegionsOutputResponse, DescribeRegionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRegionsOutput, DescribeRegionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRegionsInput, DescribeRegionsOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeRegions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRegionsInput, DescribeRegionsOutputResponse>(xmlName: "DescribeRegionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRegionsInput, DescribeRegionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRegionsInput, DescribeRegionsOutput>(xAmzTarget: "DirectoryService_20150416.DescribeRegions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRegionsInput, DescribeRegionsOutput>(xmlName: "DescribeRegionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRegionsInput, DescribeRegionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRegionsOutputResponse, DescribeRegionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRegionsOutput, DescribeRegionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRegionsOutputResponse, DescribeRegionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRegionsOutputResponse, DescribeRegionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRegionsOutputResponse, DescribeRegionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRegionsOutput, DescribeRegionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRegionsOutput, DescribeRegionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRegionsOutput, DescribeRegionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1507,7 +1507,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,7 +1518,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeSettings(input: DescribeSettingsInput) async throws -> DescribeSettingsOutputResponse
+    public func describeSettings(input: DescribeSettingsInput) async throws -> DescribeSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1534,21 +1534,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSettingsInput, DescribeSettingsOutputResponse, DescribeSettingsOutputError>(id: "describeSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSettingsInput, DescribeSettingsOutputResponse, DescribeSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSettingsInput, DescribeSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSettingsInput, DescribeSettingsOutput, DescribeSettingsOutputError>(id: "describeSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSettingsInput, DescribeSettingsOutput, DescribeSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSettingsInput, DescribeSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSettingsOutputResponse, DescribeSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSettingsOutput, DescribeSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSettingsInput, DescribeSettingsOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeSettings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSettingsInput, DescribeSettingsOutputResponse>(xmlName: "DescribeSettingsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSettingsInput, DescribeSettingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSettingsInput, DescribeSettingsOutput>(xAmzTarget: "DirectoryService_20150416.DescribeSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSettingsInput, DescribeSettingsOutput>(xmlName: "DescribeSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSettingsInput, DescribeSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSettingsOutputResponse, DescribeSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSettingsOutput, DescribeSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSettingsOutputResponse, DescribeSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSettingsOutputResponse, DescribeSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSettingsOutputResponse, DescribeSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSettingsOutput, DescribeSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSettingsOutput, DescribeSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSettingsOutput, DescribeSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1557,7 +1557,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeSharedDirectoriesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSharedDirectoriesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSharedDirectoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1568,7 +1568,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeSharedDirectories(input: DescribeSharedDirectoriesInput) async throws -> DescribeSharedDirectoriesOutputResponse
+    public func describeSharedDirectories(input: DescribeSharedDirectoriesInput) async throws -> DescribeSharedDirectoriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1584,21 +1584,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(id: "describeSharedDirectories")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput, DescribeSharedDirectoriesOutputError>(id: "describeSharedDirectories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput, DescribeSharedDirectoriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSharedDirectoriesOutput, DescribeSharedDirectoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeSharedDirectories"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse>(xmlName: "DescribeSharedDirectoriesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>(xAmzTarget: "DirectoryService_20150416.DescribeSharedDirectories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>(xmlName: "DescribeSharedDirectoriesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSharedDirectoriesOutput, DescribeSharedDirectoriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSharedDirectoriesOutput, DescribeSharedDirectoriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSharedDirectoriesOutput, DescribeSharedDirectoriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSharedDirectoriesOutput, DescribeSharedDirectoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1607,7 +1607,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeSnapshotsInput : Contains the inputs for the [DescribeSnapshots] operation.
     ///
-    /// - Returns: `DescribeSnapshotsOutputResponse` : Contains the results of the [DescribeSnapshots] operation.
+    /// - Returns: `DescribeSnapshotsOutput` : Contains the results of the [DescribeSnapshots] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,7 +1617,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutputResponse
+    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1633,21 +1633,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(id: "describeSnapshots")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(id: "describeSnapshots")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput, DescribeSnapshotsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeSnapshots"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(xmlName: "DescribeSnapshotsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(xAmzTarget: "DirectoryService_20150416.DescribeSnapshots"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(xmlName: "DescribeSnapshotsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotsOutput, DescribeSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1656,7 +1656,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeTrustsInput : Describes the trust relationships for a particular Managed Microsoft AD directory. If no input parameters are provided, such as directory ID or trust ID, this request describes all the trust relationships.
     ///
-    /// - Returns: `DescribeTrustsOutputResponse` : The result of a DescribeTrust request.
+    /// - Returns: `DescribeTrustsOutput` : The result of a DescribeTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1667,7 +1667,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeTrusts(input: DescribeTrustsInput) async throws -> DescribeTrustsOutputResponse
+    public func describeTrusts(input: DescribeTrustsInput) async throws -> DescribeTrustsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1683,21 +1683,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTrustsInput, DescribeTrustsOutputResponse, DescribeTrustsOutputError>(id: "describeTrusts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustsInput, DescribeTrustsOutputResponse, DescribeTrustsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustsInput, DescribeTrustsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTrustsInput, DescribeTrustsOutput, DescribeTrustsOutputError>(id: "describeTrusts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustsInput, DescribeTrustsOutput, DescribeTrustsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustsInput, DescribeTrustsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustsOutputResponse, DescribeTrustsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustsOutput, DescribeTrustsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustsInput, DescribeTrustsOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeTrusts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustsInput, DescribeTrustsOutputResponse>(xmlName: "DescribeTrustsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustsInput, DescribeTrustsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustsInput, DescribeTrustsOutput>(xAmzTarget: "DirectoryService_20150416.DescribeTrusts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustsInput, DescribeTrustsOutput>(xmlName: "DescribeTrustsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustsInput, DescribeTrustsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustsOutputResponse, DescribeTrustsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustsOutput, DescribeTrustsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustsOutputResponse, DescribeTrustsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustsOutputResponse, DescribeTrustsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustsOutputResponse, DescribeTrustsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustsOutput, DescribeTrustsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustsOutput, DescribeTrustsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustsOutput, DescribeTrustsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1706,7 +1706,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DescribeUpdateDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUpdateDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUpdateDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,7 +1717,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeUpdateDirectory(input: DescribeUpdateDirectoryInput) async throws -> DescribeUpdateDirectoryOutputResponse
+    public func describeUpdateDirectory(input: DescribeUpdateDirectoryInput) async throws -> DescribeUpdateDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1733,21 +1733,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(id: "describeUpdateDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput, DescribeUpdateDirectoryOutputError>(id: "describeUpdateDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput, DescribeUpdateDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUpdateDirectoryOutput, DescribeUpdateDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.DescribeUpdateDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse>(xmlName: "DescribeUpdateDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.DescribeUpdateDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>(xmlName: "DescribeUpdateDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUpdateDirectoryOutput, DescribeUpdateDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateDirectoryOutput, DescribeUpdateDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateDirectoryOutput, DescribeUpdateDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateDirectoryOutput, DescribeUpdateDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1756,7 +1756,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DisableClientAuthenticationInput : [no documentation found]
     ///
-    /// - Returns: `DisableClientAuthenticationOutputResponse` : [no documentation found]
+    /// - Returns: `DisableClientAuthenticationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,7 +1767,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidClientAuthStatusException` : Client authentication is already enabled.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func disableClientAuthentication(input: DisableClientAuthenticationInput) async throws -> DisableClientAuthenticationOutputResponse
+    public func disableClientAuthentication(input: DisableClientAuthenticationInput) async throws -> DisableClientAuthenticationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1783,21 +1783,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(id: "disableClientAuthentication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableClientAuthenticationInput, DisableClientAuthenticationOutput, DisableClientAuthenticationOutputError>(id: "disableClientAuthentication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutput, DisableClientAuthenticationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableClientAuthenticationOutput, DisableClientAuthenticationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse>(xAmzTarget: "DirectoryService_20150416.DisableClientAuthentication"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse>(xmlName: "DisableClientAuthenticationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutput>(xAmzTarget: "DirectoryService_20150416.DisableClientAuthentication"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutput>(xmlName: "DisableClientAuthenticationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableClientAuthenticationOutput, DisableClientAuthenticationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableClientAuthenticationOutput, DisableClientAuthenticationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableClientAuthenticationOutput, DisableClientAuthenticationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableClientAuthenticationOutput, DisableClientAuthenticationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1806,7 +1806,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DisableLDAPSInput : [no documentation found]
     ///
-    /// - Returns: `DisableLDAPSOutputResponse` : [no documentation found]
+    /// - Returns: `DisableLDAPSOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1818,7 +1818,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func disableLDAPS(input: DisableLDAPSInput) async throws -> DisableLDAPSOutputResponse
+    public func disableLDAPS(input: DisableLDAPSInput) async throws -> DisableLDAPSOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1834,21 +1834,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableLDAPSInput, DisableLDAPSOutputResponse, DisableLDAPSOutputError>(id: "disableLDAPS")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableLDAPSInput, DisableLDAPSOutputResponse, DisableLDAPSOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableLDAPSInput, DisableLDAPSOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableLDAPSInput, DisableLDAPSOutput, DisableLDAPSOutputError>(id: "disableLDAPS")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableLDAPSInput, DisableLDAPSOutput, DisableLDAPSOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableLDAPSInput, DisableLDAPSOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableLDAPSOutputResponse, DisableLDAPSOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableLDAPSOutput, DisableLDAPSOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableLDAPSInput, DisableLDAPSOutputResponse>(xAmzTarget: "DirectoryService_20150416.DisableLDAPS"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableLDAPSInput, DisableLDAPSOutputResponse>(xmlName: "DisableLDAPSRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableLDAPSInput, DisableLDAPSOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableLDAPSInput, DisableLDAPSOutput>(xAmzTarget: "DirectoryService_20150416.DisableLDAPS"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableLDAPSInput, DisableLDAPSOutput>(xmlName: "DisableLDAPSRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableLDAPSInput, DisableLDAPSOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableLDAPSOutputResponse, DisableLDAPSOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableLDAPSOutput, DisableLDAPSOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableLDAPSOutputResponse, DisableLDAPSOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableLDAPSOutputResponse, DisableLDAPSOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableLDAPSOutputResponse, DisableLDAPSOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableLDAPSOutput, DisableLDAPSOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableLDAPSOutput, DisableLDAPSOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableLDAPSOutput, DisableLDAPSOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1857,7 +1857,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DisableRadiusInput : Contains the inputs for the [DisableRadius] operation.
     ///
-    /// - Returns: `DisableRadiusOutputResponse` : Contains the results of the [DisableRadius] operation.
+    /// - Returns: `DisableRadiusOutput` : Contains the results of the [DisableRadius] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1865,7 +1865,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func disableRadius(input: DisableRadiusInput) async throws -> DisableRadiusOutputResponse
+    public func disableRadius(input: DisableRadiusInput) async throws -> DisableRadiusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1881,21 +1881,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableRadiusInput, DisableRadiusOutputResponse, DisableRadiusOutputError>(id: "disableRadius")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableRadiusInput, DisableRadiusOutputResponse, DisableRadiusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableRadiusInput, DisableRadiusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableRadiusInput, DisableRadiusOutput, DisableRadiusOutputError>(id: "disableRadius")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableRadiusInput, DisableRadiusOutput, DisableRadiusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableRadiusInput, DisableRadiusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableRadiusOutputResponse, DisableRadiusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableRadiusOutput, DisableRadiusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableRadiusInput, DisableRadiusOutputResponse>(xAmzTarget: "DirectoryService_20150416.DisableRadius"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableRadiusInput, DisableRadiusOutputResponse>(xmlName: "DisableRadiusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableRadiusInput, DisableRadiusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableRadiusInput, DisableRadiusOutput>(xAmzTarget: "DirectoryService_20150416.DisableRadius"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableRadiusInput, DisableRadiusOutput>(xmlName: "DisableRadiusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableRadiusInput, DisableRadiusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableRadiusOutputResponse, DisableRadiusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableRadiusOutput, DisableRadiusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableRadiusOutputResponse, DisableRadiusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableRadiusOutputResponse, DisableRadiusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableRadiusOutputResponse, DisableRadiusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableRadiusOutput, DisableRadiusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableRadiusOutput, DisableRadiusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableRadiusOutput, DisableRadiusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1904,7 +1904,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter DisableSsoInput : Contains the inputs for the [DisableSso] operation.
     ///
-    /// - Returns: `DisableSsoOutputResponse` : Contains the results of the [DisableSso] operation.
+    /// - Returns: `DisableSsoOutput` : Contains the results of the [DisableSso] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,7 +1914,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func disableSso(input: DisableSsoInput) async throws -> DisableSsoOutputResponse
+    public func disableSso(input: DisableSsoInput) async throws -> DisableSsoOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1930,21 +1930,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableSsoInput, DisableSsoOutputResponse, DisableSsoOutputError>(id: "disableSso")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableSsoInput, DisableSsoOutputResponse, DisableSsoOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableSsoInput, DisableSsoOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableSsoInput, DisableSsoOutput, DisableSsoOutputError>(id: "disableSso")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableSsoInput, DisableSsoOutput, DisableSsoOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableSsoInput, DisableSsoOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableSsoOutputResponse, DisableSsoOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableSsoOutput, DisableSsoOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableSsoInput, DisableSsoOutputResponse>(xAmzTarget: "DirectoryService_20150416.DisableSso"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableSsoInput, DisableSsoOutputResponse>(xmlName: "DisableSsoRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableSsoInput, DisableSsoOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableSsoInput, DisableSsoOutput>(xAmzTarget: "DirectoryService_20150416.DisableSso"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableSsoInput, DisableSsoOutput>(xmlName: "DisableSsoRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableSsoInput, DisableSsoOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableSsoOutputResponse, DisableSsoOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableSsoOutput, DisableSsoOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableSsoOutputResponse, DisableSsoOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableSsoOutputResponse, DisableSsoOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableSsoOutputResponse, DisableSsoOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableSsoOutput, DisableSsoOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableSsoOutput, DisableSsoOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableSsoOutput, DisableSsoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1953,7 +1953,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter EnableClientAuthenticationInput : [no documentation found]
     ///
-    /// - Returns: `EnableClientAuthenticationOutputResponse` : [no documentation found]
+    /// - Returns: `EnableClientAuthenticationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,7 +1965,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `NoAvailableCertificateException` : Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func enableClientAuthentication(input: EnableClientAuthenticationInput) async throws -> EnableClientAuthenticationOutputResponse
+    public func enableClientAuthentication(input: EnableClientAuthenticationInput) async throws -> EnableClientAuthenticationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1981,21 +1981,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(id: "enableClientAuthentication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableClientAuthenticationInput, EnableClientAuthenticationOutput, EnableClientAuthenticationOutputError>(id: "enableClientAuthentication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutput, EnableClientAuthenticationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableClientAuthenticationOutput, EnableClientAuthenticationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse>(xAmzTarget: "DirectoryService_20150416.EnableClientAuthentication"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse>(xmlName: "EnableClientAuthenticationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutput>(xAmzTarget: "DirectoryService_20150416.EnableClientAuthentication"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutput>(xmlName: "EnableClientAuthenticationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableClientAuthenticationOutput, EnableClientAuthenticationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableClientAuthenticationOutput, EnableClientAuthenticationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableClientAuthenticationOutput, EnableClientAuthenticationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableClientAuthenticationOutput, EnableClientAuthenticationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2004,7 +2004,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter EnableLDAPSInput : [no documentation found]
     ///
-    /// - Returns: `EnableLDAPSOutputResponse` : [no documentation found]
+    /// - Returns: `EnableLDAPSOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,7 +2017,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `NoAvailableCertificateException` : Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func enableLDAPS(input: EnableLDAPSInput) async throws -> EnableLDAPSOutputResponse
+    public func enableLDAPS(input: EnableLDAPSInput) async throws -> EnableLDAPSOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2033,21 +2033,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableLDAPSInput, EnableLDAPSOutputResponse, EnableLDAPSOutputError>(id: "enableLDAPS")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableLDAPSInput, EnableLDAPSOutputResponse, EnableLDAPSOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableLDAPSInput, EnableLDAPSOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableLDAPSInput, EnableLDAPSOutput, EnableLDAPSOutputError>(id: "enableLDAPS")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableLDAPSInput, EnableLDAPSOutput, EnableLDAPSOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableLDAPSInput, EnableLDAPSOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableLDAPSOutputResponse, EnableLDAPSOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableLDAPSOutput, EnableLDAPSOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableLDAPSInput, EnableLDAPSOutputResponse>(xAmzTarget: "DirectoryService_20150416.EnableLDAPS"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableLDAPSInput, EnableLDAPSOutputResponse>(xmlName: "EnableLDAPSRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableLDAPSInput, EnableLDAPSOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableLDAPSInput, EnableLDAPSOutput>(xAmzTarget: "DirectoryService_20150416.EnableLDAPS"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableLDAPSInput, EnableLDAPSOutput>(xmlName: "EnableLDAPSRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableLDAPSInput, EnableLDAPSOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableLDAPSOutputResponse, EnableLDAPSOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableLDAPSOutput, EnableLDAPSOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableLDAPSOutputResponse, EnableLDAPSOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableLDAPSOutputResponse, EnableLDAPSOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableLDAPSOutputResponse, EnableLDAPSOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableLDAPSOutput, EnableLDAPSOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableLDAPSOutput, EnableLDAPSOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableLDAPSOutput, EnableLDAPSOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2056,7 +2056,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter EnableRadiusInput : Contains the inputs for the [EnableRadius] operation.
     ///
-    /// - Returns: `EnableRadiusOutputResponse` : Contains the results of the [EnableRadius] operation.
+    /// - Returns: `EnableRadiusOutput` : Contains the results of the [EnableRadius] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2066,7 +2066,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func enableRadius(input: EnableRadiusInput) async throws -> EnableRadiusOutputResponse
+    public func enableRadius(input: EnableRadiusInput) async throws -> EnableRadiusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2082,21 +2082,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableRadiusInput, EnableRadiusOutputResponse, EnableRadiusOutputError>(id: "enableRadius")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableRadiusInput, EnableRadiusOutputResponse, EnableRadiusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableRadiusInput, EnableRadiusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableRadiusInput, EnableRadiusOutput, EnableRadiusOutputError>(id: "enableRadius")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableRadiusInput, EnableRadiusOutput, EnableRadiusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableRadiusInput, EnableRadiusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableRadiusOutputResponse, EnableRadiusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableRadiusOutput, EnableRadiusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableRadiusInput, EnableRadiusOutputResponse>(xAmzTarget: "DirectoryService_20150416.EnableRadius"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableRadiusInput, EnableRadiusOutputResponse>(xmlName: "EnableRadiusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableRadiusInput, EnableRadiusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableRadiusInput, EnableRadiusOutput>(xAmzTarget: "DirectoryService_20150416.EnableRadius"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableRadiusInput, EnableRadiusOutput>(xmlName: "EnableRadiusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableRadiusInput, EnableRadiusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableRadiusOutputResponse, EnableRadiusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableRadiusOutput, EnableRadiusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableRadiusOutputResponse, EnableRadiusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableRadiusOutputResponse, EnableRadiusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableRadiusOutputResponse, EnableRadiusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableRadiusOutput, EnableRadiusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableRadiusOutput, EnableRadiusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableRadiusOutput, EnableRadiusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2105,7 +2105,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter EnableSsoInput : Contains the inputs for the [EnableSso] operation.
     ///
-    /// - Returns: `EnableSsoOutputResponse` : Contains the results of the [EnableSso] operation.
+    /// - Returns: `EnableSsoOutput` : Contains the results of the [EnableSso] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2115,7 +2115,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func enableSso(input: EnableSsoInput) async throws -> EnableSsoOutputResponse
+    public func enableSso(input: EnableSsoInput) async throws -> EnableSsoOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2131,21 +2131,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableSsoInput, EnableSsoOutputResponse, EnableSsoOutputError>(id: "enableSso")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSsoInput, EnableSsoOutputResponse, EnableSsoOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableSsoInput, EnableSsoOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableSsoInput, EnableSsoOutput, EnableSsoOutputError>(id: "enableSso")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSsoInput, EnableSsoOutput, EnableSsoOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableSsoInput, EnableSsoOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableSsoOutputResponse, EnableSsoOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableSsoOutput, EnableSsoOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableSsoInput, EnableSsoOutputResponse>(xAmzTarget: "DirectoryService_20150416.EnableSso"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableSsoInput, EnableSsoOutputResponse>(xmlName: "EnableSsoRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableSsoInput, EnableSsoOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableSsoInput, EnableSsoOutput>(xAmzTarget: "DirectoryService_20150416.EnableSso"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableSsoInput, EnableSsoOutput>(xmlName: "EnableSsoRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableSsoInput, EnableSsoOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableSsoOutputResponse, EnableSsoOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableSsoOutput, EnableSsoOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSsoOutputResponse, EnableSsoOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSsoOutputResponse, EnableSsoOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableSsoOutputResponse, EnableSsoOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSsoOutput, EnableSsoOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSsoOutput, EnableSsoOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableSsoOutput, EnableSsoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2154,7 +2154,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter GetDirectoryLimitsInput : Contains the inputs for the [GetDirectoryLimits] operation.
     ///
-    /// - Returns: `GetDirectoryLimitsOutputResponse` : Contains the results of the [GetDirectoryLimits] operation.
+    /// - Returns: `GetDirectoryLimitsOutput` : Contains the results of the [GetDirectoryLimits] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2162,7 +2162,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func getDirectoryLimits(input: GetDirectoryLimitsInput) async throws -> GetDirectoryLimitsOutputResponse
+    public func getDirectoryLimits(input: GetDirectoryLimitsInput) async throws -> GetDirectoryLimitsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2178,21 +2178,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(id: "getDirectoryLimits")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDirectoryLimitsInput, GetDirectoryLimitsOutput, GetDirectoryLimitsOutputError>(id: "getDirectoryLimits")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutput, GetDirectoryLimitsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDirectoryLimitsOutput, GetDirectoryLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse>(xAmzTarget: "DirectoryService_20150416.GetDirectoryLimits"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse>(xmlName: "GetDirectoryLimitsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutput>(xAmzTarget: "DirectoryService_20150416.GetDirectoryLimits"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutput>(xmlName: "GetDirectoryLimitsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDirectoryLimitsOutput, GetDirectoryLimitsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDirectoryLimitsOutput, GetDirectoryLimitsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDirectoryLimitsOutput, GetDirectoryLimitsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDirectoryLimitsOutput, GetDirectoryLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2201,7 +2201,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter GetSnapshotLimitsInput : Contains the inputs for the [GetSnapshotLimits] operation.
     ///
-    /// - Returns: `GetSnapshotLimitsOutputResponse` : Contains the results of the [GetSnapshotLimits] operation.
+    /// - Returns: `GetSnapshotLimitsOutput` : Contains the results of the [GetSnapshotLimits] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2209,7 +2209,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func getSnapshotLimits(input: GetSnapshotLimitsInput) async throws -> GetSnapshotLimitsOutputResponse
+    public func getSnapshotLimits(input: GetSnapshotLimitsInput) async throws -> GetSnapshotLimitsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2225,21 +2225,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(id: "getSnapshotLimits")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSnapshotLimitsInput, GetSnapshotLimitsOutput, GetSnapshotLimitsOutputError>(id: "getSnapshotLimits")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutput, GetSnapshotLimitsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSnapshotLimitsOutput, GetSnapshotLimitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse>(xAmzTarget: "DirectoryService_20150416.GetSnapshotLimits"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse>(xmlName: "GetSnapshotLimitsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutput>(xAmzTarget: "DirectoryService_20150416.GetSnapshotLimits"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutput>(xmlName: "GetSnapshotLimitsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSnapshotLimitsOutput, GetSnapshotLimitsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnapshotLimitsOutput, GetSnapshotLimitsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotLimitsOutput, GetSnapshotLimitsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotLimitsOutput, GetSnapshotLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2248,7 +2248,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ListCertificatesInput : [no documentation found]
     ///
-    /// - Returns: `ListCertificatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListCertificatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2259,7 +2259,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutputResponse
+    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2275,21 +2275,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCertificatesInput, ListCertificatesOutputResponse, ListCertificatesOutputError>(id: "listCertificates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCertificatesInput, ListCertificatesOutputResponse, ListCertificatesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCertificatesInput, ListCertificatesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCertificatesInput, ListCertificatesOutput, ListCertificatesOutputError>(id: "listCertificates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCertificatesInput, ListCertificatesOutput, ListCertificatesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCertificatesOutputResponse, ListCertificatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCertificatesOutput, ListCertificatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCertificatesInput, ListCertificatesOutputResponse>(xAmzTarget: "DirectoryService_20150416.ListCertificates"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCertificatesInput, ListCertificatesOutputResponse>(xmlName: "ListCertificatesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCertificatesInput, ListCertificatesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCertificatesInput, ListCertificatesOutput>(xAmzTarget: "DirectoryService_20150416.ListCertificates"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCertificatesInput, ListCertificatesOutput>(xmlName: "ListCertificatesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCertificatesInput, ListCertificatesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCertificatesOutputResponse, ListCertificatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCertificatesOutput, ListCertificatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCertificatesOutputResponse, ListCertificatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCertificatesOutputResponse, ListCertificatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCertificatesOutputResponse, ListCertificatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCertificatesOutput, ListCertificatesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCertificatesOutput, ListCertificatesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCertificatesOutput, ListCertificatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2298,7 +2298,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ListIpRoutesInput : [no documentation found]
     ///
-    /// - Returns: `ListIpRoutesOutputResponse` : [no documentation found]
+    /// - Returns: `ListIpRoutesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2308,7 +2308,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listIpRoutes(input: ListIpRoutesInput) async throws -> ListIpRoutesOutputResponse
+    public func listIpRoutes(input: ListIpRoutesInput) async throws -> ListIpRoutesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2324,21 +2324,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIpRoutesInput, ListIpRoutesOutputResponse, ListIpRoutesOutputError>(id: "listIpRoutes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIpRoutesInput, ListIpRoutesOutputResponse, ListIpRoutesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIpRoutesInput, ListIpRoutesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListIpRoutesInput, ListIpRoutesOutput, ListIpRoutesOutputError>(id: "listIpRoutes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIpRoutesInput, ListIpRoutesOutput, ListIpRoutesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIpRoutesInput, ListIpRoutesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIpRoutesOutputResponse, ListIpRoutesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIpRoutesOutput, ListIpRoutesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIpRoutesInput, ListIpRoutesOutputResponse>(xAmzTarget: "DirectoryService_20150416.ListIpRoutes"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIpRoutesInput, ListIpRoutesOutputResponse>(xmlName: "ListIpRoutesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIpRoutesInput, ListIpRoutesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIpRoutesInput, ListIpRoutesOutput>(xAmzTarget: "DirectoryService_20150416.ListIpRoutes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIpRoutesInput, ListIpRoutesOutput>(xmlName: "ListIpRoutesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIpRoutesInput, ListIpRoutesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIpRoutesOutputResponse, ListIpRoutesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIpRoutesOutput, ListIpRoutesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIpRoutesOutputResponse, ListIpRoutesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIpRoutesOutputResponse, ListIpRoutesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIpRoutesOutputResponse, ListIpRoutesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIpRoutesOutput, ListIpRoutesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIpRoutesOutput, ListIpRoutesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIpRoutesOutput, ListIpRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2347,7 +2347,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ListLogSubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `ListLogSubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLogSubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2356,7 +2356,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listLogSubscriptions(input: ListLogSubscriptionsInput) async throws -> ListLogSubscriptionsOutputResponse
+    public func listLogSubscriptions(input: ListLogSubscriptionsInput) async throws -> ListLogSubscriptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2372,21 +2372,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(id: "listLogSubscriptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLogSubscriptionsInput, ListLogSubscriptionsOutput, ListLogSubscriptionsOutputError>(id: "listLogSubscriptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutput, ListLogSubscriptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLogSubscriptionsOutput, ListLogSubscriptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse>(xAmzTarget: "DirectoryService_20150416.ListLogSubscriptions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse>(xmlName: "ListLogSubscriptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>(xAmzTarget: "DirectoryService_20150416.ListLogSubscriptions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>(xmlName: "ListLogSubscriptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLogSubscriptionsOutput, ListLogSubscriptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLogSubscriptionsOutput, ListLogSubscriptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLogSubscriptionsOutput, ListLogSubscriptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLogSubscriptionsOutput, ListLogSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2395,7 +2395,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ListSchemaExtensionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSchemaExtensionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSchemaExtensionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2404,7 +2404,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listSchemaExtensions(input: ListSchemaExtensionsInput) async throws -> ListSchemaExtensionsOutputResponse
+    public func listSchemaExtensions(input: ListSchemaExtensionsInput) async throws -> ListSchemaExtensionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2420,21 +2420,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(id: "listSchemaExtensions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSchemaExtensionsInput, ListSchemaExtensionsOutput, ListSchemaExtensionsOutputError>(id: "listSchemaExtensions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutput, ListSchemaExtensionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSchemaExtensionsOutput, ListSchemaExtensionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse>(xAmzTarget: "DirectoryService_20150416.ListSchemaExtensions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse>(xmlName: "ListSchemaExtensionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>(xAmzTarget: "DirectoryService_20150416.ListSchemaExtensions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>(xmlName: "ListSchemaExtensionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSchemaExtensionsOutput, ListSchemaExtensionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSchemaExtensionsOutput, ListSchemaExtensionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSchemaExtensionsOutput, ListSchemaExtensionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSchemaExtensionsOutput, ListSchemaExtensionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2443,7 +2443,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2453,7 +2453,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2469,21 +2469,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "DirectoryService_20150416.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "DirectoryService_20150416.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2492,7 +2492,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter RegisterCertificateInput : [no documentation found]
     ///
-    /// - Returns: `RegisterCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2506,7 +2506,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutputResponse
+    public func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2522,21 +2522,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegisterCertificateInput, RegisterCertificateOutputResponse, RegisterCertificateOutputError>(id: "registerCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterCertificateInput, RegisterCertificateOutputResponse, RegisterCertificateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterCertificateInput, RegisterCertificateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RegisterCertificateInput, RegisterCertificateOutput, RegisterCertificateOutputError>(id: "registerCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterCertificateInput, RegisterCertificateOutput, RegisterCertificateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterCertificateInput, RegisterCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterCertificateOutputResponse, RegisterCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterCertificateOutput, RegisterCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterCertificateInput, RegisterCertificateOutputResponse>(xAmzTarget: "DirectoryService_20150416.RegisterCertificate"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterCertificateInput, RegisterCertificateOutputResponse>(xmlName: "RegisterCertificateRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterCertificateInput, RegisterCertificateOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterCertificateInput, RegisterCertificateOutput>(xAmzTarget: "DirectoryService_20150416.RegisterCertificate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterCertificateInput, RegisterCertificateOutput>(xmlName: "RegisterCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterCertificateInput, RegisterCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterCertificateOutputResponse, RegisterCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterCertificateOutput, RegisterCertificateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterCertificateOutputResponse, RegisterCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterCertificateOutputResponse, RegisterCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterCertificateOutputResponse, RegisterCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterCertificateOutput, RegisterCertificateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterCertificateOutput, RegisterCertificateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterCertificateOutput, RegisterCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2545,7 +2545,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter RegisterEventTopicInput : Registers a new event topic.
     ///
-    /// - Returns: `RegisterEventTopicOutputResponse` : The result of a RegisterEventTopic request.
+    /// - Returns: `RegisterEventTopicOutput` : The result of a RegisterEventTopic request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2554,7 +2554,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func registerEventTopic(input: RegisterEventTopicInput) async throws -> RegisterEventTopicOutputResponse
+    public func registerEventTopic(input: RegisterEventTopicInput) async throws -> RegisterEventTopicOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2570,21 +2570,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegisterEventTopicInput, RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(id: "registerEventTopic")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterEventTopicInput, RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterEventTopicInput, RegisterEventTopicOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RegisterEventTopicInput, RegisterEventTopicOutput, RegisterEventTopicOutputError>(id: "registerEventTopic")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterEventTopicInput, RegisterEventTopicOutput, RegisterEventTopicOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterEventTopicInput, RegisterEventTopicOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterEventTopicOutput, RegisterEventTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterEventTopicInput, RegisterEventTopicOutputResponse>(xAmzTarget: "DirectoryService_20150416.RegisterEventTopic"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterEventTopicInput, RegisterEventTopicOutputResponse>(xmlName: "RegisterEventTopicRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterEventTopicInput, RegisterEventTopicOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterEventTopicInput, RegisterEventTopicOutput>(xAmzTarget: "DirectoryService_20150416.RegisterEventTopic"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterEventTopicInput, RegisterEventTopicOutput>(xmlName: "RegisterEventTopicRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterEventTopicInput, RegisterEventTopicOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterEventTopicOutput, RegisterEventTopicOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterEventTopicOutput, RegisterEventTopicOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterEventTopicOutput, RegisterEventTopicOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterEventTopicOutput, RegisterEventTopicOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2593,7 +2593,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter RejectSharedDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `RejectSharedDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `RejectSharedDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2603,7 +2603,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func rejectSharedDirectory(input: RejectSharedDirectoryInput) async throws -> RejectSharedDirectoryOutputResponse
+    public func rejectSharedDirectory(input: RejectSharedDirectoryInput) async throws -> RejectSharedDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2619,21 +2619,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(id: "rejectSharedDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RejectSharedDirectoryInput, RejectSharedDirectoryOutput, RejectSharedDirectoryOutputError>(id: "rejectSharedDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutput, RejectSharedDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectSharedDirectoryOutput, RejectSharedDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.RejectSharedDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse>(xmlName: "RejectSharedDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.RejectSharedDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutput>(xmlName: "RejectSharedDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectSharedDirectoryOutput, RejectSharedDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectSharedDirectoryOutput, RejectSharedDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectSharedDirectoryOutput, RejectSharedDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectSharedDirectoryOutput, RejectSharedDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2642,7 +2642,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter RemoveIpRoutesInput : [no documentation found]
     ///
-    /// - Returns: `RemoveIpRoutesOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveIpRoutesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2652,7 +2652,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func removeIpRoutes(input: RemoveIpRoutesInput) async throws -> RemoveIpRoutesOutputResponse
+    public func removeIpRoutes(input: RemoveIpRoutesInput) async throws -> RemoveIpRoutesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2668,21 +2668,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(id: "removeIpRoutes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveIpRoutesInput, RemoveIpRoutesOutput, RemoveIpRoutesOutputError>(id: "removeIpRoutes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutput, RemoveIpRoutesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveIpRoutesOutput, RemoveIpRoutesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse>(xAmzTarget: "DirectoryService_20150416.RemoveIpRoutes"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse>(xmlName: "RemoveIpRoutesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutput>(xAmzTarget: "DirectoryService_20150416.RemoveIpRoutes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutput>(xmlName: "RemoveIpRoutesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveIpRoutesOutput, RemoveIpRoutesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveIpRoutesOutput, RemoveIpRoutesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveIpRoutesOutput, RemoveIpRoutesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveIpRoutesOutput, RemoveIpRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2691,7 +2691,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter RemoveRegionInput : [no documentation found]
     ///
-    /// - Returns: `RemoveRegionOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2702,7 +2702,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func removeRegion(input: RemoveRegionInput) async throws -> RemoveRegionOutputResponse
+    public func removeRegion(input: RemoveRegionInput) async throws -> RemoveRegionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2718,21 +2718,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveRegionInput, RemoveRegionOutputResponse, RemoveRegionOutputError>(id: "removeRegion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRegionInput, RemoveRegionOutputResponse, RemoveRegionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRegionInput, RemoveRegionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveRegionInput, RemoveRegionOutput, RemoveRegionOutputError>(id: "removeRegion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRegionInput, RemoveRegionOutput, RemoveRegionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRegionInput, RemoveRegionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveRegionOutputResponse, RemoveRegionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveRegionOutput, RemoveRegionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveRegionInput, RemoveRegionOutputResponse>(xAmzTarget: "DirectoryService_20150416.RemoveRegion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveRegionInput, RemoveRegionOutputResponse>(xmlName: "RemoveRegionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveRegionInput, RemoveRegionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveRegionInput, RemoveRegionOutput>(xAmzTarget: "DirectoryService_20150416.RemoveRegion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveRegionInput, RemoveRegionOutput>(xmlName: "RemoveRegionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveRegionInput, RemoveRegionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveRegionOutputResponse, RemoveRegionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveRegionOutput, RemoveRegionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRegionOutputResponse, RemoveRegionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRegionOutputResponse, RemoveRegionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRegionOutputResponse, RemoveRegionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRegionOutput, RemoveRegionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRegionOutput, RemoveRegionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRegionOutput, RemoveRegionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2741,7 +2741,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
     ///
-    /// - Returns: `RemoveTagsFromResourceOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2750,7 +2750,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2766,21 +2766,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(xAmzTarget: "DirectoryService_20150416.RemoveTagsFromResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(xmlName: "RemoveTagsFromResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(xAmzTarget: "DirectoryService_20150416.RemoveTagsFromResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(xmlName: "RemoveTagsFromResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutput, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2793,7 +2793,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ResetUserPasswordInput : [no documentation found]
     ///
-    /// - Returns: `ResetUserPasswordOutputResponse` : [no documentation found]
+    /// - Returns: `ResetUserPasswordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2805,7 +2805,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
     /// - `UserDoesNotExistException` : The user provided a username that does not exist in your directory.
-    public func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutputResponse
+    public func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2821,21 +2821,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResetUserPasswordInput, ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(id: "resetUserPassword")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetUserPasswordInput, ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetUserPasswordInput, ResetUserPasswordOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ResetUserPasswordInput, ResetUserPasswordOutput, ResetUserPasswordOutputError>(id: "resetUserPassword")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput, ResetUserPasswordOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetUserPasswordOutput, ResetUserPasswordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ResetUserPasswordInput, ResetUserPasswordOutputResponse>(xAmzTarget: "DirectoryService_20150416.ResetUserPassword"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResetUserPasswordInput, ResetUserPasswordOutputResponse>(xmlName: "ResetUserPasswordRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetUserPasswordInput, ResetUserPasswordOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>(xAmzTarget: "DirectoryService_20150416.ResetUserPassword"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>(xmlName: "ResetUserPasswordRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetUserPasswordOutput, ResetUserPasswordOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetUserPasswordOutput, ResetUserPasswordOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetUserPasswordOutput, ResetUserPasswordOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetUserPasswordOutput, ResetUserPasswordOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2844,7 +2844,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter RestoreFromSnapshotInput : An object representing the inputs for the [RestoreFromSnapshot] operation.
     ///
-    /// - Returns: `RestoreFromSnapshotOutputResponse` : Contains the results of the [RestoreFromSnapshot] operation.
+    /// - Returns: `RestoreFromSnapshotOutput` : Contains the results of the [RestoreFromSnapshot] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2853,7 +2853,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutputResponse
+    public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2869,21 +2869,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(id: "restoreFromSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RestoreFromSnapshotInput, RestoreFromSnapshotOutput, RestoreFromSnapshotOutputError>(id: "restoreFromSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput, RestoreFromSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreFromSnapshotOutput, RestoreFromSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse>(xAmzTarget: "DirectoryService_20150416.RestoreFromSnapshot"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse>(xmlName: "RestoreFromSnapshotRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>(xAmzTarget: "DirectoryService_20150416.RestoreFromSnapshot"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>(xmlName: "RestoreFromSnapshotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreFromSnapshotOutput, RestoreFromSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreFromSnapshotOutput, RestoreFromSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreFromSnapshotOutput, RestoreFromSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreFromSnapshotOutput, RestoreFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2892,7 +2892,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter ShareDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `ShareDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `ShareDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2907,7 +2907,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `ShareLimitExceededException` : The maximum number of Amazon Web Services accounts that you can share with this directory has been reached.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func shareDirectory(input: ShareDirectoryInput) async throws -> ShareDirectoryOutputResponse
+    public func shareDirectory(input: ShareDirectoryInput) async throws -> ShareDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2923,21 +2923,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ShareDirectoryInput, ShareDirectoryOutputResponse, ShareDirectoryOutputError>(id: "shareDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ShareDirectoryInput, ShareDirectoryOutputResponse, ShareDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ShareDirectoryInput, ShareDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ShareDirectoryInput, ShareDirectoryOutput, ShareDirectoryOutputError>(id: "shareDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ShareDirectoryInput, ShareDirectoryOutput, ShareDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ShareDirectoryInput, ShareDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ShareDirectoryOutputResponse, ShareDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ShareDirectoryOutput, ShareDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ShareDirectoryInput, ShareDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.ShareDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ShareDirectoryInput, ShareDirectoryOutputResponse>(xmlName: "ShareDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ShareDirectoryInput, ShareDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ShareDirectoryInput, ShareDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.ShareDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ShareDirectoryInput, ShareDirectoryOutput>(xmlName: "ShareDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ShareDirectoryInput, ShareDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ShareDirectoryOutputResponse, ShareDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ShareDirectoryOutput, ShareDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ShareDirectoryOutputResponse, ShareDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ShareDirectoryOutputResponse, ShareDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ShareDirectoryOutputResponse, ShareDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ShareDirectoryOutput, ShareDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ShareDirectoryOutput, ShareDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ShareDirectoryOutput, ShareDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2946,7 +2946,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter StartSchemaExtensionInput : [no documentation found]
     ///
-    /// - Returns: `StartSchemaExtensionOutputResponse` : [no documentation found]
+    /// - Returns: `StartSchemaExtensionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2957,7 +2957,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-    public func startSchemaExtension(input: StartSchemaExtensionInput) async throws -> StartSchemaExtensionOutputResponse
+    public func startSchemaExtension(input: StartSchemaExtensionInput) async throws -> StartSchemaExtensionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2973,21 +2973,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(id: "startSchemaExtension")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartSchemaExtensionInput, StartSchemaExtensionOutput, StartSchemaExtensionOutputError>(id: "startSchemaExtension")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutput, StartSchemaExtensionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSchemaExtensionOutput, StartSchemaExtensionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse>(xAmzTarget: "DirectoryService_20150416.StartSchemaExtension"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse>(xmlName: "StartSchemaExtensionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutput>(xAmzTarget: "DirectoryService_20150416.StartSchemaExtension"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutput>(xmlName: "StartSchemaExtensionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSchemaExtensionOutput, StartSchemaExtensionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSchemaExtensionOutput, StartSchemaExtensionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSchemaExtensionOutput, StartSchemaExtensionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSchemaExtensionOutput, StartSchemaExtensionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2996,7 +2996,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter UnshareDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `UnshareDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `UnshareDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3006,7 +3006,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidTargetException` : The specified shared target is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func unshareDirectory(input: UnshareDirectoryInput) async throws -> UnshareDirectoryOutputResponse
+    public func unshareDirectory(input: UnshareDirectoryInput) async throws -> UnshareDirectoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3022,21 +3022,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UnshareDirectoryInput, UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(id: "unshareDirectory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnshareDirectoryInput, UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnshareDirectoryInput, UnshareDirectoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UnshareDirectoryInput, UnshareDirectoryOutput, UnshareDirectoryOutputError>(id: "unshareDirectory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnshareDirectoryInput, UnshareDirectoryOutput, UnshareDirectoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnshareDirectoryInput, UnshareDirectoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnshareDirectoryOutput, UnshareDirectoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UnshareDirectoryInput, UnshareDirectoryOutputResponse>(xAmzTarget: "DirectoryService_20150416.UnshareDirectory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnshareDirectoryInput, UnshareDirectoryOutputResponse>(xmlName: "UnshareDirectoryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnshareDirectoryInput, UnshareDirectoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UnshareDirectoryInput, UnshareDirectoryOutput>(xAmzTarget: "DirectoryService_20150416.UnshareDirectory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnshareDirectoryInput, UnshareDirectoryOutput>(xmlName: "UnshareDirectoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnshareDirectoryInput, UnshareDirectoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnshareDirectoryOutput, UnshareDirectoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnshareDirectoryOutput, UnshareDirectoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnshareDirectoryOutput, UnshareDirectoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnshareDirectoryOutput, UnshareDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3045,7 +3045,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter UpdateConditionalForwarderInput : Updates a conditional forwarder.
     ///
-    /// - Returns: `UpdateConditionalForwarderOutputResponse` : The result of an UpdateConditionalForwarder request.
+    /// - Returns: `UpdateConditionalForwarderOutput` : The result of an UpdateConditionalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3056,7 +3056,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func updateConditionalForwarder(input: UpdateConditionalForwarderInput) async throws -> UpdateConditionalForwarderOutputResponse
+    public func updateConditionalForwarder(input: UpdateConditionalForwarderInput) async throws -> UpdateConditionalForwarderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3072,21 +3072,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(id: "updateConditionalForwarder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput, UpdateConditionalForwarderOutputError>(id: "updateConditionalForwarder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput, UpdateConditionalForwarderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConditionalForwarderOutput, UpdateConditionalForwarderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse>(xAmzTarget: "DirectoryService_20150416.UpdateConditionalForwarder"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse>(xmlName: "UpdateConditionalForwarderRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput>(xAmzTarget: "DirectoryService_20150416.UpdateConditionalForwarder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput>(xmlName: "UpdateConditionalForwarderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConditionalForwarderOutput, UpdateConditionalForwarderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConditionalForwarderOutput, UpdateConditionalForwarderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConditionalForwarderOutput, UpdateConditionalForwarderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConditionalForwarderOutput, UpdateConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3095,7 +3095,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter UpdateDirectorySetupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDirectorySetupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDirectorySetupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3109,7 +3109,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func updateDirectorySetup(input: UpdateDirectorySetupInput) async throws -> UpdateDirectorySetupOutputResponse
+    public func updateDirectorySetup(input: UpdateDirectorySetupInput) async throws -> UpdateDirectorySetupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3125,21 +3125,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(id: "updateDirectorySetup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDirectorySetupInput, UpdateDirectorySetupOutput, UpdateDirectorySetupOutputError>(id: "updateDirectorySetup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutput, UpdateDirectorySetupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDirectorySetupOutput, UpdateDirectorySetupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse>(xAmzTarget: "DirectoryService_20150416.UpdateDirectorySetup"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse>(xmlName: "UpdateDirectorySetupRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutput>(xAmzTarget: "DirectoryService_20150416.UpdateDirectorySetup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutput>(xmlName: "UpdateDirectorySetupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDirectorySetupOutput, UpdateDirectorySetupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDirectorySetupOutput, UpdateDirectorySetupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDirectorySetupOutput, UpdateDirectorySetupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDirectorySetupOutput, UpdateDirectorySetupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3148,7 +3148,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter UpdateNumberOfDomainControllersInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNumberOfDomainControllersOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNumberOfDomainControllersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3160,7 +3160,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControllersInput) async throws -> UpdateNumberOfDomainControllersOutputResponse
+    public func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControllersInput) async throws -> UpdateNumberOfDomainControllersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3176,21 +3176,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(id: "updateNumberOfDomainControllers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput, UpdateNumberOfDomainControllersOutputError>(id: "updateNumberOfDomainControllers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput, UpdateNumberOfDomainControllersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNumberOfDomainControllersOutput, UpdateNumberOfDomainControllersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse>(xAmzTarget: "DirectoryService_20150416.UpdateNumberOfDomainControllers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse>(xmlName: "UpdateNumberOfDomainControllersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput>(xAmzTarget: "DirectoryService_20150416.UpdateNumberOfDomainControllers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput>(xmlName: "UpdateNumberOfDomainControllersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNumberOfDomainControllersOutput, UpdateNumberOfDomainControllersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNumberOfDomainControllersOutput, UpdateNumberOfDomainControllersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNumberOfDomainControllersOutput, UpdateNumberOfDomainControllersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNumberOfDomainControllersOutput, UpdateNumberOfDomainControllersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3199,7 +3199,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter UpdateRadiusInput : Contains the inputs for the [UpdateRadius] operation.
     ///
-    /// - Returns: `UpdateRadiusOutputResponse` : Contains the results of the [UpdateRadius] operation.
+    /// - Returns: `UpdateRadiusOutput` : Contains the results of the [UpdateRadius] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3208,7 +3208,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func updateRadius(input: UpdateRadiusInput) async throws -> UpdateRadiusOutputResponse
+    public func updateRadius(input: UpdateRadiusInput) async throws -> UpdateRadiusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3224,21 +3224,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRadiusInput, UpdateRadiusOutputResponse, UpdateRadiusOutputError>(id: "updateRadius")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRadiusInput, UpdateRadiusOutputResponse, UpdateRadiusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRadiusInput, UpdateRadiusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateRadiusInput, UpdateRadiusOutput, UpdateRadiusOutputError>(id: "updateRadius")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRadiusInput, UpdateRadiusOutput, UpdateRadiusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRadiusInput, UpdateRadiusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRadiusOutputResponse, UpdateRadiusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRadiusOutput, UpdateRadiusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRadiusInput, UpdateRadiusOutputResponse>(xAmzTarget: "DirectoryService_20150416.UpdateRadius"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRadiusInput, UpdateRadiusOutputResponse>(xmlName: "UpdateRadiusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRadiusInput, UpdateRadiusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRadiusInput, UpdateRadiusOutput>(xAmzTarget: "DirectoryService_20150416.UpdateRadius"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRadiusInput, UpdateRadiusOutput>(xmlName: "UpdateRadiusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRadiusInput, UpdateRadiusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRadiusOutputResponse, UpdateRadiusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRadiusOutput, UpdateRadiusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRadiusOutputResponse, UpdateRadiusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRadiusOutputResponse, UpdateRadiusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRadiusOutputResponse, UpdateRadiusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRadiusOutput, UpdateRadiusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRadiusOutput, UpdateRadiusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRadiusOutput, UpdateRadiusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3247,7 +3247,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter UpdateSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3260,7 +3260,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
     /// - `UnsupportedSettingsException` : The specified directory setting is not supported.
-    public func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutputResponse
+    public func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3276,21 +3276,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>(id: "updateSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateSettingsInput, UpdateSettingsOutput, UpdateSettingsOutputError>(id: "updateSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSettingsInput, UpdateSettingsOutput, UpdateSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSettingsInput, UpdateSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSettingsOutput, UpdateSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse>(xAmzTarget: "DirectoryService_20150416.UpdateSettings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse>(xmlName: "UpdateSettingsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateSettingsInput, UpdateSettingsOutput>(xAmzTarget: "DirectoryService_20150416.UpdateSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSettingsInput, UpdateSettingsOutput>(xmlName: "UpdateSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSettingsInput, UpdateSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSettingsOutputResponse, UpdateSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSettingsOutput, UpdateSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSettingsOutput, UpdateSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSettingsOutput, UpdateSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSettingsOutput, UpdateSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3299,7 +3299,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter UpdateTrustInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTrustOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTrustOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3308,7 +3308,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func updateTrust(input: UpdateTrustInput) async throws -> UpdateTrustOutputResponse
+    public func updateTrust(input: UpdateTrustInput) async throws -> UpdateTrustOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3324,21 +3324,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTrustInput, UpdateTrustOutputResponse, UpdateTrustOutputError>(id: "updateTrust")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustInput, UpdateTrustOutputResponse, UpdateTrustOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustInput, UpdateTrustOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateTrustInput, UpdateTrustOutput, UpdateTrustOutputError>(id: "updateTrust")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustInput, UpdateTrustOutput, UpdateTrustOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustInput, UpdateTrustOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrustOutputResponse, UpdateTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrustOutput, UpdateTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTrustInput, UpdateTrustOutputResponse>(xAmzTarget: "DirectoryService_20150416.UpdateTrust"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTrustInput, UpdateTrustOutputResponse>(xmlName: "UpdateTrustRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrustInput, UpdateTrustOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTrustInput, UpdateTrustOutput>(xAmzTarget: "DirectoryService_20150416.UpdateTrust"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTrustInput, UpdateTrustOutput>(xmlName: "UpdateTrustRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrustInput, UpdateTrustOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrustOutputResponse, UpdateTrustOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrustOutput, UpdateTrustOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustOutputResponse, UpdateTrustOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustOutputResponse, UpdateTrustOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustOutputResponse, UpdateTrustOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustOutput, UpdateTrustOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustOutput, UpdateTrustOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustOutput, UpdateTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3347,7 +3347,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     ///
     /// - Parameter VerifyTrustInput : Initiates the verification of an existing trust relationship between an Managed Microsoft AD directory and an external domain.
     ///
-    /// - Returns: `VerifyTrustOutputResponse` : Result of a VerifyTrust request.
+    /// - Returns: `VerifyTrustOutput` : Result of a VerifyTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3357,7 +3357,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func verifyTrust(input: VerifyTrustInput) async throws -> VerifyTrustOutputResponse
+    public func verifyTrust(input: VerifyTrustInput) async throws -> VerifyTrustOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3373,21 +3373,21 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<VerifyTrustInput, VerifyTrustOutputResponse, VerifyTrustOutputError>(id: "verifyTrust")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyTrustInput, VerifyTrustOutputResponse, VerifyTrustOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyTrustInput, VerifyTrustOutputResponse>())
+        var operation = ClientRuntime.OperationStack<VerifyTrustInput, VerifyTrustOutput, VerifyTrustOutputError>(id: "verifyTrust")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyTrustInput, VerifyTrustOutput, VerifyTrustOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyTrustInput, VerifyTrustOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifyTrustOutputResponse, VerifyTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifyTrustOutput, VerifyTrustOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<VerifyTrustInput, VerifyTrustOutputResponse>(xAmzTarget: "DirectoryService_20150416.VerifyTrust"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifyTrustInput, VerifyTrustOutputResponse>(xmlName: "VerifyTrustRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifyTrustInput, VerifyTrustOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<VerifyTrustInput, VerifyTrustOutput>(xAmzTarget: "DirectoryService_20150416.VerifyTrust"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifyTrustInput, VerifyTrustOutput>(xmlName: "VerifyTrustRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifyTrustInput, VerifyTrustOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifyTrustOutputResponse, VerifyTrustOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifyTrustOutput, VerifyTrustOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyTrustOutputResponse, VerifyTrustOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyTrustOutputResponse, VerifyTrustOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyTrustOutputResponse, VerifyTrustOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyTrustOutput, VerifyTrustOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyTrustOutput, VerifyTrustOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyTrustOutput, VerifyTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

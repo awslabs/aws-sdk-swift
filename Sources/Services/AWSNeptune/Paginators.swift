@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBClusterEndpointsOutputResponse]` results.
+    /// Paginate over `[DescribeDBClusterEndpointsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBClusterEndpointsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterEndpointsOutputResponse`
-    public func describeDBClusterEndpointsPaginated(input: DescribeDBClusterEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse>(input: input, inputKey: \DescribeDBClusterEndpointsInput.marker, outputKey: \DescribeDBClusterEndpointsOutputResponse.marker, paginationFunction: self.describeDBClusterEndpoints(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterEndpointsOutput`
+    public func describeDBClusterEndpointsPaginated(input: DescribeDBClusterEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>(input: input, inputKey: \DescribeDBClusterEndpointsInput.marker, outputKey: \DescribeDBClusterEndpointsOutput.marker, paginationFunction: self.describeDBClusterEndpoints(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension DescribeDBClusterEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClusterEndpointsInput, Output == DescribeDBClusterEndpointsOutputResponse {
+extension PaginatorSequence where Input == DescribeDBClusterEndpointsInput, Output == DescribeDBClusterEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterEndpointsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBClusterEndpoint]`
     /// - Returns: `[NeptuneClientTypes.DBClusterEndpoint]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == DescribeDBClusterEndpointsInput, Outp
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBClusterParameterGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeDBClusterParameterGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBClusterParameterGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParameterGroupsOutputResponse`
-    public func describeDBClusterParameterGroupsPaginated(input: DescribeDBClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse>(input: input, inputKey: \DescribeDBClusterParameterGroupsInput.marker, outputKey: \DescribeDBClusterParameterGroupsOutputResponse.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParameterGroupsOutput`
+    public func describeDBClusterParameterGroupsPaginated(input: DescribeDBClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(input: input, inputKey: \DescribeDBClusterParameterGroupsInput.marker, outputKey: \DescribeDBClusterParameterGroupsOutput.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension DescribeDBClusterParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClusterParameterGroupsInput, Output == DescribeDBClusterParameterGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeDBClusterParameterGroupsInput, Output == DescribeDBClusterParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParameterGroupsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBClusterParameterGroup]`
     /// - Returns: `[NeptuneClientTypes.DBClusterParameterGroup]`
@@ -68,16 +68,16 @@ extension PaginatorSequence where Input == DescribeDBClusterParameterGroupsInput
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBClusterParametersOutputResponse]` results.
+    /// Paginate over `[DescribeDBClusterParametersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBClusterParametersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParametersOutputResponse`
-    public func describeDBClusterParametersPaginated(input: DescribeDBClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse>(input: input, inputKey: \DescribeDBClusterParametersInput.marker, outputKey: \DescribeDBClusterParametersOutputResponse.marker, paginationFunction: self.describeDBClusterParameters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParametersOutput`
+    public func describeDBClusterParametersPaginated(input: DescribeDBClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(input: input, inputKey: \DescribeDBClusterParametersInput.marker, outputKey: \DescribeDBClusterParametersOutput.marker, paginationFunction: self.describeDBClusterParameters(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension DescribeDBClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClusterParametersInput, Output == DescribeDBClusterParametersOutputResponse {
+extension PaginatorSequence where Input == DescribeDBClusterParametersInput, Output == DescribeDBClusterParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParametersPaginated`
     /// to access the nested member `[NeptuneClientTypes.Parameter]`
     /// - Returns: `[NeptuneClientTypes.Parameter]`
@@ -101,16 +101,16 @@ extension PaginatorSequence where Input == DescribeDBClusterParametersInput, Out
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBClustersOutputResponse]` results.
+    /// Paginate over `[DescribeDBClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClustersOutputResponse`
-    public func describeDBClustersPaginated(input: DescribeDBClustersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutputResponse>(input: input, inputKey: \DescribeDBClustersInput.marker, outputKey: \DescribeDBClustersOutputResponse.marker, paginationFunction: self.describeDBClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClustersOutput`
+    public func describeDBClustersPaginated(input: DescribeDBClustersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput>(input: input, inputKey: \DescribeDBClustersInput.marker, outputKey: \DescribeDBClustersOutput.marker, paginationFunction: self.describeDBClusters(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension DescribeDBClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClustersInput, Output == DescribeDBClustersOutputResponse {
+extension PaginatorSequence where Input == DescribeDBClustersInput, Output == DescribeDBClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClustersPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBCluster]`
     /// - Returns: `[NeptuneClientTypes.DBCluster]`
@@ -133,16 +133,16 @@ extension PaginatorSequence where Input == DescribeDBClustersInput, Output == De
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBClusterSnapshotsOutputResponse]` results.
+    /// Paginate over `[DescribeDBClusterSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBClusterSnapshotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterSnapshotsOutputResponse`
-    public func describeDBClusterSnapshotsPaginated(input: DescribeDBClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>(input: input, inputKey: \DescribeDBClusterSnapshotsInput.marker, outputKey: \DescribeDBClusterSnapshotsOutputResponse.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterSnapshotsOutput`
+    public func describeDBClusterSnapshotsPaginated(input: DescribeDBClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(input: input, inputKey: \DescribeDBClusterSnapshotsInput.marker, outputKey: \DescribeDBClusterSnapshotsOutput.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
     }
 }
 
@@ -160,7 +160,7 @@ extension DescribeDBClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClusterSnapshotsInput, Output == DescribeDBClusterSnapshotsOutputResponse {
+extension PaginatorSequence where Input == DescribeDBClusterSnapshotsInput, Output == DescribeDBClusterSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterSnapshotsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBClusterSnapshot]`
     /// - Returns: `[NeptuneClientTypes.DBClusterSnapshot]`
@@ -169,16 +169,16 @@ extension PaginatorSequence where Input == DescribeDBClusterSnapshotsInput, Outp
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBEngineVersionsOutputResponse]` results.
+    /// Paginate over `[DescribeDBEngineVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBEngineVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBEngineVersionsOutputResponse`
-    public func describeDBEngineVersionsPaginated(input: DescribeDBEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse>(input: input, inputKey: \DescribeDBEngineVersionsInput.marker, outputKey: \DescribeDBEngineVersionsOutputResponse.marker, paginationFunction: self.describeDBEngineVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBEngineVersionsOutput`
+    public func describeDBEngineVersionsPaginated(input: DescribeDBEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(input: input, inputKey: \DescribeDBEngineVersionsInput.marker, outputKey: \DescribeDBEngineVersionsOutput.marker, paginationFunction: self.describeDBEngineVersions(input:))
     }
 }
 
@@ -197,7 +197,7 @@ extension DescribeDBEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBEngineVersionsInput, Output == DescribeDBEngineVersionsOutputResponse {
+extension PaginatorSequence where Input == DescribeDBEngineVersionsInput, Output == DescribeDBEngineVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBEngineVersionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBEngineVersion]`
     /// - Returns: `[NeptuneClientTypes.DBEngineVersion]`
@@ -206,16 +206,16 @@ extension PaginatorSequence where Input == DescribeDBEngineVersionsInput, Output
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBInstancesOutputResponse]` results.
+    /// Paginate over `[DescribeDBInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstancesOutputResponse`
-    public func describeDBInstancesPaginated(input: DescribeDBInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>(input: input, inputKey: \DescribeDBInstancesInput.marker, outputKey: \DescribeDBInstancesOutputResponse.marker, paginationFunction: self.describeDBInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstancesOutput`
+    public func describeDBInstancesPaginated(input: DescribeDBInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput>(input: input, inputKey: \DescribeDBInstancesInput.marker, outputKey: \DescribeDBInstancesOutput.marker, paginationFunction: self.describeDBInstances(input:))
     }
 }
 
@@ -229,7 +229,7 @@ extension DescribeDBInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBInstancesInput, Output == DescribeDBInstancesOutputResponse {
+extension PaginatorSequence where Input == DescribeDBInstancesInput, Output == DescribeDBInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBInstancesPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBInstance]`
     /// - Returns: `[NeptuneClientTypes.DBInstance]`
@@ -238,16 +238,16 @@ extension PaginatorSequence where Input == DescribeDBInstancesInput, Output == D
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBParameterGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeDBParameterGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBParameterGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParameterGroupsOutputResponse`
-    public func describeDBParameterGroupsPaginated(input: DescribeDBParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse>(input: input, inputKey: \DescribeDBParameterGroupsInput.marker, outputKey: \DescribeDBParameterGroupsOutputResponse.marker, paginationFunction: self.describeDBParameterGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParameterGroupsOutput`
+    public func describeDBParameterGroupsPaginated(input: DescribeDBParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>(input: input, inputKey: \DescribeDBParameterGroupsInput.marker, outputKey: \DescribeDBParameterGroupsOutput.marker, paginationFunction: self.describeDBParameterGroups(input:))
     }
 }
 
@@ -261,7 +261,7 @@ extension DescribeDBParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBParameterGroupsInput, Output == DescribeDBParameterGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeDBParameterGroupsInput, Output == DescribeDBParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBParameterGroupsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBParameterGroup]`
     /// - Returns: `[NeptuneClientTypes.DBParameterGroup]`
@@ -270,16 +270,16 @@ extension PaginatorSequence where Input == DescribeDBParameterGroupsInput, Outpu
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBParametersOutputResponse]` results.
+    /// Paginate over `[DescribeDBParametersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBParametersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParametersOutputResponse`
-    public func describeDBParametersPaginated(input: DescribeDBParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutputResponse>(input: input, inputKey: \DescribeDBParametersInput.marker, outputKey: \DescribeDBParametersOutputResponse.marker, paginationFunction: self.describeDBParameters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParametersOutput`
+    public func describeDBParametersPaginated(input: DescribeDBParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput>(input: input, inputKey: \DescribeDBParametersInput.marker, outputKey: \DescribeDBParametersOutput.marker, paginationFunction: self.describeDBParameters(input:))
     }
 }
 
@@ -294,7 +294,7 @@ extension DescribeDBParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBParametersInput, Output == DescribeDBParametersOutputResponse {
+extension PaginatorSequence where Input == DescribeDBParametersInput, Output == DescribeDBParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBParametersPaginated`
     /// to access the nested member `[NeptuneClientTypes.Parameter]`
     /// - Returns: `[NeptuneClientTypes.Parameter]`
@@ -303,16 +303,16 @@ extension PaginatorSequence where Input == DescribeDBParametersInput, Output == 
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeDBSubnetGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeDBSubnetGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDBSubnetGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSubnetGroupsOutputResponse`
-    public func describeDBSubnetGroupsPaginated(input: DescribeDBSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse>(input: input, inputKey: \DescribeDBSubnetGroupsInput.marker, outputKey: \DescribeDBSubnetGroupsOutputResponse.marker, paginationFunction: self.describeDBSubnetGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSubnetGroupsOutput`
+    public func describeDBSubnetGroupsPaginated(input: DescribeDBSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(input: input, inputKey: \DescribeDBSubnetGroupsInput.marker, outputKey: \DescribeDBSubnetGroupsOutput.marker, paginationFunction: self.describeDBSubnetGroups(input:))
     }
 }
 
@@ -326,7 +326,7 @@ extension DescribeDBSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBSubnetGroupsInput, Output == DescribeDBSubnetGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeDBSubnetGroupsInput, Output == DescribeDBSubnetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBSubnetGroupsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBSubnetGroup]`
     /// - Returns: `[NeptuneClientTypes.DBSubnetGroup]`
@@ -335,16 +335,16 @@ extension PaginatorSequence where Input == DescribeDBSubnetGroupsInput, Output =
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeEngineDefaultParametersOutputResponse]` results.
+    /// Paginate over `[DescribeEngineDefaultParametersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEngineDefaultParametersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineDefaultParametersOutputResponse`
-    public func describeEngineDefaultParametersPaginated(input: DescribeEngineDefaultParametersInput) -> ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>(input: input, inputKey: \DescribeEngineDefaultParametersInput.marker, outputKey: \DescribeEngineDefaultParametersOutputResponse.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineDefaultParametersOutput`
+    public func describeEngineDefaultParametersPaginated(input: DescribeEngineDefaultParametersInput) -> ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \DescribeEngineDefaultParametersInput.marker, outputKey: \DescribeEngineDefaultParametersOutput.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
     }
 }
 
@@ -358,7 +358,7 @@ extension DescribeEngineDefaultParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput, Output == DescribeEngineDefaultParametersOutputResponse {
+extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput, Output == DescribeEngineDefaultParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEngineDefaultParametersPaginated`
     /// to access the nested member `[NeptuneClientTypes.Parameter]`
     /// - Returns: `[NeptuneClientTypes.Parameter]`
@@ -367,16 +367,16 @@ extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput,
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    /// Paginate over `[DescribeEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
-    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutputResponse.marker, paginationFunction: self.describeEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
+    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -395,7 +395,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[NeptuneClientTypes.Event]`
     /// - Returns: `[NeptuneClientTypes.Event]`
@@ -404,16 +404,16 @@ extension PaginatorSequence where Input == DescribeEventsInput, Output == Descri
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeEventSubscriptionsOutputResponse]` results.
+    /// Paginate over `[DescribeEventSubscriptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutputResponse`
-    public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutputResponse.marker, paginationFunction: self.describeEventSubscriptions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutput`
+    public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutput.marker, paginationFunction: self.describeEventSubscriptions(input:))
     }
 }
 
@@ -427,7 +427,7 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutputResponse {
+extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.EventSubscription]`
     /// - Returns: `[NeptuneClientTypes.EventSubscription]`
@@ -436,16 +436,16 @@ extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Outp
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeGlobalClustersOutputResponse]` results.
+    /// Paginate over `[DescribeGlobalClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeGlobalClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalClustersOutputResponse`
-    public func describeGlobalClustersPaginated(input: DescribeGlobalClustersInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse>(input: input, inputKey: \DescribeGlobalClustersInput.marker, outputKey: \DescribeGlobalClustersOutputResponse.marker, paginationFunction: self.describeGlobalClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalClustersOutput`
+    public func describeGlobalClustersPaginated(input: DescribeGlobalClustersInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(input: input, inputKey: \DescribeGlobalClustersInput.marker, outputKey: \DescribeGlobalClustersOutput.marker, paginationFunction: self.describeGlobalClusters(input:))
     }
 }
 
@@ -458,7 +458,7 @@ extension DescribeGlobalClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGlobalClustersInput, Output == DescribeGlobalClustersOutputResponse {
+extension PaginatorSequence where Input == DescribeGlobalClustersInput, Output == DescribeGlobalClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGlobalClustersPaginated`
     /// to access the nested member `[NeptuneClientTypes.GlobalCluster]`
     /// - Returns: `[NeptuneClientTypes.GlobalCluster]`
@@ -467,16 +467,16 @@ extension PaginatorSequence where Input == DescribeGlobalClustersInput, Output =
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribeOrderableDBInstanceOptionsOutputResponse]` results.
+    /// Paginate over `[DescribeOrderableDBInstanceOptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeOrderableDBInstanceOptionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableDBInstanceOptionsOutputResponse`
-    public func describeOrderableDBInstanceOptionsPaginated(input: DescribeOrderableDBInstanceOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse>(input: input, inputKey: \DescribeOrderableDBInstanceOptionsInput.marker, outputKey: \DescribeOrderableDBInstanceOptionsOutputResponse.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableDBInstanceOptionsOutput`
+    public func describeOrderableDBInstanceOptionsPaginated(input: DescribeOrderableDBInstanceOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(input: input, inputKey: \DescribeOrderableDBInstanceOptionsInput.marker, outputKey: \DescribeOrderableDBInstanceOptionsOutput.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
     }
 }
 
@@ -494,7 +494,7 @@ extension DescribeOrderableDBInstanceOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeOrderableDBInstanceOptionsInput, Output == DescribeOrderableDBInstanceOptionsOutputResponse {
+extension PaginatorSequence where Input == DescribeOrderableDBInstanceOptionsInput, Output == DescribeOrderableDBInstanceOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOrderableDBInstanceOptionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.OrderableDBInstanceOption]`
     /// - Returns: `[NeptuneClientTypes.OrderableDBInstanceOption]`
@@ -503,16 +503,16 @@ extension PaginatorSequence where Input == DescribeOrderableDBInstanceOptionsInp
     }
 }
 extension NeptuneClient {
-    /// Paginate over `[DescribePendingMaintenanceActionsOutputResponse]` results.
+    /// Paginate over `[DescribePendingMaintenanceActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribePendingMaintenanceActionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutputResponse`
-    public func describePendingMaintenanceActionsPaginated(input: DescribePendingMaintenanceActionsInput) -> ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse>(input: input, inputKey: \DescribePendingMaintenanceActionsInput.marker, outputKey: \DescribePendingMaintenanceActionsOutputResponse.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutput`
+    public func describePendingMaintenanceActionsPaginated(input: DescribePendingMaintenanceActionsInput) -> ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \DescribePendingMaintenanceActionsInput.marker, outputKey: \DescribePendingMaintenanceActionsOutput.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
     }
 }
 
@@ -526,7 +526,7 @@ extension DescribePendingMaintenanceActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribePendingMaintenanceActionsInput, Output == DescribePendingMaintenanceActionsOutputResponse {
+extension PaginatorSequence where Input == DescribePendingMaintenanceActionsInput, Output == DescribePendingMaintenanceActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePendingMaintenanceActionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.ResourcePendingMaintenanceActions]`
     /// - Returns: `[NeptuneClientTypes.ResourcePendingMaintenanceActions]`

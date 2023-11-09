@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension RedshiftDataClient {
-    /// Paginate over `[DescribeTableOutputResponse]` results.
+    /// Paginate over `[DescribeTableOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeTableInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTableOutputResponse`
-    public func describeTablePaginated(input: DescribeTableInput) -> ClientRuntime.PaginatorSequence<DescribeTableInput, DescribeTableOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeTableInput, DescribeTableOutputResponse>(input: input, inputKey: \DescribeTableInput.nextToken, outputKey: \DescribeTableOutputResponse.nextToken, paginationFunction: self.describeTable(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTableOutput`
+    public func describeTablePaginated(input: DescribeTableInput) -> ClientRuntime.PaginatorSequence<DescribeTableInput, DescribeTableOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTableInput, DescribeTableOutput>(input: input, inputKey: \DescribeTableInput.nextToken, outputKey: \DescribeTableOutput.nextToken, paginationFunction: self.describeTable(input:))
     }
 }
 
@@ -32,7 +32,7 @@ extension DescribeTableInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeTableInput, Output == DescribeTableOutputResponse {
+extension PaginatorSequence where Input == DescribeTableInput, Output == DescribeTableOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTablePaginated`
     /// to access the nested member `[RedshiftDataClientTypes.ColumnMetadata]`
     /// - Returns: `[RedshiftDataClientTypes.ColumnMetadata]`
@@ -41,16 +41,16 @@ extension PaginatorSequence where Input == DescribeTableInput, Output == Describ
     }
 }
 extension RedshiftDataClient {
-    /// Paginate over `[GetStatementResultOutputResponse]` results.
+    /// Paginate over `[GetStatementResultOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetStatementResultInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetStatementResultOutputResponse`
-    public func getStatementResultPaginated(input: GetStatementResultInput) -> ClientRuntime.PaginatorSequence<GetStatementResultInput, GetStatementResultOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetStatementResultInput, GetStatementResultOutputResponse>(input: input, inputKey: \GetStatementResultInput.nextToken, outputKey: \GetStatementResultOutputResponse.nextToken, paginationFunction: self.getStatementResult(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetStatementResultOutput`
+    public func getStatementResultPaginated(input: GetStatementResultInput) -> ClientRuntime.PaginatorSequence<GetStatementResultInput, GetStatementResultOutput> {
+        return ClientRuntime.PaginatorSequence<GetStatementResultInput, GetStatementResultOutput>(input: input, inputKey: \GetStatementResultInput.nextToken, outputKey: \GetStatementResultOutput.nextToken, paginationFunction: self.getStatementResult(input:))
     }
 }
 
@@ -62,7 +62,7 @@ extension GetStatementResultInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetStatementResultInput, Output == GetStatementResultOutputResponse {
+extension PaginatorSequence where Input == GetStatementResultInput, Output == GetStatementResultOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getStatementResultPaginated`
     /// to access the nested member `[[RedshiftDataClientTypes.Field]]`
     /// - Returns: `[[RedshiftDataClientTypes.Field]]`
@@ -71,16 +71,16 @@ extension PaginatorSequence where Input == GetStatementResultInput, Output == Ge
     }
 }
 extension RedshiftDataClient {
-    /// Paginate over `[ListDatabasesOutputResponse]` results.
+    /// Paginate over `[ListDatabasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatabasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutputResponse`
-    public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutputResponse.nextToken, paginationFunction: self.listDatabases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutput`
+    public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutput.nextToken, paginationFunction: self.listDatabases(input:))
     }
 }
 
@@ -97,7 +97,7 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutputResponse {
+extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatabasesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -106,16 +106,16 @@ extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDat
     }
 }
 extension RedshiftDataClient {
-    /// Paginate over `[ListSchemasOutputResponse]` results.
+    /// Paginate over `[ListSchemasOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSchemasInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutputResponse`
-    public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutputResponse.nextToken, paginationFunction: self.listSchemas(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutput`
+    public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput> {
+        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutput.nextToken, paginationFunction: self.listSchemas(input:))
     }
 }
 
@@ -134,7 +134,7 @@ extension ListSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutputResponse {
+extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -143,16 +143,16 @@ extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchem
     }
 }
 extension RedshiftDataClient {
-    /// Paginate over `[ListStatementsOutputResponse]` results.
+    /// Paginate over `[ListStatementsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStatementsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStatementsOutputResponse`
-    public func listStatementsPaginated(input: ListStatementsInput) -> ClientRuntime.PaginatorSequence<ListStatementsInput, ListStatementsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStatementsInput, ListStatementsOutputResponse>(input: input, inputKey: \ListStatementsInput.nextToken, outputKey: \ListStatementsOutputResponse.nextToken, paginationFunction: self.listStatements(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStatementsOutput`
+    public func listStatementsPaginated(input: ListStatementsInput) -> ClientRuntime.PaginatorSequence<ListStatementsInput, ListStatementsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStatementsInput, ListStatementsOutput>(input: input, inputKey: \ListStatementsInput.nextToken, outputKey: \ListStatementsOutput.nextToken, paginationFunction: self.listStatements(input:))
     }
 }
 
@@ -167,7 +167,7 @@ extension ListStatementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStatementsInput, Output == ListStatementsOutputResponse {
+extension PaginatorSequence where Input == ListStatementsInput, Output == ListStatementsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStatementsPaginated`
     /// to access the nested member `[RedshiftDataClientTypes.StatementData]`
     /// - Returns: `[RedshiftDataClientTypes.StatementData]`
@@ -176,16 +176,16 @@ extension PaginatorSequence where Input == ListStatementsInput, Output == ListSt
     }
 }
 extension RedshiftDataClient {
-    /// Paginate over `[ListTablesOutputResponse]` results.
+    /// Paginate over `[ListTablesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTablesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutputResponse`
-    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutputResponse.nextToken, paginationFunction: self.listTables(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
+    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutput.nextToken, paginationFunction: self.listTables(input:))
     }
 }
 
@@ -205,7 +205,7 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutputResponse {
+extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
     /// to access the nested member `[RedshiftDataClientTypes.TableMember]`
     /// - Returns: `[RedshiftDataClientTypes.TableMember]`

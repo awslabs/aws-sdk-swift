@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension SESClientProtocol {
 
-    static func identityExistsWaiterConfig() throws -> WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetIdentityVerificationAttributesInput, result: Result<GetIdentityVerificationAttributesOutputResponse, Error>) -> Bool in
+    static func identityExistsWaiterConfig() throws -> WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutput> {
+        let acceptors: [WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetIdentityVerificationAttributesInput, result: Result<GetIdentityVerificationAttributesOutput, Error>) -> Bool in
                 // JMESPath expression: "VerificationAttributes.*.VerificationStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "Success"
@@ -20,7 +20,7 @@ extension SESClientProtocol {
                 return (projection2?.count ?? 0) > 1 && (projection2?.allSatisfy { JMESUtils.compare($0, ==, "Success") } ?? false)
             }),
         ]
-        return try WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the IdentityExists event on the getIdentityVerificationAttributes operation.
@@ -34,7 +34,7 @@ extension SESClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilIdentityExists(options: WaiterOptions, input: GetIdentityVerificationAttributesInput) async throws -> WaiterOutcome<GetIdentityVerificationAttributesOutputResponse> {
+    public func waitUntilIdentityExists(options: WaiterOptions, input: GetIdentityVerificationAttributesInput) async throws -> WaiterOutcome<GetIdentityVerificationAttributesOutput> {
         let waiter = Waiter(config: try Self.identityExistsWaiterConfig(), operation: self.getIdentityVerificationAttributes(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

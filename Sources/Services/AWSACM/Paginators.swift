@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ACMClient {
-    /// Paginate over `[ListCertificatesOutputResponse]` results.
+    /// Paginate over `[ListCertificatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCertificatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutputResponse`
-    public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutputResponse>(input: input, inputKey: \ListCertificatesInput.nextToken, outputKey: \ListCertificatesOutputResponse.nextToken, paginationFunction: self.listCertificates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutput`
+    public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \ListCertificatesInput.nextToken, outputKey: \ListCertificatesOutput.nextToken, paginationFunction: self.listCertificates(input:))
     }
 }
 
@@ -28,7 +28,7 @@ extension ListCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutputResponse {
+extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificatesPaginated`
     /// to access the nested member `[ACMClientTypes.CertificateSummary]`
     /// - Returns: `[ACMClientTypes.CertificateSummary]`

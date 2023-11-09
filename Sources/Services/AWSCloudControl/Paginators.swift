@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CloudControlClient {
-    /// Paginate over `[ListResourceRequestsOutputResponse]` results.
+    /// Paginate over `[ListResourceRequestsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourceRequestsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceRequestsOutputResponse`
-    public func listResourceRequestsPaginated(input: ListResourceRequestsInput) -> ClientRuntime.PaginatorSequence<ListResourceRequestsInput, ListResourceRequestsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourceRequestsInput, ListResourceRequestsOutputResponse>(input: input, inputKey: \ListResourceRequestsInput.nextToken, outputKey: \ListResourceRequestsOutputResponse.nextToken, paginationFunction: self.listResourceRequests(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceRequestsOutput`
+    public func listResourceRequestsPaginated(input: ListResourceRequestsInput) -> ClientRuntime.PaginatorSequence<ListResourceRequestsInput, ListResourceRequestsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceRequestsInput, ListResourceRequestsOutput>(input: input, inputKey: \ListResourceRequestsInput.nextToken, outputKey: \ListResourceRequestsOutput.nextToken, paginationFunction: self.listResourceRequests(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListResourceRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResourceRequestsInput, Output == ListResourceRequestsOutputResponse {
+extension PaginatorSequence where Input == ListResourceRequestsInput, Output == ListResourceRequestsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourceRequestsPaginated`
     /// to access the nested member `[CloudControlClientTypes.ProgressEvent]`
     /// - Returns: `[CloudControlClientTypes.ProgressEvent]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListResourceRequestsInput, Output == 
     }
 }
 extension CloudControlClient {
-    /// Paginate over `[ListResourcesOutputResponse]` results.
+    /// Paginate over `[ListResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutputResponse`
-    public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutputResponse>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutputResponse.nextToken, paginationFunction: self.listResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutput`
+    public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutput.nextToken, paginationFunction: self.listResources(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension ListResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResourcesInput, Output == ListResourcesOutputResponse {
+extension PaginatorSequence where Input == ListResourcesInput, Output == ListResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourcesPaginated`
     /// to access the nested member `[CloudControlClientTypes.ResourceDescription]`
     /// - Returns: `[CloudControlClientTypes.ResourceDescription]`

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ConnectCampaignsClient {
-    /// Paginate over `[ListCampaignsOutputResponse]` results.
+    /// Paginate over `[ListCampaignsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCampaignsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCampaignsOutputResponse`
-    public func listCampaignsPaginated(input: ListCampaignsInput) -> ClientRuntime.PaginatorSequence<ListCampaignsInput, ListCampaignsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCampaignsInput, ListCampaignsOutputResponse>(input: input, inputKey: \ListCampaignsInput.nextToken, outputKey: \ListCampaignsOutputResponse.nextToken, paginationFunction: self.listCampaigns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCampaignsOutput`
+    public func listCampaignsPaginated(input: ListCampaignsInput) -> ClientRuntime.PaginatorSequence<ListCampaignsInput, ListCampaignsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCampaignsInput, ListCampaignsOutput>(input: input, inputKey: \ListCampaignsInput.nextToken, outputKey: \ListCampaignsOutput.nextToken, paginationFunction: self.listCampaigns(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListCampaignsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCampaignsInput, Output == ListCampaignsOutputResponse {
+extension PaginatorSequence where Input == ListCampaignsInput, Output == ListCampaignsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCampaignsPaginated`
     /// to access the nested member `[ConnectCampaignsClientTypes.CampaignSummary]`
     /// - Returns: `[ConnectCampaignsClientTypes.CampaignSummary]`

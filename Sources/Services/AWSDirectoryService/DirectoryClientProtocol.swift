@@ -8,7 +8,7 @@ public protocol DirectoryClientProtocol {
     ///
     /// - Parameter AcceptSharedDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `AcceptSharedDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptSharedDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func acceptSharedDirectory(input: AcceptSharedDirectoryInput) async throws -> AcceptSharedDirectoryOutputResponse
+    func acceptSharedDirectory(input: AcceptSharedDirectoryInput) async throws -> AcceptSharedDirectoryOutput
     /// If the DNS server for your self-managed domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC. Before you call AddIpRoutes, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the AddIpRoutes operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
     /// - Parameter AddIpRoutesInput : [no documentation found]
     ///
-    /// - Returns: `AddIpRoutesOutputResponse` : [no documentation found]
+    /// - Returns: `AddIpRoutesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `IpRouteLimitExceededException` : The maximum allowed number of IP addresses was exceeded. The default limit is 100 IP address blocks.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func addIpRoutes(input: AddIpRoutesInput) async throws -> AddIpRoutesOutputResponse
+    func addIpRoutes(input: AddIpRoutesInput) async throws -> AddIpRoutesOutput
     /// Adds two domain controllers in the specified Region for the specified directory.
     ///
     /// - Parameter AddRegionInput : [no documentation found]
     ///
-    /// - Returns: `AddRegionOutputResponse` : [no documentation found]
+    /// - Returns: `AddRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -55,12 +55,12 @@ public protocol DirectoryClientProtocol {
     /// - `RegionLimitExceededException` : You have reached the limit for maximum number of simultaneous Region replications per directory.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func addRegion(input: AddRegionInput) async throws -> AddRegionOutputResponse
+    func addRegion(input: AddRegionInput) async throws -> AddRegionOutput
     /// Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
     ///
     /// - Parameter AddTagsToResourceInput : [no documentation found]
     ///
-    /// - Returns: `AddTagsToResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -70,12 +70,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
-    func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
+    func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
     /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing, CreatingSnapshot, and UpdatingSchema.
     ///
     /// - Parameter CancelSchemaExtensionInput : [no documentation found]
     ///
-    /// - Returns: `CancelSchemaExtensionOutputResponse` : [no documentation found]
+    /// - Returns: `CancelSchemaExtensionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func cancelSchemaExtension(input: CancelSchemaExtensionInput) async throws -> CancelSchemaExtensionOutputResponse
+    func cancelSchemaExtension(input: CancelSchemaExtensionInput) async throws -> CancelSchemaExtensionOutput
     /// Creates an AD Connector to connect to a self-managed directory. Before you call ConnectDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
     /// - Parameter ConnectDirectoryInput : Contains the inputs for the [ConnectDirectory] operation.
     ///
-    /// - Returns: `ConnectDirectoryOutputResponse` : Contains the results of the [ConnectDirectory] operation.
+    /// - Returns: `ConnectDirectoryOutput` : Contains the results of the [ConnectDirectory] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,12 +97,12 @@ public protocol DirectoryClientProtocol {
     /// - `DirectoryLimitExceededException` : The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func connectDirectory(input: ConnectDirectoryInput) async throws -> ConnectDirectoryOutputResponse
+    func connectDirectory(input: ConnectDirectoryInput) async throws -> ConnectDirectoryOutput
     /// Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://.awsapps.com. After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
     ///
     /// - Parameter CreateAliasInput : Contains the inputs for the [CreateAlias] operation.
     ///
-    /// - Returns: `CreateAliasOutputResponse` : Contains the results of the [CreateAlias] operation.
+    /// - Returns: `CreateAliasOutput` : Contains the results of the [CreateAlias] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -112,12 +112,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
+    func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
     /// Creates an Active Directory computer object in the specified directory.
     ///
     /// - Parameter CreateComputerInput : Contains the inputs for the [CreateComputer] operation.
     ///
-    /// - Returns: `CreateComputerOutputResponse` : Contains the results for the [CreateComputer] operation.
+    /// - Returns: `CreateComputerOutput` : Contains the results for the [CreateComputer] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -130,12 +130,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func createComputer(input: CreateComputerInput) async throws -> CreateComputerOutputResponse
+    func createComputer(input: CreateComputerInput) async throws -> CreateComputerOutput
     /// Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain.
     ///
     /// - Parameter CreateConditionalForwarderInput : Initiates the creation of a conditional forwarder for your Directory Service for Microsoft Active Directory. Conditional forwarders are required in order to set up a trust relationship with another domain.
     ///
-    /// - Returns: `CreateConditionalForwarderOutputResponse` : The result of a CreateConditinalForwarder request.
+    /// - Returns: `CreateConditionalForwarderOutput` : The result of a CreateConditinalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,12 +147,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func createConditionalForwarder(input: CreateConditionalForwarderInput) async throws -> CreateConditionalForwarderOutputResponse
+    func createConditionalForwarder(input: CreateConditionalForwarderInput) async throws -> CreateConditionalForwarderOutput
     /// Creates a Simple AD directory. For more information, see [Simple Active Directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html) in the Directory Service Admin Guide. Before you call CreateDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
     /// - Parameter CreateDirectoryInput : Contains the inputs for the [CreateDirectory] operation.
     ///
-    /// - Returns: `CreateDirectoryOutputResponse` : Contains the results of the [CreateDirectory] operation.
+    /// - Returns: `CreateDirectoryOutput` : Contains the results of the [CreateDirectory] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,12 +161,12 @@ public protocol DirectoryClientProtocol {
     /// - `DirectoryLimitExceededException` : The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutputResponse
+    func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutput
     /// Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
     ///
     /// - Parameter CreateLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -177,12 +177,12 @@ public protocol DirectoryClientProtocol {
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func createLogSubscription(input: CreateLogSubscriptionInput) async throws -> CreateLogSubscriptionOutputResponse
+    func createLogSubscription(input: CreateLogSubscriptionInput) async throws -> CreateLogSubscriptionOutput
     /// Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see [Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html) in the Directory Service Admin Guide. Before you call CreateMicrosoftAD, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
     /// - Parameter CreateMicrosoftADInput : Creates an Managed Microsoft AD directory.
     ///
-    /// - Returns: `CreateMicrosoftADOutputResponse` : Result of a CreateMicrosoftAD request.
+    /// - Returns: `CreateMicrosoftADOutput` : Result of a CreateMicrosoftAD request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -192,12 +192,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func createMicrosoftAD(input: CreateMicrosoftADInput) async throws -> CreateMicrosoftADOutputResponse
+    func createMicrosoftAD(input: CreateMicrosoftADInput) async throws -> CreateMicrosoftADOutput
     /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud. You cannot take snapshots of AD Connector directories.
     ///
     /// - Parameter CreateSnapshotInput : Contains the inputs for the [CreateSnapshot] operation.
     ///
-    /// - Returns: `CreateSnapshotOutputResponse` : Contains the results of the [CreateSnapshot] operation.
+    /// - Returns: `CreateSnapshotOutput` : Contains the results of the [CreateSnapshot] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -207,12 +207,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-    func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutputResponse
+    func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
     /// Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain. You can create either a forest trust or an external trust.
     ///
     /// - Parameter CreateTrustInput : Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain.
     ///
-    /// - Returns: `CreateTrustOutputResponse` : The result of a CreateTrust request.
+    /// - Returns: `CreateTrustOutput` : The result of a CreateTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -223,12 +223,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func createTrust(input: CreateTrustInput) async throws -> CreateTrustOutputResponse
+    func createTrust(input: CreateTrustInput) async throws -> CreateTrustOutput
     /// Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
     ///
     /// - Parameter DeleteConditionalForwarderInput : Deletes a conditional forwarder.
     ///
-    /// - Returns: `DeleteConditionalForwarderOutputResponse` : The result of a DeleteConditionalForwarder request.
+    /// - Returns: `DeleteConditionalForwarderOutput` : The result of a DeleteConditionalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -239,12 +239,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func deleteConditionalForwarder(input: DeleteConditionalForwarderInput) async throws -> DeleteConditionalForwarderOutputResponse
+    func deleteConditionalForwarder(input: DeleteConditionalForwarderInput) async throws -> DeleteConditionalForwarderOutput
     /// Deletes an Directory Service directory. Before you call DeleteDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
     /// - Parameter DeleteDirectoryInput : Contains the inputs for the [DeleteDirectory] operation.
     ///
-    /// - Returns: `DeleteDirectoryOutputResponse` : Contains the results of the [DeleteDirectory] operation.
+    /// - Returns: `DeleteDirectoryOutput` : Contains the results of the [DeleteDirectory] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -252,12 +252,12 @@ public protocol DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutputResponse
+    func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutput
     /// Deletes the specified log subscription.
     ///
     /// - Parameter DeleteLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -266,12 +266,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func deleteLogSubscription(input: DeleteLogSubscriptionInput) async throws -> DeleteLogSubscriptionOutputResponse
+    func deleteLogSubscription(input: DeleteLogSubscriptionInput) async throws -> DeleteLogSubscriptionOutput
     /// Deletes a directory snapshot.
     ///
     /// - Parameter DeleteSnapshotInput : Contains the inputs for the [DeleteSnapshot] operation.
     ///
-    /// - Returns: `DeleteSnapshotOutputResponse` : Contains the results of the [DeleteSnapshot] operation.
+    /// - Returns: `DeleteSnapshotOutput` : Contains the results of the [DeleteSnapshot] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -280,12 +280,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutputResponse
+    func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
     /// Deletes an existing trust relationship between your Managed Microsoft AD directory and an external domain.
     ///
     /// - Parameter DeleteTrustInput : Deletes the local side of an existing trust relationship between the Managed Microsoft AD directory and the external domain.
     ///
-    /// - Returns: `DeleteTrustOutputResponse` : The result of a DeleteTrust request.
+    /// - Returns: `DeleteTrustOutput` : The result of a DeleteTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -295,12 +295,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func deleteTrust(input: DeleteTrustInput) async throws -> DeleteTrustOutputResponse
+    func deleteTrust(input: DeleteTrustInput) async throws -> DeleteTrustOutput
     /// Deletes from the system the certificate that was registered for secure LDAP or client certificate authentication.
     ///
     /// - Parameter DeregisterCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func deregisterCertificate(input: DeregisterCertificateInput) async throws -> DeregisterCertificateOutputResponse
+    func deregisterCertificate(input: DeregisterCertificateInput) async throws -> DeregisterCertificateOutput
     /// Removes the specified directory as a publisher to the specified Amazon SNS topic.
     ///
     /// - Parameter DeregisterEventTopicInput : Removes the specified directory as a publisher to the specified Amazon SNS topic.
     ///
-    /// - Returns: `DeregisterEventTopicOutputResponse` : The result of a DeregisterEventTopic request.
+    /// - Returns: `DeregisterEventTopicOutput` : The result of a DeregisterEventTopic request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -327,12 +327,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func deregisterEventTopic(input: DeregisterEventTopicInput) async throws -> DeregisterEventTopicOutputResponse
+    func deregisterEventTopic(input: DeregisterEventTopicInput) async throws -> DeregisterEventTopicOutput
     /// Displays information about the certificate registered for secure LDAP or client certificate authentication.
     ///
     /// - Parameter DescribeCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -343,12 +343,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutputResponse
+    func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
     /// Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported.
     ///
     /// - Parameter DescribeClientAuthenticationSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeClientAuthenticationSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeClientAuthenticationSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -359,12 +359,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeClientAuthenticationSettings(input: DescribeClientAuthenticationSettingsInput) async throws -> DescribeClientAuthenticationSettingsOutputResponse
+    func describeClientAuthenticationSettings(input: DescribeClientAuthenticationSettingsInput) async throws -> DescribeClientAuthenticationSettingsOutput
     /// Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
     ///
     /// - Parameter DescribeConditionalForwardersInput : Describes a conditional forwarder.
     ///
-    /// - Returns: `DescribeConditionalForwardersOutputResponse` : The result of a DescribeConditionalForwarder request.
+    /// - Returns: `DescribeConditionalForwardersOutput` : The result of a DescribeConditionalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -375,12 +375,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeConditionalForwarders(input: DescribeConditionalForwardersInput) async throws -> DescribeConditionalForwardersOutputResponse
+    func describeConditionalForwarders(input: DescribeConditionalForwardersInput) async throws -> DescribeConditionalForwardersOutput
     /// Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to [DescribeDirectories] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
     /// - Parameter DescribeDirectoriesInput : Contains the inputs for the [DescribeDirectories] operation.
     ///
-    /// - Returns: `DescribeDirectoriesOutputResponse` : Contains the results of the [DescribeDirectories] operation.
+    /// - Returns: `DescribeDirectoriesOutput` : Contains the results of the [DescribeDirectories] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -390,12 +390,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func describeDirectories(input: DescribeDirectoriesInput) async throws -> DescribeDirectoriesOutputResponse
+    func describeDirectories(input: DescribeDirectoriesInput) async throws -> DescribeDirectoriesOutput
     /// Provides information about any domain controllers in your directory.
     ///
     /// - Parameter DescribeDomainControllersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDomainControllersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDomainControllersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -406,12 +406,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeDomainControllers(input: DescribeDomainControllersInput) async throws -> DescribeDomainControllersOutputResponse
+    func describeDomainControllers(input: DescribeDomainControllersInput) async throws -> DescribeDomainControllersOutput
     /// Obtains information about which Amazon SNS topics receive status messages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account.
     ///
     /// - Parameter DescribeEventTopicsInput : Describes event topics.
     ///
-    /// - Returns: `DescribeEventTopicsOutputResponse` : The result of a DescribeEventTopic request.
+    /// - Returns: `DescribeEventTopicsOutput` : The result of a DescribeEventTopic request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -420,12 +420,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func describeEventTopics(input: DescribeEventTopicsInput) async throws -> DescribeEventTopicsOutputResponse
+    func describeEventTopics(input: DescribeEventTopicsInput) async throws -> DescribeEventTopicsOutput
     /// Describes the status of LDAP security for the specified directory.
     ///
     /// - Parameter DescribeLDAPSSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLDAPSSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLDAPSSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -436,12 +436,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeLDAPSSettings(input: DescribeLDAPSSettingsInput) async throws -> DescribeLDAPSSettingsOutputResponse
+    func describeLDAPSSettings(input: DescribeLDAPSSettingsInput) async throws -> DescribeLDAPSSettingsOutput
     /// Provides information about the Regions that are configured for multi-Region replication.
     ///
     /// - Parameter DescribeRegionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRegionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRegionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,12 +453,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutputResponse
+    func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutput
     /// Retrieves information about the configurable settings for the specified directory.
     ///
     /// - Parameter DescribeSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeSettings(input: DescribeSettingsInput) async throws -> DescribeSettingsOutputResponse
+    func describeSettings(input: DescribeSettingsInput) async throws -> DescribeSettingsOutput
     /// Returns the shared directories in your account.
     ///
     /// - Parameter DescribeSharedDirectoriesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSharedDirectoriesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSharedDirectoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,12 +485,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeSharedDirectories(input: DescribeSharedDirectoriesInput) async throws -> DescribeSharedDirectoriesOutputResponse
+    func describeSharedDirectories(input: DescribeSharedDirectoriesInput) async throws -> DescribeSharedDirectoriesOutput
     /// Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to [DescribeSnapshots] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
     /// - Parameter DescribeSnapshotsInput : Contains the inputs for the [DescribeSnapshots] operation.
     ///
-    /// - Returns: `DescribeSnapshotsOutputResponse` : Contains the results of the [DescribeSnapshots] operation.
+    /// - Returns: `DescribeSnapshotsOutput` : Contains the results of the [DescribeSnapshots] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,12 +500,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutputResponse
+    func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
     /// Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
     ///
     /// - Parameter DescribeTrustsInput : Describes the trust relationships for a particular Managed Microsoft AD directory. If no input parameters are provided, such as directory ID or trust ID, this request describes all the trust relationships.
     ///
-    /// - Returns: `DescribeTrustsOutputResponse` : The result of a DescribeTrust request.
+    /// - Returns: `DescribeTrustsOutput` : The result of a DescribeTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,12 +516,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func describeTrusts(input: DescribeTrustsInput) async throws -> DescribeTrustsOutputResponse
+    func describeTrusts(input: DescribeTrustsInput) async throws -> DescribeTrustsOutput
     /// Describes the updates of a directory for a particular update type.
     ///
     /// - Parameter DescribeUpdateDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUpdateDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUpdateDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,12 +532,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func describeUpdateDirectory(input: DescribeUpdateDirectoryInput) async throws -> DescribeUpdateDirectoryOutputResponse
+    func describeUpdateDirectory(input: DescribeUpdateDirectoryInput) async throws -> DescribeUpdateDirectoryOutput
     /// Disables alternative client authentication methods for the specified directory.
     ///
     /// - Parameter DisableClientAuthenticationInput : [no documentation found]
     ///
-    /// - Returns: `DisableClientAuthenticationOutputResponse` : [no documentation found]
+    /// - Returns: `DisableClientAuthenticationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -548,12 +548,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidClientAuthStatusException` : Client authentication is already enabled.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func disableClientAuthentication(input: DisableClientAuthenticationInput) async throws -> DisableClientAuthenticationOutputResponse
+    func disableClientAuthentication(input: DisableClientAuthenticationInput) async throws -> DisableClientAuthenticationOutput
     /// Deactivates LDAP secure calls for the specified directory.
     ///
     /// - Parameter DisableLDAPSInput : [no documentation found]
     ///
-    /// - Returns: `DisableLDAPSOutputResponse` : [no documentation found]
+    /// - Returns: `DisableLDAPSOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,12 +565,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func disableLDAPS(input: DisableLDAPSInput) async throws -> DisableLDAPSOutputResponse
+    func disableLDAPS(input: DisableLDAPSInput) async throws -> DisableLDAPSOutput
     /// Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     ///
     /// - Parameter DisableRadiusInput : Contains the inputs for the [DisableRadius] operation.
     ///
-    /// - Returns: `DisableRadiusOutputResponse` : Contains the results of the [DisableRadius] operation.
+    /// - Returns: `DisableRadiusOutput` : Contains the results of the [DisableRadius] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,12 +578,12 @@ public protocol DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func disableRadius(input: DisableRadiusInput) async throws -> DisableRadiusOutputResponse
+    func disableRadius(input: DisableRadiusInput) async throws -> DisableRadiusOutput
     /// Disables single-sign on for a directory.
     ///
     /// - Parameter DisableSsoInput : Contains the inputs for the [DisableSso] operation.
     ///
-    /// - Returns: `DisableSsoOutputResponse` : Contains the results of the [DisableSso] operation.
+    /// - Returns: `DisableSsoOutput` : Contains the results of the [DisableSso] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,12 +593,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func disableSso(input: DisableSsoInput) async throws -> DisableSsoOutputResponse
+    func disableSso(input: DisableSsoInput) async throws -> DisableSsoOutput
     /// Enables alternative client authentication methods for the specified directory.
     ///
     /// - Parameter EnableClientAuthenticationInput : [no documentation found]
     ///
-    /// - Returns: `EnableClientAuthenticationOutputResponse` : [no documentation found]
+    /// - Returns: `EnableClientAuthenticationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -610,12 +610,12 @@ public protocol DirectoryClientProtocol {
     /// - `NoAvailableCertificateException` : Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func enableClientAuthentication(input: EnableClientAuthenticationInput) async throws -> EnableClientAuthenticationOutputResponse
+    func enableClientAuthentication(input: EnableClientAuthenticationInput) async throws -> EnableClientAuthenticationOutput
     /// Activates the switch for the specific directory to always use LDAP secure calls.
     ///
     /// - Parameter EnableLDAPSInput : [no documentation found]
     ///
-    /// - Returns: `EnableLDAPSOutputResponse` : [no documentation found]
+    /// - Returns: `EnableLDAPSOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,12 +628,12 @@ public protocol DirectoryClientProtocol {
     /// - `NoAvailableCertificateException` : Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func enableLDAPS(input: EnableLDAPSInput) async throws -> EnableLDAPSOutputResponse
+    func enableLDAPS(input: EnableLDAPSInput) async throws -> EnableLDAPSOutput
     /// Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     ///
     /// - Parameter EnableRadiusInput : Contains the inputs for the [EnableRadius] operation.
     ///
-    /// - Returns: `EnableRadiusOutputResponse` : Contains the results of the [EnableRadius] operation.
+    /// - Returns: `EnableRadiusOutput` : Contains the results of the [EnableRadius] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,12 +643,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func enableRadius(input: EnableRadiusInput) async throws -> EnableRadiusOutputResponse
+    func enableRadius(input: EnableRadiusInput) async throws -> EnableRadiusOutput
     /// Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain Amazon Web Services services from a computer joined to the directory without having to enter their credentials separately.
     ///
     /// - Parameter EnableSsoInput : Contains the inputs for the [EnableSso] operation.
     ///
-    /// - Returns: `EnableSsoOutputResponse` : Contains the results of the [EnableSso] operation.
+    /// - Returns: `EnableSsoOutput` : Contains the results of the [EnableSso] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,12 +658,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func enableSso(input: EnableSsoInput) async throws -> EnableSsoOutputResponse
+    func enableSso(input: EnableSsoInput) async throws -> EnableSsoOutput
     /// Obtains directory limit information for the current Region.
     ///
     /// - Parameter GetDirectoryLimitsInput : Contains the inputs for the [GetDirectoryLimits] operation.
     ///
-    /// - Returns: `GetDirectoryLimitsOutputResponse` : Contains the results of the [GetDirectoryLimits] operation.
+    /// - Returns: `GetDirectoryLimitsOutput` : Contains the results of the [GetDirectoryLimits] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,12 +671,12 @@ public protocol DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func getDirectoryLimits(input: GetDirectoryLimitsInput) async throws -> GetDirectoryLimitsOutputResponse
+    func getDirectoryLimits(input: GetDirectoryLimitsInput) async throws -> GetDirectoryLimitsOutput
     /// Obtains the manual snapshot limits for a directory.
     ///
     /// - Parameter GetSnapshotLimitsInput : Contains the inputs for the [GetSnapshotLimits] operation.
     ///
-    /// - Returns: `GetSnapshotLimitsOutputResponse` : Contains the results of the [GetSnapshotLimits] operation.
+    /// - Returns: `GetSnapshotLimitsOutput` : Contains the results of the [GetSnapshotLimits] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -684,12 +684,12 @@ public protocol DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func getSnapshotLimits(input: GetSnapshotLimitsInput) async throws -> GetSnapshotLimitsOutputResponse
+    func getSnapshotLimits(input: GetSnapshotLimitsInput) async throws -> GetSnapshotLimitsOutput
     /// For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
     ///
     /// - Parameter ListCertificatesInput : [no documentation found]
     ///
-    /// - Returns: `ListCertificatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListCertificatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,12 +700,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutputResponse
+    func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
     /// Lists the address blocks that you have added to a directory.
     ///
     /// - Parameter ListIpRoutesInput : [no documentation found]
     ///
-    /// - Returns: `ListIpRoutesOutputResponse` : [no documentation found]
+    /// - Returns: `ListIpRoutesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,12 +715,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func listIpRoutes(input: ListIpRoutesInput) async throws -> ListIpRoutesOutputResponse
+    func listIpRoutes(input: ListIpRoutesInput) async throws -> ListIpRoutesOutput
     /// Lists the active log subscriptions for the Amazon Web Services account.
     ///
     /// - Parameter ListLogSubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `ListLogSubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLogSubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,12 +729,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func listLogSubscriptions(input: ListLogSubscriptionsInput) async throws -> ListLogSubscriptionsOutputResponse
+    func listLogSubscriptions(input: ListLogSubscriptionsInput) async throws -> ListLogSubscriptionsOutput
     /// Lists all schema extensions applied to a Microsoft AD Directory.
     ///
     /// - Parameter ListSchemaExtensionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSchemaExtensionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSchemaExtensionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,12 +743,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func listSchemaExtensions(input: ListSchemaExtensionsInput) async throws -> ListSchemaExtensionsOutputResponse
+    func listSchemaExtensions(input: ListSchemaExtensionsInput) async throws -> ListSchemaExtensionsOutput
     /// Lists all tags on a directory.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -758,12 +758,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Registers a certificate for a secure LDAP or client certificate authentication.
     ///
     /// - Parameter RegisterCertificateInput : [no documentation found]
     ///
-    /// - Returns: `RegisterCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,12 +777,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutputResponse
+    func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutput
     /// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
     ///
     /// - Parameter RegisterEventTopicInput : Registers a new event topic.
     ///
-    /// - Returns: `RegisterEventTopicOutputResponse` : The result of a RegisterEventTopic request.
+    /// - Returns: `RegisterEventTopicOutput` : The result of a RegisterEventTopic request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,12 +791,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func registerEventTopic(input: RegisterEventTopicInput) async throws -> RegisterEventTopicOutputResponse
+    func registerEventTopic(input: RegisterEventTopicInput) async throws -> RegisterEventTopicOutput
     /// Rejects a directory sharing request that was sent from the directory owner account.
     ///
     /// - Parameter RejectSharedDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `RejectSharedDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `RejectSharedDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,12 +806,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func rejectSharedDirectory(input: RejectSharedDirectoryInput) async throws -> RejectSharedDirectoryOutputResponse
+    func rejectSharedDirectory(input: RejectSharedDirectoryInput) async throws -> RejectSharedDirectoryOutput
     /// Removes IP address blocks from a directory.
     ///
     /// - Parameter RemoveIpRoutesInput : [no documentation found]
     ///
-    /// - Returns: `RemoveIpRoutesOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveIpRoutesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,12 +821,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func removeIpRoutes(input: RemoveIpRoutesInput) async throws -> RemoveIpRoutesOutputResponse
+    func removeIpRoutes(input: RemoveIpRoutesInput) async throws -> RemoveIpRoutesOutput
     /// Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
     ///
     /// - Parameter RemoveRegionInput : [no documentation found]
     ///
-    /// - Returns: `RemoveRegionOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,12 +837,12 @@ public protocol DirectoryClientProtocol {
     /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func removeRegion(input: RemoveRegionInput) async throws -> RemoveRegionOutputResponse
+    func removeRegion(input: RemoveRegionInput) async throws -> RemoveRegionOutput
     /// Removes tags from a directory.
     ///
     /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
     ///
-    /// - Returns: `RemoveTagsFromResourceOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,7 +851,7 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
+    func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
     /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You can reset the password for any user in your directory with the following exceptions:
     ///
     /// * For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.
@@ -860,7 +860,7 @@ public protocol DirectoryClientProtocol {
     ///
     /// - Parameter ResetUserPasswordInput : [no documentation found]
     ///
-    /// - Returns: `ResetUserPasswordOutputResponse` : [no documentation found]
+    /// - Returns: `ResetUserPasswordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -872,12 +872,12 @@ public protocol DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
     /// - `UserDoesNotExistException` : The user provided a username that does not exist in your directory.
-    func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutputResponse
+    func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutput
     /// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the [DescribeDirectories] operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active, the restore operation is complete.
     ///
     /// - Parameter RestoreFromSnapshotInput : An object representing the inputs for the [RestoreFromSnapshot] operation.
     ///
-    /// - Returns: `RestoreFromSnapshotOutputResponse` : Contains the results of the [RestoreFromSnapshot] operation.
+    /// - Returns: `RestoreFromSnapshotOutput` : Contains the results of the [RestoreFromSnapshot] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,12 +886,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutputResponse
+    func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput
     /// Shares a specified directory (DirectoryId) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access to the directory within the directory owner account. The shared directory is visible in all VPCs in the directory consumer account. The ShareMethod parameter determines whether the specified directory can be shared between Amazon Web Services accounts inside the same Amazon Web Services organization (ORGANIZATIONS). It also determines whether you can share the directory with any other Amazon Web Services account either inside or outside of the organization (HANDSHAKE). The ShareNotes parameter is only used when HANDSHAKE is called, which sends a directory sharing request to the directory consumer.
     ///
     /// - Parameter ShareDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `ShareDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `ShareDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,12 +906,12 @@ public protocol DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `ShareLimitExceededException` : The maximum number of Amazon Web Services accounts that you can share with this directory has been reached.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func shareDirectory(input: ShareDirectoryInput) async throws -> ShareDirectoryOutputResponse
+    func shareDirectory(input: ShareDirectoryInput) async throws -> ShareDirectoryOutput
     /// Applies a schema extension to a Microsoft AD directory.
     ///
     /// - Parameter StartSchemaExtensionInput : [no documentation found]
     ///
-    /// - Returns: `StartSchemaExtensionOutputResponse` : [no documentation found]
+    /// - Returns: `StartSchemaExtensionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,12 +922,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-    func startSchemaExtension(input: StartSchemaExtensionInput) async throws -> StartSchemaExtensionOutputResponse
+    func startSchemaExtension(input: StartSchemaExtensionInput) async throws -> StartSchemaExtensionOutput
     /// Stops the directory sharing between the directory owner and consumer accounts.
     ///
     /// - Parameter UnshareDirectoryInput : [no documentation found]
     ///
-    /// - Returns: `UnshareDirectoryOutputResponse` : [no documentation found]
+    /// - Returns: `UnshareDirectoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -937,12 +937,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidTargetException` : The specified shared target is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func unshareDirectory(input: UnshareDirectoryInput) async throws -> UnshareDirectoryOutputResponse
+    func unshareDirectory(input: UnshareDirectoryInput) async throws -> UnshareDirectoryOutput
     /// Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
     ///
     /// - Parameter UpdateConditionalForwarderInput : Updates a conditional forwarder.
     ///
-    /// - Returns: `UpdateConditionalForwarderOutputResponse` : The result of an UpdateConditionalForwarder request.
+    /// - Returns: `UpdateConditionalForwarderOutput` : The result of an UpdateConditionalForwarder request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -953,12 +953,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func updateConditionalForwarder(input: UpdateConditionalForwarderInput) async throws -> UpdateConditionalForwarderOutputResponse
+    func updateConditionalForwarder(input: UpdateConditionalForwarderInput) async throws -> UpdateConditionalForwarderOutput
     /// Updates the directory for a particular update type.
     ///
     /// - Parameter UpdateDirectorySetupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDirectorySetupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDirectorySetupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,12 +972,12 @@ public protocol DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func updateDirectorySetup(input: UpdateDirectorySetupInput) async throws -> UpdateDirectorySetupOutputResponse
+    func updateDirectorySetup(input: UpdateDirectorySetupInput) async throws -> UpdateDirectorySetupOutput
     /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
     ///
     /// - Parameter UpdateNumberOfDomainControllersInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNumberOfDomainControllersOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNumberOfDomainControllersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,12 +989,12 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControllersInput) async throws -> UpdateNumberOfDomainControllersOutputResponse
+    func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControllersInput) async throws -> UpdateNumberOfDomainControllersOutput
     /// Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD Connector or Microsoft AD directory.
     ///
     /// - Parameter UpdateRadiusInput : Contains the inputs for the [UpdateRadius] operation.
     ///
-    /// - Returns: `UpdateRadiusOutputResponse` : Contains the results of the [UpdateRadius] operation.
+    /// - Returns: `UpdateRadiusOutput` : Contains the results of the [UpdateRadius] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,12 +1003,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func updateRadius(input: UpdateRadiusInput) async throws -> UpdateRadiusOutputResponse
+    func updateRadius(input: UpdateRadiusInput) async throws -> UpdateRadiusOutput
     /// Updates the configurable settings for the specified directory.
     ///
     /// - Parameter UpdateSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,12 +1021,12 @@ public protocol DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
     /// - `UnsupportedSettingsException` : The specified directory setting is not supported.
-    func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutputResponse
+    func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutput
     /// Updates the trust that has been set up between your Managed Microsoft AD directory and an self-managed Active Directory.
     ///
     /// - Parameter UpdateTrustInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTrustOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTrustOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,12 +1035,12 @@ public protocol DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    func updateTrust(input: UpdateTrustInput) async throws -> UpdateTrustOutputResponse
+    func updateTrust(input: UpdateTrustInput) async throws -> UpdateTrustOutput
     /// Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships. This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain.
     ///
     /// - Parameter VerifyTrustInput : Initiates the verification of an existing trust relationship between an Managed Microsoft AD directory and an external domain.
     ///
-    /// - Returns: `VerifyTrustOutputResponse` : Result of a VerifyTrust request.
+    /// - Returns: `VerifyTrustOutput` : Result of a VerifyTrust request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1050,7 +1050,7 @@ public protocol DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    func verifyTrust(input: VerifyTrustInput) async throws -> VerifyTrustOutputResponse
+    func verifyTrust(input: VerifyTrustInput) async throws -> VerifyTrustOutput
 }
 
 public enum DirectoryClientTypes {}

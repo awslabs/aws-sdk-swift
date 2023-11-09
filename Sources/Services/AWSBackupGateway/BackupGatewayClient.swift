@@ -71,7 +71,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter AssociateGatewayToServerInput : [no documentation found]
     ///
-    /// - Returns: `AssociateGatewayToServerOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateGatewayToServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,7 +80,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
-    public func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutputResponse
+    public func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -96,21 +96,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(id: "associateGatewayToServer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateGatewayToServerInput, AssociateGatewayToServerOutput, AssociateGatewayToServerOutputError>(id: "associateGatewayToServer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput, AssociateGatewayToServerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateGatewayToServerOutput, AssociateGatewayToServerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.AssociateGatewayToServer"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse>(xmlName: "AssociateGatewayToServerInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(xAmzTarget: "BackupOnPremises_v20210101.AssociateGatewayToServer"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(xmlName: "AssociateGatewayToServerInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateGatewayToServerOutput, AssociateGatewayToServerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateGatewayToServerOutput, AssociateGatewayToServerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateGatewayToServerOutput, AssociateGatewayToServerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateGatewayToServerOutput, AssociateGatewayToServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -119,7 +119,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter CreateGatewayInput : [no documentation found]
     ///
-    /// - Returns: `CreateGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,7 +127,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    public func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutputResponse
+    public func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -143,21 +143,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateGatewayInput, CreateGatewayOutputResponse, CreateGatewayOutputError>(id: "createGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGatewayInput, CreateGatewayOutputResponse, CreateGatewayOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGatewayInput, CreateGatewayOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateGatewayInput, CreateGatewayOutput, CreateGatewayOutputError>(id: "createGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGatewayInput, CreateGatewayOutput, CreateGatewayOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGatewayOutputResponse, CreateGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGatewayOutput, CreateGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGatewayInput, CreateGatewayOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.CreateGateway"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGatewayInput, CreateGatewayOutputResponse>(xmlName: "CreateGatewayInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGatewayInput, CreateGatewayOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGatewayInput, CreateGatewayOutput>(xAmzTarget: "BackupOnPremises_v20210101.CreateGateway"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGatewayInput, CreateGatewayOutput>(xmlName: "CreateGatewayInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGatewayInput, CreateGatewayOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGatewayOutputResponse, CreateGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGatewayOutput, CreateGatewayOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGatewayOutputResponse, CreateGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGatewayOutputResponse, CreateGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGatewayOutputResponse, CreateGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGatewayOutput, CreateGatewayOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGatewayOutput, CreateGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGatewayOutput, CreateGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -166,7 +166,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter DeleteGatewayInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -175,7 +175,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutputResponse
+    public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -191,21 +191,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteGatewayInput, DeleteGatewayOutputResponse, DeleteGatewayOutputError>(id: "deleteGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse, DeleteGatewayOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteGatewayInput, DeleteGatewayOutput, DeleteGatewayOutputError>(id: "deleteGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGatewayInput, DeleteGatewayOutput, DeleteGatewayOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGatewayOutput, DeleteGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.DeleteGateway"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse>(xmlName: "DeleteGatewayInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(xAmzTarget: "BackupOnPremises_v20210101.DeleteGateway"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(xmlName: "DeleteGatewayInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGatewayOutputResponse, DeleteGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGatewayOutput, DeleteGatewayOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGatewayOutput, DeleteGatewayOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGatewayOutput, DeleteGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGatewayOutput, DeleteGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -214,7 +214,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter DeleteHypervisorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteHypervisorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteHypervisorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,7 +225,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutputResponse
+    public func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -241,21 +241,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteHypervisorInput, DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(id: "deleteHypervisor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHypervisorInput, DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHypervisorInput, DeleteHypervisorOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteHypervisorInput, DeleteHypervisorOutput, DeleteHypervisorOutputError>(id: "deleteHypervisor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput, DeleteHypervisorOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteHypervisorOutput, DeleteHypervisorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteHypervisorInput, DeleteHypervisorOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.DeleteHypervisor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteHypervisorInput, DeleteHypervisorOutputResponse>(xmlName: "DeleteHypervisorInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteHypervisorInput, DeleteHypervisorOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(xAmzTarget: "BackupOnPremises_v20210101.DeleteHypervisor"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(xmlName: "DeleteHypervisorInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHypervisorOutput, DeleteHypervisorOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHypervisorOutput, DeleteHypervisorOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHypervisorOutput, DeleteHypervisorOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHypervisorOutput, DeleteHypervisorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -264,7 +264,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter DisassociateGatewayFromServerInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateGatewayFromServerOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateGatewayFromServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,7 +274,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutputResponse
+    public func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -290,21 +290,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(id: "disassociateGatewayFromServer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput, DisassociateGatewayFromServerOutputError>(id: "disassociateGatewayFromServer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput, DisassociateGatewayFromServerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateGatewayFromServerOutput, DisassociateGatewayFromServerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.DisassociateGatewayFromServer"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse>(xmlName: "DisassociateGatewayFromServerInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(xAmzTarget: "BackupOnPremises_v20210101.DisassociateGatewayFromServer"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(xmlName: "DisassociateGatewayFromServerInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateGatewayFromServerOutput, DisassociateGatewayFromServerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateGatewayFromServerOutput, DisassociateGatewayFromServerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateGatewayFromServerOutput, DisassociateGatewayFromServerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateGatewayFromServerOutput, DisassociateGatewayFromServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -313,7 +313,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter GetBandwidthRateLimitScheduleInput : [no documentation found]
     ///
-    /// - Returns: `GetBandwidthRateLimitScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `GetBandwidthRateLimitScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -322,7 +322,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutputResponse
+    public func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -338,21 +338,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(id: "getBandwidthRateLimitSchedule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput, GetBandwidthRateLimitScheduleOutputError>(id: "getBandwidthRateLimitSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput, GetBandwidthRateLimitScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBandwidthRateLimitScheduleOutput, GetBandwidthRateLimitScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.GetBandwidthRateLimitSchedule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse>(xmlName: "GetBandwidthRateLimitScheduleInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(xAmzTarget: "BackupOnPremises_v20210101.GetBandwidthRateLimitSchedule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(xmlName: "GetBandwidthRateLimitScheduleInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBandwidthRateLimitScheduleOutput, GetBandwidthRateLimitScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBandwidthRateLimitScheduleOutput, GetBandwidthRateLimitScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBandwidthRateLimitScheduleOutput, GetBandwidthRateLimitScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBandwidthRateLimitScheduleOutput, GetBandwidthRateLimitScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -361,7 +361,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter GetGatewayInput : [no documentation found]
     ///
-    /// - Returns: `GetGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `GetGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -370,7 +370,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutputResponse
+    public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -386,21 +386,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>(id: "getGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetGatewayInput, GetGatewayOutput, GetGatewayOutputError>(id: "getGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayInput, GetGatewayOutput, GetGatewayOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGatewayOutput, GetGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGatewayInput, GetGatewayOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.GetGateway"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGatewayInput, GetGatewayOutputResponse>(xmlName: "GetGatewayInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGatewayInput, GetGatewayOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGatewayInput, GetGatewayOutput>(xAmzTarget: "BackupOnPremises_v20210101.GetGateway"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGatewayInput, GetGatewayOutput>(xmlName: "GetGatewayInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGatewayInput, GetGatewayOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGatewayOutputResponse, GetGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGatewayOutput, GetGatewayOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayOutputResponse, GetGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayOutput, GetGatewayOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayOutput, GetGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGatewayOutput, GetGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -409,7 +409,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter GetHypervisorInput : [no documentation found]
     ///
-    /// - Returns: `GetHypervisorOutputResponse` : [no documentation found]
+    /// - Returns: `GetHypervisorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,7 +418,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutputResponse
+    public func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -434,21 +434,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetHypervisorInput, GetHypervisorOutputResponse, GetHypervisorOutputError>(id: "getHypervisor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHypervisorInput, GetHypervisorOutputResponse, GetHypervisorOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHypervisorInput, GetHypervisorOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetHypervisorInput, GetHypervisorOutput, GetHypervisorOutputError>(id: "getHypervisor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHypervisorInput, GetHypervisorOutput, GetHypervisorOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHypervisorInput, GetHypervisorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetHypervisorOutputResponse, GetHypervisorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetHypervisorOutput, GetHypervisorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetHypervisorInput, GetHypervisorOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.GetHypervisor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetHypervisorInput, GetHypervisorOutputResponse>(xmlName: "GetHypervisorInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetHypervisorInput, GetHypervisorOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetHypervisorInput, GetHypervisorOutput>(xAmzTarget: "BackupOnPremises_v20210101.GetHypervisor"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetHypervisorInput, GetHypervisorOutput>(xmlName: "GetHypervisorInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetHypervisorInput, GetHypervisorOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHypervisorOutputResponse, GetHypervisorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHypervisorOutput, GetHypervisorOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHypervisorOutputResponse, GetHypervisorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHypervisorOutputResponse, GetHypervisorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHypervisorOutputResponse, GetHypervisorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHypervisorOutput, GetHypervisorOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHypervisorOutput, GetHypervisorOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHypervisorOutput, GetHypervisorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -457,7 +457,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter GetHypervisorPropertyMappingsInput : [no documentation found]
     ///
-    /// - Returns: `GetHypervisorPropertyMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetHypervisorPropertyMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -466,7 +466,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutputResponse
+    public func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -482,21 +482,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(id: "getHypervisorPropertyMappings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput, GetHypervisorPropertyMappingsOutputError>(id: "getHypervisorPropertyMappings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput, GetHypervisorPropertyMappingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetHypervisorPropertyMappingsOutput, GetHypervisorPropertyMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.GetHypervisorPropertyMappings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse>(xmlName: "GetHypervisorPropertyMappingsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(xAmzTarget: "BackupOnPremises_v20210101.GetHypervisorPropertyMappings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(xmlName: "GetHypervisorPropertyMappingsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHypervisorPropertyMappingsOutput, GetHypervisorPropertyMappingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHypervisorPropertyMappingsOutput, GetHypervisorPropertyMappingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHypervisorPropertyMappingsOutput, GetHypervisorPropertyMappingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHypervisorPropertyMappingsOutput, GetHypervisorPropertyMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -505,7 +505,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter GetVirtualMachineInput : [no documentation found]
     ///
-    /// - Returns: `GetVirtualMachineOutputResponse` : [no documentation found]
+    /// - Returns: `GetVirtualMachineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,7 +514,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutputResponse
+    public func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -530,21 +530,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVirtualMachineInput, GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(id: "getVirtualMachine")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVirtualMachineInput, GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVirtualMachineInput, GetVirtualMachineOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetVirtualMachineInput, GetVirtualMachineOutput, GetVirtualMachineOutputError>(id: "getVirtualMachine")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput, GetVirtualMachineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVirtualMachineOutput, GetVirtualMachineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetVirtualMachineInput, GetVirtualMachineOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.GetVirtualMachine"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetVirtualMachineInput, GetVirtualMachineOutputResponse>(xmlName: "GetVirtualMachineInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetVirtualMachineInput, GetVirtualMachineOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(xAmzTarget: "BackupOnPremises_v20210101.GetVirtualMachine"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(xmlName: "GetVirtualMachineInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVirtualMachineOutput, GetVirtualMachineOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVirtualMachineOutput, GetVirtualMachineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVirtualMachineOutput, GetVirtualMachineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVirtualMachineOutput, GetVirtualMachineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -553,7 +553,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter ImportHypervisorConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `ImportHypervisorConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `ImportHypervisorConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,7 +563,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
-    public func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutputResponse
+    public func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -579,21 +579,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(id: "importHypervisorConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput, ImportHypervisorConfigurationOutputError>(id: "importHypervisorConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput, ImportHypervisorConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportHypervisorConfigurationOutput, ImportHypervisorConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.ImportHypervisorConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse>(xmlName: "ImportHypervisorConfigurationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(xAmzTarget: "BackupOnPremises_v20210101.ImportHypervisorConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(xmlName: "ImportHypervisorConfigurationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportHypervisorConfigurationOutput, ImportHypervisorConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportHypervisorConfigurationOutput, ImportHypervisorConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportHypervisorConfigurationOutput, ImportHypervisorConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportHypervisorConfigurationOutput, ImportHypervisorConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -602,7 +602,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter ListGatewaysInput : [no documentation found]
     ///
-    /// - Returns: `ListGatewaysOutputResponse` : [no documentation found]
+    /// - Returns: `ListGatewaysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -610,7 +610,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutputResponse
+    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -626,21 +626,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>(id: "listGateways")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListGatewaysInput, ListGatewaysOutput, ListGatewaysOutputError>(id: "listGateways")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutput, ListGatewaysOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGatewaysOutput, ListGatewaysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.ListGateways"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>(xmlName: "ListGatewaysInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGatewaysInput, ListGatewaysOutput>(xAmzTarget: "BackupOnPremises_v20210101.ListGateways"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGatewaysInput, ListGatewaysOutput>(xmlName: "ListGatewaysInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGatewaysOutputResponse, ListGatewaysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGatewaysOutput, ListGatewaysOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewaysOutput, ListGatewaysOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewaysOutput, ListGatewaysOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewaysOutput, ListGatewaysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -649,7 +649,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter ListHypervisorsInput : [no documentation found]
     ///
-    /// - Returns: `ListHypervisorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListHypervisorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,7 +657,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    public func listHypervisors(input: ListHypervisorsInput) async throws -> ListHypervisorsOutputResponse
+    public func listHypervisors(input: ListHypervisorsInput) async throws -> ListHypervisorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -673,21 +673,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListHypervisorsInput, ListHypervisorsOutputResponse, ListHypervisorsOutputError>(id: "listHypervisors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHypervisorsInput, ListHypervisorsOutputResponse, ListHypervisorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHypervisorsInput, ListHypervisorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListHypervisorsInput, ListHypervisorsOutput, ListHypervisorsOutputError>(id: "listHypervisors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHypervisorsInput, ListHypervisorsOutput, ListHypervisorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHypervisorsOutputResponse, ListHypervisorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHypervisorsOutput, ListHypervisorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHypervisorsInput, ListHypervisorsOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.ListHypervisors"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListHypervisorsInput, ListHypervisorsOutputResponse>(xmlName: "ListHypervisorsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHypervisorsInput, ListHypervisorsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(xAmzTarget: "BackupOnPremises_v20210101.ListHypervisors"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(xmlName: "ListHypervisorsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHypervisorsOutputResponse, ListHypervisorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHypervisorsOutput, ListHypervisorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHypervisorsOutputResponse, ListHypervisorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHypervisorsOutputResponse, ListHypervisorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHypervisorsOutputResponse, ListHypervisorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHypervisorsOutput, ListHypervisorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHypervisorsOutput, ListHypervisorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHypervisorsOutput, ListHypervisorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -696,7 +696,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,7 +705,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -721,21 +721,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "BackupOnPremises_v20210101.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -744,7 +744,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter ListVirtualMachinesInput : [no documentation found]
     ///
-    /// - Returns: `ListVirtualMachinesOutputResponse` : [no documentation found]
+    /// - Returns: `ListVirtualMachinesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,7 +752,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    public func listVirtualMachines(input: ListVirtualMachinesInput) async throws -> ListVirtualMachinesOutputResponse
+    public func listVirtualMachines(input: ListVirtualMachinesInput) async throws -> ListVirtualMachinesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -768,21 +768,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(id: "listVirtualMachines")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListVirtualMachinesInput, ListVirtualMachinesOutput, ListVirtualMachinesOutputError>(id: "listVirtualMachines")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput, ListVirtualMachinesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVirtualMachinesOutput, ListVirtualMachinesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.ListVirtualMachines"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse>(xmlName: "ListVirtualMachinesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(xAmzTarget: "BackupOnPremises_v20210101.ListVirtualMachines"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(xmlName: "ListVirtualMachinesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVirtualMachinesOutput, ListVirtualMachinesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualMachinesOutput, ListVirtualMachinesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMachinesOutput, ListVirtualMachinesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVirtualMachinesOutput, ListVirtualMachinesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -791,7 +791,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter PutBandwidthRateLimitScheduleInput : [no documentation found]
     ///
-    /// - Returns: `PutBandwidthRateLimitScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `PutBandwidthRateLimitScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,7 +800,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutputResponse
+    public func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -816,21 +816,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(id: "putBandwidthRateLimitSchedule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput, PutBandwidthRateLimitScheduleOutputError>(id: "putBandwidthRateLimitSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput, PutBandwidthRateLimitScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBandwidthRateLimitScheduleOutput, PutBandwidthRateLimitScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.PutBandwidthRateLimitSchedule"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse>(xmlName: "PutBandwidthRateLimitScheduleInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(xAmzTarget: "BackupOnPremises_v20210101.PutBandwidthRateLimitSchedule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(xmlName: "PutBandwidthRateLimitScheduleInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBandwidthRateLimitScheduleOutput, PutBandwidthRateLimitScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBandwidthRateLimitScheduleOutput, PutBandwidthRateLimitScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBandwidthRateLimitScheduleOutput, PutBandwidthRateLimitScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBandwidthRateLimitScheduleOutput, PutBandwidthRateLimitScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -839,7 +839,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter PutHypervisorPropertyMappingsInput : [no documentation found]
     ///
-    /// - Returns: `PutHypervisorPropertyMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `PutHypervisorPropertyMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,7 +850,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutputResponse
+    public func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -866,21 +866,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(id: "putHypervisorPropertyMappings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput, PutHypervisorPropertyMappingsOutputError>(id: "putHypervisorPropertyMappings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput, PutHypervisorPropertyMappingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutHypervisorPropertyMappingsOutput, PutHypervisorPropertyMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.PutHypervisorPropertyMappings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse>(xmlName: "PutHypervisorPropertyMappingsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(xAmzTarget: "BackupOnPremises_v20210101.PutHypervisorPropertyMappings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(xmlName: "PutHypervisorPropertyMappingsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutHypervisorPropertyMappingsOutput, PutHypervisorPropertyMappingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutHypervisorPropertyMappingsOutput, PutHypervisorPropertyMappingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutHypervisorPropertyMappingsOutput, PutHypervisorPropertyMappingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutHypervisorPropertyMappingsOutput, PutHypervisorPropertyMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -889,7 +889,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter PutMaintenanceStartTimeInput : [no documentation found]
     ///
-    /// - Returns: `PutMaintenanceStartTimeOutputResponse` : [no documentation found]
+    /// - Returns: `PutMaintenanceStartTimeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,7 +899,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutputResponse
+    public func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -915,21 +915,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(id: "putMaintenanceStartTime")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput, PutMaintenanceStartTimeOutputError>(id: "putMaintenanceStartTime")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput, PutMaintenanceStartTimeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutMaintenanceStartTimeOutput, PutMaintenanceStartTimeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.PutMaintenanceStartTime"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse>(xmlName: "PutMaintenanceStartTimeInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(xAmzTarget: "BackupOnPremises_v20210101.PutMaintenanceStartTime"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(xmlName: "PutMaintenanceStartTimeInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutMaintenanceStartTimeOutput, PutMaintenanceStartTimeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMaintenanceStartTimeOutput, PutMaintenanceStartTimeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMaintenanceStartTimeOutput, PutMaintenanceStartTimeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutMaintenanceStartTimeOutput, PutMaintenanceStartTimeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -938,7 +938,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter StartVirtualMachinesMetadataSyncInput : [no documentation found]
     ///
-    /// - Returns: `StartVirtualMachinesMetadataSyncOutputResponse` : [no documentation found]
+    /// - Returns: `StartVirtualMachinesMetadataSyncOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,7 +948,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutputResponse
+    public func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -964,21 +964,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(id: "startVirtualMachinesMetadataSync")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput, StartVirtualMachinesMetadataSyncOutputError>(id: "startVirtualMachinesMetadataSync")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput, StartVirtualMachinesMetadataSyncOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartVirtualMachinesMetadataSyncOutput, StartVirtualMachinesMetadataSyncOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.StartVirtualMachinesMetadataSync"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse>(xmlName: "StartVirtualMachinesMetadataSyncInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(xAmzTarget: "BackupOnPremises_v20210101.StartVirtualMachinesMetadataSync"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(xmlName: "StartVirtualMachinesMetadataSyncInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartVirtualMachinesMetadataSyncOutput, StartVirtualMachinesMetadataSyncOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartVirtualMachinesMetadataSyncOutput, StartVirtualMachinesMetadataSyncOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartVirtualMachinesMetadataSyncOutput, StartVirtualMachinesMetadataSyncOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartVirtualMachinesMetadataSyncOutput, StartVirtualMachinesMetadataSyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -987,7 +987,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,7 +996,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1012,21 +1012,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "BackupOnPremises_v20210101.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1035,7 +1035,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter TestHypervisorConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `TestHypervisorConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `TestHypervisorConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,7 +1045,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutputResponse
+    public func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1061,21 +1061,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(id: "testHypervisorConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput, TestHypervisorConfigurationOutputError>(id: "testHypervisorConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput, TestHypervisorConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestHypervisorConfigurationOutput, TestHypervisorConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.TestHypervisorConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse>(xmlName: "TestHypervisorConfigurationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(xAmzTarget: "BackupOnPremises_v20210101.TestHypervisorConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(xmlName: "TestHypervisorConfigurationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestHypervisorConfigurationOutput, TestHypervisorConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestHypervisorConfigurationOutput, TestHypervisorConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestHypervisorConfigurationOutput, TestHypervisorConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestHypervisorConfigurationOutput, TestHypervisorConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1084,7 +1084,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,7 +1093,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1109,21 +1109,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "BackupOnPremises_v20210101.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1132,7 +1132,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter UpdateGatewayInformationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGatewayInformationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGatewayInformationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,7 +1142,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutputResponse
+    public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1158,21 +1158,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(id: "updateGatewayInformation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateGatewayInformationInput, UpdateGatewayInformationOutput, UpdateGatewayInformationOutputError>(id: "updateGatewayInformation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput, UpdateGatewayInformationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewayInformationOutput, UpdateGatewayInformationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.UpdateGatewayInformation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse>(xmlName: "UpdateGatewayInformationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(xAmzTarget: "BackupOnPremises_v20210101.UpdateGatewayInformation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(xmlName: "UpdateGatewayInformationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewayInformationOutput, UpdateGatewayInformationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayInformationOutput, UpdateGatewayInformationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayInformationOutput, UpdateGatewayInformationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayInformationOutput, UpdateGatewayInformationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1181,7 +1181,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter UpdateGatewaySoftwareNowInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGatewaySoftwareNowOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGatewaySoftwareNowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1190,7 +1190,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutputResponse
+    public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1206,21 +1206,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(id: "updateGatewaySoftwareNow")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput, UpdateGatewaySoftwareNowOutputError>(id: "updateGatewaySoftwareNow")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput, UpdateGatewaySoftwareNowOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGatewaySoftwareNowOutput, UpdateGatewaySoftwareNowOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.UpdateGatewaySoftwareNow"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse>(xmlName: "UpdateGatewaySoftwareNowInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(xAmzTarget: "BackupOnPremises_v20210101.UpdateGatewaySoftwareNow"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(xmlName: "UpdateGatewaySoftwareNowInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGatewaySoftwareNowOutput, UpdateGatewaySoftwareNowOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewaySoftwareNowOutput, UpdateGatewaySoftwareNowOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewaySoftwareNowOutput, UpdateGatewaySoftwareNowOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewaySoftwareNowOutput, UpdateGatewaySoftwareNowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1229,7 +1229,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     ///
     /// - Parameter UpdateHypervisorInput : [no documentation found]
     ///
-    /// - Returns: `UpdateHypervisorOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateHypervisorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1240,7 +1240,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
-    public func updateHypervisor(input: UpdateHypervisorInput) async throws -> UpdateHypervisorOutputResponse
+    public func updateHypervisor(input: UpdateHypervisorInput) async throws -> UpdateHypervisorOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1256,21 +1256,21 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateHypervisorInput, UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(id: "updateHypervisor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHypervisorInput, UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHypervisorInput, UpdateHypervisorOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateHypervisorInput, UpdateHypervisorOutput, UpdateHypervisorOutputError>(id: "updateHypervisor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput, UpdateHypervisorOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateHypervisorOutput, UpdateHypervisorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateHypervisorInput, UpdateHypervisorOutputResponse>(xAmzTarget: "BackupOnPremises_v20210101.UpdateHypervisor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateHypervisorInput, UpdateHypervisorOutputResponse>(xmlName: "UpdateHypervisorInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateHypervisorInput, UpdateHypervisorOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(xAmzTarget: "BackupOnPremises_v20210101.UpdateHypervisor"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(xmlName: "UpdateHypervisorInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateHypervisorOutput, UpdateHypervisorOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHypervisorOutput, UpdateHypervisorOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHypervisorOutput, UpdateHypervisorOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateHypervisorOutput, UpdateHypervisorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

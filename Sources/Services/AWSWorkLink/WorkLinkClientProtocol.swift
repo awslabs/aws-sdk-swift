@@ -9,7 +9,7 @@ public protocol WorkLinkClientProtocol {
     ///
     /// - Parameter AssociateDomainInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDomainOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,13 +20,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func associateDomain(input: AssociateDomainInput) async throws -> AssociateDomainOutputResponse
+    func associateDomain(input: AssociateDomainInput) async throws -> AssociateDomainOutput
     /// Associates a website authorization provider with a specified fleet. This is used to authorize users against associated websites in the company network.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter AssociateWebsiteAuthorizationProviderInput : [no documentation found]
     ///
-    /// - Returns: `AssociateWebsiteAuthorizationProviderOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateWebsiteAuthorizationProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,13 +37,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func associateWebsiteAuthorizationProvider(input: AssociateWebsiteAuthorizationProviderInput) async throws -> AssociateWebsiteAuthorizationProviderOutputResponse
+    func associateWebsiteAuthorizationProvider(input: AssociateWebsiteAuthorizationProviderInput) async throws -> AssociateWebsiteAuthorizationProviderOutput
     /// Imports the root certificate of a certificate authority (CA) used to obtain TLS certificates used by associated websites within the company network.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter AssociateWebsiteCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `AssociateWebsiteCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateWebsiteCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,13 +54,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func associateWebsiteCertificateAuthority(input: AssociateWebsiteCertificateAuthorityInput) async throws -> AssociateWebsiteCertificateAuthorityOutputResponse
+    func associateWebsiteCertificateAuthority(input: AssociateWebsiteCertificateAuthorityInput) async throws -> AssociateWebsiteCertificateAuthorityOutput
     /// Creates a fleet. A fleet consists of resources and the configuration that delivers associated websites to authorized users who download and set up the Amazon WorkLink app.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter CreateFleetInput : [no documentation found]
     ///
-    /// - Returns: `CreateFleetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -71,13 +71,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutputResponse
+    func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
     /// Deletes a fleet. Prevents users from accessing previously associated websites.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DeleteFleetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -87,13 +87,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutputResponse
+    func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
     /// Describes the configuration for delivering audit streams to the customer account.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeAuditStreamConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAuditStreamConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAuditStreamConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -103,13 +103,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeAuditStreamConfiguration(input: DescribeAuditStreamConfigurationInput) async throws -> DescribeAuditStreamConfigurationOutputResponse
+    func describeAuditStreamConfiguration(input: DescribeAuditStreamConfigurationInput) async throws -> DescribeAuditStreamConfigurationOutput
     /// Describes the networking configuration to access the internal websites associated with the specified fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeCompanyNetworkConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCompanyNetworkConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCompanyNetworkConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -119,13 +119,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeCompanyNetworkConfiguration(input: DescribeCompanyNetworkConfigurationInput) async throws -> DescribeCompanyNetworkConfigurationOutputResponse
+    func describeCompanyNetworkConfiguration(input: DescribeCompanyNetworkConfigurationInput) async throws -> DescribeCompanyNetworkConfigurationOutput
     /// Provides information about a user's device.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -135,13 +135,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutputResponse
+    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
     /// Describes the device policy configuration for the specified fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeDevicePolicyConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDevicePolicyConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDevicePolicyConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -151,13 +151,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeDevicePolicyConfiguration(input: DescribeDevicePolicyConfigurationInput) async throws -> DescribeDevicePolicyConfigurationOutputResponse
+    func describeDevicePolicyConfiguration(input: DescribeDevicePolicyConfigurationInput) async throws -> DescribeDevicePolicyConfigurationOutput
     /// Provides information about the domain.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeDomainInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDomainOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -167,13 +167,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutputResponse
+    func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
     /// Provides basic information for the specified fleet, excluding identity provider, networking, and device configuration details.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeFleetMetadataInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,13 +183,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeFleetMetadata(input: DescribeFleetMetadataInput) async throws -> DescribeFleetMetadataOutputResponse
+    func describeFleetMetadata(input: DescribeFleetMetadataInput) async throws -> DescribeFleetMetadataOutput
     /// Describes the identity provider configuration of the specified fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeIdentityProviderConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeIdentityProviderConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeIdentityProviderConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -199,13 +199,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeIdentityProviderConfiguration(input: DescribeIdentityProviderConfigurationInput) async throws -> DescribeIdentityProviderConfigurationOutputResponse
+    func describeIdentityProviderConfiguration(input: DescribeIdentityProviderConfigurationInput) async throws -> DescribeIdentityProviderConfigurationOutput
     /// Provides information about the certificate authority.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DescribeWebsiteCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWebsiteCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeWebsiteCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -215,13 +215,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func describeWebsiteCertificateAuthority(input: DescribeWebsiteCertificateAuthorityInput) async throws -> DescribeWebsiteCertificateAuthorityOutputResponse
+    func describeWebsiteCertificateAuthority(input: DescribeWebsiteCertificateAuthorityInput) async throws -> DescribeWebsiteCertificateAuthorityOutput
     /// Disassociates a domain from Amazon WorkLink. End users lose the ability to access the domain with Amazon WorkLink.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DisassociateDomainInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateDomainOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,13 +231,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func disassociateDomain(input: DisassociateDomainInput) async throws -> DisassociateDomainOutputResponse
+    func disassociateDomain(input: DisassociateDomainInput) async throws -> DisassociateDomainOutput
     /// Disassociates a website authorization provider from a specified fleet. After the disassociation, users can't load any associated websites that require this authorization provider.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DisassociateWebsiteAuthorizationProviderInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateWebsiteAuthorizationProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateWebsiteAuthorizationProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -248,13 +248,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func disassociateWebsiteAuthorizationProvider(input: DisassociateWebsiteAuthorizationProviderInput) async throws -> DisassociateWebsiteAuthorizationProviderOutputResponse
+    func disassociateWebsiteAuthorizationProvider(input: DisassociateWebsiteAuthorizationProviderInput) async throws -> DisassociateWebsiteAuthorizationProviderOutput
     /// Removes a certificate authority (CA).
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter DisassociateWebsiteCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateWebsiteCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateWebsiteCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -264,13 +264,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func disassociateWebsiteCertificateAuthority(input: DisassociateWebsiteCertificateAuthorityInput) async throws -> DisassociateWebsiteCertificateAuthorityOutputResponse
+    func disassociateWebsiteCertificateAuthority(input: DisassociateWebsiteCertificateAuthorityInput) async throws -> DisassociateWebsiteCertificateAuthorityOutput
     /// Retrieves a list of devices registered with the specified fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter ListDevicesInput : [no documentation found]
     ///
-    /// - Returns: `ListDevicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDevicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -280,13 +280,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutputResponse
+    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
     /// Retrieves a list of domains associated to a specified fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter ListDomainsInput : [no documentation found]
     ///
-    /// - Returns: `ListDomainsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDomainsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -296,13 +296,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
+    func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
     /// Retrieves a list of fleets for the current account and Region.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter ListFleetsInput : [no documentation found]
     ///
-    /// - Returns: `ListFleetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFleetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -311,25 +311,25 @@ public protocol WorkLinkClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutputResponse
+    func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput
     /// Retrieves a list of tags for the specified resource.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is not valid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Retrieves a list of website authorization providers associated with a specified fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter ListWebsiteAuthorizationProvidersInput : [no documentation found]
     ///
-    /// - Returns: `ListWebsiteAuthorizationProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `ListWebsiteAuthorizationProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -339,13 +339,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func listWebsiteAuthorizationProviders(input: ListWebsiteAuthorizationProvidersInput) async throws -> ListWebsiteAuthorizationProvidersOutputResponse
+    func listWebsiteAuthorizationProviders(input: ListWebsiteAuthorizationProvidersInput) async throws -> ListWebsiteAuthorizationProvidersOutput
     /// Retrieves a list of certificate authorities added for the current account and Region.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter ListWebsiteCertificateAuthoritiesInput : [no documentation found]
     ///
-    /// - Returns: `ListWebsiteCertificateAuthoritiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListWebsiteCertificateAuthoritiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -354,13 +354,13 @@ public protocol WorkLinkClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func listWebsiteCertificateAuthorities(input: ListWebsiteCertificateAuthoritiesInput) async throws -> ListWebsiteCertificateAuthoritiesOutputResponse
+    func listWebsiteCertificateAuthorities(input: ListWebsiteCertificateAuthoritiesInput) async throws -> ListWebsiteCertificateAuthoritiesOutput
     /// Moves a domain to ACTIVE status if it was in the INACTIVE status.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter RestoreDomainAccessInput : [no documentation found]
     ///
-    /// - Returns: `RestoreDomainAccessOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreDomainAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -370,13 +370,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func restoreDomainAccess(input: RestoreDomainAccessInput) async throws -> RestoreDomainAccessOutputResponse
+    func restoreDomainAccess(input: RestoreDomainAccessInput) async throws -> RestoreDomainAccessOutput
     /// Moves a domain to INACTIVE status if it was in the ACTIVE status.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter RevokeDomainAccessInput : [no documentation found]
     ///
-    /// - Returns: `RevokeDomainAccessOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeDomainAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -386,13 +386,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func revokeDomainAccess(input: RevokeDomainAccessInput) async throws -> RevokeDomainAccessOutputResponse
+    func revokeDomainAccess(input: RevokeDomainAccessInput) async throws -> RevokeDomainAccessOutput
     /// Signs the user out from all of their devices. The user can sign in again if they have valid credentials.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter SignOutUserInput : [no documentation found]
     ///
-    /// - Returns: `SignOutUserOutputResponse` : [no documentation found]
+    /// - Returns: `SignOutUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -402,37 +402,37 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func signOutUser(input: SignOutUserInput) async throws -> SignOutUserOutputResponse
+    func signOutUser(input: SignOutUserInput) async throws -> SignOutUserOutput
     /// Adds or overwrites one or more tags for the specified resource, such as a fleet. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is not valid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified resource.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is not valid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the audit stream configuration for the fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter UpdateAuditStreamConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAuditStreamConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAuditStreamConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,13 +442,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func updateAuditStreamConfiguration(input: UpdateAuditStreamConfigurationInput) async throws -> UpdateAuditStreamConfigurationOutputResponse
+    func updateAuditStreamConfiguration(input: UpdateAuditStreamConfigurationInput) async throws -> UpdateAuditStreamConfigurationOutput
     /// Updates the company network configuration for the fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter UpdateCompanyNetworkConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCompanyNetworkConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCompanyNetworkConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -458,13 +458,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func updateCompanyNetworkConfiguration(input: UpdateCompanyNetworkConfigurationInput) async throws -> UpdateCompanyNetworkConfigurationOutputResponse
+    func updateCompanyNetworkConfiguration(input: UpdateCompanyNetworkConfigurationInput) async throws -> UpdateCompanyNetworkConfigurationOutput
     /// Updates the device policy configuration for the fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter UpdateDevicePolicyConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDevicePolicyConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDevicePolicyConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -474,13 +474,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func updateDevicePolicyConfiguration(input: UpdateDevicePolicyConfigurationInput) async throws -> UpdateDevicePolicyConfigurationOutputResponse
+    func updateDevicePolicyConfiguration(input: UpdateDevicePolicyConfigurationInput) async throws -> UpdateDevicePolicyConfigurationOutput
     /// Updates domain metadata, such as DisplayName.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter UpdateDomainMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDomainMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDomainMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,13 +490,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func updateDomainMetadata(input: UpdateDomainMetadataInput) async throws -> UpdateDomainMetadataOutputResponse
+    func updateDomainMetadata(input: UpdateDomainMetadataInput) async throws -> UpdateDomainMetadataOutput
     /// Updates fleet metadata, such as DisplayName.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter UpdateFleetMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFleetMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFleetMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -506,13 +506,13 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func updateFleetMetadata(input: UpdateFleetMetadataInput) async throws -> UpdateFleetMetadataOutputResponse
+    func updateFleetMetadata(input: UpdateFleetMetadataInput) async throws -> UpdateFleetMetadataOutput
     /// Updates the identity provider configuration for the fleet.
     @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     ///
     /// - Parameter UpdateIdentityProviderConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIdentityProviderConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIdentityProviderConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,7 +522,7 @@ public protocol WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    func updateIdentityProviderConfiguration(input: UpdateIdentityProviderConfigurationInput) async throws -> UpdateIdentityProviderConfigurationOutputResponse
+    func updateIdentityProviderConfiguration(input: UpdateIdentityProviderConfigurationInput) async throws -> UpdateIdentityProviderConfigurationOutput
 }
 
 public enum WorkLinkClientTypes {}

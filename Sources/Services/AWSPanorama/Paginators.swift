@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension PanoramaClient {
-    /// Paginate over `[ListApplicationInstanceDependenciesOutputResponse]` results.
+    /// Paginate over `[ListApplicationInstanceDependenciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationInstanceDependenciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstanceDependenciesOutputResponse`
-    public func listApplicationInstanceDependenciesPaginated(input: ListApplicationInstanceDependenciesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutputResponse>(input: input, inputKey: \ListApplicationInstanceDependenciesInput.nextToken, outputKey: \ListApplicationInstanceDependenciesOutputResponse.nextToken, paginationFunction: self.listApplicationInstanceDependencies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstanceDependenciesOutput`
+    public func listApplicationInstanceDependenciesPaginated(input: ListApplicationInstanceDependenciesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutput>(input: input, inputKey: \ListApplicationInstanceDependenciesInput.nextToken, outputKey: \ListApplicationInstanceDependenciesOutput.nextToken, paginationFunction: self.listApplicationInstanceDependencies(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension ListApplicationInstanceDependenciesInput: ClientRuntime.PaginateToken 
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListApplicationInstanceNodeInstancesOutputResponse]` results.
+    /// Paginate over `[ListApplicationInstanceNodeInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationInstanceNodeInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstanceNodeInstancesOutputResponse`
-    public func listApplicationInstanceNodeInstancesPaginated(input: ListApplicationInstanceNodeInstancesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutputResponse>(input: input, inputKey: \ListApplicationInstanceNodeInstancesInput.nextToken, outputKey: \ListApplicationInstanceNodeInstancesOutputResponse.nextToken, paginationFunction: self.listApplicationInstanceNodeInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstanceNodeInstancesOutput`
+    public func listApplicationInstanceNodeInstancesPaginated(input: ListApplicationInstanceNodeInstancesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutput>(input: input, inputKey: \ListApplicationInstanceNodeInstancesInput.nextToken, outputKey: \ListApplicationInstanceNodeInstancesOutput.nextToken, paginationFunction: self.listApplicationInstanceNodeInstances(input:))
     }
 }
 
@@ -47,16 +47,16 @@ extension ListApplicationInstanceNodeInstancesInput: ClientRuntime.PaginateToken
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListApplicationInstancesOutputResponse]` results.
+    /// Paginate over `[ListApplicationInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstancesOutputResponse`
-    public func listApplicationInstancesPaginated(input: ListApplicationInstancesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstancesInput, ListApplicationInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationInstancesInput, ListApplicationInstancesOutputResponse>(input: input, inputKey: \ListApplicationInstancesInput.nextToken, outputKey: \ListApplicationInstancesOutputResponse.nextToken, paginationFunction: self.listApplicationInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstancesOutput`
+    public func listApplicationInstancesPaginated(input: ListApplicationInstancesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstancesInput, ListApplicationInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationInstancesInput, ListApplicationInstancesOutput>(input: input, inputKey: \ListApplicationInstancesInput.nextToken, outputKey: \ListApplicationInstancesOutput.nextToken, paginationFunction: self.listApplicationInstances(input:))
     }
 }
 
@@ -70,16 +70,16 @@ extension ListApplicationInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListDevicesOutputResponse]` results.
+    /// Paginate over `[ListDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDevicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesOutputResponse`
-    public func listDevicesPaginated(input: ListDevicesInput) -> ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutputResponse>(input: input, inputKey: \ListDevicesInput.nextToken, outputKey: \ListDevicesOutputResponse.nextToken, paginationFunction: self.listDevices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesOutput`
+    public func listDevicesPaginated(input: ListDevicesInput) -> ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \ListDevicesInput.nextToken, outputKey: \ListDevicesOutput.nextToken, paginationFunction: self.listDevices(input:))
     }
 }
 
@@ -95,16 +95,16 @@ extension ListDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListDevicesJobsOutputResponse]` results.
+    /// Paginate over `[ListDevicesJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDevicesJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesJobsOutputResponse`
-    public func listDevicesJobsPaginated(input: ListDevicesJobsInput) -> ClientRuntime.PaginatorSequence<ListDevicesJobsInput, ListDevicesJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDevicesJobsInput, ListDevicesJobsOutputResponse>(input: input, inputKey: \ListDevicesJobsInput.nextToken, outputKey: \ListDevicesJobsOutputResponse.nextToken, paginationFunction: self.listDevicesJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesJobsOutput`
+    public func listDevicesJobsPaginated(input: ListDevicesJobsInput) -> ClientRuntime.PaginatorSequence<ListDevicesJobsInput, ListDevicesJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDevicesJobsInput, ListDevicesJobsOutput>(input: input, inputKey: \ListDevicesJobsInput.nextToken, outputKey: \ListDevicesJobsOutput.nextToken, paginationFunction: self.listDevicesJobs(input:))
     }
 }
 
@@ -117,16 +117,16 @@ extension ListDevicesJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListNodeFromTemplateJobsOutputResponse]` results.
+    /// Paginate over `[ListNodeFromTemplateJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNodeFromTemplateJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNodeFromTemplateJobsOutputResponse`
-    public func listNodeFromTemplateJobsPaginated(input: ListNodeFromTemplateJobsInput) -> ClientRuntime.PaginatorSequence<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutputResponse>(input: input, inputKey: \ListNodeFromTemplateJobsInput.nextToken, outputKey: \ListNodeFromTemplateJobsOutputResponse.nextToken, paginationFunction: self.listNodeFromTemplateJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNodeFromTemplateJobsOutput`
+    public func listNodeFromTemplateJobsPaginated(input: ListNodeFromTemplateJobsInput) -> ClientRuntime.PaginatorSequence<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutput>(input: input, inputKey: \ListNodeFromTemplateJobsInput.nextToken, outputKey: \ListNodeFromTemplateJobsOutput.nextToken, paginationFunction: self.listNodeFromTemplateJobs(input:))
     }
 }
 
@@ -138,16 +138,16 @@ extension ListNodeFromTemplateJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListNodesOutputResponse]` results.
+    /// Paginate over `[ListNodesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNodesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutputResponse`
-    public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutputResponse>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutputResponse.nextToken, paginationFunction: self.listNodes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
+    public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutput.nextToken, paginationFunction: self.listNodes(input:))
     }
 }
 
@@ -164,16 +164,16 @@ extension ListNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListPackageImportJobsOutputResponse]` results.
+    /// Paginate over `[ListPackageImportJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPackageImportJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPackageImportJobsOutputResponse`
-    public func listPackageImportJobsPaginated(input: ListPackageImportJobsInput) -> ClientRuntime.PaginatorSequence<ListPackageImportJobsInput, ListPackageImportJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPackageImportJobsInput, ListPackageImportJobsOutputResponse>(input: input, inputKey: \ListPackageImportJobsInput.nextToken, outputKey: \ListPackageImportJobsOutputResponse.nextToken, paginationFunction: self.listPackageImportJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackageImportJobsOutput`
+    public func listPackageImportJobsPaginated(input: ListPackageImportJobsInput) -> ClientRuntime.PaginatorSequence<ListPackageImportJobsInput, ListPackageImportJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPackageImportJobsInput, ListPackageImportJobsOutput>(input: input, inputKey: \ListPackageImportJobsInput.nextToken, outputKey: \ListPackageImportJobsOutput.nextToken, paginationFunction: self.listPackageImportJobs(input:))
     }
 }
 
@@ -185,16 +185,16 @@ extension ListPackageImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PanoramaClient {
-    /// Paginate over `[ListPackagesOutputResponse]` results.
+    /// Paginate over `[ListPackagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPackagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesOutputResponse`
-    public func listPackagesPaginated(input: ListPackagesInput) -> ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutputResponse>(input: input, inputKey: \ListPackagesInput.nextToken, outputKey: \ListPackagesOutputResponse.nextToken, paginationFunction: self.listPackages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesOutput`
+    public func listPackagesPaginated(input: ListPackagesInput) -> ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput>(input: input, inputKey: \ListPackagesInput.nextToken, outputKey: \ListPackagesOutput.nextToken, paginationFunction: self.listPackages(input:))
     }
 }
 

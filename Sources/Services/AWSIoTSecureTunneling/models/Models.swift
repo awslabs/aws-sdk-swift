@@ -86,6 +86,16 @@ extension CloseTunnelInputBody: Swift.Decodable {
     }
 }
 
+extension CloseTunnelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CloseTunnelOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CloseTunnelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -95,16 +105,6 @@ enum CloseTunnelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CloseTunnelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CloseTunnelOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IoTSecureTunnelingClientTypes.ConnectionState: Swift.Codable {
@@ -220,22 +220,11 @@ extension DescribeTunnelInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeTunnelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeTunnelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeTunnelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTunnelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTunnelOutputBody = try responseDecoder.decode(responseBody: data)
             self.tunnel = output.tunnel
         } else {
             self.tunnel = nil
@@ -243,7 +232,7 @@ extension DescribeTunnelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTunnelOutputResponse: Swift.Equatable {
+public struct DescribeTunnelOutput: Swift.Equatable {
     /// The tunnel being described.
     public var tunnel: IoTSecureTunnelingClientTypes.Tunnel?
 
@@ -255,11 +244,11 @@ public struct DescribeTunnelOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTunnelOutputResponseBody: Swift.Equatable {
+struct DescribeTunnelOutputBody: Swift.Equatable {
     let tunnel: IoTSecureTunnelingClientTypes.Tunnel?
 }
 
-extension DescribeTunnelOutputResponseBody: Swift.Decodable {
+extension DescribeTunnelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tunnel
     }
@@ -268,6 +257,17 @@ extension DescribeTunnelOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tunnelDecoded = try containerValues.decodeIfPresent(IoTSecureTunnelingClientTypes.Tunnel.self, forKey: .tunnel)
         tunnel = tunnelDecoded
+    }
+}
+
+enum DescribeTunnelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -429,22 +429,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -452,7 +441,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tags for the specified resource.
     public var tags: [IoTSecureTunnelingClientTypes.Tag]?
 
@@ -464,11 +453,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [IoTSecureTunnelingClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -486,6 +475,17 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -541,21 +541,11 @@ extension ListTunnelsInputBody: Swift.Decodable {
     }
 }
 
-enum ListTunnelsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTunnelsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTunnelsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTunnelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTunnelsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tunnelSummaries = output.tunnelSummaries
         } else {
@@ -565,7 +555,7 @@ extension ListTunnelsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTunnelsOutputResponse: Swift.Equatable {
+public struct ListTunnelsOutput: Swift.Equatable {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A short description of the tunnels in an Amazon Web Services account.
@@ -581,12 +571,12 @@ public struct ListTunnelsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTunnelsOutputResponseBody: Swift.Equatable {
+struct ListTunnelsOutputBody: Swift.Equatable {
     let tunnelSummaries: [IoTSecureTunnelingClientTypes.TunnelSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListTunnelsOutputResponseBody: Swift.Decodable {
+extension ListTunnelsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case tunnelSummaries
@@ -607,6 +597,16 @@ extension ListTunnelsOutputResponseBody: Swift.Decodable {
         tunnelSummaries = tunnelSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTunnelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -705,27 +705,16 @@ extension OpenTunnelInputBody: Swift.Decodable {
     }
 }
 
-enum OpenTunnelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension OpenTunnelOutputResponse: Swift.CustomDebugStringConvertible {
+extension OpenTunnelOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OpenTunnelOutputResponse(tunnelArn: \(Swift.String(describing: tunnelArn)), tunnelId: \(Swift.String(describing: tunnelId)), destinationAccessToken: \"CONTENT_REDACTED\", sourceAccessToken: \"CONTENT_REDACTED\")"}
+        "OpenTunnelOutput(tunnelArn: \(Swift.String(describing: tunnelArn)), tunnelId: \(Swift.String(describing: tunnelId)), destinationAccessToken: \"CONTENT_REDACTED\", sourceAccessToken: \"CONTENT_REDACTED\")"}
 }
 
-extension OpenTunnelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension OpenTunnelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: OpenTunnelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: OpenTunnelOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinationAccessToken = output.destinationAccessToken
             self.sourceAccessToken = output.sourceAccessToken
             self.tunnelArn = output.tunnelArn
@@ -739,7 +728,7 @@ extension OpenTunnelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct OpenTunnelOutputResponse: Swift.Equatable {
+public struct OpenTunnelOutput: Swift.Equatable {
     /// The access token the destination local proxy uses to connect to IoT Secure Tunneling.
     public var destinationAccessToken: Swift.String?
     /// The access token the source local proxy uses to connect to IoT Secure Tunneling.
@@ -763,14 +752,14 @@ public struct OpenTunnelOutputResponse: Swift.Equatable {
     }
 }
 
-struct OpenTunnelOutputResponseBody: Swift.Equatable {
+struct OpenTunnelOutputBody: Swift.Equatable {
     let tunnelId: Swift.String?
     let tunnelArn: Swift.String?
     let sourceAccessToken: Swift.String?
     let destinationAccessToken: Swift.String?
 }
 
-extension OpenTunnelOutputResponseBody: Swift.Decodable {
+extension OpenTunnelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationAccessToken
         case sourceAccessToken
@@ -788,6 +777,17 @@ extension OpenTunnelOutputResponseBody: Swift.Decodable {
         sourceAccessToken = sourceAccessTokenDecoded
         let destinationAccessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationAccessToken)
         destinationAccessToken = destinationAccessTokenDecoded
+    }
+}
+
+enum OpenTunnelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -911,27 +911,16 @@ extension RotateTunnelAccessTokenInputBody: Swift.Decodable {
     }
 }
 
-enum RotateTunnelAccessTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RotateTunnelAccessTokenOutputResponse: Swift.CustomDebugStringConvertible {
+extension RotateTunnelAccessTokenOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RotateTunnelAccessTokenOutputResponse(tunnelArn: \(Swift.String(describing: tunnelArn)), destinationAccessToken: \"CONTENT_REDACTED\", sourceAccessToken: \"CONTENT_REDACTED\")"}
+        "RotateTunnelAccessTokenOutput(tunnelArn: \(Swift.String(describing: tunnelArn)), destinationAccessToken: \"CONTENT_REDACTED\", sourceAccessToken: \"CONTENT_REDACTED\")"}
 }
 
-extension RotateTunnelAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RotateTunnelAccessTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RotateTunnelAccessTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RotateTunnelAccessTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinationAccessToken = output.destinationAccessToken
             self.sourceAccessToken = output.sourceAccessToken
             self.tunnelArn = output.tunnelArn
@@ -943,7 +932,7 @@ extension RotateTunnelAccessTokenOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct RotateTunnelAccessTokenOutputResponse: Swift.Equatable {
+public struct RotateTunnelAccessTokenOutput: Swift.Equatable {
     /// The client access token that the destination local proxy uses to connect to IoT Secure Tunneling.
     public var destinationAccessToken: Swift.String?
     /// The client access token that the source local proxy uses to connect to IoT Secure Tunneling.
@@ -963,13 +952,13 @@ public struct RotateTunnelAccessTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct RotateTunnelAccessTokenOutputResponseBody: Swift.Equatable {
+struct RotateTunnelAccessTokenOutputBody: Swift.Equatable {
     let tunnelArn: Swift.String?
     let sourceAccessToken: Swift.String?
     let destinationAccessToken: Swift.String?
 }
 
-extension RotateTunnelAccessTokenOutputResponseBody: Swift.Decodable {
+extension RotateTunnelAccessTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationAccessToken
         case sourceAccessToken
@@ -984,6 +973,17 @@ extension RotateTunnelAccessTokenOutputResponseBody: Swift.Decodable {
         sourceAccessToken = sourceAccessTokenDecoded
         let destinationAccessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationAccessToken)
         destinationAccessToken = destinationAccessTokenDecoded
+    }
+}
+
+enum RotateTunnelAccessTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1107,6 +1107,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1116,16 +1126,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IoTSecureTunnelingClientTypes.TimeoutConfig: Swift.Codable {
@@ -1500,6 +1500,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1509,14 +1519,4 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }

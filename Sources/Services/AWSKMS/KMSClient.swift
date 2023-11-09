@@ -71,7 +71,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter CancelKeyDeletionInput : [no documentation found]
     ///
-    /// - Returns: `CancelKeyDeletionOutputResponse` : [no documentation found]
+    /// - Returns: `CancelKeyDeletionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -85,7 +85,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func cancelKeyDeletion(input: CancelKeyDeletionInput) async throws -> CancelKeyDeletionOutputResponse
+    public func cancelKeyDeletion(input: CancelKeyDeletionInput) async throws -> CancelKeyDeletionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -101,21 +101,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(id: "cancelKeyDeletion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelKeyDeletionInput, CancelKeyDeletionOutput, CancelKeyDeletionOutputError>(id: "cancelKeyDeletion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutput, CancelKeyDeletionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelKeyDeletionOutput, CancelKeyDeletionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse>(xAmzTarget: "TrentService.CancelKeyDeletion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse>(xmlName: "CancelKeyDeletionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutput>(xAmzTarget: "TrentService.CancelKeyDeletion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutput>(xmlName: "CancelKeyDeletionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelKeyDeletionOutput, CancelKeyDeletionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelKeyDeletionOutput, CancelKeyDeletionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelKeyDeletionOutput, CancelKeyDeletionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelKeyDeletionOutput, CancelKeyDeletionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -134,7 +134,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ConnectCustomKeyStoreInput : [no documentation found]
     ///
-    /// - Returns: `ConnectCustomKeyStoreOutputResponse` : [no documentation found]
+    /// - Returns: `ConnectCustomKeyStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,7 +163,7 @@ extension KMSClient: KMSClientProtocol {
     /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func connectCustomKeyStore(input: ConnectCustomKeyStoreInput) async throws -> ConnectCustomKeyStoreOutputResponse
+    public func connectCustomKeyStore(input: ConnectCustomKeyStoreInput) async throws -> ConnectCustomKeyStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -179,21 +179,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(id: "connectCustomKeyStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput, ConnectCustomKeyStoreOutputError>(id: "connectCustomKeyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput, ConnectCustomKeyStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConnectCustomKeyStoreOutput, ConnectCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse>(xAmzTarget: "TrentService.ConnectCustomKeyStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse>(xmlName: "ConnectCustomKeyStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput>(xAmzTarget: "TrentService.ConnectCustomKeyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput>(xmlName: "ConnectCustomKeyStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConnectCustomKeyStoreOutput, ConnectCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConnectCustomKeyStoreOutput, ConnectCustomKeyStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConnectCustomKeyStoreOutput, ConnectCustomKeyStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConnectCustomKeyStoreOutput, ConnectCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -215,7 +215,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter CreateAliasInput : [no documentation found]
     ///
-    /// - Returns: `CreateAliasOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,7 +231,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -247,21 +247,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>(id: "createAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutput, CreateAliasOutputError>(id: "createAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutput, CreateAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAliasOutput, CreateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAliasInput, CreateAliasOutputResponse>(xAmzTarget: "TrentService.CreateAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAliasInput, CreateAliasOutputResponse>(xmlName: "CreateAliasRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAliasInput, CreateAliasOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAliasInput, CreateAliasOutput>(xAmzTarget: "TrentService.CreateAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAliasInput, CreateAliasOutput>(xmlName: "CreateAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAliasInput, CreateAliasOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAliasOutputResponse, CreateAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAliasOutput, CreateAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutputResponse, CreateAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutput, CreateAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutput, CreateAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutput, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -287,7 +287,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter CreateCustomKeyStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateCustomKeyStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCustomKeyStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,7 +318,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `XksProxyVpcEndpointServiceInUseException` : The request was rejected because the specified Amazon VPC endpoint service is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an Amazon Web Services account and Region must use a different Amazon VPC endpoint service.
     /// - `XksProxyVpcEndpointServiceInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
     /// - `XksProxyVpcEndpointServiceNotFoundException` : The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
-    public func createCustomKeyStore(input: CreateCustomKeyStoreInput) async throws -> CreateCustomKeyStoreOutputResponse
+    public func createCustomKeyStore(input: CreateCustomKeyStoreInput) async throws -> CreateCustomKeyStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -334,21 +334,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(id: "createCustomKeyStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput, CreateCustomKeyStoreOutputError>(id: "createCustomKeyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput, CreateCustomKeyStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCustomKeyStoreOutput, CreateCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse>(xAmzTarget: "TrentService.CreateCustomKeyStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse>(xmlName: "CreateCustomKeyStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput>(xAmzTarget: "TrentService.CreateCustomKeyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput>(xmlName: "CreateCustomKeyStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCustomKeyStoreOutput, CreateCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomKeyStoreOutput, CreateCustomKeyStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomKeyStoreOutput, CreateCustomKeyStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomKeyStoreOutput, CreateCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -372,7 +372,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter CreateGrantInput : [no documentation found]
     ///
-    /// - Returns: `CreateGrantOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGrantOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -390,7 +390,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutputResponse
+    public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -406,21 +406,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateGrantInput, CreateGrantOutputResponse, CreateGrantOutputError>(id: "createGrant")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGrantInput, CreateGrantOutputResponse, CreateGrantOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGrantInput, CreateGrantOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateGrantInput, CreateGrantOutput, CreateGrantOutputError>(id: "createGrant")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGrantInput, CreateGrantOutput, CreateGrantOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGrantInput, CreateGrantOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGrantOutputResponse, CreateGrantOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGrantOutput, CreateGrantOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGrantInput, CreateGrantOutputResponse>(xAmzTarget: "TrentService.CreateGrant"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGrantInput, CreateGrantOutputResponse>(xmlName: "CreateGrantRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGrantInput, CreateGrantOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGrantInput, CreateGrantOutput>(xAmzTarget: "TrentService.CreateGrant"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGrantInput, CreateGrantOutput>(xmlName: "CreateGrantRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGrantInput, CreateGrantOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGrantOutputResponse, CreateGrantOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGrantOutput, CreateGrantOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGrantOutputResponse, CreateGrantOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGrantOutputResponse, CreateGrantOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGrantOutputResponse, CreateGrantOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGrantOutput, CreateGrantOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGrantOutput, CreateGrantOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGrantOutput, CreateGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -435,7 +435,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter CreateKeyInput : [no documentation found]
     ///
-    /// - Returns: `CreateKeyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,7 +472,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `XksKeyAlreadyInUseException` : The request was rejected because the (XksKeyId) is already associated with a KMS key in this external key store. Each KMS key in an external key store must be associated with a different external key.
     /// - `XksKeyInvalidConfigurationException` : The request was rejected because the external key specified by the XksKeyId parameter did not meet the configuration requirements for an external key store. The external key must be an AES-256 symmetric key that is enabled and performs encryption and decryption.
     /// - `XksKeyNotFoundException` : The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn't identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
-    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
+    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -488,21 +488,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateKeyInput, CreateKeyOutputResponse, CreateKeyOutputError>(id: "createKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeyInput, CreateKeyOutputResponse, CreateKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeyInput, CreateKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateKeyInput, CreateKeyOutput, CreateKeyOutputError>(id: "createKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeyInput, CreateKeyOutput, CreateKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeyInput, CreateKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateKeyOutputResponse, CreateKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateKeyOutput, CreateKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateKeyInput, CreateKeyOutputResponse>(xAmzTarget: "TrentService.CreateKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateKeyInput, CreateKeyOutputResponse>(xmlName: "CreateKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateKeyInput, CreateKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateKeyInput, CreateKeyOutput>(xAmzTarget: "TrentService.CreateKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateKeyInput, CreateKeyOutput>(xmlName: "CreateKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateKeyInput, CreateKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateKeyOutputResponse, CreateKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateKeyOutput, CreateKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeyOutputResponse, CreateKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeyOutputResponse, CreateKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateKeyOutputResponse, CreateKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeyOutput, CreateKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeyOutput, CreateKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateKeyOutput, CreateKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -532,7 +532,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DecryptInput : [no documentation found]
     ///
-    /// - Returns: `DecryptOutputResponse` : [no documentation found]
+    /// - Returns: `DecryptOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,7 +559,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func decrypt(input: DecryptInput) async throws -> DecryptOutputResponse
+    public func decrypt(input: DecryptInput) async throws -> DecryptOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -575,21 +575,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DecryptInput, DecryptOutputResponse, DecryptOutputError>(id: "decrypt")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecryptInput, DecryptOutputResponse, DecryptOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecryptInput, DecryptOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DecryptInput, DecryptOutput, DecryptOutputError>(id: "decrypt")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecryptInput, DecryptOutput, DecryptOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecryptInput, DecryptOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DecryptOutputResponse, DecryptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DecryptOutput, DecryptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DecryptInput, DecryptOutputResponse>(xAmzTarget: "TrentService.Decrypt"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DecryptInput, DecryptOutputResponse>(xmlName: "DecryptRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DecryptInput, DecryptOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DecryptInput, DecryptOutput>(xAmzTarget: "TrentService.Decrypt"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DecryptInput, DecryptOutput>(xmlName: "DecryptRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DecryptInput, DecryptOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DecryptOutputResponse, DecryptOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DecryptOutput, DecryptOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecryptOutputResponse, DecryptOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecryptOutputResponse, DecryptOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecryptOutputResponse, DecryptOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecryptOutput, DecryptOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecryptOutput, DecryptOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecryptOutput, DecryptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -611,7 +611,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DeleteAliasInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,7 +624,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutputResponse
+    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -640,21 +640,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>(id: "deleteAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteAliasInput, DeleteAliasOutput, DeleteAliasOutputError>(id: "deleteAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutput, DeleteAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAliasOutput, DeleteAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>(xAmzTarget: "TrentService.DeleteAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>(xmlName: "DeleteAliasRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAliasInput, DeleteAliasOutput>(xAmzTarget: "TrentService.DeleteAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAliasInput, DeleteAliasOutput>(xmlName: "DeleteAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAliasInput, DeleteAliasOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAliasOutputResponse, DeleteAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAliasOutput, DeleteAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAliasOutput, DeleteAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAliasOutput, DeleteAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAliasOutput, DeleteAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -673,7 +673,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DeleteCustomKeyStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCustomKeyStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCustomKeyStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -692,7 +692,7 @@ extension KMSClient: KMSClientProtocol {
     /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func deleteCustomKeyStore(input: DeleteCustomKeyStoreInput) async throws -> DeleteCustomKeyStoreOutputResponse
+    public func deleteCustomKeyStore(input: DeleteCustomKeyStoreInput) async throws -> DeleteCustomKeyStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -708,21 +708,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(id: "deleteCustomKeyStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput, DeleteCustomKeyStoreOutputError>(id: "deleteCustomKeyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput, DeleteCustomKeyStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCustomKeyStoreOutput, DeleteCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse>(xAmzTarget: "TrentService.DeleteCustomKeyStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse>(xmlName: "DeleteCustomKeyStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput>(xAmzTarget: "TrentService.DeleteCustomKeyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput>(xmlName: "DeleteCustomKeyStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCustomKeyStoreOutput, DeleteCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomKeyStoreOutput, DeleteCustomKeyStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomKeyStoreOutput, DeleteCustomKeyStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomKeyStoreOutput, DeleteCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -735,7 +735,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DeleteImportedKeyMaterialInput : [no documentation found]
     ///
-    /// - Returns: `DeleteImportedKeyMaterialOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteImportedKeyMaterialOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -750,7 +750,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func deleteImportedKeyMaterial(input: DeleteImportedKeyMaterialInput) async throws -> DeleteImportedKeyMaterialOutputResponse
+    public func deleteImportedKeyMaterial(input: DeleteImportedKeyMaterialInput) async throws -> DeleteImportedKeyMaterialOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -766,21 +766,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(id: "deleteImportedKeyMaterial")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput, DeleteImportedKeyMaterialOutputError>(id: "deleteImportedKeyMaterial")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput, DeleteImportedKeyMaterialOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteImportedKeyMaterialOutput, DeleteImportedKeyMaterialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse>(xAmzTarget: "TrentService.DeleteImportedKeyMaterial"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse>(xmlName: "DeleteImportedKeyMaterialRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput>(xAmzTarget: "TrentService.DeleteImportedKeyMaterial"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput>(xmlName: "DeleteImportedKeyMaterialRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteImportedKeyMaterialOutput, DeleteImportedKeyMaterialOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImportedKeyMaterialOutput, DeleteImportedKeyMaterialOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImportedKeyMaterialOutput, DeleteImportedKeyMaterialOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteImportedKeyMaterialOutput, DeleteImportedKeyMaterialOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -799,7 +799,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DescribeCustomKeyStoresInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCustomKeyStoresOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCustomKeyStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,7 +807,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func describeCustomKeyStores(input: DescribeCustomKeyStoresInput) async throws -> DescribeCustomKeyStoresOutputResponse
+    public func describeCustomKeyStores(input: DescribeCustomKeyStoresInput) async throws -> DescribeCustomKeyStoresOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -823,21 +823,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(id: "describeCustomKeyStores")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput, DescribeCustomKeyStoresOutputError>(id: "describeCustomKeyStores")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput, DescribeCustomKeyStoresOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCustomKeyStoresOutput, DescribeCustomKeyStoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse>(xAmzTarget: "TrentService.DescribeCustomKeyStores"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse>(xmlName: "DescribeCustomKeyStoresRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>(xAmzTarget: "TrentService.DescribeCustomKeyStores"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>(xmlName: "DescribeCustomKeyStoresRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCustomKeyStoresOutput, DescribeCustomKeyStoresOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomKeyStoresOutput, DescribeCustomKeyStoresOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomKeyStoresOutput, DescribeCustomKeyStoresOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomKeyStoresOutput, DescribeCustomKeyStoresOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -871,7 +871,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DescribeKeyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -880,7 +880,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutputResponse
+    public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -896,21 +896,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeKeyInput, DescribeKeyOutputResponse, DescribeKeyOutputError>(id: "describeKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeyInput, DescribeKeyOutputResponse, DescribeKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeKeyInput, DescribeKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeKeyInput, DescribeKeyOutput, DescribeKeyOutputError>(id: "describeKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeyInput, DescribeKeyOutput, DescribeKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeKeyInput, DescribeKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeKeyOutputResponse, DescribeKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeKeyOutput, DescribeKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeKeyInput, DescribeKeyOutputResponse>(xAmzTarget: "TrentService.DescribeKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeKeyInput, DescribeKeyOutputResponse>(xmlName: "DescribeKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeKeyInput, DescribeKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeKeyInput, DescribeKeyOutput>(xAmzTarget: "TrentService.DescribeKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeKeyInput, DescribeKeyOutput>(xmlName: "DescribeKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeKeyInput, DescribeKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeKeyOutputResponse, DescribeKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeKeyOutput, DescribeKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeKeyOutputResponse, DescribeKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeyOutputResponse, DescribeKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeyOutputResponse, DescribeKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeKeyOutput, DescribeKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeyOutput, DescribeKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeyOutput, DescribeKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -919,7 +919,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DisableKeyInput : [no documentation found]
     ///
-    /// - Returns: `DisableKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DisableKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,7 +933,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func disableKey(input: DisableKeyInput) async throws -> DisableKeyOutputResponse
+    public func disableKey(input: DisableKeyInput) async throws -> DisableKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -949,21 +949,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableKeyInput, DisableKeyOutputResponse, DisableKeyOutputError>(id: "disableKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableKeyInput, DisableKeyOutputResponse, DisableKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableKeyInput, DisableKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableKeyInput, DisableKeyOutput, DisableKeyOutputError>(id: "disableKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableKeyInput, DisableKeyOutput, DisableKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableKeyInput, DisableKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableKeyOutputResponse, DisableKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableKeyOutput, DisableKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableKeyInput, DisableKeyOutputResponse>(xAmzTarget: "TrentService.DisableKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableKeyInput, DisableKeyOutputResponse>(xmlName: "DisableKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableKeyInput, DisableKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableKeyInput, DisableKeyOutput>(xAmzTarget: "TrentService.DisableKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableKeyInput, DisableKeyOutput>(xmlName: "DisableKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableKeyInput, DisableKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableKeyOutputResponse, DisableKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableKeyOutput, DisableKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableKeyOutputResponse, DisableKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableKeyOutputResponse, DisableKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableKeyOutputResponse, DisableKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableKeyOutput, DisableKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableKeyOutput, DisableKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableKeyOutput, DisableKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -976,7 +976,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DisableKeyRotationInput : [no documentation found]
     ///
-    /// - Returns: `DisableKeyRotationOutputResponse` : [no documentation found]
+    /// - Returns: `DisableKeyRotationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -992,7 +992,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func disableKeyRotation(input: DisableKeyRotationInput) async throws -> DisableKeyRotationOutputResponse
+    public func disableKeyRotation(input: DisableKeyRotationInput) async throws -> DisableKeyRotationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1008,21 +1008,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableKeyRotationInput, DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(id: "disableKeyRotation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableKeyRotationInput, DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableKeyRotationInput, DisableKeyRotationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableKeyRotationInput, DisableKeyRotationOutput, DisableKeyRotationOutputError>(id: "disableKeyRotation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableKeyRotationInput, DisableKeyRotationOutput, DisableKeyRotationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableKeyRotationInput, DisableKeyRotationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableKeyRotationOutput, DisableKeyRotationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableKeyRotationInput, DisableKeyRotationOutputResponse>(xAmzTarget: "TrentService.DisableKeyRotation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableKeyRotationInput, DisableKeyRotationOutputResponse>(xmlName: "DisableKeyRotationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableKeyRotationInput, DisableKeyRotationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableKeyRotationInput, DisableKeyRotationOutput>(xAmzTarget: "TrentService.DisableKeyRotation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableKeyRotationInput, DisableKeyRotationOutput>(xmlName: "DisableKeyRotationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableKeyRotationInput, DisableKeyRotationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableKeyRotationOutput, DisableKeyRotationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableKeyRotationOutput, DisableKeyRotationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableKeyRotationOutput, DisableKeyRotationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableKeyRotationOutput, DisableKeyRotationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1041,7 +1041,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter DisconnectCustomKeyStoreInput : [no documentation found]
     ///
-    /// - Returns: `DisconnectCustomKeyStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DisconnectCustomKeyStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1059,7 +1059,7 @@ extension KMSClient: KMSClientProtocol {
     /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func disconnectCustomKeyStore(input: DisconnectCustomKeyStoreInput) async throws -> DisconnectCustomKeyStoreOutputResponse
+    public func disconnectCustomKeyStore(input: DisconnectCustomKeyStoreInput) async throws -> DisconnectCustomKeyStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1075,21 +1075,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(id: "disconnectCustomKeyStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput, DisconnectCustomKeyStoreOutputError>(id: "disconnectCustomKeyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput, DisconnectCustomKeyStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisconnectCustomKeyStoreOutput, DisconnectCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse>(xAmzTarget: "TrentService.DisconnectCustomKeyStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse>(xmlName: "DisconnectCustomKeyStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput>(xAmzTarget: "TrentService.DisconnectCustomKeyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput>(xmlName: "DisconnectCustomKeyStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisconnectCustomKeyStoreOutput, DisconnectCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisconnectCustomKeyStoreOutput, DisconnectCustomKeyStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisconnectCustomKeyStoreOutput, DisconnectCustomKeyStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisconnectCustomKeyStoreOutput, DisconnectCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1098,7 +1098,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter EnableKeyInput : [no documentation found]
     ///
-    /// - Returns: `EnableKeyOutputResponse` : [no documentation found]
+    /// - Returns: `EnableKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,7 +1113,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func enableKey(input: EnableKeyInput) async throws -> EnableKeyOutputResponse
+    public func enableKey(input: EnableKeyInput) async throws -> EnableKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1129,21 +1129,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableKeyInput, EnableKeyOutputResponse, EnableKeyOutputError>(id: "enableKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableKeyInput, EnableKeyOutputResponse, EnableKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableKeyInput, EnableKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableKeyInput, EnableKeyOutput, EnableKeyOutputError>(id: "enableKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableKeyInput, EnableKeyOutput, EnableKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableKeyInput, EnableKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableKeyOutputResponse, EnableKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableKeyOutput, EnableKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableKeyInput, EnableKeyOutputResponse>(xAmzTarget: "TrentService.EnableKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableKeyInput, EnableKeyOutputResponse>(xmlName: "EnableKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableKeyInput, EnableKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableKeyInput, EnableKeyOutput>(xAmzTarget: "TrentService.EnableKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableKeyInput, EnableKeyOutput>(xmlName: "EnableKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableKeyInput, EnableKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableKeyOutputResponse, EnableKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableKeyOutput, EnableKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableKeyOutputResponse, EnableKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableKeyOutputResponse, EnableKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableKeyOutputResponse, EnableKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableKeyOutput, EnableKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableKeyOutput, EnableKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableKeyOutput, EnableKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1156,7 +1156,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter EnableKeyRotationInput : [no documentation found]
     ///
-    /// - Returns: `EnableKeyRotationOutputResponse` : [no documentation found]
+    /// - Returns: `EnableKeyRotationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,7 +1172,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func enableKeyRotation(input: EnableKeyRotationInput) async throws -> EnableKeyRotationOutputResponse
+    public func enableKeyRotation(input: EnableKeyRotationInput) async throws -> EnableKeyRotationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1188,21 +1188,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableKeyRotationInput, EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(id: "enableKeyRotation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableKeyRotationInput, EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableKeyRotationInput, EnableKeyRotationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableKeyRotationInput, EnableKeyRotationOutput, EnableKeyRotationOutputError>(id: "enableKeyRotation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableKeyRotationInput, EnableKeyRotationOutput, EnableKeyRotationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableKeyRotationInput, EnableKeyRotationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableKeyRotationOutput, EnableKeyRotationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableKeyRotationInput, EnableKeyRotationOutputResponse>(xAmzTarget: "TrentService.EnableKeyRotation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableKeyRotationInput, EnableKeyRotationOutputResponse>(xmlName: "EnableKeyRotationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableKeyRotationInput, EnableKeyRotationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableKeyRotationInput, EnableKeyRotationOutput>(xAmzTarget: "TrentService.EnableKeyRotation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableKeyRotationInput, EnableKeyRotationOutput>(xmlName: "EnableKeyRotationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableKeyRotationInput, EnableKeyRotationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableKeyRotationOutput, EnableKeyRotationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableKeyRotationOutput, EnableKeyRotationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableKeyRotationOutput, EnableKeyRotationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableKeyRotationOutput, EnableKeyRotationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1256,7 +1256,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter EncryptInput : [no documentation found]
     ///
-    /// - Returns: `EncryptOutputResponse` : [no documentation found]
+    /// - Returns: `EncryptOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,7 +1281,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func encrypt(input: EncryptInput) async throws -> EncryptOutputResponse
+    public func encrypt(input: EncryptInput) async throws -> EncryptOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1297,21 +1297,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EncryptInput, EncryptOutputResponse, EncryptOutputError>(id: "encrypt")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EncryptInput, EncryptOutputResponse, EncryptOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EncryptInput, EncryptOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EncryptInput, EncryptOutput, EncryptOutputError>(id: "encrypt")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EncryptInput, EncryptOutput, EncryptOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EncryptInput, EncryptOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EncryptOutputResponse, EncryptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EncryptOutput, EncryptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EncryptInput, EncryptOutputResponse>(xAmzTarget: "TrentService.Encrypt"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EncryptInput, EncryptOutputResponse>(xmlName: "EncryptRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EncryptInput, EncryptOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EncryptInput, EncryptOutput>(xAmzTarget: "TrentService.Encrypt"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EncryptInput, EncryptOutput>(xmlName: "EncryptRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EncryptInput, EncryptOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EncryptOutputResponse, EncryptOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EncryptOutput, EncryptOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EncryptOutputResponse, EncryptOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EncryptOutputResponse, EncryptOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EncryptOutputResponse, EncryptOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EncryptOutput, EncryptOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EncryptOutput, EncryptOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EncryptOutput, EncryptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1346,7 +1346,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GenerateDataKeyInput : [no documentation found]
     ///
-    /// - Returns: `GenerateDataKeyOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateDataKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1371,7 +1371,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func generateDataKey(input: GenerateDataKeyInput) async throws -> GenerateDataKeyOutputResponse
+    public func generateDataKey(input: GenerateDataKeyInput) async throws -> GenerateDataKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1387,21 +1387,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateDataKeyInput, GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(id: "generateDataKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyInput, GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyInput, GenerateDataKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GenerateDataKeyInput, GenerateDataKeyOutput, GenerateDataKeyOutputError>(id: "generateDataKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyInput, GenerateDataKeyOutput, GenerateDataKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyInput, GenerateDataKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyOutput, GenerateDataKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyInput, GenerateDataKeyOutputResponse>(xAmzTarget: "TrentService.GenerateDataKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyInput, GenerateDataKeyOutputResponse>(xmlName: "GenerateDataKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyInput, GenerateDataKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyInput, GenerateDataKeyOutput>(xAmzTarget: "TrentService.GenerateDataKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyInput, GenerateDataKeyOutput>(xmlName: "GenerateDataKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyInput, GenerateDataKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyOutput, GenerateDataKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyOutput, GenerateDataKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyOutput, GenerateDataKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyOutput, GenerateDataKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1420,7 +1420,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GenerateDataKeyPairInput : [no documentation found]
     ///
-    /// - Returns: `GenerateDataKeyPairOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateDataKeyPairOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,7 +1446,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func generateDataKeyPair(input: GenerateDataKeyPairInput) async throws -> GenerateDataKeyPairOutputResponse
+    public func generateDataKeyPair(input: GenerateDataKeyPairInput) async throws -> GenerateDataKeyPairOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1462,21 +1462,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(id: "generateDataKeyPair")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GenerateDataKeyPairInput, GenerateDataKeyPairOutput, GenerateDataKeyPairOutputError>(id: "generateDataKeyPair")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutput, GenerateDataKeyPairOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyPairOutput, GenerateDataKeyPairOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse>(xAmzTarget: "TrentService.GenerateDataKeyPair"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse>(xmlName: "GenerateDataKeyPairRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutput>(xAmzTarget: "TrentService.GenerateDataKeyPair"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutput>(xmlName: "GenerateDataKeyPairRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyPairOutput, GenerateDataKeyPairOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyPairOutput, GenerateDataKeyPairOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairOutput, GenerateDataKeyPairOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyPairOutput, GenerateDataKeyPairOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1495,7 +1495,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GenerateDataKeyPairWithoutPlaintextInput : [no documentation found]
     ///
-    /// - Returns: `GenerateDataKeyPairWithoutPlaintextOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateDataKeyPairWithoutPlaintextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1521,7 +1521,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func generateDataKeyPairWithoutPlaintext(input: GenerateDataKeyPairWithoutPlaintextInput) async throws -> GenerateDataKeyPairWithoutPlaintextOutputResponse
+    public func generateDataKeyPairWithoutPlaintext(input: GenerateDataKeyPairWithoutPlaintextInput) async throws -> GenerateDataKeyPairWithoutPlaintextOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1537,21 +1537,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(id: "generateDataKeyPairWithoutPlaintext")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput, GenerateDataKeyPairWithoutPlaintextOutputError>(id: "generateDataKeyPairWithoutPlaintext")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput, GenerateDataKeyPairWithoutPlaintextOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyPairWithoutPlaintextOutput, GenerateDataKeyPairWithoutPlaintextOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse>(xAmzTarget: "TrentService.GenerateDataKeyPairWithoutPlaintext"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse>(xmlName: "GenerateDataKeyPairWithoutPlaintextRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput>(xAmzTarget: "TrentService.GenerateDataKeyPairWithoutPlaintext"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput>(xmlName: "GenerateDataKeyPairWithoutPlaintextRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyPairWithoutPlaintextOutput, GenerateDataKeyPairWithoutPlaintextOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyPairWithoutPlaintextOutput, GenerateDataKeyPairWithoutPlaintextOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairWithoutPlaintextOutput, GenerateDataKeyPairWithoutPlaintextOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyPairWithoutPlaintextOutput, GenerateDataKeyPairWithoutPlaintextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1570,7 +1570,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GenerateDataKeyWithoutPlaintextInput : [no documentation found]
     ///
-    /// - Returns: `GenerateDataKeyWithoutPlaintextOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateDataKeyWithoutPlaintextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1595,7 +1595,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func generateDataKeyWithoutPlaintext(input: GenerateDataKeyWithoutPlaintextInput) async throws -> GenerateDataKeyWithoutPlaintextOutputResponse
+    public func generateDataKeyWithoutPlaintext(input: GenerateDataKeyWithoutPlaintextInput) async throws -> GenerateDataKeyWithoutPlaintextOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1611,21 +1611,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(id: "generateDataKeyWithoutPlaintext")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput, GenerateDataKeyWithoutPlaintextOutputError>(id: "generateDataKeyWithoutPlaintext")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput, GenerateDataKeyWithoutPlaintextOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateDataKeyWithoutPlaintextOutput, GenerateDataKeyWithoutPlaintextOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse>(xAmzTarget: "TrentService.GenerateDataKeyWithoutPlaintext"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse>(xmlName: "GenerateDataKeyWithoutPlaintextRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput>(xAmzTarget: "TrentService.GenerateDataKeyWithoutPlaintext"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput>(xmlName: "GenerateDataKeyWithoutPlaintextRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateDataKeyWithoutPlaintextOutput, GenerateDataKeyWithoutPlaintextOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyWithoutPlaintextOutput, GenerateDataKeyWithoutPlaintextOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyWithoutPlaintextOutput, GenerateDataKeyWithoutPlaintextOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyWithoutPlaintextOutput, GenerateDataKeyWithoutPlaintextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1634,7 +1634,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GenerateMacInput : [no documentation found]
     ///
-    /// - Returns: `GenerateMacOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateMacOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,7 +1658,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutputResponse
+    public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1674,21 +1674,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateMacInput, GenerateMacOutputResponse, GenerateMacOutputError>(id: "generateMac")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateMacInput, GenerateMacOutputResponse, GenerateMacOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateMacInput, GenerateMacOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GenerateMacInput, GenerateMacOutput, GenerateMacOutputError>(id: "generateMac")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateMacInput, GenerateMacOutput, GenerateMacOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateMacInput, GenerateMacOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateMacOutputResponse, GenerateMacOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateMacOutput, GenerateMacOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateMacInput, GenerateMacOutputResponse>(xAmzTarget: "TrentService.GenerateMac"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateMacInput, GenerateMacOutputResponse>(xmlName: "GenerateMacRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateMacInput, GenerateMacOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateMacInput, GenerateMacOutput>(xAmzTarget: "TrentService.GenerateMac"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateMacInput, GenerateMacOutput>(xmlName: "GenerateMacRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateMacInput, GenerateMacOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateMacOutputResponse, GenerateMacOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateMacOutput, GenerateMacOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateMacOutputResponse, GenerateMacOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateMacOutputResponse, GenerateMacOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateMacOutputResponse, GenerateMacOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateMacOutput, GenerateMacOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateMacOutput, GenerateMacOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateMacOutput, GenerateMacOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1697,7 +1697,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GenerateRandomInput : [no documentation found]
     ///
-    /// - Returns: `GenerateRandomOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateRandomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,7 +1717,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func generateRandom(input: GenerateRandomInput) async throws -> GenerateRandomOutputResponse
+    public func generateRandom(input: GenerateRandomInput) async throws -> GenerateRandomOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1733,21 +1733,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateRandomInput, GenerateRandomOutputResponse, GenerateRandomOutputError>(id: "generateRandom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateRandomInput, GenerateRandomOutputResponse, GenerateRandomOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateRandomInput, GenerateRandomOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GenerateRandomInput, GenerateRandomOutput, GenerateRandomOutputError>(id: "generateRandom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateRandomInput, GenerateRandomOutput, GenerateRandomOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateRandomInput, GenerateRandomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateRandomOutputResponse, GenerateRandomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateRandomOutput, GenerateRandomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateRandomInput, GenerateRandomOutputResponse>(xAmzTarget: "TrentService.GenerateRandom"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateRandomInput, GenerateRandomOutputResponse>(xmlName: "GenerateRandomRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateRandomInput, GenerateRandomOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateRandomInput, GenerateRandomOutput>(xAmzTarget: "TrentService.GenerateRandom"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateRandomInput, GenerateRandomOutput>(xmlName: "GenerateRandomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateRandomInput, GenerateRandomOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateRandomOutputResponse, GenerateRandomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateRandomOutput, GenerateRandomOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateRandomOutputResponse, GenerateRandomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateRandomOutputResponse, GenerateRandomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateRandomOutputResponse, GenerateRandomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateRandomOutput, GenerateRandomOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateRandomOutput, GenerateRandomOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateRandomOutput, GenerateRandomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1756,7 +1756,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GetKeyPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetKeyPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetKeyPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1770,7 +1770,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func getKeyPolicy(input: GetKeyPolicyInput) async throws -> GetKeyPolicyOutputResponse
+    public func getKeyPolicy(input: GetKeyPolicyInput) async throws -> GetKeyPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1786,21 +1786,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetKeyPolicyInput, GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(id: "getKeyPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyPolicyInput, GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyPolicyInput, GetKeyPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetKeyPolicyInput, GetKeyPolicyOutput, GetKeyPolicyOutputError>(id: "getKeyPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyPolicyInput, GetKeyPolicyOutput, GetKeyPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyPolicyInput, GetKeyPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyPolicyOutput, GetKeyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetKeyPolicyInput, GetKeyPolicyOutputResponse>(xAmzTarget: "TrentService.GetKeyPolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetKeyPolicyInput, GetKeyPolicyOutputResponse>(xmlName: "GetKeyPolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetKeyPolicyInput, GetKeyPolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetKeyPolicyInput, GetKeyPolicyOutput>(xAmzTarget: "TrentService.GetKeyPolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetKeyPolicyInput, GetKeyPolicyOutput>(xmlName: "GetKeyPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetKeyPolicyInput, GetKeyPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyPolicyOutput, GetKeyPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyPolicyOutput, GetKeyPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyPolicyOutput, GetKeyPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyPolicyOutput, GetKeyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1820,7 +1820,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GetKeyRotationStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetKeyRotationStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetKeyRotationStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1835,7 +1835,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func getKeyRotationStatus(input: GetKeyRotationStatusInput) async throws -> GetKeyRotationStatusOutputResponse
+    public func getKeyRotationStatus(input: GetKeyRotationStatusInput) async throws -> GetKeyRotationStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1851,21 +1851,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(id: "getKeyRotationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetKeyRotationStatusInput, GetKeyRotationStatusOutput, GetKeyRotationStatusOutputError>(id: "getKeyRotationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutput, GetKeyRotationStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyRotationStatusOutput, GetKeyRotationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse>(xAmzTarget: "TrentService.GetKeyRotationStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse>(xmlName: "GetKeyRotationStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutput>(xAmzTarget: "TrentService.GetKeyRotationStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutput>(xmlName: "GetKeyRotationStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyRotationStatusOutput, GetKeyRotationStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyRotationStatusOutput, GetKeyRotationStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyRotationStatusOutput, GetKeyRotationStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyRotationStatusOutput, GetKeyRotationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1894,7 +1894,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GetParametersForImportInput : [no documentation found]
     ///
-    /// - Returns: `GetParametersForImportOutputResponse` : [no documentation found]
+    /// - Returns: `GetParametersForImportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,7 +1909,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutputResponse
+    public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1925,21 +1925,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetParametersForImportInput, GetParametersForImportOutputResponse, GetParametersForImportOutputError>(id: "getParametersForImport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParametersForImportInput, GetParametersForImportOutputResponse, GetParametersForImportOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParametersForImportInput, GetParametersForImportOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetParametersForImportInput, GetParametersForImportOutput, GetParametersForImportOutputError>(id: "getParametersForImport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParametersForImportInput, GetParametersForImportOutput, GetParametersForImportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParametersForImportInput, GetParametersForImportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetParametersForImportOutputResponse, GetParametersForImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetParametersForImportOutput, GetParametersForImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetParametersForImportInput, GetParametersForImportOutputResponse>(xAmzTarget: "TrentService.GetParametersForImport"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetParametersForImportInput, GetParametersForImportOutputResponse>(xmlName: "GetParametersForImportRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetParametersForImportInput, GetParametersForImportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(xAmzTarget: "TrentService.GetParametersForImport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(xmlName: "GetParametersForImportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetParametersForImportOutputResponse, GetParametersForImportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetParametersForImportOutput, GetParametersForImportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParametersForImportOutputResponse, GetParametersForImportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParametersForImportOutputResponse, GetParametersForImportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParametersForImportOutputResponse, GetParametersForImportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParametersForImportOutput, GetParametersForImportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParametersForImportOutput, GetParametersForImportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParametersForImportOutput, GetParametersForImportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1957,7 +1957,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter GetPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `GetPublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1983,7 +1983,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutputResponse
+    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1999,21 +1999,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPublicKeyInput, GetPublicKeyOutputResponse, GetPublicKeyOutputError>(id: "getPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse, GetPublicKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPublicKeyInput, GetPublicKeyOutput, GetPublicKeyOutputError>(id: "getPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicKeyInput, GetPublicKeyOutput, GetPublicKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicKeyInput, GetPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicKeyOutput, GetPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse>(xAmzTarget: "TrentService.GetPublicKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse>(xmlName: "GetPublicKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(xAmzTarget: "TrentService.GetPublicKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(xmlName: "GetPublicKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicKeyOutputResponse, GetPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicKeyOutput, GetPublicKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicKeyOutput, GetPublicKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicKeyOutput, GetPublicKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicKeyOutput, GetPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2048,7 +2048,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ImportKeyMaterialInput : [no documentation found]
     ///
-    /// - Returns: `ImportKeyMaterialOutputResponse` : [no documentation found]
+    /// - Returns: `ImportKeyMaterialOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2067,7 +2067,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func importKeyMaterial(input: ImportKeyMaterialInput) async throws -> ImportKeyMaterialOutputResponse
+    public func importKeyMaterial(input: ImportKeyMaterialInput) async throws -> ImportKeyMaterialOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2083,21 +2083,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(id: "importKeyMaterial")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportKeyMaterialInput, ImportKeyMaterialOutput, ImportKeyMaterialOutputError>(id: "importKeyMaterial")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutput, ImportKeyMaterialOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportKeyMaterialOutput, ImportKeyMaterialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse>(xAmzTarget: "TrentService.ImportKeyMaterial"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse>(xmlName: "ImportKeyMaterialRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutput>(xAmzTarget: "TrentService.ImportKeyMaterial"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutput>(xmlName: "ImportKeyMaterialRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportKeyMaterialOutput, ImportKeyMaterialOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportKeyMaterialOutput, ImportKeyMaterialOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportKeyMaterialOutput, ImportKeyMaterialOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportKeyMaterialOutput, ImportKeyMaterialOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2112,7 +2112,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ListAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListAliasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2122,7 +2122,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2138,21 +2138,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>(id: "listAliases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutput, ListAliasesOutputError>(id: "listAliases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutput, ListAliasesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAliasesOutput, ListAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAliasesInput, ListAliasesOutputResponse>(xAmzTarget: "TrentService.ListAliases"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAliasesInput, ListAliasesOutputResponse>(xmlName: "ListAliasesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAliasesInput, ListAliasesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAliasesInput, ListAliasesOutput>(xAmzTarget: "TrentService.ListAliases"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAliasesInput, ListAliasesOutput>(xmlName: "ListAliasesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAliasesInput, ListAliasesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAliasesOutputResponse, ListAliasesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAliasesOutput, ListAliasesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutputResponse, ListAliasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutput, ListAliasesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutput, ListAliasesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutput, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2169,7 +2169,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ListGrantsInput : [no documentation found]
     ///
-    /// - Returns: `ListGrantsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGrantsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2185,7 +2185,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listGrants(input: ListGrantsInput) async throws -> ListGrantsOutputResponse
+    public func listGrants(input: ListGrantsInput) async throws -> ListGrantsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2201,21 +2201,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGrantsInput, ListGrantsOutputResponse, ListGrantsOutputError>(id: "listGrants")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGrantsInput, ListGrantsOutputResponse, ListGrantsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGrantsInput, ListGrantsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListGrantsInput, ListGrantsOutput, ListGrantsOutputError>(id: "listGrants")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGrantsInput, ListGrantsOutput, ListGrantsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGrantsInput, ListGrantsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGrantsOutputResponse, ListGrantsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGrantsOutput, ListGrantsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGrantsInput, ListGrantsOutputResponse>(xAmzTarget: "TrentService.ListGrants"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGrantsInput, ListGrantsOutputResponse>(xmlName: "ListGrantsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGrantsInput, ListGrantsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGrantsInput, ListGrantsOutput>(xAmzTarget: "TrentService.ListGrants"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGrantsInput, ListGrantsOutput>(xmlName: "ListGrantsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGrantsInput, ListGrantsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGrantsOutputResponse, ListGrantsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGrantsOutput, ListGrantsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGrantsOutputResponse, ListGrantsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGrantsOutputResponse, ListGrantsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGrantsOutputResponse, ListGrantsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGrantsOutput, ListGrantsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGrantsOutput, ListGrantsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGrantsOutput, ListGrantsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2228,7 +2228,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ListKeyPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListKeyPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListKeyPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2242,7 +2242,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listKeyPolicies(input: ListKeyPoliciesInput) async throws -> ListKeyPoliciesOutputResponse
+    public func listKeyPolicies(input: ListKeyPoliciesInput) async throws -> ListKeyPoliciesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2258,21 +2258,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(id: "listKeyPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListKeyPoliciesInput, ListKeyPoliciesOutput, ListKeyPoliciesOutputError>(id: "listKeyPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutput, ListKeyPoliciesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeyPoliciesOutput, ListKeyPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse>(xAmzTarget: "TrentService.ListKeyPolicies"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse>(xmlName: "ListKeyPoliciesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutput>(xAmzTarget: "TrentService.ListKeyPolicies"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutput>(xmlName: "ListKeyPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeyPoliciesOutput, ListKeyPoliciesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeyPoliciesOutput, ListKeyPoliciesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeyPoliciesOutput, ListKeyPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeyPoliciesOutput, ListKeyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2289,7 +2289,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ListKeysInput : [no documentation found]
     ///
-    /// - Returns: `ListKeysOutputResponse` : [no documentation found]
+    /// - Returns: `ListKeysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2297,7 +2297,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
+    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2313,21 +2313,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListKeysInput, ListKeysOutputResponse, ListKeysOutputError>(id: "listKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeysInput, ListKeysOutputResponse, ListKeysOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeysInput, ListKeysOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListKeysInput, ListKeysOutput, ListKeysOutputError>(id: "listKeys")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeysInput, ListKeysOutput, ListKeysOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeysInput, ListKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeysOutputResponse, ListKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeysOutput, ListKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListKeysInput, ListKeysOutputResponse>(xAmzTarget: "TrentService.ListKeys"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListKeysInput, ListKeysOutputResponse>(xmlName: "ListKeysRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListKeysInput, ListKeysOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListKeysInput, ListKeysOutput>(xAmzTarget: "TrentService.ListKeys"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListKeysInput, ListKeysOutput>(xmlName: "ListKeysRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListKeysInput, ListKeysOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeysOutputResponse, ListKeysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeysOutput, ListKeysOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeysOutputResponse, ListKeysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeysOutputResponse, ListKeysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeysOutputResponse, ListKeysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeysOutput, ListKeysOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeysOutput, ListKeysOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeysOutput, ListKeysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2344,7 +2344,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ListResourceTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListResourceTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourceTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2353,7 +2353,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listResourceTags(input: ListResourceTagsInput) async throws -> ListResourceTagsOutputResponse
+    public func listResourceTags(input: ListResourceTagsInput) async throws -> ListResourceTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2369,21 +2369,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListResourceTagsInput, ListResourceTagsOutputResponse, ListResourceTagsOutputError>(id: "listResourceTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceTagsInput, ListResourceTagsOutputResponse, ListResourceTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceTagsInput, ListResourceTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListResourceTagsInput, ListResourceTagsOutput, ListResourceTagsOutputError>(id: "listResourceTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceTagsInput, ListResourceTagsOutput, ListResourceTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceTagsInput, ListResourceTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceTagsOutputResponse, ListResourceTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceTagsOutput, ListResourceTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourceTagsInput, ListResourceTagsOutputResponse>(xAmzTarget: "TrentService.ListResourceTags"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourceTagsInput, ListResourceTagsOutputResponse>(xmlName: "ListResourceTagsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourceTagsInput, ListResourceTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourceTagsInput, ListResourceTagsOutput>(xAmzTarget: "TrentService.ListResourceTags"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourceTagsInput, ListResourceTagsOutput>(xmlName: "ListResourceTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourceTagsInput, ListResourceTagsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceTagsOutputResponse, ListResourceTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceTagsOutput, ListResourceTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceTagsOutputResponse, ListResourceTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceTagsOutputResponse, ListResourceTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceTagsOutputResponse, ListResourceTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceTagsOutput, ListResourceTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceTagsOutput, ListResourceTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceTagsOutput, ListResourceTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2400,7 +2400,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ListRetirableGrantsInput : [no documentation found]
     ///
-    /// - Returns: `ListRetirableGrantsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRetirableGrantsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2410,7 +2410,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listRetirableGrants(input: ListRetirableGrantsInput) async throws -> ListRetirableGrantsOutputResponse
+    public func listRetirableGrants(input: ListRetirableGrantsInput) async throws -> ListRetirableGrantsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2426,21 +2426,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(id: "listRetirableGrants")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRetirableGrantsInput, ListRetirableGrantsOutput, ListRetirableGrantsOutputError>(id: "listRetirableGrants")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutput, ListRetirableGrantsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRetirableGrantsOutput, ListRetirableGrantsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse>(xAmzTarget: "TrentService.ListRetirableGrants"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse>(xmlName: "ListRetirableGrantsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutput>(xAmzTarget: "TrentService.ListRetirableGrants"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutput>(xmlName: "ListRetirableGrantsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRetirableGrantsOutput, ListRetirableGrantsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRetirableGrantsOutput, ListRetirableGrantsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRetirableGrantsOutput, ListRetirableGrantsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRetirableGrantsOutput, ListRetirableGrantsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2449,7 +2449,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter PutKeyPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutKeyPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutKeyPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2466,7 +2466,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the specified policy is not syntactically or semantically correct.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func putKeyPolicy(input: PutKeyPolicyInput) async throws -> PutKeyPolicyOutputResponse
+    public func putKeyPolicy(input: PutKeyPolicyInput) async throws -> PutKeyPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2482,21 +2482,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutKeyPolicyInput, PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(id: "putKeyPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutKeyPolicyInput, PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutKeyPolicyInput, PutKeyPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutKeyPolicyInput, PutKeyPolicyOutput, PutKeyPolicyOutputError>(id: "putKeyPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutKeyPolicyInput, PutKeyPolicyOutput, PutKeyPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutKeyPolicyInput, PutKeyPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutKeyPolicyOutput, PutKeyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutKeyPolicyInput, PutKeyPolicyOutputResponse>(xAmzTarget: "TrentService.PutKeyPolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutKeyPolicyInput, PutKeyPolicyOutputResponse>(xmlName: "PutKeyPolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutKeyPolicyInput, PutKeyPolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutKeyPolicyInput, PutKeyPolicyOutput>(xAmzTarget: "TrentService.PutKeyPolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutKeyPolicyInput, PutKeyPolicyOutput>(xmlName: "PutKeyPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutKeyPolicyInput, PutKeyPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutKeyPolicyOutput, PutKeyPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutKeyPolicyOutput, PutKeyPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutKeyPolicyOutput, PutKeyPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutKeyPolicyOutput, PutKeyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2529,7 +2529,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ReEncryptInput : [no documentation found]
     ///
-    /// - Returns: `ReEncryptOutputResponse` : [no documentation found]
+    /// - Returns: `ReEncryptOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2556,7 +2556,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func reEncrypt(input: ReEncryptInput) async throws -> ReEncryptOutputResponse
+    public func reEncrypt(input: ReEncryptInput) async throws -> ReEncryptOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2572,21 +2572,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ReEncryptInput, ReEncryptOutputResponse, ReEncryptOutputError>(id: "reEncrypt")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReEncryptInput, ReEncryptOutputResponse, ReEncryptOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReEncryptInput, ReEncryptOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ReEncryptInput, ReEncryptOutput, ReEncryptOutputError>(id: "reEncrypt")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReEncryptInput, ReEncryptOutput, ReEncryptOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReEncryptInput, ReEncryptOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReEncryptOutputResponse, ReEncryptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReEncryptOutput, ReEncryptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ReEncryptInput, ReEncryptOutputResponse>(xAmzTarget: "TrentService.ReEncrypt"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReEncryptInput, ReEncryptOutputResponse>(xmlName: "ReEncryptRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReEncryptInput, ReEncryptOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ReEncryptInput, ReEncryptOutput>(xAmzTarget: "TrentService.ReEncrypt"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReEncryptInput, ReEncryptOutput>(xmlName: "ReEncryptRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReEncryptInput, ReEncryptOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReEncryptOutputResponse, ReEncryptOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReEncryptOutput, ReEncryptOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReEncryptOutputResponse, ReEncryptOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReEncryptOutputResponse, ReEncryptOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReEncryptOutputResponse, ReEncryptOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReEncryptOutput, ReEncryptOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReEncryptOutput, ReEncryptOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReEncryptOutput, ReEncryptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2608,7 +2608,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ReplicateKeyInput : [no documentation found]
     ///
-    /// - Returns: `ReplicateKeyOutputResponse` : [no documentation found]
+    /// - Returns: `ReplicateKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2627,7 +2627,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `TagException` : The request was rejected because one or more tags are not valid.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func replicateKey(input: ReplicateKeyInput) async throws -> ReplicateKeyOutputResponse
+    public func replicateKey(input: ReplicateKeyInput) async throws -> ReplicateKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2643,21 +2643,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ReplicateKeyInput, ReplicateKeyOutputResponse, ReplicateKeyOutputError>(id: "replicateKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReplicateKeyInput, ReplicateKeyOutputResponse, ReplicateKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReplicateKeyInput, ReplicateKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ReplicateKeyInput, ReplicateKeyOutput, ReplicateKeyOutputError>(id: "replicateKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReplicateKeyInput, ReplicateKeyOutput, ReplicateKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReplicateKeyInput, ReplicateKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReplicateKeyOutputResponse, ReplicateKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReplicateKeyOutput, ReplicateKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ReplicateKeyInput, ReplicateKeyOutputResponse>(xAmzTarget: "TrentService.ReplicateKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReplicateKeyInput, ReplicateKeyOutputResponse>(xmlName: "ReplicateKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReplicateKeyInput, ReplicateKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ReplicateKeyInput, ReplicateKeyOutput>(xAmzTarget: "TrentService.ReplicateKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReplicateKeyInput, ReplicateKeyOutput>(xmlName: "ReplicateKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReplicateKeyInput, ReplicateKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReplicateKeyOutputResponse, ReplicateKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReplicateKeyOutput, ReplicateKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReplicateKeyOutputResponse, ReplicateKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReplicateKeyOutputResponse, ReplicateKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReplicateKeyOutputResponse, ReplicateKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReplicateKeyOutput, ReplicateKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReplicateKeyOutput, ReplicateKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReplicateKeyOutput, ReplicateKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2674,7 +2674,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter RetireGrantInput : [no documentation found]
     ///
-    /// - Returns: `RetireGrantOutputResponse` : [no documentation found]
+    /// - Returns: `RetireGrantOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2691,7 +2691,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func retireGrant(input: RetireGrantInput) async throws -> RetireGrantOutputResponse
+    public func retireGrant(input: RetireGrantInput) async throws -> RetireGrantOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2707,21 +2707,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RetireGrantInput, RetireGrantOutputResponse, RetireGrantOutputError>(id: "retireGrant")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetireGrantInput, RetireGrantOutputResponse, RetireGrantOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetireGrantInput, RetireGrantOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RetireGrantInput, RetireGrantOutput, RetireGrantOutputError>(id: "retireGrant")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetireGrantInput, RetireGrantOutput, RetireGrantOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetireGrantInput, RetireGrantOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RetireGrantOutputResponse, RetireGrantOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RetireGrantOutput, RetireGrantOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetireGrantInput, RetireGrantOutputResponse>(xAmzTarget: "TrentService.RetireGrant"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RetireGrantInput, RetireGrantOutputResponse>(xmlName: "RetireGrantRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RetireGrantInput, RetireGrantOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetireGrantInput, RetireGrantOutput>(xAmzTarget: "TrentService.RetireGrant"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RetireGrantInput, RetireGrantOutput>(xmlName: "RetireGrantRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RetireGrantInput, RetireGrantOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetireGrantOutputResponse, RetireGrantOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetireGrantOutput, RetireGrantOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetireGrantOutputResponse, RetireGrantOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetireGrantOutputResponse, RetireGrantOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetireGrantOutputResponse, RetireGrantOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetireGrantOutput, RetireGrantOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetireGrantOutput, RetireGrantOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetireGrantOutput, RetireGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2738,7 +2738,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter RevokeGrantInput : [no documentation found]
     ///
-    /// - Returns: `RevokeGrantOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeGrantOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2754,7 +2754,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func revokeGrant(input: RevokeGrantInput) async throws -> RevokeGrantOutputResponse
+    public func revokeGrant(input: RevokeGrantInput) async throws -> RevokeGrantOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2770,21 +2770,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RevokeGrantInput, RevokeGrantOutputResponse, RevokeGrantOutputError>(id: "revokeGrant")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeGrantInput, RevokeGrantOutputResponse, RevokeGrantOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeGrantInput, RevokeGrantOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RevokeGrantInput, RevokeGrantOutput, RevokeGrantOutputError>(id: "revokeGrant")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeGrantInput, RevokeGrantOutput, RevokeGrantOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeGrantInput, RevokeGrantOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeGrantOutputResponse, RevokeGrantOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeGrantOutput, RevokeGrantOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RevokeGrantInput, RevokeGrantOutputResponse>(xAmzTarget: "TrentService.RevokeGrant"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeGrantInput, RevokeGrantOutputResponse>(xmlName: "RevokeGrantRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeGrantInput, RevokeGrantOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RevokeGrantInput, RevokeGrantOutput>(xAmzTarget: "TrentService.RevokeGrant"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RevokeGrantInput, RevokeGrantOutput>(xmlName: "RevokeGrantRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RevokeGrantInput, RevokeGrantOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeGrantOutputResponse, RevokeGrantOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RevokeGrantOutput, RevokeGrantOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeGrantOutputResponse, RevokeGrantOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeGrantOutputResponse, RevokeGrantOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeGrantOutputResponse, RevokeGrantOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeGrantOutput, RevokeGrantOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeGrantOutput, RevokeGrantOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeGrantOutput, RevokeGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2797,7 +2797,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter ScheduleKeyDeletionInput : [no documentation found]
     ///
-    /// - Returns: `ScheduleKeyDeletionOutputResponse` : [no documentation found]
+    /// - Returns: `ScheduleKeyDeletionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2811,7 +2811,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func scheduleKeyDeletion(input: ScheduleKeyDeletionInput) async throws -> ScheduleKeyDeletionOutputResponse
+    public func scheduleKeyDeletion(input: ScheduleKeyDeletionInput) async throws -> ScheduleKeyDeletionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2827,21 +2827,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(id: "scheduleKeyDeletion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput, ScheduleKeyDeletionOutputError>(id: "scheduleKeyDeletion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput, ScheduleKeyDeletionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ScheduleKeyDeletionOutput, ScheduleKeyDeletionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse>(xAmzTarget: "TrentService.ScheduleKeyDeletion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse>(xmlName: "ScheduleKeyDeletionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput>(xAmzTarget: "TrentService.ScheduleKeyDeletion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput>(xmlName: "ScheduleKeyDeletionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ScheduleKeyDeletionOutput, ScheduleKeyDeletionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScheduleKeyDeletionOutput, ScheduleKeyDeletionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScheduleKeyDeletionOutput, ScheduleKeyDeletionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ScheduleKeyDeletionOutput, ScheduleKeyDeletionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2859,7 +2859,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter SignInput : [no documentation found]
     ///
-    /// - Returns: `SignOutputResponse` : [no documentation found]
+    /// - Returns: `SignOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2884,7 +2884,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func sign(input: SignInput) async throws -> SignOutputResponse
+    public func sign(input: SignInput) async throws -> SignOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2900,21 +2900,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SignInput, SignOutputResponse, SignOutputError>(id: "sign")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignInput, SignOutputResponse, SignOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignInput, SignOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SignInput, SignOutput, SignOutputError>(id: "sign")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignInput, SignOutput, SignOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignInput, SignOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SignOutputResponse, SignOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SignOutput, SignOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SignInput, SignOutputResponse>(xAmzTarget: "TrentService.Sign"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SignInput, SignOutputResponse>(xmlName: "SignRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SignInput, SignOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SignInput, SignOutput>(xAmzTarget: "TrentService.Sign"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SignInput, SignOutput>(xmlName: "SignRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SignInput, SignOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SignOutputResponse, SignOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SignOutput, SignOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignOutputResponse, SignOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignOutputResponse, SignOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignOutputResponse, SignOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignOutput, SignOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignOutput, SignOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignOutput, SignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2931,7 +2931,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2946,7 +2946,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `TagException` : The request was rejected because one or more tags are not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2962,21 +2962,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "TrentService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "TrentService.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2993,7 +2993,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3007,7 +3007,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `TagException` : The request was rejected because one or more tags are not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3023,21 +3023,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "TrentService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "TrentService.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3061,7 +3061,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter UpdateAliasInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAliasOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3075,7 +3075,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutputResponse
+    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3091,21 +3091,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>(id: "updateAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateAliasInput, UpdateAliasOutput, UpdateAliasOutputError>(id: "updateAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutput, UpdateAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAliasOutput, UpdateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>(xAmzTarget: "TrentService.UpdateAlias"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>(xmlName: "UpdateAliasRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAliasInput, UpdateAliasOutput>(xAmzTarget: "TrentService.UpdateAlias"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAliasInput, UpdateAliasOutput>(xmlName: "UpdateAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAliasOutputResponse, UpdateAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAliasOutput, UpdateAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAliasOutput, UpdateAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAliasOutput, UpdateAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAliasOutput, UpdateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3124,7 +3124,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter UpdateCustomKeyStoreInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCustomKeyStoreOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCustomKeyStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3165,7 +3165,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `XksProxyVpcEndpointServiceInUseException` : The request was rejected because the specified Amazon VPC endpoint service is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an Amazon Web Services account and Region must use a different Amazon VPC endpoint service.
     /// - `XksProxyVpcEndpointServiceInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
     /// - `XksProxyVpcEndpointServiceNotFoundException` : The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
-    public func updateCustomKeyStore(input: UpdateCustomKeyStoreInput) async throws -> UpdateCustomKeyStoreOutputResponse
+    public func updateCustomKeyStore(input: UpdateCustomKeyStoreInput) async throws -> UpdateCustomKeyStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3181,21 +3181,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(id: "updateCustomKeyStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput, UpdateCustomKeyStoreOutputError>(id: "updateCustomKeyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput, UpdateCustomKeyStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCustomKeyStoreOutput, UpdateCustomKeyStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse>(xAmzTarget: "TrentService.UpdateCustomKeyStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse>(xmlName: "UpdateCustomKeyStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput>(xAmzTarget: "TrentService.UpdateCustomKeyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput>(xmlName: "UpdateCustomKeyStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCustomKeyStoreOutput, UpdateCustomKeyStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomKeyStoreOutput, UpdateCustomKeyStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomKeyStoreOutput, UpdateCustomKeyStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomKeyStoreOutput, UpdateCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3208,7 +3208,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter UpdateKeyDescriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateKeyDescriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateKeyDescriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3222,7 +3222,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func updateKeyDescription(input: UpdateKeyDescriptionInput) async throws -> UpdateKeyDescriptionOutputResponse
+    public func updateKeyDescription(input: UpdateKeyDescriptionInput) async throws -> UpdateKeyDescriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3238,21 +3238,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(id: "updateKeyDescription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput, UpdateKeyDescriptionOutputError>(id: "updateKeyDescription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput, UpdateKeyDescriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateKeyDescriptionOutput, UpdateKeyDescriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse>(xAmzTarget: "TrentService.UpdateKeyDescription"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse>(xmlName: "UpdateKeyDescriptionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput>(xAmzTarget: "TrentService.UpdateKeyDescription"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput>(xmlName: "UpdateKeyDescriptionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateKeyDescriptionOutput, UpdateKeyDescriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateKeyDescriptionOutput, UpdateKeyDescriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeyDescriptionOutput, UpdateKeyDescriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeyDescriptionOutput, UpdateKeyDescriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3272,7 +3272,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter UpdatePrimaryRegionInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePrimaryRegionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePrimaryRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3287,7 +3287,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func updatePrimaryRegion(input: UpdatePrimaryRegionInput) async throws -> UpdatePrimaryRegionOutputResponse
+    public func updatePrimaryRegion(input: UpdatePrimaryRegionInput) async throws -> UpdatePrimaryRegionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3303,21 +3303,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(id: "updatePrimaryRegion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput, UpdatePrimaryRegionOutputError>(id: "updatePrimaryRegion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput, UpdatePrimaryRegionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePrimaryRegionOutput, UpdatePrimaryRegionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse>(xAmzTarget: "TrentService.UpdatePrimaryRegion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse>(xmlName: "UpdatePrimaryRegionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput>(xAmzTarget: "TrentService.UpdatePrimaryRegion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput>(xmlName: "UpdatePrimaryRegionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePrimaryRegionOutput, UpdatePrimaryRegionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePrimaryRegionOutput, UpdatePrimaryRegionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePrimaryRegionOutput, UpdatePrimaryRegionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePrimaryRegionOutput, UpdatePrimaryRegionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3326,7 +3326,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter VerifyInput : [no documentation found]
     ///
-    /// - Returns: `VerifyOutputResponse` : [no documentation found]
+    /// - Returns: `VerifyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3352,7 +3352,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func verify(input: VerifyInput) async throws -> VerifyOutputResponse
+    public func verify(input: VerifyInput) async throws -> VerifyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3368,21 +3368,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<VerifyInput, VerifyOutputResponse, VerifyOutputError>(id: "verify")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyInput, VerifyOutputResponse, VerifyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyInput, VerifyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<VerifyInput, VerifyOutput, VerifyOutputError>(id: "verify")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyInput, VerifyOutput, VerifyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyInput, VerifyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifyOutputResponse, VerifyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifyOutput, VerifyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<VerifyInput, VerifyOutputResponse>(xAmzTarget: "TrentService.Verify"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifyInput, VerifyOutputResponse>(xmlName: "VerifyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifyInput, VerifyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<VerifyInput, VerifyOutput>(xAmzTarget: "TrentService.Verify"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifyInput, VerifyOutput>(xmlName: "VerifyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifyInput, VerifyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifyOutputResponse, VerifyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifyOutput, VerifyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyOutputResponse, VerifyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyOutputResponse, VerifyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyOutputResponse, VerifyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyOutput, VerifyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyOutput, VerifyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyOutput, VerifyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3391,7 +3391,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// - Parameter VerifyMacInput : [no documentation found]
     ///
-    /// - Returns: `VerifyMacOutputResponse` : [no documentation found]
+    /// - Returns: `VerifyMacOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3416,7 +3416,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutputResponse
+    public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3432,21 +3432,21 @@ extension KMSClient: KMSClientProtocol {
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<VerifyMacInput, VerifyMacOutputResponse, VerifyMacOutputError>(id: "verifyMac")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyMacInput, VerifyMacOutputResponse, VerifyMacOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyMacInput, VerifyMacOutputResponse>())
+        var operation = ClientRuntime.OperationStack<VerifyMacInput, VerifyMacOutput, VerifyMacOutputError>(id: "verifyMac")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyMacInput, VerifyMacOutput, VerifyMacOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyMacInput, VerifyMacOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifyMacOutputResponse, VerifyMacOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifyMacOutput, VerifyMacOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<VerifyMacInput, VerifyMacOutputResponse>(xAmzTarget: "TrentService.VerifyMac"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifyMacInput, VerifyMacOutputResponse>(xmlName: "VerifyMacRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifyMacInput, VerifyMacOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<VerifyMacInput, VerifyMacOutput>(xAmzTarget: "TrentService.VerifyMac"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifyMacInput, VerifyMacOutput>(xmlName: "VerifyMacRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifyMacInput, VerifyMacOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifyMacOutputResponse, VerifyMacOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifyMacOutput, VerifyMacOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyMacOutputResponse, VerifyMacOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyMacOutputResponse, VerifyMacOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyMacOutputResponse, VerifyMacOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyMacOutput, VerifyMacOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyMacOutput, VerifyMacOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyMacOutput, VerifyMacOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

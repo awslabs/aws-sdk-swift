@@ -8,7 +8,7 @@ public protocol LexRuntimeClientProtocol {
     ///
     /// - Parameter DeleteSessionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSessionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol LexRuntimeClientProtocol {
     /// - `InternalFailureException` : Internal service error. Retry the call.
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutputResponse
+    func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput
     /// Returns session information for a specified bot, alias, and user ID.
     ///
     /// - Parameter GetSessionInput : [no documentation found]
     ///
-    /// - Returns: `GetSessionOutputResponse` : [no documentation found]
+    /// - Returns: `GetSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -32,7 +32,7 @@ public protocol LexRuntimeClientProtocol {
     /// - `InternalFailureException` : Internal service error. Retry the call.
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    func getSession(input: GetSessionInput) async throws -> GetSessionOutputResponse
+    func getSession(input: GetSessionInput) async throws -> GetSessionOutput
     /// Sends user input (text or speech) to Amazon Lex. Clients use this API to send text and audio requests to Amazon Lex at runtime. Amazon Lex interprets the user input using the machine learning model that it built for the bot. The PostContent operation supports audio input at 8kHz and 16kHz. You can use 8kHz audio to achieve higher speech recognition accuracy in telephone audio applications. In response, Amazon Lex returns the next message to convey to the user. Consider the following example messages:
     ///
     /// * For a user input "I would like a pizza," Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "What size pizza would you like?".
@@ -66,7 +66,7 @@ public protocol LexRuntimeClientProtocol {
     ///
     /// - Parameter PostContentInput : [no documentation found]
     ///
-    /// - Returns: `PostContentOutputResponse` : [no documentation found]
+    /// - Returns: `PostContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,7 +88,7 @@ public protocol LexRuntimeClientProtocol {
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
     /// - `RequestTimeoutException` : The input speech is too long.
     /// - `UnsupportedMediaTypeException` : The Content-Type header (PostContent API) has an invalid value.
-    func postContent(input: PostContentInput) async throws -> PostContentOutputResponse
+    func postContent(input: PostContentInput) async throws -> PostContentOutput
     /// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages:
     ///
     /// * For a user input "I would like a pizza", Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "What size pizza would you like?"
@@ -122,7 +122,7 @@ public protocol LexRuntimeClientProtocol {
     ///
     /// - Parameter PostTextInput : [no documentation found]
     ///
-    /// - Returns: `PostTextOutputResponse` : [no documentation found]
+    /// - Returns: `PostTextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol LexRuntimeClientProtocol {
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `LoopDetectedException` : This exception is not used.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    func postText(input: PostTextInput) async throws -> PostTextOutputResponse
+    func postText(input: PostTextInput) async throws -> PostTextOutput
     /// Creates a new session or modifies an existing session with an Amazon Lex bot. Use this operation to enable your application to set the state of the bot. For more information, see [Managing Sessions](https://docs.aws.amazon.com/lex/latest/dg/how-session-api.html).
     ///
     /// - Parameter PutSessionInput : [no documentation found]
     ///
-    /// - Returns: `PutSessionOutputResponse` : [no documentation found]
+    /// - Returns: `PutSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,7 +165,7 @@ public protocol LexRuntimeClientProtocol {
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `NotAcceptableException` : The accept header in the request does not have a valid value.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    func putSession(input: PutSessionInput) async throws -> PutSessionOutputResponse
+    func putSession(input: PutSessionInput) async throws -> PutSessionOutput
 }
 
 public enum LexRuntimeClientTypes {}

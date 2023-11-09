@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension SSMIncidentsClientProtocol {
 
-    static func waitForReplicationSetActiveWaiterConfig() throws -> WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
+    static func waitForReplicationSetActiveWaiterConfig() throws -> WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput> {
+        let acceptors: [WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutput, Error>) -> Bool in
                 // JMESPath expression: "replicationSet.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -15,7 +15,7 @@ extension SSMIncidentsClientProtocol {
                 let status = replicationSet?.status
                 return JMESUtils.compare(status, ==, "ACTIVE")
             }),
-            .init(state: .retry, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutput, Error>) -> Bool in
                 // JMESPath expression: "replicationSet.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATING"
@@ -24,7 +24,7 @@ extension SSMIncidentsClientProtocol {
                 let status = replicationSet?.status
                 return JMESUtils.compare(status, ==, "CREATING")
             }),
-            .init(state: .retry, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutput, Error>) -> Bool in
                 // JMESPath expression: "replicationSet.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "UPDATING"
@@ -33,7 +33,7 @@ extension SSMIncidentsClientProtocol {
                 let status = replicationSet?.status
                 return JMESUtils.compare(status, ==, "UPDATING")
             }),
-            .init(state: .failure, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutput, Error>) -> Bool in
                 // JMESPath expression: "replicationSet.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -43,7 +43,7 @@ extension SSMIncidentsClientProtocol {
                 return JMESUtils.compare(status, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 30.0)
+        return try WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 30.0)
     }
 
     /// Initiates waiting for the WaitForReplicationSetActive event on the getReplicationSet operation.
@@ -57,18 +57,18 @@ extension SSMIncidentsClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilWaitForReplicationSetActive(options: WaiterOptions, input: GetReplicationSetInput) async throws -> WaiterOutcome<GetReplicationSetOutputResponse> {
+    public func waitUntilWaitForReplicationSetActive(options: WaiterOptions, input: GetReplicationSetInput) async throws -> WaiterOutcome<GetReplicationSetOutput> {
         let waiter = Waiter(config: try Self.waitForReplicationSetActiveWaiterConfig(), operation: self.getReplicationSet(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func waitForReplicationSetDeletedWaiterConfig() throws -> WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
+    static func waitForReplicationSetDeletedWaiterConfig() throws -> WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput> {
+        let acceptors: [WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
-            .init(state: .retry, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutput, Error>) -> Bool in
                 // JMESPath expression: "replicationSet.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETING"
@@ -77,7 +77,7 @@ extension SSMIncidentsClientProtocol {
                 let status = replicationSet?.status
                 return JMESUtils.compare(status, ==, "DELETING")
             }),
-            .init(state: .failure, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutput, Error>) -> Bool in
                 // JMESPath expression: "replicationSet.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -87,7 +87,7 @@ extension SSMIncidentsClientProtocol {
                 return JMESUtils.compare(status, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 30.0)
+        return try WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 30.0)
     }
 
     /// Initiates waiting for the WaitForReplicationSetDeleted event on the getReplicationSet operation.
@@ -101,7 +101,7 @@ extension SSMIncidentsClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilWaitForReplicationSetDeleted(options: WaiterOptions, input: GetReplicationSetInput) async throws -> WaiterOutcome<GetReplicationSetOutputResponse> {
+    public func waitUntilWaitForReplicationSetDeleted(options: WaiterOptions, input: GetReplicationSetInput) async throws -> WaiterOutcome<GetReplicationSetOutput> {
         let waiter = Waiter(config: try Self.waitForReplicationSetDeletedWaiterConfig(), operation: self.getReplicationSet(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

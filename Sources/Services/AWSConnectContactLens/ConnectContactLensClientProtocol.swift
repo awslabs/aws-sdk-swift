@@ -8,7 +8,7 @@ public protocol ConnectContactLensClientProtocol {
     ///
     /// - Parameter ListRealtimeContactAnalysisSegmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListRealtimeContactAnalysisSegmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRealtimeContactAnalysisSegmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,7 +18,7 @@ public protocol ConnectContactLensClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func listRealtimeContactAnalysisSegments(input: ListRealtimeContactAnalysisSegmentsInput) async throws -> ListRealtimeContactAnalysisSegmentsOutputResponse
+    func listRealtimeContactAnalysisSegments(input: ListRealtimeContactAnalysisSegmentsInput) async throws -> ListRealtimeContactAnalysisSegmentsOutput
 }
 
 public enum ConnectContactLensClientTypes {}

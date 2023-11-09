@@ -71,7 +71,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter AssociateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,7 +82,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutputResponse
+    public func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -98,18 +98,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(id: "associateBrowserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(id: "associateBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -118,7 +118,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter AssociateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,7 +129,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutputResponse
+    public func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -145,18 +145,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutputResponse, AssociateIpAccessSettingsOutputError>(id: "associateIpAccessSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutputResponse, AssociateIpAccessSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(id: "associateIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateIpAccessSettingsOutputResponse, AssociateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateIpAccessSettingsOutputResponse, AssociateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateIpAccessSettingsOutputResponse, AssociateIpAccessSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateIpAccessSettingsOutputResponse, AssociateIpAccessSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateIpAccessSettingsOutputResponse, AssociateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -165,7 +165,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter AssociateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,7 +176,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutputResponse
+    public func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -192,18 +192,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(id: "associateNetworkSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(id: "associateNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -212,7 +212,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter AssociateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `AssociateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,7 +222,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutputResponse
+    public func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -238,18 +238,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateTrustStoreInput, AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(id: "associateTrustStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateTrustStoreInput, AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(id: "associateTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput, AssociateTrustStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrustStoreOutput, AssociateTrustStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -258,7 +258,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter AssociateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -269,7 +269,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutputResponse
+    public func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -285,18 +285,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(id: "associateUserAccessLoggingSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(id: "associateUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -305,7 +305,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter AssociateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -316,7 +316,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutputResponse
+    public func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -332,18 +332,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateUserSettingsInput, AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(id: "associateUserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateUserSettingsInput, AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(id: "associateUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput, AssociateUserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserSettingsOutput, AssociateUserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -352,7 +352,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -364,7 +364,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutputResponse
+    public func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -380,28 +380,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBrowserSettingsInput, CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(id: "createBrowserSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateBrowserSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateBrowserSettingsInput, CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(id: "createBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutputResponse>(xmlName: "CreateBrowserSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>(xmlName: "CreateBrowserSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -410,7 +403,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreateIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `CreateIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -422,7 +415,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutputResponse
+    public func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -438,28 +431,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(id: "createIdentityProvider")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateIdentityProviderOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateIdentityProviderInput, CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(id: "createIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput, CreateIdentityProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse>(xmlName: "CreateIdentityProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(xmlName: "CreateIdentityProviderRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutput, CreateIdentityProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -468,7 +454,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,7 +465,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutputResponse
+    public func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -495,28 +481,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutputResponse, CreateIpAccessSettingsOutputError>(id: "createIpAccessSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateIpAccessSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutputResponse, CreateIpAccessSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(id: "createIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIpAccessSettingsOutputResponse, CreateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutputResponse>(xmlName: "CreateIpAccessSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>(xmlName: "CreateIpAccessSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIpAccessSettingsOutputResponse, CreateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIpAccessSettingsOutputResponse, CreateIpAccessSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIpAccessSettingsOutputResponse, CreateIpAccessSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIpAccessSettingsOutputResponse, CreateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -525,7 +504,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -536,7 +515,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutputResponse
+    public func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -552,28 +531,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNetworkSettingsInput, CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(id: "createNetworkSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateNetworkSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateNetworkSettingsInput, CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(id: "createNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutputResponse>(xmlName: "CreateNetworkSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>(xmlName: "CreateNetworkSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -582,7 +554,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreatePortalInput : [no documentation found]
     ///
-    /// - Returns: `CreatePortalOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,7 +566,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutputResponse
+    public func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -610,28 +582,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePortalInput, CreatePortalOutputResponse, CreatePortalOutputError>(id: "createPortal")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePortalOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortalInput, CreatePortalOutputResponse, CreatePortalOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortalInput, CreatePortalOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePortalInput, CreatePortalOutput, CreatePortalOutputError>(id: "createPortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePortalInput, CreatePortalOutput, CreatePortalOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortalInput, CreatePortalOutput, CreatePortalOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortalInput, CreatePortalOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePortalOutputResponse, CreatePortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePortalOutput, CreatePortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePortalInput, CreatePortalOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePortalInput, CreatePortalOutputResponse>(xmlName: "CreatePortalRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePortalInput, CreatePortalOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePortalInput, CreatePortalOutput>(xmlName: "CreatePortalRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePortalOutputResponse, CreatePortalOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePortalOutput, CreatePortalOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortalOutputResponse, CreatePortalOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortalOutputResponse, CreatePortalOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortalOutputResponse, CreatePortalOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortalOutput, CreatePortalOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortalOutput, CreatePortalOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortalOutput, CreatePortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -640,7 +605,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,7 +616,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutputResponse
+    public func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -667,28 +632,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTrustStoreInput, CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(id: "createTrustStore")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateTrustStoreOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustStoreInput, CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustStoreInput, CreateTrustStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTrustStoreInput, CreateTrustStoreOutput, CreateTrustStoreOutputError>(id: "createTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput, CreateTrustStoreOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput, CreateTrustStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrustStoreOutput, CreateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrustStoreInput, CreateTrustStoreOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTrustStoreInput, CreateTrustStoreOutputResponse>(xmlName: "CreateTrustStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(xmlName: "CreateTrustStoreRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrustStoreOutput, CreateTrustStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustStoreOutput, CreateTrustStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustStoreOutput, CreateTrustStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustStoreOutput, CreateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -697,7 +655,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,7 +666,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutputResponse
+    public func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -724,28 +682,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(id: "createUserAccessLoggingSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateUserAccessLoggingSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(id: "createUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutputResponse>(xmlName: "CreateUserAccessLoggingSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>(xmlName: "CreateUserAccessLoggingSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -754,7 +705,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter CreateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,7 +716,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutputResponse
+    public func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -781,28 +732,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserSettingsInput, CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(id: "createUserSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateUserSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserSettingsInput, CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserSettingsInput, CreateUserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateUserSettingsInput, CreateUserSettingsOutput, CreateUserSettingsOutputError>(id: "createUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput, CreateUserSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput, CreateUserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserSettingsOutput, CreateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserSettingsInput, CreateUserSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserSettingsInput, CreateUserSettingsOutputResponse>(xmlName: "CreateUserSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>(xmlName: "CreateUserSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserSettingsOutput, CreateUserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserSettingsOutput, CreateUserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserSettingsOutput, CreateUserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserSettingsOutput, CreateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -811,7 +755,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeleteBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,7 +765,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutputResponse
+    public func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -837,17 +781,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(id: "deleteBrowserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(id: "deleteBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -856,7 +800,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeleteIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,7 +810,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutputResponse
+    public func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -882,17 +826,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(id: "deleteIdentityProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteIdentityProviderInput, DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(id: "deleteIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -901,7 +845,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeleteIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,7 +855,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutputResponse
+    public func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -927,17 +871,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutputResponse, DeleteIpAccessSettingsOutputError>(id: "deleteIpAccessSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutputResponse, DeleteIpAccessSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(id: "deleteIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIpAccessSettingsOutputResponse, DeleteIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIpAccessSettingsOutputResponse, DeleteIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIpAccessSettingsOutputResponse, DeleteIpAccessSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIpAccessSettingsOutputResponse, DeleteIpAccessSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIpAccessSettingsOutputResponse, DeleteIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -946,7 +890,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeleteNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,7 +900,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutputResponse
+    public func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -972,17 +916,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(id: "deleteNetworkSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(id: "deleteNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -991,7 +935,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeletePortalInput : [no documentation found]
     ///
-    /// - Returns: `DeletePortalOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1001,7 +945,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutputResponse
+    public func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1017,17 +961,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePortalInput, DeletePortalOutputResponse, DeletePortalOutputError>(id: "deletePortal")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortalInput, DeletePortalOutputResponse, DeletePortalOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortalInput, DeletePortalOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePortalInput, DeletePortalOutput, DeletePortalOutputError>(id: "deletePortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortalInput, DeletePortalOutput, DeletePortalOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortalInput, DeletePortalOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePortalOutputResponse, DeletePortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePortalOutput, DeletePortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePortalOutputResponse, DeletePortalOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePortalOutput, DeletePortalOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortalOutputResponse, DeletePortalOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortalOutputResponse, DeletePortalOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortalOutputResponse, DeletePortalOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortalOutput, DeletePortalOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortalOutput, DeletePortalOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortalOutput, DeletePortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1036,7 +980,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeleteTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,7 +990,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutputResponse
+    public func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1062,17 +1006,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTrustStoreInput, DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(id: "deleteTrustStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTrustStoreInput, DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(id: "deleteTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput, DeleteTrustStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustStoreOutput, DeleteTrustStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1081,7 +1025,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeleteUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,7 +1035,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutputResponse
+    public func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1107,17 +1051,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(id: "deleteUserAccessLoggingSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(id: "deleteUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1126,7 +1070,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DeleteUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,7 +1080,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutputResponse
+    public func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1152,17 +1096,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserSettingsInput, DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(id: "deleteUserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteUserSettingsInput, DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(id: "deleteUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput, DeleteUserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserSettingsOutput, DeleteUserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1171,7 +1115,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DisassociateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1181,7 +1125,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutputResponse
+    public func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1197,17 +1141,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(id: "disassociateBrowserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(id: "disassociateBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1216,7 +1160,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DisassociateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1226,7 +1170,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutputResponse
+    public func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1242,17 +1186,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutputResponse, DisassociateIpAccessSettingsOutputError>(id: "disassociateIpAccessSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutputResponse, DisassociateIpAccessSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(id: "disassociateIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateIpAccessSettingsOutputResponse, DisassociateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateIpAccessSettingsOutputResponse, DisassociateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateIpAccessSettingsOutputResponse, DisassociateIpAccessSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateIpAccessSettingsOutputResponse, DisassociateIpAccessSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateIpAccessSettingsOutputResponse, DisassociateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1261,7 +1205,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DisassociateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1271,7 +1215,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutputResponse
+    public func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1287,17 +1231,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(id: "disassociateNetworkSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(id: "disassociateNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1306,7 +1250,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DisassociateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1316,7 +1260,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutputResponse
+    public func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1332,17 +1276,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateTrustStoreInput, DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(id: "disassociateTrustStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateTrustStoreInput, DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(id: "disassociateTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1351,7 +1295,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DisassociateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,7 +1305,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutputResponse
+    public func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1377,17 +1321,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(id: "disassociateUserAccessLoggingSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(id: "disassociateUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1396,7 +1340,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter DisassociateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,7 +1350,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutputResponse
+    public func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1422,17 +1366,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateUserSettingsInput, DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(id: "disassociateUserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateUserSettingsInput, DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(id: "disassociateUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1441,7 +1385,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,7 +1395,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutputResponse
+    public func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1467,17 +1411,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBrowserSettingsInput, GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(id: "getBrowserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBrowserSettingsInput, GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(id: "getBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput, GetBrowserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBrowserSettingsOutput, GetBrowserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1486,7 +1430,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `GetIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `GetIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1496,7 +1440,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutputResponse
+    public func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1512,17 +1456,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetIdentityProviderInput, GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(id: "getIdentityProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityProviderInput, GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityProviderInput, GetIdentityProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetIdentityProviderInput, GetIdentityProviderOutput, GetIdentityProviderOutputError>(id: "getIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput, GetIdentityProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentityProviderOutput, GetIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdentityProviderOutput, GetIdentityProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityProviderOutput, GetIdentityProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityProviderOutput, GetIdentityProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityProviderOutput, GetIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1531,7 +1475,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1541,7 +1485,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutputResponse
+    public func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1557,17 +1501,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetIpAccessSettingsInput, GetIpAccessSettingsOutputResponse, GetIpAccessSettingsOutputError>(id: "getIpAccessSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutputResponse, GetIpAccessSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetIpAccessSettingsInput, GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(id: "getIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIpAccessSettingsOutputResponse, GetIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIpAccessSettingsOutputResponse, GetIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIpAccessSettingsOutputResponse, GetIpAccessSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIpAccessSettingsOutputResponse, GetIpAccessSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIpAccessSettingsOutputResponse, GetIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1576,7 +1520,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,7 +1530,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutputResponse
+    public func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1602,17 +1546,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNetworkSettingsInput, GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(id: "getNetworkSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNetworkSettingsInput, GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(id: "getNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput, GetNetworkSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkSettingsOutput, GetNetworkSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1621,7 +1565,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetPortalInput : [no documentation found]
     ///
-    /// - Returns: `GetPortalOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1631,7 +1575,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getPortal(input: GetPortalInput) async throws -> GetPortalOutputResponse
+    public func getPortal(input: GetPortalInput) async throws -> GetPortalOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1647,17 +1591,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPortalInput, GetPortalOutputResponse, GetPortalOutputError>(id: "getPortal")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalInput, GetPortalOutputResponse, GetPortalOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalInput, GetPortalOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPortalInput, GetPortalOutput, GetPortalOutputError>(id: "getPortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalInput, GetPortalOutput, GetPortalOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalInput, GetPortalOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortalOutputResponse, GetPortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortalOutput, GetPortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortalOutputResponse, GetPortalOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortalOutput, GetPortalOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalOutputResponse, GetPortalOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalOutputResponse, GetPortalOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalOutputResponse, GetPortalOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalOutput, GetPortalOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalOutput, GetPortalOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalOutput, GetPortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1666,7 +1610,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetPortalServiceProviderMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetPortalServiceProviderMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortalServiceProviderMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,7 +1620,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutputResponse
+    public func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1692,17 +1636,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(id: "getPortalServiceProviderMetadata")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(id: "getPortalServiceProviderMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1711,7 +1655,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `GetTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,7 +1665,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutputResponse
+    public func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1737,17 +1681,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTrustStoreInput, GetTrustStoreOutputResponse, GetTrustStoreOutputError>(id: "getTrustStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreInput, GetTrustStoreOutputResponse, GetTrustStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreInput, GetTrustStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTrustStoreInput, GetTrustStoreOutput, GetTrustStoreOutputError>(id: "getTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreInput, GetTrustStoreOutput, GetTrustStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreInput, GetTrustStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrustStoreOutputResponse, GetTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrustStoreOutput, GetTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrustStoreOutputResponse, GetTrustStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrustStoreOutput, GetTrustStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreOutputResponse, GetTrustStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreOutputResponse, GetTrustStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreOutputResponse, GetTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreOutput, GetTrustStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreOutput, GetTrustStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreOutput, GetTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1756,7 +1700,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetTrustStoreCertificateInput : [no documentation found]
     ///
-    /// - Returns: `GetTrustStoreCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `GetTrustStoreCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1766,7 +1710,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutputResponse
+    public func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1782,18 +1726,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(id: "getTrustStoreCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(id: "getTrustStoreCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1802,7 +1746,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1812,7 +1756,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutputResponse
+    public func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1828,17 +1772,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(id: "getUserAccessLoggingSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(id: "getUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1847,7 +1791,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter GetUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1857,7 +1801,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutputResponse
+    public func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1873,17 +1817,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutputResponse, GetUserSettingsOutputError>(id: "getUserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutputResponse, GetUserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutput, GetUserSettingsOutputError>(id: "getUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutput, GetUserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserSettingsOutputResponse, GetUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserSettingsOutput, GetUserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutput, GetUserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1892,7 +1836,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1901,7 +1845,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutputResponse
+    public func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1917,18 +1861,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBrowserSettingsInput, ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(id: "listBrowserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBrowserSettingsInput, ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(id: "listBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput, ListBrowserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBrowserSettingsOutput, ListBrowserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1937,7 +1881,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListIdentityProvidersInput : [no documentation found]
     ///
-    /// - Returns: `ListIdentityProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1946,7 +1890,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutputResponse
+    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1962,18 +1906,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1982,7 +1926,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1991,7 +1935,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutputResponse
+    public func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2007,18 +1951,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIpAccessSettingsInput, ListIpAccessSettingsOutputResponse, ListIpAccessSettingsOutputError>(id: "listIpAccessSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutputResponse, ListIpAccessSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListIpAccessSettingsInput, ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(id: "listIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIpAccessSettingsOutputResponse, ListIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIpAccessSettingsOutputResponse, ListIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIpAccessSettingsOutputResponse, ListIpAccessSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIpAccessSettingsOutputResponse, ListIpAccessSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIpAccessSettingsOutputResponse, ListIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2027,7 +1971,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,7 +1980,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutputResponse
+    public func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2052,18 +1996,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNetworkSettingsInput, ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(id: "listNetworkSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNetworkSettingsInput, ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(id: "listNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput, ListNetworkSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkSettingsOutput, ListNetworkSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2072,7 +2016,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListPortalsInput : [no documentation found]
     ///
-    /// - Returns: `ListPortalsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPortalsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,7 +2025,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutputResponse
+    public func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2097,18 +2041,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPortalsInput, ListPortalsOutputResponse, ListPortalsOutputError>(id: "listPortals")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortalsInput, ListPortalsOutputResponse, ListPortalsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortalsInput, ListPortalsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPortalsInput, ListPortalsOutput, ListPortalsOutputError>(id: "listPortals")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortalsInput, ListPortalsOutput, ListPortalsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortalsInput, ListPortalsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortalsOutputResponse, ListPortalsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortalsOutput, ListPortalsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPortalsInput, ListPortalsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortalsOutputResponse, ListPortalsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPortalsInput, ListPortalsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortalsOutput, ListPortalsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortalsOutputResponse, ListPortalsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortalsOutputResponse, ListPortalsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortalsOutputResponse, ListPortalsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortalsOutput, ListPortalsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortalsOutput, ListPortalsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortalsOutput, ListPortalsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2117,7 +2061,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2127,7 +2071,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2143,17 +2087,17 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2162,7 +2106,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListTrustStoreCertificatesInput : [no documentation found]
     ///
-    /// - Returns: `ListTrustStoreCertificatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrustStoreCertificatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2172,7 +2116,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutputResponse
+    public func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2188,18 +2132,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(id: "listTrustStoreCertificates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(id: "listTrustStoreCertificates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2208,7 +2152,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListTrustStoresInput : [no documentation found]
     ///
-    /// - Returns: `ListTrustStoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrustStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2217,7 +2161,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutputResponse
+    public func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2233,18 +2177,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTrustStoresInput, ListTrustStoresOutputResponse, ListTrustStoresOutputError>(id: "listTrustStores")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoresInput, ListTrustStoresOutputResponse, ListTrustStoresOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoresInput, ListTrustStoresOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTrustStoresInput, ListTrustStoresOutput, ListTrustStoresOutputError>(id: "listTrustStores")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoresInput, ListTrustStoresOutput, ListTrustStoresOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrustStoresOutputResponse, ListTrustStoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrustStoresOutput, ListTrustStoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrustStoresInput, ListTrustStoresOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustStoresOutputResponse, ListTrustStoresOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustStoresOutput, ListTrustStoresOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoresOutputResponse, ListTrustStoresOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoresOutputResponse, ListTrustStoresOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoresOutputResponse, ListTrustStoresOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoresOutput, ListTrustStoresOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoresOutput, ListTrustStoresOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoresOutput, ListTrustStoresOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2253,7 +2197,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,7 +2206,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutputResponse
+    public func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2278,18 +2222,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(id: "listUserAccessLoggingSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(id: "listUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2298,7 +2242,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter ListUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2307,7 +2251,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutputResponse
+    public func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2323,18 +2267,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUserSettingsInput, ListUserSettingsOutputResponse, ListUserSettingsOutputError>(id: "listUserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserSettingsInput, ListUserSettingsOutputResponse, ListUserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserSettingsInput, ListUserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListUserSettingsInput, ListUserSettingsOutput, ListUserSettingsOutputError>(id: "listUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserSettingsInput, ListUserSettingsOutput, ListUserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserSettingsInput, ListUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserSettingsOutputResponse, ListUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserSettingsOutput, ListUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUserSettingsInput, ListUserSettingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserSettingsOutputResponse, ListUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUserSettingsInput, ListUserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserSettingsOutput, ListUserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserSettingsOutputResponse, ListUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserSettingsOutputResponse, ListUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserSettingsOutputResponse, ListUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserSettingsOutput, ListUserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserSettingsOutput, ListUserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserSettingsOutput, ListUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2343,7 +2287,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2354,7 +2298,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `TooManyTagsException` : There are too many tags.
     /// - `ValidationException` : There is a validation error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2370,28 +2314,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<TagResourceOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2400,7 +2337,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2410,7 +2347,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2426,18 +2363,18 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2446,7 +2383,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2456,7 +2393,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutputResponse
+    public func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2472,28 +2409,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(id: "updateBrowserSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateBrowserSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(id: "updateBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutputResponse>(xmlName: "UpdateBrowserSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>(xmlName: "UpdateBrowserSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2502,7 +2432,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdateIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2512,7 +2442,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutputResponse
+    public func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2528,28 +2458,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(id: "updateIdentityProvider")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateIdentityProviderOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(id: "updateIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse>(xmlName: "UpdateIdentityProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(xmlName: "UpdateIdentityProviderRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2558,7 +2481,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2568,7 +2491,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutputResponse
+    public func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2584,28 +2507,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutputResponse, UpdateIpAccessSettingsOutputError>(id: "updateIpAccessSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateIpAccessSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutputResponse, UpdateIpAccessSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(id: "updateIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIpAccessSettingsOutputResponse, UpdateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutputResponse>(xmlName: "UpdateIpAccessSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>(xmlName: "UpdateIpAccessSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIpAccessSettingsOutputResponse, UpdateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIpAccessSettingsOutputResponse, UpdateIpAccessSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIpAccessSettingsOutputResponse, UpdateIpAccessSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIpAccessSettingsOutputResponse, UpdateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2614,7 +2530,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2624,7 +2540,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutputResponse
+    public func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2640,28 +2556,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(id: "updateNetworkSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateNetworkSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(id: "updateNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutputResponse>(xmlName: "UpdateNetworkSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>(xmlName: "UpdateNetworkSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2670,7 +2579,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdatePortalInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePortalOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2681,7 +2590,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutputResponse
+    public func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2697,20 +2606,20 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePortalInput, UpdatePortalOutputResponse, UpdatePortalOutputError>(id: "updatePortal")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortalInput, UpdatePortalOutputResponse, UpdatePortalOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortalInput, UpdatePortalOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePortalInput, UpdatePortalOutput, UpdatePortalOutputError>(id: "updatePortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortalInput, UpdatePortalOutput, UpdatePortalOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortalInput, UpdatePortalOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePortalOutputResponse, UpdatePortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePortalOutput, UpdatePortalOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePortalInput, UpdatePortalOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePortalInput, UpdatePortalOutputResponse>(xmlName: "UpdatePortalRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePortalInput, UpdatePortalOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePortalInput, UpdatePortalOutput>(xmlName: "UpdatePortalRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePortalOutputResponse, UpdatePortalOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePortalOutput, UpdatePortalOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortalOutputResponse, UpdatePortalOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortalOutputResponse, UpdatePortalOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortalOutputResponse, UpdatePortalOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortalOutput, UpdatePortalOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortalOutput, UpdatePortalOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortalOutput, UpdatePortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2719,7 +2628,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2730,7 +2639,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutputResponse
+    public func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2746,28 +2655,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTrustStoreInput, UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(id: "updateTrustStore")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateTrustStoreOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateTrustStoreInput, UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(id: "updateTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput, UpdateTrustStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutputResponse>(xmlName: "UpdateTrustStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(xmlName: "UpdateTrustStoreRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustStoreOutput, UpdateTrustStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2776,7 +2678,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2786,7 +2688,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutputResponse
+    public func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2802,28 +2704,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(id: "updateUserAccessLoggingSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateUserAccessLoggingSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(id: "updateUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutputResponse>(xmlName: "UpdateUserAccessLoggingSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>(xmlName: "UpdateUserAccessLoggingSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2832,7 +2727,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     ///
     /// - Parameter UpdateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2842,7 +2737,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutputResponse
+    public func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2858,28 +2753,21 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(id: "updateUserSettings")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateUserSettingsOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(id: "updateUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse>(xmlName: "UpdateUserSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(xmlName: "UpdateUserSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -8,7 +8,7 @@ public protocol AppIntegrationsClientProtocol {
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceQuotaExceededException` : The allowed quota for the resource has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Creates and persists a DataIntegration resource. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
     ///
     /// - Parameter CreateDataIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceQuotaExceededException` : The allowed quota for the resource has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func createDataIntegration(input: CreateDataIntegrationInput) async throws -> CreateDataIntegrationOutputResponse
+    func createDataIntegration(input: CreateDataIntegrationInput) async throws -> CreateDataIntegrationOutput
     /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane.
     ///
     /// - Parameter CreateEventIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `CreateEventIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEventIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceQuotaExceededException` : The allowed quota for the resource has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func createEventIntegration(input: CreateEventIntegrationInput) async throws -> CreateEventIntegrationOutputResponse
+    func createEventIntegration(input: CreateEventIntegrationInput) async throws -> CreateEventIntegrationOutput
     /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter DeleteDataIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,12 +66,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func deleteDataIntegration(input: DeleteDataIntegrationInput) async throws -> DeleteDataIntegrationOutputResponse
+    func deleteDataIntegration(input: DeleteDataIntegrationInput) async throws -> DeleteDataIntegrationOutput
     /// Deletes the specified existing event integration. If the event integration is associated with clients, the request is rejected.
     ///
     /// - Parameter DeleteEventIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,12 +81,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func deleteEventIntegration(input: DeleteEventIntegrationInput) async throws -> DeleteEventIntegrationOutputResponse
+    func deleteEventIntegration(input: DeleteEventIntegrationInput) async throws -> DeleteEventIntegrationOutput
     /// This API is in preview release and subject to change. Get an Application resource.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -96,12 +96,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
+    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
     /// Returns information about the DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter GetDataIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `GetDataIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -111,12 +111,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func getDataIntegration(input: GetDataIntegrationInput) async throws -> GetDataIntegrationOutputResponse
+    func getDataIntegration(input: GetDataIntegrationInput) async throws -> GetDataIntegrationOutput
     /// Returns information about the event integration.
     ///
     /// - Parameter GetEventIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `GetEventIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -126,12 +126,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func getEventIntegration(input: GetEventIntegrationInput) async throws -> GetEventIntegrationOutputResponse
+    func getEventIntegration(input: GetEventIntegrationInput) async throws -> GetEventIntegrationOutput
     /// This API is in preview release and subject to change. Lists applications in the account.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -140,12 +140,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
     /// Returns a paginated list of DataIntegration associations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter ListDataIntegrationAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataIntegrationAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataIntegrationAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func listDataIntegrationAssociations(input: ListDataIntegrationAssociationsInput) async throws -> ListDataIntegrationAssociationsOutputResponse
+    func listDataIntegrationAssociations(input: ListDataIntegrationAssociationsInput) async throws -> ListDataIntegrationAssociationsOutput
     /// Returns a paginated list of DataIntegrations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter ListDataIntegrationsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataIntegrationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataIntegrationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -169,12 +169,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func listDataIntegrations(input: ListDataIntegrationsInput) async throws -> ListDataIntegrationsOutputResponse
+    func listDataIntegrations(input: ListDataIntegrationsInput) async throws -> ListDataIntegrationsOutput
     /// Returns a paginated list of event integration associations in the account.
     ///
     /// - Parameter ListEventIntegrationAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventIntegrationAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventIntegrationAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,12 +184,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func listEventIntegrationAssociations(input: ListEventIntegrationAssociationsInput) async throws -> ListEventIntegrationAssociationsOutputResponse
+    func listEventIntegrationAssociations(input: ListEventIntegrationAssociationsInput) async throws -> ListEventIntegrationAssociationsOutput
     /// Returns a paginated list of event integrations in the account.
     ///
     /// - Parameter ListEventIntegrationsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventIntegrationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventIntegrationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -198,12 +198,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func listEventIntegrations(input: ListEventIntegrationsInput) async throws -> ListEventIntegrationsOutputResponse
+    func listEventIntegrations(input: ListEventIntegrationsInput) async throws -> ListEventIntegrationsOutput
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -212,12 +212,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds the specified tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -226,12 +226,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes the specified tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -240,12 +240,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// This API is in preview release and subject to change. Updates and persists an Application resource.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -255,12 +255,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Updates the description of a DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter UpdateDataIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -270,12 +270,12 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func updateDataIntegration(input: UpdateDataIntegrationInput) async throws -> UpdateDataIntegrationOutputResponse
+    func updateDataIntegration(input: UpdateDataIntegrationInput) async throws -> UpdateDataIntegrationOutput
     /// Updates the description of an event integration.
     ///
     /// - Parameter UpdateEventIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEventIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEventIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -285,7 +285,7 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func updateEventIntegration(input: UpdateEventIntegrationInput) async throws -> UpdateEventIntegrationOutputResponse
+    func updateEventIntegration(input: UpdateEventIntegrationInput) async throws -> UpdateEventIntegrationOutput
 }
 
 public enum AppIntegrationsClientTypes {}

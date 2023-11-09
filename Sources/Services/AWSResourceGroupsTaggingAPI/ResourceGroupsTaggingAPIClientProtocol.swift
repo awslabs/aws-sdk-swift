@@ -8,7 +8,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// - Parameter DescribeReportCreationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeReportCreationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeReportCreationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func describeReportCreation(input: DescribeReportCreationInput) async throws -> DescribeReportCreationOutputResponse
+    func describeReportCreation(input: DescribeReportCreationInput) async throws -> DescribeReportCreationOutput
     /// Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see [Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html) in the Organizations User Guide. You can call this operation only from the organization's management account and from the us-east-1 Region. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
     /// - Parameter GetComplianceSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetComplianceSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetComplianceSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,7 +63,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func getComplianceSummary(input: GetComplianceSummaryInput) async throws -> GetComplianceSummaryOutputResponse
+    func getComplianceSummary(input: GetComplianceSummaryInput) async throws -> GetComplianceSummaryOutput
     /// Returns all the tagged or previously tagged resources that are located in the specified Amazon Web Services Region for the account. Depending on what information you want returned, you can also specify the following:
     ///
     /// * Filters that specify what tags and resource types you want returned. The response includes all tags that are associated with the requested resources.
@@ -75,7 +75,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// - Parameter GetResourcesInput : [no documentation found]
     ///
-    /// - Returns: `GetResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -94,12 +94,12 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func getResources(input: GetResourcesInput) async throws -> GetResourcesOutputResponse
+    func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput
     /// Returns all tag keys currently in use in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
     /// - Parameter GetTagKeysInput : [no documentation found]
     ///
-    /// - Returns: `GetTagKeysOutputResponse` : [no documentation found]
+    /// - Returns: `GetTagKeysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -118,12 +118,12 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func getTagKeys(input: GetTagKeysInput) async throws -> GetTagKeysOutputResponse
+    func getTagKeys(input: GetTagKeysInput) async throws -> GetTagKeysOutput
     /// Returns all tag values for the specified key that are used in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
     /// - Parameter GetTagValuesInput : [no documentation found]
     ///
-    /// - Returns: `GetTagValuesOutputResponse` : [no documentation found]
+    /// - Returns: `GetTagValuesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -142,12 +142,12 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func getTagValues(input: GetTagValuesInput) async throws -> GetTagValuesOutputResponse
+    func getTagValues(input: GetTagValuesInput) async throws -> GetTagValuesOutput
     /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv You can call this operation only from the organization's management account and from the us-east-1 Region.
     ///
     /// - Parameter StartReportCreationInput : [no documentation found]
     ///
-    /// - Returns: `StartReportCreationOutputResponse` : [no documentation found]
+    /// - Returns: `StartReportCreationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,7 +173,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func startReportCreation(input: StartReportCreationInput) async throws -> StartReportCreationOutputResponse
+    func startReportCreation(input: StartReportCreationInput) async throws -> StartReportCreationOutput
     /// Applies one or more tags to the specified resources. Note the following:
     ///
     /// * Not all resources can have tags. For a list of services with resources that support tagging using this operation, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html). If the resource doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the documentation for that service.
@@ -193,7 +193,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// - Parameter TagResourcesInput : [no documentation found]
     ///
-    /// - Returns: `TagResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,7 +211,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func tagResources(input: TagResourcesInput) async throws -> TagResourcesOutputResponse
+    func tagResources(input: TagResourcesInput) async throws -> TagResourcesOutput
     /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following:
     ///
     /// * To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource you want to untag.
@@ -227,7 +227,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// - Parameter UntagResourcesInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -245,7 +245,7 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    func untagResources(input: UntagResourcesInput) async throws -> UntagResourcesOutputResponse
+    func untagResources(input: UntagResourcesInput) async throws -> UntagResourcesOutput
 }
 
 public enum ResourceGroupsTaggingAPIClientTypes {}

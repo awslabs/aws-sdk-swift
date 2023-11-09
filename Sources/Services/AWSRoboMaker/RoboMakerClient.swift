@@ -71,7 +71,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter BatchDeleteWorldsInput : [no documentation found]
     ///
-    /// - Returns: `BatchDeleteWorldsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDeleteWorldsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,7 +79,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func batchDeleteWorlds(input: BatchDeleteWorldsInput) async throws -> BatchDeleteWorldsOutputResponse
+    public func batchDeleteWorlds(input: BatchDeleteWorldsInput) async throws -> BatchDeleteWorldsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -95,20 +95,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(id: "batchDeleteWorlds")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchDeleteWorldsInput, BatchDeleteWorldsOutput, BatchDeleteWorldsOutputError>(id: "batchDeleteWorlds")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutput, BatchDeleteWorldsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteWorldsOutput, BatchDeleteWorldsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse>(xmlName: "BatchDeleteWorldsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutput>(xmlName: "BatchDeleteWorldsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteWorldsOutput, BatchDeleteWorldsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteWorldsOutput, BatchDeleteWorldsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteWorldsOutput, BatchDeleteWorldsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteWorldsOutput, BatchDeleteWorldsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -117,7 +117,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter BatchDescribeSimulationJobInput : [no documentation found]
     ///
-    /// - Returns: `BatchDescribeSimulationJobOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDescribeSimulationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -126,7 +126,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func batchDescribeSimulationJob(input: BatchDescribeSimulationJobInput) async throws -> BatchDescribeSimulationJobOutputResponse
+    public func batchDescribeSimulationJob(input: BatchDescribeSimulationJobInput) async throws -> BatchDescribeSimulationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -142,20 +142,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(id: "batchDescribeSimulationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutput, BatchDescribeSimulationJobOutputError>(id: "batchDescribeSimulationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutput, BatchDescribeSimulationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDescribeSimulationJobOutput, BatchDescribeSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse>(xmlName: "BatchDescribeSimulationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutput>(xmlName: "BatchDescribeSimulationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDescribeSimulationJobOutput, BatchDescribeSimulationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeSimulationJobOutput, BatchDescribeSimulationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeSimulationJobOutput, BatchDescribeSimulationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeSimulationJobOutput, BatchDescribeSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -165,7 +165,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CancelDeploymentJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelDeploymentJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelDeploymentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,7 +174,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func cancelDeploymentJob(input: CancelDeploymentJobInput) async throws -> CancelDeploymentJobOutputResponse
+    public func cancelDeploymentJob(input: CancelDeploymentJobInput) async throws -> CancelDeploymentJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -190,20 +190,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(id: "cancelDeploymentJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelDeploymentJobInput, CancelDeploymentJobOutput, CancelDeploymentJobOutputError>(id: "cancelDeploymentJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutput, CancelDeploymentJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelDeploymentJobOutput, CancelDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse>(xmlName: "CancelDeploymentJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutput>(xmlName: "CancelDeploymentJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelDeploymentJobOutput, CancelDeploymentJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelDeploymentJobOutput, CancelDeploymentJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelDeploymentJobOutput, CancelDeploymentJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelDeploymentJobOutput, CancelDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -212,7 +212,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CancelSimulationJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelSimulationJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelSimulationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -221,7 +221,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func cancelSimulationJob(input: CancelSimulationJobInput) async throws -> CancelSimulationJobOutputResponse
+    public func cancelSimulationJob(input: CancelSimulationJobInput) async throws -> CancelSimulationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -237,20 +237,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelSimulationJobInput, CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(id: "cancelSimulationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSimulationJobInput, CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSimulationJobInput, CancelSimulationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelSimulationJobInput, CancelSimulationJobOutput, CancelSimulationJobOutputError>(id: "cancelSimulationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSimulationJobInput, CancelSimulationJobOutput, CancelSimulationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSimulationJobInput, CancelSimulationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSimulationJobOutput, CancelSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelSimulationJobInput, CancelSimulationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelSimulationJobInput, CancelSimulationJobOutputResponse>(xmlName: "CancelSimulationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelSimulationJobInput, CancelSimulationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelSimulationJobInput, CancelSimulationJobOutput>(xmlName: "CancelSimulationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSimulationJobOutput, CancelSimulationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSimulationJobOutput, CancelSimulationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSimulationJobOutput, CancelSimulationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSimulationJobOutput, CancelSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -259,7 +259,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CancelSimulationJobBatchInput : [no documentation found]
     ///
-    /// - Returns: `CancelSimulationJobBatchOutputResponse` : [no documentation found]
+    /// - Returns: `CancelSimulationJobBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,7 +268,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func cancelSimulationJobBatch(input: CancelSimulationJobBatchInput) async throws -> CancelSimulationJobBatchOutputResponse
+    public func cancelSimulationJobBatch(input: CancelSimulationJobBatchInput) async throws -> CancelSimulationJobBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -284,20 +284,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(id: "cancelSimulationJobBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutput, CancelSimulationJobBatchOutputError>(id: "cancelSimulationJobBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutput, CancelSimulationJobBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSimulationJobBatchOutput, CancelSimulationJobBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse>(xmlName: "CancelSimulationJobBatchRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutput>(xmlName: "CancelSimulationJobBatchRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSimulationJobBatchOutput, CancelSimulationJobBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSimulationJobBatchOutput, CancelSimulationJobBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSimulationJobBatchOutput, CancelSimulationJobBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSimulationJobBatchOutput, CancelSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -306,7 +306,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CancelWorldExportJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelWorldExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelWorldExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -315,7 +315,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func cancelWorldExportJob(input: CancelWorldExportJobInput) async throws -> CancelWorldExportJobOutputResponse
+    public func cancelWorldExportJob(input: CancelWorldExportJobInput) async throws -> CancelWorldExportJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -331,20 +331,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(id: "cancelWorldExportJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelWorldExportJobInput, CancelWorldExportJobOutput, CancelWorldExportJobOutputError>(id: "cancelWorldExportJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutput, CancelWorldExportJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelWorldExportJobOutput, CancelWorldExportJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse>(xmlName: "CancelWorldExportJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutput>(xmlName: "CancelWorldExportJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelWorldExportJobOutput, CancelWorldExportJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelWorldExportJobOutput, CancelWorldExportJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelWorldExportJobOutput, CancelWorldExportJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelWorldExportJobOutput, CancelWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -353,7 +353,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CancelWorldGenerationJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelWorldGenerationJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelWorldGenerationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -362,7 +362,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func cancelWorldGenerationJob(input: CancelWorldGenerationJobInput) async throws -> CancelWorldGenerationJobOutputResponse
+    public func cancelWorldGenerationJob(input: CancelWorldGenerationJobInput) async throws -> CancelWorldGenerationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -378,20 +378,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(id: "cancelWorldGenerationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutput, CancelWorldGenerationJobOutputError>(id: "cancelWorldGenerationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutput, CancelWorldGenerationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelWorldGenerationJobOutput, CancelWorldGenerationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse>(xmlName: "CancelWorldGenerationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutput>(xmlName: "CancelWorldGenerationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelWorldGenerationJobOutput, CancelWorldGenerationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelWorldGenerationJobOutput, CancelWorldGenerationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelWorldGenerationJobOutput, CancelWorldGenerationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelWorldGenerationJobOutput, CancelWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -401,7 +401,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateDeploymentJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeploymentJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeploymentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +413,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createDeploymentJob(input: CreateDeploymentJobInput) async throws -> CreateDeploymentJobOutputResponse
+    public func createDeploymentJob(input: CreateDeploymentJobInput) async throws -> CreateDeploymentJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -429,28 +429,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDeploymentJobInput, CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(id: "createDeploymentJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDeploymentJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDeploymentJobInput, CreateDeploymentJobOutput, CreateDeploymentJobOutputError>(id: "createDeploymentJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutput, CreateDeploymentJobOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutput, CreateDeploymentJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeploymentJobOutput, CreateDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutputResponse>(xmlName: "CreateDeploymentJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutput>(xmlName: "CreateDeploymentJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeploymentJobOutput, CreateDeploymentJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeploymentJobOutput, CreateDeploymentJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeploymentJobOutput, CreateDeploymentJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeploymentJobOutput, CreateDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -460,7 +453,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateFleetInput : [no documentation found]
     ///
-    /// - Returns: `CreateFleetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,7 +462,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutputResponse
+    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -485,20 +478,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>(id: "createFleet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateFleetInput, CreateFleetOutput, CreateFleetOutputError>(id: "createFleet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFleetInput, CreateFleetOutput, CreateFleetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFleetOutput, CreateFleetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFleetInput, CreateFleetOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFleetInput, CreateFleetOutputResponse>(xmlName: "CreateFleetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFleetInput, CreateFleetOutput>(xmlName: "CreateFleetRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFleetOutputResponse, CreateFleetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFleetOutput, CreateFleetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFleetOutputResponse, CreateFleetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFleetOutput, CreateFleetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFleetOutput, CreateFleetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFleetOutput, CreateFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -508,7 +501,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateRobotInput : [no documentation found]
     ///
-    /// - Returns: `CreateRobotOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRobotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,7 +511,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createRobot(input: CreateRobotInput) async throws -> CreateRobotOutputResponse
+    public func createRobot(input: CreateRobotInput) async throws -> CreateRobotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -534,20 +527,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRobotInput, CreateRobotOutputResponse, CreateRobotOutputError>(id: "createRobot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotInput, CreateRobotOutputResponse, CreateRobotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotInput, CreateRobotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateRobotInput, CreateRobotOutput, CreateRobotOutputError>(id: "createRobot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotInput, CreateRobotOutput, CreateRobotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotInput, CreateRobotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRobotOutputResponse, CreateRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRobotOutput, CreateRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRobotInput, CreateRobotOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRobotInput, CreateRobotOutputResponse>(xmlName: "CreateRobotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRobotInput, CreateRobotOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRobotInput, CreateRobotOutput>(xmlName: "CreateRobotRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRobotOutputResponse, CreateRobotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRobotOutput, CreateRobotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotOutputResponse, CreateRobotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotOutputResponse, CreateRobotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotOutputResponse, CreateRobotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotOutput, CreateRobotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotOutput, CreateRobotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotOutput, CreateRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -556,7 +549,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateRobotApplicationInput : [no documentation found]
     ///
-    /// - Returns: `CreateRobotApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRobotApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -567,7 +560,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createRobotApplication(input: CreateRobotApplicationInput) async throws -> CreateRobotApplicationOutputResponse
+    public func createRobotApplication(input: CreateRobotApplicationInput) async throws -> CreateRobotApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -583,20 +576,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(id: "createRobotApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateRobotApplicationInput, CreateRobotApplicationOutput, CreateRobotApplicationOutputError>(id: "createRobotApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutput, CreateRobotApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRobotApplicationOutput, CreateRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse>(xmlName: "CreateRobotApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutput>(xmlName: "CreateRobotApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRobotApplicationOutput, CreateRobotApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotApplicationOutput, CreateRobotApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotApplicationOutput, CreateRobotApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotApplicationOutput, CreateRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -605,7 +598,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateRobotApplicationVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateRobotApplicationVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRobotApplicationVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -615,7 +608,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createRobotApplicationVersion(input: CreateRobotApplicationVersionInput) async throws -> CreateRobotApplicationVersionOutputResponse
+    public func createRobotApplicationVersion(input: CreateRobotApplicationVersionInput) async throws -> CreateRobotApplicationVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -631,20 +624,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(id: "createRobotApplicationVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutput, CreateRobotApplicationVersionOutputError>(id: "createRobotApplicationVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutput, CreateRobotApplicationVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRobotApplicationVersionOutput, CreateRobotApplicationVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse>(xmlName: "CreateRobotApplicationVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutput>(xmlName: "CreateRobotApplicationVersionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRobotApplicationVersionOutput, CreateRobotApplicationVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotApplicationVersionOutput, CreateRobotApplicationVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotApplicationVersionOutput, CreateRobotApplicationVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotApplicationVersionOutput, CreateRobotApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -653,7 +646,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateSimulationApplicationInput : [no documentation found]
     ///
-    /// - Returns: `CreateSimulationApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSimulationApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,7 +657,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createSimulationApplication(input: CreateSimulationApplicationInput) async throws -> CreateSimulationApplicationOutputResponse
+    public func createSimulationApplication(input: CreateSimulationApplicationInput) async throws -> CreateSimulationApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -680,20 +673,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(id: "createSimulationApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSimulationApplicationInput, CreateSimulationApplicationOutput, CreateSimulationApplicationOutputError>(id: "createSimulationApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutput, CreateSimulationApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSimulationApplicationOutput, CreateSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse>(xmlName: "CreateSimulationApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutput>(xmlName: "CreateSimulationApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSimulationApplicationOutput, CreateSimulationApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationApplicationOutput, CreateSimulationApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationOutput, CreateSimulationApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationApplicationOutput, CreateSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -702,7 +695,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateSimulationApplicationVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateSimulationApplicationVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSimulationApplicationVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -712,7 +705,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createSimulationApplicationVersion(input: CreateSimulationApplicationVersionInput) async throws -> CreateSimulationApplicationVersionOutputResponse
+    public func createSimulationApplicationVersion(input: CreateSimulationApplicationVersionInput) async throws -> CreateSimulationApplicationVersionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -728,20 +721,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(id: "createSimulationApplicationVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutput, CreateSimulationApplicationVersionOutputError>(id: "createSimulationApplicationVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutput, CreateSimulationApplicationVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSimulationApplicationVersionOutput, CreateSimulationApplicationVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse>(xmlName: "CreateSimulationApplicationVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutput>(xmlName: "CreateSimulationApplicationVersionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSimulationApplicationVersionOutput, CreateSimulationApplicationVersionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationApplicationVersionOutput, CreateSimulationApplicationVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationVersionOutput, CreateSimulationApplicationVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationApplicationVersionOutput, CreateSimulationApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -750,7 +743,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateSimulationJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateSimulationJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSimulationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,7 +755,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createSimulationJob(input: CreateSimulationJobInput) async throws -> CreateSimulationJobOutputResponse
+    public func createSimulationJob(input: CreateSimulationJobInput) async throws -> CreateSimulationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -778,28 +771,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSimulationJobInput, CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(id: "createSimulationJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateSimulationJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationJobInput, CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationJobInput, CreateSimulationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSimulationJobInput, CreateSimulationJobOutput, CreateSimulationJobOutputError>(id: "createSimulationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateSimulationJobInput, CreateSimulationJobOutput, CreateSimulationJobOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationJobInput, CreateSimulationJobOutput, CreateSimulationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationJobInput, CreateSimulationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSimulationJobOutput, CreateSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSimulationJobInput, CreateSimulationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSimulationJobInput, CreateSimulationJobOutputResponse>(xmlName: "CreateSimulationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSimulationJobInput, CreateSimulationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSimulationJobInput, CreateSimulationJobOutput>(xmlName: "CreateSimulationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSimulationJobOutput, CreateSimulationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationJobOutput, CreateSimulationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationJobOutput, CreateSimulationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationJobOutput, CreateSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -808,7 +794,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateWorldExportJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorldExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorldExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,7 +805,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createWorldExportJob(input: CreateWorldExportJobInput) async throws -> CreateWorldExportJobOutputResponse
+    public func createWorldExportJob(input: CreateWorldExportJobInput) async throws -> CreateWorldExportJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -835,28 +821,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWorldExportJobInput, CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(id: "createWorldExportJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateWorldExportJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateWorldExportJobInput, CreateWorldExportJobOutput, CreateWorldExportJobOutputError>(id: "createWorldExportJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutput, CreateWorldExportJobOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutput, CreateWorldExportJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorldExportJobOutput, CreateWorldExportJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutputResponse>(xmlName: "CreateWorldExportJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutput>(xmlName: "CreateWorldExportJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorldExportJobOutput, CreateWorldExportJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldExportJobOutput, CreateWorldExportJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldExportJobOutput, CreateWorldExportJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldExportJobOutput, CreateWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -865,7 +844,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateWorldGenerationJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorldGenerationJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorldGenerationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,7 +856,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createWorldGenerationJob(input: CreateWorldGenerationJobInput) async throws -> CreateWorldGenerationJobOutputResponse
+    public func createWorldGenerationJob(input: CreateWorldGenerationJobInput) async throws -> CreateWorldGenerationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -893,28 +872,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(id: "createWorldGenerationJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateWorldGenerationJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>(id: "createWorldGenerationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutputResponse>(xmlName: "CreateWorldGenerationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput>(xmlName: "CreateWorldGenerationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldGenerationJobOutput, CreateWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -923,7 +895,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter CreateWorldTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorldTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorldTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,7 +906,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func createWorldTemplate(input: CreateWorldTemplateInput) async throws -> CreateWorldTemplateOutputResponse
+    public func createWorldTemplate(input: CreateWorldTemplateInput) async throws -> CreateWorldTemplateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -950,20 +922,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(id: "createWorldTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateWorldTemplateInput, CreateWorldTemplateOutput, CreateWorldTemplateOutputError>(id: "createWorldTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutput, CreateWorldTemplateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorldTemplateOutput, CreateWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse>(xmlName: "CreateWorldTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutput>(xmlName: "CreateWorldTemplateRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorldTemplateOutput, CreateWorldTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldTemplateOutput, CreateWorldTemplateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldTemplateOutput, CreateWorldTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldTemplateOutput, CreateWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -973,7 +945,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DeleteFleetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,7 +953,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutputResponse
+    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -997,20 +969,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>(id: "deleteFleet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFleetInput, DeleteFleetOutput, DeleteFleetOutputError>(id: "deleteFleet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetInput, DeleteFleetOutput, DeleteFleetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFleetOutput, DeleteFleetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteFleetInput, DeleteFleetOutputResponse>(xmlName: "DeleteFleetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteFleetInput, DeleteFleetOutput>(xmlName: "DeleteFleetRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFleetOutputResponse, DeleteFleetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFleetOutput, DeleteFleetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetOutput, DeleteFleetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetOutput, DeleteFleetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetOutput, DeleteFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1020,7 +992,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DeleteRobotInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRobotOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRobotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1028,7 +1000,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func deleteRobot(input: DeleteRobotInput) async throws -> DeleteRobotOutputResponse
+    public func deleteRobot(input: DeleteRobotInput) async throws -> DeleteRobotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1044,20 +1016,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRobotInput, DeleteRobotOutputResponse, DeleteRobotOutputError>(id: "deleteRobot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRobotInput, DeleteRobotOutputResponse, DeleteRobotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRobotInput, DeleteRobotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRobotInput, DeleteRobotOutput, DeleteRobotOutputError>(id: "deleteRobot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRobotInput, DeleteRobotOutput, DeleteRobotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRobotInput, DeleteRobotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRobotOutputResponse, DeleteRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRobotOutput, DeleteRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRobotInput, DeleteRobotOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRobotInput, DeleteRobotOutputResponse>(xmlName: "DeleteRobotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRobotInput, DeleteRobotOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRobotInput, DeleteRobotOutput>(xmlName: "DeleteRobotRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRobotOutputResponse, DeleteRobotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRobotOutput, DeleteRobotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRobotOutputResponse, DeleteRobotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRobotOutputResponse, DeleteRobotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRobotOutputResponse, DeleteRobotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRobotOutput, DeleteRobotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRobotOutput, DeleteRobotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRobotOutput, DeleteRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1066,7 +1038,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DeleteRobotApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRobotApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRobotApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,7 +1046,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func deleteRobotApplication(input: DeleteRobotApplicationInput) async throws -> DeleteRobotApplicationOutputResponse
+    public func deleteRobotApplication(input: DeleteRobotApplicationInput) async throws -> DeleteRobotApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1090,20 +1062,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(id: "deleteRobotApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRobotApplicationInput, DeleteRobotApplicationOutput, DeleteRobotApplicationOutputError>(id: "deleteRobotApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutput, DeleteRobotApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRobotApplicationOutput, DeleteRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse>(xmlName: "DeleteRobotApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutput>(xmlName: "DeleteRobotApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRobotApplicationOutput, DeleteRobotApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRobotApplicationOutput, DeleteRobotApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRobotApplicationOutput, DeleteRobotApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRobotApplicationOutput, DeleteRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1112,7 +1084,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DeleteSimulationApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSimulationApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSimulationApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,7 +1092,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func deleteSimulationApplication(input: DeleteSimulationApplicationInput) async throws -> DeleteSimulationApplicationOutputResponse
+    public func deleteSimulationApplication(input: DeleteSimulationApplicationInput) async throws -> DeleteSimulationApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1136,20 +1108,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(id: "deleteSimulationApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutput, DeleteSimulationApplicationOutputError>(id: "deleteSimulationApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutput, DeleteSimulationApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSimulationApplicationOutput, DeleteSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse>(xmlName: "DeleteSimulationApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutput>(xmlName: "DeleteSimulationApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSimulationApplicationOutput, DeleteSimulationApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSimulationApplicationOutput, DeleteSimulationApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSimulationApplicationOutput, DeleteSimulationApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSimulationApplicationOutput, DeleteSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1158,7 +1130,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DeleteWorldTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorldTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorldTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,7 +1139,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func deleteWorldTemplate(input: DeleteWorldTemplateInput) async throws -> DeleteWorldTemplateOutputResponse
+    public func deleteWorldTemplate(input: DeleteWorldTemplateInput) async throws -> DeleteWorldTemplateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1183,20 +1155,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(id: "deleteWorldTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteWorldTemplateInput, DeleteWorldTemplateOutput, DeleteWorldTemplateOutputError>(id: "deleteWorldTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutput, DeleteWorldTemplateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorldTemplateOutput, DeleteWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse>(xmlName: "DeleteWorldTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutput>(xmlName: "DeleteWorldTemplateRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWorldTemplateOutput, DeleteWorldTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorldTemplateOutput, DeleteWorldTemplateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorldTemplateOutput, DeleteWorldTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorldTemplateOutput, DeleteWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1206,7 +1178,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DeregisterRobotInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterRobotOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterRobotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,7 +1187,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func deregisterRobot(input: DeregisterRobotInput) async throws -> DeregisterRobotOutputResponse
+    public func deregisterRobot(input: DeregisterRobotInput) async throws -> DeregisterRobotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1231,20 +1203,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeregisterRobotInput, DeregisterRobotOutputResponse, DeregisterRobotOutputError>(id: "deregisterRobot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterRobotInput, DeregisterRobotOutputResponse, DeregisterRobotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterRobotInput, DeregisterRobotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeregisterRobotInput, DeregisterRobotOutput, DeregisterRobotOutputError>(id: "deregisterRobot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterRobotInput, DeregisterRobotOutput, DeregisterRobotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterRobotInput, DeregisterRobotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterRobotOutputResponse, DeregisterRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterRobotOutput, DeregisterRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterRobotInput, DeregisterRobotOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterRobotInput, DeregisterRobotOutputResponse>(xmlName: "DeregisterRobotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterRobotInput, DeregisterRobotOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterRobotInput, DeregisterRobotOutput>(xmlName: "DeregisterRobotRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterRobotOutputResponse, DeregisterRobotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterRobotOutput, DeregisterRobotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterRobotOutputResponse, DeregisterRobotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterRobotOutputResponse, DeregisterRobotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterRobotOutputResponse, DeregisterRobotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterRobotOutput, DeregisterRobotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterRobotOutput, DeregisterRobotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterRobotOutput, DeregisterRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1254,7 +1226,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeDeploymentJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeploymentJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeploymentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,7 +1235,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeDeploymentJob(input: DescribeDeploymentJobInput) async throws -> DescribeDeploymentJobOutputResponse
+    public func describeDeploymentJob(input: DescribeDeploymentJobInput) async throws -> DescribeDeploymentJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1279,20 +1251,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(id: "describeDeploymentJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDeploymentJobInput, DescribeDeploymentJobOutput, DescribeDeploymentJobOutputError>(id: "describeDeploymentJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutput, DescribeDeploymentJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeploymentJobOutput, DescribeDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse>(xmlName: "DescribeDeploymentJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutput>(xmlName: "DescribeDeploymentJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeploymentJobOutput, DescribeDeploymentJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeploymentJobOutput, DescribeDeploymentJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeploymentJobOutput, DescribeDeploymentJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeploymentJobOutput, DescribeDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1302,7 +1274,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeFleetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1311,7 +1283,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeFleet(input: DescribeFleetInput) async throws -> DescribeFleetOutputResponse
+    public func describeFleet(input: DescribeFleetInput) async throws -> DescribeFleetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1327,20 +1299,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeFleetInput, DescribeFleetOutputResponse, DescribeFleetOutputError>(id: "describeFleet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetInput, DescribeFleetOutputResponse, DescribeFleetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetInput, DescribeFleetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeFleetInput, DescribeFleetOutput, DescribeFleetOutputError>(id: "describeFleet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetInput, DescribeFleetOutput, DescribeFleetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetInput, DescribeFleetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFleetOutputResponse, DescribeFleetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFleetOutput, DescribeFleetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeFleetInput, DescribeFleetOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeFleetInput, DescribeFleetOutputResponse>(xmlName: "DescribeFleetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeFleetInput, DescribeFleetOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeFleetInput, DescribeFleetOutput>(xmlName: "DescribeFleetRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFleetOutputResponse, DescribeFleetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFleetOutput, DescribeFleetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetOutputResponse, DescribeFleetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetOutputResponse, DescribeFleetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetOutputResponse, DescribeFleetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetOutput, DescribeFleetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetOutput, DescribeFleetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetOutput, DescribeFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1350,7 +1322,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeRobotInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRobotOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRobotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,7 +1331,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeRobot(input: DescribeRobotInput) async throws -> DescribeRobotOutputResponse
+    public func describeRobot(input: DescribeRobotInput) async throws -> DescribeRobotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1375,20 +1347,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRobotInput, DescribeRobotOutputResponse, DescribeRobotOutputError>(id: "describeRobot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRobotInput, DescribeRobotOutputResponse, DescribeRobotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRobotInput, DescribeRobotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRobotInput, DescribeRobotOutput, DescribeRobotOutputError>(id: "describeRobot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRobotInput, DescribeRobotOutput, DescribeRobotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRobotInput, DescribeRobotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRobotOutputResponse, DescribeRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRobotOutput, DescribeRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRobotInput, DescribeRobotOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRobotInput, DescribeRobotOutputResponse>(xmlName: "DescribeRobotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRobotInput, DescribeRobotOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRobotInput, DescribeRobotOutput>(xmlName: "DescribeRobotRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRobotOutputResponse, DescribeRobotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRobotOutput, DescribeRobotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRobotOutputResponse, DescribeRobotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRobotOutputResponse, DescribeRobotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRobotOutputResponse, DescribeRobotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRobotOutput, DescribeRobotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRobotOutput, DescribeRobotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRobotOutput, DescribeRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1397,7 +1369,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeRobotApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRobotApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRobotApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,7 +1378,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeRobotApplication(input: DescribeRobotApplicationInput) async throws -> DescribeRobotApplicationOutputResponse
+    public func describeRobotApplication(input: DescribeRobotApplicationInput) async throws -> DescribeRobotApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1422,20 +1394,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(id: "describeRobotApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRobotApplicationInput, DescribeRobotApplicationOutput, DescribeRobotApplicationOutputError>(id: "describeRobotApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutput, DescribeRobotApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRobotApplicationOutput, DescribeRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse>(xmlName: "DescribeRobotApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutput>(xmlName: "DescribeRobotApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRobotApplicationOutput, DescribeRobotApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRobotApplicationOutput, DescribeRobotApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRobotApplicationOutput, DescribeRobotApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRobotApplicationOutput, DescribeRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1444,7 +1416,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeSimulationApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSimulationApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSimulationApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1453,7 +1425,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeSimulationApplication(input: DescribeSimulationApplicationInput) async throws -> DescribeSimulationApplicationOutputResponse
+    public func describeSimulationApplication(input: DescribeSimulationApplicationInput) async throws -> DescribeSimulationApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1469,20 +1441,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(id: "describeSimulationApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutput, DescribeSimulationApplicationOutputError>(id: "describeSimulationApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutput, DescribeSimulationApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSimulationApplicationOutput, DescribeSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse>(xmlName: "DescribeSimulationApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutput>(xmlName: "DescribeSimulationApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSimulationApplicationOutput, DescribeSimulationApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationApplicationOutput, DescribeSimulationApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationApplicationOutput, DescribeSimulationApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationApplicationOutput, DescribeSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1491,7 +1463,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeSimulationJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSimulationJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSimulationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1500,7 +1472,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeSimulationJob(input: DescribeSimulationJobInput) async throws -> DescribeSimulationJobOutputResponse
+    public func describeSimulationJob(input: DescribeSimulationJobInput) async throws -> DescribeSimulationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1516,20 +1488,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(id: "describeSimulationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSimulationJobInput, DescribeSimulationJobOutput, DescribeSimulationJobOutputError>(id: "describeSimulationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutput, DescribeSimulationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSimulationJobOutput, DescribeSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse>(xmlName: "DescribeSimulationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutput>(xmlName: "DescribeSimulationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSimulationJobOutput, DescribeSimulationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationJobOutput, DescribeSimulationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationJobOutput, DescribeSimulationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationJobOutput, DescribeSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1538,7 +1510,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeSimulationJobBatchInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSimulationJobBatchOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSimulationJobBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1546,7 +1518,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func describeSimulationJobBatch(input: DescribeSimulationJobBatchInput) async throws -> DescribeSimulationJobBatchOutputResponse
+    public func describeSimulationJobBatch(input: DescribeSimulationJobBatchInput) async throws -> DescribeSimulationJobBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1562,20 +1534,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(id: "describeSimulationJobBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutput, DescribeSimulationJobBatchOutputError>(id: "describeSimulationJobBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutput, DescribeSimulationJobBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSimulationJobBatchOutput, DescribeSimulationJobBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse>(xmlName: "DescribeSimulationJobBatchRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutput>(xmlName: "DescribeSimulationJobBatchRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSimulationJobBatchOutput, DescribeSimulationJobBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationJobBatchOutput, DescribeSimulationJobBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationJobBatchOutput, DescribeSimulationJobBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationJobBatchOutput, DescribeSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1584,7 +1556,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeWorldInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorldOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeWorldOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1593,7 +1565,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeWorld(input: DescribeWorldInput) async throws -> DescribeWorldOutputResponse
+    public func describeWorld(input: DescribeWorldInput) async throws -> DescribeWorldOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1609,20 +1581,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeWorldInput, DescribeWorldOutputResponse, DescribeWorldOutputError>(id: "describeWorld")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldInput, DescribeWorldOutputResponse, DescribeWorldOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldInput, DescribeWorldOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeWorldInput, DescribeWorldOutput, DescribeWorldOutputError>(id: "describeWorld")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldInput, DescribeWorldOutput, DescribeWorldOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldInput, DescribeWorldOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldOutputResponse, DescribeWorldOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldOutput, DescribeWorldOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldInput, DescribeWorldOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldInput, DescribeWorldOutputResponse>(xmlName: "DescribeWorldRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldInput, DescribeWorldOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldInput, DescribeWorldOutput>(xmlName: "DescribeWorldRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldOutputResponse, DescribeWorldOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldOutput, DescribeWorldOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldOutputResponse, DescribeWorldOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldOutputResponse, DescribeWorldOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldOutputResponse, DescribeWorldOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldOutput, DescribeWorldOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldOutput, DescribeWorldOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldOutput, DescribeWorldOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1631,7 +1603,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeWorldExportJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorldExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeWorldExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1640,7 +1612,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeWorldExportJob(input: DescribeWorldExportJobInput) async throws -> DescribeWorldExportJobOutputResponse
+    public func describeWorldExportJob(input: DescribeWorldExportJobInput) async throws -> DescribeWorldExportJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1656,20 +1628,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(id: "describeWorldExportJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeWorldExportJobInput, DescribeWorldExportJobOutput, DescribeWorldExportJobOutputError>(id: "describeWorldExportJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutput, DescribeWorldExportJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldExportJobOutput, DescribeWorldExportJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse>(xmlName: "DescribeWorldExportJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutput>(xmlName: "DescribeWorldExportJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldExportJobOutput, DescribeWorldExportJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldExportJobOutput, DescribeWorldExportJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldExportJobOutput, DescribeWorldExportJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldExportJobOutput, DescribeWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1678,7 +1650,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeWorldGenerationJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorldGenerationJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeWorldGenerationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1687,7 +1659,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeWorldGenerationJob(input: DescribeWorldGenerationJobInput) async throws -> DescribeWorldGenerationJobOutputResponse
+    public func describeWorldGenerationJob(input: DescribeWorldGenerationJobInput) async throws -> DescribeWorldGenerationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1703,20 +1675,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(id: "describeWorldGenerationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutput, DescribeWorldGenerationJobOutputError>(id: "describeWorldGenerationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutput, DescribeWorldGenerationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldGenerationJobOutput, DescribeWorldGenerationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse>(xmlName: "DescribeWorldGenerationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutput>(xmlName: "DescribeWorldGenerationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldGenerationJobOutput, DescribeWorldGenerationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldGenerationJobOutput, DescribeWorldGenerationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldGenerationJobOutput, DescribeWorldGenerationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldGenerationJobOutput, DescribeWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1725,7 +1697,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter DescribeWorldTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorldTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeWorldTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1734,7 +1706,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func describeWorldTemplate(input: DescribeWorldTemplateInput) async throws -> DescribeWorldTemplateOutputResponse
+    public func describeWorldTemplate(input: DescribeWorldTemplateInput) async throws -> DescribeWorldTemplateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1750,20 +1722,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(id: "describeWorldTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeWorldTemplateInput, DescribeWorldTemplateOutput, DescribeWorldTemplateOutputError>(id: "describeWorldTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutput, DescribeWorldTemplateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorldTemplateOutput, DescribeWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse>(xmlName: "DescribeWorldTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutput>(xmlName: "DescribeWorldTemplateRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorldTemplateOutput, DescribeWorldTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldTemplateOutput, DescribeWorldTemplateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldTemplateOutput, DescribeWorldTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldTemplateOutput, DescribeWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1772,7 +1744,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter GetWorldTemplateBodyInput : [no documentation found]
     ///
-    /// - Returns: `GetWorldTemplateBodyOutputResponse` : [no documentation found]
+    /// - Returns: `GetWorldTemplateBodyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1781,7 +1753,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func getWorldTemplateBody(input: GetWorldTemplateBodyInput) async throws -> GetWorldTemplateBodyOutputResponse
+    public func getWorldTemplateBody(input: GetWorldTemplateBodyInput) async throws -> GetWorldTemplateBodyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1797,20 +1769,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(id: "getWorldTemplateBody")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutput, GetWorldTemplateBodyOutputError>(id: "getWorldTemplateBody")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutput, GetWorldTemplateBodyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWorldTemplateBodyOutput, GetWorldTemplateBodyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse>(xmlName: "GetWorldTemplateBodyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutput>(xmlName: "GetWorldTemplateBodyRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWorldTemplateBodyOutput, GetWorldTemplateBodyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorldTemplateBodyOutput, GetWorldTemplateBodyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorldTemplateBodyOutput, GetWorldTemplateBodyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorldTemplateBodyOutput, GetWorldTemplateBodyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1820,7 +1792,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListDeploymentJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeploymentJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeploymentJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1829,7 +1801,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listDeploymentJobs(input: ListDeploymentJobsInput) async throws -> ListDeploymentJobsOutputResponse
+    public func listDeploymentJobs(input: ListDeploymentJobsInput) async throws -> ListDeploymentJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1845,20 +1817,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(id: "listDeploymentJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDeploymentJobsInput, ListDeploymentJobsOutput, ListDeploymentJobsOutputError>(id: "listDeploymentJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutput, ListDeploymentJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeploymentJobsOutput, ListDeploymentJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse>(xmlName: "ListDeploymentJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutput>(xmlName: "ListDeploymentJobsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeploymentJobsOutput, ListDeploymentJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeploymentJobsOutput, ListDeploymentJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeploymentJobsOutput, ListDeploymentJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeploymentJobsOutput, ListDeploymentJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1868,7 +1840,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListFleetsInput : [no documentation found]
     ///
-    /// - Returns: `ListFleetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFleetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1877,7 +1849,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutputResponse
+    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1893,20 +1865,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>(id: "listFleets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFleetsInput, ListFleetsOutput, ListFleetsOutputError>(id: "listFleets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFleetsInput, ListFleetsOutput, ListFleetsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFleetsOutput, ListFleetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFleetsInput, ListFleetsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListFleetsInput, ListFleetsOutputResponse>(xmlName: "ListFleetsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListFleetsInput, ListFleetsOutput>(xmlName: "ListFleetsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFleetsOutputResponse, ListFleetsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFleetsOutput, ListFleetsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFleetsOutputResponse, ListFleetsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFleetsOutput, ListFleetsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFleetsOutput, ListFleetsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFleetsOutput, ListFleetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1915,7 +1887,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListRobotApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `ListRobotApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRobotApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1923,7 +1895,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listRobotApplications(input: ListRobotApplicationsInput) async throws -> ListRobotApplicationsOutputResponse
+    public func listRobotApplications(input: ListRobotApplicationsInput) async throws -> ListRobotApplicationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1939,20 +1911,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(id: "listRobotApplications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRobotApplicationsInput, ListRobotApplicationsOutput, ListRobotApplicationsOutputError>(id: "listRobotApplications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutput, ListRobotApplicationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRobotApplicationsOutput, ListRobotApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse>(xmlName: "ListRobotApplicationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutput>(xmlName: "ListRobotApplicationsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRobotApplicationsOutput, ListRobotApplicationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRobotApplicationsOutput, ListRobotApplicationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRobotApplicationsOutput, ListRobotApplicationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRobotApplicationsOutput, ListRobotApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1962,7 +1934,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListRobotsInput : [no documentation found]
     ///
-    /// - Returns: `ListRobotsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRobotsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1971,7 +1943,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listRobots(input: ListRobotsInput) async throws -> ListRobotsOutputResponse
+    public func listRobots(input: ListRobotsInput) async throws -> ListRobotsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1987,20 +1959,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRobotsInput, ListRobotsOutputResponse, ListRobotsOutputError>(id: "listRobots")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRobotsInput, ListRobotsOutputResponse, ListRobotsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRobotsInput, ListRobotsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRobotsInput, ListRobotsOutput, ListRobotsOutputError>(id: "listRobots")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRobotsInput, ListRobotsOutput, ListRobotsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRobotsInput, ListRobotsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRobotsOutputResponse, ListRobotsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRobotsOutput, ListRobotsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRobotsInput, ListRobotsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRobotsInput, ListRobotsOutputResponse>(xmlName: "ListRobotsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRobotsInput, ListRobotsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRobotsInput, ListRobotsOutput>(xmlName: "ListRobotsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRobotsOutputResponse, ListRobotsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRobotsOutput, ListRobotsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRobotsOutputResponse, ListRobotsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRobotsOutputResponse, ListRobotsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRobotsOutputResponse, ListRobotsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRobotsOutput, ListRobotsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRobotsOutput, ListRobotsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRobotsOutput, ListRobotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2009,7 +1981,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListSimulationApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `ListSimulationApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSimulationApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,7 +1989,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listSimulationApplications(input: ListSimulationApplicationsInput) async throws -> ListSimulationApplicationsOutputResponse
+    public func listSimulationApplications(input: ListSimulationApplicationsInput) async throws -> ListSimulationApplicationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2033,20 +2005,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(id: "listSimulationApplications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSimulationApplicationsInput, ListSimulationApplicationsOutput, ListSimulationApplicationsOutputError>(id: "listSimulationApplications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutput, ListSimulationApplicationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSimulationApplicationsOutput, ListSimulationApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse>(xmlName: "ListSimulationApplicationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>(xmlName: "ListSimulationApplicationsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSimulationApplicationsOutput, ListSimulationApplicationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationApplicationsOutput, ListSimulationApplicationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationApplicationsOutput, ListSimulationApplicationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationApplicationsOutput, ListSimulationApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2055,14 +2027,14 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListSimulationJobBatchesInput : [no documentation found]
     ///
-    /// - Returns: `ListSimulationJobBatchesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSimulationJobBatchesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
-    public func listSimulationJobBatches(input: ListSimulationJobBatchesInput) async throws -> ListSimulationJobBatchesOutputResponse
+    public func listSimulationJobBatches(input: ListSimulationJobBatchesInput) async throws -> ListSimulationJobBatchesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2078,20 +2050,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(id: "listSimulationJobBatches")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput, ListSimulationJobBatchesOutputError>(id: "listSimulationJobBatches")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput, ListSimulationJobBatchesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSimulationJobBatchesOutput, ListSimulationJobBatchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse>(xmlName: "ListSimulationJobBatchesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>(xmlName: "ListSimulationJobBatchesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSimulationJobBatchesOutput, ListSimulationJobBatchesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationJobBatchesOutput, ListSimulationJobBatchesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationJobBatchesOutput, ListSimulationJobBatchesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationJobBatchesOutput, ListSimulationJobBatchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2100,7 +2072,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListSimulationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListSimulationJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSimulationJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2108,7 +2080,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listSimulationJobs(input: ListSimulationJobsInput) async throws -> ListSimulationJobsOutputResponse
+    public func listSimulationJobs(input: ListSimulationJobsInput) async throws -> ListSimulationJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2124,20 +2096,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSimulationJobsInput, ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(id: "listSimulationJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationJobsInput, ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationJobsInput, ListSimulationJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSimulationJobsInput, ListSimulationJobsOutput, ListSimulationJobsOutputError>(id: "listSimulationJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationJobsInput, ListSimulationJobsOutput, ListSimulationJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationJobsInput, ListSimulationJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSimulationJobsOutput, ListSimulationJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSimulationJobsInput, ListSimulationJobsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSimulationJobsInput, ListSimulationJobsOutputResponse>(xmlName: "ListSimulationJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSimulationJobsInput, ListSimulationJobsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSimulationJobsInput, ListSimulationJobsOutput>(xmlName: "ListSimulationJobsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSimulationJobsOutput, ListSimulationJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationJobsOutput, ListSimulationJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationJobsOutput, ListSimulationJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationJobsOutput, ListSimulationJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2146,7 +2118,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2155,7 +2127,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2171,17 +2143,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2190,7 +2162,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListWorldExportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorldExportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorldExportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2198,7 +2170,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listWorldExportJobs(input: ListWorldExportJobsInput) async throws -> ListWorldExportJobsOutputResponse
+    public func listWorldExportJobs(input: ListWorldExportJobsInput) async throws -> ListWorldExportJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2214,20 +2186,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(id: "listWorldExportJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListWorldExportJobsInput, ListWorldExportJobsOutput, ListWorldExportJobsOutputError>(id: "listWorldExportJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutput, ListWorldExportJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldExportJobsOutput, ListWorldExportJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse>(xmlName: "ListWorldExportJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutput>(xmlName: "ListWorldExportJobsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldExportJobsOutput, ListWorldExportJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldExportJobsOutput, ListWorldExportJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldExportJobsOutput, ListWorldExportJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldExportJobsOutput, ListWorldExportJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2236,7 +2208,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListWorldGenerationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorldGenerationJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorldGenerationJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2244,7 +2216,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listWorldGenerationJobs(input: ListWorldGenerationJobsInput) async throws -> ListWorldGenerationJobsOutputResponse
+    public func listWorldGenerationJobs(input: ListWorldGenerationJobsInput) async throws -> ListWorldGenerationJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2260,20 +2232,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(id: "listWorldGenerationJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput, ListWorldGenerationJobsOutputError>(id: "listWorldGenerationJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput, ListWorldGenerationJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldGenerationJobsOutput, ListWorldGenerationJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse>(xmlName: "ListWorldGenerationJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>(xmlName: "ListWorldGenerationJobsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldGenerationJobsOutput, ListWorldGenerationJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldGenerationJobsOutput, ListWorldGenerationJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldGenerationJobsOutput, ListWorldGenerationJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldGenerationJobsOutput, ListWorldGenerationJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2282,7 +2254,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListWorldTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListWorldTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorldTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,7 +2262,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listWorldTemplates(input: ListWorldTemplatesInput) async throws -> ListWorldTemplatesOutputResponse
+    public func listWorldTemplates(input: ListWorldTemplatesInput) async throws -> ListWorldTemplatesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2306,20 +2278,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(id: "listWorldTemplates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListWorldTemplatesInput, ListWorldTemplatesOutput, ListWorldTemplatesOutputError>(id: "listWorldTemplates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutput, ListWorldTemplatesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldTemplatesOutput, ListWorldTemplatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse>(xmlName: "ListWorldTemplatesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutput>(xmlName: "ListWorldTemplatesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldTemplatesOutput, ListWorldTemplatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldTemplatesOutput, ListWorldTemplatesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldTemplatesOutput, ListWorldTemplatesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldTemplatesOutput, ListWorldTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2328,7 +2300,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter ListWorldsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorldsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorldsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2336,7 +2308,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func listWorlds(input: ListWorldsInput) async throws -> ListWorldsOutputResponse
+    public func listWorlds(input: ListWorldsInput) async throws -> ListWorldsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2352,20 +2324,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWorldsInput, ListWorldsOutputResponse, ListWorldsOutputError>(id: "listWorlds")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldsInput, ListWorldsOutputResponse, ListWorldsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldsInput, ListWorldsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListWorldsInput, ListWorldsOutput, ListWorldsOutputError>(id: "listWorlds")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldsInput, ListWorldsOutput, ListWorldsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldsInput, ListWorldsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldsOutputResponse, ListWorldsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorldsOutput, ListWorldsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldsInput, ListWorldsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldsInput, ListWorldsOutputResponse>(xmlName: "ListWorldsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWorldsInput, ListWorldsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWorldsInput, ListWorldsOutput>(xmlName: "ListWorldsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldsOutputResponse, ListWorldsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorldsOutput, ListWorldsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldsOutputResponse, ListWorldsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldsOutputResponse, ListWorldsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldsOutputResponse, ListWorldsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldsOutput, ListWorldsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldsOutput, ListWorldsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldsOutput, ListWorldsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2375,7 +2347,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter RegisterRobotInput : [no documentation found]
     ///
-    /// - Returns: `RegisterRobotOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterRobotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2385,7 +2357,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func registerRobot(input: RegisterRobotInput) async throws -> RegisterRobotOutputResponse
+    public func registerRobot(input: RegisterRobotInput) async throws -> RegisterRobotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2401,20 +2373,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegisterRobotInput, RegisterRobotOutputResponse, RegisterRobotOutputError>(id: "registerRobot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterRobotInput, RegisterRobotOutputResponse, RegisterRobotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterRobotInput, RegisterRobotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RegisterRobotInput, RegisterRobotOutput, RegisterRobotOutputError>(id: "registerRobot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterRobotInput, RegisterRobotOutput, RegisterRobotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterRobotInput, RegisterRobotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterRobotOutputResponse, RegisterRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterRobotOutput, RegisterRobotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterRobotInput, RegisterRobotOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterRobotInput, RegisterRobotOutputResponse>(xmlName: "RegisterRobotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterRobotInput, RegisterRobotOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterRobotInput, RegisterRobotOutput>(xmlName: "RegisterRobotRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterRobotOutputResponse, RegisterRobotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterRobotOutput, RegisterRobotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterRobotOutputResponse, RegisterRobotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterRobotOutputResponse, RegisterRobotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterRobotOutputResponse, RegisterRobotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterRobotOutput, RegisterRobotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterRobotOutput, RegisterRobotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterRobotOutput, RegisterRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2423,7 +2395,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter RestartSimulationJobInput : [no documentation found]
     ///
-    /// - Returns: `RestartSimulationJobOutputResponse` : [no documentation found]
+    /// - Returns: `RestartSimulationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2433,7 +2405,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func restartSimulationJob(input: RestartSimulationJobInput) async throws -> RestartSimulationJobOutputResponse
+    public func restartSimulationJob(input: RestartSimulationJobInput) async throws -> RestartSimulationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2449,20 +2421,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RestartSimulationJobInput, RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(id: "restartSimulationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestartSimulationJobInput, RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestartSimulationJobInput, RestartSimulationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RestartSimulationJobInput, RestartSimulationJobOutput, RestartSimulationJobOutputError>(id: "restartSimulationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestartSimulationJobInput, RestartSimulationJobOutput, RestartSimulationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestartSimulationJobInput, RestartSimulationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestartSimulationJobOutput, RestartSimulationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestartSimulationJobInput, RestartSimulationJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RestartSimulationJobInput, RestartSimulationJobOutputResponse>(xmlName: "RestartSimulationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestartSimulationJobInput, RestartSimulationJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RestartSimulationJobInput, RestartSimulationJobOutput>(xmlName: "RestartSimulationJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestartSimulationJobOutput, RestartSimulationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestartSimulationJobOutput, RestartSimulationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestartSimulationJobOutput, RestartSimulationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestartSimulationJobOutput, RestartSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2471,7 +2443,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter StartSimulationJobBatchInput : [no documentation found]
     ///
-    /// - Returns: `StartSimulationJobBatchOutputResponse` : [no documentation found]
+    /// - Returns: `StartSimulationJobBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2481,7 +2453,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func startSimulationJobBatch(input: StartSimulationJobBatchInput) async throws -> StartSimulationJobBatchOutputResponse
+    public func startSimulationJobBatch(input: StartSimulationJobBatchInput) async throws -> StartSimulationJobBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2497,28 +2469,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSimulationJobBatchInput, StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(id: "startSimulationJobBatch")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSimulationJobBatchOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartSimulationJobBatchInput, StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>(id: "startSimulationJobBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutputResponse>(xmlName: "StartSimulationJobBatchRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutput>(xmlName: "StartSimulationJobBatchRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSimulationJobBatchOutput, StartSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2528,7 +2493,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter SyncDeploymentJobInput : [no documentation found]
     ///
-    /// - Returns: `SyncDeploymentJobOutputResponse` : [no documentation found]
+    /// - Returns: `SyncDeploymentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2540,7 +2505,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func syncDeploymentJob(input: SyncDeploymentJobInput) async throws -> SyncDeploymentJobOutputResponse
+    public func syncDeploymentJob(input: SyncDeploymentJobInput) async throws -> SyncDeploymentJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2556,28 +2521,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SyncDeploymentJobInput, SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(id: "syncDeploymentJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<SyncDeploymentJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SyncDeploymentJobInput, SyncDeploymentJobOutput, SyncDeploymentJobOutputError>(id: "syncDeploymentJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutput, SyncDeploymentJobOutputError>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutput, SyncDeploymentJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SyncDeploymentJobOutput, SyncDeploymentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutputResponse>(xmlName: "SyncDeploymentJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutput>(xmlName: "SyncDeploymentJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SyncDeploymentJobOutput, SyncDeploymentJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SyncDeploymentJobOutput, SyncDeploymentJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SyncDeploymentJobOutput, SyncDeploymentJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SyncDeploymentJobOutput, SyncDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2586,7 +2544,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2595,7 +2553,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2611,20 +2569,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2633,7 +2591,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,7 +2600,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2658,18 +2616,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2678,7 +2636,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter UpdateRobotApplicationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRobotApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRobotApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2688,7 +2646,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func updateRobotApplication(input: UpdateRobotApplicationInput) async throws -> UpdateRobotApplicationOutputResponse
+    public func updateRobotApplication(input: UpdateRobotApplicationInput) async throws -> UpdateRobotApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2704,20 +2662,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(id: "updateRobotApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateRobotApplicationInput, UpdateRobotApplicationOutput, UpdateRobotApplicationOutputError>(id: "updateRobotApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutput, UpdateRobotApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRobotApplicationOutput, UpdateRobotApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse>(xmlName: "UpdateRobotApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutput>(xmlName: "UpdateRobotApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRobotApplicationOutput, UpdateRobotApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRobotApplicationOutput, UpdateRobotApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRobotApplicationOutput, UpdateRobotApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRobotApplicationOutput, UpdateRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2726,7 +2684,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter UpdateSimulationApplicationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSimulationApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSimulationApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2736,7 +2694,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func updateSimulationApplication(input: UpdateSimulationApplicationInput) async throws -> UpdateSimulationApplicationOutputResponse
+    public func updateSimulationApplication(input: UpdateSimulationApplicationInput) async throws -> UpdateSimulationApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2752,20 +2710,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(id: "updateSimulationApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutput, UpdateSimulationApplicationOutputError>(id: "updateSimulationApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutput, UpdateSimulationApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSimulationApplicationOutput, UpdateSimulationApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse>(xmlName: "UpdateSimulationApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutput>(xmlName: "UpdateSimulationApplicationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSimulationApplicationOutput, UpdateSimulationApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSimulationApplicationOutput, UpdateSimulationApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSimulationApplicationOutput, UpdateSimulationApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSimulationApplicationOutput, UpdateSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2774,7 +2732,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     ///
     /// - Parameter UpdateWorldTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorldTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorldTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2783,7 +2741,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
-    public func updateWorldTemplate(input: UpdateWorldTemplateInput) async throws -> UpdateWorldTemplateOutputResponse
+    public func updateWorldTemplate(input: UpdateWorldTemplateInput) async throws -> UpdateWorldTemplateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2799,20 +2757,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(id: "updateWorldTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateWorldTemplateInput, UpdateWorldTemplateOutput, UpdateWorldTemplateOutputError>(id: "updateWorldTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutput, UpdateWorldTemplateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWorldTemplateOutput, UpdateWorldTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse>(xmlName: "UpdateWorldTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutput>(xmlName: "UpdateWorldTemplateRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWorldTemplateOutput, UpdateWorldTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorldTemplateOutput, UpdateWorldTemplateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorldTemplateOutput, UpdateWorldTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorldTemplateOutput, UpdateWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

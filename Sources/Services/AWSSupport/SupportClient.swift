@@ -75,7 +75,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter AddAttachmentsToSetInput : [no documentation found]
     ///
-    /// - Returns: `AddAttachmentsToSetOutputResponse` : The ID and expiry time of the attachment set returned by the [AddAttachmentsToSet] operation.
+    /// - Returns: `AddAttachmentsToSetOutput` : The ID and expiry time of the attachment set returned by the [AddAttachmentsToSet] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -85,7 +85,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `AttachmentSetSizeLimitExceeded` : A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
     /// - `InternalServerError` : An internal server error occurred.
-    public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutputResponse
+    public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -101,21 +101,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(id: "addAttachmentsToSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddAttachmentsToSetInput, AddAttachmentsToSetOutput, AddAttachmentsToSetOutputError>(id: "addAttachmentsToSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput, AddAttachmentsToSetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddAttachmentsToSetOutput, AddAttachmentsToSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse>(xAmzTarget: "AWSSupport_20130415.AddAttachmentsToSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse>(xmlName: "AddAttachmentsToSetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>(xAmzTarget: "AWSSupport_20130415.AddAttachmentsToSet"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>(xmlName: "AddAttachmentsToSetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddAttachmentsToSetOutput, AddAttachmentsToSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddAttachmentsToSetOutput, AddAttachmentsToSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddAttachmentsToSetOutput, AddAttachmentsToSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddAttachmentsToSetOutput, AddAttachmentsToSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -128,7 +128,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter AddCommunicationToCaseInput : [no documentation found]
     ///
-    /// - Returns: `AddCommunicationToCaseOutputResponse` : The result of the [AddCommunicationToCase] operation.
+    /// - Returns: `AddCommunicationToCaseOutput` : The result of the [AddCommunicationToCase] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -137,7 +137,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutputResponse
+    public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -153,21 +153,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(id: "addCommunicationToCase")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddCommunicationToCaseInput, AddCommunicationToCaseOutput, AddCommunicationToCaseOutputError>(id: "addCommunicationToCase")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput, AddCommunicationToCaseOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddCommunicationToCaseOutput, AddCommunicationToCaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse>(xAmzTarget: "AWSSupport_20130415.AddCommunicationToCase"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse>(xmlName: "AddCommunicationToCaseRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>(xAmzTarget: "AWSSupport_20130415.AddCommunicationToCase"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>(xmlName: "AddCommunicationToCaseRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddCommunicationToCaseOutput, AddCommunicationToCaseOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddCommunicationToCaseOutput, AddCommunicationToCaseOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddCommunicationToCaseOutput, AddCommunicationToCaseOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddCommunicationToCaseOutput, AddCommunicationToCaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -187,7 +187,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter CreateCaseInput : [no documentation found]
     ///
-    /// - Returns: `CreateCaseOutputResponse` : The support case ID returned by a successful completion of the [CreateCase] operation.
+    /// - Returns: `CreateCaseOutput` : The support case ID returned by a successful completion of the [CreateCase] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -196,7 +196,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `CaseCreationLimitExceeded` : The case creation limit for the account has been exceeded.
     /// - `InternalServerError` : An internal server error occurred.
-    public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutputResponse
+    public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -212,21 +212,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCaseInput, CreateCaseOutputResponse, CreateCaseOutputError>(id: "createCase")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCaseInput, CreateCaseOutputResponse, CreateCaseOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCaseInput, CreateCaseOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCaseInput, CreateCaseOutput, CreateCaseOutputError>(id: "createCase")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCaseInput, CreateCaseOutput, CreateCaseOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCaseInput, CreateCaseOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCaseOutput, CreateCaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCaseInput, CreateCaseOutputResponse>(xAmzTarget: "AWSSupport_20130415.CreateCase"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCaseInput, CreateCaseOutputResponse>(xmlName: "CreateCaseRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCaseInput, CreateCaseOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCaseInput, CreateCaseOutput>(xAmzTarget: "AWSSupport_20130415.CreateCase"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCaseInput, CreateCaseOutput>(xmlName: "CreateCaseRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCaseInput, CreateCaseOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCaseOutputResponse, CreateCaseOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCaseOutput, CreateCaseOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCaseOutputResponse, CreateCaseOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCaseOutput, CreateCaseOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCaseOutput, CreateCaseOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCaseOutput, CreateCaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -239,7 +239,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeAttachmentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAttachmentOutputResponse` : The content and file name of the attachment returned by the [DescribeAttachment] operation.
+    /// - Returns: `DescribeAttachmentOutput` : The content and file name of the attachment returned by the [DescribeAttachment] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -247,7 +247,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentIdNotFound` : An attachment with the specified ID could not be found.
     /// - `DescribeAttachmentLimitExceeded` : The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutputResponse
+    public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -263,21 +263,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAttachmentInput, DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(id: "describeAttachment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAttachmentInput, DescribeAttachmentOutput, DescribeAttachmentOutputError>(id: "describeAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput, DescribeAttachmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAttachmentOutput, DescribeAttachmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeAttachment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse>(xmlName: "DescribeAttachmentRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>(xAmzTarget: "AWSSupport_20130415.DescribeAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>(xmlName: "DescribeAttachmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAttachmentOutput, DescribeAttachmentOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAttachmentOutput, DescribeAttachmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAttachmentOutput, DescribeAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAttachmentOutput, DescribeAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -297,14 +297,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeCasesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCasesOutputResponse` : Returns an array of [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html) objects and a nextToken that defines a point for pagination in the result set.
+    /// - Returns: `DescribeCasesOutput` : Returns an array of [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html) objects and a nextToken that defines a point for pagination in the result set.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutputResponse
+    public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -320,21 +320,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCasesInput, DescribeCasesOutputResponse, DescribeCasesOutputError>(id: "describeCases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCasesInput, DescribeCasesOutputResponse, DescribeCasesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCasesInput, DescribeCasesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCasesInput, DescribeCasesOutput, DescribeCasesOutputError>(id: "describeCases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCasesInput, DescribeCasesOutput, DescribeCasesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCasesInput, DescribeCasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCasesOutputResponse, DescribeCasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCasesOutput, DescribeCasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCasesInput, DescribeCasesOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeCases"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCasesInput, DescribeCasesOutputResponse>(xmlName: "DescribeCasesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCasesInput, DescribeCasesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCasesInput, DescribeCasesOutput>(xAmzTarget: "AWSSupport_20130415.DescribeCases"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCasesInput, DescribeCasesOutput>(xmlName: "DescribeCasesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCasesInput, DescribeCasesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCasesOutputResponse, DescribeCasesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCasesOutput, DescribeCasesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCasesOutputResponse, DescribeCasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCasesOutputResponse, DescribeCasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCasesOutputResponse, DescribeCasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCasesOutput, DescribeCasesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCasesOutput, DescribeCasesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCasesOutput, DescribeCasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -347,14 +347,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeCommunicationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCommunicationsOutputResponse` : The communications returned by the [DescribeCommunications] operation.
+    /// - Returns: `DescribeCommunicationsOutput` : The communications returned by the [DescribeCommunications] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutputResponse
+    public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -370,21 +370,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(id: "describeCommunications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCommunicationsInput, DescribeCommunicationsOutput, DescribeCommunicationsOutputError>(id: "describeCommunications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput, DescribeCommunicationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCommunicationsOutput, DescribeCommunicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeCommunications"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse>(xmlName: "DescribeCommunicationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>(xAmzTarget: "AWSSupport_20130415.DescribeCommunications"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>(xmlName: "DescribeCommunicationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCommunicationsOutput, DescribeCommunicationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCommunicationsOutput, DescribeCommunicationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCommunicationsOutput, DescribeCommunicationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCommunicationsOutput, DescribeCommunicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -397,14 +397,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeCreateCaseOptionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCreateCaseOptionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCreateCaseOptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeCreateCaseOptions(input: DescribeCreateCaseOptionsInput) async throws -> DescribeCreateCaseOptionsOutputResponse
+    public func describeCreateCaseOptions(input: DescribeCreateCaseOptionsInput) async throws -> DescribeCreateCaseOptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -420,21 +420,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutputResponse, DescribeCreateCaseOptionsOutputError>(id: "describeCreateCaseOptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutputResponse, DescribeCreateCaseOptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput, DescribeCreateCaseOptionsOutputError>(id: "describeCreateCaseOptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput, DescribeCreateCaseOptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCreateCaseOptionsOutputResponse, DescribeCreateCaseOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCreateCaseOptionsOutput, DescribeCreateCaseOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeCreateCaseOptions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutputResponse>(xmlName: "DescribeCreateCaseOptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>(xAmzTarget: "AWSSupport_20130415.DescribeCreateCaseOptions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>(xmlName: "DescribeCreateCaseOptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCreateCaseOptionsOutputResponse, DescribeCreateCaseOptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCreateCaseOptionsOutput, DescribeCreateCaseOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCreateCaseOptionsOutputResponse, DescribeCreateCaseOptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCreateCaseOptionsOutputResponse, DescribeCreateCaseOptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCreateCaseOptionsOutputResponse, DescribeCreateCaseOptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCreateCaseOptionsOutput, DescribeCreateCaseOptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCreateCaseOptionsOutput, DescribeCreateCaseOptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCreateCaseOptionsOutput, DescribeCreateCaseOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -447,13 +447,13 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeServicesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServicesOutputResponse` : The list of Amazon Web Services services returned by the [DescribeServices] operation.
+    /// - Returns: `DescribeServicesOutput` : The list of Amazon Web Services services returned by the [DescribeServices] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutputResponse
+    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -469,21 +469,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>(id: "describeServices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutput, DescribeServicesOutputError>(id: "describeServices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutput, DescribeServicesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServicesOutput, DescribeServicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeServices"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>(xmlName: "DescribeServicesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServicesInput, DescribeServicesOutput>(xAmzTarget: "AWSSupport_20130415.DescribeServices"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServicesInput, DescribeServicesOutput>(xmlName: "DescribeServicesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServicesOutputResponse, DescribeServicesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServicesOutput, DescribeServicesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServicesOutput, DescribeServicesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServicesOutput, DescribeServicesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServicesOutput, DescribeServicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -496,13 +496,13 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeSeverityLevelsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSeverityLevelsOutputResponse` : The list of severity levels returned by the [DescribeSeverityLevels] operation.
+    /// - Returns: `DescribeSeverityLevelsOutput` : The list of severity levels returned by the [DescribeSeverityLevels] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutputResponse
+    public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -518,21 +518,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(id: "describeSeverityLevels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput, DescribeSeverityLevelsOutputError>(id: "describeSeverityLevels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput, DescribeSeverityLevelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSeverityLevelsOutput, DescribeSeverityLevelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeSeverityLevels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse>(xmlName: "DescribeSeverityLevelsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>(xAmzTarget: "AWSSupport_20130415.DescribeSeverityLevels"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>(xmlName: "DescribeSeverityLevelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSeverityLevelsOutput, DescribeSeverityLevelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSeverityLevelsOutput, DescribeSeverityLevelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSeverityLevelsOutput, DescribeSeverityLevelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSeverityLevelsOutput, DescribeSeverityLevelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -545,14 +545,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeSupportedLanguagesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSupportedLanguagesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSupportedLanguagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeSupportedLanguages(input: DescribeSupportedLanguagesInput) async throws -> DescribeSupportedLanguagesOutputResponse
+    public func describeSupportedLanguages(input: DescribeSupportedLanguagesInput) async throws -> DescribeSupportedLanguagesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -568,21 +568,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutputResponse, DescribeSupportedLanguagesOutputError>(id: "describeSupportedLanguages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutputResponse, DescribeSupportedLanguagesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput, DescribeSupportedLanguagesOutputError>(id: "describeSupportedLanguages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput, DescribeSupportedLanguagesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSupportedLanguagesOutputResponse, DescribeSupportedLanguagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSupportedLanguagesOutput, DescribeSupportedLanguagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeSupportedLanguages"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutputResponse>(xmlName: "DescribeSupportedLanguagesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>(xAmzTarget: "AWSSupport_20130415.DescribeSupportedLanguages"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>(xmlName: "DescribeSupportedLanguagesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSupportedLanguagesOutputResponse, DescribeSupportedLanguagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSupportedLanguagesOutput, DescribeSupportedLanguagesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSupportedLanguagesOutputResponse, DescribeSupportedLanguagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSupportedLanguagesOutputResponse, DescribeSupportedLanguagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSupportedLanguagesOutputResponse, DescribeSupportedLanguagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSupportedLanguagesOutput, DescribeSupportedLanguagesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSupportedLanguagesOutput, DescribeSupportedLanguagesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSupportedLanguagesOutput, DescribeSupportedLanguagesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -598,14 +598,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeTrustedAdvisorCheckRefreshStatusesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse` : The statuses of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckRefreshStatuses] operation.
+    /// - Returns: `DescribeTrustedAdvisorCheckRefreshStatusesOutput` : The statuses of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckRefreshStatuses] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput) async throws -> DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse
+    public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput) async throws -> DescribeTrustedAdvisorCheckRefreshStatusesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -621,21 +621,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(id: "describeTrustedAdvisorCheckRefreshStatuses")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(id: "describeTrustedAdvisorCheckRefreshStatuses")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutput, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorCheckRefreshStatuses"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse>(xmlName: "DescribeTrustedAdvisorCheckRefreshStatusesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorCheckRefreshStatuses"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>(xmlName: "DescribeTrustedAdvisorCheckRefreshStatusesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorCheckRefreshStatusesOutput, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckRefreshStatusesOutput, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutput, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutput, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -669,14 +669,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeTrustedAdvisorCheckResultInput :
     ///
-    /// - Returns: `DescribeTrustedAdvisorCheckResultOutputResponse` : The result of the Trusted Advisor check returned by the [DescribeTrustedAdvisorCheckResult] operation.
+    /// - Returns: `DescribeTrustedAdvisorCheckResultOutput` : The result of the Trusted Advisor check returned by the [DescribeTrustedAdvisorCheckResult] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput) async throws -> DescribeTrustedAdvisorCheckResultOutputResponse
+    public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput) async throws -> DescribeTrustedAdvisorCheckResultOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -692,21 +692,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(id: "describeTrustedAdvisorCheckResult")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput, DescribeTrustedAdvisorCheckResultOutputError>(id: "describeTrustedAdvisorCheckResult")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput, DescribeTrustedAdvisorCheckResultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckResultOutput, DescribeTrustedAdvisorCheckResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorCheckResult"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse>(xmlName: "DescribeTrustedAdvisorCheckResultRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorCheckResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>(xmlName: "DescribeTrustedAdvisorCheckResultRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorCheckResultOutput, DescribeTrustedAdvisorCheckResultOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckResultOutput, DescribeTrustedAdvisorCheckResultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckResultOutput, DescribeTrustedAdvisorCheckResultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckResultOutput, DescribeTrustedAdvisorCheckResultOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -722,14 +722,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeTrustedAdvisorCheckSummariesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTrustedAdvisorCheckSummariesOutputResponse` : The summaries of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckSummaries] operation.
+    /// - Returns: `DescribeTrustedAdvisorCheckSummariesOutput` : The summaries of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckSummaries] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput) async throws -> DescribeTrustedAdvisorCheckSummariesOutputResponse
+    public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput) async throws -> DescribeTrustedAdvisorCheckSummariesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -745,21 +745,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(id: "describeTrustedAdvisorCheckSummaries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput, DescribeTrustedAdvisorCheckSummariesOutputError>(id: "describeTrustedAdvisorCheckSummaries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput, DescribeTrustedAdvisorCheckSummariesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckSummariesOutput, DescribeTrustedAdvisorCheckSummariesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorCheckSummaries"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse>(xmlName: "DescribeTrustedAdvisorCheckSummariesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorCheckSummaries"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>(xmlName: "DescribeTrustedAdvisorCheckSummariesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorCheckSummariesOutput, DescribeTrustedAdvisorCheckSummariesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckSummariesOutput, DescribeTrustedAdvisorCheckSummariesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckSummariesOutput, DescribeTrustedAdvisorCheckSummariesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckSummariesOutput, DescribeTrustedAdvisorCheckSummariesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -777,14 +777,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter DescribeTrustedAdvisorChecksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTrustedAdvisorChecksOutputResponse` : Information about the Trusted Advisor checks returned by the [DescribeTrustedAdvisorChecks] operation.
+    /// - Returns: `DescribeTrustedAdvisorChecksOutput` : Information about the Trusted Advisor checks returned by the [DescribeTrustedAdvisorChecks] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput) async throws -> DescribeTrustedAdvisorChecksOutputResponse
+    public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput) async throws -> DescribeTrustedAdvisorChecksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -800,21 +800,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(id: "describeTrustedAdvisorChecks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput, DescribeTrustedAdvisorChecksOutputError>(id: "describeTrustedAdvisorChecks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput, DescribeTrustedAdvisorChecksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorChecksOutput, DescribeTrustedAdvisorChecksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorChecks"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse>(xmlName: "DescribeTrustedAdvisorChecksRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>(xAmzTarget: "AWSSupport_20130415.DescribeTrustedAdvisorChecks"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>(xmlName: "DescribeTrustedAdvisorChecksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedAdvisorChecksOutput, DescribeTrustedAdvisorChecksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorChecksOutput, DescribeTrustedAdvisorChecksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorChecksOutput, DescribeTrustedAdvisorChecksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorChecksOutput, DescribeTrustedAdvisorChecksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -830,13 +830,13 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter RefreshTrustedAdvisorCheckInput :
     ///
-    /// - Returns: `RefreshTrustedAdvisorCheckOutputResponse` : The current refresh status of a Trusted Advisor check.
+    /// - Returns: `RefreshTrustedAdvisorCheckOutput` : The current refresh status of a Trusted Advisor check.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
-    public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput) async throws -> RefreshTrustedAdvisorCheckOutputResponse
+    public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput) async throws -> RefreshTrustedAdvisorCheckOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -852,21 +852,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(id: "refreshTrustedAdvisorCheck")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput, RefreshTrustedAdvisorCheckOutputError>(id: "refreshTrustedAdvisorCheck")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput, RefreshTrustedAdvisorCheckOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RefreshTrustedAdvisorCheckOutput, RefreshTrustedAdvisorCheckOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse>(xAmzTarget: "AWSSupport_20130415.RefreshTrustedAdvisorCheck"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse>(xmlName: "RefreshTrustedAdvisorCheckRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>(xAmzTarget: "AWSSupport_20130415.RefreshTrustedAdvisorCheck"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>(xmlName: "RefreshTrustedAdvisorCheckRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RefreshTrustedAdvisorCheckOutput, RefreshTrustedAdvisorCheckOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RefreshTrustedAdvisorCheckOutput, RefreshTrustedAdvisorCheckOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RefreshTrustedAdvisorCheckOutput, RefreshTrustedAdvisorCheckOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RefreshTrustedAdvisorCheckOutput, RefreshTrustedAdvisorCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -879,14 +879,14 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// - Parameter ResolveCaseInput : [no documentation found]
     ///
-    /// - Returns: `ResolveCaseOutputResponse` : The status of the case returned by the [ResolveCase] operation.
+    /// - Returns: `ResolveCaseOutput` : The status of the case returned by the [ResolveCase] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutputResponse
+    public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -902,21 +902,21 @@ extension SupportClient: SupportClientProtocol {
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResolveCaseInput, ResolveCaseOutputResponse, ResolveCaseOutputError>(id: "resolveCase")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveCaseInput, ResolveCaseOutputResponse, ResolveCaseOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveCaseInput, ResolveCaseOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ResolveCaseInput, ResolveCaseOutput, ResolveCaseOutputError>(id: "resolveCase")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveCaseInput, ResolveCaseOutput, ResolveCaseOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveCaseInput, ResolveCaseOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResolveCaseOutputResponse, ResolveCaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResolveCaseOutput, ResolveCaseOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ResolveCaseInput, ResolveCaseOutputResponse>(xAmzTarget: "AWSSupport_20130415.ResolveCase"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResolveCaseInput, ResolveCaseOutputResponse>(xmlName: "ResolveCaseRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResolveCaseInput, ResolveCaseOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ResolveCaseInput, ResolveCaseOutput>(xAmzTarget: "AWSSupport_20130415.ResolveCase"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResolveCaseInput, ResolveCaseOutput>(xmlName: "ResolveCaseRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResolveCaseInput, ResolveCaseOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResolveCaseOutputResponse, ResolveCaseOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResolveCaseOutput, ResolveCaseOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveCaseOutputResponse, ResolveCaseOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveCaseOutputResponse, ResolveCaseOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveCaseOutputResponse, ResolveCaseOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveCaseOutput, ResolveCaseOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveCaseOutput, ResolveCaseOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveCaseOutput, ResolveCaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

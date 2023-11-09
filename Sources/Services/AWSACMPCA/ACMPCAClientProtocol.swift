@@ -8,7 +8,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter CreateCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `CreateCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidPolicyException` : The resource policy is invalid or is missing a required statement. For general information about IAM policy and statement structure, see [Overview of JSON Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policies-json).
     /// - `InvalidTagException` : The tag associated with the CA is not valid. The invalid argument is contained in the message field.
     /// - `LimitExceededException` : An Amazon Web Services Private CA quota has been exceeded. See the exception message returned to determine the quota that was exceeded.
-    func createCertificateAuthority(input: CreateCertificateAuthorityInput) async throws -> CreateCertificateAuthorityOutputResponse
+    func createCertificateAuthority(input: CreateCertificateAuthorityInput) async throws -> CreateCertificateAuthorityOutput
     /// Creates an audit report that lists every time that your CA private key is used. The report is saved in the Amazon S3 bucket that you specify on input. The [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html) and [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html) actions use the private key. Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies). Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your Audit Reports](https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#audit-report-encryption). You can generate a maximum of one report every 30 minutes.
     ///
     /// - Parameter CreateCertificateAuthorityAuditReportInput : [no documentation found]
     ///
-    /// - Returns: `CreateCertificateAuthorityAuditReportOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCertificateAuthorityAuditReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,7 +33,7 @@ public protocol ACMPCAClientProtocol {
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `RequestInProgressException` : Your request is already in progress.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func createCertificateAuthorityAuditReport(input: CreateCertificateAuthorityAuditReportInput) async throws -> CreateCertificateAuthorityAuditReportOutputResponse
+    func createCertificateAuthorityAuditReport(input: CreateCertificateAuthorityAuditReportInput) async throws -> CreateCertificateAuthorityAuditReportOutput
     /// Grants one or more permissions on a private CA to the Certificate Manager (ACM) service principal (acm.amazonaws.com). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. You can list current permissions with the [ListPermissions](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html) action and revoke them with the [DeletePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html) action. About Permissions
     ///
     /// * If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant permissions for ACM to carry out automatic certificate renewals.
@@ -44,7 +44,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter CreatePermissionInput : [no documentation found]
     ///
-    /// - Returns: `CreatePermissionOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -55,12 +55,12 @@ public protocol ACMPCAClientProtocol {
     /// - `PermissionAlreadyExistsException` : The designated permission has already been given to the user.
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func createPermission(input: CreatePermissionInput) async throws -> CreatePermissionOutputResponse
+    func createPermission(input: CreatePermissionInput) async throws -> CreatePermissionOutput
     /// Deletes a private certificate authority (CA). You must provide the Amazon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy. Before you can delete a CA that you have created and activated, you must disable it. To do this, call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action and set the CertificateAuthorityStatus parameter to DISABLED. Additionally, you can delete a CA if you are waiting for it to be created (that is, the status of the CA is CREATING). You can also delete it if the CA has been created but you haven't yet imported the signed certificate into Amazon Web Services Private CA (that is, the status of the CA is PENDING_CERTIFICATE). When you successfully call [DeleteCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthority.html), the CA's status changes to DELETED. However, the CA won't be permanently deleted until the restoration period has passed. By default, if you do not set the PermanentDeletionTimeInDays parameter, the CA remains restorable for 30 days. You can set the parameter from 7 to 30 days. The [DescribeCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DescribeCertificateAuthority.html) action returns the time remaining in the restoration window of a private CA in the DELETED state. To restore an eligible CA, call the [RestoreCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RestoreCertificateAuthority.html) action.
     ///
     /// - Parameter DeleteCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,7 +69,7 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func deleteCertificateAuthority(input: DeleteCertificateAuthorityInput) async throws -> DeleteCertificateAuthorityOutputResponse
+    func deleteCertificateAuthority(input: DeleteCertificateAuthorityInput) async throws -> DeleteCertificateAuthorityOutput
     /// Revokes permissions on a private CA granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. If you revoke these permissions, ACM will no longer renew the affected certificates automatically. Permissions can be granted with the [CreatePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html) action and listed with the [ListPermissions](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html) action. About Permissions
     ///
     /// * If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant permissions for ACM to carry out automatic certificate renewals.
@@ -80,7 +80,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter DeletePermissionInput : [no documentation found]
     ///
-    /// - Returns: `DeletePermissionOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,7 +89,7 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func deletePermission(input: DeletePermissionInput) async throws -> DeletePermissionOutputResponse
+    func deletePermission(input: DeletePermissionInput) async throws -> DeletePermissionOutput
     /// Deletes the resource-based policy attached to a private CA. Deletion will remove any access that the policy has granted. If there is no policy attached to the private CA, this action will return successful. If you delete a policy that was applied through Amazon Web Services Resource Access Manager (RAM), the CA will be removed from all shares in which it was included. The Certificate Manager Service Linked Role that the policy supports is not affected when you delete the policy. The current policy can be shown with [GetPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetPolicy.html) and updated with [PutPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html). About Policies
     ///
     /// * A policy grants access on a private CA to an Amazon Web Services customer account, to Amazon Web Services Organizations, or to an Amazon Web Services Organizations unit. Policies are under the control of a CA administrator. For more information, see [Using a Resource Based Policy with Amazon Web Services Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html).
@@ -102,7 +102,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeletePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,7 +113,7 @@ public protocol ACMPCAClientProtocol {
     /// - `LockoutPreventedException` : The current action was prevented because it would lock the caller out from performing subsequent actions. Verify that the specified parameters would not result in the caller being denied access to the resource.
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutputResponse
+    func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
     /// Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following:
     ///
     /// * CREATING - Amazon Web Services Private CA is creating your private certificate authority.
@@ -132,19 +132,19 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter DescribeCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func describeCertificateAuthority(input: DescribeCertificateAuthorityInput) async throws -> DescribeCertificateAuthorityOutputResponse
+    func describeCertificateAuthority(input: DescribeCertificateAuthorityInput) async throws -> DescribeCertificateAuthorityOutput
     /// Lists information about a specific audit report created by calling the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) action. Audit information is created every time the certificate authority (CA) private key is used. The private key is used when you call the [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html) action or the [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html) action.
     ///
     /// - Parameter DescribeCertificateAuthorityAuditReportInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCertificateAuthorityAuditReportOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCertificateAuthorityAuditReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -152,12 +152,12 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidArgsException` : One or more of the specified arguments was not valid.
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func describeCertificateAuthorityAuditReport(input: DescribeCertificateAuthorityAuditReportInput) async throws -> DescribeCertificateAuthorityAuditReportOutputResponse
+    func describeCertificateAuthorityAuditReport(input: DescribeCertificateAuthorityAuditReportInput) async throws -> DescribeCertificateAuthorityAuditReportOutput
     /// Retrieves a certificate from your private CA or one that has been shared with you. The ARN of the certificate is returned when you call the [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html) action. You must specify both the ARN of your private CA and the ARN of the issued certificate when calling the GetCertificate action. You can retrieve the certificate if it is in the ISSUED state. You can call the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) action to create a report that contains information about all of the certificates issued and revoked by your private CA.
     ///
     /// - Parameter GetCertificateInput : [no documentation found]
     ///
-    /// - Returns: `GetCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `GetCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -167,12 +167,12 @@ public protocol ACMPCAClientProtocol {
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `RequestInProgressException` : Your request is already in progress.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func getCertificate(input: GetCertificateInput) async throws -> GetCertificateOutputResponse
+    func getCertificate(input: GetCertificateInput) async throws -> GetCertificateOutput
     /// Retrieves the certificate and certificate chain for your private certificate authority (CA) or one that has been shared with you. Both the certificate and the chain are base64 PEM-encoded. The chain does not include the CA certificate. Each certificate in the chain signs the one before it.
     ///
     /// - Parameter GetCertificateAuthorityCertificateInput : [no documentation found]
     ///
-    /// - Returns: `GetCertificateAuthorityCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `GetCertificateAuthorityCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -180,12 +180,12 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func getCertificateAuthorityCertificate(input: GetCertificateAuthorityCertificateInput) async throws -> GetCertificateAuthorityCertificateOutputResponse
+    func getCertificateAuthorityCertificate(input: GetCertificateAuthorityCertificateInput) async throws -> GetCertificateAuthorityCertificateOutput
     /// Retrieves the certificate signing request (CSR) for your private certificate authority (CA). The CSR is created when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA. Then import the signed certificate back into Amazon Web Services Private CA by calling the [ImportCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html) action. The CSR is returned as a base64 PEM-encoded string.
     ///
     /// - Parameter GetCertificateAuthorityCsrInput : [no documentation found]
     ///
-    /// - Returns: `GetCertificateAuthorityCsrOutputResponse` : [no documentation found]
+    /// - Returns: `GetCertificateAuthorityCsrOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -195,7 +195,7 @@ public protocol ACMPCAClientProtocol {
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `RequestInProgressException` : Your request is already in progress.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func getCertificateAuthorityCsr(input: GetCertificateAuthorityCsrInput) async throws -> GetCertificateAuthorityCsrOutputResponse
+    func getCertificateAuthorityCsr(input: GetCertificateAuthorityCsrInput) async throws -> GetCertificateAuthorityCsrOutput
     /// Retrieves the resource-based policy attached to a private CA. If either the private CA resource or the policy cannot be found, this action returns a ResourceNotFoundException. The policy can be attached or updated with [PutPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html) and removed with [DeletePolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePolicy.html). About Policies
     ///
     /// * A policy grants access on a private CA to an Amazon Web Services customer account, to Amazon Web Services Organizations, or to an Amazon Web Services Organizations unit. Policies are under the control of a CA administrator. For more information, see [Using a Resource Based Policy with Amazon Web Services Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html).
@@ -208,7 +208,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,7 +217,7 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutputResponse
+    func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
     /// Imports a signed private CA certificate into Amazon Web Services Private CA. This action is used when you are using a chain of trust whose root is located outside Amazon Web Services Private CA. Before you can call this action, the following preparations must in place:
     ///
     /// * In Amazon Web Services Private CA, call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action to create the private CA that you plan to back with the imported certificate.
@@ -298,7 +298,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter ImportCertificateAuthorityCertificateInput : [no documentation found]
     ///
-    /// - Returns: `ImportCertificateAuthorityCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `ImportCertificateAuthorityCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -312,12 +312,12 @@ public protocol ACMPCAClientProtocol {
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `RequestInProgressException` : Your request is already in progress.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func importCertificateAuthorityCertificate(input: ImportCertificateAuthorityCertificateInput) async throws -> ImportCertificateAuthorityCertificateOutputResponse
+    func importCertificateAuthorityCertificate(input: ImportCertificateAuthorityCertificateInput) async throws -> ImportCertificateAuthorityCertificateOutput
     /// Uses your private certificate authority (CA), or one that has been shared with you, to issue a client certificate. This action returns the Amazon Resource Name (ARN) of the certificate. You can retrieve the certificate by calling the [GetCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificate.html) action and specifying the ARN. You cannot use the ACM ListCertificateAuthorities action to retrieve the ARNs of the certificates that you issue by using Amazon Web Services Private CA.
     ///
     /// - Parameter IssueCertificateInput : [no documentation found]
     ///
-    /// - Returns: `IssueCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `IssueCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -328,18 +328,18 @@ public protocol ACMPCAClientProtocol {
     /// - `LimitExceededException` : An Amazon Web Services Private CA quota has been exceeded. See the exception message returned to determine the quota that was exceeded.
     /// - `MalformedCSRException` : The certificate signing request is invalid.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func issueCertificate(input: IssueCertificateInput) async throws -> IssueCertificateOutputResponse
+    func issueCertificate(input: IssueCertificateInput) async throws -> IssueCertificateOutput
     /// Lists the private certificate authorities that you created by using the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action.
     ///
     /// - Parameter ListCertificateAuthoritiesInput : [no documentation found]
     ///
-    /// - Returns: `ListCertificateAuthoritiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListCertificateAuthoritiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token specified in the NextToken argument is not valid. Use the token returned from your previous call to [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html).
-    func listCertificateAuthorities(input: ListCertificateAuthoritiesInput) async throws -> ListCertificateAuthoritiesOutputResponse
+    func listCertificateAuthorities(input: ListCertificateAuthoritiesInput) async throws -> ListCertificateAuthoritiesOutput
     /// List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. Permissions can be granted with the [CreatePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html) action and revoked with the [DeletePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html) action. About Permissions
     ///
     /// * If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant permissions for ACM to carry out automatic certificate renewals.
@@ -350,7 +350,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter ListPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `ListPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -360,12 +360,12 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutputResponse
+    func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
     /// Lists the tags, if any, that are associated with your private CA or one that has been shared with you. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the [TagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html) action to add one or more tags to your CA. Call the [UntagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html) action to remove tags.
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -373,7 +373,7 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     /// Attaches a resource-based policy to a private CA. A policy can also be applied by sharing a private CA through Amazon Web Services Resource Access Manager (RAM). For more information, see [Attach a Policy for Cross-Account Access](https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html). The policy can be displayed with [GetPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetPolicy.html) and removed with [DeletePolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePolicy.html). About Policies
     ///
     /// * A policy grants access on a private CA to an Amazon Web Services customer account, to Amazon Web Services Organizations, or to an Amazon Web Services Organizations unit. Policies are under the control of a CA administrator. For more information, see [Using a Resource Based Policy with Amazon Web Services Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html).
@@ -386,7 +386,7 @@ public protocol ACMPCAClientProtocol {
     ///
     /// - Parameter PutPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -398,12 +398,12 @@ public protocol ACMPCAClientProtocol {
     /// - `LockoutPreventedException` : The current action was prevented because it would lock the caller out from performing subsequent actions. Verify that the specified parameters would not result in the caller being denied access to the resource.
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutputResponse
+    func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput
     /// Restores a certificate authority (CA) that is in the DELETED state. You can restore a CA during the period that you defined in the PermanentDeletionTimeInDays parameter of the [DeleteCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthority.html) action. Currently, you can specify 7 to 30 days. If you did not specify a PermanentDeletionTimeInDays value, by default you can restore the CA at any time in a 30 day period. You can check the time remaining in the restoration period of a private CA in the DELETED state by calling the [DescribeCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DescribeCertificateAuthority.html) or [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) actions. The status of a restored CA is set to its pre-deletion status when the RestoreCertificateAuthority action returns. To change its status to ACTIVE, call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action. If the private CA was in the PENDING_CERTIFICATE state at deletion, you must use the [ImportCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html) action to import a certificate authority into the private CA before it can be activated. You cannot restore a CA after the restoration period has ended.
     ///
     /// - Parameter RestoreCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `RestoreCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,12 +411,12 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func restoreCertificateAuthority(input: RestoreCertificateAuthorityInput) async throws -> RestoreCertificateAuthorityOutputResponse
+    func restoreCertificateAuthority(input: RestoreCertificateAuthorityInput) async throws -> RestoreCertificateAuthorityOutput
     /// Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked certificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA attempts makes further attempts every 15 minutes. With Amazon CloudWatch, you can create alarms for the metrics CRLGenerated and MisconfiguredCRLBucket. For more information, see [Supported CloudWatch Metrics](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCloudWatch.html). Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies). Amazon Web Services Private CA also writes revocation information to the audit report. For more information, see [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html). You cannot revoke a root CA self-signed certificate.
     ///
     /// - Parameter RevokeCertificateInput : [no documentation found]
     ///
-    /// - Returns: `RevokeCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -430,12 +430,12 @@ public protocol ACMPCAClientProtocol {
     /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `RequestInProgressException` : Your request is already in progress.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func revokeCertificate(input: RevokeCertificateInput) async throws -> RevokeCertificateOutputResponse
+    func revokeCertificate(input: RevokeCertificateInput) async throws -> RevokeCertificateOutput
     /// Adds one or more tags to your private CA. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the private CA on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. You can apply a tag to just one private CA if you want to identify a specific characteristic of that CA, or you can apply the same tag to multiple private CAs if you want to filter for a common relationship among those CAs. To remove one or more tags, use the [UntagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html) action. Call the [ListTags](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListTags.html) action to see what tags are associated with your CA. To attach tags to a private CA during the creation procedure, a CA administrator must first associate an inline IAM policy with the CreateCertificateAuthority action and explicitly allow tagging. For more information, see [Attaching tags to a CA at the time of creation](https://docs.aws.amazon.com/privateca/latest/userguide/auth-InlinePolicies.html#policy-tag-ca).
     ///
     /// - Parameter TagCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `TagCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `TagCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,12 +445,12 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidTagException` : The tag associated with the CA is not valid. The invalid argument is contained in the message field.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
     /// - `TooManyTagsException` : You can associate up to 50 tags with a private CA. Exception information is contained in the exception message field.
-    func tagCertificateAuthority(input: TagCertificateAuthorityInput) async throws -> TagCertificateAuthorityOutputResponse
+    func tagCertificateAuthority(input: TagCertificateAuthorityInput) async throws -> TagCertificateAuthorityOutput
     /// Remove one or more tags from your private CA. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this action, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a private CA, use the [TagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html). Call the [ListTags](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListTags.html) action to see what tags are associated with your CA.
     ///
     /// - Parameter UntagCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `UntagCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `UntagCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -459,12 +459,12 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `InvalidTagException` : The tag associated with the CA is not valid. The invalid argument is contained in the message field.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func untagCertificateAuthority(input: UntagCertificateAuthorityInput) async throws -> UntagCertificateAuthorityOutputResponse
+    func untagCertificateAuthority(input: UntagCertificateAuthorityInput) async throws -> UntagCertificateAuthorityOutput
     /// Updates the status or configuration of a private certificate authority (CA). Your private CA must be in the ACTIVE or DISABLED state before you can update it. You can disable a private CA that is in the ACTIVE state or make a CA that is in the DISABLED state active again. Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies).
     ///
     /// - Parameter UpdateCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,7 +475,7 @@ public protocol ACMPCAClientProtocol {
     /// - `InvalidPolicyException` : The resource policy is invalid or is missing a required statement. For general information about IAM policy and statement structure, see [Overview of JSON Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policies-json).
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
-    func updateCertificateAuthority(input: UpdateCertificateAuthorityInput) async throws -> UpdateCertificateAuthorityOutputResponse
+    func updateCertificateAuthority(input: UpdateCertificateAuthorityInput) async throws -> UpdateCertificateAuthorityOutput
 }
 
 public enum ACMPCAClientTypes {}

@@ -8,7 +8,7 @@ public protocol ServiceQuotasClientProtocol {
     ///
     /// - Parameter AssociateServiceQuotaTemplateInput : [no documentation found]
     ///
-    /// - Returns: `AssociateServiceQuotaTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateServiceQuotaTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21,12 +21,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func associateServiceQuotaTemplate(input: AssociateServiceQuotaTemplateInput) async throws -> AssociateServiceQuotaTemplateOutputResponse
+    func associateServiceQuotaTemplate(input: AssociateServiceQuotaTemplateInput) async throws -> AssociateServiceQuotaTemplateOutput
     /// Deletes the quota increase request for the specified quota from your quota request template.
     ///
     /// - Parameter DeleteServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceQuotaIncreaseRequestFromTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceQuotaIncreaseRequestFromTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -40,12 +40,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func deleteServiceQuotaIncreaseRequestFromTemplate(input: DeleteServiceQuotaIncreaseRequestFromTemplateInput) async throws -> DeleteServiceQuotaIncreaseRequestFromTemplateOutputResponse
+    func deleteServiceQuotaIncreaseRequestFromTemplate(input: DeleteServiceQuotaIncreaseRequestFromTemplateInput) async throws -> DeleteServiceQuotaIncreaseRequestFromTemplateOutput
     /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
     ///
     /// - Parameter DisassociateServiceQuotaTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateServiceQuotaTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateServiceQuotaTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -58,12 +58,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ServiceQuotaTemplateNotInUseException` : The quota request template is not associated with your organization.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func disassociateServiceQuotaTemplate(input: DisassociateServiceQuotaTemplateInput) async throws -> DisassociateServiceQuotaTemplateOutputResponse
+    func disassociateServiceQuotaTemplate(input: DisassociateServiceQuotaTemplateInput) async throws -> DisassociateServiceQuotaTemplateOutput
     /// Retrieves the status of the association for the quota request template.
     ///
     /// - Parameter GetAssociationForServiceQuotaTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetAssociationForServiceQuotaTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetAssociationForServiceQuotaTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,12 +76,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ServiceQuotaTemplateNotInUseException` : The quota request template is not associated with your organization.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func getAssociationForServiceQuotaTemplate(input: GetAssociationForServiceQuotaTemplateInput) async throws -> GetAssociationForServiceQuotaTemplateOutputResponse
+    func getAssociationForServiceQuotaTemplate(input: GetAssociationForServiceQuotaTemplateInput) async throws -> GetAssociationForServiceQuotaTemplateOutput
     /// Retrieves the default value for the specified quota. The default value does not reflect any quota increases.
     ///
     /// - Parameter GetAWSDefaultServiceQuotaInput : [no documentation found]
     ///
-    /// - Returns: `GetAWSDefaultServiceQuotaOutputResponse` : [no documentation found]
+    /// - Returns: `GetAWSDefaultServiceQuotaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -91,12 +91,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func getAWSDefaultServiceQuota(input: GetAWSDefaultServiceQuotaInput) async throws -> GetAWSDefaultServiceQuotaOutputResponse
+    func getAWSDefaultServiceQuota(input: GetAWSDefaultServiceQuotaInput) async throws -> GetAWSDefaultServiceQuotaOutput
     /// Retrieves information about the specified quota increase request.
     ///
     /// - Parameter GetRequestedServiceQuotaChangeInput : [no documentation found]
     ///
-    /// - Returns: `GetRequestedServiceQuotaChangeOutputResponse` : [no documentation found]
+    /// - Returns: `GetRequestedServiceQuotaChangeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,12 +106,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func getRequestedServiceQuotaChange(input: GetRequestedServiceQuotaChangeInput) async throws -> GetRequestedServiceQuotaChangeOutputResponse
+    func getRequestedServiceQuotaChange(input: GetRequestedServiceQuotaChangeInput) async throws -> GetRequestedServiceQuotaChangeOutput
     /// Retrieves the applied quota value for the specified quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
     /// - Parameter GetServiceQuotaInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceQuotaOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceQuotaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -121,12 +121,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func getServiceQuota(input: GetServiceQuotaInput) async throws -> GetServiceQuotaOutputResponse
+    func getServiceQuota(input: GetServiceQuotaInput) async throws -> GetServiceQuotaOutput
     /// Retrieves information about the specified quota increase request in your quota request template.
     ///
     /// - Parameter GetServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceQuotaIncreaseRequestFromTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceQuotaIncreaseRequestFromTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -140,12 +140,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func getServiceQuotaIncreaseRequestFromTemplate(input: GetServiceQuotaIncreaseRequestFromTemplateInput) async throws -> GetServiceQuotaIncreaseRequestFromTemplateOutputResponse
+    func getServiceQuotaIncreaseRequestFromTemplate(input: GetServiceQuotaIncreaseRequestFromTemplateInput) async throws -> GetServiceQuotaIncreaseRequestFromTemplateOutput
     /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
     ///
     /// - Parameter ListAWSDefaultServiceQuotasInput : [no documentation found]
     ///
-    /// - Returns: `ListAWSDefaultServiceQuotasOutputResponse` : [no documentation found]
+    /// - Returns: `ListAWSDefaultServiceQuotasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -156,12 +156,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func listAWSDefaultServiceQuotas(input: ListAWSDefaultServiceQuotasInput) async throws -> ListAWSDefaultServiceQuotasOutputResponse
+    func listAWSDefaultServiceQuotas(input: ListAWSDefaultServiceQuotasInput) async throws -> ListAWSDefaultServiceQuotasOutput
     /// Retrieves the quota increase requests for the specified Amazon Web Service.
     ///
     /// - Parameter ListRequestedServiceQuotaChangeHistoryInput : [no documentation found]
     ///
-    /// - Returns: `ListRequestedServiceQuotaChangeHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListRequestedServiceQuotaChangeHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -172,12 +172,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func listRequestedServiceQuotaChangeHistory(input: ListRequestedServiceQuotaChangeHistoryInput) async throws -> ListRequestedServiceQuotaChangeHistoryOutputResponse
+    func listRequestedServiceQuotaChangeHistory(input: ListRequestedServiceQuotaChangeHistoryInput) async throws -> ListRequestedServiceQuotaChangeHistoryOutput
     /// Retrieves the quota increase requests for the specified quota.
     ///
     /// - Parameter ListRequestedServiceQuotaChangeHistoryByQuotaInput : [no documentation found]
     ///
-    /// - Returns: `ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse` : [no documentation found]
+    /// - Returns: `ListRequestedServiceQuotaChangeHistoryByQuotaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,12 +188,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func listRequestedServiceQuotaChangeHistoryByQuota(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) async throws -> ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse
+    func listRequestedServiceQuotaChangeHistoryByQuota(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) async throws -> ListRequestedServiceQuotaChangeHistoryByQuotaOutput
     /// Lists the quota increase requests in the specified quota request template.
     ///
     /// - Parameter ListServiceQuotaIncreaseRequestsInTemplateInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceQuotaIncreaseRequestsInTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceQuotaIncreaseRequestsInTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,12 +206,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func listServiceQuotaIncreaseRequestsInTemplate(input: ListServiceQuotaIncreaseRequestsInTemplateInput) async throws -> ListServiceQuotaIncreaseRequestsInTemplateOutputResponse
+    func listServiceQuotaIncreaseRequestsInTemplate(input: ListServiceQuotaIncreaseRequestsInTemplateInput) async throws -> ListServiceQuotaIncreaseRequestsInTemplateOutput
     /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
     /// - Parameter ListServiceQuotasInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceQuotasOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceQuotasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,12 +222,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func listServiceQuotas(input: ListServiceQuotasInput) async throws -> ListServiceQuotasOutputResponse
+    func listServiceQuotas(input: ListServiceQuotasInput) async throws -> ListServiceQuotasOutput
     /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -237,12 +237,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `InvalidPaginationTokenException` : Invalid input was provided.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    func listServices(input: ListServicesInput) async throws -> ListServicesOutput
     /// Returns a list of the tags assigned to the specified applied quota.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -252,12 +252,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds a quota increase request to your quota request template.
     ///
     /// - Parameter PutServiceQuotaIncreaseRequestIntoTemplateInput : [no documentation found]
     ///
-    /// - Returns: `PutServiceQuotaIncreaseRequestIntoTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `PutServiceQuotaIncreaseRequestIntoTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -272,12 +272,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func putServiceQuotaIncreaseRequestIntoTemplate(input: PutServiceQuotaIncreaseRequestIntoTemplateInput) async throws -> PutServiceQuotaIncreaseRequestIntoTemplateOutputResponse
+    func putServiceQuotaIncreaseRequestIntoTemplate(input: PutServiceQuotaIncreaseRequestIntoTemplateInput) async throws -> PutServiceQuotaIncreaseRequestIntoTemplateOutput
     /// Submits a quota increase request for the specified quota.
     ///
     /// - Parameter RequestServiceQuotaIncreaseInput : [no documentation found]
     ///
-    /// - Returns: `RequestServiceQuotaIncreaseOutputResponse` : [no documentation found]
+    /// - Returns: `RequestServiceQuotaIncreaseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func requestServiceQuotaIncrease(input: RequestServiceQuotaIncreaseInput) async throws -> RequestServiceQuotaIncreaseOutputResponse
+    func requestServiceQuotaIncrease(input: RequestServiceQuotaIncreaseInput) async throws -> RequestServiceQuotaIncreaseOutput
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -308,12 +308,12 @@ public protocol ServiceQuotasClientProtocol {
     /// - `TagPolicyViolationException` : The specified tag is a reserved word and cannot be used.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     /// - `TooManyTagsException` : You've exceeded the number of tags allowed for a resource. For more information, see [Tag restrictions](https://docs.aws.amazon.com/servicequotas/latest/userguide/sq-tagging.html#sq-tagging-restrictions) in the Service Quotas User Guide.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from the specified applied quota. You can specify one or more tags to remove.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,7 +323,7 @@ public protocol ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum ServiceQuotasClientTypes {}

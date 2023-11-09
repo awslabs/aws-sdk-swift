@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MWAAClient {
-    /// Paginate over `[ListEnvironmentsOutputResponse]` results.
+    /// Paginate over `[ListEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutputResponse`
-    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutputResponse.nextToken, paginationFunction: self.listEnvironments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
+    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutputResponse {
+extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

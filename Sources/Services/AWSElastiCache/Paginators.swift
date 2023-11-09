@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeCacheClustersOutputResponse]` results.
+    /// Paginate over `[DescribeCacheClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCacheClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheClustersOutputResponse`
-    public func describeCacheClustersPaginated(input: DescribeCacheClustersInput) -> ClientRuntime.PaginatorSequence<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>(input: input, inputKey: \DescribeCacheClustersInput.marker, outputKey: \DescribeCacheClustersOutputResponse.marker, paginationFunction: self.describeCacheClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheClustersOutput`
+    public func describeCacheClustersPaginated(input: DescribeCacheClustersInput) -> ClientRuntime.PaginatorSequence<DescribeCacheClustersInput, DescribeCacheClustersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCacheClustersInput, DescribeCacheClustersOutput>(input: input, inputKey: \DescribeCacheClustersInput.marker, outputKey: \DescribeCacheClustersOutput.marker, paginationFunction: self.describeCacheClusters(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension DescribeCacheClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCacheClustersInput, Output == DescribeCacheClustersOutputResponse {
+extension PaginatorSequence where Input == DescribeCacheClustersInput, Output == DescribeCacheClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheClustersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheCluster]`
     /// - Returns: `[ElastiCacheClientTypes.CacheCluster]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == DescribeCacheClustersInput, Output ==
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeCacheEngineVersionsOutputResponse]` results.
+    /// Paginate over `[DescribeCacheEngineVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCacheEngineVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheEngineVersionsOutputResponse`
-    public func describeCacheEngineVersionsPaginated(input: DescribeCacheEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse>(input: input, inputKey: \DescribeCacheEngineVersionsInput.marker, outputKey: \DescribeCacheEngineVersionsOutputResponse.marker, paginationFunction: self.describeCacheEngineVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheEngineVersionsOutput`
+    public func describeCacheEngineVersionsPaginated(input: DescribeCacheEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput>(input: input, inputKey: \DescribeCacheEngineVersionsInput.marker, outputKey: \DescribeCacheEngineVersionsOutput.marker, paginationFunction: self.describeCacheEngineVersions(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension DescribeCacheEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCacheEngineVersionsInput, Output == DescribeCacheEngineVersionsOutputResponse {
+extension PaginatorSequence where Input == DescribeCacheEngineVersionsInput, Output == DescribeCacheEngineVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheEngineVersionsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheEngineVersion]`
     /// - Returns: `[ElastiCacheClientTypes.CacheEngineVersion]`
@@ -70,16 +70,16 @@ extension PaginatorSequence where Input == DescribeCacheEngineVersionsInput, Out
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeCacheParameterGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeCacheParameterGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCacheParameterGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheParameterGroupsOutputResponse`
-    public func describeCacheParameterGroupsPaginated(input: DescribeCacheParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse>(input: input, inputKey: \DescribeCacheParameterGroupsInput.marker, outputKey: \DescribeCacheParameterGroupsOutputResponse.marker, paginationFunction: self.describeCacheParameterGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheParameterGroupsOutput`
+    public func describeCacheParameterGroupsPaginated(input: DescribeCacheParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput>(input: input, inputKey: \DescribeCacheParameterGroupsInput.marker, outputKey: \DescribeCacheParameterGroupsOutput.marker, paginationFunction: self.describeCacheParameterGroups(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension DescribeCacheParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCacheParameterGroupsInput, Output == DescribeCacheParameterGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeCacheParameterGroupsInput, Output == DescribeCacheParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheParameterGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheParameterGroup]`
     /// - Returns: `[ElastiCacheClientTypes.CacheParameterGroup]`
@@ -101,16 +101,16 @@ extension PaginatorSequence where Input == DescribeCacheParameterGroupsInput, Ou
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeCacheParametersOutputResponse]` results.
+    /// Paginate over `[DescribeCacheParametersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCacheParametersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheParametersOutputResponse`
-    public func describeCacheParametersPaginated(input: DescribeCacheParametersInput) -> ClientRuntime.PaginatorSequence<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse>(input: input, inputKey: \DescribeCacheParametersInput.marker, outputKey: \DescribeCacheParametersOutputResponse.marker, paginationFunction: self.describeCacheParameters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheParametersOutput`
+    public func describeCacheParametersPaginated(input: DescribeCacheParametersInput) -> ClientRuntime.PaginatorSequence<DescribeCacheParametersInput, DescribeCacheParametersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCacheParametersInput, DescribeCacheParametersOutput>(input: input, inputKey: \DescribeCacheParametersInput.marker, outputKey: \DescribeCacheParametersOutput.marker, paginationFunction: self.describeCacheParameters(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension DescribeCacheParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCacheParametersInput, Output == DescribeCacheParametersOutputResponse {
+extension PaginatorSequence where Input == DescribeCacheParametersInput, Output == DescribeCacheParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheParametersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Parameter]`
     /// - Returns: `[ElastiCacheClientTypes.Parameter]`
@@ -133,16 +133,16 @@ extension PaginatorSequence where Input == DescribeCacheParametersInput, Output 
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeCacheSecurityGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeCacheSecurityGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCacheSecurityGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheSecurityGroupsOutputResponse`
-    public func describeCacheSecurityGroupsPaginated(input: DescribeCacheSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse>(input: input, inputKey: \DescribeCacheSecurityGroupsInput.marker, outputKey: \DescribeCacheSecurityGroupsOutputResponse.marker, paginationFunction: self.describeCacheSecurityGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheSecurityGroupsOutput`
+    public func describeCacheSecurityGroupsPaginated(input: DescribeCacheSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput>(input: input, inputKey: \DescribeCacheSecurityGroupsInput.marker, outputKey: \DescribeCacheSecurityGroupsOutput.marker, paginationFunction: self.describeCacheSecurityGroups(input:))
     }
 }
 
@@ -155,7 +155,7 @@ extension DescribeCacheSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCacheSecurityGroupsInput, Output == DescribeCacheSecurityGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeCacheSecurityGroupsInput, Output == DescribeCacheSecurityGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheSecurityGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheSecurityGroup]`
     /// - Returns: `[ElastiCacheClientTypes.CacheSecurityGroup]`
@@ -164,16 +164,16 @@ extension PaginatorSequence where Input == DescribeCacheSecurityGroupsInput, Out
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeCacheSubnetGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeCacheSubnetGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCacheSubnetGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheSubnetGroupsOutputResponse`
-    public func describeCacheSubnetGroupsPaginated(input: DescribeCacheSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse>(input: input, inputKey: \DescribeCacheSubnetGroupsInput.marker, outputKey: \DescribeCacheSubnetGroupsOutputResponse.marker, paginationFunction: self.describeCacheSubnetGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheSubnetGroupsOutput`
+    public func describeCacheSubnetGroupsPaginated(input: DescribeCacheSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput>(input: input, inputKey: \DescribeCacheSubnetGroupsInput.marker, outputKey: \DescribeCacheSubnetGroupsOutput.marker, paginationFunction: self.describeCacheSubnetGroups(input:))
     }
 }
 
@@ -186,7 +186,7 @@ extension DescribeCacheSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCacheSubnetGroupsInput, Output == DescribeCacheSubnetGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeCacheSubnetGroupsInput, Output == DescribeCacheSubnetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheSubnetGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheSubnetGroup]`
     /// - Returns: `[ElastiCacheClientTypes.CacheSubnetGroup]`
@@ -195,16 +195,16 @@ extension PaginatorSequence where Input == DescribeCacheSubnetGroupsInput, Outpu
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeEngineDefaultParametersOutputResponse]` results.
+    /// Paginate over `[DescribeEngineDefaultParametersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEngineDefaultParametersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineDefaultParametersOutputResponse`
-    public func describeEngineDefaultParametersPaginated(input: DescribeEngineDefaultParametersInput) -> ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>(input: input, inputKey: \DescribeEngineDefaultParametersInput.marker, outputKey: \DescribeEngineDefaultParametersOutputResponse.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineDefaultParametersOutput`
+    public func describeEngineDefaultParametersPaginated(input: DescribeEngineDefaultParametersInput) -> ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \DescribeEngineDefaultParametersInput.marker, outputKey: \DescribeEngineDefaultParametersOutput.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
     }
 }
 
@@ -217,7 +217,7 @@ extension DescribeEngineDefaultParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput, Output == DescribeEngineDefaultParametersOutputResponse {
+extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput, Output == DescribeEngineDefaultParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEngineDefaultParametersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Parameter]`
     /// - Returns: `[ElastiCacheClientTypes.Parameter]`
@@ -226,16 +226,16 @@ extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput,
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    /// Paginate over `[DescribeEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
-    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutputResponse.marker, paginationFunction: self.describeEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
+    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -252,7 +252,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Event]`
     /// - Returns: `[ElastiCacheClientTypes.Event]`
@@ -261,16 +261,16 @@ extension PaginatorSequence where Input == DescribeEventsInput, Output == Descri
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeGlobalReplicationGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeGlobalReplicationGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeGlobalReplicationGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalReplicationGroupsOutputResponse`
-    public func describeGlobalReplicationGroupsPaginated(input: DescribeGlobalReplicationGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse>(input: input, inputKey: \DescribeGlobalReplicationGroupsInput.marker, outputKey: \DescribeGlobalReplicationGroupsOutputResponse.marker, paginationFunction: self.describeGlobalReplicationGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalReplicationGroupsOutput`
+    public func describeGlobalReplicationGroupsPaginated(input: DescribeGlobalReplicationGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput>(input: input, inputKey: \DescribeGlobalReplicationGroupsInput.marker, outputKey: \DescribeGlobalReplicationGroupsOutput.marker, paginationFunction: self.describeGlobalReplicationGroups(input:))
     }
 }
 
@@ -284,7 +284,7 @@ extension DescribeGlobalReplicationGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGlobalReplicationGroupsInput, Output == DescribeGlobalReplicationGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeGlobalReplicationGroupsInput, Output == DescribeGlobalReplicationGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGlobalReplicationGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.GlobalReplicationGroup]`
     /// - Returns: `[ElastiCacheClientTypes.GlobalReplicationGroup]`
@@ -293,16 +293,16 @@ extension PaginatorSequence where Input == DescribeGlobalReplicationGroupsInput,
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeReplicationGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeReplicationGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeReplicationGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationGroupsOutputResponse`
-    public func describeReplicationGroupsPaginated(input: DescribeReplicationGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>(input: input, inputKey: \DescribeReplicationGroupsInput.marker, outputKey: \DescribeReplicationGroupsOutputResponse.marker, paginationFunction: self.describeReplicationGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationGroupsOutput`
+    public func describeReplicationGroupsPaginated(input: DescribeReplicationGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>(input: input, inputKey: \DescribeReplicationGroupsInput.marker, outputKey: \DescribeReplicationGroupsOutput.marker, paginationFunction: self.describeReplicationGroups(input:))
     }
 }
 
@@ -315,7 +315,7 @@ extension DescribeReplicationGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeReplicationGroupsInput, Output == DescribeReplicationGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeReplicationGroupsInput, Output == DescribeReplicationGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReplicationGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ReplicationGroup]`
     /// - Returns: `[ElastiCacheClientTypes.ReplicationGroup]`
@@ -324,16 +324,16 @@ extension PaginatorSequence where Input == DescribeReplicationGroupsInput, Outpu
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeReservedCacheNodesOutputResponse]` results.
+    /// Paginate over `[DescribeReservedCacheNodesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeReservedCacheNodesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedCacheNodesOutputResponse`
-    public func describeReservedCacheNodesPaginated(input: DescribeReservedCacheNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse>(input: input, inputKey: \DescribeReservedCacheNodesInput.marker, outputKey: \DescribeReservedCacheNodesOutputResponse.marker, paginationFunction: self.describeReservedCacheNodes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedCacheNodesOutput`
+    public func describeReservedCacheNodesPaginated(input: DescribeReservedCacheNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput>(input: input, inputKey: \DescribeReservedCacheNodesInput.marker, outputKey: \DescribeReservedCacheNodesOutput.marker, paginationFunction: self.describeReservedCacheNodes(input:))
     }
 }
 
@@ -351,7 +351,7 @@ extension DescribeReservedCacheNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeReservedCacheNodesInput, Output == DescribeReservedCacheNodesOutputResponse {
+extension PaginatorSequence where Input == DescribeReservedCacheNodesInput, Output == DescribeReservedCacheNodesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedCacheNodesPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ReservedCacheNode]`
     /// - Returns: `[ElastiCacheClientTypes.ReservedCacheNode]`
@@ -360,16 +360,16 @@ extension PaginatorSequence where Input == DescribeReservedCacheNodesInput, Outp
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeReservedCacheNodesOfferingsOutputResponse]` results.
+    /// Paginate over `[DescribeReservedCacheNodesOfferingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeReservedCacheNodesOfferingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedCacheNodesOfferingsOutputResponse`
-    public func describeReservedCacheNodesOfferingsPaginated(input: DescribeReservedCacheNodesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse>(input: input, inputKey: \DescribeReservedCacheNodesOfferingsInput.marker, outputKey: \DescribeReservedCacheNodesOfferingsOutputResponse.marker, paginationFunction: self.describeReservedCacheNodesOfferings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedCacheNodesOfferingsOutput`
+    public func describeReservedCacheNodesOfferingsPaginated(input: DescribeReservedCacheNodesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput>(input: input, inputKey: \DescribeReservedCacheNodesOfferingsInput.marker, outputKey: \DescribeReservedCacheNodesOfferingsOutput.marker, paginationFunction: self.describeReservedCacheNodesOfferings(input:))
     }
 }
 
@@ -386,7 +386,7 @@ extension DescribeReservedCacheNodesOfferingsInput: ClientRuntime.PaginateToken 
         )}
 }
 
-extension PaginatorSequence where Input == DescribeReservedCacheNodesOfferingsInput, Output == DescribeReservedCacheNodesOfferingsOutputResponse {
+extension PaginatorSequence where Input == DescribeReservedCacheNodesOfferingsInput, Output == DescribeReservedCacheNodesOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedCacheNodesOfferingsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ReservedCacheNodesOffering]`
     /// - Returns: `[ElastiCacheClientTypes.ReservedCacheNodesOffering]`
@@ -395,16 +395,16 @@ extension PaginatorSequence where Input == DescribeReservedCacheNodesOfferingsIn
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeServiceUpdatesOutputResponse]` results.
+    /// Paginate over `[DescribeServiceUpdatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeServiceUpdatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceUpdatesOutputResponse`
-    public func describeServiceUpdatesPaginated(input: DescribeServiceUpdatesInput) -> ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>(input: input, inputKey: \DescribeServiceUpdatesInput.marker, outputKey: \DescribeServiceUpdatesOutputResponse.marker, paginationFunction: self.describeServiceUpdates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceUpdatesOutput`
+    public func describeServiceUpdatesPaginated(input: DescribeServiceUpdatesInput) -> ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(input: input, inputKey: \DescribeServiceUpdatesInput.marker, outputKey: \DescribeServiceUpdatesOutput.marker, paginationFunction: self.describeServiceUpdates(input:))
     }
 }
 
@@ -418,7 +418,7 @@ extension DescribeServiceUpdatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output == DescribeServiceUpdatesOutputResponse {
+extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output == DescribeServiceUpdatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeServiceUpdatesPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ServiceUpdate]`
     /// - Returns: `[ElastiCacheClientTypes.ServiceUpdate]`
@@ -427,16 +427,16 @@ extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output =
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeSnapshotsOutputResponse]` results.
+    /// Paginate over `[DescribeSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutputResponse`
-    public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(input: input, inputKey: \DescribeSnapshotsInput.marker, outputKey: \DescribeSnapshotsOutputResponse.marker, paginationFunction: self.describeSnapshots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
+    public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.marker, outputKey: \DescribeSnapshotsOutput.marker, paginationFunction: self.describeSnapshots(input:))
     }
 }
 
@@ -453,7 +453,7 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutputResponse {
+extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Snapshot]`
     /// - Returns: `[ElastiCacheClientTypes.Snapshot]`
@@ -462,16 +462,16 @@ extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == Des
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeUpdateActionsOutputResponse]` results.
+    /// Paginate over `[DescribeUpdateActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeUpdateActionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUpdateActionsOutputResponse`
-    public func describeUpdateActionsPaginated(input: DescribeUpdateActionsInput) -> ClientRuntime.PaginatorSequence<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse>(input: input, inputKey: \DescribeUpdateActionsInput.marker, outputKey: \DescribeUpdateActionsOutputResponse.marker, paginationFunction: self.describeUpdateActions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUpdateActionsOutput`
+    public func describeUpdateActionsPaginated(input: DescribeUpdateActionsInput) -> ClientRuntime.PaginatorSequence<DescribeUpdateActionsInput, DescribeUpdateActionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeUpdateActionsInput, DescribeUpdateActionsOutput>(input: input, inputKey: \DescribeUpdateActionsInput.marker, outputKey: \DescribeUpdateActionsOutput.marker, paginationFunction: self.describeUpdateActions(input:))
     }
 }
 
@@ -491,7 +491,7 @@ extension DescribeUpdateActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeUpdateActionsInput, Output == DescribeUpdateActionsOutputResponse {
+extension PaginatorSequence where Input == DescribeUpdateActionsInput, Output == DescribeUpdateActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUpdateActionsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.UpdateAction]`
     /// - Returns: `[ElastiCacheClientTypes.UpdateAction]`
@@ -500,16 +500,16 @@ extension PaginatorSequence where Input == DescribeUpdateActionsInput, Output ==
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeUserGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeUserGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeUserGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUserGroupsOutputResponse`
-    public func describeUserGroupsPaginated(input: DescribeUserGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse>(input: input, inputKey: \DescribeUserGroupsInput.marker, outputKey: \DescribeUserGroupsOutputResponse.marker, paginationFunction: self.describeUserGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUserGroupsOutput`
+    public func describeUserGroupsPaginated(input: DescribeUserGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeUserGroupsInput, DescribeUserGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeUserGroupsInput, DescribeUserGroupsOutput>(input: input, inputKey: \DescribeUserGroupsInput.marker, outputKey: \DescribeUserGroupsOutput.marker, paginationFunction: self.describeUserGroups(input:))
     }
 }
 
@@ -522,7 +522,7 @@ extension DescribeUserGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeUserGroupsInput, Output == DescribeUserGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeUserGroupsInput, Output == DescribeUserGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUserGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.UserGroup]`
     /// - Returns: `[ElastiCacheClientTypes.UserGroup]`
@@ -531,16 +531,16 @@ extension PaginatorSequence where Input == DescribeUserGroupsInput, Output == De
     }
 }
 extension ElastiCacheClient {
-    /// Paginate over `[DescribeUsersOutputResponse]` results.
+    /// Paginate over `[DescribeUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeUsersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsersOutputResponse`
-    public func describeUsersPaginated(input: DescribeUsersInput) -> ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutputResponse>(input: input, inputKey: \DescribeUsersInput.marker, outputKey: \DescribeUsersOutputResponse.marker, paginationFunction: self.describeUsers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsersOutput`
+    public func describeUsersPaginated(input: DescribeUsersInput) -> ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \DescribeUsersInput.marker, outputKey: \DescribeUsersOutput.marker, paginationFunction: self.describeUsers(input:))
     }
 }
 
@@ -555,7 +555,7 @@ extension DescribeUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeUsersInput, Output == DescribeUsersOutputResponse {
+extension PaginatorSequence where Input == DescribeUsersInput, Output == DescribeUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUsersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.User]`
     /// - Returns: `[ElastiCacheClientTypes.User]`

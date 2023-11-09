@@ -18,13 +18,13 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter AbortMultipartUploadInput : [no documentation found]
     ///
-    /// - Returns: `AbortMultipartUploadOutputResponse` : [no documentation found]
+    /// - Returns: `AbortMultipartUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchUpload` : The specified multipart upload does not exist.
-    func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutputResponse
+    func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput
     /// Completes a multipart upload by assembling previously uploaded parts. You first initiate the multipart upload and then upload all parts using the [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html) operation. After successfully uploading all relevant parts of an upload, you call this action to complete the upload. Upon receiving this request, Amazon S3 concatenates all the parts in ascending order by part number to create a new object. In the Complete Multipart Upload request, you must provide the parts list. You must ensure that the parts list is complete. This action concatenates the parts that you provide in the list. For each part in the list, you must provide the part number and the ETag value, returned after that part was uploaded. Processing of a Complete Multipart Upload request could take several minutes to complete. After Amazon S3 begins processing the request, it sends an HTTP response header that specifies a 200 OK response. While processing is in progress, Amazon S3 periodically sends white space characters to keep the connection from timing out. A request could fail after the initial 200 OK response has been sent. This means that a 200 OK response can contain either a success or an error. If you call the S3 API directly, make sure to design your application to parse the contents of the response and handle it appropriately. If you use Amazon Web Services SDKs, SDKs handle this condition. The SDKs detect the embedded error and apply error handling per your configuration settings (including automatically retrying the request as appropriate). If the condition persists, the SDKs throws an exception (or, for the SDKs that don't use exceptions, they return the error). Note that if CompleteMultipartUpload fails, applications should be prepared to retry the failed requests. For more information, see [Amazon S3 Error Best Practices](https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorBestPractices.html). You cannot use Content-Type: application/x-www-form-urlencoded with Complete Multipart Upload requests. Also, if you do not provide a Content-Type header, CompleteMultipartUpload returns a 200 OK response. For more information about multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html). For information about permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html). CompleteMultipartUpload has the following special errors:
     ///
     /// * Error code: EntityTooSmall
@@ -78,8 +78,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter CompleteMultipartUploadInput : [no documentation found]
     ///
-    /// - Returns: `CompleteMultipartUploadOutputResponse` : [no documentation found]
-    func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutputResponse
+    /// - Returns: `CompleteMultipartUploadOutput` : [no documentation found]
+    func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput
     /// Creates a copy of an object that is already stored in Amazon S3. You can store individual objects of up to 5 TB in Amazon S3. You create a copy of your object up to 5 GB in size in a single atomic action using this API. However, to copy an object greater than 5 GB, you must use the multipart upload Upload Part - Copy (UploadPartCopy) API. For more information, see [Copy Object Using the REST Multipart Upload API](https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html). All copy requests must be authenticated. Additionally, you must have read access to the source object and write access to the destination bucket. For more information, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html). Both the Region that you want to copy the object from and the Region that you want to copy the object to must be enabled for your account. A copy request might return an error when Amazon S3 receives the copy request or while Amazon S3 is copying the files. If the error occurs before the copy action starts, you receive a standard Amazon S3 error. If the error occurs during the copy operation, the error response is embedded in the 200 OK response. This means that a 200 OK response can contain either a success or an error. If you call the S3 API directly, make sure to design your application to parse the contents of the response and handle it appropriately. If you use Amazon Web Services SDKs, SDKs handle this condition. The SDKs detect the embedded error and apply error handling per your configuration settings (including automatically retrying the request as appropriate). If the condition persists, the SDKs throws an exception (or, for the SDKs that don't use exceptions, they return the error). If the copy is successful, you receive a response with information about the copied object. If the request is an HTTP 1.1 request, the response is chunk encoded. If it were not, it would not contain the content-length, and you would need to read the entire body. The copy request charge is based on the storage class and Region that you specify for the destination object. The request can also result in a data retrieval charge for the source if the source storage class bills for data retrieval. For pricing information, see [Amazon S3 pricing](http://aws.amazon.com/s3/pricing/). Amazon S3 transfer acceleration does not support cross-Region copies. If you request a cross-Region copy using a transfer acceleration endpoint, you get a 400 Bad Request error. For more information, see [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html). Metadata When copying an object, you can preserve all metadata (the default) or specify new metadata. However, the access control list (ACL) is not preserved and is set to private for the user making the request. To override the default ACL setting, specify a new ACL when generating a copy request. For more information, see [Using ACLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html). To specify whether you want the object metadata copied from the source object or replaced with metadata provided in the request, you can optionally add the x-amz-metadata-directive header. When you grant permissions, you can use the s3:x-amz-metadata-directive condition key to enforce certain metadata behavior when objects are uploaded. For more information, see [Specifying Conditions in a Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/amazon-s3-policy-keys.html) in the Amazon S3 User Guide. For a complete list of Amazon S3-specific condition keys, see [Actions, Resources, and Condition Keys for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html). x-amz-website-redirect-location is unique to each object and must be specified in the request headers to copy the value. x-amz-copy-source-if Headers To only copy an object under certain conditions, such as whether the Etag matches or whether the object was modified before or after a specified date, use the following request parameters:
     ///
     /// * x-amz-copy-source-if-match
@@ -113,13 +113,13 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter CopyObjectInput : [no documentation found]
     ///
-    /// - Returns: `CopyObjectOutputResponse` : [no documentation found]
+    /// - Returns: `CopyObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
-    func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutputResponse
+    func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput
     /// Creates a new S3 bucket. To create a bucket, you must register with Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests are never allowed to create buckets. By creating the bucket, you become the bucket owner. Not every string is an acceptable bucket name. For information about bucket naming restrictions, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html). If you want to create an Amazon S3 on Outposts bucket, see [Create Bucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html). By default, the bucket is created in the US East (N. Virginia) Region. You can optionally specify a Region in the request body. To constrain the bucket creation to a specific Region, you can use [LocationConstraint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketConfiguration.html) condition key. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. For more information, see [Accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro). If you send your create bucket request to the s3.amazonaws.com endpoint, the request goes to the us-east-1 Region. Accordingly, the signature calculations in Signature Version 4 must use us-east-1 as the Region, even if the location constraint in the request specifies another Region where the bucket is to be created. If you create a bucket in a Region other than US East (N. Virginia), your application must be able to handle 307 redirect. For more information, see [Virtual hosting of buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html). Permissions In addition to s3:CreateBucket, the following permissions are required when your CreateBucket request includes specific headers:
     ///
     /// * Access control lists (ACLs) - If your CreateBucket request specifies access control list (ACL) permissions and the ACL is public-read, public-read-write, authenticated-read, or if you specify access permissions explicitly through any other ACL, both s3:CreateBucket and s3:PutBucketAcl permissions are needed. If the ACL for the CreateBucket request is private or if the request doesn't specify any ACLs, only s3:CreateBucket permission is needed.
@@ -139,14 +139,14 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter CreateBucketInput : [no documentation found]
     ///
-    /// - Returns: `CreateBucketOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBucketOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BucketAlreadyExists` : The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
     /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
-    func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutputResponse
+    func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput
     /// This action initiates a multipart upload and returns an upload ID. This upload ID is used to associate all of the parts in the specific multipart upload. You specify this upload ID in each of your subsequent upload part requests (see [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html)). You also include this upload ID in the final request to either complete or abort the multipart upload request. For more information about multipart uploads, see [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html). If you have configured a lifecycle rule to abort incomplete multipart uploads, the upload must complete within the number of days specified in the bucket lifecycle configuration. Otherwise, the incomplete multipart upload becomes eligible for an abort action and Amazon S3 aborts the multipart upload. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config). For information about the permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html). For request signing, multipart upload is just a series of regular requests. You initiate a multipart upload, send one or more requests to upload parts, and then complete the multipart upload process. You sign each request individually. There is nothing special about signing multipart upload requests. For more information about signing, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html). After you initiate a multipart upload and upload one or more parts, to stop being charged for storing the uploaded parts, you must either complete or abort the multipart upload. Amazon S3 frees up the space used to store the parts and stop charging you for storing them only after you either complete or abort a multipart upload. Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data as it writes it to disks in its data centers and decrypts it when you access it. Amazon S3 automatically encrypts all new objects that are uploaded to an S3 bucket. When doing a multipart upload, if you don't specify encryption information in your request, the encryption setting of the uploaded parts is set to the default encryption configuration of the destination bucket. By default, all buckets have a base level of encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the destination bucket has a default encryption configuration that uses server-side encryption with an Key Management Service (KMS) key (SSE-KMS), or a customer-provided encryption key (SSE-C), Amazon S3 uses the corresponding KMS key, or a customer-provided key to encrypt the uploaded parts. When you perform a CreateMultipartUpload operation, if you want to use a different type of encryption setting for the uploaded parts, you can request that Amazon S3 encrypts the object with a KMS key, an Amazon S3 managed key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence. If you choose to provide your own encryption key, the request headers you provide in [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html) requests must match the headers you used in the request to initiate the upload by using CreateMultipartUpload. You can request that Amazon S3 save the uploaded parts encrypted with server-side encryption with an Amazon S3 managed key (SSE-S3), an Key Management Service (KMS) key (SSE-KMS), or a customer-provided encryption key (SSE-C). To perform a multipart upload with encryption by using an Amazon Web Services KMS key, the requester must have permission to the kms:Decrypt and kms:GenerateDataKey* actions on the key. These permissions are required because Amazon S3 must decrypt and read data from the encrypted file parts before it completes the multipart upload. For more information, see [Multipart upload API and permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions) and [Protecting data using server-side encryption with Amazon Web Services KMS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the Amazon S3 User Guide. If your Identity and Access Management (IAM) user or role is in the same Amazon Web Services account as the KMS key, then you must have these permissions on the key policy. If your IAM user or role belongs to a different account than the key, then you must have the permissions on both the key policy and your IAM user or role. For more information, see [Protecting Data Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html). Access Permissions When copying an object, you can optionally specify the accounts or groups that should be granted specific permissions on the new object. There are two ways to grant the permissions using the request headers:
     ///
     /// * Specify a canned ACL with the x-amz-acl request header. For more information, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL).
@@ -241,8 +241,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter CreateMultipartUploadInput : [no documentation found]
     ///
-    /// - Returns: `CreateMultipartUploadOutputResponse` : [no documentation found]
-    func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutputResponse
+    /// - Returns: `CreateMultipartUploadOutput` : [no documentation found]
+    func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput
     /// Deletes the S3 bucket. All objects (including all object versions and delete markers) in the bucket must be deleted before the bucket itself can be deleted. The following operations are related to DeleteBucket:
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
@@ -251,8 +251,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketOutputResponse` : [no documentation found]
-    func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutputResponse
+    /// - Returns: `DeleteBucketOutput` : [no documentation found]
+    func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput
     /// Deletes an analytics configuration for the bucket (specified by the analytics configuration ID). To use this operation, you must have permissions to perform the s3:PutAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 analytics feature, see [Amazon S3 Analytics – Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html). The following operations are related to DeleteBucketAnalyticsConfiguration:
     ///
     /// * [GetBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAnalyticsConfiguration.html)
@@ -263,8 +263,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketAnalyticsConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketAnalyticsConfigurationOutputResponse` : [no documentation found]
-    func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutputResponse
+    /// - Returns: `DeleteBucketAnalyticsConfigurationOutput` : [no documentation found]
+    func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput
     /// Deletes the cors configuration information set for the bucket. To use this operation, you must have permission to perform the s3:PutBucketCORS action. The bucket owner has this permission by default and can grant this permission to others. For information about cors, see [Enabling Cross-Origin Resource Sharing](https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html) in the Amazon S3 User Guide. Related Resources
     ///
     /// * [PutBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html)
@@ -273,8 +273,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketCorsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketCorsOutputResponse` : [no documentation found]
-    func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutputResponse
+    /// - Returns: `DeleteBucketCorsOutput` : [no documentation found]
+    func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput
     /// This implementation of the DELETE action resets the default encryption for the bucket as server-side encryption with Amazon S3 managed keys (SSE-S3). For information about the bucket default encryption feature, see [Amazon S3 Bucket Default Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html) in the Amazon S3 User Guide. To use this operation, you must have permissions to perform the s3:PutEncryptionConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. The following operations are related to DeleteBucketEncryption:
     ///
     /// * [PutBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html)
@@ -283,8 +283,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketEncryptionOutputResponse` : [no documentation found]
-    func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutputResponse
+    /// - Returns: `DeleteBucketEncryptionOutput` : [no documentation found]
+    func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput
     /// Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see [Storage class for automatically optimizing frequently and infrequently accessed objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access). Operations related to DeleteBucketIntelligentTieringConfiguration include:
     ///
     /// * [GetBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html)
@@ -295,8 +295,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutputResponse` : [no documentation found]
-    func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutputResponse
+    /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput
     /// Deletes an inventory configuration (identified by the inventory ID) from the bucket. To use this operation, you must have permissions to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html). Operations related to DeleteBucketInventoryConfiguration include:
     ///
     /// * [GetBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html)
@@ -307,8 +307,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketInventoryConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketInventoryConfigurationOutputResponse` : [no documentation found]
-    func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutputResponse
+    /// - Returns: `DeleteBucketInventoryConfigurationOutput` : [no documentation found]
+    func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput
     /// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. To use this operation, you must have permission to perform the s3:PutLifecycleConfiguration action. By default, the bucket owner has this permission and the bucket owner can grant this permission to others. There is usually some time lag before lifecycle configuration deletion is fully propagated to all the Amazon S3 systems. For more information about the object expiration, see [Elements to Describe Lifecycle Actions](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions). Related actions include:
     ///
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)
@@ -317,8 +317,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketLifecycleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketLifecycleOutputResponse` : [no documentation found]
-    func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutputResponse
+    /// - Returns: `DeleteBucketLifecycleOutput` : [no documentation found]
+    func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput
     /// Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to DeleteBucketMetricsConfiguration:
     ///
     /// * [GetBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html)
@@ -331,8 +331,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketMetricsConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketMetricsConfigurationOutputResponse` : [no documentation found]
-    func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutputResponse
+    /// - Returns: `DeleteBucketMetricsConfigurationOutput` : [no documentation found]
+    func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput
     /// Removes OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see [Specifying Permissions in a Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html). For information about Amazon S3 Object Ownership, see [Using Object Ownership](https://docs.aws.amazon.com/AmazonS3/latest/dev/about-object-ownership.html). The following operations are related to DeleteBucketOwnershipControls:
     ///
     /// * [GetBucketOwnershipControls]
@@ -341,8 +341,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketOwnershipControlsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketOwnershipControlsOutputResponse` : [no documentation found]
-    func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutputResponse
+    /// - Returns: `DeleteBucketOwnershipControlsOutput` : [no documentation found]
+    func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput
     /// This implementation of the DELETE action uses the policy subresource to delete the policy of a specified bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the DeleteBucketPolicy permissions on the specified bucket and belong to the bucket owner's account to use this operation. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. To ensure that bucket owners don't inadvertently lock themselves out of their own buckets, the root principal in a bucket owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root principal's access. Bucket owner root principals can only be blocked from performing these API actions by VPC endpoint policies and Amazon Web Services Organizations policies. For more information about bucket policies, see [Using Bucket Policies and UserPolicies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). The following operations are related to DeleteBucketPolicy
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
@@ -351,8 +351,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketPolicyOutputResponse` : [no documentation found]
-    func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutputResponse
+    /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
+    func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput
     /// Deletes the replication configuration from the bucket. To use this operation, you must have permissions to perform the s3:PutReplicationConfiguration action. The bucket owner has these permissions by default and can grant it to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). It can take a while for the deletion of a replication configuration to fully propagate. For information about replication configuration, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html) in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:
     ///
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html)
@@ -361,8 +361,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketReplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketReplicationOutputResponse` : [no documentation found]
-    func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutputResponse
+    /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
+    func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput
     /// Deletes the tags from the bucket. To use this operation, you must have permission to perform the s3:PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. The following operations are related to DeleteBucketTagging:
     ///
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html)
@@ -371,8 +371,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketTaggingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketTaggingOutputResponse` : [no documentation found]
-    func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutputResponse
+    /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
+    func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput
     /// This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting a website configuration on the specified bucket. You will get a 200 OK response if the website configuration you are trying to delete does not exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permission. By default, only the bucket owner can delete the website configuration attached to a bucket. However, bucket owners can grant other users permission to delete the website configuration by writing a bucket policy granting them the S3:DeleteBucketWebsite permission. For more information about hosting websites, see [Hosting Websites on Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html). The following operations are related to DeleteBucketWebsite:
     ///
     /// * [GetBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketWebsite.html)
@@ -381,16 +381,16 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteBucketWebsiteInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBucketWebsiteOutputResponse` : [no documentation found]
-    func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutputResponse
+    /// - Returns: `DeleteBucketWebsiteOutput` : [no documentation found]
+    func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput
     /// Removes the null version (if there is one) of an object and inserts a delete marker, which becomes the latest version of the object. If there isn't a null version, Amazon S3 does not remove any objects but will still respond that the command was successful. To remove a specific version, you must use the version Id subresource. Using this subresource permanently deletes the version. If the object deleted is a delete marker, Amazon S3 sets the response header, x-amz-delete-marker, to true. If the object you want to delete is in a bucket where the bucket versioning configuration is MFA Delete enabled, you must include the x-amz-mfa request header in the DELETE versionId request. Requests that include x-amz-mfa must use HTTPS. For more information about MFA Delete, see [Using MFA Delete](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html). To see sample requests that use versioning, see [Sample Request](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete). You can delete objects by explicitly calling DELETE Object or configure its lifecycle ([PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html)) to enable Amazon S3 to remove them for you. If you want to block users or accounts from removing or deleting objects from your bucket, you must deny them the s3:DeleteObject, s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration actions. The following action is related to DeleteObject:
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// - Parameter DeleteObjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteObjectOutputResponse` : [no documentation found]
-    func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutputResponse
+    /// - Returns: `DeleteObjectOutput` : [no documentation found]
+    func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
     /// This action enables you to delete multiple objects from a bucket using a single HTTP request. If you know the object keys that you want to delete, then this action provides a suitable alternative to sending individual delete requests, reducing per-request overhead. The request contains a list of up to 1000 keys that you want to delete. In the XML, you provide the object key names, and optionally, version IDs if you want to delete a specific version of the object from a versioning-enabled bucket. For each key, Amazon S3 performs a delete action and returns the result of that delete, success, or failure, in the response. Note that if the object specified in the request is not found, Amazon S3 returns the result as deleted. The action supports two modes for the response: verbose and quiet. By default, the action uses verbose mode in which the response includes the result of deletion of each key in your request. In quiet mode the response includes only keys where the delete action encountered an error. For a successful deletion, the action does not return any information about the delete in the response body. When performing this action on an MFA Delete enabled bucket, that attempts to delete any versioned objects, you must include an MFA token. If you do not provide one, the entire request will fail, even if there are non-versioned objects you are trying to delete. If you provide an invalid token, whether there are versioned keys in the request or not, the entire Multi-Object Delete request will fail. For information about MFA Delete, see [ MFA Delete](https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete). Finally, the Content-MD5 header is required for all Multi-Object Delete requests. Amazon S3 uses the header value to ensure that your request body has not been altered in transit. The following operations are related to DeleteObjects:
     ///
     /// * [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html)
@@ -405,8 +405,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteObjectsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteObjectsOutputResponse` : [no documentation found]
-    func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutputResponse
+    /// - Returns: `DeleteObjectsOutput` : [no documentation found]
+    func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput
     /// Removes the entire tag set from the specified object. For more information about managing object tags, see [ Object Tagging](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html). To use this operation, you must have permission to perform the s3:DeleteObjectTagging action. To delete tags of a specific object version, add the versionId query parameter in the request. You will need permission for the s3:DeleteObjectVersionTagging action. The following operations are related to DeleteObjectTagging:
     ///
     /// * [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html)
@@ -415,8 +415,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeleteObjectTaggingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteObjectTaggingOutputResponse` : [no documentation found]
-    func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutputResponse
+    /// - Returns: `DeleteObjectTaggingOutput` : [no documentation found]
+    func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput
     /// Removes the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). The following operations are related to DeletePublicAccessBlock:
     ///
     /// * [Using Amazon S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html)
@@ -429,24 +429,24 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
     ///
-    /// - Returns: `DeletePublicAccessBlockOutputResponse` : [no documentation found]
-    func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutputResponse
+    /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
+    func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput
     /// This implementation of the GET action uses the accelerate subresource to return the Transfer Acceleration state of a bucket, which is either Enabled or Suspended. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to and from Amazon S3. To use this operation, you must have permission to perform the s3:GetAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. You set the Transfer Acceleration state of an existing bucket to Enabled or Suspended by using the [PutBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html) operation. A GET accelerate request does not return a state value for a bucket that has no transfer acceleration state. A bucket has no Transfer Acceleration state if a state has never been set on the bucket. For more information about transfer acceleration, see [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html) in the Amazon S3 User Guide. The following operations are related to GetBucketAccelerateConfiguration:
     ///
     /// * [PutBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html)
     ///
     /// - Parameter GetBucketAccelerateConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketAccelerateConfigurationOutputResponse` : [no documentation found]
-    func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutputResponse
+    /// - Returns: `GetBucketAccelerateConfigurationOutput` : [no documentation found]
+    func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput
     /// This implementation of the GET action uses the acl subresource to return the access control list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have READ_ACP access to the bucket. If READ_ACP permission is granted to the anonymous user, you can return the ACL of the bucket without using an authorization header. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). If your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still supported and return the bucket-owner-full-control ACL with the owner being the account that created the bucket. For more information, see [ Controlling object ownership and disabling ACLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. The following operations are related to GetBucketAcl:
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
     ///
     /// - Parameter GetBucketAclInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketAclOutputResponse` : [no documentation found]
-    func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutputResponse
+    /// - Returns: `GetBucketAclOutput` : [no documentation found]
+    func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput
     /// This implementation of the GET action returns an analytics configuration (identified by the analytics configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [ Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. For information about Amazon S3 analytics feature, see [Amazon S3 Analytics – Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html) in the Amazon S3 User Guide. The following operations are related to GetBucketAnalyticsConfiguration:
     ///
     /// * [DeleteBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketAnalyticsConfiguration.html)
@@ -457,8 +457,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketAnalyticsConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketAnalyticsConfigurationOutputResponse` : [no documentation found]
-    func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutputResponse
+    /// - Returns: `GetBucketAnalyticsConfigurationOutput` : [no documentation found]
+    func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput
     /// Returns the Cross-Origin Resource Sharing (CORS) configuration information set for the bucket. To use this operation, you must have permission to perform the s3:GetBucketCORS action. By default, the bucket owner has this permission and can grant it to others. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). For more information about CORS, see [ Enabling Cross-Origin Resource Sharing](https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html). The following operations are related to GetBucketCors:
     ///
     /// * [PutBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html)
@@ -467,8 +467,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketCorsInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketCorsOutputResponse` : [no documentation found]
-    func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutputResponse
+    /// - Returns: `GetBucketCorsOutput` : [no documentation found]
+    func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput
     /// Returns the default encryption configuration for an Amazon S3 bucket. By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). For information about the bucket default encryption feature, see [Amazon S3 Bucket Default Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html) in the Amazon S3 User Guide. To use this operation, you must have permission to perform the s3:GetEncryptionConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). The following operations are related to GetBucketEncryption:
     ///
     /// * [PutBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html)
@@ -477,8 +477,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketEncryptionOutputResponse` : [no documentation found]
-    func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutputResponse
+    /// - Returns: `GetBucketEncryptionOutput` : [no documentation found]
+    func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput
     /// Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see [Storage class for automatically optimizing frequently and infrequently accessed objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access). Operations related to GetBucketIntelligentTieringConfiguration include:
     ///
     /// * [DeleteBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketIntelligentTieringConfiguration.html)
@@ -489,8 +489,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketIntelligentTieringConfigurationOutputResponse` : [no documentation found]
-    func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutputResponse
+    /// - Returns: `GetBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput
     /// Returns an inventory configuration (identified by the inventory configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html). The following operations are related to GetBucketInventoryConfiguration:
     ///
     /// * [DeleteBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html)
@@ -501,8 +501,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketInventoryConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketInventoryConfigurationOutputResponse` : [no documentation found]
-    func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutputResponse
+    /// - Returns: `GetBucketInventoryConfigurationOutput` : [no documentation found]
+    func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput
     /// Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, or a combination of both. Accordingly, this section describes the latest API. The response describes the new filter element that you can use to specify a filter to select a subset of objects to which the rule applies. If you are using a previous version of the lifecycle configuration, it still works. For the earlier action, see [GetBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html). Returns the lifecycle configuration information set on the bucket. For information about lifecycle configuration, see [Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html). To use this operation, you must have permission to perform the s3:GetLifecycleConfiguration action. The bucket owner has this permission, by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). GetBucketLifecycleConfiguration has the following special error:
     ///
     /// * Error code: NoSuchLifecycleConfiguration
@@ -527,8 +527,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketLifecycleConfigurationOutputResponse` : [no documentation found]
-    func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutputResponse
+    /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
+    func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput
     /// Returns the Region the bucket resides in. You set the bucket's Region using the LocationConstraint request parameter in a CreateBucket request. For more information, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html). To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). We recommend that you use [HeadBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html) to return the Region that a bucket resides in. For backward compatibility, Amazon S3 continues to support GetBucketLocation. The following operations are related to GetBucketLocation:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
@@ -537,8 +537,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketLocationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketLocationOutputResponse` : [no documentation found]
-    func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutputResponse
+    /// - Returns: `GetBucketLocationOutput` : [no documentation found]
+    func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput
     /// Returns the logging status of a bucket and the permissions users have to view and modify that status. The following operations are related to GetBucketLogging:
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
@@ -547,8 +547,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketLoggingInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketLoggingOutputResponse` : [no documentation found]
-    func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutputResponse
+    /// - Returns: `GetBucketLoggingOutput` : [no documentation found]
+    func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput
     /// Gets a metrics configuration (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to GetBucketMetricsConfiguration:
     ///
     /// * [PutBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html)
@@ -561,16 +561,16 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketMetricsConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketMetricsConfigurationOutputResponse` : [no documentation found]
-    func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutputResponse
+    /// - Returns: `GetBucketMetricsConfigurationOutput` : [no documentation found]
+    func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput
     /// Returns the notification configuration of a bucket. If notifications are not enabled on the bucket, the action returns an empty NotificationConfiguration element. By default, you must be the bucket owner to read the notification configuration of a bucket. However, the bucket owner can use a bucket policy to grant permission to other users to read this configuration with the s3:GetBucketNotification permission. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). For more information about setting and reading the notification configuration on a bucket, see [Setting Up Notification of Bucket Events](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). For more information about bucket policies, see [Using Bucket Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). The following action is related to GetBucketNotification:
     ///
     /// * [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html)
     ///
     /// - Parameter GetBucketNotificationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketNotificationConfigurationOutputResponse` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
-    func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutputResponse
+    /// - Returns: `GetBucketNotificationConfigurationOutput` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
+    func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput
     /// Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:GetBucketOwnershipControls permission. For more information about Amazon S3 permissions, see [Specifying permissions in a policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html). For information about Amazon S3 Object Ownership, see [Using Object Ownership](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html). The following operations are related to GetBucketOwnershipControls:
     ///
     /// * [PutBucketOwnershipControls]
@@ -579,16 +579,16 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketOwnershipControlsInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketOwnershipControlsOutputResponse` : [no documentation found]
-    func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutputResponse
+    /// - Returns: `GetBucketOwnershipControlsOutput` : [no documentation found]
+    func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput
     /// Returns the policy of a specified bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this operation. If you don't have GetBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. To ensure that bucket owners don't inadvertently lock themselves out of their own buckets, the root principal in a bucket owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root principal's access. Bucket owner root principals can only be blocked from performing these API actions by VPC endpoint policies and Amazon Web Services Organizations policies. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). The following action is related to GetBucketPolicy:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
     /// - Parameter GetBucketPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketPolicyOutputResponse` : [no documentation found]
-    func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutputResponse
+    /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
+    func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput
     /// Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see [Specifying Permissions in a Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html). For more information about when Amazon S3 considers a bucket public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status). The following operations are related to GetBucketPolicyStatus:
     ///
     /// * [Using Amazon S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html)
@@ -601,8 +601,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketPolicyStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketPolicyStatusOutputResponse` : [no documentation found]
-    func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutputResponse
+    /// - Returns: `GetBucketPolicyStatusOutput` : [no documentation found]
+    func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput
     /// Returns the replication configuration of a bucket. It can take a while to propagate the put or delete a replication configuration to all Amazon S3 systems. Therefore, a get request soon after put or delete can return a wrong result. For information about replication configuration, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html) in the Amazon S3 User Guide. This action requires permissions for the s3:GetReplicationConfiguration action. For more information about permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). If you include the Filter element in a replication configuration, you must also include the DeleteMarkerReplication and Priority elements. The response also returns those elements. For information about GetBucketReplication errors, see [List of replication-related error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ReplicationErrorCodeList) The following operations are related to GetBucketReplication:
     ///
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html)
@@ -611,16 +611,16 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketReplicationInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketReplicationOutputResponse` : [no documentation found]
-    func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutputResponse
+    /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
+    func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput
     /// Returns the request payment configuration of a bucket. To use this version of the operation, you must be the bucket owner. For more information, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html). The following operations are related to GetBucketRequestPayment:
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
     ///
     /// - Parameter GetBucketRequestPaymentInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketRequestPaymentOutputResponse` : [no documentation found]
-    func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutputResponse
+    /// - Returns: `GetBucketRequestPaymentOutput` : [no documentation found]
+    func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput
     /// Returns the tag set associated with the bucket. To use this operation, you must have permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error:
     ///
     /// * Error code: NoSuchTagSet
@@ -639,8 +639,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketTaggingInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketTaggingOutputResponse` : [no documentation found]
-    func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutputResponse
+    /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
+    func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput
     /// Returns the versioning state of a bucket. To retrieve the versioning state of a bucket, you must be the bucket owner. This implementation also returns the MFA Delete status of the versioning state. If the MFA Delete status is enabled, the bucket owner must use an authentication device to change the versioning state of the bucket. The following operations are related to GetBucketVersioning:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
@@ -651,8 +651,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketVersioningInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketVersioningOutputResponse` : [no documentation found]
-    func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutputResponse
+    /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
+    func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput
     /// Returns the website configuration for a bucket. To host website on Amazon S3, you can configure a bucket as website by adding a website configuration. For more information about hosting websites, see [Hosting Websites on Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html). This GET action requires the S3:GetBucketWebsite permission. By default, only the bucket owner can read the bucket website configuration. However, bucket owners can allow other users to read the website configuration by writing a bucket policy granting them the S3:GetBucketWebsite permission. The following operations are related to GetBucketWebsite:
     ///
     /// * [DeleteBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketWebsite.html)
@@ -661,8 +661,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetBucketWebsiteInput : [no documentation found]
     ///
-    /// - Returns: `GetBucketWebsiteOutputResponse` : [no documentation found]
-    func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutputResponse
+    /// - Returns: `GetBucketWebsiteOutput` : [no documentation found]
+    func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput
     /// Retrieves objects from Amazon S3. To use GET, you must have READ access to the object. If you grant READ access to the anonymous user, you can return the object without using an authorization header. An Amazon S3 bucket has no directory hierarchy such as you would find in a typical computer file system. You can, however, create a logical hierarchy by using object key names that imply a folder structure. For example, instead of naming an object sample.jpg, you can name it photos/2006/February/sample.jpg. To get an object from such a logical hierarchy, specify the full key name for the object in the GET operation. For a virtual hosted-style request example, if you have the object photos/2006/February/sample.jpg, specify the resource as /photos/2006/February/sample.jpg. For a path-style request example, if you have the object photos/2006/February/sample.jpg in the bucket named examplebucket, specify the resource as /examplebucket/photos/2006/February/sample.jpg. For more information about request types, see [HTTP Host Header Bucket Specification](https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html#VirtualHostingSpecifyBucket). For more information about returning the ACL of an object, see [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html). If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage class, or S3 Intelligent-Tiering Archive or S3 Intelligent-Tiering Deep Archive tiers, before you can retrieve the object you must first restore a copy using [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html). Otherwise, this action returns an InvalidObjectState error. For information about restoring archived objects, see [Restoring Archived Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html). Encryption request headers, like x-amz-server-side-encryption, should not be sent for GET requests if your object uses server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), or server-side encryption with Amazon S3 managed encryption keys (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400 Bad Request error. If you encrypt an object by using server-side encryption with customer-provided encryption keys (SSE-C) when you store the object in Amazon S3, then when you GET the object, you must use the following headers:
     ///
     /// * x-amz-server-side-encryption-customer-algorithm
@@ -702,14 +702,14 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetObjectInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectOutputResponse` : [no documentation found]
+    /// - Returns: `GetObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidObjectState` : Object is archived and inaccessible until restored.
     /// - `NoSuchKey` : The specified key does not exist.
-    func getObject(input: GetObjectInput) async throws -> GetObjectOutputResponse
+    func getObject(input: GetObjectInput) async throws -> GetObjectOutput
     /// Returns the access control list (ACL) of an object. To use this operation, you must have s3:GetObjectAcl permissions or READ_ACP access to the object. For more information, see [Mapping of ACL permissions and access policy permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#acl-access-policy-permission-mapping) in the Amazon S3 User Guide This action is not supported by Amazon S3 on Outposts. By default, GET returns ACL information about the current version of an object. To return ACL information about a different version, use the versionId subresource. If your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still supported and return the bucket-owner-full-control ACL with the owner being the account that created the bucket. For more information, see [ Controlling object ownership and disabling ACLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. The following operations are related to GetObjectAcl:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
@@ -722,13 +722,13 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetObjectAclInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectAclOutputResponse` : [no documentation found]
+    /// - Returns: `GetObjectAclOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutputResponse
+    func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput
     /// Retrieves all the metadata from an object without returning the object itself. This action is useful if you're interested only in an object's metadata. To use GetObjectAttributes, you must have READ access to the object. GetObjectAttributes combines the functionality of HeadObject and ListParts. All of the data returned with each of those individual calls can be returned with a single call to GetObjectAttributes. If you encrypt an object by using server-side encryption with customer-provided encryption keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the metadata from the object, you must use the following headers:
     ///
     /// * x-amz-server-side-encryption-customer-algorithm
@@ -793,37 +793,37 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetObjectAttributesInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `GetObjectAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutputResponse
+    func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput
     /// Gets an object's current legal hold status. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This action is not supported by Amazon S3 on Outposts. The following action is related to GetObjectLegalHold:
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
     /// - Parameter GetObjectLegalHoldInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectLegalHoldOutputResponse` : [no documentation found]
-    func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutputResponse
+    /// - Returns: `GetObjectLegalHoldOutput` : [no documentation found]
+    func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput
     /// Gets the Object Lock configuration for a bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). The following action is related to GetObjectLockConfiguration:
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
     /// - Parameter GetObjectLockConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectLockConfigurationOutputResponse` : [no documentation found]
-    func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutputResponse
+    /// - Returns: `GetObjectLockConfigurationOutput` : [no documentation found]
+    func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput
     /// Retrieves an object's retention settings. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This action is not supported by Amazon S3 on Outposts. The following action is related to GetObjectRetention:
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
     /// - Parameter GetObjectRetentionInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectRetentionOutputResponse` : [no documentation found]
-    func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutputResponse
+    /// - Returns: `GetObjectRetentionOutput` : [no documentation found]
+    func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput
     /// Returns the tag-set of an object. You send the GET request against the tagging subresource associated with the object. To use this operation, you must have permission to perform the s3:GetObjectTagging action. By default, the GET action returns information about current version of an object. For a versioned bucket, you can have multiple versions of an object in your bucket. To retrieve tags of any other version, use the versionId query parameter. You also need permission for the s3:GetObjectVersionTagging action. By default, the bucket owner has this permission and can grant this permission to others. For information about the Amazon S3 object tagging feature, see [Object Tagging](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html). The following actions are related to GetObjectTagging:
     ///
     /// * [DeleteObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html)
@@ -834,16 +834,16 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetObjectTaggingInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectTaggingOutputResponse` : [no documentation found]
-    func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutputResponse
+    /// - Returns: `GetObjectTaggingOutput` : [no documentation found]
+    func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput
     /// Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're distributing large files. You can get torrent only for objects that are less than 5 GB in size, and that are not encrypted using server-side encryption with a customer-provided encryption key. To use GET, you must have READ access to the object. This action is not supported by Amazon S3 on Outposts. The following action is related to GetObjectTorrent:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
     /// - Parameter GetObjectTorrentInput : [no documentation found]
     ///
-    /// - Returns: `GetObjectTorrentOutputResponse` : [no documentation found]
-    func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutputResponse
+    /// - Returns: `GetObjectTorrentOutput` : [no documentation found]
+    func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput
     /// Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:GetBucketPublicAccessBlock permission. For more information about Amazon S3 permissions, see [Specifying Permissions in a Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html). When Amazon S3 evaluates the PublicAccessBlock configuration for a bucket or an object, it checks the PublicAccessBlock configuration for both the bucket (or the bucket that contains the object) and the bucket owner's account. If the PublicAccessBlock settings are different between the bucket and the account, Amazon S3 uses the most restrictive combination of the bucket-level and account-level settings. For more information about when Amazon S3 considers a bucket or an object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status). The following operations are related to GetPublicAccessBlock:
     ///
     /// * [Using Amazon S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html)
@@ -856,19 +856,19 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter GetPublicAccessBlockInput : [no documentation found]
     ///
-    /// - Returns: `GetPublicAccessBlockOutputResponse` : [no documentation found]
-    func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutputResponse
+    /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
+    func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput
     /// This action is useful to determine if a bucket exists and you have permission to access it. The action returns a 200 OK if the bucket exists and you have permission to access it. If the bucket does not exist or you do not have permission to access it, the HEAD request returns a generic 400 Bad Request, 403 Forbidden or 404 Not Found code. A message body is not included, so you cannot determine the exception beyond these error codes. To use this operation, you must have permissions to perform the s3:ListBucket action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). To use this API operation against an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using the Amazon Web Services SDKs, you provide the ARN in place of the bucket name. For more information, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html). To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
     ///
     /// - Parameter HeadBucketInput : [no documentation found]
     ///
-    /// - Returns: `HeadBucketOutputResponse` : [no documentation found]
+    /// - Returns: `HeadBucketOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
-    func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutputResponse
+    func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput
     /// The HEAD action retrieves metadata from an object without returning the object itself. This action is useful if you're only interested in an object's metadata. To use HEAD, you must have READ access to the object. A HEAD request has the same options as a GET action on an object. The response is identical to the GET response except that there is no response body. Because of this, if the HEAD request generates an error, it returns a generic 400 Bad Request, 403 Forbidden or 404 Not Found code. It is not possible to retrieve the exact exception beyond these error codes. If you encrypt an object by using server-side encryption with customer-provided encryption keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the metadata from the object, you must use the following headers:
     ///
     /// * x-amz-server-side-encryption-customer-algorithm
@@ -921,13 +921,13 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter HeadObjectInput : [no documentation found]
     ///
-    /// - Returns: `HeadObjectOutputResponse` : [no documentation found]
+    /// - Returns: `HeadObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
-    func headObject(input: HeadObjectInput) async throws -> HeadObjectOutputResponse
+    func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput
     /// Lists the analytics configurations for the bucket. You can have up to 1,000 analytics configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. You should always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there will be a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about Amazon S3 analytics feature, see [Amazon S3 Analytics – Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html). The following operations are related to ListBucketAnalyticsConfigurations:
     ///
     /// * [GetBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAnalyticsConfiguration.html)
@@ -938,8 +938,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListBucketAnalyticsConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListBucketAnalyticsConfigurationsOutputResponse` : [no documentation found]
-    func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutputResponse
+    /// - Returns: `ListBucketAnalyticsConfigurationsOutput` : [no documentation found]
+    func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput
     /// Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see [Storage class for automatically optimizing frequently and infrequently accessed objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access). Operations related to ListBucketIntelligentTieringConfigurations include:
     ///
     /// * [DeleteBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketIntelligentTieringConfiguration.html)
@@ -950,8 +950,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListBucketIntelligentTieringConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListBucketIntelligentTieringConfigurationsOutputResponse` : [no documentation found]
-    func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutputResponse
+    /// - Returns: `ListBucketIntelligentTieringConfigurationsOutput` : [no documentation found]
+    func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput
     /// Returns a list of inventory configurations for the bucket. You can have up to 1,000 analytics configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) The following operations are related to ListBucketInventoryConfigurations:
     ///
     /// * [GetBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html)
@@ -962,8 +962,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListBucketInventoryConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListBucketInventoryConfigurationsOutputResponse` : [no documentation found]
-    func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutputResponse
+    /// - Returns: `ListBucketInventoryConfigurationsOutput` : [no documentation found]
+    func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput
     /// Lists the metrics configurations for the bucket. The metrics configurations are only for the request metrics of the bucket and do not provide information on daily storage metrics. You can have up to 1,000 configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For more information about metrics configurations and CloudWatch request metrics, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to ListBucketMetricsConfigurations:
     ///
     /// * [PutBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html)
@@ -974,14 +974,14 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListBucketMetricsConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListBucketMetricsConfigurationsOutputResponse` : [no documentation found]
-    func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutputResponse
+    /// - Returns: `ListBucketMetricsConfigurationsOutput` : [no documentation found]
+    func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput
     /// Returns a list of all buckets owned by the authenticated sender of the request. To use this operation, you must have the s3:ListAllMyBuckets permission. For information about Amazon S3 buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html).
     ///
     /// - Parameter ListBucketsInput : [no documentation found]
     ///
-    /// - Returns: `ListBucketsOutputResponse` : [no documentation found]
-    func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutputResponse
+    /// - Returns: `ListBucketsOutput` : [no documentation found]
+    func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput
     /// This action lists in-progress multipart uploads. An in-progress multipart upload is a multipart upload that has been initiated using the Initiate Multipart Upload request, but has not yet been completed or aborted. This action returns at most 1,000 multipart uploads in the response. 1,000 multipart uploads is the maximum number of uploads a response can include, which is also the default value. You can further limit the number of uploads in a response by specifying the max-uploads parameter in the response. If additional multipart uploads satisfy the list criteria, the response will contain an IsTruncated element with the value true. To list the additional multipart uploads, use the key-marker and upload-id-marker request parameters. In the response, the uploads are sorted by key. If your application has initiated more than one multipart upload using the same object key, then uploads in the response are first sorted by key. Additionally, uploads are sorted in ascending order within each key by the upload initiation time. For more information on multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html). For information on permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html). The following operations are related to ListMultipartUploads:
     ///
     /// * [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html)
@@ -996,8 +996,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListMultipartUploadsInput : [no documentation found]
     ///
-    /// - Returns: `ListMultipartUploadsOutputResponse` : [no documentation found]
-    func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutputResponse
+    /// - Returns: `ListMultipartUploadsOutput` : [no documentation found]
+    func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput
     /// Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Be sure to design your application to parse the contents of the response and handle it appropriately. This action has been revised. We recommend that you use the newer version, [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html), when developing applications. For backward compatibility, Amazon S3 continues to support ListObjects. The following operations are related to ListObjects:
     ///
     /// * [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html)
@@ -1012,13 +1012,13 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListObjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListObjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListObjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutputResponse
+    func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput
     /// Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. Objects are returned sorted in an ascending order of the respective key names in the list. For more information about listing objects, see [Listing object keys programmatically](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ListingKeysUsingAPIs.html) in the Amazon S3 User Guide. To use this operation, you must have READ access to the bucket. To use this action in an Identity and Access Management (IAM) policy, you must have permission to perform the s3:ListBucket action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. This section describes the latest revision of this action. We recommend that you use this revised API operation for application development. For backward compatibility, Amazon S3 continues to support the prior version of this API operation, [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html). To get a list of your buckets, see [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html). The following operations are related to ListObjectsV2:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
@@ -1029,13 +1029,13 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListObjectsV2Input : [no documentation found]
     ///
-    /// - Returns: `ListObjectsV2OutputResponse` : [no documentation found]
+    /// - Returns: `ListObjectsV2Output` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2OutputResponse
+    func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output
     /// Returns metadata about all versions of the objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions. To use this operation, you must have permission to perform the s3:ListBucketVersions action. Be aware of the name difference. A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. To use this operation, you must have READ access to the bucket. This action is not supported by Amazon S3 on Outposts. The following operations are related to ListObjectVersions:
     ///
     /// * [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html)
@@ -1048,8 +1048,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListObjectVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListObjectVersionsOutputResponse` : [no documentation found]
-    func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutputResponse
+    /// - Returns: `ListObjectVersionsOutput` : [no documentation found]
+    func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput
     /// Lists the parts that have been uploaded for a specific multipart upload. This operation must include the upload ID, which you obtain by sending the initiate multipart upload request (see [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html)). This request returns a maximum of 1,000 uploaded parts. The default number of parts returned is 1,000 parts. You can restrict the number of parts returned by specifying the max-parts request parameter. If your multipart upload consists of more than 1,000 parts, the response returns an IsTruncated field with the value of true, and a NextPartNumberMarker element. In subsequent ListParts requests you can include the part-number-marker query string parameter and set its value to the NextPartNumberMarker field value from the previous response. If the upload was created using a checksum algorithm, you will need to have permission to the kms:Decrypt action for the request to succeed. For more information on multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html). For information on permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html). The following operations are related to ListParts:
     ///
     /// * [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html)
@@ -1066,8 +1066,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter ListPartsInput : [no documentation found]
     ///
-    /// - Returns: `ListPartsOutputResponse` : [no documentation found]
-    func listParts(input: ListPartsInput) async throws -> ListPartsOutputResponse
+    /// - Returns: `ListPartsOutput` : [no documentation found]
+    func listParts(input: ListPartsInput) async throws -> ListPartsOutput
     /// Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). The Transfer Acceleration state of a bucket can be set to one of the following two values:
     ///
     /// * Enabled – Enables accelerated data transfers to the bucket.
@@ -1083,8 +1083,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketAccelerateConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketAccelerateConfigurationOutputResponse` : [no documentation found]
-    func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutputResponse
+    /// - Returns: `PutBucketAccelerateConfigurationOutput` : [no documentation found]
+    func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput
     /// Sets the permissions on an existing bucket using access control lists (ACL). For more information, see [Using ACLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html). To set the ACL of a bucket, you must have WRITE_ACP permission. You can use one of the following two ways to set a bucket's permissions:
     ///
     /// * Specify the ACL in the request body
@@ -1165,8 +1165,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketAclInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketAclOutputResponse` : [no documentation found]
-    func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutputResponse
+    /// - Returns: `PutBucketAclOutput` : [no documentation found]
+    func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput
     /// Sets an analytics configuration for the bucket (specified by the analytics configuration ID). You can have up to 1,000 analytics configurations per bucket. You can choose to have storage class analysis export analysis reports sent to a comma-separated values (CSV) flat file. See the DataExport request element. Reports are updated daily and are based on the object filters that you configure. When selecting data export, you specify a destination bucket and an optional destination prefix where the file is written. You can export the data to a destination bucket in a different account. However, the destination bucket must be in the same Region as the bucket that you are making the PUT analytics configuration to. For more information, see [Amazon S3 Analytics – Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html). You must create a bucket policy on the destination bucket where the exported file is written to grant permissions to Amazon S3 to write objects to the bucket. For an example policy, see [Granting Permissions for Amazon S3 Inventory and Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-9). To use this operation, you must have permissions to perform the s3:PutAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). PutBucketAnalyticsConfiguration has the following special errors:
     ///
     ///
@@ -1210,8 +1210,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketAnalyticsConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketAnalyticsConfigurationOutputResponse` : [no documentation found]
-    func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutputResponse
+    /// - Returns: `PutBucketAnalyticsConfigurationOutput` : [no documentation found]
+    func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput
     /// Sets the cors configuration for your bucket. If the configuration exists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucketCORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.com to access your Amazon S3 bucket at my.example.bucket.com by using the browser's XMLHttpRequest capability. To enable cross-origin resource sharing (CORS) on a bucket, you add the cors subresource to the bucket. The cors subresource is an XML document in which you configure rules that identify origins and the HTTP methods that can be executed on your bucket. The document is limited to 64 KB in size. When Amazon S3 receives a cross-origin request (or a pre-flight OPTIONS request) against a bucket, it evaluates the cors configuration on the bucket and uses the first CORSRule rule that matches the incoming browser request to enable a cross-origin request. For a rule to match, the following conditions must be met:
     ///
     /// * The request's Origin header must match AllowedOrigin elements.
@@ -1231,8 +1231,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketCorsInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketCorsOutputResponse` : [no documentation found]
-    func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutputResponse
+    /// - Returns: `PutBucketCorsOutput` : [no documentation found]
+    func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput
     /// This action uses the encryption subresource to configure default encryption and Amazon S3 Bucket Keys for an existing bucket. By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). You can optionally configure default encryption for a bucket by using server-side encryption with Key Management Service (KMS) keys (SSE-KMS) or dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS). If you specify default encryption by using SSE-KMS, you can also configure [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html). If you use PutBucketEncryption to set your [default bucket encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html) to SSE-KMS, you should verify that your KMS key ID is correct. Amazon S3 does not validate the KMS key ID provided in PutBucketEncryption requests. This action requires Amazon Web Services Signature Version 4. For more information, see [ Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html). To use this operation, you must have permission to perform the s3:PutEncryptionConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. The following operations are related to PutBucketEncryption:
     ///
     /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
@@ -1241,8 +1241,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketEncryptionOutputResponse` : [no documentation found]
-    func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutputResponse
+    /// - Returns: `PutBucketEncryptionOutput` : [no documentation found]
+    func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput
     /// Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can have up to 1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see [Storage class for automatically optimizing frequently and infrequently accessed objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access). Operations related to PutBucketIntelligentTieringConfiguration include:
     ///
     /// * [DeleteBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketIntelligentTieringConfiguration.html)
@@ -1256,8 +1256,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketIntelligentTieringConfigurationOutputResponse` : [no documentation found]
-    func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutputResponse
+    /// - Returns: `PutBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput
     /// This implementation of the PUT action adds an inventory configuration (identified by the inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket. Amazon S3 inventory generates inventories of the objects in the bucket on a daily or weekly basis, and the results are published to a flat file. The bucket that is inventoried is called the source bucket, and the bucket where the inventory flat file is stored is called the destination bucket. The destination bucket must be in the same Amazon Web Services Region as the source bucket. When you configure an inventory for a source bucket, you specify the destination bucket where you want the inventory to be stored, and whether to generate the inventory daily or weekly. You can also configure what object metadata to include and whether to inventory all object versions or only current versions. For more information, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) in the Amazon S3 User Guide. You must create a bucket policy on the destination bucket to grant permissions to Amazon S3 to write objects to the bucket in the defined location. For an example policy, see [ Granting Permissions for Amazon S3 Inventory and Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-9). Permissions To use this operation, you must have permission to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default and can grant this permission to others. The s3:PutInventoryConfiguration permission allows a user to create an [S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-inventory.html) report that includes all object metadata fields available and to specify the destination bucket to store the inventory. A user with read access to objects in the destination bucket can also access all object metadata fields that are available in the inventory report. To restrict access to an inventory report, see [Restricting access to an Amazon S3 Inventory report](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html#example-bucket-policies-use-case-10) in the Amazon S3 User Guide. For more information about the metadata fields available in S3 Inventory, see [Amazon S3 Inventory lists](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-inventory.html#storage-inventory-contents) in the Amazon S3 User Guide. For more information about permissions, see [Permissions related to bucket subresource operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Identity and access management in Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. PutBucketInventoryConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutInventoryConfiguration bucket permission to set the configuration on the bucket. The following operations are related to PutBucketInventoryConfiguration:
     ///
     /// * [GetBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html)
@@ -1268,8 +1268,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketInventoryConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketInventoryConfigurationOutputResponse` : [no documentation found]
-    func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutputResponse
+    /// - Returns: `PutBucketInventoryConfigurationOutput` : [no documentation found]
+    func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput
     /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want to retain any configuration details, they must be included in the new lifecycle configuration. For information about lifecycle configuration, see [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html). Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, or a combination of both. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Rules You specify the lifecycle configuration in your request body. The lifecycle configuration is specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000 rules. This limit is not adjustable. Each rule consists of the following:
     ///
     /// * A filter identifying a subset of objects to which the rule applies. The filter can be based on a key name prefix, object tags, or a combination of both.
@@ -1298,8 +1298,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketLifecycleConfigurationOutputResponse` : [no documentation found]
-    func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutputResponse
+    /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
+    func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput
     /// Set the logging parameters for a bucket and to specify permissions for who can view and modify the logging parameters. All logs are saved to buckets in the same Amazon Web Services Region as the source bucket. To set the logging status of a bucket, you must be the bucket owner. The bucket owner is automatically granted FULL_CONTROL to all logs. You use the Grantee request element to grant access to other people. The Permissions request element specifies the kind of access the grantee has to the logs. If the target bucket for log delivery uses the bucket owner enforced setting for S3 Object Ownership, you can't use the Grantee request element to grant access to others. Permissions can only be granted using policies. For more information, see [Permissions for server access log delivery](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general) in the Amazon S3 User Guide. Grantee Values You can specify the person (grantee) to whom you're assigning access rights (by using request elements) in the following ways:
     ///
     /// * By the person's ID: <>ID<><>GranteesEmail<> DisplayName is optional and ignored in the request.
@@ -1321,8 +1321,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketLoggingInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketLoggingOutputResponse` : [no documentation found]
-    func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutputResponse
+    /// - Returns: `PutBucketLoggingOutput` : [no documentation found]
+    func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput
     /// Sets a metrics configuration (specified by the metrics configuration ID) for the bucket. You can have up to 1,000 metrics configurations per bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to PutBucketMetricsConfiguration:
     ///
     /// * [DeleteBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html)
@@ -1342,16 +1342,16 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketMetricsConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketMetricsConfigurationOutputResponse` : [no documentation found]
-    func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutputResponse
+    /// - Returns: `PutBucketMetricsConfigurationOutput` : [no documentation found]
+    func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput
     /// Enables notifications of specified events for a bucket. For more information about event notifications, see [Configuring Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). Using this API, you can replace an existing notification configuration. The configuration is an XML file that defines the event types that you want Amazon S3 to publish and the destination where you want Amazon S3 to publish an event notification when it detects an event of the specified type. By default, your bucket has no event notifications configured. That is, the notification configuration will be an empty NotificationConfiguration.  This action replaces the existing notification configuration with the configuration you include in the request body. After Amazon S3 receives this request, it first verifies that any Amazon Simple Notification Service (Amazon SNS) or Amazon Simple Queue Service (Amazon SQS) destination exists, and that the bucket owner has permission to publish to it by sending a test notification. In the case of Lambda destinations, Amazon S3 verifies that the Lambda function permissions grant Amazon S3 permission to invoke the function from the Amazon S3 bucket. For more information, see [Configuring Notifications for Amazon S3 Events](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). You can disable notifications by adding the empty NotificationConfiguration element. For more information about the number of event notification configurations that you can create per bucket, see [Amazon S3 service quotas](https://docs.aws.amazon.com/general/latest/gr/s3.html#limits_s3) in Amazon Web Services General Reference. By default, only the bucket owner can configure notifications on a bucket. However, bucket owners can use a bucket policy to grant permission to other users to set this configuration with the required s3:PutBucketNotification permission. The PUT notification is an atomic operation. For example, suppose your notification configuration includes SNS topic, SQS queue, and Lambda function configurations. When you send a PUT request with this configuration, Amazon S3 sends test messages to your SNS topic. If the message fails, the entire PUT action will fail, and Amazon S3 will not add the configuration to your bucket. If the configuration in the request body includes only one TopicConfiguration specifying only the s3:ReducedRedundancyLostObject event type, the response will also include the x-amz-sns-test-message-id header containing the message ID of the test notification sent to the topic. The following action is related to PutBucketNotificationConfiguration:
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
     ///
     /// - Parameter PutBucketNotificationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketNotificationConfigurationOutputResponse` : [no documentation found]
-    func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutputResponse
+    /// - Returns: `PutBucketNotificationConfigurationOutput` : [no documentation found]
+    func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput
     /// Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see [Specifying permissions in a policy](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/using-with-s3-actions.html). For information about Amazon S3 Object Ownership, see [Using object ownership](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/about-object-ownership.html). The following operations are related to PutBucketOwnershipControls:
     ///
     /// * [GetBucketOwnershipControls]
@@ -1360,8 +1360,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketOwnershipControlsInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketOwnershipControlsOutputResponse` : [no documentation found]
-    func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutputResponse
+    /// - Returns: `PutBucketOwnershipControlsOutput` : [no documentation found]
+    func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput
     /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the PutBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this operation. If you don't have PutBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. To ensure that bucket owners don't inadvertently lock themselves out of their own buckets, the root principal in a bucket owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root principal's access. Bucket owner root principals can only be blocked from performing these API actions by VPC endpoint policies and Amazon Web Services Organizations policies. For more information, see [Bucket policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html). The following operations are related to PutBucketPolicy:
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
@@ -1370,8 +1370,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketPolicyOutputResponse` : [no documentation found]
-    func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutputResponse
+    /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
+    func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput
     /// Creates a replication configuration or replaces an existing one. For more information, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html) in the Amazon S3 User Guide. Specify the replication configuration in the request body. In the replication configuration, you provide the name of the destination bucket or buckets where you want Amazon S3 to replicate objects, the IAM role that Amazon S3 can assume to replicate objects on your behalf, and other relevant information. You can invoke this request for a specific Amazon Web Services Region by using the [aws:RequestedRegion](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requestedregion) condition key. A replication configuration must include at least one rule, and can contain a maximum of 1,000. Each rule identifies a subset of objects to replicate by filtering the objects in the source bucket. To choose additional subsets of objects to replicate, add a rule for each subset. To specify a subset of the objects in the source bucket to apply a replication rule to, add the Filter element as a child of the Rule element. You can filter objects based on an object key prefix, one or more object tags, or both. When you add the Filter element in the configuration, you must also add the following elements: DeleteMarkerReplication, Status, and Priority. If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations). For information about enabling versioning on a bucket, see [Using Versioning](https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html). Handling Replication of Encrypted Objects By default, Amazon S3 doesn't replicate objects that are stored at rest using server-side encryption with KMS keys. To replicate Amazon Web Services KMS-encrypted objects, add the following: SourceSelectionCriteria, SseKmsEncryptedObjects, Status, EncryptionConfiguration, and ReplicaKmsKeyID. For information about replication configuration, see [Replicating Objects Created with SSE Using KMS keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-config-for-kms-objects.html). For information on PutBucketReplication errors, see [List of replication-related error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ReplicationErrorCodeList) Permissions To create a PutBucketReplication request, you must have s3:PutReplicationConfiguration permissions for the bucket. By default, a resource owner, in this case the Amazon Web Services account that created the bucket, can perform this operation. The resource owner can also grant others permissions to perform the operation. For more information about permissions, see [Specifying Permissions in a Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). To perform this operation, the user or role performing the action must have the [iam:PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) permission. The following operations are related to PutBucketReplication:
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html)
@@ -1380,8 +1380,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketReplicationInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketReplicationOutputResponse` : [no documentation found]
-    func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutputResponse
+    /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
+    func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput
     /// Sets the request payment configuration for a bucket. By default, the bucket owner pays for downloads from the bucket. This configuration parameter enables the bucket owner (only) to specify that the person requesting the download will be charged for the download. For more information, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html). The following operations are related to PutBucketRequestPayment:
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
@@ -1390,8 +1390,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketRequestPaymentInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketRequestPaymentOutputResponse` : [no documentation found]
-    func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutputResponse
+    /// - Returns: `PutBucketRequestPaymentOutput` : [no documentation found]
+    func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput
     /// Sets the tags for a bucket. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill with tag key values included. Then, to see the cost of combined resources, organize your billing information according to resources with the same tag key values. For example, you can tag several resources with a specific application name, and then organize your billing information to see the total cost of that application across several services. For more information, see [Cost Allocation and Tagging](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) and [Using Cost Allocation in Amazon S3 Bucket Tags](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CostAllocTagging.html). When this operation sets the tags for a bucket, it will overwrite any current tags the bucket already has. You cannot use this operation to add tags to an existing list of tags. To use this operation, you must have permissions to perform the s3:PutBucketTagging action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). PutBucketTagging has the following special errors. For more Amazon S3 errors see, [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html).
     ///
     /// * InvalidTag - The tag provided was not a valid tag. This error can occur if the tag did not pass input validation. For more information, see [Using Cost Allocation in Amazon S3 Bucket Tags](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CostAllocTagging.html).
@@ -1411,8 +1411,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketTaggingInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketTaggingOutputResponse` : [no documentation found]
-    func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutputResponse
+    /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
+    func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput
     /// Sets the versioning state of an existing bucket. You can set the versioning state with one of the following values: Enabled—Enables versioning for the objects in the bucket. All objects added to the bucket receive a unique version ID. Suspended—Disables versioning for the objects in the bucket. All objects added to the bucket receive the version ID null. If the versioning state has never been set on a bucket, it has no versioning state; a [GetBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html) request does not return a versioning state value. In order to enable MFA Delete, you must be the bucket owner. If you are the bucket owner and want to enable MFA Delete in the bucket versioning configuration, you must include the x-amz-mfa request header and the Status and the MfaDelete request elements in a request to set the versioning state of the bucket. If you have an object expiration lifecycle configuration in your non-versioned bucket and you want to maintain the same permanent delete behavior when you enable versioning, you must add a noncurrent expiration policy. The noncurrent expiration lifecycle configuration will manage the deletes of the noncurrent object versions in the version-enabled bucket. (A version-enabled bucket maintains one current and zero or more noncurrent object versions.) For more information, see [Lifecycle and Versioning](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-and-other-bucket-config). The following operations are related to PutBucketVersioning:
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
@@ -1423,8 +1423,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketVersioningInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketVersioningOutputResponse` : [no documentation found]
-    func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutputResponse
+    /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
+    func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput
     /// Sets the configuration of the website that is specified in the website subresource. To configure a bucket as a website, you can add this subresource on the bucket with website configuration information such as the file name of the index document and any redirect rules. For more information, see [Hosting Websites on Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html). This PUT action requires the S3:PutBucketWebsite permission. By default, only the bucket owner can configure the website attached to a bucket; however, bucket owners can allow other users to set the website configuration by writing a bucket policy that grants them the S3:PutBucketWebsite permission. To redirect all website requests sent to the bucket's website endpoint, you add a website configuration with the following elements. Because all requests are sent to another website, you don't need to provide index document name for the bucket.
     ///
     /// * WebsiteConfiguration
@@ -1475,8 +1475,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutBucketWebsiteInput : [no documentation found]
     ///
-    /// - Returns: `PutBucketWebsiteOutputResponse` : [no documentation found]
-    func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutputResponse
+    /// - Returns: `PutBucketWebsiteOutput` : [no documentation found]
+    func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput
     /// Adds an object to a bucket. You must have WRITE permissions on a bucket to add an object to it. Amazon S3 never adds partial objects; if you receive a success response, Amazon S3 added the entire object to the bucket. You cannot use PutObject to only update a single piece of metadata for an existing object. You must put the entire object with updated metadata if you want to update some values. Amazon S3 is a distributed system. If it receives multiple write requests for the same object simultaneously, it overwrites all but the last object written. To prevent objects from being deleted or overwritten, you can use [Amazon S3 Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html). To ensure that data is not corrupted traversing the network, use the Content-MD5 header. When you use this header, Amazon S3 checks the object against the provided MD5 value and, if they do not match, returns an error. Additionally, you can calculate the MD5 while putting an object to Amazon S3 and compare the returned ETag to the calculated MD5 value.
     ///
     /// * To successfully complete the PutObject request, you must have the s3:PutObject in your IAM permissions.
@@ -1496,8 +1496,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutObjectInput : [no documentation found]
     ///
-    /// - Returns: `PutObjectOutputResponse` : [no documentation found]
-    func putObject(input: PutObjectInput) async throws -> PutObjectOutputResponse
+    /// - Returns: `PutObjectOutput` : [no documentation found]
+    func putObject(input: PutObjectInput) async throws -> PutObjectOutput
     /// Uses the acl subresource to set the access control list (ACL) permissions for a new or existing object in an S3 bucket. You must have WRITE_ACP permission to set the ACL of an object. For more information, see [What permissions can I grant?](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#permissions) in the Amazon S3 User Guide. This action is not supported by Amazon S3 on Outposts. Depending on your application needs, you can choose to set the ACL on an object using either the request body or the headers. For example, if you have an existing application that updates a bucket ACL using the request body, you can continue to use that approach. For more information, see [Access Control List (ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the Amazon S3 User Guide. If your bucket uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. You must use policies to grant access to your bucket and the objects in it. Requests to set ACLs or update ACLs fail and return the AccessControlListNotSupported error code. Requests to read ACLs are still supported. For more information, see [Controlling object ownership](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. Permissions You can set access permissions using one of the following methods:
     ///
     /// * Specify a canned ACL with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the canned ACL name as the value of x-amz-acl. If you use this header, you cannot use other access control-specific headers in your request. For more information, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL).
@@ -1569,19 +1569,19 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutObjectAclInput : [no documentation found]
     ///
-    /// - Returns: `PutObjectAclOutputResponse` : [no documentation found]
+    /// - Returns: `PutObjectAclOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutputResponse
+    func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput
     /// Applies a legal hold configuration to the specified object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This action is not supported by Amazon S3 on Outposts.
     ///
     /// - Parameter PutObjectLegalHoldInput : [no documentation found]
     ///
-    /// - Returns: `PutObjectLegalHoldOutputResponse` : [no documentation found]
-    func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutputResponse
+    /// - Returns: `PutObjectLegalHoldOutput` : [no documentation found]
+    func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput
     /// Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html).
     ///
     /// * The DefaultRetention settings require both a mode and a period.
@@ -1592,14 +1592,14 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutObjectLockConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutObjectLockConfigurationOutputResponse` : [no documentation found]
-    func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutputResponse
+    /// - Returns: `PutObjectLockConfigurationOutput` : [no documentation found]
+    func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput
     /// Places an Object Retention configuration on an object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). Users or accounts require the s3:PutObjectRetention permission in order to place an Object Retention configuration on objects. Bypassing a Governance Retention configuration requires the s3:BypassGovernanceRetention permission. This action is not supported by Amazon S3 on Outposts.
     ///
     /// - Parameter PutObjectRetentionInput : [no documentation found]
     ///
-    /// - Returns: `PutObjectRetentionOutputResponse` : [no documentation found]
-    func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutputResponse
+    /// - Returns: `PutObjectRetentionOutput` : [no documentation found]
+    func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput
     /// Sets the supplied tag-set to an object that already exists in a bucket. A tag is a key-value pair. For more information, see [Object Tagging](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-tagging.html). You can associate tags with an object by sending a PUT request against the tagging subresource that is associated with the object. You can retrieve tags by sending a GET request. For more information, see [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html). For tagging-related restrictions related to characters and encodings, see [Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html). Note that Amazon S3 limits the maximum number of tags to 10 tags per object. To use this operation, you must have permission to perform the s3:PutObjectTagging action. By default, the bucket owner has this permission and can grant this permission to others. To put tags of any other version, use the versionId query parameter. You also need permission for the s3:PutObjectVersionTagging action. PutObjectTagging has the following special errors. For more Amazon S3 errors see, [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html).
     ///
     /// * InvalidTag - The tag provided was not a valid tag. This error can occur if the tag did not pass input validation. For more information, see [Object Tagging](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-tagging.html).
@@ -1619,8 +1619,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutObjectTaggingInput : [no documentation found]
     ///
-    /// - Returns: `PutObjectTaggingOutputResponse` : [no documentation found]
-    func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutputResponse
+    /// - Returns: `PutObjectTaggingOutput` : [no documentation found]
+    func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput
     /// Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more information about Amazon S3 permissions, see [Specifying Permissions in a Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html). When Amazon S3 evaluates the PublicAccessBlock configuration for a bucket or an object, it checks the PublicAccessBlock configuration for both the bucket (or the bucket that contains the object) and the bucket owner's account. If the PublicAccessBlock configurations are different between the bucket and the account, S3 uses the most restrictive combination of the bucket-level and account-level settings. For more information about when Amazon S3 considers a bucket or an object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status). The following operations are related to PutPublicAccessBlock:
     ///
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetPublicAccessBlock.html)
@@ -1633,8 +1633,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter PutPublicAccessBlockInput : [no documentation found]
     ///
-    /// - Returns: `PutPublicAccessBlockOutputResponse` : [no documentation found]
-    func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutputResponse
+    /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
+    func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput
     /// Restores an archived copy of an object back into Amazon S3 This action is not supported by Amazon S3 on Outposts. This action performs the following types of requests:
     ///
     /// * select - Perform a select query on an archived object
@@ -1728,13 +1728,13 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter RestoreObjectInput : [no documentation found]
     ///
-    /// - Returns: `RestoreObjectOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
-    func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutputResponse
+    func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput
     /// This action filters the contents of an Amazon S3 object based on a simple structured query language (SQL) statement. In the request, along with the SQL expression, you must also specify a data serialization format (JSON, CSV, or Apache Parquet) of the object. Amazon S3 uses this format to parse object data into records, and returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. This action is not supported by Amazon S3 on Outposts. For more information about Amazon S3 Select, see [Selecting Content from Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/selecting-content-from-objects.html) and [SELECT Command](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html) in the Amazon S3 User Guide. Permissions You must have s3:GetObject permission for this operation. Amazon S3 Select does not support anonymous access. For more information about permissions, see [Specifying Permissions in a Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html) in the Amazon S3 User Guide. Object Data Formats You can use Amazon S3 Select to query objects that have the following format properties:
     ///
     /// * CSV, JSON, and Parquet - Objects must be in CSV, JSON, or Parquet format.
@@ -1763,8 +1763,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter SelectObjectContentInput : Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
     ///
-    /// - Returns: `SelectObjectContentOutputResponse` : [no documentation found]
-    func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutputResponse
+    /// - Returns: `SelectObjectContentOutput` : [no documentation found]
+    func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput
     /// Uploads a part in a multipart upload. In this operation, you provide part data in your request. However, you have an option to specify your existing Amazon S3 object as a data source for the part you are uploading. To upload a part from an existing object, you use the [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html) operation. You must initiate a multipart upload (see [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html)) before you can upload any part. In response to your initiate request, Amazon S3 returns an upload ID, a unique identifier, that you must include in your upload part request. Part numbers can be any number from 1 to 10,000, inclusive. A part number uniquely identifies a part and also defines its position within the object being created. If you upload a new part using the same part number that was used with a previous part, the previously uploaded part is overwritten. For information about maximum and minimum part sizes and other multipart upload specifications, see [Multipart upload limits](https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html) in the Amazon S3 User Guide. To ensure that data is not corrupted when traversing the network, specify the Content-MD5 header in the upload part request. Amazon S3 checks the part data against the provided MD5 value. If they do not match, Amazon S3 returns an error. If the upload request is signed with Signature Version 4, then Amazon Web Services S3 uses the x-amz-content-sha256 header as a checksum instead of Content-MD5. For more information see [Authenticating Requests: Using the Authorization Header (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html). Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage. For more information on multipart uploads, go to [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide . For information on the permissions required to use the multipart upload API, go to [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html) in the Amazon S3 User Guide. Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data as it writes it to disks in its data centers and decrypts it when you access it. You have three mutually exclusive options to protect data using server-side encryption in Amazon S3, depending on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS), and Customer-Provided Keys (SSE-C). Amazon S3 encrypts data with server-side encryption using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest using server-side encryption with other key options. The option you use depends on whether you want to use KMS keys (SSE-KMS) or provide your own encryption key (SSE-C). If you choose to provide your own encryption key, the request headers you provide in the request must match the headers you used in the request to initiate the upload by using [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html). For more information, go to [Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon S3 User Guide. Server-side encryption is supported by the S3 Multipart Upload actions. Unless you are using a customer-provided encryption key (SSE-C), you don't need to specify the encryption parameters in each UploadPart request. Instead, you only need to specify the server-side encryption parameters in the initial Initiate Multipart request. For more information, see [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html). If you requested server-side encryption using a customer-provided encryption key (SSE-C) in your initiate multipart upload request, you must provide identical encryption information in each part upload using the following headers.
     ///
     /// * x-amz-server-side-encryption-customer-algorithm
@@ -1803,8 +1803,8 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter UploadPartInput : [no documentation found]
     ///
-    /// - Returns: `UploadPartOutputResponse` : [no documentation found]
-    func uploadPart(input: UploadPartInput) async throws -> UploadPartOutputResponse
+    /// - Returns: `UploadPartOutput` : [no documentation found]
+    func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput
     /// Uploads a part by copying data from an existing object as data source. You specify the data source by adding the request header x-amz-copy-source in your request and a byte range by adding the request header x-amz-copy-source-range in your request. For information about maximum and minimum part sizes and other multipart upload specifications, see [Multipart upload limits](https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html) in the Amazon S3 User Guide. Instead of using an existing object as part data, you might use the [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html) action and provide data in your request. You must initiate a multipart upload before you can upload any part. In response to your initiate request. Amazon S3 returns a unique identifier, the upload ID, that you must include in your upload part request. For more information about using the UploadPartCopy operation, see the following:
     ///
     /// * For conceptual information about multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html) in the Amazon S3 User Guide.
@@ -1862,14 +1862,14 @@ public protocol S3ClientProtocol {
     ///
     /// - Parameter UploadPartCopyInput : [no documentation found]
     ///
-    /// - Returns: `UploadPartCopyOutputResponse` : [no documentation found]
-    func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutputResponse
+    /// - Returns: `UploadPartCopyOutput` : [no documentation found]
+    func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput
     /// Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see [Transforming objects with Object Lambda access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. This operation supports metadata that can be returned by [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html), in addition to RequestRoute, RequestToken, StatusCode, ErrorCode, and ErrorMessage. The GetObject response metadata is supported so that the WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a customer-owned Lambda function, the metadata returned to the end user GetObject call might differ from what Amazon S3 would normally return. You can include any number of metadata headers. When including a metadata header, it should be prefaced with x-amz-meta. For example, x-amz-meta-my-custom-header: MyCustomValue. The primary use case for this is to forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda functions that you can use with S3 Object Lambda to detect and redact personally identifiable information (PII) and decompress S3 objects. These Lambda functions are available in the Amazon Web Services Serverless Application Repository, and can be selected through the Amazon Web Services Management Console when you create your Object Lambda access point. Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically detects personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 2: PII Redaction - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically redacts personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 3: Decompression - The Lambda function S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP. For information on how to view and use these functions, see [Using Amazon Web Services built Lambda functions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html) in the Amazon S3 User Guide.
     ///
     /// - Parameter WriteGetObjectResponseInput : [no documentation found]
     ///
-    /// - Returns: `WriteGetObjectResponseOutputResponse` : [no documentation found]
-    func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutputResponse
+    /// - Returns: `WriteGetObjectResponseOutput` : [no documentation found]
+    func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput
 }
 
 public enum S3ClientTypes {}

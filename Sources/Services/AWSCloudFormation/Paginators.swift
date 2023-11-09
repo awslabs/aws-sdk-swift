@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CloudFormationClient {
-    /// Paginate over `[DescribeAccountLimitsOutputResponse]` results.
+    /// Paginate over `[DescribeAccountLimitsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAccountLimitsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccountLimitsOutputResponse`
-    public func describeAccountLimitsPaginated(input: DescribeAccountLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse>(input: input, inputKey: \DescribeAccountLimitsInput.nextToken, outputKey: \DescribeAccountLimitsOutputResponse.nextToken, paginationFunction: self.describeAccountLimits(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccountLimitsOutput`
+    public func describeAccountLimitsPaginated(input: DescribeAccountLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(input: input, inputKey: \DescribeAccountLimitsInput.nextToken, outputKey: \DescribeAccountLimitsOutput.nextToken, paginationFunction: self.describeAccountLimits(input:))
     }
 }
 
@@ -23,7 +23,7 @@ extension DescribeAccountLimitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAccountLimitsInput, Output == DescribeAccountLimitsOutputResponse {
+extension PaginatorSequence where Input == DescribeAccountLimitsInput, Output == DescribeAccountLimitsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAccountLimitsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.AccountLimit]`
     /// - Returns: `[CloudFormationClientTypes.AccountLimit]`
@@ -32,16 +32,16 @@ extension PaginatorSequence where Input == DescribeAccountLimitsInput, Output ==
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[DescribeStackEventsOutputResponse]` results.
+    /// Paginate over `[DescribeStackEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeStackEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStackEventsOutputResponse`
-    public func describeStackEventsPaginated(input: DescribeStackEventsInput) -> ClientRuntime.PaginatorSequence<DescribeStackEventsInput, DescribeStackEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeStackEventsInput, DescribeStackEventsOutputResponse>(input: input, inputKey: \DescribeStackEventsInput.nextToken, outputKey: \DescribeStackEventsOutputResponse.nextToken, paginationFunction: self.describeStackEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStackEventsOutput`
+    public func describeStackEventsPaginated(input: DescribeStackEventsInput) -> ClientRuntime.PaginatorSequence<DescribeStackEventsInput, DescribeStackEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeStackEventsInput, DescribeStackEventsOutput>(input: input, inputKey: \DescribeStackEventsInput.nextToken, outputKey: \DescribeStackEventsOutput.nextToken, paginationFunction: self.describeStackEvents(input:))
     }
 }
 
@@ -53,7 +53,7 @@ extension DescribeStackEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeStackEventsInput, Output == DescribeStackEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeStackEventsInput, Output == DescribeStackEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeStackEventsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackEvent]`
     /// - Returns: `[CloudFormationClientTypes.StackEvent]`
@@ -62,16 +62,16 @@ extension PaginatorSequence where Input == DescribeStackEventsInput, Output == D
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[DescribeStackResourceDriftsOutputResponse]` results.
+    /// Paginate over `[DescribeStackResourceDriftsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeStackResourceDriftsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStackResourceDriftsOutputResponse`
-    public func describeStackResourceDriftsPaginated(input: DescribeStackResourceDriftsInput) -> ClientRuntime.PaginatorSequence<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutputResponse>(input: input, inputKey: \DescribeStackResourceDriftsInput.nextToken, outputKey: \DescribeStackResourceDriftsOutputResponse.nextToken, paginationFunction: self.describeStackResourceDrifts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStackResourceDriftsOutput`
+    public func describeStackResourceDriftsPaginated(input: DescribeStackResourceDriftsInput) -> ClientRuntime.PaginatorSequence<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput>(input: input, inputKey: \DescribeStackResourceDriftsInput.nextToken, outputKey: \DescribeStackResourceDriftsOutput.nextToken, paginationFunction: self.describeStackResourceDrifts(input:))
     }
 }
 
@@ -85,16 +85,16 @@ extension DescribeStackResourceDriftsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudFormationClient {
-    /// Paginate over `[DescribeStacksOutputResponse]` results.
+    /// Paginate over `[DescribeStacksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeStacksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStacksOutputResponse`
-    public func describeStacksPaginated(input: DescribeStacksInput) -> ClientRuntime.PaginatorSequence<DescribeStacksInput, DescribeStacksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeStacksInput, DescribeStacksOutputResponse>(input: input, inputKey: \DescribeStacksInput.nextToken, outputKey: \DescribeStacksOutputResponse.nextToken, paginationFunction: self.describeStacks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStacksOutput`
+    public func describeStacksPaginated(input: DescribeStacksInput) -> ClientRuntime.PaginatorSequence<DescribeStacksInput, DescribeStacksOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeStacksInput, DescribeStacksOutput>(input: input, inputKey: \DescribeStacksInput.nextToken, outputKey: \DescribeStacksOutput.nextToken, paginationFunction: self.describeStacks(input:))
     }
 }
 
@@ -106,7 +106,7 @@ extension DescribeStacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeStacksInput, Output == DescribeStacksOutputResponse {
+extension PaginatorSequence where Input == DescribeStacksInput, Output == DescribeStacksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeStacksPaginated`
     /// to access the nested member `[CloudFormationClientTypes.Stack]`
     /// - Returns: `[CloudFormationClientTypes.Stack]`
@@ -115,16 +115,16 @@ extension PaginatorSequence where Input == DescribeStacksInput, Output == Descri
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListChangeSetsOutputResponse]` results.
+    /// Paginate over `[ListChangeSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListChangeSetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListChangeSetsOutputResponse`
-    public func listChangeSetsPaginated(input: ListChangeSetsInput) -> ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutputResponse>(input: input, inputKey: \ListChangeSetsInput.nextToken, outputKey: \ListChangeSetsOutputResponse.nextToken, paginationFunction: self.listChangeSets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChangeSetsOutput`
+    public func listChangeSetsPaginated(input: ListChangeSetsInput) -> ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput>(input: input, inputKey: \ListChangeSetsInput.nextToken, outputKey: \ListChangeSetsOutput.nextToken, paginationFunction: self.listChangeSets(input:))
     }
 }
 
@@ -136,7 +136,7 @@ extension ListChangeSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListChangeSetsInput, Output == ListChangeSetsOutputResponse {
+extension PaginatorSequence where Input == ListChangeSetsInput, Output == ListChangeSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listChangeSetsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.ChangeSetSummary]`
     /// - Returns: `[CloudFormationClientTypes.ChangeSetSummary]`
@@ -145,16 +145,16 @@ extension PaginatorSequence where Input == ListChangeSetsInput, Output == ListCh
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListExportsOutputResponse]` results.
+    /// Paginate over `[ListExportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListExportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutputResponse`
-    public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutputResponse.nextToken, paginationFunction: self.listExports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutput`
+    public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutput.nextToken, paginationFunction: self.listExports(input:))
     }
 }
 
@@ -165,7 +165,7 @@ extension ListExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListExportsInput, Output == ListExportsOutputResponse {
+extension PaginatorSequence where Input == ListExportsInput, Output == ListExportsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listExportsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.Export]`
     /// - Returns: `[CloudFormationClientTypes.Export]`
@@ -174,16 +174,16 @@ extension PaginatorSequence where Input == ListExportsInput, Output == ListExpor
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListImportsOutputResponse]` results.
+    /// Paginate over `[ListImportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListImportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutputResponse`
-    public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutputResponse.nextToken, paginationFunction: self.listImports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutput`
+    public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutput.nextToken, paginationFunction: self.listImports(input:))
     }
 }
 
@@ -195,7 +195,7 @@ extension ListImportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListImportsInput, Output == ListImportsOutputResponse {
+extension PaginatorSequence where Input == ListImportsInput, Output == ListImportsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listImportsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -204,16 +204,16 @@ extension PaginatorSequence where Input == ListImportsInput, Output == ListImpor
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListStackInstancesOutputResponse]` results.
+    /// Paginate over `[ListStackInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStackInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStackInstancesOutputResponse`
-    public func listStackInstancesPaginated(input: ListStackInstancesInput) -> ClientRuntime.PaginatorSequence<ListStackInstancesInput, ListStackInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStackInstancesInput, ListStackInstancesOutputResponse>(input: input, inputKey: \ListStackInstancesInput.nextToken, outputKey: \ListStackInstancesOutputResponse.nextToken, paginationFunction: self.listStackInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackInstancesOutput`
+    public func listStackInstancesPaginated(input: ListStackInstancesInput) -> ClientRuntime.PaginatorSequence<ListStackInstancesInput, ListStackInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackInstancesInput, ListStackInstancesOutput>(input: input, inputKey: \ListStackInstancesInput.nextToken, outputKey: \ListStackInstancesOutput.nextToken, paginationFunction: self.listStackInstances(input:))
     }
 }
 
@@ -230,7 +230,7 @@ extension ListStackInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStackInstancesInput, Output == ListStackInstancesOutputResponse {
+extension PaginatorSequence where Input == ListStackInstancesInput, Output == ListStackInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStackInstancesPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackInstanceSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackInstanceSummary]`
@@ -239,16 +239,16 @@ extension PaginatorSequence where Input == ListStackInstancesInput, Output == Li
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListStackResourcesOutputResponse]` results.
+    /// Paginate over `[ListStackResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStackResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStackResourcesOutputResponse`
-    public func listStackResourcesPaginated(input: ListStackResourcesInput) -> ClientRuntime.PaginatorSequence<ListStackResourcesInput, ListStackResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStackResourcesInput, ListStackResourcesOutputResponse>(input: input, inputKey: \ListStackResourcesInput.nextToken, outputKey: \ListStackResourcesOutputResponse.nextToken, paginationFunction: self.listStackResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackResourcesOutput`
+    public func listStackResourcesPaginated(input: ListStackResourcesInput) -> ClientRuntime.PaginatorSequence<ListStackResourcesInput, ListStackResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackResourcesInput, ListStackResourcesOutput>(input: input, inputKey: \ListStackResourcesInput.nextToken, outputKey: \ListStackResourcesOutput.nextToken, paginationFunction: self.listStackResources(input:))
     }
 }
 
@@ -260,7 +260,7 @@ extension ListStackResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStackResourcesInput, Output == ListStackResourcesOutputResponse {
+extension PaginatorSequence where Input == ListStackResourcesInput, Output == ListStackResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStackResourcesPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackResourceSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackResourceSummary]`
@@ -269,16 +269,16 @@ extension PaginatorSequence where Input == ListStackResourcesInput, Output == Li
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListStacksOutputResponse]` results.
+    /// Paginate over `[ListStacksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStacksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStacksOutputResponse`
-    public func listStacksPaginated(input: ListStacksInput) -> ClientRuntime.PaginatorSequence<ListStacksInput, ListStacksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStacksInput, ListStacksOutputResponse>(input: input, inputKey: \ListStacksInput.nextToken, outputKey: \ListStacksOutputResponse.nextToken, paginationFunction: self.listStacks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStacksOutput`
+    public func listStacksPaginated(input: ListStacksInput) -> ClientRuntime.PaginatorSequence<ListStacksInput, ListStacksOutput> {
+        return ClientRuntime.PaginatorSequence<ListStacksInput, ListStacksOutput>(input: input, inputKey: \ListStacksInput.nextToken, outputKey: \ListStacksOutput.nextToken, paginationFunction: self.listStacks(input:))
     }
 }
 
@@ -290,7 +290,7 @@ extension ListStacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStacksInput, Output == ListStacksOutputResponse {
+extension PaginatorSequence where Input == ListStacksInput, Output == ListStacksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStacksPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSummary]`
@@ -299,16 +299,16 @@ extension PaginatorSequence where Input == ListStacksInput, Output == ListStacks
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListStackSetOperationResultsOutputResponse]` results.
+    /// Paginate over `[ListStackSetOperationResultsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStackSetOperationResultsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetOperationResultsOutputResponse`
-    public func listStackSetOperationResultsPaginated(input: ListStackSetOperationResultsInput) -> ClientRuntime.PaginatorSequence<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutputResponse>(input: input, inputKey: \ListStackSetOperationResultsInput.nextToken, outputKey: \ListStackSetOperationResultsOutputResponse.nextToken, paginationFunction: self.listStackSetOperationResults(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetOperationResultsOutput`
+    public func listStackSetOperationResultsPaginated(input: ListStackSetOperationResultsInput) -> ClientRuntime.PaginatorSequence<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput>(input: input, inputKey: \ListStackSetOperationResultsInput.nextToken, outputKey: \ListStackSetOperationResultsOutput.nextToken, paginationFunction: self.listStackSetOperationResults(input:))
     }
 }
 
@@ -324,7 +324,7 @@ extension ListStackSetOperationResultsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStackSetOperationResultsInput, Output == ListStackSetOperationResultsOutputResponse {
+extension PaginatorSequence where Input == ListStackSetOperationResultsInput, Output == ListStackSetOperationResultsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStackSetOperationResultsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSetOperationResultSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSetOperationResultSummary]`
@@ -333,16 +333,16 @@ extension PaginatorSequence where Input == ListStackSetOperationResultsInput, Ou
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListStackSetOperationsOutputResponse]` results.
+    /// Paginate over `[ListStackSetOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStackSetOperationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetOperationsOutputResponse`
-    public func listStackSetOperationsPaginated(input: ListStackSetOperationsInput) -> ClientRuntime.PaginatorSequence<ListStackSetOperationsInput, ListStackSetOperationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStackSetOperationsInput, ListStackSetOperationsOutputResponse>(input: input, inputKey: \ListStackSetOperationsInput.nextToken, outputKey: \ListStackSetOperationsOutputResponse.nextToken, paginationFunction: self.listStackSetOperations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetOperationsOutput`
+    public func listStackSetOperationsPaginated(input: ListStackSetOperationsInput) -> ClientRuntime.PaginatorSequence<ListStackSetOperationsInput, ListStackSetOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackSetOperationsInput, ListStackSetOperationsOutput>(input: input, inputKey: \ListStackSetOperationsInput.nextToken, outputKey: \ListStackSetOperationsOutput.nextToken, paginationFunction: self.listStackSetOperations(input:))
     }
 }
 
@@ -356,7 +356,7 @@ extension ListStackSetOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStackSetOperationsInput, Output == ListStackSetOperationsOutputResponse {
+extension PaginatorSequence where Input == ListStackSetOperationsInput, Output == ListStackSetOperationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStackSetOperationsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSetOperationSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSetOperationSummary]`
@@ -365,16 +365,16 @@ extension PaginatorSequence where Input == ListStackSetOperationsInput, Output =
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListStackSetsOutputResponse]` results.
+    /// Paginate over `[ListStackSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStackSetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetsOutputResponse`
-    public func listStackSetsPaginated(input: ListStackSetsInput) -> ClientRuntime.PaginatorSequence<ListStackSetsInput, ListStackSetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStackSetsInput, ListStackSetsOutputResponse>(input: input, inputKey: \ListStackSetsInput.nextToken, outputKey: \ListStackSetsOutputResponse.nextToken, paginationFunction: self.listStackSets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetsOutput`
+    public func listStackSetsPaginated(input: ListStackSetsInput) -> ClientRuntime.PaginatorSequence<ListStackSetsInput, ListStackSetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackSetsInput, ListStackSetsOutput>(input: input, inputKey: \ListStackSetsInput.nextToken, outputKey: \ListStackSetsOutput.nextToken, paginationFunction: self.listStackSets(input:))
     }
 }
 
@@ -388,7 +388,7 @@ extension ListStackSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStackSetsInput, Output == ListStackSetsOutputResponse {
+extension PaginatorSequence where Input == ListStackSetsInput, Output == ListStackSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStackSetsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSetSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSetSummary]`
@@ -397,16 +397,16 @@ extension PaginatorSequence where Input == ListStackSetsInput, Output == ListSta
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListTypeRegistrationsOutputResponse]` results.
+    /// Paginate over `[ListTypeRegistrationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTypeRegistrationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTypeRegistrationsOutputResponse`
-    public func listTypeRegistrationsPaginated(input: ListTypeRegistrationsInput) -> ClientRuntime.PaginatorSequence<ListTypeRegistrationsInput, ListTypeRegistrationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTypeRegistrationsInput, ListTypeRegistrationsOutputResponse>(input: input, inputKey: \ListTypeRegistrationsInput.nextToken, outputKey: \ListTypeRegistrationsOutputResponse.nextToken, paginationFunction: self.listTypeRegistrations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTypeRegistrationsOutput`
+    public func listTypeRegistrationsPaginated(input: ListTypeRegistrationsInput) -> ClientRuntime.PaginatorSequence<ListTypeRegistrationsInput, ListTypeRegistrationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTypeRegistrationsInput, ListTypeRegistrationsOutput>(input: input, inputKey: \ListTypeRegistrationsInput.nextToken, outputKey: \ListTypeRegistrationsOutput.nextToken, paginationFunction: self.listTypeRegistrations(input:))
     }
 }
 
@@ -422,16 +422,16 @@ extension ListTypeRegistrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListTypesOutputResponse]` results.
+    /// Paginate over `[ListTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTypesOutputResponse`
-    public func listTypesPaginated(input: ListTypesInput) -> ClientRuntime.PaginatorSequence<ListTypesInput, ListTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTypesInput, ListTypesOutputResponse>(input: input, inputKey: \ListTypesInput.nextToken, outputKey: \ListTypesOutputResponse.nextToken, paginationFunction: self.listTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTypesOutput`
+    public func listTypesPaginated(input: ListTypesInput) -> ClientRuntime.PaginatorSequence<ListTypesInput, ListTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTypesInput, ListTypesOutput>(input: input, inputKey: \ListTypesInput.nextToken, outputKey: \ListTypesOutput.nextToken, paginationFunction: self.listTypes(input:))
     }
 }
 
@@ -448,7 +448,7 @@ extension ListTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTypesInput, Output == ListTypesOutputResponse {
+extension PaginatorSequence where Input == ListTypesInput, Output == ListTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTypesPaginated`
     /// to access the nested member `[CloudFormationClientTypes.TypeSummary]`
     /// - Returns: `[CloudFormationClientTypes.TypeSummary]`
@@ -457,16 +457,16 @@ extension PaginatorSequence where Input == ListTypesInput, Output == ListTypesOu
     }
 }
 extension CloudFormationClient {
-    /// Paginate over `[ListTypeVersionsOutputResponse]` results.
+    /// Paginate over `[ListTypeVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTypeVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTypeVersionsOutputResponse`
-    public func listTypeVersionsPaginated(input: ListTypeVersionsInput) -> ClientRuntime.PaginatorSequence<ListTypeVersionsInput, ListTypeVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTypeVersionsInput, ListTypeVersionsOutputResponse>(input: input, inputKey: \ListTypeVersionsInput.nextToken, outputKey: \ListTypeVersionsOutputResponse.nextToken, paginationFunction: self.listTypeVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTypeVersionsOutput`
+    public func listTypeVersionsPaginated(input: ListTypeVersionsInput) -> ClientRuntime.PaginatorSequence<ListTypeVersionsInput, ListTypeVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTypeVersionsInput, ListTypeVersionsOutput>(input: input, inputKey: \ListTypeVersionsInput.nextToken, outputKey: \ListTypeVersionsOutput.nextToken, paginationFunction: self.listTypeVersions(input:))
     }
 }
 

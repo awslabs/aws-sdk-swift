@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SSOClient {
-    /// Paginate over `[ListAccountRolesOutputResponse]` results.
+    /// Paginate over `[ListAccountRolesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccountRolesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountRolesOutputResponse`
-    public func listAccountRolesPaginated(input: ListAccountRolesInput) -> ClientRuntime.PaginatorSequence<ListAccountRolesInput, ListAccountRolesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccountRolesInput, ListAccountRolesOutputResponse>(input: input, inputKey: \ListAccountRolesInput.nextToken, outputKey: \ListAccountRolesOutputResponse.nextToken, paginationFunction: self.listAccountRoles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountRolesOutput`
+    public func listAccountRolesPaginated(input: ListAccountRolesInput) -> ClientRuntime.PaginatorSequence<ListAccountRolesInput, ListAccountRolesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountRolesInput, ListAccountRolesOutput>(input: input, inputKey: \ListAccountRolesInput.nextToken, outputKey: \ListAccountRolesOutput.nextToken, paginationFunction: self.listAccountRoles(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListAccountRolesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccountRolesInput, Output == ListAccountRolesOutputResponse {
+extension PaginatorSequence where Input == ListAccountRolesInput, Output == ListAccountRolesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccountRolesPaginated`
     /// to access the nested member `[SSOClientTypes.RoleInfo]`
     /// - Returns: `[SSOClientTypes.RoleInfo]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == ListAccountRolesInput, Output == List
     }
 }
 extension SSOClient {
-    /// Paginate over `[ListAccountsOutputResponse]` results.
+    /// Paginate over `[ListAccountsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccountsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsOutputResponse`
-    public func listAccountsPaginated(input: ListAccountsInput) -> ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutputResponse>(input: input, inputKey: \ListAccountsInput.nextToken, outputKey: \ListAccountsOutputResponse.nextToken, paginationFunction: self.listAccounts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsOutput`
+    public func listAccountsPaginated(input: ListAccountsInput) -> ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \ListAccountsInput.nextToken, outputKey: \ListAccountsOutput.nextToken, paginationFunction: self.listAccounts(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccountsInput, Output == ListAccountsOutputResponse {
+extension PaginatorSequence where Input == ListAccountsInput, Output == ListAccountsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccountsPaginated`
     /// to access the nested member `[SSOClientTypes.AccountInfo]`
     /// - Returns: `[SSOClientTypes.AccountInfo]`

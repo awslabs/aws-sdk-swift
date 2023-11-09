@@ -194,7 +194,7 @@ public protocol CodeCommitClientProtocol {
     ///
     /// - Parameter AssociateApprovalRuleTemplateWithRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `AssociateApprovalRuleTemplateWithRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateApprovalRuleTemplateWithRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,12 +211,12 @@ public protocol CodeCommitClientProtocol {
     /// - `MaximumRuleTemplatesAssociatedWithRepositoryException` : The maximum number of approval rule templates for a repository has been exceeded. You cannot associate more than 25 approval rule templates with a repository.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func associateApprovalRuleTemplateWithRepository(input: AssociateApprovalRuleTemplateWithRepositoryInput) async throws -> AssociateApprovalRuleTemplateWithRepositoryOutputResponse
+    func associateApprovalRuleTemplateWithRepository(input: AssociateApprovalRuleTemplateWithRepositoryInput) async throws -> AssociateApprovalRuleTemplateWithRepositoryOutput
     /// Creates an association between an approval rule template and one or more specified repositories.
     ///
     /// - Parameter BatchAssociateApprovalRuleTemplateWithRepositoriesInput : [no documentation found]
     ///
-    /// - Returns: `BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse` : [no documentation found]
+    /// - Returns: `BatchAssociateApprovalRuleTemplateWithRepositoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,12 +231,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
-    func batchAssociateApprovalRuleTemplateWithRepositories(input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput) async throws -> BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse
+    func batchAssociateApprovalRuleTemplateWithRepositories(input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput) async throws -> BatchAssociateApprovalRuleTemplateWithRepositoriesOutput
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
     ///
     /// - Parameter BatchDescribeMergeConflictsInput : [no documentation found]
     ///
-    /// - Returns: `BatchDescribeMergeConflictsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDescribeMergeConflictsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -262,12 +262,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func batchDescribeMergeConflicts(input: BatchDescribeMergeConflictsInput) async throws -> BatchDescribeMergeConflictsOutputResponse
+    func batchDescribeMergeConflicts(input: BatchDescribeMergeConflictsInput) async throws -> BatchDescribeMergeConflictsOutput
     /// Removes the association between an approval rule template and one or more specified repositories.
     ///
     /// - Parameter BatchDisassociateApprovalRuleTemplateFromRepositoriesInput : [no documentation found]
     ///
-    /// - Returns: `BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -282,12 +282,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
-    func batchDisassociateApprovalRuleTemplateFromRepositories(input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput) async throws -> BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse
+    func batchDisassociateApprovalRuleTemplateFromRepositories(input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput) async throws -> BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput
     /// Returns information about the contents of one or more commits in a repository.
     ///
     /// - Parameter BatchGetCommitsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetCommitsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetCommitsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -302,12 +302,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func batchGetCommits(input: BatchGetCommitsInput) async throws -> BatchGetCommitsOutputResponse
+    func batchGetCommits(input: BatchGetCommitsInput) async throws -> BatchGetCommitsOutput
     /// Returns information about one or more repositories. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
     /// - Parameter BatchGetRepositoriesInput : Represents the input of a batch get repositories operation.
     ///
-    /// - Returns: `BatchGetRepositoriesOutputResponse` : Represents the output of a batch get repositories operation.
+    /// - Returns: `BatchGetRepositoriesOutput` : Represents the output of a batch get repositories operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -320,12 +320,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
-    func batchGetRepositories(input: BatchGetRepositoriesInput) async throws -> BatchGetRepositoriesOutputResponse
+    func batchGetRepositories(input: BatchGetRepositoriesInput) async throws -> BatchGetRepositoriesOutput
     /// Creates a template for approval rules that can then be associated with one or more repositories in your Amazon Web Services account. When you associate a template with a repository, CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see [AssociateApprovalRuleTemplateWithRepository].
     ///
     /// - Parameter CreateApprovalRuleTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateApprovalRuleTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApprovalRuleTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -337,12 +337,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `NumberOfRuleTemplatesExceededException` : The maximum number of approval rule templates has been exceeded for this Amazon Web Services Region.
-    func createApprovalRuleTemplate(input: CreateApprovalRuleTemplateInput) async throws -> CreateApprovalRuleTemplateOutputResponse
+    func createApprovalRuleTemplate(input: CreateApprovalRuleTemplateInput) async throws -> CreateApprovalRuleTemplateOutput
     /// Creates a branch in a repository and points the branch to a commit. Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
     ///
     /// - Parameter CreateBranchInput : Represents the input of a create branch operation.
     ///
-    /// - Returns: `CreateBranchOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBranchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -361,12 +361,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func createBranch(input: CreateBranchInput) async throws -> CreateBranchOutputResponse
+    func createBranch(input: CreateBranchInput) async throws -> CreateBranchOutput
     /// Creates a commit for a repository on the tip of a specified branch.
     ///
     /// - Parameter CreateCommitInput : [no documentation found]
     ///
-    /// - Returns: `CreateCommitOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCommitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,12 +409,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RestrictedSourceFileException` : The commit cannot be created because one of the changes specifies copying or moving a .gitkeep file.
     /// - `SamePathRequestException` : The commit cannot be created because one or more changes in this commit duplicate actions in the same file path. For example, you cannot make the same delete request to the same file in the same file path twice, or make a delete request and a move request to the same file as part of the same commit.
     /// - `SourceFileOrContentRequiredException` : The commit cannot be created because no source files or file content have been specified for the commit.
-    func createCommit(input: CreateCommitInput) async throws -> CreateCommitOutputResponse
+    func createCommit(input: CreateCommitInput) async throws -> CreateCommitOutput
     /// Creates a pull request in the specified repository.
     ///
     /// - Parameter CreatePullRequestInput : [no documentation found]
     ///
-    /// - Returns: `CreatePullRequestOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePullRequestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,12 +444,12 @@ public protocol CodeCommitClientProtocol {
     /// - `TargetRequiredException` : A pull request target is required. It cannot be empty or null. A pull request target must contain the full values for the repository name, source branch, and destination branch for the pull request.
     /// - `TargetsRequiredException` : An array of target objects is required. It cannot be empty or null.
     /// - `TitleRequiredException` : A pull request title is required. It cannot be empty or null.
-    func createPullRequest(input: CreatePullRequestInput) async throws -> CreatePullRequestOutputResponse
+    func createPullRequest(input: CreatePullRequestInput) async throws -> CreatePullRequestOutput
     /// Creates an approval rule for a pull request.
     ///
     /// - Parameter CreatePullRequestApprovalRuleInput : [no documentation found]
     ///
-    /// - Returns: `CreatePullRequestApprovalRuleOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePullRequestApprovalRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestAlreadyClosedException` : The pull request status cannot be updated because it is already closed.
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
-    func createPullRequestApprovalRule(input: CreatePullRequestApprovalRuleInput) async throws -> CreatePullRequestApprovalRuleOutputResponse
+    func createPullRequestApprovalRule(input: CreatePullRequestApprovalRuleInput) async throws -> CreatePullRequestApprovalRuleOutput
     /// Creates a new, empty repository.
     ///
     /// - Parameter CreateRepositoryInput : Represents the input of a create repository operation.
     ///
-    /// - Returns: `CreateRepositoryOutputResponse` : Represents the output of a create repository operation.
+    /// - Returns: `CreateRepositoryOutput` : Represents the output of a create repository operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,12 +493,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TagPolicyException` : The tag policy is not valid.
     /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
-    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
+    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
     /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
     ///
     /// - Parameter CreateUnreferencedMergeCommitInput : [no documentation found]
     ///
-    /// - Returns: `CreateUnreferencedMergeCommitOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUnreferencedMergeCommitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -539,12 +539,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func createUnreferencedMergeCommit(input: CreateUnreferencedMergeCommitInput) async throws -> CreateUnreferencedMergeCommitOutputResponse
+    func createUnreferencedMergeCommit(input: CreateUnreferencedMergeCommitInput) async throws -> CreateUnreferencedMergeCommitOutput
     /// Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
     ///
     /// - Parameter DeleteApprovalRuleTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApprovalRuleTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApprovalRuleTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,12 +552,12 @@ public protocol CodeCommitClientProtocol {
     /// - `ApprovalRuleTemplateInUseException` : The approval rule template is associated with one or more repositories. You cannot delete a template that is associated with a repository. Remove all associations, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
-    func deleteApprovalRuleTemplate(input: DeleteApprovalRuleTemplateInput) async throws -> DeleteApprovalRuleTemplateOutputResponse
+    func deleteApprovalRuleTemplate(input: DeleteApprovalRuleTemplateInput) async throws -> DeleteApprovalRuleTemplateOutput
     /// Deletes a branch from a repository, unless that branch is the default branch for the repository.
     ///
     /// - Parameter DeleteBranchInput : Represents the input of a delete branch operation.
     ///
-    /// - Returns: `DeleteBranchOutputResponse` : Represents the output of a delete branch operation.
+    /// - Returns: `DeleteBranchOutput` : Represents the output of a delete branch operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -573,12 +573,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func deleteBranch(input: DeleteBranchInput) async throws -> DeleteBranchOutputResponse
+    func deleteBranch(input: DeleteBranchInput) async throws -> DeleteBranchOutput
     /// Deletes the content of a comment made on a change, file, or commit in a repository.
     ///
     /// - Parameter DeleteCommentContentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCommentContentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCommentContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,12 +587,12 @@ public protocol CodeCommitClientProtocol {
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
     /// - `InvalidCommentIdException` : The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-    func deleteCommentContent(input: DeleteCommentContentInput) async throws -> DeleteCommentContentOutputResponse
+    func deleteCommentContent(input: DeleteCommentContentInput) async throws -> DeleteCommentContentOutput
     /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion.
     ///
     /// - Parameter DeleteFileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -619,12 +619,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PathRequiredException` : The folderPath for a location cannot be null.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func deleteFile(input: DeleteFileInput) async throws -> DeleteFileOutputResponse
+    func deleteFile(input: DeleteFileInput) async throws -> DeleteFileOutput
     /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request.
     ///
     /// - Parameter DeletePullRequestApprovalRuleInput : [no documentation found]
     ///
-    /// - Returns: `DeletePullRequestApprovalRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePullRequestApprovalRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,12 +641,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestAlreadyClosedException` : The pull request status cannot be updated because it is already closed.
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
-    func deletePullRequestApprovalRule(input: DeletePullRequestApprovalRuleInput) async throws -> DeletePullRequestApprovalRuleOutputResponse
+    func deletePullRequestApprovalRule(input: DeletePullRequestApprovalRuleInput) async throws -> DeletePullRequestApprovalRuleOutput
     /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail.
     ///
     /// - Parameter DeleteRepositoryInput : Represents the input of a delete repository operation.
     ///
-    /// - Returns: `DeleteRepositoryOutputResponse` : Represents the output of a delete repository operation.
+    /// - Returns: `DeleteRepositoryOutput` : Represents the output of a delete repository operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,12 +658,12 @@ public protocol CodeCommitClientProtocol {
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
+    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
     ///
     /// - Parameter DescribeMergeConflictsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMergeConflictsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMergeConflictsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,12 +691,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func describeMergeConflicts(input: DescribeMergeConflictsInput) async throws -> DescribeMergeConflictsOutputResponse
+    func describeMergeConflicts(input: DescribeMergeConflictsInput) async throws -> DescribeMergeConflictsOutput
     /// Returns information about one or more pull request events.
     ///
     /// - Parameter DescribePullRequestEventsInput : [no documentation found]
     ///
-    /// - Returns: `DescribePullRequestEventsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePullRequestEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,12 +714,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidPullRequestIdException` : The pull request ID is not valid. Make sure that you have provided the full ID and that the pull request is in the specified repository, and then try again.
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
-    func describePullRequestEvents(input: DescribePullRequestEventsInput) async throws -> DescribePullRequestEventsOutputResponse
+    func describePullRequestEvents(input: DescribePullRequestEventsInput) async throws -> DescribePullRequestEventsOutput
     /// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association.
     ///
     /// - Parameter DisassociateApprovalRuleTemplateFromRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateApprovalRuleTemplateFromRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateApprovalRuleTemplateFromRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,12 +735,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func disassociateApprovalRuleTemplateFromRepository(input: DisassociateApprovalRuleTemplateFromRepositoryInput) async throws -> DisassociateApprovalRuleTemplateFromRepositoryOutputResponse
+    func disassociateApprovalRuleTemplateFromRepository(input: DisassociateApprovalRuleTemplateFromRepositoryInput) async throws -> DisassociateApprovalRuleTemplateFromRepositoryOutput
     /// Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
     ///
     /// - Parameter EvaluatePullRequestApprovalRulesInput : [no documentation found]
     ///
-    /// - Returns: `EvaluatePullRequestApprovalRulesOutputResponse` : [no documentation found]
+    /// - Returns: `EvaluatePullRequestApprovalRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,12 +756,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
     /// - `RevisionIdRequiredException` : A revision ID is required, but was not provided.
     /// - `RevisionNotCurrentException` : The revision ID provided in the request does not match the current revision ID. Use GetPullRequest to retrieve the current revision ID.
-    func evaluatePullRequestApprovalRules(input: EvaluatePullRequestApprovalRulesInput) async throws -> EvaluatePullRequestApprovalRulesOutputResponse
+    func evaluatePullRequestApprovalRules(input: EvaluatePullRequestApprovalRulesInput) async throws -> EvaluatePullRequestApprovalRulesOutput
     /// Returns information about a specified approval rule template.
     ///
     /// - Parameter GetApprovalRuleTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetApprovalRuleTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetApprovalRuleTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,12 +769,12 @@ public protocol CodeCommitClientProtocol {
     /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
-    func getApprovalRuleTemplate(input: GetApprovalRuleTemplateInput) async throws -> GetApprovalRuleTemplateOutputResponse
+    func getApprovalRuleTemplate(input: GetApprovalRuleTemplateInput) async throws -> GetApprovalRuleTemplateOutput
     /// Returns the base-64 encoded content of an individual blob in a repository.
     ///
     /// - Parameter GetBlobInput : Represents the input of a get blob operation.
     ///
-    /// - Returns: `GetBlobOutputResponse` : Represents the output of a get blob operation.
+    /// - Returns: `GetBlobOutput` : Represents the output of a get blob operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,12 +791,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getBlob(input: GetBlobInput) async throws -> GetBlobOutputResponse
+    func getBlob(input: GetBlobInput) async throws -> GetBlobOutput
     /// Returns information about a repository branch, including its name and the last commit ID.
     ///
     /// - Parameter GetBranchInput : Represents the input of a get branch operation.
     ///
-    /// - Returns: `GetBranchOutputResponse` : Represents the output of a get branch operation.
+    /// - Returns: `GetBranchOutput` : Represents the output of a get branch operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,12 +812,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getBranch(input: GetBranchInput) async throws -> GetBranchOutputResponse
+    func getBranch(input: GetBranchInput) async throws -> GetBranchOutput
     /// Returns the content of a comment made on a change, file, or commit in a repository. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
     /// - Parameter GetCommentInput : [no documentation found]
     ///
-    /// - Returns: `GetCommentOutputResponse` : [no documentation found]
+    /// - Returns: `GetCommentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -831,12 +831,12 @@ public protocol CodeCommitClientProtocol {
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
     /// - `InvalidCommentIdException` : The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-    func getComment(input: GetCommentInput) async throws -> GetCommentOutputResponse
+    func getComment(input: GetCommentInput) async throws -> GetCommentOutput
     /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
     ///
     /// - Parameter GetCommentReactionsInput : [no documentation found]
     ///
-    /// - Returns: `GetCommentReactionsOutputResponse` : [no documentation found]
+    /// - Returns: `GetCommentReactionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,12 +848,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
     /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
     /// - `InvalidReactionUserArnException` : The Amazon Resource Name (ARN) of the user or identity is not valid.
-    func getCommentReactions(input: GetCommentReactionsInput) async throws -> GetCommentReactionsOutputResponse
+    func getCommentReactions(input: GetCommentReactionsInput) async throws -> GetCommentReactionsOutput
     /// Returns information about comments made on the comparison between two commits. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
     /// - Parameter GetCommentsForComparedCommitInput : [no documentation found]
     ///
-    /// - Returns: `GetCommentsForComparedCommitOutputResponse` : [no documentation found]
+    /// - Returns: `GetCommentsForComparedCommitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,12 +871,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getCommentsForComparedCommit(input: GetCommentsForComparedCommitInput) async throws -> GetCommentsForComparedCommitOutputResponse
+    func getCommentsForComparedCommit(input: GetCommentsForComparedCommitInput) async throws -> GetCommentsForComparedCommitOutput
     /// Returns comments made on a pull request. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
     /// - Parameter GetCommentsForPullRequestInput : [no documentation found]
     ///
-    /// - Returns: `GetCommentsForPullRequestOutputResponse` : [no documentation found]
+    /// - Returns: `GetCommentsForPullRequestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,12 +898,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `RepositoryNotAssociatedWithPullRequestException` : The repository does not contain any pull requests with that pull request ID. Use GetPullRequest to verify the correct repository name for the pull request ID.
-    func getCommentsForPullRequest(input: GetCommentsForPullRequestInput) async throws -> GetCommentsForPullRequestOutputResponse
+    func getCommentsForPullRequest(input: GetCommentsForPullRequestInput) async throws -> GetCommentsForPullRequestOutput
     /// Returns information about a commit, including commit message and committer information.
     ///
     /// - Parameter GetCommitInput : Represents the input of a get commit operation.
     ///
-    /// - Returns: `GetCommitOutputResponse` : Represents the output of a get commit operation.
+    /// - Returns: `GetCommitOutput` : Represents the output of a get commit operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,12 +919,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getCommit(input: GetCommitInput) async throws -> GetCommitOutputResponse
+    func getCommit(input: GetCommitInput) async throws -> GetCommitOutput
     /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
     ///
     /// - Parameter GetDifferencesInput : [no documentation found]
     ///
-    /// - Returns: `GetDifferencesOutputResponse` : [no documentation found]
+    /// - Returns: `GetDifferencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -945,12 +945,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PathDoesNotExistException` : The specified path does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getDifferences(input: GetDifferencesInput) async throws -> GetDifferencesOutputResponse
+    func getDifferences(input: GetDifferencesInput) async throws -> GetDifferencesOutput
     /// Returns the base-64 encoded contents of a specified file and its metadata.
     ///
     /// - Parameter GetFileInput : [no documentation found]
     ///
-    /// - Returns: `GetFileOutputResponse` : [no documentation found]
+    /// - Returns: `GetFileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -969,12 +969,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PathRequiredException` : The folderPath for a location cannot be null.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getFile(input: GetFileInput) async throws -> GetFileOutputResponse
+    func getFile(input: GetFileInput) async throws -> GetFileOutput
     /// Returns the contents of a specified folder in a repository.
     ///
     /// - Parameter GetFolderInput : [no documentation found]
     ///
-    /// - Returns: `GetFolderOutputResponse` : [no documentation found]
+    /// - Returns: `GetFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -992,12 +992,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PathRequiredException` : The folderPath for a location cannot be null.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getFolder(input: GetFolderInput) async throws -> GetFolderOutputResponse
+    func getFolder(input: GetFolderInput) async throws -> GetFolderOutput
     /// Returns information about a specified merge commit.
     ///
     /// - Parameter GetMergeCommitInput : [no documentation found]
     ///
-    /// - Returns: `GetMergeCommitOutputResponse` : [no documentation found]
+    /// - Returns: `GetMergeCommitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,12 +1015,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getMergeCommit(input: GetMergeCommitInput) async throws -> GetMergeCommitOutputResponse
+    func getMergeCommit(input: GetMergeCommitInput) async throws -> GetMergeCommitOutput
     /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
     ///
     /// - Parameter GetMergeConflictsInput : [no documentation found]
     ///
-    /// - Returns: `GetMergeConflictsOutputResponse` : [no documentation found]
+    /// - Returns: `GetMergeConflictsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,12 +1047,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func getMergeConflicts(input: GetMergeConflictsInput) async throws -> GetMergeConflictsOutputResponse
+    func getMergeConflicts(input: GetMergeConflictsInput) async throws -> GetMergeConflictsOutput
     /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
     ///
     /// - Parameter GetMergeOptionsInput : [no documentation found]
     ///
-    /// - Returns: `GetMergeOptionsOutputResponse` : [no documentation found]
+    /// - Returns: `GetMergeOptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,12 +1073,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func getMergeOptions(input: GetMergeOptionsInput) async throws -> GetMergeOptionsOutputResponse
+    func getMergeOptions(input: GetMergeOptionsInput) async throws -> GetMergeOptionsOutput
     /// Gets information about a pull request in a specified repository.
     ///
     /// - Parameter GetPullRequestInput : [no documentation found]
     ///
-    /// - Returns: `GetPullRequestOutputResponse` : [no documentation found]
+    /// - Returns: `GetPullRequestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,12 +1091,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidPullRequestIdException` : The pull request ID is not valid. Make sure that you have provided the full ID and that the pull request is in the specified repository, and then try again.
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
-    func getPullRequest(input: GetPullRequestInput) async throws -> GetPullRequestOutputResponse
+    func getPullRequest(input: GetPullRequestInput) async throws -> GetPullRequestOutput
     /// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them.
     ///
     /// - Parameter GetPullRequestApprovalStatesInput : [no documentation found]
     ///
-    /// - Returns: `GetPullRequestApprovalStatesOutputResponse` : [no documentation found]
+    /// - Returns: `GetPullRequestApprovalStatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1111,12 +1111,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
     /// - `RevisionIdRequiredException` : A revision ID is required, but was not provided.
-    func getPullRequestApprovalStates(input: GetPullRequestApprovalStatesInput) async throws -> GetPullRequestApprovalStatesOutputResponse
+    func getPullRequestApprovalStates(input: GetPullRequestApprovalStatesInput) async throws -> GetPullRequestApprovalStatesOutput
     /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
     ///
     /// - Parameter GetPullRequestOverrideStateInput : [no documentation found]
     ///
-    /// - Returns: `GetPullRequestOverrideStateOutputResponse` : [no documentation found]
+    /// - Returns: `GetPullRequestOverrideStateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,12 +1131,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
     /// - `RevisionIdRequiredException` : A revision ID is required, but was not provided.
-    func getPullRequestOverrideState(input: GetPullRequestOverrideStateInput) async throws -> GetPullRequestOverrideStateOutputResponse
+    func getPullRequestOverrideState(input: GetPullRequestOverrideStateInput) async throws -> GetPullRequestOverrideStateOutput
     /// Returns information about a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
     /// - Parameter GetRepositoryInput : Represents the input of a get repository operation.
     ///
-    /// - Returns: `GetRepositoryOutputResponse` : Represents the output of a get repository operation.
+    /// - Returns: `GetRepositoryOutput` : Represents the output of a get repository operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1149,12 +1149,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutputResponse
+    func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutput
     /// Gets information about triggers configured for a repository.
     ///
     /// - Parameter GetRepositoryTriggersInput : Represents the input of a get repository triggers operation.
     ///
-    /// - Returns: `GetRepositoryTriggersOutputResponse` : Represents the output of a get repository triggers operation.
+    /// - Returns: `GetRepositoryTriggersOutput` : Represents the output of a get repository triggers operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,24 +1167,24 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func getRepositoryTriggers(input: GetRepositoryTriggersInput) async throws -> GetRepositoryTriggersOutputResponse
+    func getRepositoryTriggers(input: GetRepositoryTriggersInput) async throws -> GetRepositoryTriggersOutput
     /// Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
     ///
     /// - Parameter ListApprovalRuleTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListApprovalRuleTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListApprovalRuleTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
     /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
-    func listApprovalRuleTemplates(input: ListApprovalRuleTemplatesInput) async throws -> ListApprovalRuleTemplatesOutputResponse
+    func listApprovalRuleTemplates(input: ListApprovalRuleTemplatesInput) async throws -> ListApprovalRuleTemplatesOutput
     /// Lists all approval rule templates that are associated with a specified repository.
     ///
     /// - Parameter ListAssociatedApprovalRuleTemplatesForRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListAssociatedApprovalRuleTemplatesForRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1199,12 +1199,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func listAssociatedApprovalRuleTemplatesForRepository(input: ListAssociatedApprovalRuleTemplatesForRepositoryInput) async throws -> ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse
+    func listAssociatedApprovalRuleTemplatesForRepository(input: ListAssociatedApprovalRuleTemplatesForRepositoryInput) async throws -> ListAssociatedApprovalRuleTemplatesForRepositoryOutput
     /// Gets information about one or more branches in a repository.
     ///
     /// - Parameter ListBranchesInput : Represents the input of a list branches operation.
     ///
-    /// - Returns: `ListBranchesOutputResponse` : Represents the output of a list branches operation.
+    /// - Returns: `ListBranchesOutput` : Represents the output of a list branches operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,12 +1218,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func listBranches(input: ListBranchesInput) async throws -> ListBranchesOutputResponse
+    func listBranches(input: ListBranchesInput) async throws -> ListBranchesOutput
     /// Retrieves a list of commits and changes to a specified file.
     ///
     /// - Parameter ListFileCommitHistoryInput : [no documentation found]
     ///
-    /// - Returns: `ListFileCommitHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListFileCommitHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1242,12 +1242,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func listFileCommitHistory(input: ListFileCommitHistoryInput) async throws -> ListFileCommitHistoryOutputResponse
+    func listFileCommitHistory(input: ListFileCommitHistoryInput) async throws -> ListFileCommitHistoryOutput
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
     ///
     /// - Parameter ListPullRequestsInput : [no documentation found]
     ///
-    /// - Returns: `ListPullRequestsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPullRequestsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,12 +1265,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func listPullRequests(input: ListPullRequestsInput) async throws -> ListPullRequestsOutputResponse
+    func listPullRequests(input: ListPullRequestsInput) async throws -> ListPullRequestsOutput
     /// Gets information about one or more repositories.
     ///
     /// - Parameter ListRepositoriesInput : Represents the input of a list repositories operation.
     ///
-    /// - Returns: `ListRepositoriesOutputResponse` : Represents the output of a list repositories operation.
+    /// - Returns: `ListRepositoriesOutput` : Represents the output of a list repositories operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,12 +1278,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
     /// - `InvalidOrderException` : The specified sort order is not valid.
     /// - `InvalidSortByException` : The specified sort by value is not valid.
-    func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutputResponse
+    func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput
     /// Lists all repositories associated with the specified approval rule template.
     ///
     /// - Parameter ListRepositoriesForApprovalRuleTemplateInput : [no documentation found]
     ///
-    /// - Returns: `ListRepositoriesForApprovalRuleTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `ListRepositoriesForApprovalRuleTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1298,12 +1298,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
     /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
-    func listRepositoriesForApprovalRuleTemplate(input: ListRepositoriesForApprovalRuleTemplateInput) async throws -> ListRepositoriesForApprovalRuleTemplateOutputResponse
+    func listRepositoriesForApprovalRuleTemplate(input: ListRepositoriesForApprovalRuleTemplateInput) async throws -> ListRepositoriesForApprovalRuleTemplateOutput
     /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,12 +1312,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Merges two branches using the fast-forward merge strategy.
     ///
     /// - Parameter MergeBranchesByFastForwardInput : [no documentation found]
     ///
-    /// - Returns: `MergeBranchesByFastForwardOutputResponse` : [no documentation found]
+    /// - Returns: `MergeBranchesByFastForwardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,12 +1341,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func mergeBranchesByFastForward(input: MergeBranchesByFastForwardInput) async throws -> MergeBranchesByFastForwardOutputResponse
+    func mergeBranchesByFastForward(input: MergeBranchesByFastForwardInput) async throws -> MergeBranchesByFastForwardOutput
     /// Merges two branches using the squash merge strategy.
     ///
     /// - Parameter MergeBranchesBySquashInput : [no documentation found]
     ///
-    /// - Returns: `MergeBranchesBySquashOutputResponse` : [no documentation found]
+    /// - Returns: `MergeBranchesBySquashOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1390,12 +1390,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func mergeBranchesBySquash(input: MergeBranchesBySquashInput) async throws -> MergeBranchesBySquashOutputResponse
+    func mergeBranchesBySquash(input: MergeBranchesBySquashInput) async throws -> MergeBranchesBySquashOutput
     /// Merges two specified branches using the three-way merge strategy.
     ///
     /// - Parameter MergeBranchesByThreeWayInput : [no documentation found]
     ///
-    /// - Returns: `MergeBranchesByThreeWayOutputResponse` : [no documentation found]
+    /// - Returns: `MergeBranchesByThreeWayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,12 +1439,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func mergeBranchesByThreeWay(input: MergeBranchesByThreeWayInput) async throws -> MergeBranchesByThreeWayOutputResponse
+    func mergeBranchesByThreeWay(input: MergeBranchesByThreeWayInput) async throws -> MergeBranchesByThreeWayOutput
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
     ///
     /// - Parameter MergePullRequestByFastForwardInput : [no documentation found]
     ///
-    /// - Returns: `MergePullRequestByFastForwardOutputResponse` : [no documentation found]
+    /// - Returns: `MergePullRequestByFastForwardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,12 +1468,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `RepositoryNotAssociatedWithPullRequestException` : The repository does not contain any pull requests with that pull request ID. Use GetPullRequest to verify the correct repository name for the pull request ID.
     /// - `TipOfSourceReferenceIsDifferentException` : The tip of the source branch in the destination repository does not match the tip of the source branch specified in your request. The pull request might have been updated. Make sure that you have the latest changes.
-    func mergePullRequestByFastForward(input: MergePullRequestByFastForwardInput) async throws -> MergePullRequestByFastForwardOutputResponse
+    func mergePullRequestByFastForward(input: MergePullRequestByFastForwardInput) async throws -> MergePullRequestByFastForwardOutput
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
     ///
     /// - Parameter MergePullRequestBySquashInput : [no documentation found]
     ///
-    /// - Returns: `MergePullRequestBySquashOutputResponse` : [no documentation found]
+    /// - Returns: `MergePullRequestBySquashOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1516,12 +1516,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryNotAssociatedWithPullRequestException` : The repository does not contain any pull requests with that pull request ID. Use GetPullRequest to verify the correct repository name for the pull request ID.
     /// - `TipOfSourceReferenceIsDifferentException` : The tip of the source branch in the destination repository does not match the tip of the source branch specified in your request. The pull request might have been updated. Make sure that you have the latest changes.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func mergePullRequestBySquash(input: MergePullRequestBySquashInput) async throws -> MergePullRequestBySquashOutputResponse
+    func mergePullRequestBySquash(input: MergePullRequestBySquashInput) async throws -> MergePullRequestBySquashOutput
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
     ///
     /// - Parameter MergePullRequestByThreeWayInput : [no documentation found]
     ///
-    /// - Returns: `MergePullRequestByThreeWayOutputResponse` : [no documentation found]
+    /// - Returns: `MergePullRequestByThreeWayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1564,12 +1564,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryNotAssociatedWithPullRequestException` : The repository does not contain any pull requests with that pull request ID. Use GetPullRequest to verify the correct repository name for the pull request ID.
     /// - `TipOfSourceReferenceIsDifferentException` : The tip of the source branch in the destination repository does not match the tip of the source branch specified in your request. The pull request might have been updated. Make sure that you have the latest changes.
     /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-    func mergePullRequestByThreeWay(input: MergePullRequestByThreeWayInput) async throws -> MergePullRequestByThreeWayOutputResponse
+    func mergePullRequestByThreeWay(input: MergePullRequestByThreeWayInput) async throws -> MergePullRequestByThreeWayOutput
     /// Sets aside (overrides) all approval rule requirements for a specified pull request.
     ///
     /// - Parameter OverridePullRequestApprovalRulesInput : [no documentation found]
     ///
-    /// - Returns: `OverridePullRequestApprovalRulesOutputResponse` : [no documentation found]
+    /// - Returns: `OverridePullRequestApprovalRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1589,12 +1589,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
     /// - `RevisionIdRequiredException` : A revision ID is required, but was not provided.
     /// - `RevisionNotCurrentException` : The revision ID provided in the request does not match the current revision ID. Use GetPullRequest to retrieve the current revision ID.
-    func overridePullRequestApprovalRules(input: OverridePullRequestApprovalRulesInput) async throws -> OverridePullRequestApprovalRulesOutputResponse
+    func overridePullRequestApprovalRules(input: OverridePullRequestApprovalRulesInput) async throws -> OverridePullRequestApprovalRulesOutput
     /// Posts a comment on the comparison between two commits.
     ///
     /// - Parameter PostCommentForComparedCommitInput : [no documentation found]
     ///
-    /// - Returns: `PostCommentForComparedCommitOutputResponse` : [no documentation found]
+    /// - Returns: `PostCommentForComparedCommitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,12 +1622,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PathRequiredException` : The folderPath for a location cannot be null.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func postCommentForComparedCommit(input: PostCommentForComparedCommitInput) async throws -> PostCommentForComparedCommitOutputResponse
+    func postCommentForComparedCommit(input: PostCommentForComparedCommitInput) async throws -> PostCommentForComparedCommitOutput
     /// Posts a comment on a pull request.
     ///
     /// - Parameter PostCommentForPullRequestInput : [no documentation found]
     ///
-    /// - Returns: `PostCommentForPullRequestOutputResponse` : [no documentation found]
+    /// - Returns: `PostCommentForPullRequestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1659,12 +1659,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `RepositoryNotAssociatedWithPullRequestException` : The repository does not contain any pull requests with that pull request ID. Use GetPullRequest to verify the correct repository name for the pull request ID.
-    func postCommentForPullRequest(input: PostCommentForPullRequestInput) async throws -> PostCommentForPullRequestOutputResponse
+    func postCommentForPullRequest(input: PostCommentForPullRequestInput) async throws -> PostCommentForPullRequestOutput
     /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
     ///
     /// - Parameter PostCommentReplyInput : [no documentation found]
     ///
-    /// - Returns: `PostCommentReplyOutputResponse` : [no documentation found]
+    /// - Returns: `PostCommentReplyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1677,12 +1677,12 @@ public protocol CodeCommitClientProtocol {
     /// - `IdempotencyParameterMismatchException` : The client request token is not valid. Either the token is not in a valid format, or the token has been used in a previous request and cannot be reused.
     /// - `InvalidClientRequestTokenException` : The client request token is not valid.
     /// - `InvalidCommentIdException` : The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-    func postCommentReply(input: PostCommentReplyInput) async throws -> PostCommentReplyOutputResponse
+    func postCommentReply(input: PostCommentReplyInput) async throws -> PostCommentReplyOutput
     /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
     ///
     /// - Parameter PutCommentReactionInput : [no documentation found]
     ///
-    /// - Returns: `PutCommentReactionOutputResponse` : [no documentation found]
+    /// - Returns: `PutCommentReactionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1694,12 +1694,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidReactionValueException` : The value of the reaction is not valid. For more information, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
     /// - `ReactionLimitExceededException` : The number of reactions has been exceeded. Reactions are limited to one reaction per user for each individual comment ID.
     /// - `ReactionValueRequiredException` : A reaction value is required.
-    func putCommentReaction(input: PutCommentReactionInput) async throws -> PutCommentReactionOutputResponse
+    func putCommentReaction(input: PutCommentReactionInput) async throws -> PutCommentReactionOutput
     /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
     ///
     /// - Parameter PutFileInput : [no documentation found]
     ///
-    /// - Returns: `PutFileOutputResponse` : [no documentation found]
+    /// - Returns: `PutFileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1734,12 +1734,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `SameFileContentException` : The file was not added or updated because the content of the file is exactly the same as the content of that file in the repository and branch that you specified.
-    func putFile(input: PutFileInput) async throws -> PutFileOutputResponse
+    func putFile(input: PutFileInput) async throws -> PutFileOutput
     /// Replaces all triggers for a repository. Used to create or delete triggers.
     ///
     /// - Parameter PutRepositoryTriggersInput : Represents the input of a put repository triggers operation.
     ///
-    /// - Returns: `PutRepositoryTriggersOutputResponse` : Represents the output of a put repository triggers operation.
+    /// - Returns: `PutRepositoryTriggersOutput` : Represents the output of a put repository triggers operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,12 +1765,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryTriggerEventsListRequiredException` : At least one event for the trigger is required, but was not specified.
     /// - `RepositoryTriggerNameRequiredException` : A name for the trigger is required, but was not specified.
     /// - `RepositoryTriggersListRequiredException` : The list of triggers for the repository is required, but was not specified.
-    func putRepositoryTriggers(input: PutRepositoryTriggersInput) async throws -> PutRepositoryTriggersOutputResponse
+    func putRepositoryTriggers(input: PutRepositoryTriggersInput) async throws -> PutRepositoryTriggersOutput
     /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1784,12 +1784,12 @@ public protocol CodeCommitClientProtocol {
     /// - `TagPolicyException` : The tag policy is not valid.
     /// - `TagsMapRequiredException` : A map of tags is required.
     /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
     ///
     /// - Parameter TestRepositoryTriggersInput : Represents the input of a test repository triggers operation.
     ///
-    /// - Returns: `TestRepositoryTriggersOutputResponse` : Represents the output of a test repository triggers operation.
+    /// - Returns: `TestRepositoryTriggersOutput` : Represents the output of a test repository triggers operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1815,12 +1815,12 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryTriggerEventsListRequiredException` : At least one event for the trigger is required, but was not specified.
     /// - `RepositoryTriggerNameRequiredException` : A name for the trigger is required, but was not specified.
     /// - `RepositoryTriggersListRequiredException` : The list of triggers for the repository is required, but was not specified.
-    func testRepositoryTriggers(input: TestRepositoryTriggersInput) async throws -> TestRepositoryTriggersOutputResponse
+    func testRepositoryTriggers(input: TestRepositoryTriggersInput) async throws -> TestRepositoryTriggersOutput
     /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1834,12 +1834,12 @@ public protocol CodeCommitClientProtocol {
     /// - `TagKeysListRequiredException` : A list of tag keys is required. The list cannot be empty or null.
     /// - `TagPolicyException` : The tag policy is not valid.
     /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
     ///
     /// - Parameter UpdateApprovalRuleTemplateContentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApprovalRuleTemplateContentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApprovalRuleTemplateContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1850,12 +1850,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidApprovalRuleTemplateContentException` : The content of the approval rule template is not valid.
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidRuleContentSha256Exception` : The SHA-256 hash signature for the rule content is not valid.
-    func updateApprovalRuleTemplateContent(input: UpdateApprovalRuleTemplateContentInput) async throws -> UpdateApprovalRuleTemplateContentOutputResponse
+    func updateApprovalRuleTemplateContent(input: UpdateApprovalRuleTemplateContentInput) async throws -> UpdateApprovalRuleTemplateContentOutput
     /// Updates the description for a specified approval rule template.
     ///
     /// - Parameter UpdateApprovalRuleTemplateDescriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApprovalRuleTemplateDescriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApprovalRuleTemplateDescriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1864,12 +1864,12 @@ public protocol CodeCommitClientProtocol {
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
-    func updateApprovalRuleTemplateDescription(input: UpdateApprovalRuleTemplateDescriptionInput) async throws -> UpdateApprovalRuleTemplateDescriptionOutputResponse
+    func updateApprovalRuleTemplateDescription(input: UpdateApprovalRuleTemplateDescriptionInput) async throws -> UpdateApprovalRuleTemplateDescriptionOutput
     /// Updates the name of a specified approval rule template.
     ///
     /// - Parameter UpdateApprovalRuleTemplateNameInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApprovalRuleTemplateNameOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApprovalRuleTemplateNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1878,12 +1878,12 @@ public protocol CodeCommitClientProtocol {
     /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
-    func updateApprovalRuleTemplateName(input: UpdateApprovalRuleTemplateNameInput) async throws -> UpdateApprovalRuleTemplateNameOutputResponse
+    func updateApprovalRuleTemplateName(input: UpdateApprovalRuleTemplateNameInput) async throws -> UpdateApprovalRuleTemplateNameOutput
     /// Replaces the contents of a comment.
     ///
     /// - Parameter UpdateCommentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCommentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCommentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1895,12 +1895,12 @@ public protocol CodeCommitClientProtocol {
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
     /// - `CommentNotCreatedByCallerException` : You cannot modify or delete this comment. Only comment authors can modify or delete their comments.
     /// - `InvalidCommentIdException` : The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-    func updateComment(input: UpdateCommentInput) async throws -> UpdateCommentOutputResponse
+    func updateComment(input: UpdateCommentInput) async throws -> UpdateCommentOutput
     /// Sets or changes the default branch name for the specified repository. If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
     ///
     /// - Parameter UpdateDefaultBranchInput : Represents the input of an update default branch operation.
     ///
-    /// - Returns: `UpdateDefaultBranchOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDefaultBranchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1916,12 +1916,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func updateDefaultBranch(input: UpdateDefaultBranchInput) async throws -> UpdateDefaultBranchOutputResponse
+    func updateDefaultBranch(input: UpdateDefaultBranchInput) async throws -> UpdateDefaultBranchOutput
     /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and the approval pool for approvers.
     ///
     /// - Parameter UpdatePullRequestApprovalRuleContentInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePullRequestApprovalRuleContentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePullRequestApprovalRuleContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1942,12 +1942,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestAlreadyClosedException` : The pull request status cannot be updated because it is already closed.
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
-    func updatePullRequestApprovalRuleContent(input: UpdatePullRequestApprovalRuleContentInput) async throws -> UpdatePullRequestApprovalRuleContentOutputResponse
+    func updatePullRequestApprovalRuleContent(input: UpdatePullRequestApprovalRuleContentInput) async throws -> UpdatePullRequestApprovalRuleContentOutput
     /// Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
     ///
     /// - Parameter UpdatePullRequestApprovalStateInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePullRequestApprovalStateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePullRequestApprovalStateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,12 +1968,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
     /// - `RevisionIdRequiredException` : A revision ID is required, but was not provided.
     /// - `RevisionNotCurrentException` : The revision ID provided in the request does not match the current revision ID. Use GetPullRequest to retrieve the current revision ID.
-    func updatePullRequestApprovalState(input: UpdatePullRequestApprovalStateInput) async throws -> UpdatePullRequestApprovalStateOutputResponse
+    func updatePullRequestApprovalState(input: UpdatePullRequestApprovalStateInput) async throws -> UpdatePullRequestApprovalStateOutput
     /// Replaces the contents of the description of a pull request.
     ///
     /// - Parameter UpdatePullRequestDescriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePullRequestDescriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePullRequestDescriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1983,12 +1983,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestAlreadyClosedException` : The pull request status cannot be updated because it is already closed.
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
-    func updatePullRequestDescription(input: UpdatePullRequestDescriptionInput) async throws -> UpdatePullRequestDescriptionOutputResponse
+    func updatePullRequestDescription(input: UpdatePullRequestDescriptionInput) async throws -> UpdatePullRequestDescriptionOutput
     /// Updates the status of a pull request.
     ///
     /// - Parameter UpdatePullRequestStatusInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePullRequestStatusOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePullRequestStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,12 +2004,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
     /// - `PullRequestStatusRequiredException` : A pull request status is required, but none was provided.
-    func updatePullRequestStatus(input: UpdatePullRequestStatusInput) async throws -> UpdatePullRequestStatusOutputResponse
+    func updatePullRequestStatus(input: UpdatePullRequestStatusInput) async throws -> UpdatePullRequestStatusOutput
     /// Replaces the title of a pull request.
     ///
     /// - Parameter UpdatePullRequestTitleInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePullRequestTitleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePullRequestTitleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,12 +2020,12 @@ public protocol CodeCommitClientProtocol {
     /// - `PullRequestDoesNotExistException` : The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
     /// - `PullRequestIdRequiredException` : A pull request ID is required, but none was provided.
     /// - `TitleRequiredException` : A pull request title is required. It cannot be empty or null.
-    func updatePullRequestTitle(input: UpdatePullRequestTitleInput) async throws -> UpdatePullRequestTitleOutputResponse
+    func updatePullRequestTitle(input: UpdatePullRequestTitleInput) async throws -> UpdatePullRequestTitleOutput
     /// Sets or changes the comment or description for a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
     /// - Parameter UpdateRepositoryDescriptionInput : Represents the input of an update repository description operation.
     ///
-    /// - Returns: `UpdateRepositoryDescriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRepositoryDescriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2039,12 +2039,12 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func updateRepositoryDescription(input: UpdateRepositoryDescriptionInput) async throws -> UpdateRepositoryDescriptionOutputResponse
+    func updateRepositoryDescription(input: UpdateRepositoryDescriptionInput) async throws -> UpdateRepositoryDescriptionOutput
     /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     ///
     /// - Parameter UpdateRepositoryNameInput : Represents the input of an update repository description operation.
     ///
-    /// - Returns: `UpdateRepositoryNameOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRepositoryNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2053,7 +2053,7 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameExistsException` : The specified repository name already exists.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
-    func updateRepositoryName(input: UpdateRepositoryNameInput) async throws -> UpdateRepositoryNameOutputResponse
+    func updateRepositoryName(input: UpdateRepositoryNameInput) async throws -> UpdateRepositoryNameOutput
 }
 
 public enum CodeCommitClientTypes {}

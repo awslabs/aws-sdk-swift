@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ApplicationAutoScalingClient {
-    /// Paginate over `[DescribeScalableTargetsOutputResponse]` results.
+    /// Paginate over `[DescribeScalableTargetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeScalableTargetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalableTargetsOutputResponse`
-    public func describeScalableTargetsPaginated(input: DescribeScalableTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeScalableTargetsInput, DescribeScalableTargetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeScalableTargetsInput, DescribeScalableTargetsOutputResponse>(input: input, inputKey: \DescribeScalableTargetsInput.nextToken, outputKey: \DescribeScalableTargetsOutputResponse.nextToken, paginationFunction: self.describeScalableTargets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalableTargetsOutput`
+    public func describeScalableTargetsPaginated(input: DescribeScalableTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeScalableTargetsInput, DescribeScalableTargetsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>(input: input, inputKey: \DescribeScalableTargetsInput.nextToken, outputKey: \DescribeScalableTargetsOutput.nextToken, paginationFunction: self.describeScalableTargets(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension DescribeScalableTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeScalableTargetsInput, Output == DescribeScalableTargetsOutputResponse {
+extension PaginatorSequence where Input == DescribeScalableTargetsInput, Output == DescribeScalableTargetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeScalableTargetsPaginated`
     /// to access the nested member `[ApplicationAutoScalingClientTypes.ScalableTarget]`
     /// - Returns: `[ApplicationAutoScalingClientTypes.ScalableTarget]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == DescribeScalableTargetsInput, Output 
     }
 }
 extension ApplicationAutoScalingClient {
-    /// Paginate over `[DescribeScalingActivitiesOutputResponse]` results.
+    /// Paginate over `[DescribeScalingActivitiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeScalingActivitiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingActivitiesOutputResponse`
-    public func describeScalingActivitiesPaginated(input: DescribeScalingActivitiesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutputResponse>(input: input, inputKey: \DescribeScalingActivitiesInput.nextToken, outputKey: \DescribeScalingActivitiesOutputResponse.nextToken, paginationFunction: self.describeScalingActivities(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingActivitiesOutput`
+    public func describeScalingActivitiesPaginated(input: DescribeScalingActivitiesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(input: input, inputKey: \DescribeScalingActivitiesInput.nextToken, outputKey: \DescribeScalingActivitiesOutput.nextToken, paginationFunction: self.describeScalingActivities(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension DescribeScalingActivitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeScalingActivitiesInput, Output == DescribeScalingActivitiesOutputResponse {
+extension PaginatorSequence where Input == DescribeScalingActivitiesInput, Output == DescribeScalingActivitiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeScalingActivitiesPaginated`
     /// to access the nested member `[ApplicationAutoScalingClientTypes.ScalingActivity]`
     /// - Returns: `[ApplicationAutoScalingClientTypes.ScalingActivity]`
@@ -70,16 +70,16 @@ extension PaginatorSequence where Input == DescribeScalingActivitiesInput, Outpu
     }
 }
 extension ApplicationAutoScalingClient {
-    /// Paginate over `[DescribeScalingPoliciesOutputResponse]` results.
+    /// Paginate over `[DescribeScalingPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeScalingPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingPoliciesOutputResponse`
-    public func describeScalingPoliciesPaginated(input: DescribeScalingPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse>(input: input, inputKey: \DescribeScalingPoliciesInput.nextToken, outputKey: \DescribeScalingPoliciesOutputResponse.nextToken, paginationFunction: self.describeScalingPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingPoliciesOutput`
+    public func describeScalingPoliciesPaginated(input: DescribeScalingPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(input: input, inputKey: \DescribeScalingPoliciesInput.nextToken, outputKey: \DescribeScalingPoliciesOutput.nextToken, paginationFunction: self.describeScalingPolicies(input:))
     }
 }
 
@@ -95,7 +95,7 @@ extension DescribeScalingPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeScalingPoliciesInput, Output == DescribeScalingPoliciesOutputResponse {
+extension PaginatorSequence where Input == DescribeScalingPoliciesInput, Output == DescribeScalingPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeScalingPoliciesPaginated`
     /// to access the nested member `[ApplicationAutoScalingClientTypes.ScalingPolicy]`
     /// - Returns: `[ApplicationAutoScalingClientTypes.ScalingPolicy]`
@@ -104,16 +104,16 @@ extension PaginatorSequence where Input == DescribeScalingPoliciesInput, Output 
     }
 }
 extension ApplicationAutoScalingClient {
-    /// Paginate over `[DescribeScheduledActionsOutputResponse]` results.
+    /// Paginate over `[DescribeScheduledActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeScheduledActionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutputResponse`
-    public func describeScheduledActionsPaginated(input: DescribeScheduledActionsInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse>(input: input, inputKey: \DescribeScheduledActionsInput.nextToken, outputKey: \DescribeScheduledActionsOutputResponse.nextToken, paginationFunction: self.describeScheduledActions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutput`
+    public func describeScheduledActionsPaginated(input: DescribeScheduledActionsInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(input: input, inputKey: \DescribeScheduledActionsInput.nextToken, outputKey: \DescribeScheduledActionsOutput.nextToken, paginationFunction: self.describeScheduledActions(input:))
     }
 }
 
@@ -129,7 +129,7 @@ extension DescribeScheduledActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeScheduledActionsInput, Output == DescribeScheduledActionsOutputResponse {
+extension PaginatorSequence where Input == DescribeScheduledActionsInput, Output == DescribeScheduledActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeScheduledActionsPaginated`
     /// to access the nested member `[ApplicationAutoScalingClientTypes.ScheduledAction]`
     /// - Returns: `[ApplicationAutoScalingClientTypes.ScheduledAction]`

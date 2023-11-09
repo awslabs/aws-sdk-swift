@@ -71,7 +71,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter AddTagsInput : Specifies the tags to add to a trail, event data store, or channel.
     ///
-    /// - Returns: `AddTagsOutputResponse` : Returns the objects or data if successful. Otherwise, returns an error.
+    /// - Returns: `AddTagsOutput` : Returns the objects or data if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,7 +102,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutputResponse
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -118,21 +118,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>(id: "addTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutput, AddTagsOutputError>(id: "addTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutput, AddTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsOutputResponse, AddTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsOutput, AddTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddTagsInput, AddTagsOutputResponse>(xAmzTarget: "CloudTrail_20131101.AddTags"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsInput, AddTagsOutputResponse>(xmlName: "AddTagsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsInput, AddTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddTagsInput, AddTagsOutput>(xAmzTarget: "CloudTrail_20131101.AddTags"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsInput, AddTagsOutput>(xmlName: "AddTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsInput, AddTagsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsOutputResponse, AddTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsOutput, AddTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutputResponse, AddTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutputResponse, AddTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutputResponse, AddTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutput, AddTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutput, AddTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutput, AddTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -141,7 +141,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter CancelQueryInput : [no documentation found]
     ///
-    /// - Returns: `CancelQueryOutputResponse` : [no documentation found]
+    /// - Returns: `CancelQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -156,7 +156,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutputResponse
+    public func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -172,21 +172,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelQueryInput, CancelQueryOutputResponse, CancelQueryOutputError>(id: "cancelQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelQueryInput, CancelQueryOutputResponse, CancelQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelQueryInput, CancelQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelQueryInput, CancelQueryOutput, CancelQueryOutputError>(id: "cancelQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelQueryInput, CancelQueryOutput, CancelQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelQueryInput, CancelQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelQueryOutputResponse, CancelQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelQueryOutput, CancelQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelQueryInput, CancelQueryOutputResponse>(xAmzTarget: "CloudTrail_20131101.CancelQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelQueryInput, CancelQueryOutputResponse>(xmlName: "CancelQueryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelQueryInput, CancelQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelQueryInput, CancelQueryOutput>(xAmzTarget: "CloudTrail_20131101.CancelQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelQueryInput, CancelQueryOutput>(xmlName: "CancelQueryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelQueryInput, CancelQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelQueryOutputResponse, CancelQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelQueryOutput, CancelQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelQueryOutputResponse, CancelQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelQueryOutputResponse, CancelQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelQueryOutputResponse, CancelQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelQueryOutput, CancelQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelQueryOutput, CancelQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelQueryOutput, CancelQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -195,7 +195,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter CreateChannelInput : [no documentation found]
     ///
-    /// - Returns: `CreateChannelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -212,7 +212,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -228,21 +228,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutputResponse, CreateChannelOutputError>(id: "createChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutputResponse, CreateChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(id: "createChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateChannelInput, CreateChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.CreateChannel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutputResponse>(xmlName: "CreateChannelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateChannelInput, CreateChannelOutput>(xAmzTarget: "CloudTrail_20131101.CreateChannel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutput>(xmlName: "CreateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutputResponse, CreateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput, CreateChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutputResponse, CreateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput, CreateChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput, CreateChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -251,7 +251,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter CreateEventDataStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateEventDataStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEventDataStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -282,7 +282,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func createEventDataStore(input: CreateEventDataStoreInput) async throws -> CreateEventDataStoreOutputResponse
+    public func createEventDataStore(input: CreateEventDataStoreInput) async throws -> CreateEventDataStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -298,21 +298,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>(id: "createEventDataStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateEventDataStoreInput, CreateEventDataStoreOutput, CreateEventDataStoreOutputError>(id: "createEventDataStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutput, CreateEventDataStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventDataStoreOutput, CreateEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.CreateEventDataStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>(xmlName: "CreateEventDataStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutput>(xAmzTarget: "CloudTrail_20131101.CreateEventDataStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutput>(xmlName: "CreateEventDataStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventDataStoreOutput, CreateEventDataStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventDataStoreOutput, CreateEventDataStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventDataStoreOutput, CreateEventDataStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventDataStoreOutput, CreateEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -321,7 +321,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter CreateTrailInput : Specifies the settings for each trail.
     ///
-    /// - Returns: `CreateTrailOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `CreateTrailOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -368,7 +368,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `TrailAlreadyExistsException` : This exception is thrown when the specified trail already exists.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func createTrail(input: CreateTrailInput) async throws -> CreateTrailOutputResponse
+    public func createTrail(input: CreateTrailInput) async throws -> CreateTrailOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -384,21 +384,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTrailInput, CreateTrailOutputResponse, CreateTrailOutputError>(id: "createTrail")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrailInput, CreateTrailOutputResponse, CreateTrailOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrailInput, CreateTrailOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTrailInput, CreateTrailOutput, CreateTrailOutputError>(id: "createTrail")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrailInput, CreateTrailOutput, CreateTrailOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrailInput, CreateTrailOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrailOutputResponse, CreateTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrailOutput, CreateTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTrailInput, CreateTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.CreateTrail"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTrailInput, CreateTrailOutputResponse>(xmlName: "CreateTrailRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrailInput, CreateTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTrailInput, CreateTrailOutput>(xAmzTarget: "CloudTrail_20131101.CreateTrail"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTrailInput, CreateTrailOutput>(xmlName: "CreateTrailRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrailInput, CreateTrailOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrailOutputResponse, CreateTrailOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrailOutput, CreateTrailOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrailOutputResponse, CreateTrailOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrailOutputResponse, CreateTrailOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrailOutputResponse, CreateTrailOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrailOutput, CreateTrailOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrailOutput, CreateTrailOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrailOutput, CreateTrailOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -407,7 +407,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteChannelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +416,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ChannelNotFoundException` : This exception is thrown when CloudTrail cannot find the specified channel.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -432,21 +432,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>(id: "deleteChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>(id: "deleteChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteChannel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>(xmlName: "DeleteChannelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteChannelInput, DeleteChannelOutput>(xAmzTarget: "CloudTrail_20131101.DeleteChannel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteChannelInput, DeleteChannelOutput>(xmlName: "DeleteChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteChannelInput, DeleteChannelOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutputResponse, DeleteChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput, DeleteChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput, DeleteChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput, DeleteChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -455,7 +455,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter DeleteEventDataStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventDataStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventDataStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,7 +472,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteEventDataStore(input: DeleteEventDataStoreInput) async throws -> DeleteEventDataStoreOutputResponse
+    public func deleteEventDataStore(input: DeleteEventDataStoreInput) async throws -> DeleteEventDataStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -488,21 +488,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>(id: "deleteEventDataStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteEventDataStoreInput, DeleteEventDataStoreOutput, DeleteEventDataStoreOutputError>(id: "deleteEventDataStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutput, DeleteEventDataStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventDataStoreOutput, DeleteEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteEventDataStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>(xmlName: "DeleteEventDataStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutput>(xAmzTarget: "CloudTrail_20131101.DeleteEventDataStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutput>(xmlName: "DeleteEventDataStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventDataStoreOutput, DeleteEventDataStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventDataStoreOutput, DeleteEventDataStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventDataStoreOutput, DeleteEventDataStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventDataStoreOutput, DeleteEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -511,7 +511,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,7 +522,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourcePolicyNotFoundException` : This exception is thrown when the specified resource policy is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -538,21 +538,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xmlName: "DeleteResourcePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "CloudTrail_20131101.DeleteResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xmlName: "DeleteResourcePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -561,7 +561,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter DeleteTrailInput : The request that specifies the name of a trail to delete.
     ///
-    /// - Returns: `DeleteTrailOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `DeleteTrailOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,7 +587,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutputResponse
+    public func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -603,21 +603,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTrailInput, DeleteTrailOutputResponse, DeleteTrailOutputError>(id: "deleteTrail")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrailInput, DeleteTrailOutputResponse, DeleteTrailOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTrailInput, DeleteTrailOutput, DeleteTrailOutputError>(id: "deleteTrail")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrailInput, DeleteTrailOutput, DeleteTrailOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrailInput, DeleteTrailOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrailOutputResponse, DeleteTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrailOutput, DeleteTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteTrail"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>(xmlName: "DeleteTrailRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTrailInput, DeleteTrailOutput>(xAmzTarget: "CloudTrail_20131101.DeleteTrail"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTrailInput, DeleteTrailOutput>(xmlName: "DeleteTrailRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTrailInput, DeleteTrailOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrailOutputResponse, DeleteTrailOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrailOutput, DeleteTrailOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrailOutputResponse, DeleteTrailOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrailOutputResponse, DeleteTrailOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrailOutputResponse, DeleteTrailOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrailOutput, DeleteTrailOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrailOutput, DeleteTrailOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrailOutput, DeleteTrailOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -626,7 +626,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter DeregisterOrganizationDelegatedAdminInput : Removes CloudTrail delegated administrator permissions from a specified member account in an organization that is currently designated as a delegated administrator.
     ///
-    /// - Returns: `DeregisterOrganizationDelegatedAdminOutputResponse` : Returns the following response if successful. Otherwise, returns an error.
+    /// - Returns: `DeregisterOrganizationDelegatedAdminOutput` : Returns the following response if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -642,7 +642,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deregisterOrganizationDelegatedAdmin(input: DeregisterOrganizationDelegatedAdminInput) async throws -> DeregisterOrganizationDelegatedAdminOutputResponse
+    public func deregisterOrganizationDelegatedAdmin(input: DeregisterOrganizationDelegatedAdminInput) async throws -> DeregisterOrganizationDelegatedAdminOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -658,21 +658,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>(id: "deregisterOrganizationDelegatedAdmin")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput, DeregisterOrganizationDelegatedAdminOutputError>(id: "deregisterOrganizationDelegatedAdmin")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput, DeregisterOrganizationDelegatedAdminOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterOrganizationDelegatedAdminOutput, DeregisterOrganizationDelegatedAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeregisterOrganizationDelegatedAdmin"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>(xmlName: "DeregisterOrganizationDelegatedAdminRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput>(xAmzTarget: "CloudTrail_20131101.DeregisterOrganizationDelegatedAdmin"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput>(xmlName: "DeregisterOrganizationDelegatedAdminRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterOrganizationDelegatedAdminOutput, DeregisterOrganizationDelegatedAdminOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterOrganizationDelegatedAdminOutput, DeregisterOrganizationDelegatedAdminOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterOrganizationDelegatedAdminOutput, DeregisterOrganizationDelegatedAdminOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterOrganizationDelegatedAdminOutput, DeregisterOrganizationDelegatedAdminOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -681,7 +681,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter DescribeQueryInput : [no documentation found]
     ///
-    /// - Returns: `DescribeQueryOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,7 +694,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func describeQuery(input: DescribeQueryInput) async throws -> DescribeQueryOutputResponse
+    public func describeQuery(input: DescribeQueryInput) async throws -> DescribeQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -710,21 +710,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeQueryInput, DescribeQueryOutputResponse, DescribeQueryOutputError>(id: "describeQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeQueryInput, DescribeQueryOutputResponse, DescribeQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeQueryInput, DescribeQueryOutput, DescribeQueryOutputError>(id: "describeQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeQueryInput, DescribeQueryOutput, DescribeQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeQueryInput, DescribeQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeQueryOutputResponse, DescribeQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeQueryOutput, DescribeQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>(xAmzTarget: "CloudTrail_20131101.DescribeQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>(xmlName: "DescribeQueryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeQueryInput, DescribeQueryOutput>(xAmzTarget: "CloudTrail_20131101.DescribeQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeQueryInput, DescribeQueryOutput>(xmlName: "DescribeQueryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeQueryInput, DescribeQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeQueryOutputResponse, DescribeQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeQueryOutput, DescribeQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeQueryOutputResponse, DescribeQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeQueryOutputResponse, DescribeQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeQueryOutputResponse, DescribeQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeQueryOutput, DescribeQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeQueryOutput, DescribeQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeQueryOutput, DescribeQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -733,7 +733,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter DescribeTrailsInput : Returns information about the trail.
     ///
-    /// - Returns: `DescribeTrailsOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `DescribeTrailsOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,7 +752,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func describeTrails(input: DescribeTrailsInput) async throws -> DescribeTrailsOutputResponse
+    public func describeTrails(input: DescribeTrailsInput) async throws -> DescribeTrailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -768,21 +768,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTrailsInput, DescribeTrailsOutputResponse, DescribeTrailsOutputError>(id: "describeTrails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse, DescribeTrailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTrailsInput, DescribeTrailsOutput, DescribeTrailsOutputError>(id: "describeTrails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrailsInput, DescribeTrailsOutput, DescribeTrailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrailsInput, DescribeTrailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrailsOutputResponse, DescribeTrailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrailsOutput, DescribeTrailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>(xAmzTarget: "CloudTrail_20131101.DescribeTrails"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>(xmlName: "DescribeTrailsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrailsInput, DescribeTrailsOutput>(xAmzTarget: "CloudTrail_20131101.DescribeTrails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrailsInput, DescribeTrailsOutput>(xmlName: "DescribeTrailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrailsInput, DescribeTrailsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrailsOutputResponse, DescribeTrailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrailsOutput, DescribeTrailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrailsOutputResponse, DescribeTrailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrailsOutputResponse, DescribeTrailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrailsOutputResponse, DescribeTrailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrailsOutput, DescribeTrailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrailsOutput, DescribeTrailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrailsOutput, DescribeTrailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -791,7 +791,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetChannelInput : [no documentation found]
     ///
-    /// - Returns: `GetChannelOutputResponse` : [no documentation found]
+    /// - Returns: `GetChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,7 +800,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ChannelNotFoundException` : This exception is thrown when CloudTrail cannot find the specified channel.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutputResponse
+    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -816,21 +816,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetChannelInput, GetChannelOutputResponse, GetChannelOutputError>(id: "getChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelInput, GetChannelOutputResponse, GetChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetChannelInput, GetChannelOutput, GetChannelOutputError>(id: "getChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelInput, GetChannelOutput, GetChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelOutputResponse, GetChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelOutput, GetChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetChannelInput, GetChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetChannel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetChannelInput, GetChannelOutputResponse>(xmlName: "GetChannelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetChannelInput, GetChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetChannelInput, GetChannelOutput>(xAmzTarget: "CloudTrail_20131101.GetChannel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetChannelInput, GetChannelOutput>(xmlName: "GetChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetChannelInput, GetChannelOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelOutputResponse, GetChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelOutput, GetChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelOutputResponse, GetChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelOutputResponse, GetChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelOutputResponse, GetChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelOutput, GetChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelOutput, GetChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelOutput, GetChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -839,7 +839,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetEventDataStoreInput : [no documentation found]
     ///
-    /// - Returns: `GetEventDataStoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventDataStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,7 +850,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getEventDataStore(input: GetEventDataStoreInput) async throws -> GetEventDataStoreOutputResponse
+    public func getEventDataStore(input: GetEventDataStoreInput) async throws -> GetEventDataStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -866,21 +866,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetEventDataStoreInput, GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>(id: "getEventDataStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetEventDataStoreInput, GetEventDataStoreOutput, GetEventDataStoreOutputError>(id: "getEventDataStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventDataStoreInput, GetEventDataStoreOutput, GetEventDataStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventDataStoreInput, GetEventDataStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventDataStoreOutput, GetEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetEventDataStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>(xmlName: "GetEventDataStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEventDataStoreInput, GetEventDataStoreOutput>(xAmzTarget: "CloudTrail_20131101.GetEventDataStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEventDataStoreInput, GetEventDataStoreOutput>(xmlName: "GetEventDataStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEventDataStoreInput, GetEventDataStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventDataStoreOutput, GetEventDataStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventDataStoreOutput, GetEventDataStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventDataStoreOutput, GetEventDataStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventDataStoreOutput, GetEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -902,7 +902,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetEventSelectorsInput : [no documentation found]
     ///
-    /// - Returns: `GetEventSelectorsOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventSelectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,7 +923,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getEventSelectors(input: GetEventSelectorsInput) async throws -> GetEventSelectorsOutputResponse
+    public func getEventSelectors(input: GetEventSelectorsInput) async throws -> GetEventSelectorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -939,21 +939,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetEventSelectorsInput, GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>(id: "getEventSelectors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetEventSelectorsInput, GetEventSelectorsOutput, GetEventSelectorsOutputError>(id: "getEventSelectors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventSelectorsInput, GetEventSelectorsOutput, GetEventSelectorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventSelectorsInput, GetEventSelectorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventSelectorsOutput, GetEventSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetEventSelectors"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>(xmlName: "GetEventSelectorsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEventSelectorsInput, GetEventSelectorsOutput>(xAmzTarget: "CloudTrail_20131101.GetEventSelectors"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEventSelectorsInput, GetEventSelectorsOutput>(xmlName: "GetEventSelectorsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEventSelectorsInput, GetEventSelectorsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventSelectorsOutput, GetEventSelectorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventSelectorsOutput, GetEventSelectorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventSelectorsOutput, GetEventSelectorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventSelectorsOutput, GetEventSelectorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -962,7 +962,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetImportInput : [no documentation found]
     ///
-    /// - Returns: `GetImportOutputResponse` : [no documentation found]
+    /// - Returns: `GetImportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,7 +971,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getImport(input: GetImportInput) async throws -> GetImportOutputResponse
+    public func getImport(input: GetImportInput) async throws -> GetImportOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -987,21 +987,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetImportInput, GetImportOutputResponse, GetImportOutputError>(id: "getImport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImportInput, GetImportOutputResponse, GetImportOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImportInput, GetImportOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetImportInput, GetImportOutput, GetImportOutputError>(id: "getImport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImportInput, GetImportOutput, GetImportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImportInput, GetImportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetImportOutputResponse, GetImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetImportOutput, GetImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetImportInput, GetImportOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetImport"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetImportInput, GetImportOutputResponse>(xmlName: "GetImportRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetImportInput, GetImportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetImportInput, GetImportOutput>(xAmzTarget: "CloudTrail_20131101.GetImport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetImportInput, GetImportOutput>(xmlName: "GetImportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetImportInput, GetImportOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetImportOutputResponse, GetImportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetImportOutput, GetImportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImportOutputResponse, GetImportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImportOutputResponse, GetImportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetImportOutputResponse, GetImportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImportOutput, GetImportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImportOutput, GetImportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetImportOutput, GetImportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1010,7 +1010,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetInsightSelectorsInput : [no documentation found]
     ///
-    /// - Returns: `GetInsightSelectorsOutputResponse` : [no documentation found]
+    /// - Returns: `GetInsightSelectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,7 +1033,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getInsightSelectors(input: GetInsightSelectorsInput) async throws -> GetInsightSelectorsOutputResponse
+    public func getInsightSelectors(input: GetInsightSelectorsInput) async throws -> GetInsightSelectorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1049,21 +1049,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>(id: "getInsightSelectors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetInsightSelectorsInput, GetInsightSelectorsOutput, GetInsightSelectorsOutputError>(id: "getInsightSelectors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutput, GetInsightSelectorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInsightSelectorsOutput, GetInsightSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetInsightSelectors"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>(xmlName: "GetInsightSelectorsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutput>(xAmzTarget: "CloudTrail_20131101.GetInsightSelectors"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutput>(xmlName: "GetInsightSelectorsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInsightSelectorsOutput, GetInsightSelectorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInsightSelectorsOutput, GetInsightSelectorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInsightSelectorsOutput, GetInsightSelectorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInsightSelectorsOutput, GetInsightSelectorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1072,7 +1072,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetQueryResultsInput : [no documentation found]
     ///
-    /// - Returns: `GetQueryResultsOutputResponse` : [no documentation found]
+    /// - Returns: `GetQueryResultsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,7 +1088,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutputResponse
+    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1104,21 +1104,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetQueryResultsInput, GetQueryResultsOutputResponse, GetQueryResultsOutputError>(id: "getQueryResults")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse, GetQueryResultsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetQueryResultsInput, GetQueryResultsOutput, GetQueryResultsOutputError>(id: "getQueryResults")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryResultsInput, GetQueryResultsOutput, GetQueryResultsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryResultsInput, GetQueryResultsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryResultsOutput, GetQueryResultsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetQueryResults"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(xmlName: "GetQueryResultsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(xAmzTarget: "CloudTrail_20131101.GetQueryResults"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(xmlName: "GetQueryResultsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryResultsOutputResponse, GetQueryResultsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryResultsOutput, GetQueryResultsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryResultsOutput, GetQueryResultsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryResultsOutput, GetQueryResultsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryResultsOutput, GetQueryResultsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1127,7 +1127,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1138,7 +1138,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourcePolicyNotFoundException` : This exception is thrown when the specified resource policy is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1154,21 +1154,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(id: "getResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutput, GetResourcePolicyOutputError>(id: "getResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, GetResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(xmlName: "GetResourcePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "CloudTrail_20131101.GetResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xmlName: "GetResourcePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePolicyOutput, GetResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1177,7 +1177,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetTrailInput : [no documentation found]
     ///
-    /// - Returns: `GetTrailOutputResponse` : [no documentation found]
+    /// - Returns: `GetTrailOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,7 +1197,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getTrail(input: GetTrailInput) async throws -> GetTrailOutputResponse
+    public func getTrail(input: GetTrailInput) async throws -> GetTrailOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1213,21 +1213,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTrailInput, GetTrailOutputResponse, GetTrailOutputError>(id: "getTrail")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrailInput, GetTrailOutputResponse, GetTrailOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrailInput, GetTrailOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTrailInput, GetTrailOutput, GetTrailOutputError>(id: "getTrail")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrailInput, GetTrailOutput, GetTrailOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrailInput, GetTrailOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrailOutputResponse, GetTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrailOutput, GetTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTrailInput, GetTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetTrail"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTrailInput, GetTrailOutputResponse>(xmlName: "GetTrailRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTrailInput, GetTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTrailInput, GetTrailOutput>(xAmzTarget: "CloudTrail_20131101.GetTrail"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTrailInput, GetTrailOutput>(xmlName: "GetTrailRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTrailInput, GetTrailOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrailOutputResponse, GetTrailOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrailOutput, GetTrailOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrailOutputResponse, GetTrailOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrailOutputResponse, GetTrailOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrailOutputResponse, GetTrailOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrailOutput, GetTrailOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrailOutput, GetTrailOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrailOutput, GetTrailOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1236,7 +1236,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter GetTrailStatusInput : The name of a trail about which you want the current status.
     ///
-    /// - Returns: `GetTrailStatusOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `GetTrailStatusOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,7 +1256,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getTrailStatus(input: GetTrailStatusInput) async throws -> GetTrailStatusOutputResponse
+    public func getTrailStatus(input: GetTrailStatusInput) async throws -> GetTrailStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1272,21 +1272,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTrailStatusInput, GetTrailStatusOutputResponse, GetTrailStatusOutputError>(id: "getTrailStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse, GetTrailStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTrailStatusInput, GetTrailStatusOutput, GetTrailStatusOutputError>(id: "getTrailStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrailStatusInput, GetTrailStatusOutput, GetTrailStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrailStatusInput, GetTrailStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrailStatusOutputResponse, GetTrailStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrailStatusOutput, GetTrailStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetTrailStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>(xmlName: "GetTrailStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTrailStatusInput, GetTrailStatusOutput>(xAmzTarget: "CloudTrail_20131101.GetTrailStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTrailStatusInput, GetTrailStatusOutput>(xmlName: "GetTrailStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTrailStatusInput, GetTrailStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrailStatusOutputResponse, GetTrailStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrailStatusOutput, GetTrailStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrailStatusOutputResponse, GetTrailStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrailStatusOutputResponse, GetTrailStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrailStatusOutputResponse, GetTrailStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrailStatusOutput, GetTrailStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrailStatusOutput, GetTrailStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrailStatusOutput, GetTrailStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1295,7 +1295,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
     ///
-    /// - Returns: `ListChannelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListChannelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1303,7 +1303,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidNextTokenException` : A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1319,21 +1319,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>(id: "listChannels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>(id: "listChannels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListChannelsInput, ListChannelsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListChannels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListChannelsInput, ListChannelsOutputResponse>(xmlName: "ListChannelsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListChannelsInput, ListChannelsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListChannelsInput, ListChannelsOutput>(xAmzTarget: "CloudTrail_20131101.ListChannels"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListChannelsInput, ListChannelsOutput>(xmlName: "ListChannelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListChannelsInput, ListChannelsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutputResponse, ListChannelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput, ListChannelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutputResponse, ListChannelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput, ListChannelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput, ListChannelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1342,7 +1342,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListEventDataStoresInput : [no documentation found]
     ///
-    /// - Returns: `ListEventDataStoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventDataStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,7 +1352,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listEventDataStores(input: ListEventDataStoresInput) async throws -> ListEventDataStoresOutputResponse
+    public func listEventDataStores(input: ListEventDataStoresInput) async throws -> ListEventDataStoresOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1368,21 +1368,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEventDataStoresInput, ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>(id: "listEventDataStores")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListEventDataStoresInput, ListEventDataStoresOutput, ListEventDataStoresOutputError>(id: "listEventDataStores")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventDataStoresInput, ListEventDataStoresOutput, ListEventDataStoresOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventDataStoresInput, ListEventDataStoresOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventDataStoresOutput, ListEventDataStoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListEventDataStores"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>(xmlName: "ListEventDataStoresRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEventDataStoresInput, ListEventDataStoresOutput>(xAmzTarget: "CloudTrail_20131101.ListEventDataStores"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEventDataStoresInput, ListEventDataStoresOutput>(xmlName: "ListEventDataStoresRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEventDataStoresInput, ListEventDataStoresOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventDataStoresOutput, ListEventDataStoresOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventDataStoresOutput, ListEventDataStoresOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventDataStoresOutput, ListEventDataStoresOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventDataStoresOutput, ListEventDataStoresOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1391,7 +1391,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListImportFailuresInput : [no documentation found]
     ///
-    /// - Returns: `ListImportFailuresOutputResponse` : [no documentation found]
+    /// - Returns: `ListImportFailuresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1399,7 +1399,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidNextTokenException` : A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listImportFailures(input: ListImportFailuresInput) async throws -> ListImportFailuresOutputResponse
+    public func listImportFailures(input: ListImportFailuresInput) async throws -> ListImportFailuresOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1415,21 +1415,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListImportFailuresInput, ListImportFailuresOutputResponse, ListImportFailuresOutputError>(id: "listImportFailures")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse, ListImportFailuresOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListImportFailuresInput, ListImportFailuresOutput, ListImportFailuresOutputError>(id: "listImportFailures")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImportFailuresInput, ListImportFailuresOutput, ListImportFailuresOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportFailuresInput, ListImportFailuresOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportFailuresOutputResponse, ListImportFailuresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportFailuresOutput, ListImportFailuresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListImportFailures"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>(xmlName: "ListImportFailuresRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListImportFailuresInput, ListImportFailuresOutput>(xAmzTarget: "CloudTrail_20131101.ListImportFailures"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListImportFailuresInput, ListImportFailuresOutput>(xmlName: "ListImportFailuresRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListImportFailuresInput, ListImportFailuresOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportFailuresOutputResponse, ListImportFailuresOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportFailuresOutput, ListImportFailuresOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportFailuresOutputResponse, ListImportFailuresOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportFailuresOutputResponse, ListImportFailuresOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportFailuresOutputResponse, ListImportFailuresOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportFailuresOutput, ListImportFailuresOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportFailuresOutput, ListImportFailuresOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportFailuresOutput, ListImportFailuresOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1438,7 +1438,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListImportsInput : [no documentation found]
     ///
-    /// - Returns: `ListImportsOutputResponse` : [no documentation found]
+    /// - Returns: `ListImportsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,7 +1448,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listImports(input: ListImportsInput) async throws -> ListImportsOutputResponse
+    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1464,21 +1464,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListImportsInput, ListImportsOutputResponse, ListImportsOutputError>(id: "listImports")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImportsInput, ListImportsOutputResponse, ListImportsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportsInput, ListImportsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListImportsInput, ListImportsOutput, ListImportsOutputError>(id: "listImports")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImportsInput, ListImportsOutput, ListImportsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportsInput, ListImportsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportsOutputResponse, ListImportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportsOutput, ListImportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListImportsInput, ListImportsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListImports"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListImportsInput, ListImportsOutputResponse>(xmlName: "ListImportsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListImportsInput, ListImportsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListImportsInput, ListImportsOutput>(xAmzTarget: "CloudTrail_20131101.ListImports"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListImportsInput, ListImportsOutput>(xmlName: "ListImportsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListImportsInput, ListImportsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportsOutputResponse, ListImportsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportsOutput, ListImportsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportsOutputResponse, ListImportsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportsOutputResponse, ListImportsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportsOutputResponse, ListImportsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportsOutput, ListImportsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportsOutput, ListImportsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportsOutput, ListImportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1487,7 +1487,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListPublicKeysInput : Requests the public keys for a specified time range.
     ///
-    /// - Returns: `ListPublicKeysOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `ListPublicKeysOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1496,7 +1496,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidTokenException` : Reserved for future use.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutputResponse
+    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1512,21 +1512,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPublicKeysInput, ListPublicKeysOutputResponse, ListPublicKeysOutputError>(id: "listPublicKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse, ListPublicKeysOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPublicKeysInput, ListPublicKeysOutput, ListPublicKeysOutputError>(id: "listPublicKeys")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPublicKeysInput, ListPublicKeysOutput, ListPublicKeysOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPublicKeysInput, ListPublicKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPublicKeysOutput, ListPublicKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListPublicKeys"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>(xmlName: "ListPublicKeysRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(xAmzTarget: "CloudTrail_20131101.ListPublicKeys"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(xmlName: "ListPublicKeysRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPublicKeysOutputResponse, ListPublicKeysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPublicKeysOutput, ListPublicKeysOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPublicKeysOutput, ListPublicKeysOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPublicKeysOutput, ListPublicKeysOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPublicKeysOutput, ListPublicKeysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1535,7 +1535,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,7 +1551,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listQueries(input: ListQueriesInput) async throws -> ListQueriesOutputResponse
+    public func listQueries(input: ListQueriesInput) async throws -> ListQueriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1567,21 +1567,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListQueriesInput, ListQueriesOutputResponse, ListQueriesOutputError>(id: "listQueries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueriesInput, ListQueriesOutputResponse, ListQueriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueriesInput, ListQueriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListQueriesInput, ListQueriesOutput, ListQueriesOutputError>(id: "listQueries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueriesInput, ListQueriesOutput, ListQueriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueriesInput, ListQueriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueriesOutputResponse, ListQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueriesOutput, ListQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQueriesInput, ListQueriesOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListQueries"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueriesInput, ListQueriesOutputResponse>(xmlName: "ListQueriesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueriesInput, ListQueriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQueriesInput, ListQueriesOutput>(xAmzTarget: "CloudTrail_20131101.ListQueries"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueriesInput, ListQueriesOutput>(xmlName: "ListQueriesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueriesInput, ListQueriesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueriesOutputResponse, ListQueriesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueriesOutput, ListQueriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueriesOutputResponse, ListQueriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueriesOutputResponse, ListQueriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueriesOutputResponse, ListQueriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueriesOutput, ListQueriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueriesOutput, ListQueriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueriesOutput, ListQueriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1590,7 +1590,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListTagsInput : Specifies a list of tags to return.
     ///
-    /// - Returns: `ListTagsOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `ListTagsOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,7 +1617,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1633,21 +1633,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutput, ListTagsOutputError>(id: "listTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutput, ListTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutputResponse, ListTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutput, ListTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsInput, ListTagsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListTags"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsInput, ListTagsOutputResponse>(xmlName: "ListTagsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsInput, ListTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsInput, ListTagsOutput>(xAmzTarget: "CloudTrail_20131101.ListTags"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsInput, ListTagsOutput>(xmlName: "ListTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsInput, ListTagsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsOutputResponse, ListTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsOutput, ListTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutput, ListTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutput, ListTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutput, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1656,14 +1656,14 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter ListTrailsInput : [no documentation found]
     ///
-    /// - Returns: `ListTrailsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listTrails(input: ListTrailsInput) async throws -> ListTrailsOutputResponse
+    public func listTrails(input: ListTrailsInput) async throws -> ListTrailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1679,21 +1679,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTrailsInput, ListTrailsOutputResponse, ListTrailsOutputError>(id: "listTrails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrailsInput, ListTrailsOutputResponse, ListTrailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrailsInput, ListTrailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTrailsInput, ListTrailsOutput, ListTrailsOutputError>(id: "listTrails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrailsInput, ListTrailsOutput, ListTrailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrailsInput, ListTrailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrailsOutputResponse, ListTrailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrailsOutput, ListTrailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTrailsInput, ListTrailsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListTrails"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTrailsInput, ListTrailsOutputResponse>(xmlName: "ListTrailsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTrailsInput, ListTrailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTrailsInput, ListTrailsOutput>(xAmzTarget: "CloudTrail_20131101.ListTrails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTrailsInput, ListTrailsOutput>(xmlName: "ListTrailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTrailsInput, ListTrailsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrailsOutputResponse, ListTrailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrailsOutput, ListTrailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrailsOutputResponse, ListTrailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrailsOutputResponse, ListTrailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrailsOutputResponse, ListTrailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrailsOutput, ListTrailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrailsOutput, ListTrailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrailsOutput, ListTrailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1730,7 +1730,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter LookupEventsInput : Contains a request for LookupEvents.
     ///
-    /// - Returns: `LookupEventsOutputResponse` : Contains a response to a LookupEvents action.
+    /// - Returns: `LookupEventsOutput` : Contains a response to a LookupEvents action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1742,7 +1742,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidTimeRangeException` : Occurs if the timestamp values are not valid. Either the start time occurs after the end time, or the time range is outside the range of possible values.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func lookupEvents(input: LookupEventsInput) async throws -> LookupEventsOutputResponse
+    public func lookupEvents(input: LookupEventsInput) async throws -> LookupEventsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1758,21 +1758,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<LookupEventsInput, LookupEventsOutputResponse, LookupEventsOutputError>(id: "lookupEvents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LookupEventsInput, LookupEventsOutputResponse, LookupEventsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LookupEventsInput, LookupEventsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<LookupEventsInput, LookupEventsOutput, LookupEventsOutputError>(id: "lookupEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LookupEventsInput, LookupEventsOutput, LookupEventsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LookupEventsInput, LookupEventsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LookupEventsOutputResponse, LookupEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LookupEventsOutput, LookupEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<LookupEventsInput, LookupEventsOutputResponse>(xAmzTarget: "CloudTrail_20131101.LookupEvents"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<LookupEventsInput, LookupEventsOutputResponse>(xmlName: "LookupEventsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<LookupEventsInput, LookupEventsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<LookupEventsInput, LookupEventsOutput>(xAmzTarget: "CloudTrail_20131101.LookupEvents"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<LookupEventsInput, LookupEventsOutput>(xmlName: "LookupEventsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<LookupEventsInput, LookupEventsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, LookupEventsOutputResponse, LookupEventsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, LookupEventsOutput, LookupEventsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LookupEventsOutputResponse, LookupEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LookupEventsOutputResponse, LookupEventsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LookupEventsOutputResponse, LookupEventsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LookupEventsOutput, LookupEventsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LookupEventsOutput, LookupEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LookupEventsOutput, LookupEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1794,7 +1794,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter PutEventSelectorsInput : [no documentation found]
     ///
-    /// - Returns: `PutEventSelectorsOutputResponse` : [no documentation found]
+    /// - Returns: `PutEventSelectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1829,7 +1829,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutputResponse
+    public func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1845,21 +1845,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutEventSelectorsInput, PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>(id: "putEventSelectors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutEventSelectorsInput, PutEventSelectorsOutput, PutEventSelectorsOutputError>(id: "putEventSelectors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEventSelectorsInput, PutEventSelectorsOutput, PutEventSelectorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEventSelectorsInput, PutEventSelectorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEventSelectorsOutput, PutEventSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.PutEventSelectors"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>(xmlName: "PutEventSelectorsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutEventSelectorsInput, PutEventSelectorsOutput>(xAmzTarget: "CloudTrail_20131101.PutEventSelectors"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEventSelectorsInput, PutEventSelectorsOutput>(xmlName: "PutEventSelectorsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEventSelectorsInput, PutEventSelectorsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEventSelectorsOutput, PutEventSelectorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEventSelectorsOutput, PutEventSelectorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEventSelectorsOutput, PutEventSelectorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEventSelectorsOutput, PutEventSelectorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1868,7 +1868,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter PutInsightSelectorsInput : [no documentation found]
     ///
-    /// - Returns: `PutInsightSelectorsOutputResponse` : [no documentation found]
+    /// - Returns: `PutInsightSelectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,7 +1897,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func putInsightSelectors(input: PutInsightSelectorsInput) async throws -> PutInsightSelectorsOutputResponse
+    public func putInsightSelectors(input: PutInsightSelectorsInput) async throws -> PutInsightSelectorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1913,21 +1913,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>(id: "putInsightSelectors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutInsightSelectorsInput, PutInsightSelectorsOutput, PutInsightSelectorsOutputError>(id: "putInsightSelectors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutput, PutInsightSelectorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInsightSelectorsOutput, PutInsightSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.PutInsightSelectors"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>(xmlName: "PutInsightSelectorsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutput>(xAmzTarget: "CloudTrail_20131101.PutInsightSelectors"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutput>(xmlName: "PutInsightSelectorsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutInsightSelectorsOutput, PutInsightSelectorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInsightSelectorsOutput, PutInsightSelectorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInsightSelectorsOutput, PutInsightSelectorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInsightSelectorsOutput, PutInsightSelectorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1936,7 +1936,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1953,7 +1953,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1969,21 +1969,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>(id: "putResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xAmzTarget: "CloudTrail_20131101.PutResourcePolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xmlName: "PutResourcePolicyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "CloudTrail_20131101.PutResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xmlName: "PutResourcePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutput, PutResourcePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1992,7 +1992,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter RegisterOrganizationDelegatedAdminInput : Specifies an organization member account ID as a CloudTrail delegated administrator.
     ///
-    /// - Returns: `RegisterOrganizationDelegatedAdminOutputResponse` : Returns the following response if successful. Otherwise, returns an error.
+    /// - Returns: `RegisterOrganizationDelegatedAdminOutput` : Returns the following response if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,7 +2010,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func registerOrganizationDelegatedAdmin(input: RegisterOrganizationDelegatedAdminInput) async throws -> RegisterOrganizationDelegatedAdminOutputResponse
+    public func registerOrganizationDelegatedAdmin(input: RegisterOrganizationDelegatedAdminInput) async throws -> RegisterOrganizationDelegatedAdminOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2026,21 +2026,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>(id: "registerOrganizationDelegatedAdmin")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput, RegisterOrganizationDelegatedAdminOutputError>(id: "registerOrganizationDelegatedAdmin")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput, RegisterOrganizationDelegatedAdminOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterOrganizationDelegatedAdminOutput, RegisterOrganizationDelegatedAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>(xAmzTarget: "CloudTrail_20131101.RegisterOrganizationDelegatedAdmin"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>(xmlName: "RegisterOrganizationDelegatedAdminRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput>(xAmzTarget: "CloudTrail_20131101.RegisterOrganizationDelegatedAdmin"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput>(xmlName: "RegisterOrganizationDelegatedAdminRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterOrganizationDelegatedAdminOutput, RegisterOrganizationDelegatedAdminOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterOrganizationDelegatedAdminOutput, RegisterOrganizationDelegatedAdminOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterOrganizationDelegatedAdminOutput, RegisterOrganizationDelegatedAdminOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterOrganizationDelegatedAdminOutput, RegisterOrganizationDelegatedAdminOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2049,7 +2049,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter RemoveTagsInput : Specifies the tags to remove from a trail, event data store, or channel.
     ///
-    /// - Returns: `RemoveTagsOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `RemoveTagsOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2078,7 +2078,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutputResponse
+    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2094,21 +2094,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>(id: "removeTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveTagsInput, RemoveTagsOutput, RemoveTagsOutputError>(id: "removeTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsInput, RemoveTagsOutput, RemoveTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsOutput, RemoveTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>(xAmzTarget: "CloudTrail_20131101.RemoveTags"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>(xmlName: "RemoveTagsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsInput, RemoveTagsOutput>(xAmzTarget: "CloudTrail_20131101.RemoveTags"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsInput, RemoveTagsOutput>(xmlName: "RemoveTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsInput, RemoveTagsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsOutputResponse, RemoveTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsOutput, RemoveTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsOutput, RemoveTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsOutput, RemoveTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsOutput, RemoveTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2117,7 +2117,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter RestoreEventDataStoreInput : [no documentation found]
     ///
-    /// - Returns: `RestoreEventDataStoreOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreEventDataStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,7 +2135,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func restoreEventDataStore(input: RestoreEventDataStoreInput) async throws -> RestoreEventDataStoreOutputResponse
+    public func restoreEventDataStore(input: RestoreEventDataStoreInput) async throws -> RestoreEventDataStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2151,21 +2151,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>(id: "restoreEventDataStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RestoreEventDataStoreInput, RestoreEventDataStoreOutput, RestoreEventDataStoreOutputError>(id: "restoreEventDataStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutput, RestoreEventDataStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreEventDataStoreOutput, RestoreEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.RestoreEventDataStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>(xmlName: "RestoreEventDataStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutput>(xAmzTarget: "CloudTrail_20131101.RestoreEventDataStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutput>(xmlName: "RestoreEventDataStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreEventDataStoreOutput, RestoreEventDataStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreEventDataStoreOutput, RestoreEventDataStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreEventDataStoreOutput, RestoreEventDataStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreEventDataStoreOutput, RestoreEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2174,7 +2174,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter StartEventDataStoreIngestionInput : [no documentation found]
     ///
-    /// - Returns: `StartEventDataStoreIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `StartEventDataStoreIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,7 +2189,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startEventDataStoreIngestion(input: StartEventDataStoreIngestionInput) async throws -> StartEventDataStoreIngestionOutputResponse
+    public func startEventDataStoreIngestion(input: StartEventDataStoreIngestionInput) async throws -> StartEventDataStoreIngestionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2205,21 +2205,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(id: "startEventDataStoreIngestion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput, StartEventDataStoreIngestionOutputError>(id: "startEventDataStoreIngestion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput, StartEventDataStoreIngestionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartEventDataStoreIngestionOutput, StartEventDataStoreIngestionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartEventDataStoreIngestion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(xmlName: "StartEventDataStoreIngestionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput>(xAmzTarget: "CloudTrail_20131101.StartEventDataStoreIngestion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput>(xmlName: "StartEventDataStoreIngestionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartEventDataStoreIngestionOutput, StartEventDataStoreIngestionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEventDataStoreIngestionOutput, StartEventDataStoreIngestionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEventDataStoreIngestionOutput, StartEventDataStoreIngestionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartEventDataStoreIngestionOutput, StartEventDataStoreIngestionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2228,7 +2228,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter StartImportInput : [no documentation found]
     ///
-    /// - Returns: `StartImportOutputResponse` : [no documentation found]
+    /// - Returns: `StartImportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2245,7 +2245,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startImport(input: StartImportInput) async throws -> StartImportOutputResponse
+    public func startImport(input: StartImportInput) async throws -> StartImportOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2261,21 +2261,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartImportInput, StartImportOutputResponse, StartImportOutputError>(id: "startImport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartImportInput, StartImportOutputResponse, StartImportOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImportInput, StartImportOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartImportInput, StartImportOutput, StartImportOutputError>(id: "startImport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartImportInput, StartImportOutput, StartImportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImportInput, StartImportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartImportOutputResponse, StartImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartImportOutput, StartImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartImportInput, StartImportOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartImport"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartImportInput, StartImportOutputResponse>(xmlName: "StartImportRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartImportInput, StartImportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartImportInput, StartImportOutput>(xAmzTarget: "CloudTrail_20131101.StartImport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartImportInput, StartImportOutput>(xmlName: "StartImportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartImportInput, StartImportOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartImportOutputResponse, StartImportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartImportOutput, StartImportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImportOutputResponse, StartImportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImportOutputResponse, StartImportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImportOutputResponse, StartImportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImportOutput, StartImportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImportOutput, StartImportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImportOutput, StartImportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2284,7 +2284,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter StartLoggingInput : The request to CloudTrail to start logging Amazon Web Services API calls for an account.
     ///
-    /// - Returns: `StartLoggingOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `StartLoggingOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2310,7 +2310,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutputResponse
+    public func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2326,21 +2326,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartLoggingInput, StartLoggingOutputResponse, StartLoggingOutputError>(id: "startLogging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLoggingInput, StartLoggingOutputResponse, StartLoggingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLoggingInput, StartLoggingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartLoggingInput, StartLoggingOutput, StartLoggingOutputError>(id: "startLogging")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLoggingInput, StartLoggingOutput, StartLoggingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLoggingInput, StartLoggingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartLoggingOutputResponse, StartLoggingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartLoggingOutput, StartLoggingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartLoggingInput, StartLoggingOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartLogging"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartLoggingInput, StartLoggingOutputResponse>(xmlName: "StartLoggingRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartLoggingInput, StartLoggingOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartLoggingInput, StartLoggingOutput>(xAmzTarget: "CloudTrail_20131101.StartLogging"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartLoggingInput, StartLoggingOutput>(xmlName: "StartLoggingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartLoggingInput, StartLoggingOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartLoggingOutputResponse, StartLoggingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartLoggingOutput, StartLoggingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLoggingOutputResponse, StartLoggingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLoggingOutputResponse, StartLoggingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLoggingOutputResponse, StartLoggingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLoggingOutput, StartLoggingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLoggingOutput, StartLoggingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLoggingOutput, StartLoggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2349,7 +2349,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter StartQueryInput : [no documentation found]
     ///
-    /// - Returns: `StartQueryOutputResponse` : [no documentation found]
+    /// - Returns: `StartQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,7 +2368,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutputResponse
+    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2384,21 +2384,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartQueryInput, StartQueryOutputResponse, StartQueryOutputError>(id: "startQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartQueryInput, StartQueryOutputResponse, StartQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartQueryInput, StartQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartQueryInput, StartQueryOutput, StartQueryOutputError>(id: "startQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartQueryInput, StartQueryOutput, StartQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartQueryInput, StartQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartQueryOutputResponse, StartQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartQueryOutput, StartQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartQueryInput, StartQueryOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartQuery"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartQueryInput, StartQueryOutputResponse>(xmlName: "StartQueryRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartQueryInput, StartQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartQueryInput, StartQueryOutput>(xAmzTarget: "CloudTrail_20131101.StartQuery"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartQueryInput, StartQueryOutput>(xmlName: "StartQueryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartQueryInput, StartQueryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartQueryOutputResponse, StartQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartQueryOutput, StartQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartQueryOutputResponse, StartQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartQueryOutputResponse, StartQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartQueryOutputResponse, StartQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartQueryOutput, StartQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartQueryOutput, StartQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartQueryOutput, StartQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2407,7 +2407,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter StopEventDataStoreIngestionInput : [no documentation found]
     ///
-    /// - Returns: `StopEventDataStoreIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `StopEventDataStoreIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2422,7 +2422,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func stopEventDataStoreIngestion(input: StopEventDataStoreIngestionInput) async throws -> StopEventDataStoreIngestionOutputResponse
+    public func stopEventDataStoreIngestion(input: StopEventDataStoreIngestionInput) async throws -> StopEventDataStoreIngestionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2438,21 +2438,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(id: "stopEventDataStoreIngestion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput, StopEventDataStoreIngestionOutputError>(id: "stopEventDataStoreIngestion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput, StopEventDataStoreIngestionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopEventDataStoreIngestionOutput, StopEventDataStoreIngestionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(xAmzTarget: "CloudTrail_20131101.StopEventDataStoreIngestion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(xmlName: "StopEventDataStoreIngestionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput>(xAmzTarget: "CloudTrail_20131101.StopEventDataStoreIngestion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput>(xmlName: "StopEventDataStoreIngestionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopEventDataStoreIngestionOutput, StopEventDataStoreIngestionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEventDataStoreIngestionOutput, StopEventDataStoreIngestionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEventDataStoreIngestionOutput, StopEventDataStoreIngestionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopEventDataStoreIngestionOutput, StopEventDataStoreIngestionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2461,7 +2461,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter StopImportInput : [no documentation found]
     ///
-    /// - Returns: `StopImportOutputResponse` : [no documentation found]
+    /// - Returns: `StopImportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2470,7 +2470,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func stopImport(input: StopImportInput) async throws -> StopImportOutputResponse
+    public func stopImport(input: StopImportInput) async throws -> StopImportOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2486,21 +2486,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopImportInput, StopImportOutputResponse, StopImportOutputError>(id: "stopImport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopImportInput, StopImportOutputResponse, StopImportOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopImportInput, StopImportOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopImportInput, StopImportOutput, StopImportOutputError>(id: "stopImport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopImportInput, StopImportOutput, StopImportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopImportInput, StopImportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopImportOutputResponse, StopImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopImportOutput, StopImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopImportInput, StopImportOutputResponse>(xAmzTarget: "CloudTrail_20131101.StopImport"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopImportInput, StopImportOutputResponse>(xmlName: "StopImportRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopImportInput, StopImportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopImportInput, StopImportOutput>(xAmzTarget: "CloudTrail_20131101.StopImport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopImportInput, StopImportOutput>(xmlName: "StopImportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopImportInput, StopImportOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopImportOutputResponse, StopImportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopImportOutput, StopImportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopImportOutputResponse, StopImportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopImportOutputResponse, StopImportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopImportOutputResponse, StopImportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopImportOutput, StopImportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopImportOutput, StopImportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopImportOutput, StopImportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2509,7 +2509,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter StopLoggingInput : Passes the request to CloudTrail to stop logging Amazon Web Services API calls for the specified account.
     ///
-    /// - Returns: `StopLoggingOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `StopLoggingOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2535,7 +2535,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutputResponse
+    public func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2551,21 +2551,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopLoggingInput, StopLoggingOutputResponse, StopLoggingOutputError>(id: "stopLogging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopLoggingInput, StopLoggingOutputResponse, StopLoggingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopLoggingInput, StopLoggingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopLoggingInput, StopLoggingOutput, StopLoggingOutputError>(id: "stopLogging")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopLoggingInput, StopLoggingOutput, StopLoggingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopLoggingInput, StopLoggingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopLoggingOutputResponse, StopLoggingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopLoggingOutput, StopLoggingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopLoggingInput, StopLoggingOutputResponse>(xAmzTarget: "CloudTrail_20131101.StopLogging"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopLoggingInput, StopLoggingOutputResponse>(xmlName: "StopLoggingRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopLoggingInput, StopLoggingOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopLoggingInput, StopLoggingOutput>(xAmzTarget: "CloudTrail_20131101.StopLogging"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopLoggingInput, StopLoggingOutput>(xmlName: "StopLoggingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopLoggingInput, StopLoggingOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopLoggingOutputResponse, StopLoggingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopLoggingOutput, StopLoggingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopLoggingOutputResponse, StopLoggingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopLoggingOutputResponse, StopLoggingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopLoggingOutputResponse, StopLoggingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopLoggingOutput, StopLoggingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopLoggingOutput, StopLoggingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopLoggingOutput, StopLoggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2574,7 +2574,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter UpdateChannelInput : [no documentation found]
     ///
-    /// - Returns: `UpdateChannelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2589,7 +2589,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2605,21 +2605,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>(id: "updateChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>(id: "updateChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.UpdateChannel"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(xmlName: "UpdateChannelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateChannelInput, UpdateChannelOutput>(xAmzTarget: "CloudTrail_20131101.UpdateChannel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutput>(xmlName: "UpdateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutputResponse, UpdateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput, UpdateChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput, UpdateChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput, UpdateChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2628,7 +2628,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter UpdateEventDataStoreInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEventDataStoreOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEventDataStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2660,7 +2660,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func updateEventDataStore(input: UpdateEventDataStoreInput) async throws -> UpdateEventDataStoreOutputResponse
+    public func updateEventDataStore(input: UpdateEventDataStoreInput) async throws -> UpdateEventDataStoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2676,21 +2676,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>(id: "updateEventDataStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateEventDataStoreInput, UpdateEventDataStoreOutput, UpdateEventDataStoreOutputError>(id: "updateEventDataStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutput, UpdateEventDataStoreOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventDataStoreOutput, UpdateEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.UpdateEventDataStore"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>(xmlName: "UpdateEventDataStoreRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutput>(xAmzTarget: "CloudTrail_20131101.UpdateEventDataStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutput>(xmlName: "UpdateEventDataStoreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventDataStoreOutput, UpdateEventDataStoreOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventDataStoreOutput, UpdateEventDataStoreOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventDataStoreOutput, UpdateEventDataStoreOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventDataStoreOutput, UpdateEventDataStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2699,7 +2699,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     ///
     /// - Parameter UpdateTrailInput : Specifies settings to update for the trail.
     ///
-    /// - Returns: `UpdateTrailOutputResponse` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: `UpdateTrailOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2755,7 +2755,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func updateTrail(input: UpdateTrailInput) async throws -> UpdateTrailOutputResponse
+    public func updateTrail(input: UpdateTrailInput) async throws -> UpdateTrailOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2771,21 +2771,21 @@ extension CloudTrailClient: CloudTrailClientProtocol {
                       .withSigningName(value: "cloudtrail")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTrailInput, UpdateTrailOutputResponse, UpdateTrailOutputError>(id: "updateTrail")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrailInput, UpdateTrailOutputResponse, UpdateTrailOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateTrailInput, UpdateTrailOutput, UpdateTrailOutputError>(id: "updateTrail")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrailInput, UpdateTrailOutput, UpdateTrailOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrailInput, UpdateTrailOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrailOutputResponse, UpdateTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrailOutput, UpdateTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.UpdateTrail"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>(xmlName: "UpdateTrailRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTrailInput, UpdateTrailOutput>(xAmzTarget: "CloudTrail_20131101.UpdateTrail"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTrailInput, UpdateTrailOutput>(xmlName: "UpdateTrailRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrailInput, UpdateTrailOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrailOutputResponse, UpdateTrailOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrailOutput, UpdateTrailOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrailOutputResponse, UpdateTrailOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrailOutputResponse, UpdateTrailOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrailOutputResponse, UpdateTrailOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrailOutput, UpdateTrailOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrailOutput, UpdateTrailOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrailOutput, UpdateTrailOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

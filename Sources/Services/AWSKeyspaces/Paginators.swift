@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension KeyspacesClient {
-    /// Paginate over `[ListKeyspacesOutputResponse]` results.
+    /// Paginate over `[ListKeyspacesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKeyspacesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKeyspacesOutputResponse`
-    public func listKeyspacesPaginated(input: ListKeyspacesInput) -> ClientRuntime.PaginatorSequence<ListKeyspacesInput, ListKeyspacesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKeyspacesInput, ListKeyspacesOutputResponse>(input: input, inputKey: \ListKeyspacesInput.nextToken, outputKey: \ListKeyspacesOutputResponse.nextToken, paginationFunction: self.listKeyspaces(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKeyspacesOutput`
+    public func listKeyspacesPaginated(input: ListKeyspacesInput) -> ClientRuntime.PaginatorSequence<ListKeyspacesInput, ListKeyspacesOutput> {
+        return ClientRuntime.PaginatorSequence<ListKeyspacesInput, ListKeyspacesOutput>(input: input, inputKey: \ListKeyspacesInput.nextToken, outputKey: \ListKeyspacesOutput.nextToken, paginationFunction: self.listKeyspaces(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListKeyspacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListKeyspacesInput, Output == ListKeyspacesOutputResponse {
+extension PaginatorSequence where Input == ListKeyspacesInput, Output == ListKeyspacesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKeyspacesPaginated`
     /// to access the nested member `[KeyspacesClientTypes.KeyspaceSummary]`
     /// - Returns: `[KeyspacesClientTypes.KeyspaceSummary]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListKeyspacesInput, Output == ListKey
     }
 }
 extension KeyspacesClient {
-    /// Paginate over `[ListTablesOutputResponse]` results.
+    /// Paginate over `[ListTablesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTablesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutputResponse`
-    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutputResponse.nextToken, paginationFunction: self.listTables(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
+    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutput.nextToken, paginationFunction: self.listTables(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutputResponse {
+extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
     /// to access the nested member `[KeyspacesClientTypes.TableSummary]`
     /// - Returns: `[KeyspacesClientTypes.TableSummary]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListTablesInput, Output == ListTables
     }
 }
 extension KeyspacesClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[KeyspacesClientTypes.Tag]`
     /// - Returns: `[KeyspacesClientTypes.Tag]`

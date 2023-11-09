@@ -69,22 +69,11 @@ extension AddSourceIdentifierToSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-enum AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AddSourceIdentifierToSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddSourceIdentifierToSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddSourceIdentifierToSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddSourceIdentifierToSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
             self.eventSubscription = nil
@@ -92,7 +81,7 @@ extension AddSourceIdentifierToSubscriptionOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct AddSourceIdentifierToSubscriptionOutputResponse: Swift.Equatable {
+public struct AddSourceIdentifierToSubscriptionOutput: Swift.Equatable {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -104,11 +93,11 @@ public struct AddSourceIdentifierToSubscriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddSourceIdentifierToSubscriptionOutputResponseBody: Swift.Equatable {
+struct AddSourceIdentifierToSubscriptionOutputBody: Swift.Equatable {
     let eventSubscription: DocDBClientTypes.EventSubscription?
 }
 
-extension AddSourceIdentifierToSubscriptionOutputResponseBody: Swift.Decodable {
+extension AddSourceIdentifierToSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscription = "EventSubscription"
     }
@@ -118,6 +107,17 @@ extension AddSourceIdentifierToSubscriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AddSourceIdentifierToSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
         eventSubscription = eventSubscriptionDecoded
+    }
+}
+
+enum AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -206,6 +206,16 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
+extension AddTagsToResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddTagsToResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -216,16 +226,6 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AddTagsToResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DocDBClientTypes {
@@ -337,23 +337,11 @@ extension ApplyPendingMaintenanceActionInputBody: Swift.Decodable {
     }
 }
 
-enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ApplyPendingMaintenanceActionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ApplyPendingMaintenanceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ApplyPendingMaintenanceActionOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourcePendingMaintenanceActions = output.resourcePendingMaintenanceActions
         } else {
             self.resourcePendingMaintenanceActions = nil
@@ -361,7 +349,7 @@ extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ApplyPendingMaintenanceActionOutputResponse: Swift.Equatable {
+public struct ApplyPendingMaintenanceActionOutput: Swift.Equatable {
     /// Represents the output of [ApplyPendingMaintenanceAction].
     public var resourcePendingMaintenanceActions: DocDBClientTypes.ResourcePendingMaintenanceActions?
 
@@ -373,11 +361,11 @@ public struct ApplyPendingMaintenanceActionOutputResponse: Swift.Equatable {
     }
 }
 
-struct ApplyPendingMaintenanceActionOutputResponseBody: Swift.Equatable {
+struct ApplyPendingMaintenanceActionOutputBody: Swift.Equatable {
     let resourcePendingMaintenanceActions: DocDBClientTypes.ResourcePendingMaintenanceActions?
 }
 
-extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
+extension ApplyPendingMaintenanceActionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
     }
@@ -387,6 +375,18 @@ extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ApplyPendingMaintenanceActionResult"))
         let resourcePendingMaintenanceActionsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.ResourcePendingMaintenanceActions.self, forKey: .resourcePendingMaintenanceActions)
         resourcePendingMaintenanceActions = resourcePendingMaintenanceActionsDecoded
+    }
+}
+
+enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -558,6 +558,51 @@ extension DocDBClientTypes {
             self.certificateType = certificateType
             self.thumbprint = thumbprint
             self.validFrom = validFrom
+            self.validTill = validTill
+        }
+    }
+
+}
+
+extension DocDBClientTypes.CertificateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case caIdentifier = "CAIdentifier"
+        case validTill = "ValidTill"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let caIdentifier = caIdentifier {
+            try container.encode(caIdentifier, forKey: ClientRuntime.Key("CAIdentifier"))
+        }
+        if let validTill = validTill {
+            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("ValidTill"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let caIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caIdentifier)
+        caIdentifier = caIdentifierDecoded
+        let validTillDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .validTill)
+        validTill = validTillDecoded
+    }
+}
+
+extension DocDBClientTypes {
+    /// Returns the details of the DB instance’s server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public struct CertificateDetails: Swift.Equatable {
+        /// The CA identifier of the CA certificate used for the DB instance's server certificate.
+        public var caIdentifier: Swift.String?
+        /// The expiration date of the DB instance’s server certificate.
+        public var validTill: ClientRuntime.Date?
+
+        public init(
+            caIdentifier: Swift.String? = nil,
+            validTill: ClientRuntime.Date? = nil
+        )
+        {
+            self.caIdentifier = caIdentifier
             self.validTill = validTill
         }
     }
@@ -840,23 +885,11 @@ extension CopyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CopyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CopyDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CopyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CopyDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
         } else {
             self.dbClusterParameterGroup = nil
@@ -864,7 +897,7 @@ extension CopyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CopyDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct CopyDBClusterParameterGroupOutput: Swift.Equatable {
     /// Detailed information about a cluster parameter group.
     public var dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 
@@ -876,11 +909,11 @@ public struct CopyDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CopyDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct CopyDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 }
 
-extension CopyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension CopyDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroup = "DBClusterParameterGroup"
     }
@@ -890,6 +923,18 @@ extension CopyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterParameterGroupResult"))
         let dbClusterParameterGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterParameterGroup.self, forKey: .dbClusterParameterGroup)
         dbClusterParameterGroup = dbClusterParameterGroupDecoded
+    }
+}
+
+enum CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1046,6 +1091,47 @@ extension CopyDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension CopyDBClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CopyDBClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbClusterSnapshot = output.dbClusterSnapshot
+        } else {
+            self.dbClusterSnapshot = nil
+        }
+    }
+}
+
+public struct CopyDBClusterSnapshotOutput: Swift.Equatable {
+    /// Detailed information about a cluster snapshot.
+    public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
+
+    public init(
+        dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
+    )
+    {
+        self.dbClusterSnapshot = dbClusterSnapshot
+    }
+}
+
+struct CopyDBClusterSnapshotOutputBody: Swift.Equatable {
+    let dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
+}
+
+extension CopyDBClusterSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbClusterSnapshot = "DBClusterSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterSnapshotResult"))
+        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
+        dbClusterSnapshot = dbClusterSnapshotDecoded
+    }
+}
+
 enum CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -1058,47 +1144,6 @@ enum CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CopyDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CopyDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbClusterSnapshot = output.dbClusterSnapshot
-        } else {
-            self.dbClusterSnapshot = nil
-        }
-    }
-}
-
-public struct CopyDBClusterSnapshotOutputResponse: Swift.Equatable {
-    /// Detailed information about a cluster snapshot.
-    public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
-
-    public init(
-        dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
-    )
-    {
-        self.dbClusterSnapshot = dbClusterSnapshot
-    }
-}
-
-struct CopyDBClusterSnapshotOutputResponseBody: Swift.Equatable {
-    let dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
-}
-
-extension CopyDBClusterSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbClusterSnapshot = "DBClusterSnapshot"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterSnapshotResult"))
-        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
-        dbClusterSnapshot = dbClusterSnapshotDecoded
     }
 }
 
@@ -1493,6 +1538,47 @@ extension CreateDBClusterInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct CreateDBClusterOutput: Swift.Equatable {
+    /// Detailed information about a cluster.
+    public var dbCluster: DocDBClientTypes.DBCluster?
+
+    public init(
+        dbCluster: DocDBClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct CreateDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: DocDBClientTypes.DBCluster?
+}
+
+extension CreateDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
+    }
+}
+
 enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -1516,47 +1602,6 @@ enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct CreateDBClusterOutputResponse: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct CreateDBClusterOutputResponseBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension CreateDBClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -1673,22 +1718,11 @@ extension CreateDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
         } else {
             self.dbClusterParameterGroup = nil
@@ -1696,7 +1730,7 @@ extension CreateDBClusterParameterGroupOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct CreateDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct CreateDBClusterParameterGroupOutput: Swift.Equatable {
     /// Detailed information about a cluster parameter group.
     public var dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 
@@ -1708,11 +1742,11 @@ public struct CreateDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct CreateDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 }
 
-extension CreateDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension CreateDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroup = "DBClusterParameterGroup"
     }
@@ -1722,6 +1756,17 @@ extension CreateDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterParameterGroupResult"))
         let dbClusterParameterGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterParameterGroup.self, forKey: .dbClusterParameterGroup)
         dbClusterParameterGroup = dbClusterParameterGroupDecoded
+    }
+}
+
+enum CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1835,6 +1880,47 @@ extension CreateDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDBClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDBClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbClusterSnapshot = output.dbClusterSnapshot
+        } else {
+            self.dbClusterSnapshot = nil
+        }
+    }
+}
+
+public struct CreateDBClusterSnapshotOutput: Swift.Equatable {
+    /// Detailed information about a cluster snapshot.
+    public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
+
+    public init(
+        dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
+    )
+    {
+        self.dbClusterSnapshot = dbClusterSnapshot
+    }
+}
+
+struct CreateDBClusterSnapshotOutputBody: Swift.Equatable {
+    let dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
+}
+
+extension CreateDBClusterSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbClusterSnapshot = "DBClusterSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterSnapshotResult"))
+        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
+        dbClusterSnapshot = dbClusterSnapshotDecoded
+    }
+}
+
 enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -1849,47 +1935,6 @@ enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension CreateDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbClusterSnapshot = output.dbClusterSnapshot
-        } else {
-            self.dbClusterSnapshot = nil
-        }
-    }
-}
-
-public struct CreateDBClusterSnapshotOutputResponse: Swift.Equatable {
-    /// Detailed information about a cluster snapshot.
-    public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
-
-    public init(
-        dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
-    )
-    {
-        self.dbClusterSnapshot = dbClusterSnapshot
-    }
-}
-
-struct CreateDBClusterSnapshotOutputResponseBody: Swift.Equatable {
-    let dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
-}
-
-extension CreateDBClusterSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbClusterSnapshot = "DBClusterSnapshot"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterSnapshotResult"))
-        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
-        dbClusterSnapshot = dbClusterSnapshotDecoded
-    }
-}
-
 extension CreateDBInstanceInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -1898,6 +1943,9 @@ extension CreateDBInstanceInput: Swift.Encodable {
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
+        }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -1955,6 +2003,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon EC2 Availability Zone that the instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
+    /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The identifier of the cluster that the instance will belong to.
@@ -1992,6 +2042,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public init(
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
@@ -2006,6 +2057,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbInstanceClass = dbInstanceClass
@@ -2032,12 +2084,14 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let promotionTier: Swift.Int?
     let enablePerformanceInsights: Swift.Bool?
     let performanceInsightsKMSKeyId: Swift.String?
+    let caCertificateIdentifier: Swift.String?
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case dbInstanceClass = "DBInstanceClass"
@@ -2093,6 +2147,49 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         enablePerformanceInsights = enablePerformanceInsightsDecoded
         let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
         performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
+        let caCertificateIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificateIdentifier)
+        caCertificateIdentifier = caCertificateIdentifierDecoded
+    }
+}
+
+extension CreateDBInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbInstance = output.dbInstance
+        } else {
+            self.dbInstance = nil
+        }
+    }
+}
+
+public struct CreateDBInstanceOutput: Swift.Equatable {
+    /// Detailed information about an instance.
+    public var dbInstance: DocDBClientTypes.DBInstance?
+
+    public init(
+        dbInstance: DocDBClientTypes.DBInstance? = nil
+    )
+    {
+        self.dbInstance = dbInstance
+    }
+}
+
+struct CreateDBInstanceOutputBody: Swift.Equatable {
+    let dbInstance: DocDBClientTypes.DBInstance?
+}
+
+extension CreateDBInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstance = "DBInstance"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBInstanceResult"))
+        let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
+        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -2117,47 +2214,6 @@ enum CreateDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbInstance = output.dbInstance
-        } else {
-            self.dbInstance = nil
-        }
-    }
-}
-
-public struct CreateDBInstanceOutputResponse: Swift.Equatable {
-    /// Detailed information about an instance.
-    public var dbInstance: DocDBClientTypes.DBInstance?
-
-    public init(
-        dbInstance: DocDBClientTypes.DBInstance? = nil
-    )
-    {
-        self.dbInstance = dbInstance
-    }
-}
-
-struct CreateDBInstanceOutputResponseBody: Swift.Equatable {
-    let dbInstance: DocDBClientTypes.DBInstance?
-}
-
-extension CreateDBInstanceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbInstance = "DBInstance"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBInstanceResult"))
-        let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
-        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -2295,25 +2351,11 @@ extension CreateDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBSubnetGroupAlreadyExists": return try await DBSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetGroupQuotaExceeded": return try await DBSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDBSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDBSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
         } else {
             self.dbSubnetGroup = nil
@@ -2321,7 +2363,7 @@ extension CreateDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDBSubnetGroupOutputResponse: Swift.Equatable {
+public struct CreateDBSubnetGroupOutput: Swift.Equatable {
     /// Detailed information about a subnet group.
     public var dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 
@@ -2333,11 +2375,11 @@ public struct CreateDBSubnetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDBSubnetGroupOutputResponseBody: Swift.Equatable {
+struct CreateDBSubnetGroupOutputBody: Swift.Equatable {
     let dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 }
 
-extension CreateDBSubnetGroupOutputResponseBody: Swift.Decodable {
+extension CreateDBSubnetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSubnetGroup = "DBSubnetGroup"
     }
@@ -2347,6 +2389,20 @@ extension CreateDBSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBSubnetGroupResult"))
         let dbSubnetGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBSubnetGroup.self, forKey: .dbSubnetGroup)
         dbSubnetGroup = dbSubnetGroupDecoded
+    }
+}
+
+enum CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupAlreadyExists": return try await DBSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupQuotaExceeded": return try await DBSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2552,6 +2608,47 @@ extension CreateEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEventSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEventSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventSubscription = output.eventSubscription
+        } else {
+            self.eventSubscription = nil
+        }
+    }
+}
+
+public struct CreateEventSubscriptionOutput: Swift.Equatable {
+    /// Detailed information about an event to which you have subscribed.
+    public var eventSubscription: DocDBClientTypes.EventSubscription?
+
+    public init(
+        eventSubscription: DocDBClientTypes.EventSubscription? = nil
+    )
+    {
+        self.eventSubscription = eventSubscription
+    }
+}
+
+struct CreateEventSubscriptionOutputBody: Swift.Equatable {
+    let eventSubscription: DocDBClientTypes.EventSubscription?
+}
+
+extension CreateEventSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventSubscription = "EventSubscription"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateEventSubscriptionResult"))
+        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
+        eventSubscription = eventSubscriptionDecoded
+    }
+}
+
 enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2565,47 +2662,6 @@ enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "SubscriptionCategoryNotFound": return try await SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.eventSubscription = output.eventSubscription
-        } else {
-            self.eventSubscription = nil
-        }
-    }
-}
-
-public struct CreateEventSubscriptionOutputResponse: Swift.Equatable {
-    /// Detailed information about an event to which you have subscribed.
-    public var eventSubscription: DocDBClientTypes.EventSubscription?
-
-    public init(
-        eventSubscription: DocDBClientTypes.EventSubscription? = nil
-    )
-    {
-        self.eventSubscription = eventSubscription
-    }
-}
-
-struct CreateEventSubscriptionOutputResponseBody: Swift.Equatable {
-    let eventSubscription: DocDBClientTypes.EventSubscription?
-}
-
-extension CreateEventSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventSubscription = "EventSubscription"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateEventSubscriptionResult"))
-        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
-        eventSubscription = eventSubscriptionDecoded
     }
 }
 
@@ -2722,24 +2778,11 @@ extension CreateGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "GlobalClusterAlreadyExistsFault": return try await GlobalClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "GlobalClusterQuotaExceededFault": return try await GlobalClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -2747,7 +2790,7 @@ extension CreateGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGlobalClusterOutputResponse: Swift.Equatable {
+public struct CreateGlobalClusterOutput: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -2759,11 +2802,11 @@ public struct CreateGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateGlobalClusterOutputResponseBody: Swift.Equatable {
+struct CreateGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: DocDBClientTypes.GlobalCluster?
 }
 
-extension CreateGlobalClusterOutputResponseBody: Swift.Decodable {
+extension CreateGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -2773,6 +2816,19 @@ extension CreateGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterAlreadyExistsFault": return try await GlobalClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterQuotaExceededFault": return try await GlobalClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2874,7 +2930,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         if let dbClusterResourceId = dbClusterResourceId {
             try container.encode(dbClusterResourceId, forKey: ClientRuntime.Key("DbClusterResourceId"))
         }
-        if deletionProtection != false {
+        if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
         }
         if let earliestRestorableTime = earliestRestorableTime {
@@ -2913,7 +2969,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let percentProgress = percentProgress {
@@ -2949,7 +3005,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
@@ -3005,7 +3061,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         endpoint = endpointDecoded
         let readerEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readerEndpoint)
         readerEndpoint = readerEndpointDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -3082,7 +3138,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         }
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -3132,7 +3188,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         } else {
             enabledCloudwatchLogsExports = nil
         }
-        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection) ?? false
+        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
     }
 }
@@ -3163,7 +3219,7 @@ extension DocDBClientTypes {
         /// Specifies information on the subnet group that is associated with the cluster, including the name, description, and subnets in the subnet group.
         public var dbSubnetGroup: Swift.String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
-        public var deletionProtection: Swift.Bool
+        public var deletionProtection: Swift.Bool?
         /// The earliest time to which a database can be restored with point-in-time restore.
         public var earliestRestorableTime: ClientRuntime.Date?
         /// A list of log types that this cluster is configured to export to Amazon CloudWatch Logs.
@@ -3183,7 +3239,7 @@ extension DocDBClientTypes {
         /// Contains the master user name for the cluster.
         public var masterUsername: Swift.String?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// Specifies the progress of the operation as a percentage.
         public var percentProgress: Swift.String?
         /// Specifies the port that the database engine is listening on.
@@ -3201,7 +3257,7 @@ extension DocDBClientTypes {
         /// Specifies the current state of this cluster.
         public var status: Swift.String?
         /// Specifies whether the cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
@@ -3217,7 +3273,7 @@ extension DocDBClientTypes {
             dbClusterParameterGroup: Swift.String? = nil,
             dbClusterResourceId: Swift.String? = nil,
             dbSubnetGroup: Swift.String? = nil,
-            deletionProtection: Swift.Bool = false,
+            deletionProtection: Swift.Bool? = nil,
             earliestRestorableTime: ClientRuntime.Date? = nil,
             enabledCloudwatchLogsExports: [Swift.String]? = nil,
             endpoint: Swift.String? = nil,
@@ -3227,7 +3283,7 @@ extension DocDBClientTypes {
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             masterUsername: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             percentProgress: Swift.String? = nil,
             port: Swift.Int? = nil,
             preferredBackupWindow: Swift.String? = nil,
@@ -3236,7 +3292,7 @@ extension DocDBClientTypes {
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -3347,7 +3403,7 @@ extension DocDBClientTypes.DBClusterMember: Swift.Codable {
         if let dbInstanceIdentifier = dbInstanceIdentifier {
             try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
         }
-        if isClusterWriter != false {
+        if let isClusterWriter = isClusterWriter {
             try container.encode(isClusterWriter, forKey: ClientRuntime.Key("IsClusterWriter"))
         }
         if let promotionTier = promotionTier {
@@ -3359,7 +3415,7 @@ extension DocDBClientTypes.DBClusterMember: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter) ?? false
+        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter)
         isClusterWriter = isClusterWriterDecoded
         let dbClusterParameterGroupStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupStatus)
         dbClusterParameterGroupStatus = dbClusterParameterGroupStatusDecoded
@@ -3376,14 +3432,14 @@ extension DocDBClientTypes {
         /// Specifies the instance identifier for this member of the cluster.
         public var dbInstanceIdentifier: Swift.String?
         /// A value that is true if the cluster member is the primary instance for the cluster and false otherwise.
-        public var isClusterWriter: Swift.Bool
+        public var isClusterWriter: Swift.Bool?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
 
         public init(
             dbClusterParameterGroupStatus: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            isClusterWriter: Swift.Bool = false,
+            isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
         )
         {
@@ -3733,10 +3789,10 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if percentProgress != 0 {
+        if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
@@ -3751,7 +3807,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcId = vpcId {
@@ -3790,7 +3846,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         engine = engineDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -3802,9 +3858,9 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         engineVersion = engineVersionDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -3837,9 +3893,9 @@ extension DocDBClientTypes {
         /// Provides the master user name for the cluster snapshot.
         public var masterUsername: Swift.String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// Specifies the port that the cluster was listening on at the time of the snapshot.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// Provides the time when the snapshot was taken, in UTC.
         public var snapshotCreateTime: ClientRuntime.Date?
         /// Provides the type of the cluster snapshot.
@@ -3849,7 +3905,7 @@ extension DocDBClientTypes {
         /// Specifies the status of this cluster snapshot.
         public var status: Swift.String?
         /// Specifies whether the cluster snapshot is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public var vpcId: Swift.String?
 
@@ -3863,13 +3919,13 @@ extension DocDBClientTypes {
             engineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -4153,6 +4209,8 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case exportableLogTypes = "ExportableLogTypes"
+        case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
+        case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case validUpgradeTarget = "ValidUpgradeTarget"
     }
@@ -4186,7 +4244,22 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
                 try exportableLogTypesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if supportsLogExportsToCloudwatchLogs != false {
+        if let supportedCACertificateIdentifiers = supportedCACertificateIdentifiers {
+            if !supportedCACertificateIdentifiers.isEmpty {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                for (index0, string0) in supportedCACertificateIdentifiers.enumerated() {
+                    try supportedCACertificateIdentifiersContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                try supportedCACertificateIdentifiersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart {
+            try container.encode(supportsCertificateRotationWithoutRestart, forKey: ClientRuntime.Key("SupportsCertificateRotationWithoutRestart"))
+        }
+        if let supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs {
             try container.encode(supportsLogExportsToCloudwatchLogs, forKey: ClientRuntime.Key("SupportsLogExportsToCloudwatchLogs"))
         }
         if let validUpgradeTarget = validUpgradeTarget {
@@ -4253,8 +4326,29 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
+        if containerValues.contains(.supportedCACertificateIdentifiers) {
+            struct KeyVal0{struct member{}}
+            let supportedCACertificateIdentifiersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .supportedCACertificateIdentifiers)
+            if let supportedCACertificateIdentifiersWrappedContainer = supportedCACertificateIdentifiersWrappedContainer {
+                let supportedCACertificateIdentifiersContainer = try supportedCACertificateIdentifiersWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedCACertificateIdentifiersBuffer:[Swift.String]? = nil
+                if let supportedCACertificateIdentifiersContainer = supportedCACertificateIdentifiersContainer {
+                    supportedCACertificateIdentifiersBuffer = [Swift.String]()
+                    for stringContainer0 in supportedCACertificateIdentifiersContainer {
+                        supportedCACertificateIdentifiersBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedCACertificateIdentifiers = supportedCACertificateIdentifiersBuffer
+            } else {
+                supportedCACertificateIdentifiers = []
+            }
+        } else {
+            supportedCACertificateIdentifiers = nil
+        }
+        let supportsCertificateRotationWithoutRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsCertificateRotationWithoutRestart)
+        supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestartDecoded
     }
 }
 
@@ -4273,8 +4367,12 @@ extension DocDBClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
+        /// A list of the supported CA certificate identifiers. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+        public var supportedCACertificateIdentifiers: [Swift.String]?
+        /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
+        public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-        public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+        public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         public var validUpgradeTarget: [DocDBClientTypes.UpgradeTarget]?
 
@@ -4285,7 +4383,9 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             exportableLogTypes: [Swift.String]? = nil,
-            supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
+            supportedCACertificateIdentifiers: [Swift.String]? = nil,
+            supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
+            supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
             validUpgradeTarget: [DocDBClientTypes.UpgradeTarget]? = nil
         )
         {
@@ -4295,6 +4395,8 @@ extension DocDBClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
+            self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.validUpgradeTarget = validUpgradeTarget
         }
@@ -4308,6 +4410,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         case availabilityZone = "AvailabilityZone"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case caCertificateIdentifier = "CACertificateIdentifier"
+        case certificateDetails = "CertificateDetails"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case dbInstanceArn = "DBInstanceArn"
@@ -4335,17 +4438,20 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
         }
         if let caCertificateIdentifier = caCertificateIdentifier {
             try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
+        if let certificateDetails = certificateDetails {
+            try container.encode(certificateDetails, forKey: ClientRuntime.Key("CertificateDetails"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -4413,7 +4519,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         if let promotionTier = promotionTier {
             try container.encode(promotionTier, forKey: ClientRuntime.Key("PromotionTier"))
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let statusInfos = statusInfos {
@@ -4428,7 +4534,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
                 try statusInfosContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
@@ -4461,7 +4567,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         instanceCreateTime = instanceCreateTimeDecoded
         let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
         preferredBackupWindow = preferredBackupWindowDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
         if containerValues.contains(.vpcSecurityGroups) {
             struct KeyVal0{struct VpcSecurityGroupMembership{}}
@@ -4494,9 +4600,9 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         latestRestorableTime = latestRestorableTimeDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         if containerValues.contains(.statusInfos) {
             struct KeyVal0{struct DBInstanceStatusInfo{}}
@@ -4519,7 +4625,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         }
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -4552,6 +4658,8 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         } else {
             enabledCloudwatchLogsExports = nil
         }
+        let certificateDetailsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.CertificateDetails.self, forKey: .certificateDetails)
+        certificateDetails = certificateDetailsDecoded
     }
 }
 
@@ -4559,13 +4667,15 @@ extension DocDBClientTypes {
     /// Detailed information about an instance.
     public struct DBInstance: Swift.Equatable {
         /// Does not apply. This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// Specifies the name of the Availability Zone that the instance is located in.
         public var availabilityZone: Swift.String?
         /// Specifies the number of days for which automatic snapshots are retained.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// The identifier of the CA certificate for this DB instance.
         public var caCertificateIdentifier: Swift.String?
+        /// The details of the DB instance's server certificate.
+        public var certificateDetails: DocDBClientTypes.CertificateDetails?
         /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public var copyTagsToSnapshot: Swift.Bool?
         /// Contains the name of the cluster that the instance is a member of if the instance is a member of a cluster.
@@ -4605,19 +4715,20 @@ extension DocDBClientTypes {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
         /// Not supported. Amazon DocumentDB does not currently support public endpoints. The value of PubliclyAccessible is always false.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// The status of a read replica. If the instance is not a read replica, this is blank.
         public var statusInfos: [DocDBClientTypes.DBInstanceStatusInfo]?
         /// Specifies whether or not the instance is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides a list of VPC security group elements that the instance belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
         public init(
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             availabilityZone: Swift.String? = nil,
-            backupRetentionPeriod: Swift.Int = 0,
+            backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
+            certificateDetails: DocDBClientTypes.CertificateDetails? = nil,
             copyTagsToSnapshot: Swift.Bool? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
@@ -4637,9 +4748,9 @@ extension DocDBClientTypes {
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             promotionTier: Swift.Int? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             statusInfos: [DocDBClientTypes.DBInstanceStatusInfo]? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -4647,6 +4758,7 @@ extension DocDBClientTypes {
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.certificateDetails = certificateDetails
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
@@ -4796,7 +4908,7 @@ extension DocDBClientTypes.DBInstanceStatusInfo: Swift.Codable {
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
         }
-        if normal != false {
+        if let normal = normal {
             try container.encode(normal, forKey: ClientRuntime.Key("Normal"))
         }
         if let status = status {
@@ -4811,7 +4923,7 @@ extension DocDBClientTypes.DBInstanceStatusInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
-        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal) ?? false
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal)
         normal = normalDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -4826,7 +4938,7 @@ extension DocDBClientTypes {
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public var message: Swift.String?
         /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        public var normal: Swift.Bool
+        public var normal: Swift.Bool?
         /// Status of the instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
         public var status: Swift.String?
         /// This value is currently "read replication."
@@ -4834,7 +4946,7 @@ extension DocDBClientTypes {
 
         public init(
             message: Swift.String? = nil,
-            normal: Swift.Bool = false,
+            normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
         )
@@ -5677,10 +5789,51 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
+    }
+}
+
+extension DeleteDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct DeleteDBClusterOutput: Swift.Equatable {
+    /// Detailed information about a cluster.
+    public var dbCluster: DocDBClientTypes.DBCluster?
+
+    public init(
+        dbCluster: DocDBClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct DeleteDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: DocDBClientTypes.DBCluster?
+}
+
+extension DeleteDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 
@@ -5695,47 +5848,6 @@ enum DeleteDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension DeleteDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct DeleteDBClusterOutputResponse: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct DeleteDBClusterOutputResponseBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension DeleteDBClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -5792,6 +5904,16 @@ extension DeleteDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDBClusterParameterGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5801,16 +5923,6 @@ enum DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDBClusterParameterGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteDBClusterSnapshotInput: Swift.Encodable {
@@ -5860,22 +5972,11 @@ extension DeleteDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDBClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDBClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
         } else {
             self.dbClusterSnapshot = nil
@@ -5883,7 +5984,7 @@ extension DeleteDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteDBClusterSnapshotOutputResponse: Swift.Equatable {
+public struct DeleteDBClusterSnapshotOutput: Swift.Equatable {
     /// Detailed information about a cluster snapshot.
     public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 
@@ -5895,11 +5996,11 @@ public struct DeleteDBClusterSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDBClusterSnapshotOutputResponseBody: Swift.Equatable {
+struct DeleteDBClusterSnapshotOutputBody: Swift.Equatable {
     let dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 }
 
-extension DeleteDBClusterSnapshotOutputResponseBody: Swift.Decodable {
+extension DeleteDBClusterSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterSnapshot = "DBClusterSnapshot"
     }
@@ -5909,6 +6010,17 @@ extension DeleteDBClusterSnapshotOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterSnapshotResult"))
         let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
         dbClusterSnapshot = dbClusterSnapshotDecoded
+    }
+}
+
+enum DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5961,25 +6073,11 @@ extension DeleteDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSnapshotAlreadyExists": return try await DBSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDBInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
         } else {
             self.dbInstance = nil
@@ -5987,7 +6085,7 @@ extension DeleteDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDBInstanceOutputResponse: Swift.Equatable {
+public struct DeleteDBInstanceOutput: Swift.Equatable {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
@@ -5999,11 +6097,11 @@ public struct DeleteDBInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDBInstanceOutputResponseBody: Swift.Equatable {
+struct DeleteDBInstanceOutputBody: Swift.Equatable {
     let dbInstance: DocDBClientTypes.DBInstance?
 }
 
-extension DeleteDBInstanceOutputResponseBody: Swift.Decodable {
+extension DeleteDBInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbInstance = "DBInstance"
     }
@@ -6013,6 +6111,20 @@ extension DeleteDBInstanceOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBInstanceResult"))
         let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
         dbInstance = dbInstanceDecoded
+    }
+}
+
+enum DeleteDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotAlreadyExists": return try await DBSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6063,6 +6175,16 @@ extension DeleteDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteDBSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDBSubnetGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -6073,16 +6195,6 @@ enum DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDBSubnetGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteEventSubscriptionInput: Swift.Encodable {
@@ -6132,22 +6244,11 @@ extension DeleteEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidEventSubscriptionState": return try await InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteEventSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteEventSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
             self.eventSubscription = nil
@@ -6155,7 +6256,7 @@ extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteEventSubscriptionOutputResponse: Swift.Equatable {
+public struct DeleteEventSubscriptionOutput: Swift.Equatable {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -6167,11 +6268,11 @@ public struct DeleteEventSubscriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteEventSubscriptionOutputResponseBody: Swift.Equatable {
+struct DeleteEventSubscriptionOutputBody: Swift.Equatable {
     let eventSubscription: DocDBClientTypes.EventSubscription?
 }
 
-extension DeleteEventSubscriptionOutputResponseBody: Swift.Decodable {
+extension DeleteEventSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscription = "EventSubscription"
     }
@@ -6181,6 +6282,17 @@ extension DeleteEventSubscriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteEventSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
         eventSubscription = eventSubscriptionDecoded
+    }
+}
+
+enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidEventSubscriptionState": return try await InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6231,22 +6343,11 @@ extension DeleteGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -6254,7 +6355,7 @@ extension DeleteGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGlobalClusterOutputResponse: Swift.Equatable {
+public struct DeleteGlobalClusterOutput: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -6266,11 +6367,11 @@ public struct DeleteGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteGlobalClusterOutputResponseBody: Swift.Equatable {
+struct DeleteGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: DocDBClientTypes.GlobalCluster?
 }
 
-extension DeleteGlobalClusterOutputResponseBody: Swift.Decodable {
+extension DeleteGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -6280,6 +6381,17 @@ extension DeleteGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6393,21 +6505,11 @@ extension DescribeCertificatesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CertificateNotFound": return try await CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCertificatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCertificatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
             self.marker = output.marker
         } else {
@@ -6417,7 +6519,7 @@ extension DescribeCertificatesOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeCertificatesOutputResponse: Swift.Equatable {
+public struct DescribeCertificatesOutput: Swift.Equatable {
     /// A list of certificates for this Amazon Web Services account.
     public var certificates: [DocDBClientTypes.Certificate]?
     /// An optional pagination token provided if the number of records retrieved is greater than MaxRecords. If this parameter is specified, the marker specifies the next record in the list. Including the value of Marker in the next call to DescribeCertificates results in the next page of certificates.
@@ -6433,12 +6535,12 @@ public struct DescribeCertificatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCertificatesOutputResponseBody: Swift.Equatable {
+struct DescribeCertificatesOutputBody: Swift.Equatable {
     let certificates: [DocDBClientTypes.Certificate]?
     let marker: Swift.String?
 }
 
-extension DescribeCertificatesOutputResponseBody: Swift.Decodable {
+extension DescribeCertificatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificates = "Certificates"
         case marker = "Marker"
@@ -6468,6 +6570,16 @@ extension DescribeCertificatesOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CertificateNotFound": return try await CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6578,21 +6690,11 @@ extension DescribeDBClusterParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterParameterGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterParameterGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroups = output.dbClusterParameterGroups
             self.marker = output.marker
         } else {
@@ -6603,7 +6705,7 @@ extension DescribeDBClusterParameterGroupsOutputResponse: ClientRuntime.HttpResp
 }
 
 /// Represents the output of [DBClusterParameterGroups].
-public struct DescribeDBClusterParameterGroupsOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterParameterGroupsOutput: Swift.Equatable {
     /// A list of cluster parameter groups.
     public var dbClusterParameterGroups: [DocDBClientTypes.DBClusterParameterGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6619,12 +6721,12 @@ public struct DescribeDBClusterParameterGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClusterParameterGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterParameterGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbClusterParameterGroups: [DocDBClientTypes.DBClusterParameterGroup]?
 }
 
-extension DescribeDBClusterParameterGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterParameterGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroups = "DBClusterParameterGroups"
         case marker = "Marker"
@@ -6653,6 +6755,16 @@ extension DescribeDBClusterParameterGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbClusterParameterGroups = nil
+        }
+    }
+}
+
+enum DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -6776,21 +6888,11 @@ extension DescribeDBClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.parameters = output.parameters
         } else {
@@ -6801,7 +6903,7 @@ extension DescribeDBClusterParametersOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Represents the output of [DBClusterParameterGroup].
-public struct DescribeDBClusterParametersOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterParametersOutput: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// Provides a list of parameters for the cluster parameter group.
@@ -6817,12 +6919,12 @@ public struct DescribeDBClusterParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClusterParametersOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterParametersOutputBody: Swift.Equatable {
     let parameters: [DocDBClientTypes.Parameter]?
     let marker: Swift.String?
 }
 
-extension DescribeDBClusterParametersOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case parameters = "Parameters"
@@ -6852,6 +6954,16 @@ extension DescribeDBClusterParametersOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6902,21 +7014,11 @@ extension DescribeDBClusterSnapshotAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterSnapshotAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterSnapshotAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterSnapshotAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterSnapshotAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
         } else {
             self.dbClusterSnapshotAttributesResult = nil
@@ -6924,7 +7026,7 @@ extension DescribeDBClusterSnapshotAttributesOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct DescribeDBClusterSnapshotAttributesOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterSnapshotAttributesOutput: Swift.Equatable {
     /// Detailed information about the attributes that are associated with a cluster snapshot.
     public var dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 
@@ -6936,11 +7038,11 @@ public struct DescribeDBClusterSnapshotAttributesOutputResponse: Swift.Equatable
     }
 }
 
-struct DescribeDBClusterSnapshotAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterSnapshotAttributesOutputBody: Swift.Equatable {
     let dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 }
 
-extension DescribeDBClusterSnapshotAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterSnapshotAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
     }
@@ -6950,6 +7052,16 @@ extension DescribeDBClusterSnapshotAttributesOutputResponseBody: Swift.Decodable
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBClusterSnapshotAttributesResult"))
         let dbClusterSnapshotAttributesResultDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshotAttributesResult.self, forKey: .dbClusterSnapshotAttributesResult)
         dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResultDecoded
+    }
+}
+
+enum DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7112,28 +7224,18 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
         includeShared = includeSharedDecoded
-        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic) ?? false
+        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic)
         includePublic = includePublicDecoded
     }
 }
 
-enum DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterSnapshotsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshots = output.dbClusterSnapshots
             self.marker = output.marker
         } else {
@@ -7144,7 +7246,7 @@ extension DescribeDBClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// Represents the output of [DescribeDBClusterSnapshots].
-public struct DescribeDBClusterSnapshotsOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterSnapshotsOutput: Swift.Equatable {
     /// Provides a list of cluster snapshots.
     public var dbClusterSnapshots: [DocDBClientTypes.DBClusterSnapshot]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7160,12 +7262,12 @@ public struct DescribeDBClusterSnapshotsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClusterSnapshotsOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterSnapshotsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbClusterSnapshots: [DocDBClientTypes.DBClusterSnapshot]?
 }
 
-extension DescribeDBClusterSnapshotsOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterSnapshotsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterSnapshots = "DBClusterSnapshots"
         case marker = "Marker"
@@ -7194,6 +7296,16 @@ extension DescribeDBClusterSnapshotsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbClusterSnapshots = nil
+        }
+    }
+}
+
+enum DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7307,21 +7419,11 @@ extension DescribeDBClustersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusters = output.dbClusters
             self.marker = output.marker
         } else {
@@ -7332,7 +7434,7 @@ extension DescribeDBClustersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of [DescribeDBClusters].
-public struct DescribeDBClustersOutputResponse: Swift.Equatable {
+public struct DescribeDBClustersOutput: Swift.Equatable {
     /// A list of clusters.
     public var dbClusters: [DocDBClientTypes.DBCluster]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7348,12 +7450,12 @@ public struct DescribeDBClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClustersOutputResponseBody: Swift.Equatable {
+struct DescribeDBClustersOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbClusters: [DocDBClientTypes.DBCluster]?
 }
 
-extension DescribeDBClustersOutputResponseBody: Swift.Decodable {
+extension DescribeDBClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusters = "DBClusters"
         case marker = "Marker"
@@ -7382,6 +7484,16 @@ extension DescribeDBClustersOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbClusters = nil
+        }
+    }
+}
+
+enum DescribeDBClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7539,7 +7651,7 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly)
         defaultOnly = defaultOnlyDecoded
         let listSupportedCharacterSetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSupportedCharacterSets)
         listSupportedCharacterSets = listSupportedCharacterSetsDecoded
@@ -7548,20 +7660,11 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBEngineVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBEngineVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbEngineVersions = output.dbEngineVersions
             self.marker = output.marker
         } else {
@@ -7572,7 +7675,7 @@ extension DescribeDBEngineVersionsOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Represents the output of [DescribeDBEngineVersions].
-public struct DescribeDBEngineVersionsOutputResponse: Swift.Equatable {
+public struct DescribeDBEngineVersionsOutput: Swift.Equatable {
     /// Detailed information about one or more engine versions.
     public var dbEngineVersions: [DocDBClientTypes.DBEngineVersion]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7588,12 +7691,12 @@ public struct DescribeDBEngineVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBEngineVersionsOutputResponseBody: Swift.Equatable {
+struct DescribeDBEngineVersionsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbEngineVersions: [DocDBClientTypes.DBEngineVersion]?
 }
 
-extension DescribeDBEngineVersionsOutputResponseBody: Swift.Decodable {
+extension DescribeDBEngineVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbEngineVersions = "DBEngineVersions"
         case marker = "Marker"
@@ -7622,6 +7725,15 @@ extension DescribeDBEngineVersionsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbEngineVersions = nil
+        }
+    }
+}
+
+enum DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7737,21 +7849,11 @@ extension DescribeDBInstancesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbInstances = output.dbInstances
             self.marker = output.marker
         } else {
@@ -7762,7 +7864,7 @@ extension DescribeDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of [DescribeDBInstances].
-public struct DescribeDBInstancesOutputResponse: Swift.Equatable {
+public struct DescribeDBInstancesOutput: Swift.Equatable {
     /// Detailed information about one or more instances.
     public var dbInstances: [DocDBClientTypes.DBInstance]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7778,12 +7880,12 @@ public struct DescribeDBInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBInstancesOutputResponseBody: Swift.Equatable {
+struct DescribeDBInstancesOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbInstances: [DocDBClientTypes.DBInstance]?
 }
 
-extension DescribeDBInstancesOutputResponseBody: Swift.Decodable {
+extension DescribeDBInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbInstances = "DBInstances"
         case marker = "Marker"
@@ -7812,6 +7914,16 @@ extension DescribeDBInstancesOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbInstances = nil
+        }
+    }
+}
+
+enum DescribeDBInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7921,21 +8033,11 @@ extension DescribeDBSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBSubnetGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBSubnetGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroups = output.dbSubnetGroups
             self.marker = output.marker
         } else {
@@ -7946,7 +8048,7 @@ extension DescribeDBSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the output of [DescribeDBSubnetGroups].
-public struct DescribeDBSubnetGroupsOutputResponse: Swift.Equatable {
+public struct DescribeDBSubnetGroupsOutput: Swift.Equatable {
     /// Detailed information about one or more subnet groups.
     public var dbSubnetGroups: [DocDBClientTypes.DBSubnetGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7962,12 +8064,12 @@ public struct DescribeDBSubnetGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBSubnetGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeDBSubnetGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbSubnetGroups: [DocDBClientTypes.DBSubnetGroup]?
 }
 
-extension DescribeDBSubnetGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeDBSubnetGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSubnetGroups = "DBSubnetGroups"
         case marker = "Marker"
@@ -7996,6 +8098,16 @@ extension DescribeDBSubnetGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbSubnetGroups = nil
+        }
+    }
+}
+
+enum DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8106,20 +8218,11 @@ extension DescribeEngineDefaultClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEngineDefaultClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEngineDefaultClusterParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEngineDefaultClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEngineDefaultClusterParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
         } else {
             self.engineDefaults = nil
@@ -8127,7 +8230,7 @@ extension DescribeEngineDefaultClusterParametersOutputResponse: ClientRuntime.Ht
     }
 }
 
-public struct DescribeEngineDefaultClusterParametersOutputResponse: Swift.Equatable {
+public struct DescribeEngineDefaultClusterParametersOutput: Swift.Equatable {
     /// Contains the result of a successful invocation of the DescribeEngineDefaultClusterParameters operation.
     public var engineDefaults: DocDBClientTypes.EngineDefaults?
 
@@ -8139,11 +8242,11 @@ public struct DescribeEngineDefaultClusterParametersOutputResponse: Swift.Equata
     }
 }
 
-struct DescribeEngineDefaultClusterParametersOutputResponseBody: Swift.Equatable {
+struct DescribeEngineDefaultClusterParametersOutputBody: Swift.Equatable {
     let engineDefaults: DocDBClientTypes.EngineDefaults?
 }
 
-extension DescribeEngineDefaultClusterParametersOutputResponseBody: Swift.Decodable {
+extension DescribeEngineDefaultClusterParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineDefaults = "EngineDefaults"
     }
@@ -8153,6 +8256,15 @@ extension DescribeEngineDefaultClusterParametersOutputResponseBody: Swift.Decoda
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEngineDefaultClusterParametersResult"))
         let engineDefaultsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EngineDefaults.self, forKey: .engineDefaults)
         engineDefaults = engineDefaultsDecoded
+    }
+}
+
+enum DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8239,20 +8351,11 @@ extension DescribeEventCategoriesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventCategoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventCategoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventCategoriesMapList = output.eventCategoriesMapList
         } else {
             self.eventCategoriesMapList = nil
@@ -8261,7 +8364,7 @@ extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// Represents the output of [DescribeEventCategories].
-public struct DescribeEventCategoriesOutputResponse: Swift.Equatable {
+public struct DescribeEventCategoriesOutput: Swift.Equatable {
     /// A list of event category maps.
     public var eventCategoriesMapList: [DocDBClientTypes.EventCategoriesMap]?
 
@@ -8273,11 +8376,11 @@ public struct DescribeEventCategoriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventCategoriesOutputResponseBody: Swift.Equatable {
+struct DescribeEventCategoriesOutputBody: Swift.Equatable {
     let eventCategoriesMapList: [DocDBClientTypes.EventCategoriesMap]?
 }
 
-extension DescribeEventCategoriesOutputResponseBody: Swift.Decodable {
+extension DescribeEventCategoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventCategoriesMapList = "EventCategoriesMapList"
     }
@@ -8303,6 +8406,15 @@ extension DescribeEventCategoriesOutputResponseBody: Swift.Decodable {
             }
         } else {
             eventCategoriesMapList = nil
+        }
+    }
+}
+
+enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8412,21 +8524,11 @@ extension DescribeEventSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventSubscriptionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventSubscriptionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscriptionsList = output.eventSubscriptionsList
             self.marker = output.marker
         } else {
@@ -8437,7 +8539,7 @@ extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// Represents the output of [DescribeEventSubscriptions].
-public struct DescribeEventSubscriptionsOutputResponse: Swift.Equatable {
+public struct DescribeEventSubscriptionsOutput: Swift.Equatable {
     /// A list of event subscriptions.
     public var eventSubscriptionsList: [DocDBClientTypes.EventSubscription]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8453,12 +8555,12 @@ public struct DescribeEventSubscriptionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventSubscriptionsOutputResponseBody: Swift.Equatable {
+struct DescribeEventSubscriptionsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let eventSubscriptionsList: [DocDBClientTypes.EventSubscription]?
 }
 
-extension DescribeEventSubscriptionsOutputResponseBody: Swift.Decodable {
+extension DescribeEventSubscriptionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscriptionsList = "EventSubscriptionsList"
         case marker = "Marker"
@@ -8487,6 +8589,16 @@ extension DescribeEventSubscriptionsOutputResponseBody: Swift.Decodable {
             }
         } else {
             eventSubscriptionsList = nil
+        }
+    }
+}
+
+enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8689,20 +8801,11 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.marker = output.marker
         } else {
@@ -8713,7 +8816,7 @@ extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of [DescribeEvents].
-public struct DescribeEventsOutputResponse: Swift.Equatable {
+public struct DescribeEventsOutput: Swift.Equatable {
     /// Detailed information about one or more events.
     public var events: [DocDBClientTypes.Event]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8729,12 +8832,12 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputResponseBody: Swift.Equatable {
+struct DescribeEventsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let events: [DocDBClientTypes.Event]?
 }
 
-extension DescribeEventsOutputResponseBody: Swift.Decodable {
+extension DescribeEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events = "Events"
         case marker = "Marker"
@@ -8763,6 +8866,15 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
             }
         } else {
             events = nil
+        }
+    }
+}
+
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8871,21 +8983,11 @@ extension DescribeGlobalClustersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeGlobalClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeGlobalClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeGlobalClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeGlobalClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalClusters = output.globalClusters
             self.marker = output.marker
         } else {
@@ -8895,7 +8997,7 @@ extension DescribeGlobalClustersOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeGlobalClustersOutputResponse: Swift.Equatable {
+public struct DescribeGlobalClustersOutput: Swift.Equatable {
     ///
     public var globalClusters: [DocDBClientTypes.GlobalCluster]?
     ///
@@ -8911,12 +9013,12 @@ public struct DescribeGlobalClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeGlobalClustersOutputResponseBody: Swift.Equatable {
+struct DescribeGlobalClustersOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let globalClusters: [DocDBClientTypes.GlobalCluster]?
 }
 
-extension DescribeGlobalClustersOutputResponseBody: Swift.Decodable {
+extension DescribeGlobalClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalClusters = "GlobalClusters"
         case marker = "Marker"
@@ -8945,6 +9047,16 @@ extension DescribeGlobalClustersOutputResponseBody: Swift.Decodable {
             }
         } else {
             globalClusters = nil
+        }
+    }
+}
+
+enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9099,20 +9211,11 @@ extension DescribeOrderableDBInstanceOptionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeOrderableDBInstanceOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOrderableDBInstanceOptionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOrderableDBInstanceOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOrderableDBInstanceOptionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.orderableDBInstanceOptions = output.orderableDBInstanceOptions
         } else {
@@ -9123,7 +9226,7 @@ extension DescribeOrderableDBInstanceOptionsOutputResponse: ClientRuntime.HttpRe
 }
 
 /// Represents the output of [DescribeOrderableDBInstanceOptions].
-public struct DescribeOrderableDBInstanceOptionsOutputResponse: Swift.Equatable {
+public struct DescribeOrderableDBInstanceOptionsOutput: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The options that are available for a particular orderable instance.
@@ -9139,12 +9242,12 @@ public struct DescribeOrderableDBInstanceOptionsOutputResponse: Swift.Equatable 
     }
 }
 
-struct DescribeOrderableDBInstanceOptionsOutputResponseBody: Swift.Equatable {
+struct DescribeOrderableDBInstanceOptionsOutputBody: Swift.Equatable {
     let orderableDBInstanceOptions: [DocDBClientTypes.OrderableDBInstanceOption]?
     let marker: Swift.String?
 }
 
-extension DescribeOrderableDBInstanceOptionsOutputResponseBody: Swift.Decodable {
+extension DescribeOrderableDBInstanceOptionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case orderableDBInstanceOptions = "OrderableDBInstanceOptions"
@@ -9174,6 +9277,15 @@ extension DescribeOrderableDBInstanceOptionsOutputResponseBody: Swift.Decodable 
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9286,21 +9398,11 @@ extension DescribePendingMaintenanceActionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePendingMaintenanceActionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePendingMaintenanceActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePendingMaintenanceActionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.pendingMaintenanceActions = output.pendingMaintenanceActions
         } else {
@@ -9311,7 +9413,7 @@ extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpRes
 }
 
 /// Represents the output of [DescribePendingMaintenanceActions].
-public struct DescribePendingMaintenanceActionsOutputResponse: Swift.Equatable {
+public struct DescribePendingMaintenanceActionsOutput: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maintenance actions to be applied.
@@ -9327,12 +9429,12 @@ public struct DescribePendingMaintenanceActionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePendingMaintenanceActionsOutputResponseBody: Swift.Equatable {
+struct DescribePendingMaintenanceActionsOutputBody: Swift.Equatable {
     let pendingMaintenanceActions: [DocDBClientTypes.ResourcePendingMaintenanceActions]?
     let marker: Swift.String?
 }
 
-extension DescribePendingMaintenanceActionsOutputResponseBody: Swift.Decodable {
+extension DescribePendingMaintenanceActionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case pendingMaintenanceActions = "PendingMaintenanceActions"
@@ -9365,6 +9467,16 @@ extension DescribePendingMaintenanceActionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DocDBClientTypes.Endpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
@@ -9380,7 +9492,7 @@ extension DocDBClientTypes.Endpoint: Swift.Codable {
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
     }
@@ -9389,7 +9501,7 @@ extension DocDBClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -9404,12 +9516,12 @@ extension DocDBClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// Specifies the port that the database engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -9705,7 +9817,7 @@ extension DocDBClientTypes.EventSubscription: Swift.Codable {
         if let customerAwsId = customerAwsId {
             try container.encode(customerAwsId, forKey: ClientRuntime.Key("CustomerAwsId"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let eventCategoriesList = eventCategoriesList {
@@ -9801,7 +9913,7 @@ extension DocDBClientTypes.EventSubscription: Swift.Codable {
         } else {
             eventCategoriesList = nil
         }
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let eventSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSubscriptionArn)
         eventSubscriptionArn = eventSubscriptionArnDecoded
@@ -9816,7 +9928,7 @@ extension DocDBClientTypes {
         /// The Amazon Web Services customer account that is associated with the Amazon DocumentDB event notification subscription.
         public var customerAwsId: Swift.String?
         /// A Boolean value indicating whether the subscription is enabled. A value of true indicates that the subscription is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// A list of event categories for the Amazon DocumentDB event notification subscription.
         public var eventCategoriesList: [Swift.String]?
         /// The Amazon Resource Name (ARN) for the event subscription.
@@ -9835,7 +9947,7 @@ extension DocDBClientTypes {
         public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             eventCategoriesList: [Swift.String]? = nil,
             eventSubscriptionArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -9973,23 +10085,11 @@ extension FailoverDBClusterInputBody: Swift.Decodable {
     }
 }
 
-enum FailoverDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension FailoverDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension FailoverDBClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: FailoverDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: FailoverDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
             self.dbCluster = nil
@@ -9997,7 +10097,7 @@ extension FailoverDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct FailoverDBClusterOutputResponse: Swift.Equatable {
+public struct FailoverDBClusterOutput: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -10009,11 +10109,11 @@ public struct FailoverDBClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct FailoverDBClusterOutputResponseBody: Swift.Equatable {
+struct FailoverDBClusterOutputBody: Swift.Equatable {
     let dbCluster: DocDBClientTypes.DBCluster?
 }
 
-extension FailoverDBClusterOutputResponseBody: Swift.Decodable {
+extension FailoverDBClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbCluster = "DBCluster"
     }
@@ -10023,6 +10123,18 @@ extension FailoverDBClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FailoverDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
         dbCluster = dbClusterDecoded
+    }
+}
+
+enum FailoverDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10316,7 +10428,7 @@ extension DocDBClientTypes.GlobalClusterMember: Swift.Codable {
         if let dbClusterArn = dbClusterArn {
             try container.encode(dbClusterArn, forKey: ClientRuntime.Key("DBClusterArn"))
         }
-        if isWriter != false {
+        if let isWriter = isWriter {
             try container.encode(isWriter, forKey: ClientRuntime.Key("IsWriter"))
         }
         if let readers = readers {
@@ -10356,7 +10468,7 @@ extension DocDBClientTypes.GlobalClusterMember: Swift.Codable {
         } else {
             readers = nil
         }
-        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter) ?? false
+        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter)
         isWriter = isWriterDecoded
     }
 }
@@ -10367,13 +10479,13 @@ extension DocDBClientTypes {
         /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
         public var dbClusterArn: Swift.String?
         /// Specifies whether the Amazon DocumentDB cluster is the primary cluster (that is, has read-write capability) for the Amazon DocumentDB global cluster with which it is associated.
-        public var isWriter: Swift.Bool
+        public var isWriter: Swift.Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global cluster.
         public var readers: [Swift.String]?
 
         public init(
             dbClusterArn: Swift.String? = nil,
-            isWriter: Swift.Bool = false,
+            isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil
         )
         {
@@ -11549,23 +11661,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
             self.tagList = nil
@@ -11574,7 +11674,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of [ListTagsForResource].
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of one or more tags.
     public var tagList: [DocDBClientTypes.Tag]?
 
@@ -11586,11 +11686,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tagList: [DocDBClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagList = "TagList"
     }
@@ -11616,6 +11716,18 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagList = nil
+        }
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -11813,7 +11925,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         dbClusterIdentifier = dbClusterIdentifierDecoded
         let newDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newDBClusterIdentifier)
         newDBClusterIdentifier = newDBClusterIdentifierDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
@@ -11850,10 +11962,51 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfigurationDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
+    }
+}
+
+extension ModifyDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct ModifyDBClusterOutput: Swift.Equatable {
+    /// Detailed information about a cluster.
+    public var dbCluster: DocDBClientTypes.DBCluster?
+
+    public init(
+        dbCluster: DocDBClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct ModifyDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: DocDBClientTypes.DBCluster?
+}
+
+extension ModifyDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 
@@ -11874,47 +12027,6 @@ enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct ModifyDBClusterOutputResponse: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct ModifyDBClusterOutputResponseBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension ModifyDBClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -12003,22 +12115,11 @@ extension ModifyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
         } else {
             self.dbClusterParameterGroupName = nil
@@ -12027,7 +12128,7 @@ extension ModifyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpRespons
 }
 
 /// Contains the name of a cluster parameter group.
-public struct ModifyDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct ModifyDBClusterParameterGroupOutput: Swift.Equatable {
     /// The name of a cluster parameter group. Constraints:
     ///
     /// * Must be from 1 to 255 letters or numbers.
@@ -12048,11 +12149,11 @@ public struct ModifyDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct ModifyDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroupName: Swift.String?
 }
 
-extension ModifyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension ModifyDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
     }
@@ -12062,6 +12163,17 @@ extension ModifyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterParameterGroupResult"))
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
+    }
+}
+
+enum ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12198,23 +12310,11 @@ extension ModifyDBClusterSnapshotAttributeInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SharedSnapshotQuotaExceeded": return try await SharedSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyDBClusterSnapshotAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyDBClusterSnapshotAttributeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyDBClusterSnapshotAttributeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyDBClusterSnapshotAttributeOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
         } else {
             self.dbClusterSnapshotAttributesResult = nil
@@ -12222,7 +12322,7 @@ extension ModifyDBClusterSnapshotAttributeOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ModifyDBClusterSnapshotAttributeOutputResponse: Swift.Equatable {
+public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Equatable {
     /// Detailed information about the attributes that are associated with a cluster snapshot.
     public var dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 
@@ -12234,11 +12334,11 @@ public struct ModifyDBClusterSnapshotAttributeOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyDBClusterSnapshotAttributeOutputResponseBody: Swift.Equatable {
+struct ModifyDBClusterSnapshotAttributeOutputBody: Swift.Equatable {
     let dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 }
 
-extension ModifyDBClusterSnapshotAttributeOutputResponseBody: Swift.Decodable {
+extension ModifyDBClusterSnapshotAttributeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
     }
@@ -12248,6 +12348,18 @@ extension ModifyDBClusterSnapshotAttributeOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterSnapshotAttributeResult"))
         let dbClusterSnapshotAttributesResultDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshotAttributesResult.self, forKey: .dbClusterSnapshotAttributesResult)
         dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResultDecoded
+    }
+}
+
+enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SharedSnapshotQuotaExceeded": return try await SharedSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12262,6 +12374,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         }
         if let caCertificateIdentifier = caCertificateIdentifier {
             try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
+        if let certificateRotationRestart = certificateRotationRestart {
+            try container.encode(certificateRotationRestart, forKey: ClientRuntime.Key("CertificateRotationRestart"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -12306,6 +12421,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Indicates the certificate that needs to be associated with the instance.
     public var caCertificateIdentifier: Swift.String?
+    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public var certificateRotationRestart: Swift.Bool?
     /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The new compute and memory capacity of the instance; for example, db.r5.large. Not all instance classes are available in all Amazon Web Services Regions. If you modify the instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request. Default: Uses existing setting.
@@ -12339,6 +12456,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         applyImmediately: Swift.Bool? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         caCertificateIdentifier: Swift.String? = nil,
+        certificateRotationRestart: Swift.Bool? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -12352,6 +12470,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.applyImmediately = applyImmediately
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.caCertificateIdentifier = caCertificateIdentifier
+        self.certificateRotationRestart = certificateRotationRestart
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -12375,6 +12494,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let promotionTier: Swift.Int?
     let enablePerformanceInsights: Swift.Bool?
     let performanceInsightsKMSKeyId: Swift.String?
+    let certificateRotationRestart: Swift.Bool?
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -12382,6 +12502,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case applyImmediately = "ApplyImmediately"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case caCertificateIdentifier = "CACertificateIdentifier"
+        case certificateRotationRestart = "CertificateRotationRestart"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbInstanceClass = "DBInstanceClass"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -12398,7 +12519,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let preferredMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredMaintenanceWindow)
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
@@ -12416,6 +12537,49 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         enablePerformanceInsights = enablePerformanceInsightsDecoded
         let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
         performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
+        let certificateRotationRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .certificateRotationRestart)
+        certificateRotationRestart = certificateRotationRestartDecoded
+    }
+}
+
+extension ModifyDBInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbInstance = output.dbInstance
+        } else {
+            self.dbInstance = nil
+        }
+    }
+}
+
+public struct ModifyDBInstanceOutput: Swift.Equatable {
+    /// Detailed information about an instance.
+    public var dbInstance: DocDBClientTypes.DBInstance?
+
+    public init(
+        dbInstance: DocDBClientTypes.DBInstance? = nil
+    )
+    {
+        self.dbInstance = dbInstance
+    }
+}
+
+struct ModifyDBInstanceOutputBody: Swift.Equatable {
+    let dbInstance: DocDBClientTypes.DBInstance?
+}
+
+extension ModifyDBInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstance = "DBInstance"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBInstanceResult"))
+        let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
+        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -12438,47 +12602,6 @@ enum ModifyDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbInstance = output.dbInstance
-        } else {
-            self.dbInstance = nil
-        }
-    }
-}
-
-public struct ModifyDBInstanceOutputResponse: Swift.Equatable {
-    /// Detailed information about an instance.
-    public var dbInstance: DocDBClientTypes.DBInstance?
-
-    public init(
-        dbInstance: DocDBClientTypes.DBInstance? = nil
-    )
-    {
-        self.dbInstance = dbInstance
-    }
-}
-
-struct ModifyDBInstanceOutputResponseBody: Swift.Equatable {
-    let dbInstance: DocDBClientTypes.DBInstance?
-}
-
-extension ModifyDBInstanceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbInstance = "DBInstance"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBInstanceResult"))
-        let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
-        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -12578,25 +12701,11 @@ extension ModifyDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetAlreadyInUse": return try await SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyDBSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyDBSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
         } else {
             self.dbSubnetGroup = nil
@@ -12604,7 +12713,7 @@ extension ModifyDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyDBSubnetGroupOutputResponse: Swift.Equatable {
+public struct ModifyDBSubnetGroupOutput: Swift.Equatable {
     /// Detailed information about a subnet group.
     public var dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 
@@ -12616,11 +12725,11 @@ public struct ModifyDBSubnetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyDBSubnetGroupOutputResponseBody: Swift.Equatable {
+struct ModifyDBSubnetGroupOutputBody: Swift.Equatable {
     let dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 }
 
-extension ModifyDBSubnetGroupOutputResponseBody: Swift.Decodable {
+extension ModifyDBSubnetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSubnetGroup = "DBSubnetGroup"
     }
@@ -12630,6 +12739,20 @@ extension ModifyDBSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBSubnetGroupResult"))
         let dbSubnetGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBSubnetGroup.self, forKey: .dbSubnetGroup)
         dbSubnetGroup = dbSubnetGroupDecoded
+    }
+}
+
+enum ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetAlreadyInUse": return try await SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12750,6 +12873,47 @@ extension ModifyEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension ModifyEventSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyEventSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventSubscription = output.eventSubscription
+        } else {
+            self.eventSubscription = nil
+        }
+    }
+}
+
+public struct ModifyEventSubscriptionOutput: Swift.Equatable {
+    /// Detailed information about an event to which you have subscribed.
+    public var eventSubscription: DocDBClientTypes.EventSubscription?
+
+    public init(
+        eventSubscription: DocDBClientTypes.EventSubscription? = nil
+    )
+    {
+        self.eventSubscription = eventSubscription
+    }
+}
+
+struct ModifyEventSubscriptionOutputBody: Swift.Equatable {
+    let eventSubscription: DocDBClientTypes.EventSubscription?
+}
+
+extension ModifyEventSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventSubscription = "EventSubscription"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyEventSubscriptionResult"))
+        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
+        eventSubscription = eventSubscriptionDecoded
+    }
+}
+
 enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -12762,47 +12926,6 @@ enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.eventSubscription = output.eventSubscription
-        } else {
-            self.eventSubscription = nil
-        }
-    }
-}
-
-public struct ModifyEventSubscriptionOutputResponse: Swift.Equatable {
-    /// Detailed information about an event to which you have subscribed.
-    public var eventSubscription: DocDBClientTypes.EventSubscription?
-
-    public init(
-        eventSubscription: DocDBClientTypes.EventSubscription? = nil
-    )
-    {
-        self.eventSubscription = eventSubscription
-    }
-}
-
-struct ModifyEventSubscriptionOutputResponseBody: Swift.Equatable {
-    let eventSubscription: DocDBClientTypes.EventSubscription?
-}
-
-extension ModifyEventSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventSubscription = "EventSubscription"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyEventSubscriptionResult"))
-        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
-        eventSubscription = eventSubscriptionDecoded
     }
 }
 
@@ -12882,22 +13005,11 @@ extension ModifyGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -12905,7 +13017,7 @@ extension ModifyGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyGlobalClusterOutputResponse: Swift.Equatable {
+public struct ModifyGlobalClusterOutput: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -12917,11 +13029,11 @@ public struct ModifyGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyGlobalClusterOutputResponseBody: Swift.Equatable {
+struct ModifyGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: DocDBClientTypes.GlobalCluster?
 }
 
-extension ModifyGlobalClusterOutputResponseBody: Swift.Decodable {
+extension ModifyGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -12931,6 +13043,17 @@ extension ModifyGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12970,7 +13093,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
         }
-        if vpc != false {
+        if let vpc = vpc {
             try container.encode(vpc, forKey: ClientRuntime.Key("Vpc"))
         }
     }
@@ -13004,7 +13127,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             availabilityZones = nil
         }
-        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc) ?? false
+        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc)
         vpc = vpcDecoded
     }
 }
@@ -13023,7 +13146,7 @@ extension DocDBClientTypes {
         /// The license model for an instance.
         public var licenseModel: Swift.String?
         /// Indicates whether an instance is in a virtual private cloud (VPC).
-        public var vpc: Swift.Bool
+        public var vpc: Swift.Bool?
 
         public init(
             availabilityZones: [DocDBClientTypes.AvailabilityZone]? = nil,
@@ -13031,7 +13154,7 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
-            vpc: Swift.Bool = false
+            vpc: Swift.Bool? = nil
         )
         {
             self.availabilityZones = availabilityZones
@@ -13076,7 +13199,7 @@ extension DocDBClientTypes.Parameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -13109,7 +13232,7 @@ extension DocDBClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -13132,7 +13255,7 @@ extension DocDBClientTypes {
         /// Provides a description of the parameter.
         public var description: Swift.String?
         /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// Specifies the name of the parameter.
@@ -13148,7 +13271,7 @@ extension DocDBClientTypes {
             applyType: Swift.String? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
@@ -13577,22 +13700,11 @@ extension RebootDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RebootDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RebootDBInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RebootDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RebootDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
         } else {
             self.dbInstance = nil
@@ -13600,7 +13712,7 @@ extension RebootDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebootDBInstanceOutputResponse: Swift.Equatable {
+public struct RebootDBInstanceOutput: Swift.Equatable {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
@@ -13612,11 +13724,11 @@ public struct RebootDBInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct RebootDBInstanceOutputResponseBody: Swift.Equatable {
+struct RebootDBInstanceOutputBody: Swift.Equatable {
     let dbInstance: DocDBClientTypes.DBInstance?
 }
 
-extension RebootDBInstanceOutputResponseBody: Swift.Decodable {
+extension RebootDBInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbInstance = "DBInstance"
     }
@@ -13626,6 +13738,17 @@ extension RebootDBInstanceOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RebootDBInstanceResult"))
         let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
         dbInstance = dbInstanceDecoded
+    }
+}
+
+enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13688,23 +13811,11 @@ extension RemoveFromGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RemoveFromGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveFromGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveFromGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveFromGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -13712,7 +13823,7 @@ extension RemoveFromGlobalClusterOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct RemoveFromGlobalClusterOutputResponse: Swift.Equatable {
+public struct RemoveFromGlobalClusterOutput: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -13724,11 +13835,11 @@ public struct RemoveFromGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct RemoveFromGlobalClusterOutputResponseBody: Swift.Equatable {
+struct RemoveFromGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: DocDBClientTypes.GlobalCluster?
 }
 
-extension RemoveFromGlobalClusterOutputResponseBody: Swift.Decodable {
+extension RemoveFromGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -13738,6 +13849,18 @@ extension RemoveFromGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RemoveFromGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13800,22 +13923,11 @@ extension RemoveSourceIdentifierFromSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-enum RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RemoveSourceIdentifierFromSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveSourceIdentifierFromSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveSourceIdentifierFromSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveSourceIdentifierFromSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
             self.eventSubscription = nil
@@ -13823,7 +13935,7 @@ extension RemoveSourceIdentifierFromSubscriptionOutputResponse: ClientRuntime.Ht
     }
 }
 
-public struct RemoveSourceIdentifierFromSubscriptionOutputResponse: Swift.Equatable {
+public struct RemoveSourceIdentifierFromSubscriptionOutput: Swift.Equatable {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -13835,11 +13947,11 @@ public struct RemoveSourceIdentifierFromSubscriptionOutputResponse: Swift.Equata
     }
 }
 
-struct RemoveSourceIdentifierFromSubscriptionOutputResponseBody: Swift.Equatable {
+struct RemoveSourceIdentifierFromSubscriptionOutputBody: Swift.Equatable {
     let eventSubscription: DocDBClientTypes.EventSubscription?
 }
 
-extension RemoveSourceIdentifierFromSubscriptionOutputResponseBody: Swift.Decodable {
+extension RemoveSourceIdentifierFromSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscription = "EventSubscription"
     }
@@ -13849,6 +13961,17 @@ extension RemoveSourceIdentifierFromSubscriptionOutputResponseBody: Swift.Decoda
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RemoveSourceIdentifierFromSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
         eventSubscription = eventSubscriptionDecoded
+    }
+}
+
+enum RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13937,6 +14060,16 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveTagsFromResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveTagsFromResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -13947,16 +14080,6 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ResetDBClusterParameterGroupInput: Swift.Encodable {
@@ -14030,7 +14153,7 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -14054,22 +14177,11 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ResetDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ResetDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ResetDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ResetDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
         } else {
             self.dbClusterParameterGroupName = nil
@@ -14078,7 +14190,7 @@ extension ResetDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponse
 }
 
 /// Contains the name of a cluster parameter group.
-public struct ResetDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct ResetDBClusterParameterGroupOutput: Swift.Equatable {
     /// The name of a cluster parameter group. Constraints:
     ///
     /// * Must be from 1 to 255 letters or numbers.
@@ -14099,11 +14211,11 @@ public struct ResetDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ResetDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct ResetDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroupName: Swift.String?
 }
 
-extension ResetDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension ResetDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
     }
@@ -14113,6 +14225,17 @@ extension ResetDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ResetDBClusterParameterGroupResult"))
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
+    }
+}
+
+enum ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14541,6 +14664,47 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension RestoreDBClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreDBClusterFromSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct RestoreDBClusterFromSnapshotOutput: Swift.Equatable {
+    /// Detailed information about a cluster.
+    public var dbCluster: DocDBClientTypes.DBCluster?
+
+    public init(
+        dbCluster: DocDBClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct RestoreDBClusterFromSnapshotOutputBody: Swift.Equatable {
+    let dbCluster: DocDBClientTypes.DBCluster?
+}
+
+extension RestoreDBClusterFromSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterFromSnapshotResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
+    }
+}
+
 enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -14561,47 +14725,6 @@ enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBin
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension RestoreDBClusterFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreDBClusterFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct RestoreDBClusterFromSnapshotOutputResponse: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct RestoreDBClusterFromSnapshotOutputResponseBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension RestoreDBClusterFromSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterFromSnapshotResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -14815,7 +14938,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
         let restoreToTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreToTime)
         restoreToTime = restoreToTimeDecoded
-        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime) ?? false
+        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime)
         useLatestRestorableTime = useLatestRestorableTimeDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
@@ -14885,6 +15008,47 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
+extension RestoreDBClusterToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreDBClusterToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct RestoreDBClusterToPointInTimeOutput: Swift.Equatable {
+    /// Detailed information about a cluster.
+    public var dbCluster: DocDBClientTypes.DBCluster?
+
+    public init(
+        dbCluster: DocDBClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct RestoreDBClusterToPointInTimeOutputBody: Swift.Equatable {
+    let dbCluster: DocDBClientTypes.DBCluster?
+}
+
+extension RestoreDBClusterToPointInTimeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterToPointInTimeResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
+    }
+}
+
 enum RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -14906,47 +15070,6 @@ enum RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBi
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension RestoreDBClusterToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreDBClusterToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct RestoreDBClusterToPointInTimeOutputResponse: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterToPointInTimeResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -15364,23 +15487,11 @@ extension StartDBClusterInputBody: Swift.Decodable {
     }
 }
 
-enum StartDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension StartDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartDBClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
             self.dbCluster = nil
@@ -15388,7 +15499,7 @@ extension StartDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDBClusterOutputResponse: Swift.Equatable {
+public struct StartDBClusterOutput: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -15400,11 +15511,11 @@ public struct StartDBClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartDBClusterOutputResponseBody: Swift.Equatable {
+struct StartDBClusterOutputBody: Swift.Equatable {
     let dbCluster: DocDBClientTypes.DBCluster?
 }
 
-extension StartDBClusterOutputResponseBody: Swift.Decodable {
+extension StartDBClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbCluster = "DBCluster"
     }
@@ -15414,6 +15525,18 @@ extension StartDBClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
         dbCluster = dbClusterDecoded
+    }
+}
+
+enum StartDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15463,23 +15586,11 @@ extension StopDBClusterInputBody: Swift.Decodable {
     }
 }
 
-enum StopDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension StopDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopDBClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
             self.dbCluster = nil
@@ -15487,7 +15598,7 @@ extension StopDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDBClusterOutputResponse: Swift.Equatable {
+public struct StopDBClusterOutput: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -15499,11 +15610,11 @@ public struct StopDBClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopDBClusterOutputResponseBody: Swift.Equatable {
+struct StopDBClusterOutputBody: Swift.Equatable {
     let dbCluster: DocDBClientTypes.DBCluster?
 }
 
-extension StopDBClusterOutputResponseBody: Swift.Decodable {
+extension StopDBClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbCluster = "DBCluster"
     }
@@ -15513,6 +15624,18 @@ extension StopDBClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StopDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
         dbCluster = dbClusterDecoded
+    }
+}
+
+enum StopDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15951,7 +16074,7 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if autoUpgrade != false {
+        if let autoUpgrade = autoUpgrade {
             try container.encode(autoUpgrade, forKey: ClientRuntime.Key("AutoUpgrade"))
         }
         if let description = description {
@@ -15963,7 +16086,7 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if isMajorVersionUpgrade != false {
+        if let isMajorVersionUpgrade = isMajorVersionUpgrade {
             try container.encode(isMajorVersionUpgrade, forKey: ClientRuntime.Key("IsMajorVersionUpgrade"))
         }
     }
@@ -15976,9 +16099,9 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
         engineVersion = engineVersionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade) ?? false
+        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade)
         autoUpgrade = autoUpgradeDecoded
-        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade) ?? false
+        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade)
         isMajorVersionUpgrade = isMajorVersionUpgradeDecoded
     }
 }
@@ -15987,7 +16110,7 @@ extension DocDBClientTypes {
     /// The version of the database engine that an instance can be upgraded to.
     public struct UpgradeTarget: Swift.Equatable {
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
-        public var autoUpgrade: Swift.Bool
+        public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that an instance can be upgraded to.
         public var description: Swift.String?
         /// The name of the upgrade target database engine.
@@ -15995,14 +16118,14 @@ extension DocDBClientTypes {
         /// The version number of the upgrade target database engine.
         public var engineVersion: Swift.String?
         /// A value that indicates whether a database engine is upgraded to a major version.
-        public var isMajorVersionUpgrade: Swift.Bool
+        public var isMajorVersionUpgrade: Swift.Bool?
 
         public init(
-            autoUpgrade: Swift.Bool = false,
+            autoUpgrade: Swift.Bool? = nil,
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            isMajorVersionUpgrade: Swift.Bool = false
+            isMajorVersionUpgrade: Swift.Bool? = nil
         )
         {
             self.autoUpgrade = autoUpgrade

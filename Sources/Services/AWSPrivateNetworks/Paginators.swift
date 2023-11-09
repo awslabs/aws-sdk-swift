@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension PrivateNetworksClient {
-    /// Paginate over `[ListDeviceIdentifiersOutputResponse]` results.
+    /// Paginate over `[ListDeviceIdentifiersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeviceIdentifiersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceIdentifiersOutputResponse`
-    public func listDeviceIdentifiersPaginated(input: ListDeviceIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutputResponse>(input: input, inputKey: \ListDeviceIdentifiersInput.startToken, outputKey: \ListDeviceIdentifiersOutputResponse.nextToken, paginationFunction: self.listDeviceIdentifiers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceIdentifiersOutput`
+    public func listDeviceIdentifiersPaginated(input: ListDeviceIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput>(input: input, inputKey: \ListDeviceIdentifiersInput.startToken, outputKey: \ListDeviceIdentifiersOutput.nextToken, paginationFunction: self.listDeviceIdentifiers(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListDeviceIdentifiersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeviceIdentifiersInput, Output == ListDeviceIdentifiersOutputResponse {
+extension PaginatorSequence where Input == ListDeviceIdentifiersInput, Output == ListDeviceIdentifiersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeviceIdentifiersPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.DeviceIdentifier]`
     /// - Returns: `[PrivateNetworksClientTypes.DeviceIdentifier]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == ListDeviceIdentifiersInput, Output ==
     }
 }
 extension PrivateNetworksClient {
-    /// Paginate over `[ListNetworkResourcesOutputResponse]` results.
+    /// Paginate over `[ListNetworkResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNetworkResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkResourcesOutputResponse`
-    public func listNetworkResourcesPaginated(input: ListNetworkResourcesInput) -> ClientRuntime.PaginatorSequence<ListNetworkResourcesInput, ListNetworkResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNetworkResourcesInput, ListNetworkResourcesOutputResponse>(input: input, inputKey: \ListNetworkResourcesInput.startToken, outputKey: \ListNetworkResourcesOutputResponse.nextToken, paginationFunction: self.listNetworkResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkResourcesOutput`
+    public func listNetworkResourcesPaginated(input: ListNetworkResourcesInput) -> ClientRuntime.PaginatorSequence<ListNetworkResourcesInput, ListNetworkResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNetworkResourcesInput, ListNetworkResourcesOutput>(input: input, inputKey: \ListNetworkResourcesInput.startToken, outputKey: \ListNetworkResourcesOutput.nextToken, paginationFunction: self.listNetworkResources(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListNetworkResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListNetworkResourcesInput, Output == ListNetworkResourcesOutputResponse {
+extension PaginatorSequence where Input == ListNetworkResourcesInput, Output == ListNetworkResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNetworkResourcesPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.NetworkResource]`
     /// - Returns: `[PrivateNetworksClientTypes.NetworkResource]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == ListNetworkResourcesInput, Output == 
     }
 }
 extension PrivateNetworksClient {
-    /// Paginate over `[ListNetworksOutputResponse]` results.
+    /// Paginate over `[ListNetworksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNetworksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworksOutputResponse`
-    public func listNetworksPaginated(input: ListNetworksInput) -> ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutputResponse>(input: input, inputKey: \ListNetworksInput.startToken, outputKey: \ListNetworksOutputResponse.nextToken, paginationFunction: self.listNetworks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworksOutput`
+    public func listNetworksPaginated(input: ListNetworksInput) -> ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput> {
+        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \ListNetworksInput.startToken, outputKey: \ListNetworksOutput.nextToken, paginationFunction: self.listNetworks(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension ListNetworksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListNetworksInput, Output == ListNetworksOutputResponse {
+extension PaginatorSequence where Input == ListNetworksInput, Output == ListNetworksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNetworksPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.Network]`
     /// - Returns: `[PrivateNetworksClientTypes.Network]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == ListNetworksInput, Output == ListNetw
     }
 }
 extension PrivateNetworksClient {
-    /// Paginate over `[ListNetworkSitesOutputResponse]` results.
+    /// Paginate over `[ListNetworkSitesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNetworkSitesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkSitesOutputResponse`
-    public func listNetworkSitesPaginated(input: ListNetworkSitesInput) -> ClientRuntime.PaginatorSequence<ListNetworkSitesInput, ListNetworkSitesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNetworkSitesInput, ListNetworkSitesOutputResponse>(input: input, inputKey: \ListNetworkSitesInput.startToken, outputKey: \ListNetworkSitesOutputResponse.nextToken, paginationFunction: self.listNetworkSites(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkSitesOutput`
+    public func listNetworkSitesPaginated(input: ListNetworkSitesInput) -> ClientRuntime.PaginatorSequence<ListNetworkSitesInput, ListNetworkSitesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNetworkSitesInput, ListNetworkSitesOutput>(input: input, inputKey: \ListNetworkSitesInput.startToken, outputKey: \ListNetworkSitesOutput.nextToken, paginationFunction: self.listNetworkSites(input:))
     }
 }
 
@@ -121,7 +121,7 @@ extension ListNetworkSitesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListNetworkSitesInput, Output == ListNetworkSitesOutputResponse {
+extension PaginatorSequence where Input == ListNetworkSitesInput, Output == ListNetworkSitesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNetworkSitesPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.NetworkSite]`
     /// - Returns: `[PrivateNetworksClientTypes.NetworkSite]`
@@ -130,16 +130,16 @@ extension PaginatorSequence where Input == ListNetworkSitesInput, Output == List
     }
 }
 extension PrivateNetworksClient {
-    /// Paginate over `[ListOrdersOutputResponse]` results.
+    /// Paginate over `[ListOrdersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOrdersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOrdersOutputResponse`
-    public func listOrdersPaginated(input: ListOrdersInput) -> ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutputResponse>(input: input, inputKey: \ListOrdersInput.startToken, outputKey: \ListOrdersOutputResponse.nextToken, paginationFunction: self.listOrders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOrdersOutput`
+    public func listOrdersPaginated(input: ListOrdersInput) -> ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput> {
+        return ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput>(input: input, inputKey: \ListOrdersInput.startToken, outputKey: \ListOrdersOutput.nextToken, paginationFunction: self.listOrders(input:))
     }
 }
 
@@ -153,7 +153,7 @@ extension ListOrdersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOrdersInput, Output == ListOrdersOutputResponse {
+extension PaginatorSequence where Input == ListOrdersInput, Output == ListOrdersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOrdersPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.Order]`
     /// - Returns: `[PrivateNetworksClientTypes.Order]`

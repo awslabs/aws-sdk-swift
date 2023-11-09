@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension QuickSightClient {
-    /// Paginate over `[DescribeFolderPermissionsOutputResponse]` results.
+    /// Paginate over `[DescribeFolderPermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFolderPermissionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderPermissionsOutputResponse`
-    public func describeFolderPermissionsPaginated(input: DescribeFolderPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutputResponse>(input: input, inputKey: \DescribeFolderPermissionsInput.nextToken, outputKey: \DescribeFolderPermissionsOutputResponse.nextToken, paginationFunction: self.describeFolderPermissions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderPermissionsOutput`
+    public func describeFolderPermissionsPaginated(input: DescribeFolderPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput>(input: input, inputKey: \DescribeFolderPermissionsInput.nextToken, outputKey: \DescribeFolderPermissionsOutput.nextToken, paginationFunction: self.describeFolderPermissions(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension DescribeFolderPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeFolderPermissionsInput, Output == DescribeFolderPermissionsOutputResponse {
+extension PaginatorSequence where Input == DescribeFolderPermissionsInput, Output == DescribeFolderPermissionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeFolderPermissionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.ResourcePermission]`
     /// - Returns: `[QuickSightClientTypes.ResourcePermission]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == DescribeFolderPermissionsInput, Outpu
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[DescribeFolderResolvedPermissionsOutputResponse]` results.
+    /// Paginate over `[DescribeFolderResolvedPermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFolderResolvedPermissionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderResolvedPermissionsOutputResponse`
-    public func describeFolderResolvedPermissionsPaginated(input: DescribeFolderResolvedPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutputResponse>(input: input, inputKey: \DescribeFolderResolvedPermissionsInput.nextToken, outputKey: \DescribeFolderResolvedPermissionsOutputResponse.nextToken, paginationFunction: self.describeFolderResolvedPermissions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderResolvedPermissionsOutput`
+    public func describeFolderResolvedPermissionsPaginated(input: DescribeFolderResolvedPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput>(input: input, inputKey: \DescribeFolderResolvedPermissionsInput.nextToken, outputKey: \DescribeFolderResolvedPermissionsOutput.nextToken, paginationFunction: self.describeFolderResolvedPermissions(input:))
     }
 }
 
@@ -60,7 +60,7 @@ extension DescribeFolderResolvedPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeFolderResolvedPermissionsInput, Output == DescribeFolderResolvedPermissionsOutputResponse {
+extension PaginatorSequence where Input == DescribeFolderResolvedPermissionsInput, Output == DescribeFolderResolvedPermissionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeFolderResolvedPermissionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.ResourcePermission]`
     /// - Returns: `[QuickSightClientTypes.ResourcePermission]`
@@ -69,16 +69,16 @@ extension PaginatorSequence where Input == DescribeFolderResolvedPermissionsInpu
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListAnalysesOutputResponse]` results.
+    /// Paginate over `[ListAnalysesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAnalysesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAnalysesOutputResponse`
-    public func listAnalysesPaginated(input: ListAnalysesInput) -> ClientRuntime.PaginatorSequence<ListAnalysesInput, ListAnalysesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAnalysesInput, ListAnalysesOutputResponse>(input: input, inputKey: \ListAnalysesInput.nextToken, outputKey: \ListAnalysesOutputResponse.nextToken, paginationFunction: self.listAnalyses(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAnalysesOutput`
+    public func listAnalysesPaginated(input: ListAnalysesInput) -> ClientRuntime.PaginatorSequence<ListAnalysesInput, ListAnalysesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAnalysesInput, ListAnalysesOutput>(input: input, inputKey: \ListAnalysesInput.nextToken, outputKey: \ListAnalysesOutput.nextToken, paginationFunction: self.listAnalyses(input:))
     }
 }
 
@@ -91,7 +91,7 @@ extension ListAnalysesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAnalysesInput, Output == ListAnalysesOutputResponse {
+extension PaginatorSequence where Input == ListAnalysesInput, Output == ListAnalysesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAnalysesPaginated`
     /// to access the nested member `[QuickSightClientTypes.AnalysisSummary]`
     /// - Returns: `[QuickSightClientTypes.AnalysisSummary]`
@@ -100,16 +100,16 @@ extension PaginatorSequence where Input == ListAnalysesInput, Output == ListAnal
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListAssetBundleExportJobsOutputResponse]` results.
+    /// Paginate over `[ListAssetBundleExportJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAssetBundleExportJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleExportJobsOutputResponse`
-    public func listAssetBundleExportJobsPaginated(input: ListAssetBundleExportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutputResponse>(input: input, inputKey: \ListAssetBundleExportJobsInput.nextToken, outputKey: \ListAssetBundleExportJobsOutputResponse.nextToken, paginationFunction: self.listAssetBundleExportJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleExportJobsOutput`
+    public func listAssetBundleExportJobsPaginated(input: ListAssetBundleExportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput>(input: input, inputKey: \ListAssetBundleExportJobsInput.nextToken, outputKey: \ListAssetBundleExportJobsOutput.nextToken, paginationFunction: self.listAssetBundleExportJobs(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension ListAssetBundleExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAssetBundleExportJobsInput, Output == ListAssetBundleExportJobsOutputResponse {
+extension PaginatorSequence where Input == ListAssetBundleExportJobsInput, Output == ListAssetBundleExportJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAssetBundleExportJobsPaginated`
     /// to access the nested member `[QuickSightClientTypes.AssetBundleExportJobSummary]`
     /// - Returns: `[QuickSightClientTypes.AssetBundleExportJobSummary]`
@@ -131,16 +131,16 @@ extension PaginatorSequence where Input == ListAssetBundleExportJobsInput, Outpu
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListAssetBundleImportJobsOutputResponse]` results.
+    /// Paginate over `[ListAssetBundleImportJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAssetBundleImportJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleImportJobsOutputResponse`
-    public func listAssetBundleImportJobsPaginated(input: ListAssetBundleImportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutputResponse>(input: input, inputKey: \ListAssetBundleImportJobsInput.nextToken, outputKey: \ListAssetBundleImportJobsOutputResponse.nextToken, paginationFunction: self.listAssetBundleImportJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleImportJobsOutput`
+    public func listAssetBundleImportJobsPaginated(input: ListAssetBundleImportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput>(input: input, inputKey: \ListAssetBundleImportJobsInput.nextToken, outputKey: \ListAssetBundleImportJobsOutput.nextToken, paginationFunction: self.listAssetBundleImportJobs(input:))
     }
 }
 
@@ -153,7 +153,7 @@ extension ListAssetBundleImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAssetBundleImportJobsInput, Output == ListAssetBundleImportJobsOutputResponse {
+extension PaginatorSequence where Input == ListAssetBundleImportJobsInput, Output == ListAssetBundleImportJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAssetBundleImportJobsPaginated`
     /// to access the nested member `[QuickSightClientTypes.AssetBundleImportJobSummary]`
     /// - Returns: `[QuickSightClientTypes.AssetBundleImportJobSummary]`
@@ -162,16 +162,16 @@ extension PaginatorSequence where Input == ListAssetBundleImportJobsInput, Outpu
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListDashboardsOutputResponse]` results.
+    /// Paginate over `[ListDashboardsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDashboardsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutputResponse`
-    public func listDashboardsPaginated(input: ListDashboardsInput) -> ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutputResponse>(input: input, inputKey: \ListDashboardsInput.nextToken, outputKey: \ListDashboardsOutputResponse.nextToken, paginationFunction: self.listDashboards(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutput`
+    public func listDashboardsPaginated(input: ListDashboardsInput) -> ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput>(input: input, inputKey: \ListDashboardsInput.nextToken, outputKey: \ListDashboardsOutput.nextToken, paginationFunction: self.listDashboards(input:))
     }
 }
 
@@ -184,7 +184,7 @@ extension ListDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDashboardsOutputResponse {
+extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDashboardsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DashboardSummary]`
     /// - Returns: `[QuickSightClientTypes.DashboardSummary]`
@@ -193,16 +193,16 @@ extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDa
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListDashboardVersionsOutputResponse]` results.
+    /// Paginate over `[ListDashboardVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDashboardVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardVersionsOutputResponse`
-    public func listDashboardVersionsPaginated(input: ListDashboardVersionsInput) -> ClientRuntime.PaginatorSequence<ListDashboardVersionsInput, ListDashboardVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDashboardVersionsInput, ListDashboardVersionsOutputResponse>(input: input, inputKey: \ListDashboardVersionsInput.nextToken, outputKey: \ListDashboardVersionsOutputResponse.nextToken, paginationFunction: self.listDashboardVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardVersionsOutput`
+    public func listDashboardVersionsPaginated(input: ListDashboardVersionsInput) -> ClientRuntime.PaginatorSequence<ListDashboardVersionsInput, ListDashboardVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDashboardVersionsInput, ListDashboardVersionsOutput>(input: input, inputKey: \ListDashboardVersionsInput.nextToken, outputKey: \ListDashboardVersionsOutput.nextToken, paginationFunction: self.listDashboardVersions(input:))
     }
 }
 
@@ -216,7 +216,7 @@ extension ListDashboardVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDashboardVersionsInput, Output == ListDashboardVersionsOutputResponse {
+extension PaginatorSequence where Input == ListDashboardVersionsInput, Output == ListDashboardVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDashboardVersionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DashboardVersionSummary]`
     /// - Returns: `[QuickSightClientTypes.DashboardVersionSummary]`
@@ -225,16 +225,16 @@ extension PaginatorSequence where Input == ListDashboardVersionsInput, Output ==
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListDataSetsOutputResponse]` results.
+    /// Paginate over `[ListDataSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataSetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSetsOutputResponse`
-    public func listDataSetsPaginated(input: ListDataSetsInput) -> ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutputResponse>(input: input, inputKey: \ListDataSetsInput.nextToken, outputKey: \ListDataSetsOutputResponse.nextToken, paginationFunction: self.listDataSets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSetsOutput`
+    public func listDataSetsPaginated(input: ListDataSetsInput) -> ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput>(input: input, inputKey: \ListDataSetsInput.nextToken, outputKey: \ListDataSetsOutput.nextToken, paginationFunction: self.listDataSets(input:))
     }
 }
 
@@ -247,7 +247,7 @@ extension ListDataSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataSetsInput, Output == ListDataSetsOutputResponse {
+extension PaginatorSequence where Input == ListDataSetsInput, Output == ListDataSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataSetsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSetSummary]`
     /// - Returns: `[QuickSightClientTypes.DataSetSummary]`
@@ -256,16 +256,16 @@ extension PaginatorSequence where Input == ListDataSetsInput, Output == ListData
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListDataSourcesOutputResponse]` results.
+    /// Paginate over `[ListDataSourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataSourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourcesOutputResponse`
-    public func listDataSourcesPaginated(input: ListDataSourcesInput) -> ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutputResponse>(input: input, inputKey: \ListDataSourcesInput.nextToken, outputKey: \ListDataSourcesOutputResponse.nextToken, paginationFunction: self.listDataSources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourcesOutput`
+    public func listDataSourcesPaginated(input: ListDataSourcesInput) -> ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput>(input: input, inputKey: \ListDataSourcesInput.nextToken, outputKey: \ListDataSourcesOutput.nextToken, paginationFunction: self.listDataSources(input:))
     }
 }
 
@@ -278,7 +278,7 @@ extension ListDataSourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataSourcesInput, Output == ListDataSourcesOutputResponse {
+extension PaginatorSequence where Input == ListDataSourcesInput, Output == ListDataSourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataSourcesPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSource]`
     /// - Returns: `[QuickSightClientTypes.DataSource]`
@@ -287,16 +287,16 @@ extension PaginatorSequence where Input == ListDataSourcesInput, Output == ListD
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListFolderMembersOutputResponse]` results.
+    /// Paginate over `[ListFolderMembersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFolderMembersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFolderMembersOutputResponse`
-    public func listFolderMembersPaginated(input: ListFolderMembersInput) -> ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutputResponse>(input: input, inputKey: \ListFolderMembersInput.nextToken, outputKey: \ListFolderMembersOutputResponse.nextToken, paginationFunction: self.listFolderMembers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFolderMembersOutput`
+    public func listFolderMembersPaginated(input: ListFolderMembersInput) -> ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutput> {
+        return ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutput>(input: input, inputKey: \ListFolderMembersInput.nextToken, outputKey: \ListFolderMembersOutput.nextToken, paginationFunction: self.listFolderMembers(input:))
     }
 }
 
@@ -310,7 +310,7 @@ extension ListFolderMembersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFolderMembersInput, Output == ListFolderMembersOutputResponse {
+extension PaginatorSequence where Input == ListFolderMembersInput, Output == ListFolderMembersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFolderMembersPaginated`
     /// to access the nested member `[QuickSightClientTypes.MemberIdArnPair]`
     /// - Returns: `[QuickSightClientTypes.MemberIdArnPair]`
@@ -319,16 +319,16 @@ extension PaginatorSequence where Input == ListFolderMembersInput, Output == Lis
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListFoldersOutputResponse]` results.
+    /// Paginate over `[ListFoldersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFoldersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFoldersOutputResponse`
-    public func listFoldersPaginated(input: ListFoldersInput) -> ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutputResponse>(input: input, inputKey: \ListFoldersInput.nextToken, outputKey: \ListFoldersOutputResponse.nextToken, paginationFunction: self.listFolders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFoldersOutput`
+    public func listFoldersPaginated(input: ListFoldersInput) -> ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutput> {
+        return ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutput>(input: input, inputKey: \ListFoldersInput.nextToken, outputKey: \ListFoldersOutput.nextToken, paginationFunction: self.listFolders(input:))
     }
 }
 
@@ -341,7 +341,7 @@ extension ListFoldersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFoldersInput, Output == ListFoldersOutputResponse {
+extension PaginatorSequence where Input == ListFoldersInput, Output == ListFoldersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFoldersPaginated`
     /// to access the nested member `[QuickSightClientTypes.FolderSummary]`
     /// - Returns: `[QuickSightClientTypes.FolderSummary]`
@@ -350,16 +350,16 @@ extension PaginatorSequence where Input == ListFoldersInput, Output == ListFolde
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListGroupMembershipsOutputResponse]` results.
+    /// Paginate over `[ListGroupMembershipsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGroupMembershipsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembershipsOutputResponse`
-    public func listGroupMembershipsPaginated(input: ListGroupMembershipsInput) -> ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutputResponse>(input: input, inputKey: \ListGroupMembershipsInput.nextToken, outputKey: \ListGroupMembershipsOutputResponse.nextToken, paginationFunction: self.listGroupMemberships(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembershipsOutput`
+    public func listGroupMembershipsPaginated(input: ListGroupMembershipsInput) -> ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutput>(input: input, inputKey: \ListGroupMembershipsInput.nextToken, outputKey: \ListGroupMembershipsOutput.nextToken, paginationFunction: self.listGroupMemberships(input:))
     }
 }
 
@@ -374,7 +374,7 @@ extension ListGroupMembershipsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGroupMembershipsInput, Output == ListGroupMembershipsOutputResponse {
+extension PaginatorSequence where Input == ListGroupMembershipsInput, Output == ListGroupMembershipsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGroupMembershipsPaginated`
     /// to access the nested member `[QuickSightClientTypes.GroupMember]`
     /// - Returns: `[QuickSightClientTypes.GroupMember]`
@@ -383,16 +383,16 @@ extension PaginatorSequence where Input == ListGroupMembershipsInput, Output == 
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListGroupsOutputResponse]` results.
+    /// Paginate over `[ListGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutputResponse`
-    public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutputResponse.nextToken, paginationFunction: self.listGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutput`
+    public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutput.nextToken, paginationFunction: self.listGroups(input:))
     }
 }
 
@@ -406,7 +406,7 @@ extension ListGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutputResponse {
+extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGroupsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Group]`
     /// - Returns: `[QuickSightClientTypes.Group]`
@@ -415,16 +415,16 @@ extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroups
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListIAMPolicyAssignmentsOutputResponse]` results.
+    /// Paginate over `[ListIAMPolicyAssignmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIAMPolicyAssignmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsOutputResponse`
-    public func listIAMPolicyAssignmentsPaginated(input: ListIAMPolicyAssignmentsInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutputResponse>(input: input, inputKey: \ListIAMPolicyAssignmentsInput.nextToken, outputKey: \ListIAMPolicyAssignmentsOutputResponse.nextToken, paginationFunction: self.listIAMPolicyAssignments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsOutput`
+    public func listIAMPolicyAssignmentsPaginated(input: ListIAMPolicyAssignmentsInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput>(input: input, inputKey: \ListIAMPolicyAssignmentsInput.nextToken, outputKey: \ListIAMPolicyAssignmentsOutput.nextToken, paginationFunction: self.listIAMPolicyAssignments(input:))
     }
 }
 
@@ -439,7 +439,7 @@ extension ListIAMPolicyAssignmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIAMPolicyAssignmentsInput, Output == ListIAMPolicyAssignmentsOutputResponse {
+extension PaginatorSequence where Input == ListIAMPolicyAssignmentsInput, Output == ListIAMPolicyAssignmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIAMPolicyAssignmentsPaginated`
     /// to access the nested member `[QuickSightClientTypes.IAMPolicyAssignmentSummary]`
     /// - Returns: `[QuickSightClientTypes.IAMPolicyAssignmentSummary]`
@@ -448,16 +448,16 @@ extension PaginatorSequence where Input == ListIAMPolicyAssignmentsInput, Output
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListIAMPolicyAssignmentsForUserOutputResponse]` results.
+    /// Paginate over `[ListIAMPolicyAssignmentsForUserOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIAMPolicyAssignmentsForUserInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsForUserOutputResponse`
-    public func listIAMPolicyAssignmentsForUserPaginated(input: ListIAMPolicyAssignmentsForUserInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutputResponse>(input: input, inputKey: \ListIAMPolicyAssignmentsForUserInput.nextToken, outputKey: \ListIAMPolicyAssignmentsForUserOutputResponse.nextToken, paginationFunction: self.listIAMPolicyAssignmentsForUser(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsForUserOutput`
+    public func listIAMPolicyAssignmentsForUserPaginated(input: ListIAMPolicyAssignmentsForUserInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput> {
+        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput>(input: input, inputKey: \ListIAMPolicyAssignmentsForUserInput.nextToken, outputKey: \ListIAMPolicyAssignmentsForUserOutput.nextToken, paginationFunction: self.listIAMPolicyAssignmentsForUser(input:))
     }
 }
 
@@ -472,7 +472,7 @@ extension ListIAMPolicyAssignmentsForUserInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIAMPolicyAssignmentsForUserInput, Output == ListIAMPolicyAssignmentsForUserOutputResponse {
+extension PaginatorSequence where Input == ListIAMPolicyAssignmentsForUserInput, Output == ListIAMPolicyAssignmentsForUserOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIAMPolicyAssignmentsForUserPaginated`
     /// to access the nested member `[QuickSightClientTypes.ActiveIAMPolicyAssignment]`
     /// - Returns: `[QuickSightClientTypes.ActiveIAMPolicyAssignment]`
@@ -481,16 +481,16 @@ extension PaginatorSequence where Input == ListIAMPolicyAssignmentsForUserInput,
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListIngestionsOutputResponse]` results.
+    /// Paginate over `[ListIngestionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIngestionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionsOutputResponse`
-    public func listIngestionsPaginated(input: ListIngestionsInput) -> ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutputResponse>(input: input, inputKey: \ListIngestionsInput.nextToken, outputKey: \ListIngestionsOutputResponse.nextToken, paginationFunction: self.listIngestions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionsOutput`
+    public func listIngestionsPaginated(input: ListIngestionsInput) -> ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput>(input: input, inputKey: \ListIngestionsInput.nextToken, outputKey: \ListIngestionsOutput.nextToken, paginationFunction: self.listIngestions(input:))
     }
 }
 
@@ -504,7 +504,7 @@ extension ListIngestionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIngestionsInput, Output == ListIngestionsOutputResponse {
+extension PaginatorSequence where Input == ListIngestionsInput, Output == ListIngestionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIngestionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Ingestion]`
     /// - Returns: `[QuickSightClientTypes.Ingestion]`
@@ -513,16 +513,16 @@ extension PaginatorSequence where Input == ListIngestionsInput, Output == ListIn
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListNamespacesOutputResponse]` results.
+    /// Paginate over `[ListNamespacesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNamespacesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNamespacesOutputResponse`
-    public func listNamespacesPaginated(input: ListNamespacesInput) -> ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutputResponse>(input: input, inputKey: \ListNamespacesInput.nextToken, outputKey: \ListNamespacesOutputResponse.nextToken, paginationFunction: self.listNamespaces(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNamespacesOutput`
+    public func listNamespacesPaginated(input: ListNamespacesInput) -> ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput>(input: input, inputKey: \ListNamespacesInput.nextToken, outputKey: \ListNamespacesOutput.nextToken, paginationFunction: self.listNamespaces(input:))
     }
 }
 
@@ -535,7 +535,7 @@ extension ListNamespacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListNamespacesInput, Output == ListNamespacesOutputResponse {
+extension PaginatorSequence where Input == ListNamespacesInput, Output == ListNamespacesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNamespacesPaginated`
     /// to access the nested member `[QuickSightClientTypes.NamespaceInfoV2]`
     /// - Returns: `[QuickSightClientTypes.NamespaceInfoV2]`
@@ -544,16 +544,16 @@ extension PaginatorSequence where Input == ListNamespacesInput, Output == ListNa
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListTemplateAliasesOutputResponse]` results.
+    /// Paginate over `[ListTemplateAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTemplateAliasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateAliasesOutputResponse`
-    public func listTemplateAliasesPaginated(input: ListTemplateAliasesInput) -> ClientRuntime.PaginatorSequence<ListTemplateAliasesInput, ListTemplateAliasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTemplateAliasesInput, ListTemplateAliasesOutputResponse>(input: input, inputKey: \ListTemplateAliasesInput.nextToken, outputKey: \ListTemplateAliasesOutputResponse.nextToken, paginationFunction: self.listTemplateAliases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateAliasesOutput`
+    public func listTemplateAliasesPaginated(input: ListTemplateAliasesInput) -> ClientRuntime.PaginatorSequence<ListTemplateAliasesInput, ListTemplateAliasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTemplateAliasesInput, ListTemplateAliasesOutput>(input: input, inputKey: \ListTemplateAliasesInput.nextToken, outputKey: \ListTemplateAliasesOutput.nextToken, paginationFunction: self.listTemplateAliases(input:))
     }
 }
 
@@ -567,7 +567,7 @@ extension ListTemplateAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTemplateAliasesInput, Output == ListTemplateAliasesOutputResponse {
+extension PaginatorSequence where Input == ListTemplateAliasesInput, Output == ListTemplateAliasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTemplateAliasesPaginated`
     /// to access the nested member `[QuickSightClientTypes.TemplateAlias]`
     /// - Returns: `[QuickSightClientTypes.TemplateAlias]`
@@ -576,16 +576,16 @@ extension PaginatorSequence where Input == ListTemplateAliasesInput, Output == L
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListTemplatesOutputResponse]` results.
+    /// Paginate over `[ListTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTemplatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTemplatesOutputResponse`
-    public func listTemplatesPaginated(input: ListTemplatesInput) -> ClientRuntime.PaginatorSequence<ListTemplatesInput, ListTemplatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTemplatesInput, ListTemplatesOutputResponse>(input: input, inputKey: \ListTemplatesInput.nextToken, outputKey: \ListTemplatesOutputResponse.nextToken, paginationFunction: self.listTemplates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTemplatesOutput`
+    public func listTemplatesPaginated(input: ListTemplatesInput) -> ClientRuntime.PaginatorSequence<ListTemplatesInput, ListTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTemplatesInput, ListTemplatesOutput>(input: input, inputKey: \ListTemplatesInput.nextToken, outputKey: \ListTemplatesOutput.nextToken, paginationFunction: self.listTemplates(input:))
     }
 }
 
@@ -598,7 +598,7 @@ extension ListTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTemplatesInput, Output == ListTemplatesOutputResponse {
+extension PaginatorSequence where Input == ListTemplatesInput, Output == ListTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTemplatesPaginated`
     /// to access the nested member `[QuickSightClientTypes.TemplateSummary]`
     /// - Returns: `[QuickSightClientTypes.TemplateSummary]`
@@ -607,16 +607,16 @@ extension PaginatorSequence where Input == ListTemplatesInput, Output == ListTem
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListTemplateVersionsOutputResponse]` results.
+    /// Paginate over `[ListTemplateVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTemplateVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateVersionsOutputResponse`
-    public func listTemplateVersionsPaginated(input: ListTemplateVersionsInput) -> ClientRuntime.PaginatorSequence<ListTemplateVersionsInput, ListTemplateVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTemplateVersionsInput, ListTemplateVersionsOutputResponse>(input: input, inputKey: \ListTemplateVersionsInput.nextToken, outputKey: \ListTemplateVersionsOutputResponse.nextToken, paginationFunction: self.listTemplateVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateVersionsOutput`
+    public func listTemplateVersionsPaginated(input: ListTemplateVersionsInput) -> ClientRuntime.PaginatorSequence<ListTemplateVersionsInput, ListTemplateVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTemplateVersionsInput, ListTemplateVersionsOutput>(input: input, inputKey: \ListTemplateVersionsInput.nextToken, outputKey: \ListTemplateVersionsOutput.nextToken, paginationFunction: self.listTemplateVersions(input:))
     }
 }
 
@@ -630,7 +630,7 @@ extension ListTemplateVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTemplateVersionsInput, Output == ListTemplateVersionsOutputResponse {
+extension PaginatorSequence where Input == ListTemplateVersionsInput, Output == ListTemplateVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTemplateVersionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.TemplateVersionSummary]`
     /// - Returns: `[QuickSightClientTypes.TemplateVersionSummary]`
@@ -639,16 +639,16 @@ extension PaginatorSequence where Input == ListTemplateVersionsInput, Output == 
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListThemesOutputResponse]` results.
+    /// Paginate over `[ListThemesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListThemesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListThemesOutputResponse`
-    public func listThemesPaginated(input: ListThemesInput) -> ClientRuntime.PaginatorSequence<ListThemesInput, ListThemesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListThemesInput, ListThemesOutputResponse>(input: input, inputKey: \ListThemesInput.nextToken, outputKey: \ListThemesOutputResponse.nextToken, paginationFunction: self.listThemes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThemesOutput`
+    public func listThemesPaginated(input: ListThemesInput) -> ClientRuntime.PaginatorSequence<ListThemesInput, ListThemesOutput> {
+        return ClientRuntime.PaginatorSequence<ListThemesInput, ListThemesOutput>(input: input, inputKey: \ListThemesInput.nextToken, outputKey: \ListThemesOutput.nextToken, paginationFunction: self.listThemes(input:))
     }
 }
 
@@ -662,7 +662,7 @@ extension ListThemesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThemesInput, Output == ListThemesOutputResponse {
+extension PaginatorSequence where Input == ListThemesInput, Output == ListThemesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThemesPaginated`
     /// to access the nested member `[QuickSightClientTypes.ThemeSummary]`
     /// - Returns: `[QuickSightClientTypes.ThemeSummary]`
@@ -671,16 +671,16 @@ extension PaginatorSequence where Input == ListThemesInput, Output == ListThemes
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListThemeVersionsOutputResponse]` results.
+    /// Paginate over `[ListThemeVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListThemeVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListThemeVersionsOutputResponse`
-    public func listThemeVersionsPaginated(input: ListThemeVersionsInput) -> ClientRuntime.PaginatorSequence<ListThemeVersionsInput, ListThemeVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListThemeVersionsInput, ListThemeVersionsOutputResponse>(input: input, inputKey: \ListThemeVersionsInput.nextToken, outputKey: \ListThemeVersionsOutputResponse.nextToken, paginationFunction: self.listThemeVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThemeVersionsOutput`
+    public func listThemeVersionsPaginated(input: ListThemeVersionsInput) -> ClientRuntime.PaginatorSequence<ListThemeVersionsInput, ListThemeVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListThemeVersionsInput, ListThemeVersionsOutput>(input: input, inputKey: \ListThemeVersionsInput.nextToken, outputKey: \ListThemeVersionsOutput.nextToken, paginationFunction: self.listThemeVersions(input:))
     }
 }
 
@@ -694,7 +694,7 @@ extension ListThemeVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThemeVersionsInput, Output == ListThemeVersionsOutputResponse {
+extension PaginatorSequence where Input == ListThemeVersionsInput, Output == ListThemeVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThemeVersionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.ThemeVersionSummary]`
     /// - Returns: `[QuickSightClientTypes.ThemeVersionSummary]`
@@ -703,16 +703,16 @@ extension PaginatorSequence where Input == ListThemeVersionsInput, Output == Lis
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListTopicsOutputResponse]` results.
+    /// Paginate over `[ListTopicsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTopicsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsOutputResponse`
-    public func listTopicsPaginated(input: ListTopicsInput) -> ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutputResponse>(input: input, inputKey: \ListTopicsInput.nextToken, outputKey: \ListTopicsOutputResponse.nextToken, paginationFunction: self.listTopics(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsOutput`
+    public func listTopicsPaginated(input: ListTopicsInput) -> ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput>(input: input, inputKey: \ListTopicsInput.nextToken, outputKey: \ListTopicsOutput.nextToken, paginationFunction: self.listTopics(input:))
     }
 }
 
@@ -725,16 +725,16 @@ extension ListTopicsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension QuickSightClient {
-    /// Paginate over `[ListUserGroupsOutputResponse]` results.
+    /// Paginate over `[ListUserGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUserGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUserGroupsOutputResponse`
-    public func listUserGroupsPaginated(input: ListUserGroupsInput) -> ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutputResponse>(input: input, inputKey: \ListUserGroupsInput.nextToken, outputKey: \ListUserGroupsOutputResponse.nextToken, paginationFunction: self.listUserGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUserGroupsOutput`
+    public func listUserGroupsPaginated(input: ListUserGroupsInput) -> ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutput>(input: input, inputKey: \ListUserGroupsInput.nextToken, outputKey: \ListUserGroupsOutput.nextToken, paginationFunction: self.listUserGroups(input:))
     }
 }
 
@@ -749,7 +749,7 @@ extension ListUserGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUserGroupsInput, Output == ListUserGroupsOutputResponse {
+extension PaginatorSequence where Input == ListUserGroupsInput, Output == ListUserGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUserGroupsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Group]`
     /// - Returns: `[QuickSightClientTypes.Group]`
@@ -758,16 +758,16 @@ extension PaginatorSequence where Input == ListUserGroupsInput, Output == ListUs
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListUsersOutputResponse]` results.
+    /// Paginate over `[ListUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUsersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
-    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutputResponse.nextToken, paginationFunction: self.listUsers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
+    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutput.nextToken, paginationFunction: self.listUsers(input:))
     }
 }
 
@@ -781,7 +781,7 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutputResponse {
+extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
     /// to access the nested member `[QuickSightClientTypes.User]`
     /// - Returns: `[QuickSightClientTypes.User]`
@@ -790,16 +790,16 @@ extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOu
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[ListVPCConnectionsOutputResponse]` results.
+    /// Paginate over `[ListVPCConnectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVPCConnectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVPCConnectionsOutputResponse`
-    public func listVPCConnectionsPaginated(input: ListVPCConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutputResponse>(input: input, inputKey: \ListVPCConnectionsInput.nextToken, outputKey: \ListVPCConnectionsOutputResponse.nextToken, paginationFunction: self.listVPCConnections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVPCConnectionsOutput`
+    public func listVPCConnectionsPaginated(input: ListVPCConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutput>(input: input, inputKey: \ListVPCConnectionsInput.nextToken, outputKey: \ListVPCConnectionsOutput.nextToken, paginationFunction: self.listVPCConnections(input:))
     }
 }
 
@@ -812,16 +812,16 @@ extension ListVPCConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension QuickSightClient {
-    /// Paginate over `[SearchAnalysesOutputResponse]` results.
+    /// Paginate over `[SearchAnalysesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchAnalysesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchAnalysesOutputResponse`
-    public func searchAnalysesPaginated(input: SearchAnalysesInput) -> ClientRuntime.PaginatorSequence<SearchAnalysesInput, SearchAnalysesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchAnalysesInput, SearchAnalysesOutputResponse>(input: input, inputKey: \SearchAnalysesInput.nextToken, outputKey: \SearchAnalysesOutputResponse.nextToken, paginationFunction: self.searchAnalyses(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchAnalysesOutput`
+    public func searchAnalysesPaginated(input: SearchAnalysesInput) -> ClientRuntime.PaginatorSequence<SearchAnalysesInput, SearchAnalysesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchAnalysesInput, SearchAnalysesOutput>(input: input, inputKey: \SearchAnalysesInput.nextToken, outputKey: \SearchAnalysesOutput.nextToken, paginationFunction: self.searchAnalyses(input:))
     }
 }
 
@@ -835,7 +835,7 @@ extension SearchAnalysesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchAnalysesInput, Output == SearchAnalysesOutputResponse {
+extension PaginatorSequence where Input == SearchAnalysesInput, Output == SearchAnalysesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchAnalysesPaginated`
     /// to access the nested member `[QuickSightClientTypes.AnalysisSummary]`
     /// - Returns: `[QuickSightClientTypes.AnalysisSummary]`
@@ -844,16 +844,16 @@ extension PaginatorSequence where Input == SearchAnalysesInput, Output == Search
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[SearchDashboardsOutputResponse]` results.
+    /// Paginate over `[SearchDashboardsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchDashboardsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchDashboardsOutputResponse`
-    public func searchDashboardsPaginated(input: SearchDashboardsInput) -> ClientRuntime.PaginatorSequence<SearchDashboardsInput, SearchDashboardsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchDashboardsInput, SearchDashboardsOutputResponse>(input: input, inputKey: \SearchDashboardsInput.nextToken, outputKey: \SearchDashboardsOutputResponse.nextToken, paginationFunction: self.searchDashboards(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchDashboardsOutput`
+    public func searchDashboardsPaginated(input: SearchDashboardsInput) -> ClientRuntime.PaginatorSequence<SearchDashboardsInput, SearchDashboardsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchDashboardsInput, SearchDashboardsOutput>(input: input, inputKey: \SearchDashboardsInput.nextToken, outputKey: \SearchDashboardsOutput.nextToken, paginationFunction: self.searchDashboards(input:))
     }
 }
 
@@ -867,7 +867,7 @@ extension SearchDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchDashboardsInput, Output == SearchDashboardsOutputResponse {
+extension PaginatorSequence where Input == SearchDashboardsInput, Output == SearchDashboardsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchDashboardsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DashboardSummary]`
     /// - Returns: `[QuickSightClientTypes.DashboardSummary]`
@@ -876,16 +876,16 @@ extension PaginatorSequence where Input == SearchDashboardsInput, Output == Sear
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[SearchDataSetsOutputResponse]` results.
+    /// Paginate over `[SearchDataSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchDataSetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchDataSetsOutputResponse`
-    public func searchDataSetsPaginated(input: SearchDataSetsInput) -> ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutputResponse>(input: input, inputKey: \SearchDataSetsInput.nextToken, outputKey: \SearchDataSetsOutputResponse.nextToken, paginationFunction: self.searchDataSets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchDataSetsOutput`
+    public func searchDataSetsPaginated(input: SearchDataSetsInput) -> ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutput>(input: input, inputKey: \SearchDataSetsInput.nextToken, outputKey: \SearchDataSetsOutput.nextToken, paginationFunction: self.searchDataSets(input:))
     }
 }
 
@@ -899,7 +899,7 @@ extension SearchDataSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchDataSetsInput, Output == SearchDataSetsOutputResponse {
+extension PaginatorSequence where Input == SearchDataSetsInput, Output == SearchDataSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchDataSetsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSetSummary]`
     /// - Returns: `[QuickSightClientTypes.DataSetSummary]`
@@ -908,16 +908,16 @@ extension PaginatorSequence where Input == SearchDataSetsInput, Output == Search
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[SearchDataSourcesOutputResponse]` results.
+    /// Paginate over `[SearchDataSourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchDataSourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchDataSourcesOutputResponse`
-    public func searchDataSourcesPaginated(input: SearchDataSourcesInput) -> ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutputResponse>(input: input, inputKey: \SearchDataSourcesInput.nextToken, outputKey: \SearchDataSourcesOutputResponse.nextToken, paginationFunction: self.searchDataSources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchDataSourcesOutput`
+    public func searchDataSourcesPaginated(input: SearchDataSourcesInput) -> ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutput>(input: input, inputKey: \SearchDataSourcesInput.nextToken, outputKey: \SearchDataSourcesOutput.nextToken, paginationFunction: self.searchDataSources(input:))
     }
 }
 
@@ -931,7 +931,7 @@ extension SearchDataSourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchDataSourcesInput, Output == SearchDataSourcesOutputResponse {
+extension PaginatorSequence where Input == SearchDataSourcesInput, Output == SearchDataSourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchDataSourcesPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSourceSummary]`
     /// - Returns: `[QuickSightClientTypes.DataSourceSummary]`
@@ -940,16 +940,16 @@ extension PaginatorSequence where Input == SearchDataSourcesInput, Output == Sea
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[SearchFoldersOutputResponse]` results.
+    /// Paginate over `[SearchFoldersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchFoldersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchFoldersOutputResponse`
-    public func searchFoldersPaginated(input: SearchFoldersInput) -> ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutputResponse>(input: input, inputKey: \SearchFoldersInput.nextToken, outputKey: \SearchFoldersOutputResponse.nextToken, paginationFunction: self.searchFolders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchFoldersOutput`
+    public func searchFoldersPaginated(input: SearchFoldersInput) -> ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutput> {
+        return ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutput>(input: input, inputKey: \SearchFoldersInput.nextToken, outputKey: \SearchFoldersOutput.nextToken, paginationFunction: self.searchFolders(input:))
     }
 }
 
@@ -963,7 +963,7 @@ extension SearchFoldersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchFoldersInput, Output == SearchFoldersOutputResponse {
+extension PaginatorSequence where Input == SearchFoldersInput, Output == SearchFoldersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchFoldersPaginated`
     /// to access the nested member `[QuickSightClientTypes.FolderSummary]`
     /// - Returns: `[QuickSightClientTypes.FolderSummary]`
@@ -972,16 +972,16 @@ extension PaginatorSequence where Input == SearchFoldersInput, Output == SearchF
     }
 }
 extension QuickSightClient {
-    /// Paginate over `[SearchGroupsOutputResponse]` results.
+    /// Paginate over `[SearchGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchGroupsOutputResponse`
-    public func searchGroupsPaginated(input: SearchGroupsInput) -> ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutputResponse>(input: input, inputKey: \SearchGroupsInput.nextToken, outputKey: \SearchGroupsOutputResponse.nextToken, paginationFunction: self.searchGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchGroupsOutput`
+    public func searchGroupsPaginated(input: SearchGroupsInput) -> ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutput>(input: input, inputKey: \SearchGroupsInput.nextToken, outputKey: \SearchGroupsOutput.nextToken, paginationFunction: self.searchGroups(input:))
     }
 }
 
@@ -996,7 +996,7 @@ extension SearchGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchGroupsInput, Output == SearchGroupsOutputResponse {
+extension PaginatorSequence where Input == SearchGroupsInput, Output == SearchGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchGroupsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Group]`
     /// - Returns: `[QuickSightClientTypes.Group]`

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MTurkClient {
-    /// Paginate over `[ListAssignmentsForHITOutputResponse]` results.
+    /// Paginate over `[ListAssignmentsForHITOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAssignmentsForHITInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAssignmentsForHITOutputResponse`
-    public func listAssignmentsForHITPaginated(input: ListAssignmentsForHITInput) -> ClientRuntime.PaginatorSequence<ListAssignmentsForHITInput, ListAssignmentsForHITOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAssignmentsForHITInput, ListAssignmentsForHITOutputResponse>(input: input, inputKey: \ListAssignmentsForHITInput.nextToken, outputKey: \ListAssignmentsForHITOutputResponse.nextToken, paginationFunction: self.listAssignmentsForHIT(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssignmentsForHITOutput`
+    public func listAssignmentsForHITPaginated(input: ListAssignmentsForHITInput) -> ClientRuntime.PaginatorSequence<ListAssignmentsForHITInput, ListAssignmentsForHITOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssignmentsForHITInput, ListAssignmentsForHITOutput>(input: input, inputKey: \ListAssignmentsForHITInput.nextToken, outputKey: \ListAssignmentsForHITOutput.nextToken, paginationFunction: self.listAssignmentsForHIT(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListAssignmentsForHITInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListBonusPaymentsOutputResponse]` results.
+    /// Paginate over `[ListBonusPaymentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBonusPaymentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBonusPaymentsOutputResponse`
-    public func listBonusPaymentsPaginated(input: ListBonusPaymentsInput) -> ClientRuntime.PaginatorSequence<ListBonusPaymentsInput, ListBonusPaymentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBonusPaymentsInput, ListBonusPaymentsOutputResponse>(input: input, inputKey: \ListBonusPaymentsInput.nextToken, outputKey: \ListBonusPaymentsOutputResponse.nextToken, paginationFunction: self.listBonusPayments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBonusPaymentsOutput`
+    public func listBonusPaymentsPaginated(input: ListBonusPaymentsInput) -> ClientRuntime.PaginatorSequence<ListBonusPaymentsInput, ListBonusPaymentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBonusPaymentsInput, ListBonusPaymentsOutput>(input: input, inputKey: \ListBonusPaymentsInput.nextToken, outputKey: \ListBonusPaymentsOutput.nextToken, paginationFunction: self.listBonusPayments(input:))
     }
 }
 
@@ -49,16 +49,16 @@ extension ListBonusPaymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListHITsOutputResponse]` results.
+    /// Paginate over `[ListHITsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHITsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHITsOutputResponse`
-    public func listHITsPaginated(input: ListHITsInput) -> ClientRuntime.PaginatorSequence<ListHITsInput, ListHITsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHITsInput, ListHITsOutputResponse>(input: input, inputKey: \ListHITsInput.nextToken, outputKey: \ListHITsOutputResponse.nextToken, paginationFunction: self.listHITs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHITsOutput`
+    public func listHITsPaginated(input: ListHITsInput) -> ClientRuntime.PaginatorSequence<ListHITsInput, ListHITsOutput> {
+        return ClientRuntime.PaginatorSequence<ListHITsInput, ListHITsOutput>(input: input, inputKey: \ListHITsInput.nextToken, outputKey: \ListHITsOutput.nextToken, paginationFunction: self.listHITs(input:))
     }
 }
 
@@ -70,16 +70,16 @@ extension ListHITsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListHITsForQualificationTypeOutputResponse]` results.
+    /// Paginate over `[ListHITsForQualificationTypeOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHITsForQualificationTypeInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHITsForQualificationTypeOutputResponse`
-    public func listHITsForQualificationTypePaginated(input: ListHITsForQualificationTypeInput) -> ClientRuntime.PaginatorSequence<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutputResponse>(input: input, inputKey: \ListHITsForQualificationTypeInput.nextToken, outputKey: \ListHITsForQualificationTypeOutputResponse.nextToken, paginationFunction: self.listHITsForQualificationType(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHITsForQualificationTypeOutput`
+    public func listHITsForQualificationTypePaginated(input: ListHITsForQualificationTypeInput) -> ClientRuntime.PaginatorSequence<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutput> {
+        return ClientRuntime.PaginatorSequence<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutput>(input: input, inputKey: \ListHITsForQualificationTypeInput.nextToken, outputKey: \ListHITsForQualificationTypeOutput.nextToken, paginationFunction: self.listHITsForQualificationType(input:))
     }
 }
 
@@ -92,16 +92,16 @@ extension ListHITsForQualificationTypeInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListQualificationRequestsOutputResponse]` results.
+    /// Paginate over `[ListQualificationRequestsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListQualificationRequestsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListQualificationRequestsOutputResponse`
-    public func listQualificationRequestsPaginated(input: ListQualificationRequestsInput) -> ClientRuntime.PaginatorSequence<ListQualificationRequestsInput, ListQualificationRequestsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListQualificationRequestsInput, ListQualificationRequestsOutputResponse>(input: input, inputKey: \ListQualificationRequestsInput.nextToken, outputKey: \ListQualificationRequestsOutputResponse.nextToken, paginationFunction: self.listQualificationRequests(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQualificationRequestsOutput`
+    public func listQualificationRequestsPaginated(input: ListQualificationRequestsInput) -> ClientRuntime.PaginatorSequence<ListQualificationRequestsInput, ListQualificationRequestsOutput> {
+        return ClientRuntime.PaginatorSequence<ListQualificationRequestsInput, ListQualificationRequestsOutput>(input: input, inputKey: \ListQualificationRequestsInput.nextToken, outputKey: \ListQualificationRequestsOutput.nextToken, paginationFunction: self.listQualificationRequests(input:))
     }
 }
 
@@ -114,16 +114,16 @@ extension ListQualificationRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListQualificationTypesOutputResponse]` results.
+    /// Paginate over `[ListQualificationTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListQualificationTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListQualificationTypesOutputResponse`
-    public func listQualificationTypesPaginated(input: ListQualificationTypesInput) -> ClientRuntime.PaginatorSequence<ListQualificationTypesInput, ListQualificationTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListQualificationTypesInput, ListQualificationTypesOutputResponse>(input: input, inputKey: \ListQualificationTypesInput.nextToken, outputKey: \ListQualificationTypesOutputResponse.nextToken, paginationFunction: self.listQualificationTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQualificationTypesOutput`
+    public func listQualificationTypesPaginated(input: ListQualificationTypesInput) -> ClientRuntime.PaginatorSequence<ListQualificationTypesInput, ListQualificationTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListQualificationTypesInput, ListQualificationTypesOutput>(input: input, inputKey: \ListQualificationTypesInput.nextToken, outputKey: \ListQualificationTypesOutput.nextToken, paginationFunction: self.listQualificationTypes(input:))
     }
 }
 
@@ -138,16 +138,16 @@ extension ListQualificationTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListReviewableHITsOutputResponse]` results.
+    /// Paginate over `[ListReviewableHITsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListReviewableHITsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListReviewableHITsOutputResponse`
-    public func listReviewableHITsPaginated(input: ListReviewableHITsInput) -> ClientRuntime.PaginatorSequence<ListReviewableHITsInput, ListReviewableHITsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListReviewableHITsInput, ListReviewableHITsOutputResponse>(input: input, inputKey: \ListReviewableHITsInput.nextToken, outputKey: \ListReviewableHITsOutputResponse.nextToken, paginationFunction: self.listReviewableHITs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReviewableHITsOutput`
+    public func listReviewableHITsPaginated(input: ListReviewableHITsInput) -> ClientRuntime.PaginatorSequence<ListReviewableHITsInput, ListReviewableHITsOutput> {
+        return ClientRuntime.PaginatorSequence<ListReviewableHITsInput, ListReviewableHITsOutput>(input: input, inputKey: \ListReviewableHITsInput.nextToken, outputKey: \ListReviewableHITsOutput.nextToken, paginationFunction: self.listReviewableHITs(input:))
     }
 }
 
@@ -161,16 +161,16 @@ extension ListReviewableHITsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListReviewPolicyResultsForHITOutputResponse]` results.
+    /// Paginate over `[ListReviewPolicyResultsForHITOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListReviewPolicyResultsForHITInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListReviewPolicyResultsForHITOutputResponse`
-    public func listReviewPolicyResultsForHITPaginated(input: ListReviewPolicyResultsForHITInput) -> ClientRuntime.PaginatorSequence<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutputResponse>(input: input, inputKey: \ListReviewPolicyResultsForHITInput.nextToken, outputKey: \ListReviewPolicyResultsForHITOutputResponse.nextToken, paginationFunction: self.listReviewPolicyResultsForHIT(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReviewPolicyResultsForHITOutput`
+    public func listReviewPolicyResultsForHITPaginated(input: ListReviewPolicyResultsForHITInput) -> ClientRuntime.PaginatorSequence<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutput> {
+        return ClientRuntime.PaginatorSequence<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutput>(input: input, inputKey: \ListReviewPolicyResultsForHITInput.nextToken, outputKey: \ListReviewPolicyResultsForHITOutput.nextToken, paginationFunction: self.listReviewPolicyResultsForHIT(input:))
     }
 }
 
@@ -186,16 +186,16 @@ extension ListReviewPolicyResultsForHITInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListWorkerBlocksOutputResponse]` results.
+    /// Paginate over `[ListWorkerBlocksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorkerBlocksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkerBlocksOutputResponse`
-    public func listWorkerBlocksPaginated(input: ListWorkerBlocksInput) -> ClientRuntime.PaginatorSequence<ListWorkerBlocksInput, ListWorkerBlocksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorkerBlocksInput, ListWorkerBlocksOutputResponse>(input: input, inputKey: \ListWorkerBlocksInput.nextToken, outputKey: \ListWorkerBlocksOutputResponse.nextToken, paginationFunction: self.listWorkerBlocks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkerBlocksOutput`
+    public func listWorkerBlocksPaginated(input: ListWorkerBlocksInput) -> ClientRuntime.PaginatorSequence<ListWorkerBlocksInput, ListWorkerBlocksOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkerBlocksInput, ListWorkerBlocksOutput>(input: input, inputKey: \ListWorkerBlocksInput.nextToken, outputKey: \ListWorkerBlocksOutput.nextToken, paginationFunction: self.listWorkerBlocks(input:))
     }
 }
 
@@ -207,16 +207,16 @@ extension ListWorkerBlocksInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MTurkClient {
-    /// Paginate over `[ListWorkersWithQualificationTypeOutputResponse]` results.
+    /// Paginate over `[ListWorkersWithQualificationTypeOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorkersWithQualificationTypeInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkersWithQualificationTypeOutputResponse`
-    public func listWorkersWithQualificationTypePaginated(input: ListWorkersWithQualificationTypeInput) -> ClientRuntime.PaginatorSequence<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutputResponse>(input: input, inputKey: \ListWorkersWithQualificationTypeInput.nextToken, outputKey: \ListWorkersWithQualificationTypeOutputResponse.nextToken, paginationFunction: self.listWorkersWithQualificationType(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkersWithQualificationTypeOutput`
+    public func listWorkersWithQualificationTypePaginated(input: ListWorkersWithQualificationTypeInput) -> ClientRuntime.PaginatorSequence<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutput>(input: input, inputKey: \ListWorkersWithQualificationTypeInput.nextToken, outputKey: \ListWorkersWithQualificationTypeOutput.nextToken, paginationFunction: self.listWorkersWithQualificationType(input:))
     }
 }
 

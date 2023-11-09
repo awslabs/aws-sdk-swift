@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension PinpointEmailClient {
-    /// Paginate over `[GetDedicatedIpsOutputResponse]` results.
+    /// Paginate over `[GetDedicatedIpsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetDedicatedIpsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetDedicatedIpsOutputResponse`
-    public func getDedicatedIpsPaginated(input: GetDedicatedIpsInput) -> ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse>(input: input, inputKey: \GetDedicatedIpsInput.nextToken, outputKey: \GetDedicatedIpsOutputResponse.nextToken, paginationFunction: self.getDedicatedIps(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDedicatedIpsOutput`
+    public func getDedicatedIpsPaginated(input: GetDedicatedIpsInput) -> ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput> {
+        return ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput>(input: input, inputKey: \GetDedicatedIpsInput.nextToken, outputKey: \GetDedicatedIpsOutput.nextToken, paginationFunction: self.getDedicatedIps(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension GetDedicatedIpsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PinpointEmailClient {
-    /// Paginate over `[ListConfigurationSetsOutputResponse]` results.
+    /// Paginate over `[ListConfigurationSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConfigurationSetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationSetsOutputResponse`
-    public func listConfigurationSetsPaginated(input: ListConfigurationSetsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse>(input: input, inputKey: \ListConfigurationSetsInput.nextToken, outputKey: \ListConfigurationSetsOutputResponse.nextToken, paginationFunction: self.listConfigurationSets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationSetsOutput`
+    public func listConfigurationSetsPaginated(input: ListConfigurationSetsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput>(input: input, inputKey: \ListConfigurationSetsInput.nextToken, outputKey: \ListConfigurationSetsOutput.nextToken, paginationFunction: self.listConfigurationSets(input:))
     }
 }
 
@@ -46,16 +46,16 @@ extension ListConfigurationSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PinpointEmailClient {
-    /// Paginate over `[ListDedicatedIpPoolsOutputResponse]` results.
+    /// Paginate over `[ListDedicatedIpPoolsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDedicatedIpPoolsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDedicatedIpPoolsOutputResponse`
-    public func listDedicatedIpPoolsPaginated(input: ListDedicatedIpPoolsInput) -> ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse>(input: input, inputKey: \ListDedicatedIpPoolsInput.nextToken, outputKey: \ListDedicatedIpPoolsOutputResponse.nextToken, paginationFunction: self.listDedicatedIpPools(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDedicatedIpPoolsOutput`
+    public func listDedicatedIpPoolsPaginated(input: ListDedicatedIpPoolsInput) -> ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput>(input: input, inputKey: \ListDedicatedIpPoolsInput.nextToken, outputKey: \ListDedicatedIpPoolsOutput.nextToken, paginationFunction: self.listDedicatedIpPools(input:))
     }
 }
 
@@ -67,16 +67,16 @@ extension ListDedicatedIpPoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PinpointEmailClient {
-    /// Paginate over `[ListDeliverabilityTestReportsOutputResponse]` results.
+    /// Paginate over `[ListDeliverabilityTestReportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeliverabilityTestReportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeliverabilityTestReportsOutputResponse`
-    public func listDeliverabilityTestReportsPaginated(input: ListDeliverabilityTestReportsInput) -> ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse>(input: input, inputKey: \ListDeliverabilityTestReportsInput.nextToken, outputKey: \ListDeliverabilityTestReportsOutputResponse.nextToken, paginationFunction: self.listDeliverabilityTestReports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeliverabilityTestReportsOutput`
+    public func listDeliverabilityTestReportsPaginated(input: ListDeliverabilityTestReportsInput) -> ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput>(input: input, inputKey: \ListDeliverabilityTestReportsInput.nextToken, outputKey: \ListDeliverabilityTestReportsOutput.nextToken, paginationFunction: self.listDeliverabilityTestReports(input:))
     }
 }
 
@@ -88,16 +88,16 @@ extension ListDeliverabilityTestReportsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PinpointEmailClient {
-    /// Paginate over `[ListDomainDeliverabilityCampaignsOutputResponse]` results.
+    /// Paginate over `[ListDomainDeliverabilityCampaignsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDomainDeliverabilityCampaignsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainDeliverabilityCampaignsOutputResponse`
-    public func listDomainDeliverabilityCampaignsPaginated(input: ListDomainDeliverabilityCampaignsInput) -> ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse>(input: input, inputKey: \ListDomainDeliverabilityCampaignsInput.nextToken, outputKey: \ListDomainDeliverabilityCampaignsOutputResponse.nextToken, paginationFunction: self.listDomainDeliverabilityCampaigns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainDeliverabilityCampaignsOutput`
+    public func listDomainDeliverabilityCampaignsPaginated(input: ListDomainDeliverabilityCampaignsInput) -> ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput>(input: input, inputKey: \ListDomainDeliverabilityCampaignsInput.nextToken, outputKey: \ListDomainDeliverabilityCampaignsOutput.nextToken, paginationFunction: self.listDomainDeliverabilityCampaigns(input:))
     }
 }
 
@@ -112,16 +112,16 @@ extension ListDomainDeliverabilityCampaignsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PinpointEmailClient {
-    /// Paginate over `[ListEmailIdentitiesOutputResponse]` results.
+    /// Paginate over `[ListEmailIdentitiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEmailIdentitiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEmailIdentitiesOutputResponse`
-    public func listEmailIdentitiesPaginated(input: ListEmailIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse>(input: input, inputKey: \ListEmailIdentitiesInput.nextToken, outputKey: \ListEmailIdentitiesOutputResponse.nextToken, paginationFunction: self.listEmailIdentities(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEmailIdentitiesOutput`
+    public func listEmailIdentitiesPaginated(input: ListEmailIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(input: input, inputKey: \ListEmailIdentitiesInput.nextToken, outputKey: \ListEmailIdentitiesOutput.nextToken, paginationFunction: self.listEmailIdentities(input:))
     }
 }
 

@@ -71,7 +71,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter CreateAccessTokenInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccessTokenOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccessTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,7 +82,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createAccessToken(input: CreateAccessTokenInput) async throws -> CreateAccessTokenOutputResponse
+    public func createAccessToken(input: CreateAccessTokenInput) async throws -> CreateAccessTokenOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -96,18 +96,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccessTokenInput, CreateAccessTokenOutputResponse, CreateAccessTokenOutputError>(id: "createAccessToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessTokenInput, CreateAccessTokenOutputResponse, CreateAccessTokenOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessTokenInput, CreateAccessTokenOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateAccessTokenInput, CreateAccessTokenOutput, CreateAccessTokenOutputError>(id: "createAccessToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput, CreateAccessTokenOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessTokenOutputResponse, CreateAccessTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessTokenOutput, CreateAccessTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccessTokenInput, CreateAccessTokenOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccessTokenInput, CreateAccessTokenOutputResponse>(xmlName: "CreateAccessTokenRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>(xmlName: "CreateAccessTokenRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessTokenOutputResponse, CreateAccessTokenOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessTokenOutputResponse, CreateAccessTokenOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessTokenOutputResponse, CreateAccessTokenOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessTokenOutput, CreateAccessTokenOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessTokenOutput, CreateAccessTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessTokenOutput, CreateAccessTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -116,7 +116,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter CreateDevEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `CreateDevEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDevEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,7 +127,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutputResponse
+    public func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -141,18 +141,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDevEnvironmentInput, CreateDevEnvironmentOutputResponse, CreateDevEnvironmentOutputError>(id: "createDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutputResponse, CreateDevEnvironmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDevEnvironmentInput, CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(id: "createDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDevEnvironmentOutputResponse, CreateDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutputResponse>(xmlName: "CreateDevEnvironmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>(xmlName: "CreateDevEnvironmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDevEnvironmentOutputResponse, CreateDevEnvironmentOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDevEnvironmentOutputResponse, CreateDevEnvironmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDevEnvironmentOutputResponse, CreateDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -161,7 +161,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
     ///
-    /// - Returns: `CreateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -172,7 +172,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -186,18 +186,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>(id: "createProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>(id: "createProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutput, CreateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProjectInput, CreateProjectOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProjectInput, CreateProjectOutputResponse>(xmlName: "CreateProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProjectInput, CreateProjectOutput>(xmlName: "CreateProjectRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutputResponse, CreateProjectOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutput, CreateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutput, CreateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutput, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -206,7 +206,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter CreateSourceRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `CreateSourceRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSourceRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,7 +217,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createSourceRepository(input: CreateSourceRepositoryInput) async throws -> CreateSourceRepositoryOutputResponse
+    public func createSourceRepository(input: CreateSourceRepositoryInput) async throws -> CreateSourceRepositoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -231,18 +231,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryInput, CreateSourceRepositoryOutputResponse, CreateSourceRepositoryOutputError>(id: "createSourceRepository")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutputResponse, CreateSourceRepositoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryInput, CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(id: "createSourceRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryOutputResponse, CreateSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutputResponse>(xmlName: "CreateSourceRepositoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>(xmlName: "CreateSourceRepositoryRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryOutputResponse, CreateSourceRepositoryOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryOutputResponse, CreateSourceRepositoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryOutputResponse, CreateSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -251,7 +251,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter CreateSourceRepositoryBranchInput : [no documentation found]
     ///
-    /// - Returns: `CreateSourceRepositoryBranchOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSourceRepositoryBranchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -262,7 +262,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createSourceRepositoryBranch(input: CreateSourceRepositoryBranchInput) async throws -> CreateSourceRepositoryBranchOutputResponse
+    public func createSourceRepositoryBranch(input: CreateSourceRepositoryBranchInput) async throws -> CreateSourceRepositoryBranchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -276,18 +276,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutputResponse, CreateSourceRepositoryBranchOutputError>(id: "createSourceRepositoryBranch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutputResponse, CreateSourceRepositoryBranchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(id: "createSourceRepositoryBranch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryBranchOutputResponse, CreateSourceRepositoryBranchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutputResponse>(xmlName: "CreateSourceRepositoryBranchRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>(xmlName: "CreateSourceRepositoryBranchRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryBranchOutputResponse, CreateSourceRepositoryBranchOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryBranchOutputResponse, CreateSourceRepositoryBranchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryBranchOutputResponse, CreateSourceRepositoryBranchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -296,7 +296,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter DeleteAccessTokenInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessTokenOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccessTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -307,7 +307,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteAccessToken(input: DeleteAccessTokenInput) async throws -> DeleteAccessTokenOutputResponse
+    public func deleteAccessToken(input: DeleteAccessTokenInput) async throws -> DeleteAccessTokenOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -321,15 +321,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccessTokenInput, DeleteAccessTokenOutputResponse, DeleteAccessTokenOutputError>(id: "deleteAccessToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutputResponse, DeleteAccessTokenOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteAccessTokenInput, DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(id: "deleteAccessToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutput, DeleteAccessTokenOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessTokenOutputResponse, DeleteAccessTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessTokenOutputResponse, DeleteAccessTokenOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessTokenOutputResponse, DeleteAccessTokenOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessTokenOutputResponse, DeleteAccessTokenOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessTokenOutput, DeleteAccessTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -338,7 +338,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter DeleteDevEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDevEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDevEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,7 +349,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteDevEnvironment(input: DeleteDevEnvironmentInput) async throws -> DeleteDevEnvironmentOutputResponse
+    public func deleteDevEnvironment(input: DeleteDevEnvironmentInput) async throws -> DeleteDevEnvironmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -363,15 +363,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutputResponse, DeleteDevEnvironmentOutputError>(id: "deleteDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutputResponse, DeleteDevEnvironmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(id: "deleteDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDevEnvironmentOutputResponse, DeleteDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDevEnvironmentOutputResponse, DeleteDevEnvironmentOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDevEnvironmentOutputResponse, DeleteDevEnvironmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDevEnvironmentOutputResponse, DeleteDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -380,7 +380,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -391,7 +391,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -405,15 +405,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>(id: "deleteProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>(id: "deleteProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutputResponse, DeleteProjectOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutput, DeleteProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutput, DeleteProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -422,7 +422,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter DeleteSourceRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSourceRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSourceRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -433,7 +433,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteSourceRepository(input: DeleteSourceRepositoryInput) async throws -> DeleteSourceRepositoryOutputResponse
+    public func deleteSourceRepository(input: DeleteSourceRepositoryInput) async throws -> DeleteSourceRepositoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -447,15 +447,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutputResponse, DeleteSourceRepositoryOutputError>(id: "deleteSourceRepository")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutputResponse, DeleteSourceRepositoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(id: "deleteSourceRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSourceRepositoryOutputResponse, DeleteSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSourceRepositoryOutputResponse, DeleteSourceRepositoryOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSourceRepositoryOutputResponse, DeleteSourceRepositoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSourceRepositoryOutputResponse, DeleteSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -464,7 +464,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter DeleteSpaceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSpaceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSpaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,7 +475,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutputResponse
+    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -489,15 +489,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSpaceInput, DeleteSpaceOutputResponse, DeleteSpaceOutputError>(id: "deleteSpace")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSpaceInput, DeleteSpaceOutputResponse, DeleteSpaceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSpaceInput, DeleteSpaceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSpaceInput, DeleteSpaceOutput, DeleteSpaceOutputError>(id: "deleteSpace")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSpaceInput, DeleteSpaceOutput, DeleteSpaceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSpaceInput, DeleteSpaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSpaceOutputResponse, DeleteSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSpaceOutput, DeleteSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSpaceOutputResponse, DeleteSpaceOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpaceOutputResponse, DeleteSpaceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSpaceOutputResponse, DeleteSpaceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSpaceOutput, DeleteSpaceOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput, DeleteSpaceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSpaceOutput, DeleteSpaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -506,7 +506,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter GetDevEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `GetDevEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `GetDevEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,7 +517,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getDevEnvironment(input: GetDevEnvironmentInput) async throws -> GetDevEnvironmentOutputResponse
+    public func getDevEnvironment(input: GetDevEnvironmentInput) async throws -> GetDevEnvironmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -531,15 +531,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDevEnvironmentInput, GetDevEnvironmentOutputResponse, GetDevEnvironmentOutputError>(id: "getDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutputResponse, GetDevEnvironmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDevEnvironmentInput, GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(id: "getDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutput, GetDevEnvironmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevEnvironmentOutputResponse, GetDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevEnvironmentOutputResponse, GetDevEnvironmentOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevEnvironmentOutputResponse, GetDevEnvironmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevEnvironmentOutputResponse, GetDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevEnvironmentOutput, GetDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -548,7 +548,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter GetProjectInput : [no documentation found]
     ///
-    /// - Returns: `GetProjectOutputResponse` : [no documentation found]
+    /// - Returns: `GetProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,7 +559,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getProject(input: GetProjectInput) async throws -> GetProjectOutputResponse
+    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -573,15 +573,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProjectInput, GetProjectOutputResponse, GetProjectOutputError>(id: "getProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProjectInput, GetProjectOutputResponse, GetProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetProjectInput, GetProjectOutput, GetProjectOutputError>(id: "getProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProjectInput, GetProjectOutput, GetProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProjectOutputResponse, GetProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProjectOutput, GetProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProjectOutputResponse, GetProjectOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProjectOutputResponse, GetProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProjectOutputResponse, GetProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProjectOutput, GetProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProjectOutput, GetProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProjectOutput, GetProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -590,7 +590,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter GetSourceRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `GetSourceRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `GetSourceRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -601,7 +601,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSourceRepository(input: GetSourceRepositoryInput) async throws -> GetSourceRepositoryOutputResponse
+    public func getSourceRepository(input: GetSourceRepositoryInput) async throws -> GetSourceRepositoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -615,15 +615,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSourceRepositoryInput, GetSourceRepositoryOutputResponse, GetSourceRepositoryOutputError>(id: "getSourceRepository")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutputResponse, GetSourceRepositoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSourceRepositoryInput, GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(id: "getSourceRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutput, GetSourceRepositoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryOutputResponse, GetSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryOutputResponse, GetSourceRepositoryOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryOutputResponse, GetSourceRepositoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryOutputResponse, GetSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryOutput, GetSourceRepositoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -632,7 +632,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter GetSourceRepositoryCloneUrlsInput : [no documentation found]
     ///
-    /// - Returns: `GetSourceRepositoryCloneUrlsOutputResponse` : [no documentation found]
+    /// - Returns: `GetSourceRepositoryCloneUrlsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,7 +643,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSourceRepositoryCloneUrls(input: GetSourceRepositoryCloneUrlsInput) async throws -> GetSourceRepositoryCloneUrlsOutputResponse
+    public func getSourceRepositoryCloneUrls(input: GetSourceRepositoryCloneUrlsInput) async throws -> GetSourceRepositoryCloneUrlsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -657,15 +657,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutputResponse, GetSourceRepositoryCloneUrlsOutputError>(id: "getSourceRepositoryCloneUrls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutputResponse, GetSourceRepositoryCloneUrlsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(id: "getSourceRepositoryCloneUrls")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryCloneUrlsOutputResponse, GetSourceRepositoryCloneUrlsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryCloneUrlsOutputResponse, GetSourceRepositoryCloneUrlsOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryCloneUrlsOutputResponse, GetSourceRepositoryCloneUrlsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryCloneUrlsOutputResponse, GetSourceRepositoryCloneUrlsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -674,7 +674,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter GetSpaceInput : [no documentation found]
     ///
-    /// - Returns: `GetSpaceOutputResponse` : [no documentation found]
+    /// - Returns: `GetSpaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,7 +685,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSpace(input: GetSpaceInput) async throws -> GetSpaceOutputResponse
+    public func getSpace(input: GetSpaceInput) async throws -> GetSpaceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -699,15 +699,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSpaceInput, GetSpaceOutputResponse, GetSpaceOutputError>(id: "getSpace")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSpaceInput, GetSpaceOutputResponse, GetSpaceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSpaceInput, GetSpaceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSpaceInput, GetSpaceOutput, GetSpaceOutputError>(id: "getSpace")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSpaceInput, GetSpaceOutput, GetSpaceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSpaceInput, GetSpaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSpaceOutputResponse, GetSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSpaceOutput, GetSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSpaceOutputResponse, GetSpaceOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSpaceOutputResponse, GetSpaceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSpaceOutputResponse, GetSpaceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSpaceOutput, GetSpaceOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSpaceOutput, GetSpaceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSpaceOutput, GetSpaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -716,7 +716,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter GetSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `GetSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `GetSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,7 +727,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutputResponse
+    public func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -741,15 +741,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSubscriptionInput, GetSubscriptionOutputResponse, GetSubscriptionOutputError>(id: "getSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionInput, GetSubscriptionOutputResponse, GetSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionInput, GetSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSubscriptionInput, GetSubscriptionOutput, GetSubscriptionOutputError>(id: "getSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionInput, GetSubscriptionOutput, GetSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionInput, GetSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionOutputResponse, GetSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionOutput, GetSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionOutputResponse, GetSubscriptionOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionOutputResponse, GetSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionOutputResponse, GetSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionOutput, GetSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionOutput, GetSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionOutput, GetSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -758,7 +758,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter GetUserDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetUserDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetUserDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,7 +769,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getUserDetails(input: GetUserDetailsInput) async throws -> GetUserDetailsOutputResponse
+    public func getUserDetails(input: GetUserDetailsInput) async throws -> GetUserDetailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -783,16 +783,16 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserDetailsInput, GetUserDetailsOutputResponse, GetUserDetailsOutputError>(id: "getUserDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserDetailsInput, GetUserDetailsOutputResponse, GetUserDetailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserDetailsInput, GetUserDetailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetUserDetailsInput, GetUserDetailsOutput, GetUserDetailsOutputError>(id: "getUserDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserDetailsInput, GetUserDetailsOutput, GetUserDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserDetailsInput, GetUserDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserDetailsOutputResponse, GetUserDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserDetailsOutput, GetUserDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetUserDetailsInput, GetUserDetailsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserDetailsOutputResponse, GetUserDetailsOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserDetailsOutputResponse, GetUserDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserDetailsOutputResponse, GetUserDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetUserDetailsInput, GetUserDetailsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserDetailsOutput, GetUserDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserDetailsOutput, GetUserDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserDetailsOutput, GetUserDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -801,7 +801,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListAccessTokensInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessTokensOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccessTokensOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,7 +812,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listAccessTokens(input: ListAccessTokensInput) async throws -> ListAccessTokensOutputResponse
+    public func listAccessTokens(input: ListAccessTokensInput) async throws -> ListAccessTokensOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -826,18 +826,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccessTokensInput, ListAccessTokensOutputResponse, ListAccessTokensOutputError>(id: "listAccessTokens")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessTokensInput, ListAccessTokensOutputResponse, ListAccessTokensOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessTokensInput, ListAccessTokensOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListAccessTokensInput, ListAccessTokensOutput, ListAccessTokensOutputError>(id: "listAccessTokens")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessTokensInput, ListAccessTokensOutput, ListAccessTokensOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessTokensInput, ListAccessTokensOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessTokensOutputResponse, ListAccessTokensOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessTokensOutput, ListAccessTokensOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccessTokensInput, ListAccessTokensOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccessTokensInput, ListAccessTokensOutputResponse>(xmlName: "ListAccessTokensRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccessTokensInput, ListAccessTokensOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccessTokensInput, ListAccessTokensOutput>(xmlName: "ListAccessTokensRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessTokensOutputResponse, ListAccessTokensOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessTokensOutputResponse, ListAccessTokensOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessTokensOutputResponse, ListAccessTokensOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessTokensOutput, ListAccessTokensOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessTokensOutput, ListAccessTokensOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessTokensOutput, ListAccessTokensOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -846,7 +846,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListDevEnvironmentSessionsInput : [no documentation found]
     ///
-    /// - Returns: `ListDevEnvironmentSessionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDevEnvironmentSessionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -857,7 +857,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listDevEnvironmentSessions(input: ListDevEnvironmentSessionsInput) async throws -> ListDevEnvironmentSessionsOutputResponse
+    public func listDevEnvironmentSessions(input: ListDevEnvironmentSessionsInput) async throws -> ListDevEnvironmentSessionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -871,18 +871,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(id: "listDevEnvironmentSessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(id: "listDevEnvironmentSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse>(xmlName: "ListDevEnvironmentSessionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>(xmlName: "ListDevEnvironmentSessionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -891,7 +891,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListDevEnvironmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListDevEnvironmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDevEnvironmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -902,7 +902,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutputResponse
+    public func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -916,18 +916,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDevEnvironmentsInput, ListDevEnvironmentsOutputResponse, ListDevEnvironmentsOutputError>(id: "listDevEnvironments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutputResponse, ListDevEnvironmentsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDevEnvironmentsInput, ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(id: "listDevEnvironments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentsOutputResponse, ListDevEnvironmentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutputResponse>(xmlName: "ListDevEnvironmentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>(xmlName: "ListDevEnvironmentsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentsOutputResponse, ListDevEnvironmentsOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentsOutputResponse, ListDevEnvironmentsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentsOutputResponse, ListDevEnvironmentsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -936,7 +936,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListEventLogsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventLogsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventLogsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -947,7 +947,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listEventLogs(input: ListEventLogsInput) async throws -> ListEventLogsOutputResponse
+    public func listEventLogs(input: ListEventLogsInput) async throws -> ListEventLogsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -961,18 +961,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEventLogsInput, ListEventLogsOutputResponse, ListEventLogsOutputError>(id: "listEventLogs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventLogsInput, ListEventLogsOutputResponse, ListEventLogsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventLogsInput, ListEventLogsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListEventLogsInput, ListEventLogsOutput, ListEventLogsOutputError>(id: "listEventLogs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventLogsInput, ListEventLogsOutput, ListEventLogsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventLogsInput, ListEventLogsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventLogsOutputResponse, ListEventLogsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventLogsOutput, ListEventLogsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEventLogsInput, ListEventLogsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEventLogsInput, ListEventLogsOutputResponse>(xmlName: "ListEventLogsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEventLogsInput, ListEventLogsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEventLogsInput, ListEventLogsOutput>(xmlName: "ListEventLogsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventLogsOutputResponse, ListEventLogsOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventLogsOutputResponse, ListEventLogsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventLogsOutputResponse, ListEventLogsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventLogsOutput, ListEventLogsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventLogsOutput, ListEventLogsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventLogsOutput, ListEventLogsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -981,7 +981,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -992,7 +992,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1006,18 +1006,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>(id: "listProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>(id: "listProjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutput, ListProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProjectsInput, ListProjectsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProjectsInput, ListProjectsOutputResponse>(xmlName: "ListProjectsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProjectsInput, ListProjectsOutput>(xmlName: "ListProjectsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutputResponse, ListProjectsOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutput, ListProjectsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutput, ListProjectsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutput, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1026,7 +1026,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListSourceRepositoriesInput : [no documentation found]
     ///
-    /// - Returns: `ListSourceRepositoriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSourceRepositoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,7 +1037,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listSourceRepositories(input: ListSourceRepositoriesInput) async throws -> ListSourceRepositoriesOutputResponse
+    public func listSourceRepositories(input: ListSourceRepositoriesInput) async throws -> ListSourceRepositoriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1051,18 +1051,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSourceRepositoriesInput, ListSourceRepositoriesOutputResponse, ListSourceRepositoriesOutputError>(id: "listSourceRepositories")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutputResponse, ListSourceRepositoriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSourceRepositoriesInput, ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(id: "listSourceRepositories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoriesOutputResponse, ListSourceRepositoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutputResponse>(xmlName: "ListSourceRepositoriesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>(xmlName: "ListSourceRepositoriesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoriesOutputResponse, ListSourceRepositoriesOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoriesOutputResponse, ListSourceRepositoriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoriesOutputResponse, ListSourceRepositoriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1071,7 +1071,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListSourceRepositoryBranchesInput : [no documentation found]
     ///
-    /// - Returns: `ListSourceRepositoryBranchesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSourceRepositoryBranchesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,7 +1082,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listSourceRepositoryBranches(input: ListSourceRepositoryBranchesInput) async throws -> ListSourceRepositoryBranchesOutputResponse
+    public func listSourceRepositoryBranches(input: ListSourceRepositoryBranchesInput) async throws -> ListSourceRepositoryBranchesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1096,18 +1096,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutputResponse, ListSourceRepositoryBranchesOutputError>(id: "listSourceRepositoryBranches")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutputResponse, ListSourceRepositoryBranchesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(id: "listSourceRepositoryBranches")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoryBranchesOutputResponse, ListSourceRepositoryBranchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutputResponse>(xmlName: "ListSourceRepositoryBranchesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>(xmlName: "ListSourceRepositoryBranchesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoryBranchesOutputResponse, ListSourceRepositoryBranchesOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoryBranchesOutputResponse, ListSourceRepositoryBranchesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoryBranchesOutputResponse, ListSourceRepositoryBranchesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1116,7 +1116,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter ListSpacesInput : [no documentation found]
     ///
-    /// - Returns: `ListSpacesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSpacesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,7 +1127,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutputResponse
+    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1141,18 +1141,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSpacesInput, ListSpacesOutputResponse, ListSpacesOutputError>(id: "listSpaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpacesInput, ListSpacesOutputResponse, ListSpacesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpacesInput, ListSpacesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSpacesInput, ListSpacesOutput, ListSpacesOutputError>(id: "listSpaces")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpacesInput, ListSpacesOutput, ListSpacesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpacesInput, ListSpacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpacesOutputResponse, ListSpacesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpacesOutput, ListSpacesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSpacesInput, ListSpacesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSpacesInput, ListSpacesOutputResponse>(xmlName: "ListSpacesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSpacesInput, ListSpacesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSpacesInput, ListSpacesOutput>(xmlName: "ListSpacesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSpacesOutputResponse, ListSpacesOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpacesOutputResponse, ListSpacesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSpacesOutputResponse, ListSpacesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSpacesOutput, ListSpacesOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpacesOutput, ListSpacesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSpacesOutput, ListSpacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1161,7 +1161,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter StartDevEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `StartDevEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `StartDevEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,7 +1172,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func startDevEnvironment(input: StartDevEnvironmentInput) async throws -> StartDevEnvironmentOutputResponse
+    public func startDevEnvironment(input: StartDevEnvironmentInput) async throws -> StartDevEnvironmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1186,18 +1186,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDevEnvironmentInput, StartDevEnvironmentOutputResponse, StartDevEnvironmentOutputError>(id: "startDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutputResponse, StartDevEnvironmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartDevEnvironmentInput, StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(id: "startDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput, StartDevEnvironmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentOutputResponse, StartDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutputResponse>(xmlName: "StartDevEnvironmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>(xmlName: "StartDevEnvironmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentOutputResponse, StartDevEnvironmentOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentOutputResponse, StartDevEnvironmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentOutputResponse, StartDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentOutput, StartDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1206,7 +1206,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter StartDevEnvironmentSessionInput : [no documentation found]
     ///
-    /// - Returns: `StartDevEnvironmentSessionOutputResponse` : [no documentation found]
+    /// - Returns: `StartDevEnvironmentSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,7 +1217,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func startDevEnvironmentSession(input: StartDevEnvironmentSessionInput) async throws -> StartDevEnvironmentSessionOutputResponse
+    public func startDevEnvironmentSession(input: StartDevEnvironmentSessionInput) async throws -> StartDevEnvironmentSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1231,18 +1231,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutputResponse, StartDevEnvironmentSessionOutputError>(id: "startDevEnvironmentSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutputResponse, StartDevEnvironmentSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(id: "startDevEnvironmentSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentSessionOutputResponse, StartDevEnvironmentSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutputResponse>(xmlName: "StartDevEnvironmentSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>(xmlName: "StartDevEnvironmentSessionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentSessionOutputResponse, StartDevEnvironmentSessionOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentSessionOutputResponse, StartDevEnvironmentSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentSessionOutputResponse, StartDevEnvironmentSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1251,7 +1251,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter StopDevEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `StopDevEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `StopDevEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1262,7 +1262,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func stopDevEnvironment(input: StopDevEnvironmentInput) async throws -> StopDevEnvironmentOutputResponse
+    public func stopDevEnvironment(input: StopDevEnvironmentInput) async throws -> StopDevEnvironmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1276,15 +1276,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopDevEnvironmentInput, StopDevEnvironmentOutputResponse, StopDevEnvironmentOutputError>(id: "stopDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutputResponse, StopDevEnvironmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopDevEnvironmentInput, StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(id: "stopDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutput, StopDevEnvironmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentOutputResponse, StopDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentOutputResponse, StopDevEnvironmentOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentOutputResponse, StopDevEnvironmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentOutputResponse, StopDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentOutput, StopDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1293,7 +1293,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter StopDevEnvironmentSessionInput : [no documentation found]
     ///
-    /// - Returns: `StopDevEnvironmentSessionOutputResponse` : [no documentation found]
+    /// - Returns: `StopDevEnvironmentSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1304,7 +1304,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func stopDevEnvironmentSession(input: StopDevEnvironmentSessionInput) async throws -> StopDevEnvironmentSessionOutputResponse
+    public func stopDevEnvironmentSession(input: StopDevEnvironmentSessionInput) async throws -> StopDevEnvironmentSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1318,15 +1318,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutputResponse, StopDevEnvironmentSessionOutputError>(id: "stopDevEnvironmentSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutputResponse, StopDevEnvironmentSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(id: "stopDevEnvironmentSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentSessionOutputResponse, StopDevEnvironmentSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentSessionOutputResponse, StopDevEnvironmentSessionOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentSessionOutputResponse, StopDevEnvironmentSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentSessionOutputResponse, StopDevEnvironmentSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1335,7 +1335,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter UpdateDevEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDevEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDevEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1346,7 +1346,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func updateDevEnvironment(input: UpdateDevEnvironmentInput) async throws -> UpdateDevEnvironmentOutputResponse
+    public func updateDevEnvironment(input: UpdateDevEnvironmentInput) async throws -> UpdateDevEnvironmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1360,18 +1360,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutputResponse, UpdateDevEnvironmentOutputError>(id: "updateDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutputResponse, UpdateDevEnvironmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(id: "updateDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDevEnvironmentOutputResponse, UpdateDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutputResponse>(xmlName: "UpdateDevEnvironmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>(xmlName: "UpdateDevEnvironmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDevEnvironmentOutputResponse, UpdateDevEnvironmentOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevEnvironmentOutputResponse, UpdateDevEnvironmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDevEnvironmentOutputResponse, UpdateDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1380,7 +1380,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1391,7 +1391,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1405,18 +1405,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>(id: "updateProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>(id: "updateProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(xmlName: "UpdateProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectInput, UpdateProjectOutput>(xmlName: "UpdateProjectRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutputResponse, UpdateProjectOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutput, UpdateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutput, UpdateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1425,7 +1425,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter UpdateSpaceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSpaceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSpaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1436,7 +1436,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutputResponse
+    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1450,18 +1450,18 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSpaceInput, UpdateSpaceOutputResponse, UpdateSpaceOutputError>(id: "updateSpace")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSpaceInput, UpdateSpaceOutputResponse, UpdateSpaceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSpaceInput, UpdateSpaceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateSpaceInput, UpdateSpaceOutput, UpdateSpaceOutputError>(id: "updateSpace")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSpaceInput, UpdateSpaceOutput, UpdateSpaceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSpaceInput, UpdateSpaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSpaceOutputResponse, UpdateSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSpaceOutput, UpdateSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSpaceInput, UpdateSpaceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSpaceInput, UpdateSpaceOutputResponse>(xmlName: "UpdateSpaceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(xmlName: "UpdateSpaceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSpaceOutputResponse, UpdateSpaceOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSpaceOutputResponse, UpdateSpaceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSpaceOutputResponse, UpdateSpaceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSpaceOutput, UpdateSpaceOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput, UpdateSpaceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSpaceOutput, UpdateSpaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1470,7 +1470,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     ///
     /// - Parameter VerifySessionInput : [no documentation found]
     ///
-    /// - Returns: `VerifySessionOutputResponse` : [no documentation found]
+    /// - Returns: `VerifySessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1481,7 +1481,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func verifySession(input: VerifySessionInput) async throws -> VerifySessionOutputResponse
+    public func verifySession(input: VerifySessionInput) async throws -> VerifySessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1495,15 +1495,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<VerifySessionInput, VerifySessionOutputResponse, VerifySessionOutputError>(id: "verifySession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySessionInput, VerifySessionOutputResponse, VerifySessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySessionInput, VerifySessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<VerifySessionInput, VerifySessionOutput, VerifySessionOutputError>(id: "verifySession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySessionInput, VerifySessionOutput, VerifySessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySessionInput, VerifySessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifySessionOutputResponse, VerifySessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifySessionOutput, VerifySessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifySessionOutputResponse, VerifySessionOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySessionOutputResponse, VerifySessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifySessionOutputResponse, VerifySessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifySessionOutput, VerifySessionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySessionOutput, VerifySessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifySessionOutput, VerifySessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

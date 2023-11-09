@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ECRPUBLICClient {
-    /// Paginate over `[DescribeImagesOutputResponse]` results.
+    /// Paginate over `[DescribeImagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeImagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutputResponse`
-    public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutputResponse.nextToken, paginationFunction: self.describeImages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutput`
+    public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutput.nextToken, paginationFunction: self.describeImages(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension DescribeImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeImagesInput, Output == DescribeImagesOutputResponse {
+extension PaginatorSequence where Input == DescribeImagesInput, Output == DescribeImagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeImagesPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.ImageDetail]`
     /// - Returns: `[ECRPUBLICClientTypes.ImageDetail]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == DescribeImagesInput, Output == Descri
     }
 }
 extension ECRPUBLICClient {
-    /// Paginate over `[DescribeImageTagsOutputResponse]` results.
+    /// Paginate over `[DescribeImageTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeImageTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageTagsOutputResponse`
-    public func describeImageTagsPaginated(input: DescribeImageTagsInput) -> ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutputResponse>(input: input, inputKey: \DescribeImageTagsInput.nextToken, outputKey: \DescribeImageTagsOutputResponse.nextToken, paginationFunction: self.describeImageTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageTagsOutput`
+    public func describeImageTagsPaginated(input: DescribeImageTagsInput) -> ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutput>(input: input, inputKey: \DescribeImageTagsInput.nextToken, outputKey: \DescribeImageTagsOutput.nextToken, paginationFunction: self.describeImageTags(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension DescribeImageTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeImageTagsInput, Output == DescribeImageTagsOutputResponse {
+extension PaginatorSequence where Input == DescribeImageTagsInput, Output == DescribeImageTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeImageTagsPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.ImageTagDetail]`
     /// - Returns: `[ECRPUBLICClientTypes.ImageTagDetail]`
@@ -68,16 +68,16 @@ extension PaginatorSequence where Input == DescribeImageTagsInput, Output == Des
     }
 }
 extension ECRPUBLICClient {
-    /// Paginate over `[DescribeRegistriesOutputResponse]` results.
+    /// Paginate over `[DescribeRegistriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeRegistriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistriesOutputResponse`
-    public func describeRegistriesPaginated(input: DescribeRegistriesInput) -> ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutputResponse>(input: input, inputKey: \DescribeRegistriesInput.nextToken, outputKey: \DescribeRegistriesOutputResponse.nextToken, paginationFunction: self.describeRegistries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistriesOutput`
+    public func describeRegistriesPaginated(input: DescribeRegistriesInput) -> ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutput>(input: input, inputKey: \DescribeRegistriesInput.nextToken, outputKey: \DescribeRegistriesOutput.nextToken, paginationFunction: self.describeRegistries(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension DescribeRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeRegistriesInput, Output == DescribeRegistriesOutputResponse {
+extension PaginatorSequence where Input == DescribeRegistriesInput, Output == DescribeRegistriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeRegistriesPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.Registry]`
     /// - Returns: `[ECRPUBLICClientTypes.Registry]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == DescribeRegistriesInput, Output == De
     }
 }
 extension ECRPUBLICClient {
-    /// Paginate over `[DescribeRepositoriesOutputResponse]` results.
+    /// Paginate over `[DescribeRepositoriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeRepositoriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRepositoriesOutputResponse`
-    public func describeRepositoriesPaginated(input: DescribeRepositoriesInput) -> ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse>(input: input, inputKey: \DescribeRepositoriesInput.nextToken, outputKey: \DescribeRepositoriesOutputResponse.nextToken, paginationFunction: self.describeRepositories(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRepositoriesOutput`
+    public func describeRepositoriesPaginated(input: DescribeRepositoriesInput) -> ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput>(input: input, inputKey: \DescribeRepositoriesInput.nextToken, outputKey: \DescribeRepositoriesOutput.nextToken, paginationFunction: self.describeRepositories(input:))
     }
 }
 
@@ -121,7 +121,7 @@ extension DescribeRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeRepositoriesInput, Output == DescribeRepositoriesOutputResponse {
+extension PaginatorSequence where Input == DescribeRepositoriesInput, Output == DescribeRepositoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeRepositoriesPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.Repository]`
     /// - Returns: `[ECRPUBLICClientTypes.Repository]`

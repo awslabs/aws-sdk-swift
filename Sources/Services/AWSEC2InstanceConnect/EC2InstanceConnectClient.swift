@@ -71,7 +71,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
     ///
     /// - Parameter SendSSHPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `SendSSHPublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `SendSSHPublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,7 +83,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
     /// - `InvalidArgsException` : One of the parameters is not valid.
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-    public func sendSSHPublicKey(input: SendSSHPublicKeyInput) async throws -> SendSSHPublicKeyOutputResponse
+    public func sendSSHPublicKey(input: SendSSHPublicKeyInput) async throws -> SendSSHPublicKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -99,21 +99,21 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
                       .withSigningName(value: "ec2-instance-connect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(id: "sendSSHPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendSSHPublicKeyInput, SendSSHPublicKeyOutput, SendSSHPublicKeyOutputError>(id: "sendSSHPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput, SendSSHPublicKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendSSHPublicKeyOutput, SendSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse>(xAmzTarget: "AWSEC2InstanceConnectService.SendSSHPublicKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse>(xmlName: "SendSSHPublicKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(xAmzTarget: "AWSEC2InstanceConnectService.SendSSHPublicKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(xmlName: "SendSSHPublicKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendSSHPublicKeyOutput, SendSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendSSHPublicKeyOutput, SendSSHPublicKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendSSHPublicKeyOutput, SendSSHPublicKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendSSHPublicKeyOutput, SendSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -122,7 +122,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
     ///
     /// - Parameter SendSerialConsoleSSHPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `SendSerialConsoleSSHPublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `SendSerialConsoleSSHPublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -138,7 +138,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
     /// - `SerialConsoleSessionUnavailableException` : Unable to start a serial console session. Please try again.
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-    public func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutputResponse
+    public func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -154,21 +154,21 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
                       .withSigningName(value: "ec2-instance-connect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(id: "sendSerialConsoleSSHPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput, SendSerialConsoleSSHPublicKeyOutputError>(id: "sendSerialConsoleSSHPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput, SendSerialConsoleSSHPublicKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendSerialConsoleSSHPublicKeyOutput, SendSerialConsoleSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse>(xAmzTarget: "AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse>(xmlName: "SendSerialConsoleSSHPublicKeyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(xAmzTarget: "AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(xmlName: "SendSerialConsoleSSHPublicKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendSerialConsoleSSHPublicKeyOutput, SendSerialConsoleSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendSerialConsoleSSHPublicKeyOutput, SendSerialConsoleSSHPublicKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendSerialConsoleSSHPublicKeyOutput, SendSerialConsoleSSHPublicKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendSerialConsoleSSHPublicKeyOutput, SendSerialConsoleSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

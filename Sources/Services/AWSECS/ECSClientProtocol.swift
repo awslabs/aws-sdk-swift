@@ -8,7 +8,7 @@ public protocol ECSClientProtocol {
     ///
     /// - Parameter CreateCapacityProviderInput : [no documentation found]
     ///
-    /// - Returns: `CreateCapacityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCapacityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol ECSClientProtocol {
     /// - `LimitExceededException` : The limit for the resource was exceeded.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UpdateInProgressException` : There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
-    func createCapacityProvider(input: CreateCapacityProviderInput) async throws -> CreateCapacityProviderOutputResponse
+    func createCapacityProvider(input: CreateCapacityProviderInput) async throws -> CreateCapacityProviderOutput
     /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name with the CreateCluster action. When you call the [CreateCluster] API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
-    /// - Returns: `CreateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -32,7 +32,7 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutputResponse
+    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
     /// Runs and maintains your desired number of tasks from a specified task definition. If the number of tasks running in a service drops below the desiredCount, Amazon ECS runs another copy of the task in the specified cluster. To update an existing service, see the [UpdateService] action. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. In addition to maintaining the desired count of tasks in your service, you can optionally run your service behind one or more load balancers. The load balancers distribute traffic across the tasks that are associated with the service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer. There are two service scheduler strategies available:
     ///
     /// * REPLICA - The replica scheduling strategy places and maintains your desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. For more information, see [Service scheduler concepts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) in the Amazon Elastic Container Service Developer Guide.
@@ -44,7 +44,7 @@ public protocol ECSClientProtocol {
     ///
     /// - Parameter CreateServiceInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -58,12 +58,12 @@ public protocol ECSClientProtocol {
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
+    func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
     /// Create a task set in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter CreateTaskSetInput : [no documentation found]
     ///
-    /// - Returns: `CreateTaskSetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTaskSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,12 +79,12 @@ public protocol ECSClientProtocol {
     /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func createTaskSet(input: CreateTaskSetInput) async throws -> CreateTaskSetOutputResponse
+    func createTaskSet(input: CreateTaskSetInput) async throws -> CreateTaskSetOutput
     /// Disables an account setting for a specified user, role, or the root user for an account.
     ///
     /// - Parameter DeleteAccountSettingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccountSettingOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccountSettingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -92,12 +92,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func deleteAccountSetting(input: DeleteAccountSettingInput) async throws -> DeleteAccountSettingOutputResponse
+    func deleteAccountSetting(input: DeleteAccountSettingInput) async throws -> DeleteAccountSettingOutput
     /// Deletes one or more custom attributes from an Amazon ECS resource.
     ///
     /// - Parameter DeleteAttributesInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -105,12 +105,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances]. Amazon ECS container instances are cluster-specific and Region-specific.
-    func deleteAttributes(input: DeleteAttributesInput) async throws -> DeleteAttributesOutputResponse
+    func deleteAttributes(input: DeleteAttributesInput) async throws -> DeleteAttributesOutput
     /// Deletes the specified capacity provider. The FARGATE and FARGATE_SPOT capacity providers are reserved and can't be deleted. You can disassociate them from a cluster using either the [PutClusterCapacityProviders] API or by deleting the cluster. Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The [UpdateService] API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the forceNewDeployment option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use [PutClusterCapacityProviders] or delete the cluster.
     ///
     /// - Parameter DeleteCapacityProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCapacityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCapacityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -118,12 +118,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func deleteCapacityProvider(input: DeleteCapacityProviderInput) async throws -> DeleteCapacityProviderOutputResponse
+    func deleteCapacityProvider(input: DeleteCapacityProviderInput) async throws -> DeleteCapacityProviderOutput
     /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances] and deregister them with [DeregisterContainerInstance].
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -136,12 +136,12 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UpdateInProgressException` : There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
-    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
+    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
     /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService]. When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices] API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices] API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices] calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -151,12 +151,12 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
+    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
     /// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information, see [DeregisterTaskDefinition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterTaskDefinition.html). When you delete a task definition revision, it is immediately transitions from the INACTIVE to DELETE_IN_PROGRESS. Existing tasks and services that reference a DELETE_IN_PROGRESS task definition revision continue to run without disruption. Existing services that reference a DELETE_IN_PROGRESS task definition revision can still scale up or down by modifying the service's desired count. You can't use a DELETE_IN_PROGRESS task definition revision to run new tasks or create new services. You also can't update an existing service to reference a DELETE_IN_PROGRESS task definition revision. A task definition revision will stay in DELETE_IN_PROGRESS status until all the associated tasks and services have been terminated. When you delete all INACTIVE task definition revisions, the task definition name is not displayed in the console and not returned in the API. If a task definition revisions are in the DELETE_IN_PROGRESS state, the task definition name is displayed in the console and returned in the API. The task definition name is retained by Amazon ECS and the revision is incremented the next time you create a task definition with that name.
     ///
     /// - Parameter DeleteTaskDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTaskDefinitionsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTaskDefinitionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func deleteTaskDefinitions(input: DeleteTaskDefinitionsInput) async throws -> DeleteTaskDefinitionsOutputResponse
+    func deleteTaskDefinitions(input: DeleteTaskDefinitionsInput) async throws -> DeleteTaskDefinitionsOutput
     /// Deletes a specified task set within a service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter DeleteTaskSetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTaskSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTaskSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,12 +184,12 @@ public protocol ECSClientProtocol {
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
     /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func deleteTaskSet(input: DeleteTaskSetInput) async throws -> DeleteTaskSetOutputResponse
+    func deleteTaskSet(input: DeleteTaskSetInput) async throws -> DeleteTaskSetOutput
     /// Deregisters an Amazon ECS container instance from the specified cluster. This instance is no longer available to run tasks. If you intend to use the container instance for some other purpose after deregistration, we recommend that you stop all of the tasks running on the container instance before deregistration. That prevents any orphaned tasks from consuming resources. Deregistering a container instance removes the instance from a cluster, but it doesn't terminate the EC2 instance. If you are finished using the instance, be sure to terminate it in the Amazon EC2 console to stop billing. If you terminate a running container instance, Amazon ECS automatically deregisters the instance from your cluster (stopped container instances or instances with disconnected agents aren't automatically deregistered when terminated).
     ///
     /// - Parameter DeregisterContainerInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterContainerInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterContainerInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -198,12 +198,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func deregisterContainerInstance(input: DeregisterContainerInstanceInput) async throws -> DeregisterContainerInstanceOutputResponse
+    func deregisterContainerInstance(input: DeregisterContainerInstanceInput) async throws -> DeregisterContainerInstanceOutput
     /// Deregisters the specified task definition by family and revision. Upon deregistration, the task definition is marked as INACTIVE. Existing tasks and services that reference an INACTIVE task definition continue to run without disruption. Existing services that reference an INACTIVE task definition can still scale up or down by modifying the service's desired count. If you want to delete a task definition revision, you must first deregister the task definition revision. You can't use an INACTIVE task definition to run new tasks or create new services, and you can't update an existing service to reference an INACTIVE task definition. However, there may be up to a 10-minute window following deregistration where these restrictions have not yet taken effect. At this time, INACTIVE task definitions remain discoverable in your account indefinitely. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE task definitions persisting beyond the lifecycle of any associated tasks and services. You must deregister a task definition revision before you delete it. For more information, see [DeleteTaskDefinitions](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteTaskDefinitions.html).
     ///
     /// - Parameter DeregisterTaskDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterTaskDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterTaskDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,12 +211,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func deregisterTaskDefinition(input: DeregisterTaskDefinitionInput) async throws -> DeregisterTaskDefinitionOutputResponse
+    func deregisterTaskDefinition(input: DeregisterTaskDefinitionInput) async throws -> DeregisterTaskDefinitionOutput
     /// Describes one or more of your capacity providers.
     ///
     /// - Parameter DescribeCapacityProvidersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCapacityProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCapacityProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -224,12 +224,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func describeCapacityProviders(input: DescribeCapacityProvidersInput) async throws -> DescribeCapacityProvidersOutputResponse
+    func describeCapacityProviders(input: DescribeCapacityProvidersInput) async throws -> DescribeCapacityProvidersOutput
     /// Describes one or more of your clusters.
     ///
     /// - Parameter DescribeClustersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeClustersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeClustersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -237,12 +237,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutputResponse
+    func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput
     /// Describes one or more container instances. Returns metadata about each container instance requested.
     ///
     /// - Parameter DescribeContainerInstancesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeContainerInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeContainerInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -251,12 +251,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func describeContainerInstances(input: DescribeContainerInstancesInput) async throws -> DescribeContainerInstancesOutputResponse
+    func describeContainerInstances(input: DescribeContainerInstancesInput) async throws -> DescribeContainerInstancesOutput
     /// Describes the specified services running in your cluster.
     ///
     /// - Parameter DescribeServicesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServicesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -265,12 +265,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutputResponse
+    func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput
     /// Describes a task definition. You can specify a family and revision to find information about a specific task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. You can only describe INACTIVE task definitions while an active task or service references them.
     ///
     /// - Parameter DescribeTaskDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTaskDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTaskDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -278,12 +278,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func describeTaskDefinition(input: DescribeTaskDefinitionInput) async throws -> DescribeTaskDefinitionOutputResponse
+    func describeTaskDefinition(input: DescribeTaskDefinitionInput) async throws -> DescribeTaskDefinitionOutput
     /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour. If you have tasks with tags, and then delete the cluster, the tagged tasks are returned in the response. If you create a new cluster with the same name as the deleted cluster, the tagged tasks are not included in the response.
     ///
     /// - Parameter DescribeTasksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTasksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTasksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -292,12 +292,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func describeTasks(input: DescribeTasksInput) async throws -> DescribeTasksOutputResponse
+    func describeTasks(input: DescribeTasksInput) async throws -> DescribeTasksOutput
     /// Describes the task sets in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS Deployment Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter DescribeTaskSetsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTaskSetsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTaskSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -310,24 +310,24 @@ public protocol ECSClientProtocol {
     /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func describeTaskSets(input: DescribeTaskSetsInput) async throws -> DescribeTaskSetsOutputResponse
+    func describeTaskSets(input: DescribeTaskSetsInput) async throws -> DescribeTaskSetsOutput
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Returns an endpoint for the Amazon ECS agent to poll for updates.
     ///
     /// - Parameter DiscoverPollEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DiscoverPollEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DiscoverPollEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func discoverPollEndpoint(input: DiscoverPollEndpointInput) async throws -> DiscoverPollEndpointOutputResponse
+    func discoverPollEndpoint(input: DiscoverPollEndpointInput) async throws -> DiscoverPollEndpointOutput
     /// Runs a command remotely on a container within a task. If you use a condition key in your IAM policy to refine the conditions for the policy statement, for example limit the actions to a specific cluster, you receive an AccessDeniedException when there is a mismatch between the condition key value and the corresponding parameter value. For information about required permissions and considerations, see [Using Amazon ECS Exec for debugging](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) in the Amazon ECS Developer Guide.
     ///
     /// - Parameter ExecuteCommandInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteCommandOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteCommandOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -347,12 +347,12 @@ public protocol ECSClientProtocol {
     ///
     ///
     /// For information about how to troubleshoot the issues, see [Troubleshooting issues with ECS Exec](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) in the Amazon Elastic Container Service Developer Guide.
-    func executeCommand(input: ExecuteCommandInput) async throws -> ExecuteCommandOutputResponse
+    func executeCommand(input: ExecuteCommandInput) async throws -> ExecuteCommandOutput
     /// Retrieves the protection status of tasks in an Amazon ECS service.
     ///
     /// - Parameter GetTaskProtectionInput : [no documentation found]
     ///
-    /// - Returns: `GetTaskProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `GetTaskProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -364,12 +364,12 @@ public protocol ECSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func getTaskProtection(input: GetTaskProtectionInput) async throws -> GetTaskProtectionOutputResponse
+    func getTaskProtection(input: GetTaskProtectionInput) async throws -> GetTaskProtectionOutput
     /// Lists the account settings for a specified principal.
     ///
     /// - Parameter ListAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -377,24 +377,24 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listAccountSettings(input: ListAccountSettingsInput) async throws -> ListAccountSettingsOutputResponse
+    func listAccountSettings(input: ListAccountSettingsInput) async throws -> ListAccountSettingsOutput
     /// Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, ListAttributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value. You can do this, for example, to see which container instances in a cluster are running a Linux AMI (ecs.os-type=linux).
     ///
     /// - Parameter ListAttributesInput : [no documentation found]
     ///
-    /// - Returns: `ListAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
-    func listAttributes(input: ListAttributesInput) async throws -> ListAttributesOutputResponse
+    func listAttributes(input: ListAttributesInput) async throws -> ListAttributesOutput
     /// Returns a list of existing clusters.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
     ///
-    /// - Returns: `ListClustersOutputResponse` : [no documentation found]
+    /// - Returns: `ListClustersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -402,12 +402,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listClusters(input: ListClustersInput) async throws -> ListClustersOutputResponse
+    func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
     /// Returns a list of container instances in a specified cluster. You can filter the results of a ListContainerInstances operation with cluster query language statements inside the filter parameter. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter ListContainerInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListContainerInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListContainerInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,12 +416,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listContainerInstances(input: ListContainerInstancesInput) async throws -> ListContainerInstancesOutputResponse
+    func listContainerInstances(input: ListContainerInstancesInput) async throws -> ListContainerInstancesOutput
     /// Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -430,12 +430,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    func listServices(input: ListServicesInput) async throws -> ListServicesOutput
     /// This operation lists all of the services that are associated with a Cloud Map namespace. This list might include services in different clusters. In contrast, ListServices can only list services in one cluster at a time. If you need to filter the list of services in a single cluster by various parameters, use ListServices. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter ListServicesByNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesByNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesByNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,12 +444,12 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listServicesByNamespace(input: ListServicesByNamespaceInput) async throws -> ListServicesByNamespaceOutputResponse
+    func listServicesByNamespace(input: ListServicesByNamespaceInput) async throws -> ListServicesByNamespaceOutput
     /// List the tags for an Amazon ECS resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -458,12 +458,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Returns a list of task definition families that are registered to your account. This list includes task definition families that no longer have any ACTIVE task definition revisions. You can filter out task definition families that don't contain any ACTIVE task definition revisions by setting the status parameter to ACTIVE. You can also filter the results with the familyPrefix parameter.
     ///
     /// - Parameter ListTaskDefinitionFamiliesInput : [no documentation found]
     ///
-    /// - Returns: `ListTaskDefinitionFamiliesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTaskDefinitionFamiliesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -471,12 +471,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listTaskDefinitionFamilies(input: ListTaskDefinitionFamiliesInput) async throws -> ListTaskDefinitionFamiliesOutputResponse
+    func listTaskDefinitionFamilies(input: ListTaskDefinitionFamiliesInput) async throws -> ListTaskDefinitionFamiliesOutput
     /// Returns a list of task definitions that are registered to your account. You can filter the results by family name with the familyPrefix parameter or by status with the status parameter.
     ///
     /// - Parameter ListTaskDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTaskDefinitionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTaskDefinitionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,12 +484,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func listTaskDefinitions(input: ListTaskDefinitionsInput) async throws -> ListTaskDefinitionsOutputResponse
+    func listTaskDefinitions(input: ListTaskDefinitionsInput) async throws -> ListTaskDefinitionsOutput
     /// Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results.
     ///
     /// - Parameter ListTasksInput : [no documentation found]
     ///
-    /// - Returns: `ListTasksOutputResponse` : [no documentation found]
+    /// - Returns: `ListTasksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -499,12 +499,12 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    func listTasks(input: ListTasksInput) async throws -> ListTasksOutputResponse
+    func listTasks(input: ListTasksInput) async throws -> ListTasksOutput
     /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the root user account setting, the default settings are reset for users and roles that do not have specified individual account settings. For more information, see [Account Settings](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html) in the Amazon Elastic Container Service Developer Guide. When you specify serviceLongArnFormat, taskLongArnFormat, or containerInstanceLongArnFormat, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging. When you specify awsvpcTrunking, the elastic network interface (ENI) limit for any new container instances that support the feature is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see [Elastic Network Interface Trunking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html) in the Amazon Elastic Container Service Developer Guide. When you specify containerInsights, the default setting indicating whether Amazon Web Services CloudWatch Container Insights is turned on for your clusters is changed. If containerInsights is turned on, any new clusters that are created will have Container Insights turned on unless you disable it during cluster creation. For more information, see [CloudWatch Container Insights](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide. Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide. When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
     ///
     /// - Parameter PutAccountSettingInput : [no documentation found]
     ///
-    /// - Returns: `PutAccountSettingOutputResponse` : [no documentation found]
+    /// - Returns: `PutAccountSettingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,12 +512,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func putAccountSetting(input: PutAccountSettingInput) async throws -> PutAccountSettingOutputResponse
+    func putAccountSetting(input: PutAccountSettingInput) async throws -> PutAccountSettingOutput
     /// Modifies an account setting for all users on an account for whom no individual account setting has been specified. Account settings are set on a per-Region basis.
     ///
     /// - Parameter PutAccountSettingDefaultInput : [no documentation found]
     ///
-    /// - Returns: `PutAccountSettingDefaultOutputResponse` : [no documentation found]
+    /// - Returns: `PutAccountSettingDefaultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,12 +525,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func putAccountSettingDefault(input: PutAccountSettingDefaultInput) async throws -> PutAccountSettingDefaultOutputResponse
+    func putAccountSettingDefault(input: PutAccountSettingDefaultInput) async throws -> PutAccountSettingDefaultOutput
     /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes]. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter PutAttributesInput : [no documentation found]
     ///
-    /// - Returns: `PutAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `PutAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -539,12 +539,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances]. Amazon ECS container instances are cluster-specific and Region-specific.
-    func putAttributes(input: PutAttributesInput) async throws -> PutAttributesOutputResponse
+    func putAttributes(input: PutAttributesInput) async throws -> PutAttributesOutput
     /// Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers that are associated with a cluster that are omitted from a [PutClusterCapacityProviders] API call will be disassociated with the cluster. You can only disassociate an existing capacity provider from a cluster if it's not being used by any existing tasks. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified, then the cluster's default capacity provider strategy is used. We recommend that you define a default capacity provider strategy for your cluster. However, you must specify an empty array ([]) to bypass defining a default strategy.
     ///
     /// - Parameter PutClusterCapacityProvidersInput : [no documentation found]
     ///
-    /// - Returns: `PutClusterCapacityProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `PutClusterCapacityProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,12 +555,12 @@ public protocol ECSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in-use and can't be removed.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UpdateInProgressException` : There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
-    func putClusterCapacityProviders(input: PutClusterCapacityProvidersInput) async throws -> PutClusterCapacityProvidersOutputResponse
+    func putClusterCapacityProviders(input: PutClusterCapacityProvidersInput) async throws -> PutClusterCapacityProvidersOutput
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.
     ///
     /// - Parameter RegisterContainerInstanceInput : [no documentation found]
     ///
-    /// - Returns: `RegisterContainerInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterContainerInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -568,12 +568,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func registerContainerInstance(input: RegisterContainerInstanceInput) async throws -> RegisterContainerInstanceOutputResponse
+    func registerContainerInstance(input: RegisterContainerInstanceInput) async throws -> RegisterContainerInstanceOutput
     /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. The available network modes correspond to those described in [Network settings](https://docs.docker.com/engine/reference/run/#/network-settings) in the Docker run reference. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration] when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter RegisterTaskDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `RegisterTaskDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterTaskDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,7 +581,7 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func registerTaskDefinition(input: RegisterTaskDefinitionInput) async throws -> RegisterTaskDefinitionOutputResponse
+    func registerTaskDefinition(input: RegisterTaskDefinitionInput) async throws -> RegisterTaskDefinitionOutput
     /// Starts a new task using the specified task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places tasks using placement constraints and placement strategies. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use [StartTask] to use your own scheduler or place tasks manually on specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. The Amazon ECS API follows an eventual consistency model. This is because of the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your Amazon ECS resources might not be immediately visible to all subsequent commands you run. Keep this in mind when you carry out an API command that immediately follows a previous API command. To manage eventual consistency, you can do the following:
     ///
     /// * Confirm the state of the resource before you run a command to modify it. Run the DescribeTasks command using an exponential backoff algorithm to ensure that you allow enough time for the previous command to propagate through the system. To do this, run the DescribeTasks command repeatedly, starting with a couple of seconds of wait time and increasing gradually up to five minutes of wait time.
@@ -590,7 +590,7 @@ public protocol ECSClientProtocol {
     ///
     /// - Parameter RunTaskInput : [no documentation found]
     ///
-    /// - Returns: `RunTaskOutputResponse` : [no documentation found]
+    /// - Returns: `RunTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -604,12 +604,12 @@ public protocol ECSClientProtocol {
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func runTask(input: RunTaskInput) async throws -> RunTaskOutputResponse
+    func runTask(input: RunTaskInput) async throws -> RunTaskOutput
     /// Starts a new task from the specified task definition on the specified container instance or instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. Alternatively, you can use [RunTask] to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter StartTaskInput : [no documentation found]
     ///
-    /// - Returns: `StartTaskOutputResponse` : [no documentation found]
+    /// - Returns: `StartTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -618,12 +618,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func startTask(input: StartTaskInput) async throws -> StartTaskOutputResponse
+    func startTask(input: StartTaskInput) async throws -> StartTaskOutput
     /// Stops a running task. Any tags associated with the task will be deleted. When [StopTask] is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter StopTaskInput : [no documentation found]
     ///
-    /// - Returns: `StopTaskOutputResponse` : [no documentation found]
+    /// - Returns: `StopTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -632,12 +632,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func stopTask(input: StopTaskInput) async throws -> StopTaskOutputResponse
+    func stopTask(input: StopTaskInput) async throws -> StopTaskOutput
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that an attachment changed states.
     ///
     /// - Parameter SubmitAttachmentStateChangesInput : [no documentation found]
     ///
-    /// - Returns: `SubmitAttachmentStateChangesOutputResponse` : [no documentation found]
+    /// - Returns: `SubmitAttachmentStateChangesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -646,12 +646,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func submitAttachmentStateChanges(input: SubmitAttachmentStateChangesInput) async throws -> SubmitAttachmentStateChangesOutputResponse
+    func submitAttachmentStateChanges(input: SubmitAttachmentStateChangesInput) async throws -> SubmitAttachmentStateChangesOutput
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a container changed states.
     ///
     /// - Parameter SubmitContainerStateChangeInput : [no documentation found]
     ///
-    /// - Returns: `SubmitContainerStateChangeOutputResponse` : [no documentation found]
+    /// - Returns: `SubmitContainerStateChangeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,12 +659,12 @@ public protocol ECSClientProtocol {
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func submitContainerStateChange(input: SubmitContainerStateChangeInput) async throws -> SubmitContainerStateChangeOutputResponse
+    func submitContainerStateChange(input: SubmitContainerStateChangeInput) async throws -> SubmitContainerStateChangeOutput
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a task changed states.
     ///
     /// - Parameter SubmitTaskStateChangeInput : [no documentation found]
     ///
-    /// - Returns: `SubmitTaskStateChangeOutputResponse` : [no documentation found]
+    /// - Returns: `SubmitTaskStateChangeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,12 +673,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func submitTaskStateChange(input: SubmitTaskStateChangeInput) async throws -> SubmitTaskStateChangeOutputResponse
+    func submitTaskStateChange(input: SubmitTaskStateChangeInput) async throws -> SubmitTaskStateChangeOutput
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -688,12 +688,12 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,12 +703,12 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Modifies the parameters for a capacity provider.
     ///
     /// - Parameter UpdateCapacityProviderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCapacityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCapacityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,12 +716,12 @@ public protocol ECSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func updateCapacityProvider(input: UpdateCapacityProviderInput) async throws -> UpdateCapacityProviderOutputResponse
+    func updateCapacityProvider(input: UpdateCapacityProviderInput) async throws -> UpdateCapacityProviderOutput
     /// Updates the cluster.
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,12 +731,12 @@ public protocol ECSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutputResponse
+    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
     /// Modifies the settings to use for a cluster.
     ///
     /// - Parameter UpdateClusterSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateClusterSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,12 +745,12 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func updateClusterSettings(input: UpdateClusterSettingsInput) async throws -> UpdateClusterSettingsOutputResponse
+    func updateClusterSettings(input: UpdateClusterSettingsInput) async throws -> UpdateClusterSettingsOutput
     /// Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent doesn't interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container agent, you can update the ecs-init package. This updates the agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/agent-update-ecs-ami.html) in the Amazon Elastic Container Service Developer Guide. Agent updates with the UpdateContainerAgent API operation do not apply to Windows container instances. We recommend that you launch new container instances to update the agent version in your Windows clusters. The UpdateContainerAgent API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the ecs-init service installed and running. For help updating the Amazon ECS container agent on other operating systems, see [Manually updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html#manually_update_agent) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter UpdateContainerAgentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContainerAgentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContainerAgentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,7 +762,7 @@ public protocol ECSClientProtocol {
     /// - `NoUpdateAvailableException` : There's no update available for this Amazon ECS container agent. This might be because the agent is already running the latest version or because it's so old that there's no update path to the current version.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UpdateInProgressException` : There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
-    func updateContainerAgent(input: UpdateContainerAgentInput) async throws -> UpdateContainerAgentOutputResponse
+    func updateContainerAgent(input: UpdateContainerAgentInput) async throws -> UpdateContainerAgentOutput
     /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the status of a container instance to DRAINING to manually remove an instance from a cluster, for example to perform system updates, update the Docker daemon, or scale down the cluster size. A container instance can't be changed to DRAINING until it has reached an ACTIVE status. If the instance is in any other status, an error will be received. When you set a container instance to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance and replacement service tasks are started on other container instances in the cluster if the resources are available. Service tasks on the container instance that are in the PENDING state are stopped immediately. Service tasks on the container instance that are in the RUNNING state are stopped and replaced according to the service's deployment configuration parameters, minimumHealthyPercent and maximumPercent. You can change the deployment configuration of your service using [UpdateService].
     ///
     /// * If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily during task replacement. For example, desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing tasks before starting two new tasks. If the minimum is 100%, the service scheduler can't remove existing tasks until the replacement tasks are considered healthy. Tasks for services that do not use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
@@ -774,7 +774,7 @@ public protocol ECSClientProtocol {
     ///
     /// - Parameter UpdateContainerInstancesStateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContainerInstancesStateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContainerInstancesStateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,7 +783,7 @@ public protocol ECSClientProtocol {
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    func updateContainerInstancesState(input: UpdateContainerInstancesStateInput) async throws -> UpdateContainerInstancesStateOutputResponse
+    func updateContainerInstancesState(input: UpdateContainerInstancesStateInput) async throws -> UpdateContainerInstancesStateOutput
     /// Modifies the parameters of a service. For services using the rolling update (ECS) you can update the desired count, deployment configuration, network configuration, load balancers, service registries, enable ECS managed tags option, propagate tags option, task placement constraints and strategies, and task definition. When you update any of these parameters, Amazon ECS starts new tasks with the new configuration. For services using the blue/green (CODE_DEPLOY) deployment controller, only the desired count, deployment configuration, health check grace period, task placement constraints and strategies, enable ECS managed tags option, and propagate tags can be updated using this API. If the network configuration, platform version, task definition, or load balancer need to be updated, create a new CodeDeploy deployment. For more information, see [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) in the CodeDeploy API Reference. For services using an external deployment controller, you can update only the desired count, task placement constraints and strategies, health check grace period, enable ECS managed tags option, and propagate tags option, using this API. If the launch type, load balancer, network configuration, platform version, or task definition need to be updated, create a new task set For more information, see [CreateTaskSet]. You can add to or subtract from the number of instantiations of a task definition in a service by specifying the cluster that the service is running in and a new desiredCount parameter. If you have updated the Docker image of your application, you can create a new task definition with that image and deploy it to your service. The service scheduler uses the minimum healthy percent and maximum percent parameters (in the service's deployment configuration) to determine the deployment strategy. If your updated Docker image uses the same tag as what is in the existing task definition for your service (for example, my_image:latest), you don't need to create a new revision of your task definition. You can update the service using the forceNewDeployment option. The new tasks launched by the deployment pull the current image/tag combination from your repository when they start. You can also update the deployment configuration of a service. When a deployment is triggered by updating the task definition of a service, the service scheduler uses the deployment configuration parameters, minimumHealthyPercent and maximumPercent, to determine the deployment strategy.
     ///
     /// * If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily during a deployment. For example, if desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing tasks before starting two new tasks. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
@@ -823,7 +823,7 @@ public protocol ECSClientProtocol {
     ///
     /// - Parameter UpdateServiceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,12 +838,12 @@ public protocol ECSClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutputResponse
+    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
     /// Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS Deployment Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter UpdateServicePrimaryTaskSetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServicePrimaryTaskSetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServicePrimaryTaskSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -857,12 +857,12 @@ public protocol ECSClientProtocol {
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
     /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func updateServicePrimaryTaskSet(input: UpdateServicePrimaryTaskSetInput) async throws -> UpdateServicePrimaryTaskSetOutputResponse
+    func updateServicePrimaryTaskSet(input: UpdateServicePrimaryTaskSetInput) async throws -> UpdateServicePrimaryTaskSetOutput
     /// Updates the protection status of a task. You can set protectionEnabled to true to protect your task from termination during scale-in events from [Service Autoscaling](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html) or [deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html). Task-protection, by default, expires after 2 hours at which point Amazon ECS clears the protectionEnabled property making the task eligible for termination by a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to 2,880 minutes (48 hours). To specify the custom expiration period, set the expiresInMinutes property. The expiresInMinutes property is always reset when you invoke this operation for a task that already has protectionEnabled set to true. You can keep extending the protection expiration period of a task by invoking this operation repeatedly. To learn more about Amazon ECS task protection, see [Task scale-in protection](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-scale-in-protection.html) in the Amazon Elastic Container Service Developer Guide . This operation is only supported for tasks belonging to an Amazon ECS service. Invoking this operation for a standalone task will result in an TASK_NOT_VALID failure. For more information, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html). If you prefer to set task protection from within the container, we recommend using the [Task scale-in protection endpoint](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-scale-in-protection-endpoint.html).
     ///
     /// - Parameter UpdateTaskProtectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTaskProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTaskProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,12 +874,12 @@ public protocol ECSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func updateTaskProtection(input: UpdateTaskProtectionInput) async throws -> UpdateTaskProtectionOutputResponse
+    func updateTaskProtection(input: UpdateTaskProtectionInput) async throws -> UpdateTaskProtectionOutput
     /// Modifies a task set. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS Deployment Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter UpdateTaskSetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTaskSetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTaskSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,7 +893,7 @@ public protocol ECSClientProtocol {
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
     /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
-    func updateTaskSet(input: UpdateTaskSetInput) async throws -> UpdateTaskSetOutputResponse
+    func updateTaskSet(input: UpdateTaskSetInput) async throws -> UpdateTaskSetOutput
 }
 
 public enum ECSClientTypes {}

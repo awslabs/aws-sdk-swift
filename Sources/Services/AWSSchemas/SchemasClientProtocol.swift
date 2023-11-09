@@ -8,7 +8,7 @@ public protocol SchemasClientProtocol {
     ///
     /// - Parameter CreateDiscovererInput : [no documentation found]
     ///
-    /// - Returns: `CreateDiscovererOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDiscovererOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func createDiscoverer(input: CreateDiscovererInput) async throws -> CreateDiscovererOutputResponse
+    func createDiscoverer(input: CreateDiscovererInput) async throws -> CreateDiscovererOutput
     /// Creates a registry.
     ///
     /// - Parameter CreateRegistryInput : [no documentation found]
     ///
-    /// - Returns: `CreateRegistryOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRegistryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutputResponse
+    func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput
     /// Creates a schema definition. Inactive schemas will be deleted after two years.
     ///
     /// - Parameter CreateSchemaInput : [no documentation found]
     ///
-    /// - Returns: `CreateSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
-    func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutputResponse
+    func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
     /// Deletes a discoverer.
     ///
     /// - Parameter DeleteDiscovererInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDiscovererOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDiscovererOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,12 +65,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func deleteDiscoverer(input: DeleteDiscovererInput) async throws -> DeleteDiscovererOutputResponse
+    func deleteDiscoverer(input: DeleteDiscovererInput) async throws -> DeleteDiscovererOutput
     /// Deletes a Registry.
     ///
     /// - Parameter DeleteRegistryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRegistryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRegistryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,12 +81,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutputResponse
+    func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput
     /// Delete the resource-based policy attached to the specified registry.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,12 +97,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     /// Delete a schema definition.
     ///
     /// - Parameter DeleteSchemaInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutputResponse
+    func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
     /// Delete the schema version definition
     ///
     /// - Parameter DeleteSchemaVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSchemaVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSchemaVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,12 +129,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func deleteSchemaVersion(input: DeleteSchemaVersionInput) async throws -> DeleteSchemaVersionOutputResponse
+    func deleteSchemaVersion(input: DeleteSchemaVersionInput) async throws -> DeleteSchemaVersionOutput
     /// Describe the code binding URI.
     ///
     /// - Parameter DescribeCodeBindingInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCodeBindingOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCodeBindingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -145,12 +145,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func describeCodeBinding(input: DescribeCodeBindingInput) async throws -> DescribeCodeBindingOutputResponse
+    func describeCodeBinding(input: DescribeCodeBindingInput) async throws -> DescribeCodeBindingOutput
     /// Describes the discoverer.
     ///
     /// - Parameter DescribeDiscovererInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDiscovererOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDiscovererOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,12 +161,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func describeDiscoverer(input: DescribeDiscovererInput) async throws -> DescribeDiscovererOutputResponse
+    func describeDiscoverer(input: DescribeDiscovererInput) async throws -> DescribeDiscovererOutput
     /// Describes the registry.
     ///
     /// - Parameter DescribeRegistryInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRegistryOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRegistryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -177,12 +177,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutputResponse
+    func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput
     /// Retrieve the schema definition.
     ///
     /// - Parameter DescribeSchemaInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,11 +193,11 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutputResponse
+    func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput
     ///
     /// - Parameter ExportSchemaInput : [no documentation found]
     ///
-    /// - Returns: `ExportSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `ExportSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func exportSchema(input: ExportSchemaInput) async throws -> ExportSchemaOutputResponse
+    func exportSchema(input: ExportSchemaInput) async throws -> ExportSchemaOutput
     /// Get the code binding source URI.
     ///
     /// - Parameter GetCodeBindingSourceInput : [no documentation found]
     ///
-    /// - Returns: `GetCodeBindingSourceOutputResponse` : [no documentation found]
+    /// - Returns: `GetCodeBindingSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,12 +225,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func getCodeBindingSource(input: GetCodeBindingSourceInput) async throws -> GetCodeBindingSourceOutputResponse
+    func getCodeBindingSource(input: GetCodeBindingSourceInput) async throws -> GetCodeBindingSourceOutput
     /// Get the discovered schema that was generated based on sampled events.
     ///
     /// - Parameter GetDiscoveredSchemaInput : [no documentation found]
     ///
-    /// - Returns: `GetDiscoveredSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `GetDiscoveredSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -240,12 +240,12 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func getDiscoveredSchema(input: GetDiscoveredSchemaInput) async throws -> GetDiscoveredSchemaOutputResponse
+    func getDiscoveredSchema(input: GetDiscoveredSchemaInput) async throws -> GetDiscoveredSchemaOutput
     /// Retrieves the resource-based policy attached to a given registry.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,12 +256,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
+    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
     /// List the discoverers.
     ///
     /// - Parameter ListDiscoverersInput : [no documentation found]
     ///
-    /// - Returns: `ListDiscoverersOutputResponse` : [no documentation found]
+    /// - Returns: `ListDiscoverersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -271,12 +271,12 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func listDiscoverers(input: ListDiscoverersInput) async throws -> ListDiscoverersOutputResponse
+    func listDiscoverers(input: ListDiscoverersInput) async throws -> ListDiscoverersOutput
     /// List the registries.
     ///
     /// - Parameter ListRegistriesInput : [no documentation found]
     ///
-    /// - Returns: `ListRegistriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListRegistriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -286,12 +286,12 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutputResponse
+    func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput
     /// List the schemas.
     ///
     /// - Parameter ListSchemasInput : [no documentation found]
     ///
-    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    /// - Returns: `ListSchemasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -301,12 +301,12 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
+    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
     /// Provides a list of the schema versions and related information.
     ///
     /// - Parameter ListSchemaVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSchemaVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSchemaVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -317,12 +317,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutputResponse
+    func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput
     /// Get tags for resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -331,12 +331,12 @@ public protocol SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Put code binding URI
     ///
     /// - Parameter PutCodeBindingInput : [no documentation found]
     ///
-    /// - Returns: `PutCodeBindingOutputResponse` : [no documentation found]
+    /// - Returns: `PutCodeBindingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -348,12 +348,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func putCodeBinding(input: PutCodeBindingInput) async throws -> PutCodeBindingOutputResponse
+    func putCodeBinding(input: PutCodeBindingInput) async throws -> PutCodeBindingOutput
     /// The name of the policy.
     ///
     /// - Parameter PutResourcePolicyInput : The name of the policy.
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -365,12 +365,12 @@ public protocol SchemasClientProtocol {
     /// - `PreconditionFailedException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     /// Search the schemas
     ///
     /// - Parameter SearchSchemasInput : [no documentation found]
     ///
-    /// - Returns: `SearchSchemasOutputResponse` : [no documentation found]
+    /// - Returns: `SearchSchemasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -380,12 +380,12 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func searchSchemas(input: SearchSchemasInput) async throws -> SearchSchemasOutputResponse
+    func searchSchemas(input: SearchSchemasInput) async throws -> SearchSchemasOutput
     /// Starts the discoverer
     ///
     /// - Parameter StartDiscovererInput : [no documentation found]
     ///
-    /// - Returns: `StartDiscovererOutputResponse` : [no documentation found]
+    /// - Returns: `StartDiscovererOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -396,12 +396,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func startDiscoverer(input: StartDiscovererInput) async throws -> StartDiscovererOutputResponse
+    func startDiscoverer(input: StartDiscovererInput) async throws -> StartDiscovererOutput
     /// Stops the discoverer
     ///
     /// - Parameter StopDiscovererInput : [no documentation found]
     ///
-    /// - Returns: `StopDiscovererOutputResponse` : [no documentation found]
+    /// - Returns: `StopDiscovererOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,12 +412,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func stopDiscoverer(input: StopDiscovererInput) async throws -> StopDiscovererOutputResponse
+    func stopDiscoverer(input: StopDiscovererInput) async throws -> StopDiscovererOutput
     /// Add tags to a resource.
     ///
     /// - Parameter TagResourceInput :
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -426,12 +426,12 @@ public protocol SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,12 +440,12 @@ public protocol SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the discoverer
     ///
     /// - Parameter UpdateDiscovererInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDiscovererOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDiscovererOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -456,12 +456,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func updateDiscoverer(input: UpdateDiscovererInput) async throws -> UpdateDiscovererOutputResponse
+    func updateDiscoverer(input: UpdateDiscovererInput) async throws -> UpdateDiscovererOutput
     /// Updates a registry.
     ///
     /// - Parameter UpdateRegistryInput : Updates the registry.
     ///
-    /// - Returns: `UpdateRegistryOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRegistryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,12 +472,12 @@ public protocol SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutputResponse
+    func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput
     /// Updates the schema definition Inactive schemas will be deleted after two years.
     ///
     /// - Parameter UpdateSchemaInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +487,7 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
-    func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutputResponse
+    func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput
 }
 
 public enum SchemasClientTypes {}

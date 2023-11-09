@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension BatchClient {
-    /// Paginate over `[DescribeComputeEnvironmentsOutputResponse]` results.
+    /// Paginate over `[DescribeComputeEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeComputeEnvironmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeComputeEnvironmentsOutputResponse`
-    public func describeComputeEnvironmentsPaginated(input: DescribeComputeEnvironmentsInput) -> ClientRuntime.PaginatorSequence<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutputResponse>(input: input, inputKey: \DescribeComputeEnvironmentsInput.nextToken, outputKey: \DescribeComputeEnvironmentsOutputResponse.nextToken, paginationFunction: self.describeComputeEnvironments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeComputeEnvironmentsOutput`
+    public func describeComputeEnvironmentsPaginated(input: DescribeComputeEnvironmentsInput) -> ClientRuntime.PaginatorSequence<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutput>(input: input, inputKey: \DescribeComputeEnvironmentsInput.nextToken, outputKey: \DescribeComputeEnvironmentsOutput.nextToken, paginationFunction: self.describeComputeEnvironments(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeComputeEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeComputeEnvironmentsInput, Output == DescribeComputeEnvironmentsOutputResponse {
+extension PaginatorSequence where Input == DescribeComputeEnvironmentsInput, Output == DescribeComputeEnvironmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeComputeEnvironmentsPaginated`
     /// to access the nested member `[BatchClientTypes.ComputeEnvironmentDetail]`
     /// - Returns: `[BatchClientTypes.ComputeEnvironmentDetail]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeComputeEnvironmentsInput, Out
     }
 }
 extension BatchClient {
-    /// Paginate over `[DescribeJobDefinitionsOutputResponse]` results.
+    /// Paginate over `[DescribeJobDefinitionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeJobDefinitionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeJobDefinitionsOutputResponse`
-    public func describeJobDefinitionsPaginated(input: DescribeJobDefinitionsInput) -> ClientRuntime.PaginatorSequence<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutputResponse>(input: input, inputKey: \DescribeJobDefinitionsInput.nextToken, outputKey: \DescribeJobDefinitionsOutputResponse.nextToken, paginationFunction: self.describeJobDefinitions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeJobDefinitionsOutput`
+    public func describeJobDefinitionsPaginated(input: DescribeJobDefinitionsInput) -> ClientRuntime.PaginatorSequence<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutput>(input: input, inputKey: \DescribeJobDefinitionsInput.nextToken, outputKey: \DescribeJobDefinitionsOutput.nextToken, paginationFunction: self.describeJobDefinitions(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension DescribeJobDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeJobDefinitionsInput, Output == DescribeJobDefinitionsOutputResponse {
+extension PaginatorSequence where Input == DescribeJobDefinitionsInput, Output == DescribeJobDefinitionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeJobDefinitionsPaginated`
     /// to access the nested member `[BatchClientTypes.JobDefinition]`
     /// - Returns: `[BatchClientTypes.JobDefinition]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == DescribeJobDefinitionsInput, Output =
     }
 }
 extension BatchClient {
-    /// Paginate over `[DescribeJobQueuesOutputResponse]` results.
+    /// Paginate over `[DescribeJobQueuesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeJobQueuesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeJobQueuesOutputResponse`
-    public func describeJobQueuesPaginated(input: DescribeJobQueuesInput) -> ClientRuntime.PaginatorSequence<DescribeJobQueuesInput, DescribeJobQueuesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeJobQueuesInput, DescribeJobQueuesOutputResponse>(input: input, inputKey: \DescribeJobQueuesInput.nextToken, outputKey: \DescribeJobQueuesOutputResponse.nextToken, paginationFunction: self.describeJobQueues(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeJobQueuesOutput`
+    public func describeJobQueuesPaginated(input: DescribeJobQueuesInput) -> ClientRuntime.PaginatorSequence<DescribeJobQueuesInput, DescribeJobQueuesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeJobQueuesInput, DescribeJobQueuesOutput>(input: input, inputKey: \DescribeJobQueuesInput.nextToken, outputKey: \DescribeJobQueuesOutput.nextToken, paginationFunction: self.describeJobQueues(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension DescribeJobQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeJobQueuesInput, Output == DescribeJobQueuesOutputResponse {
+extension PaginatorSequence where Input == DescribeJobQueuesInput, Output == DescribeJobQueuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeJobQueuesPaginated`
     /// to access the nested member `[BatchClientTypes.JobQueueDetail]`
     /// - Returns: `[BatchClientTypes.JobQueueDetail]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == DescribeJobQueuesInput, Output == Des
     }
 }
 extension BatchClient {
-    /// Paginate over `[ListJobsOutputResponse]` results.
+    /// Paginate over `[ListJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
-    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutputResponse.nextToken, paginationFunction: self.listJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
+    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutputResponse {
+extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[BatchClientTypes.JobSummary]`
     /// - Returns: `[BatchClientTypes.JobSummary]`
@@ -133,16 +133,16 @@ extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutp
     }
 }
 extension BatchClient {
-    /// Paginate over `[ListSchedulingPoliciesOutputResponse]` results.
+    /// Paginate over `[ListSchedulingPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSchedulingPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSchedulingPoliciesOutputResponse`
-    public func listSchedulingPoliciesPaginated(input: ListSchedulingPoliciesInput) -> ClientRuntime.PaginatorSequence<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutputResponse>(input: input, inputKey: \ListSchedulingPoliciesInput.nextToken, outputKey: \ListSchedulingPoliciesOutputResponse.nextToken, paginationFunction: self.listSchedulingPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchedulingPoliciesOutput`
+    public func listSchedulingPoliciesPaginated(input: ListSchedulingPoliciesInput) -> ClientRuntime.PaginatorSequence<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutput>(input: input, inputKey: \ListSchedulingPoliciesInput.nextToken, outputKey: \ListSchedulingPoliciesOutput.nextToken, paginationFunction: self.listSchedulingPolicies(input:))
     }
 }
 
@@ -154,7 +154,7 @@ extension ListSchedulingPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchedulingPoliciesInput, Output == ListSchedulingPoliciesOutputResponse {
+extension PaginatorSequence where Input == ListSchedulingPoliciesInput, Output == ListSchedulingPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchedulingPoliciesPaginated`
     /// to access the nested member `[BatchClientTypes.SchedulingPolicyListingDetail]`
     /// - Returns: `[BatchClientTypes.SchedulingPolicyListingDetail]`

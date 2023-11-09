@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension DirectoryClient {
-    /// Paginate over `[DescribeClientAuthenticationSettingsOutputResponse]` results.
+    /// Paginate over `[DescribeClientAuthenticationSettingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeClientAuthenticationSettingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientAuthenticationSettingsOutputResponse`
-    public func describeClientAuthenticationSettingsPaginated(input: DescribeClientAuthenticationSettingsInput) -> ClientRuntime.PaginatorSequence<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse>(input: input, inputKey: \DescribeClientAuthenticationSettingsInput.nextToken, outputKey: \DescribeClientAuthenticationSettingsOutputResponse.nextToken, paginationFunction: self.describeClientAuthenticationSettings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientAuthenticationSettingsOutput`
+    public func describeClientAuthenticationSettingsPaginated(input: DescribeClientAuthenticationSettingsInput) -> ClientRuntime.PaginatorSequence<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>(input: input, inputKey: \DescribeClientAuthenticationSettingsInput.nextToken, outputKey: \DescribeClientAuthenticationSettingsOutput.nextToken, paginationFunction: self.describeClientAuthenticationSettings(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeClientAuthenticationSettingsInput: ClientRuntime.PaginateToken
         )}
 }
 
-extension PaginatorSequence where Input == DescribeClientAuthenticationSettingsInput, Output == DescribeClientAuthenticationSettingsOutputResponse {
+extension PaginatorSequence where Input == DescribeClientAuthenticationSettingsInput, Output == DescribeClientAuthenticationSettingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClientAuthenticationSettingsPaginated`
     /// to access the nested member `[DirectoryClientTypes.ClientAuthenticationSettingInfo]`
     /// - Returns: `[DirectoryClientTypes.ClientAuthenticationSettingInfo]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeClientAuthenticationSettingsI
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeDirectoriesOutputResponse]` results.
+    /// Paginate over `[DescribeDirectoriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDirectoriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDirectoriesOutputResponse`
-    public func describeDirectoriesPaginated(input: DescribeDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse>(input: input, inputKey: \DescribeDirectoriesInput.nextToken, outputKey: \DescribeDirectoriesOutputResponse.nextToken, paginationFunction: self.describeDirectories(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDirectoriesOutput`
+    public func describeDirectoriesPaginated(input: DescribeDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeDirectoriesInput, DescribeDirectoriesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDirectoriesInput, DescribeDirectoriesOutput>(input: input, inputKey: \DescribeDirectoriesInput.nextToken, outputKey: \DescribeDirectoriesOutput.nextToken, paginationFunction: self.describeDirectories(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension DescribeDirectoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDirectoriesInput, Output == DescribeDirectoriesOutputResponse {
+extension PaginatorSequence where Input == DescribeDirectoriesInput, Output == DescribeDirectoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDirectoriesPaginated`
     /// to access the nested member `[DirectoryClientTypes.DirectoryDescription]`
     /// - Returns: `[DirectoryClientTypes.DirectoryDescription]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == DescribeDirectoriesInput, Output == D
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeDomainControllersOutputResponse]` results.
+    /// Paginate over `[DescribeDomainControllersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDomainControllersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainControllersOutputResponse`
-    public func describeDomainControllersPaginated(input: DescribeDomainControllersInput) -> ClientRuntime.PaginatorSequence<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse>(input: input, inputKey: \DescribeDomainControllersInput.nextToken, outputKey: \DescribeDomainControllersOutputResponse.nextToken, paginationFunction: self.describeDomainControllers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainControllersOutput`
+    public func describeDomainControllersPaginated(input: DescribeDomainControllersInput) -> ClientRuntime.PaginatorSequence<DescribeDomainControllersInput, DescribeDomainControllersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDomainControllersInput, DescribeDomainControllersOutput>(input: input, inputKey: \DescribeDomainControllersInput.nextToken, outputKey: \DescribeDomainControllersOutput.nextToken, paginationFunction: self.describeDomainControllers(input:))
     }
 }
 
@@ -89,16 +89,16 @@ extension DescribeDomainControllersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeLDAPSSettingsOutputResponse]` results.
+    /// Paginate over `[DescribeLDAPSSettingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeLDAPSSettingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLDAPSSettingsOutputResponse`
-    public func describeLDAPSSettingsPaginated(input: DescribeLDAPSSettingsInput) -> ClientRuntime.PaginatorSequence<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse>(input: input, inputKey: \DescribeLDAPSSettingsInput.nextToken, outputKey: \DescribeLDAPSSettingsOutputResponse.nextToken, paginationFunction: self.describeLDAPSSettings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLDAPSSettingsOutput`
+    public func describeLDAPSSettingsPaginated(input: DescribeLDAPSSettingsInput) -> ClientRuntime.PaginatorSequence<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>(input: input, inputKey: \DescribeLDAPSSettingsInput.nextToken, outputKey: \DescribeLDAPSSettingsOutput.nextToken, paginationFunction: self.describeLDAPSSettings(input:))
     }
 }
 
@@ -112,7 +112,7 @@ extension DescribeLDAPSSettingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeLDAPSSettingsInput, Output == DescribeLDAPSSettingsOutputResponse {
+extension PaginatorSequence where Input == DescribeLDAPSSettingsInput, Output == DescribeLDAPSSettingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeLDAPSSettingsPaginated`
     /// to access the nested member `[DirectoryClientTypes.LDAPSSettingInfo]`
     /// - Returns: `[DirectoryClientTypes.LDAPSSettingInfo]`
@@ -121,16 +121,16 @@ extension PaginatorSequence where Input == DescribeLDAPSSettingsInput, Output ==
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeRegionsOutputResponse]` results.
+    /// Paginate over `[DescribeRegionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeRegionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegionsOutputResponse`
-    public func describeRegionsPaginated(input: DescribeRegionsInput) -> ClientRuntime.PaginatorSequence<DescribeRegionsInput, DescribeRegionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeRegionsInput, DescribeRegionsOutputResponse>(input: input, inputKey: \DescribeRegionsInput.nextToken, outputKey: \DescribeRegionsOutputResponse.nextToken, paginationFunction: self.describeRegions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegionsOutput`
+    public func describeRegionsPaginated(input: DescribeRegionsInput) -> ClientRuntime.PaginatorSequence<DescribeRegionsInput, DescribeRegionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegionsInput, DescribeRegionsOutput>(input: input, inputKey: \DescribeRegionsInput.nextToken, outputKey: \DescribeRegionsOutput.nextToken, paginationFunction: self.describeRegions(input:))
     }
 }
 
@@ -143,7 +143,7 @@ extension DescribeRegionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeRegionsInput, Output == DescribeRegionsOutputResponse {
+extension PaginatorSequence where Input == DescribeRegionsInput, Output == DescribeRegionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeRegionsPaginated`
     /// to access the nested member `[DirectoryClientTypes.RegionDescription]`
     /// - Returns: `[DirectoryClientTypes.RegionDescription]`
@@ -152,16 +152,16 @@ extension PaginatorSequence where Input == DescribeRegionsInput, Output == Descr
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeSharedDirectoriesOutputResponse]` results.
+    /// Paginate over `[DescribeSharedDirectoriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeSharedDirectoriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSharedDirectoriesOutputResponse`
-    public func describeSharedDirectoriesPaginated(input: DescribeSharedDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse>(input: input, inputKey: \DescribeSharedDirectoriesInput.nextToken, outputKey: \DescribeSharedDirectoriesOutputResponse.nextToken, paginationFunction: self.describeSharedDirectories(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSharedDirectoriesOutput`
+    public func describeSharedDirectoriesPaginated(input: DescribeSharedDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>(input: input, inputKey: \DescribeSharedDirectoriesInput.nextToken, outputKey: \DescribeSharedDirectoriesOutput.nextToken, paginationFunction: self.describeSharedDirectories(input:))
     }
 }
 
@@ -175,7 +175,7 @@ extension DescribeSharedDirectoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSharedDirectoriesInput, Output == DescribeSharedDirectoriesOutputResponse {
+extension PaginatorSequence where Input == DescribeSharedDirectoriesInput, Output == DescribeSharedDirectoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSharedDirectoriesPaginated`
     /// to access the nested member `[DirectoryClientTypes.SharedDirectory]`
     /// - Returns: `[DirectoryClientTypes.SharedDirectory]`
@@ -184,16 +184,16 @@ extension PaginatorSequence where Input == DescribeSharedDirectoriesInput, Outpu
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeSnapshotsOutputResponse]` results.
+    /// Paginate over `[DescribeSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutputResponse`
-    public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutputResponse.nextToken, paginationFunction: self.describeSnapshots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
+    public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutput.nextToken, paginationFunction: self.describeSnapshots(input:))
     }
 }
 
@@ -207,7 +207,7 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutputResponse {
+extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
     /// to access the nested member `[DirectoryClientTypes.Snapshot]`
     /// - Returns: `[DirectoryClientTypes.Snapshot]`
@@ -216,16 +216,16 @@ extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == Des
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeTrustsOutputResponse]` results.
+    /// Paginate over `[DescribeTrustsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeTrustsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrustsOutputResponse`
-    public func describeTrustsPaginated(input: DescribeTrustsInput) -> ClientRuntime.PaginatorSequence<DescribeTrustsInput, DescribeTrustsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeTrustsInput, DescribeTrustsOutputResponse>(input: input, inputKey: \DescribeTrustsInput.nextToken, outputKey: \DescribeTrustsOutputResponse.nextToken, paginationFunction: self.describeTrusts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrustsOutput`
+    public func describeTrustsPaginated(input: DescribeTrustsInput) -> ClientRuntime.PaginatorSequence<DescribeTrustsInput, DescribeTrustsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTrustsInput, DescribeTrustsOutput>(input: input, inputKey: \DescribeTrustsInput.nextToken, outputKey: \DescribeTrustsOutput.nextToken, paginationFunction: self.describeTrusts(input:))
     }
 }
 
@@ -239,7 +239,7 @@ extension DescribeTrustsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeTrustsInput, Output == DescribeTrustsOutputResponse {
+extension PaginatorSequence where Input == DescribeTrustsInput, Output == DescribeTrustsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTrustsPaginated`
     /// to access the nested member `[DirectoryClientTypes.Trust]`
     /// - Returns: `[DirectoryClientTypes.Trust]`
@@ -248,16 +248,16 @@ extension PaginatorSequence where Input == DescribeTrustsInput, Output == Descri
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[DescribeUpdateDirectoryOutputResponse]` results.
+    /// Paginate over `[DescribeUpdateDirectoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeUpdateDirectoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUpdateDirectoryOutputResponse`
-    public func describeUpdateDirectoryPaginated(input: DescribeUpdateDirectoryInput) -> ClientRuntime.PaginatorSequence<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse>(input: input, inputKey: \DescribeUpdateDirectoryInput.nextToken, outputKey: \DescribeUpdateDirectoryOutputResponse.nextToken, paginationFunction: self.describeUpdateDirectory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUpdateDirectoryOutput`
+    public func describeUpdateDirectoryPaginated(input: DescribeUpdateDirectoryInput) -> ClientRuntime.PaginatorSequence<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>(input: input, inputKey: \DescribeUpdateDirectoryInput.nextToken, outputKey: \DescribeUpdateDirectoryOutput.nextToken, paginationFunction: self.describeUpdateDirectory(input:))
     }
 }
 
@@ -271,7 +271,7 @@ extension DescribeUpdateDirectoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeUpdateDirectoryInput, Output == DescribeUpdateDirectoryOutputResponse {
+extension PaginatorSequence where Input == DescribeUpdateDirectoryInput, Output == DescribeUpdateDirectoryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUpdateDirectoryPaginated`
     /// to access the nested member `[DirectoryClientTypes.UpdateInfoEntry]`
     /// - Returns: `[DirectoryClientTypes.UpdateInfoEntry]`
@@ -280,16 +280,16 @@ extension PaginatorSequence where Input == DescribeUpdateDirectoryInput, Output 
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[ListCertificatesOutputResponse]` results.
+    /// Paginate over `[ListCertificatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCertificatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutputResponse`
-    public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutputResponse>(input: input, inputKey: \ListCertificatesInput.nextToken, outputKey: \ListCertificatesOutputResponse.nextToken, paginationFunction: self.listCertificates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutput`
+    public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \ListCertificatesInput.nextToken, outputKey: \ListCertificatesOutput.nextToken, paginationFunction: self.listCertificates(input:))
     }
 }
 
@@ -302,7 +302,7 @@ extension ListCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutputResponse {
+extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificatesPaginated`
     /// to access the nested member `[DirectoryClientTypes.CertificateInfo]`
     /// - Returns: `[DirectoryClientTypes.CertificateInfo]`
@@ -311,16 +311,16 @@ extension PaginatorSequence where Input == ListCertificatesInput, Output == List
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[ListIpRoutesOutputResponse]` results.
+    /// Paginate over `[ListIpRoutesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIpRoutesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIpRoutesOutputResponse`
-    public func listIpRoutesPaginated(input: ListIpRoutesInput) -> ClientRuntime.PaginatorSequence<ListIpRoutesInput, ListIpRoutesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIpRoutesInput, ListIpRoutesOutputResponse>(input: input, inputKey: \ListIpRoutesInput.nextToken, outputKey: \ListIpRoutesOutputResponse.nextToken, paginationFunction: self.listIpRoutes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIpRoutesOutput`
+    public func listIpRoutesPaginated(input: ListIpRoutesInput) -> ClientRuntime.PaginatorSequence<ListIpRoutesInput, ListIpRoutesOutput> {
+        return ClientRuntime.PaginatorSequence<ListIpRoutesInput, ListIpRoutesOutput>(input: input, inputKey: \ListIpRoutesInput.nextToken, outputKey: \ListIpRoutesOutput.nextToken, paginationFunction: self.listIpRoutes(input:))
     }
 }
 
@@ -333,7 +333,7 @@ extension ListIpRoutesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIpRoutesInput, Output == ListIpRoutesOutputResponse {
+extension PaginatorSequence where Input == ListIpRoutesInput, Output == ListIpRoutesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIpRoutesPaginated`
     /// to access the nested member `[DirectoryClientTypes.IpRouteInfo]`
     /// - Returns: `[DirectoryClientTypes.IpRouteInfo]`
@@ -342,16 +342,16 @@ extension PaginatorSequence where Input == ListIpRoutesInput, Output == ListIpRo
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[ListLogSubscriptionsOutputResponse]` results.
+    /// Paginate over `[ListLogSubscriptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLogSubscriptionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLogSubscriptionsOutputResponse`
-    public func listLogSubscriptionsPaginated(input: ListLogSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse>(input: input, inputKey: \ListLogSubscriptionsInput.nextToken, outputKey: \ListLogSubscriptionsOutputResponse.nextToken, paginationFunction: self.listLogSubscriptions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLogSubscriptionsOutput`
+    public func listLogSubscriptionsPaginated(input: ListLogSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListLogSubscriptionsInput, ListLogSubscriptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>(input: input, inputKey: \ListLogSubscriptionsInput.nextToken, outputKey: \ListLogSubscriptionsOutput.nextToken, paginationFunction: self.listLogSubscriptions(input:))
     }
 }
 
@@ -364,7 +364,7 @@ extension ListLogSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLogSubscriptionsInput, Output == ListLogSubscriptionsOutputResponse {
+extension PaginatorSequence where Input == ListLogSubscriptionsInput, Output == ListLogSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLogSubscriptionsPaginated`
     /// to access the nested member `[DirectoryClientTypes.LogSubscription]`
     /// - Returns: `[DirectoryClientTypes.LogSubscription]`
@@ -373,16 +373,16 @@ extension PaginatorSequence where Input == ListLogSubscriptionsInput, Output == 
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[ListSchemaExtensionsOutputResponse]` results.
+    /// Paginate over `[ListSchemaExtensionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSchemaExtensionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaExtensionsOutputResponse`
-    public func listSchemaExtensionsPaginated(input: ListSchemaExtensionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse>(input: input, inputKey: \ListSchemaExtensionsInput.nextToken, outputKey: \ListSchemaExtensionsOutputResponse.nextToken, paginationFunction: self.listSchemaExtensions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaExtensionsOutput`
+    public func listSchemaExtensionsPaginated(input: ListSchemaExtensionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaExtensionsInput, ListSchemaExtensionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>(input: input, inputKey: \ListSchemaExtensionsInput.nextToken, outputKey: \ListSchemaExtensionsOutput.nextToken, paginationFunction: self.listSchemaExtensions(input:))
     }
 }
 
@@ -395,7 +395,7 @@ extension ListSchemaExtensionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchemaExtensionsInput, Output == ListSchemaExtensionsOutputResponse {
+extension PaginatorSequence where Input == ListSchemaExtensionsInput, Output == ListSchemaExtensionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemaExtensionsPaginated`
     /// to access the nested member `[DirectoryClientTypes.SchemaExtensionInfo]`
     /// - Returns: `[DirectoryClientTypes.SchemaExtensionInfo]`
@@ -404,16 +404,16 @@ extension PaginatorSequence where Input == ListSchemaExtensionsInput, Output == 
     }
 }
 extension DirectoryClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -426,7 +426,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[DirectoryClientTypes.Tag]`
     /// - Returns: `[DirectoryClientTypes.Tag]`

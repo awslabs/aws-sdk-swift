@@ -29,7 +29,7 @@ public protocol CodeDeployClientProtocol {
     ///
     /// - Parameter AddTagsToOnPremisesInstancesInput : Represents the input of, and adds tags to, an on-premises instance operation.
     ///
-    /// - Returns: `AddTagsToOnPremisesInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `AddTagsToOnPremisesInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -41,12 +41,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidTagException` : The tag was specified in an invalid format.
     /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
     /// - `TagRequiredException` : A tag was not specified.
-    func addTagsToOnPremisesInstances(input: AddTagsToOnPremisesInstancesInput) async throws -> AddTagsToOnPremisesInstancesOutputResponse
+    func addTagsToOnPremisesInstances(input: AddTagsToOnPremisesInstancesInput) async throws -> AddTagsToOnPremisesInstancesOutput
     /// Gets information about one or more application revisions. The maximum number of application revisions that can be returned is 25.
     ///
     /// - Parameter BatchGetApplicationRevisionsInput : Represents the input of a BatchGetApplicationRevisions operation.
     ///
-    /// - Returns: `BatchGetApplicationRevisionsOutputResponse` : Represents the output of a BatchGetApplicationRevisions operation.
+    /// - Returns: `BatchGetApplicationRevisionsOutput` : Represents the output of a BatchGetApplicationRevisions operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -57,12 +57,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
     /// - `RevisionRequiredException` : The revision ID was not specified.
-    func batchGetApplicationRevisions(input: BatchGetApplicationRevisionsInput) async throws -> BatchGetApplicationRevisionsOutputResponse
+    func batchGetApplicationRevisions(input: BatchGetApplicationRevisionsInput) async throws -> BatchGetApplicationRevisionsOutput
     /// Gets information about one or more applications. The maximum number of applications that can be returned is 100.
     ///
     /// - Parameter BatchGetApplicationsInput : Represents the input of a BatchGetApplications operation.
     ///
-    /// - Returns: `BatchGetApplicationsOutputResponse` : Represents the output of a BatchGetApplications operation.
+    /// - Returns: `BatchGetApplicationsOutput` : Represents the output of a BatchGetApplications operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -71,12 +71,12 @@ public protocol CodeDeployClientProtocol {
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
-    func batchGetApplications(input: BatchGetApplicationsInput) async throws -> BatchGetApplicationsOutputResponse
+    func batchGetApplications(input: BatchGetApplicationsInput) async throws -> BatchGetApplicationsOutput
     /// Gets information about one or more deployment groups.
     ///
     /// - Parameter BatchGetDeploymentGroupsInput : Represents the input of a BatchGetDeploymentGroups operation.
     ///
-    /// - Returns: `BatchGetDeploymentGroupsOutputResponse` : Represents the output of a BatchGetDeploymentGroups operation.
+    /// - Returns: `BatchGetDeploymentGroupsOutput` : Represents the output of a BatchGetDeploymentGroups operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,13 +88,13 @@ public protocol CodeDeployClientProtocol {
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
-    func batchGetDeploymentGroups(input: BatchGetDeploymentGroupsInput) async throws -> BatchGetDeploymentGroupsOutputResponse
+    func batchGetDeploymentGroups(input: BatchGetDeploymentGroupsInput) async throws -> BatchGetDeploymentGroupsOutput
     /// This method works, but is deprecated. Use BatchGetDeploymentTargets instead. Returns an array of one or more instances associated with a deployment. This method works with EC2/On-premises and Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. The maximum number of instances that can be returned is 25.
     @available(*, deprecated, message: "This operation is deprecated, use BatchGetDeploymentTargets instead.")
     ///
     /// - Parameter BatchGetDeploymentInstancesInput : Represents the input of a BatchGetDeploymentInstances operation.
     ///
-    /// - Returns: `BatchGetDeploymentInstancesOutputResponse` : Represents the output of a BatchGetDeploymentInstances operation.
+    /// - Returns: `BatchGetDeploymentInstancesOutput` : Represents the output of a BatchGetDeploymentInstances operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,12 +106,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    func batchGetDeploymentInstances(input: BatchGetDeploymentInstancesInput) async throws -> BatchGetDeploymentInstancesOutputResponse
+    func batchGetDeploymentInstances(input: BatchGetDeploymentInstancesInput) async throws -> BatchGetDeploymentInstancesOutput
     /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25.
     ///
     /// - Parameter BatchGetDeploymentsInput : Represents the input of a BatchGetDeployments operation.
     ///
-    /// - Returns: `BatchGetDeploymentsOutputResponse` : Represents the output of a BatchGetDeployments operation.
+    /// - Returns: `BatchGetDeploymentsOutput` : Represents the output of a BatchGetDeployments operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -119,7 +119,7 @@ public protocol CodeDeployClientProtocol {
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
-    func batchGetDeployments(input: BatchGetDeploymentsInput) async throws -> BatchGetDeploymentsOutputResponse
+    func batchGetDeployments(input: BatchGetDeploymentsInput) async throws -> BatchGetDeploymentsOutput
     /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances. The maximum number of targets that can be returned is 25. The type of targets returned depends on the deployment's compute platform or deployment method:
     ///
     /// * EC2/On-premises: Information about Amazon EC2 instance targets.
@@ -132,7 +132,7 @@ public protocol CodeDeployClientProtocol {
     ///
     /// - Parameter BatchGetDeploymentTargetsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetDeploymentTargetsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetDeploymentTargetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -146,12 +146,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InstanceDoesNotExistException` : The specified instance does not exist in the deployment group.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidDeploymentTargetIdException` : The target ID provided was not valid.
-    func batchGetDeploymentTargets(input: BatchGetDeploymentTargetsInput) async throws -> BatchGetDeploymentTargetsOutputResponse
+    func batchGetDeploymentTargets(input: BatchGetDeploymentTargetsInput) async throws -> BatchGetDeploymentTargetsOutput
     /// Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25.
     ///
     /// - Parameter BatchGetOnPremisesInstancesInput : Represents the input of a BatchGetOnPremisesInstances operation.
     ///
-    /// - Returns: `BatchGetOnPremisesInstancesOutputResponse` : Represents the output of a BatchGetOnPremisesInstances operation.
+    /// - Returns: `BatchGetOnPremisesInstancesOutput` : Represents the output of a BatchGetOnPremisesInstances operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -159,12 +159,12 @@ public protocol CodeDeployClientProtocol {
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    func batchGetOnPremisesInstances(input: BatchGetOnPremisesInstancesInput) async throws -> BatchGetOnPremisesInstancesOutputResponse
+    func batchGetOnPremisesInstances(input: BatchGetOnPremisesInstancesInput) async throws -> BatchGetOnPremisesInstancesOutput
     /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.)
     ///
     /// - Parameter ContinueDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `ContinueDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `ContinueDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -177,12 +177,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidDeploymentStatusException` : The specified deployment status doesn't exist or cannot be determined.
     /// - `InvalidDeploymentWaitTypeException` : The wait type is invalid.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    func continueDeployment(input: ContinueDeploymentInput) async throws -> ContinueDeploymentOutputResponse
+    func continueDeployment(input: ContinueDeploymentInput) async throws -> ContinueDeploymentOutput
     /// Creates an application.
     ///
     /// - Parameter CreateApplicationInput : Represents the input of a CreateApplication operation.
     ///
-    /// - Returns: `CreateApplicationOutputResponse` : Represents the output of a CreateApplication operation.
+    /// - Returns: `CreateApplicationOutput` : Represents the output of a CreateApplication operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,12 +193,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Deploys an application revision through the specified deployment group.
     ///
     /// - Parameter CreateDeploymentInput : Represents the input of a CreateDeployment operation.
     ///
-    /// - Returns: `CreateDeploymentOutputResponse` : Represents the output of a CreateDeployment operation.
+    /// - Returns: `CreateDeploymentOutput` : Represents the output of a CreateDeployment operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -247,12 +247,12 @@ public protocol CodeDeployClientProtocol {
     /// - `RevisionDoesNotExistException` : The named revision does not exist with the user or Amazon Web Services account.
     /// - `RevisionRequiredException` : The revision ID was not specified.
     /// - `ThrottlingException` : An API function was called too frequently.
-    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
+    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
     /// Creates a deployment configuration.
     ///
     /// - Parameter CreateDeploymentConfigInput : Represents the input of a CreateDeploymentConfig operation.
     ///
-    /// - Returns: `CreateDeploymentConfigOutputResponse` : Represents the output of a CreateDeploymentConfig operation.
+    /// - Returns: `CreateDeploymentConfigOutput` : Represents the output of a CreateDeploymentConfig operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -264,12 +264,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidMinimumHealthyHostValueException` : The minimum healthy instance value was specified in an invalid format.
     /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
-    func createDeploymentConfig(input: CreateDeploymentConfigInput) async throws -> CreateDeploymentConfigOutputResponse
+    func createDeploymentConfig(input: CreateDeploymentConfigInput) async throws -> CreateDeploymentConfigOutput
     /// Creates a deployment group to which application revisions are deployed.
     ///
     /// - Parameter CreateDeploymentGroupInput : Represents the input of a CreateDeploymentGroup operation.
     ///
-    /// - Returns: `CreateDeploymentGroupOutputResponse` : Represents the output of a CreateDeploymentGroup operation.
+    /// - Returns: `CreateDeploymentGroupOutput` : Represents the output of a CreateDeploymentGroup operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -317,12 +317,12 @@ public protocol CodeDeployClientProtocol {
     /// - `TagSetListLimitExceededException` : The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
     /// - `ThrottlingException` : An API function was called too frequently.
     /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
-    func createDeploymentGroup(input: CreateDeploymentGroupInput) async throws -> CreateDeploymentGroupOutputResponse
+    func createDeploymentGroup(input: CreateDeploymentGroupInput) async throws -> CreateDeploymentGroupOutput
     /// Deletes an application.
     ///
     /// - Parameter DeleteApplicationInput : Represents the input of a DeleteApplication operation.
     ///
-    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -330,12 +330,12 @@ public protocol CodeDeployClientProtocol {
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
     /// Deletes a deployment configuration. A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted.
     ///
     /// - Parameter DeleteDeploymentConfigInput : Represents the input of a DeleteDeploymentConfig operation.
     ///
-    /// - Returns: `DeleteDeploymentConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeploymentConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -344,12 +344,12 @@ public protocol CodeDeployClientProtocol {
     /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidOperationException` : An invalid operation was detected.
-    func deleteDeploymentConfig(input: DeleteDeploymentConfigInput) async throws -> DeleteDeploymentConfigOutputResponse
+    func deleteDeploymentConfig(input: DeleteDeploymentConfigInput) async throws -> DeleteDeploymentConfigOutput
     /// Deletes a deployment group.
     ///
     /// - Parameter DeleteDeploymentGroupInput : Represents the input of a DeleteDeploymentGroup operation.
     ///
-    /// - Returns: `DeleteDeploymentGroupOutputResponse` : Represents the output of a DeleteDeploymentGroup operation.
+    /// - Returns: `DeleteDeploymentGroupOutput` : Represents the output of a DeleteDeploymentGroup operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -359,12 +359,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
     /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
-    func deleteDeploymentGroup(input: DeleteDeploymentGroupInput) async throws -> DeleteDeploymentGroupOutputResponse
+    func deleteDeploymentGroup(input: DeleteDeploymentGroupInput) async throws -> DeleteDeploymentGroupOutput
     /// Deletes a GitHub account connection.
     ///
     /// - Parameter DeleteGitHubAccountTokenInput : Represents the input of a DeleteGitHubAccount operation.
     ///
-    /// - Returns: `DeleteGitHubAccountTokenOutputResponse` : Represents the output of a DeleteGitHubAccountToken operation.
+    /// - Returns: `DeleteGitHubAccountTokenOutput` : Represents the output of a DeleteGitHubAccountToken operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -374,30 +374,30 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidGitHubAccountTokenNameException` : The format of the specified GitHub account connection name is invalid.
     /// - `OperationNotSupportedException` : The API used does not support the deployment.
     /// - `ResourceValidationException` : The specified resource could not be validated.
-    func deleteGitHubAccountToken(input: DeleteGitHubAccountTokenInput) async throws -> DeleteGitHubAccountTokenOutputResponse
+    func deleteGitHubAccountToken(input: DeleteGitHubAccountTokenInput) async throws -> DeleteGitHubAccountTokenOutput
     /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation. It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) requirements.
     ///
     /// - Parameter DeleteResourcesByExternalIdInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcesByExternalIdOutputResponse` : [no documentation found]
-    func deleteResourcesByExternalId(input: DeleteResourcesByExternalIdInput) async throws -> DeleteResourcesByExternalIdOutputResponse
+    /// - Returns: `DeleteResourcesByExternalIdOutput` : [no documentation found]
+    func deleteResourcesByExternalId(input: DeleteResourcesByExternalIdInput) async throws -> DeleteResourcesByExternalIdOutput
     /// Deregisters an on-premises instance.
     ///
     /// - Parameter DeregisterOnPremisesInstanceInput : Represents the input of a DeregisterOnPremisesInstance operation.
     ///
-    /// - Returns: `DeregisterOnPremisesInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterOnPremisesInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    func deregisterOnPremisesInstance(input: DeregisterOnPremisesInstanceInput) async throws -> DeregisterOnPremisesInstanceOutputResponse
+    func deregisterOnPremisesInstance(input: DeregisterOnPremisesInstanceInput) async throws -> DeregisterOnPremisesInstanceOutput
     /// Gets information about an application.
     ///
     /// - Parameter GetApplicationInput : Represents the input of a GetApplication operation.
     ///
-    /// - Returns: `GetApplicationOutputResponse` : Represents the output of a GetApplication operation.
+    /// - Returns: `GetApplicationOutput` : Represents the output of a GetApplication operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -405,12 +405,12 @@ public protocol CodeDeployClientProtocol {
     /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
-    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
+    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
     /// Gets information about an application revision.
     ///
     /// - Parameter GetApplicationRevisionInput : Represents the input of a GetApplicationRevision operation.
     ///
-    /// - Returns: `GetApplicationRevisionOutputResponse` : Represents the output of a GetApplicationRevision operation.
+    /// - Returns: `GetApplicationRevisionOutput` : Represents the output of a GetApplicationRevision operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -421,12 +421,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
     /// - `RevisionDoesNotExistException` : The named revision does not exist with the user or Amazon Web Services account.
     /// - `RevisionRequiredException` : The revision ID was not specified.
-    func getApplicationRevision(input: GetApplicationRevisionInput) async throws -> GetApplicationRevisionOutputResponse
+    func getApplicationRevision(input: GetApplicationRevisionInput) async throws -> GetApplicationRevisionOutput
     /// Gets information about a deployment. The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployment’s AppSpec file.
     ///
     /// - Parameter GetDeploymentInput : Represents the input of a GetDeployment operation.
     ///
-    /// - Returns: `GetDeploymentOutputResponse` : Represents the output of a GetDeployment operation.
+    /// - Returns: `GetDeploymentOutput` : Represents the output of a GetDeployment operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -434,12 +434,12 @@ public protocol CodeDeployClientProtocol {
     /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
-    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
     /// Gets information about a deployment configuration.
     ///
     /// - Parameter GetDeploymentConfigInput : Represents the input of a GetDeploymentConfig operation.
     ///
-    /// - Returns: `GetDeploymentConfigOutputResponse` : Represents the output of a GetDeploymentConfig operation.
+    /// - Returns: `GetDeploymentConfigOutput` : Represents the output of a GetDeploymentConfig operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,12 +448,12 @@ public protocol CodeDeployClientProtocol {
     /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
-    func getDeploymentConfig(input: GetDeploymentConfigInput) async throws -> GetDeploymentConfigOutputResponse
+    func getDeploymentConfig(input: GetDeploymentConfigInput) async throws -> GetDeploymentConfigOutput
     /// Gets information about a deployment group.
     ///
     /// - Parameter GetDeploymentGroupInput : Represents the input of a GetDeploymentGroup operation.
     ///
-    /// - Returns: `GetDeploymentGroupOutputResponse` : Represents the output of a GetDeploymentGroup operation.
+    /// - Returns: `GetDeploymentGroupOutput` : Represents the output of a GetDeploymentGroup operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -465,13 +465,13 @@ public protocol CodeDeployClientProtocol {
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
-    func getDeploymentGroup(input: GetDeploymentGroupInput) async throws -> GetDeploymentGroupOutputResponse
+    func getDeploymentGroup(input: GetDeploymentGroupInput) async throws -> GetDeploymentGroupOutput
     /// Gets information about an instance as part of a deployment.
     @available(*, deprecated, message: "This operation is deprecated, use GetDeploymentTarget instead.")
     ///
     /// - Parameter GetDeploymentInstanceInput : Represents the input of a GetDeploymentInstance operation.
     ///
-    /// - Returns: `GetDeploymentInstanceOutputResponse` : Represents the output of a GetDeploymentInstance operation.
+    /// - Returns: `GetDeploymentInstanceOutput` : Represents the output of a GetDeploymentInstance operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,12 +483,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    func getDeploymentInstance(input: GetDeploymentInstanceInput) async throws -> GetDeploymentInstanceOutputResponse
+    func getDeploymentInstance(input: GetDeploymentInstanceInput) async throws -> GetDeploymentInstanceOutput
     /// Returns information about a deployment target.
     ///
     /// - Parameter GetDeploymentTargetInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentTargetOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentTargetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -501,12 +501,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidDeploymentTargetIdException` : The target ID provided was not valid.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    func getDeploymentTarget(input: GetDeploymentTargetInput) async throws -> GetDeploymentTargetOutputResponse
+    func getDeploymentTarget(input: GetDeploymentTargetInput) async throws -> GetDeploymentTargetOutput
     /// Gets information about an on-premises instance.
     ///
     /// - Parameter GetOnPremisesInstanceInput : Represents the input of a GetOnPremisesInstance operation.
     ///
-    /// - Returns: `GetOnPremisesInstanceOutputResponse` : Represents the output of a GetOnPremisesInstance operation.
+    /// - Returns: `GetOnPremisesInstanceOutput` : Represents the output of a GetOnPremisesInstance operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,12 +514,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
     /// - `InstanceNotRegisteredException` : The specified on-premises instance is not registered.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    func getOnPremisesInstance(input: GetOnPremisesInstanceInput) async throws -> GetOnPremisesInstanceOutputResponse
+    func getOnPremisesInstance(input: GetOnPremisesInstanceInput) async throws -> GetOnPremisesInstanceOutput
     /// Lists information about revisions for an application.
     ///
     /// - Parameter ListApplicationRevisionsInput : Represents the input of a ListApplicationRevisions operation.
     ///
-    /// - Returns: `ListApplicationRevisionsOutputResponse` : Represents the output of a ListApplicationRevisions operation.
+    /// - Returns: `ListApplicationRevisionsOutput` : Represents the output of a ListApplicationRevisions operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -534,34 +534,34 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidSortByException` : The column name to sort by is either not present or was specified in an invalid format.
     /// - `InvalidSortOrderException` : The sort order was specified in an invalid format.
-    func listApplicationRevisions(input: ListApplicationRevisionsInput) async throws -> ListApplicationRevisionsOutputResponse
+    func listApplicationRevisions(input: ListApplicationRevisionsInput) async throws -> ListApplicationRevisionsOutput
     /// Lists the applications registered with the user or Amazon Web Services account.
     ///
     /// - Parameter ListApplicationsInput : Represents the input of a ListApplications operation.
     ///
-    /// - Returns: `ListApplicationsOutputResponse` : Represents the output of a ListApplications operation.
+    /// - Returns: `ListApplicationsOutput` : Represents the output of a ListApplications operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
     /// Lists the deployment configurations with the user or Amazon Web Services account.
     ///
     /// - Parameter ListDeploymentConfigsInput : Represents the input of a ListDeploymentConfigs operation.
     ///
-    /// - Returns: `ListDeploymentConfigsOutputResponse` : Represents the output of a ListDeploymentConfigs operation.
+    /// - Returns: `ListDeploymentConfigsOutput` : Represents the output of a ListDeploymentConfigs operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    func listDeploymentConfigs(input: ListDeploymentConfigsInput) async throws -> ListDeploymentConfigsOutputResponse
+    func listDeploymentConfigs(input: ListDeploymentConfigsInput) async throws -> ListDeploymentConfigsOutput
     /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     ///
     /// - Parameter ListDeploymentGroupsInput : Represents the input of a ListDeploymentGroups operation.
     ///
-    /// - Returns: `ListDeploymentGroupsOutputResponse` : Represents the output of a ListDeploymentGroups operation.
+    /// - Returns: `ListDeploymentGroupsOutput` : Represents the output of a ListDeploymentGroups operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -570,13 +570,13 @@ public protocol CodeDeployClientProtocol {
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    func listDeploymentGroups(input: ListDeploymentGroupsInput) async throws -> ListDeploymentGroupsOutputResponse
+    func listDeploymentGroups(input: ListDeploymentGroupsInput) async throws -> ListDeploymentGroupsOutput
     /// The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda. Lists the instance for a deployment associated with the user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
     ///
     /// - Parameter ListDeploymentInstancesInput : Represents the input of a ListDeploymentInstances operation.
     ///
-    /// - Returns: `ListDeploymentInstancesOutputResponse` : Represents the output of a ListDeploymentInstances operation.
+    /// - Returns: `ListDeploymentInstancesOutput` : Represents the output of a ListDeploymentInstances operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,12 +591,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidInstanceTypeException` : An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
-    func listDeploymentInstances(input: ListDeploymentInstancesInput) async throws -> ListDeploymentInstancesOutputResponse
+    func listDeploymentInstances(input: ListDeploymentInstancesInput) async throws -> ListDeploymentInstancesOutput
     /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     ///
     /// - Parameter ListDeploymentsInput : Represents the input of a ListDeployments operation.
     ///
-    /// - Returns: `ListDeploymentsOutputResponse` : Represents the output of a ListDeployments operation.
+    /// - Returns: `ListDeploymentsOutput` : Represents the output of a ListDeployments operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -612,12 +612,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidInputException` : The input was specified in an invalid format.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidTimeRangeException` : The specified time range was specified in an invalid format.
-    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
     /// Returns an array of target IDs that are associated a deployment.
     ///
     /// - Parameter ListDeploymentTargetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeploymentTargetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeploymentTargetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,12 +630,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidInstanceStatusException` : The specified instance status does not exist.
     /// - `InvalidInstanceTypeException` : An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    func listDeploymentTargets(input: ListDeploymentTargetsInput) async throws -> ListDeploymentTargetsOutputResponse
+    func listDeploymentTargets(input: ListDeploymentTargetsInput) async throws -> ListDeploymentTargetsOutput
     /// Lists the names of stored connections to GitHub accounts.
     ///
     /// - Parameter ListGitHubAccountTokenNamesInput : Represents the input of a ListGitHubAccountTokenNames operation.
     ///
-    /// - Returns: `ListGitHubAccountTokenNamesOutputResponse` : Represents the output of a ListGitHubAccountTokenNames operation.
+    /// - Returns: `ListGitHubAccountTokenNamesOutput` : Represents the output of a ListGitHubAccountTokenNames operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,12 +643,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `OperationNotSupportedException` : The API used does not support the deployment.
     /// - `ResourceValidationException` : The specified resource could not be validated.
-    func listGitHubAccountTokenNames(input: ListGitHubAccountTokenNamesInput) async throws -> ListGitHubAccountTokenNamesOutputResponse
+    func listGitHubAccountTokenNames(input: ListGitHubAccountTokenNamesInput) async throws -> ListGitHubAccountTokenNamesOutput
     /// Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names are listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
     ///
     /// - Parameter ListOnPremisesInstancesInput : Represents the input of a ListOnPremisesInstances operation.
     ///
-    /// - Returns: `ListOnPremisesInstancesOutputResponse` : Represents the output of the list on-premises instances operation.
+    /// - Returns: `ListOnPremisesInstancesOutput` : Represents the output of the list on-premises instances operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,12 +656,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidRegistrationStatusException` : The registration status was specified in an invalid format.
     /// - `InvalidTagFilterException` : The tag filter was specified in an invalid format.
-    func listOnPremisesInstances(input: ListOnPremisesInstancesInput) async throws -> ListOnPremisesInstancesOutputResponse
+    func listOnPremisesInstances(input: ListOnPremisesInstancesInput) async throws -> ListOnPremisesInstancesOutput
     /// Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -669,12 +669,12 @@ public protocol CodeDeployClientProtocol {
     /// - `ArnNotSupportedException` : The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
     /// - `InvalidArnException` : The specified ARN is not in a valid format.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic. For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall, AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation functions return Succeeded or Failed. For more information, see [AppSpec 'hooks' Section for an Lambda Deployment ](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-lambda) and [AppSpec 'hooks' Section for an Amazon ECS Deployment](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs).
     ///
     /// - Parameter PutLifecycleEventHookExecutionStatusInput : [no documentation found]
     ///
-    /// - Returns: `PutLifecycleEventHookExecutionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `PutLifecycleEventHookExecutionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,12 +686,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidLifecycleEventHookExecutionStatusException` : The result of a Lambda validation function that verifies a lifecycle event is invalid. It should return Succeeded or Failed.
     /// - `LifecycleEventAlreadyCompletedException` : An attempt to return the status of an already completed lifecycle event occurred.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    func putLifecycleEventHookExecutionStatus(input: PutLifecycleEventHookExecutionStatusInput) async throws -> PutLifecycleEventHookExecutionStatusOutputResponse
+    func putLifecycleEventHookExecutionStatus(input: PutLifecycleEventHookExecutionStatusInput) async throws -> PutLifecycleEventHookExecutionStatusOutput
     /// Registers with CodeDeploy a revision for the specified application.
     ///
     /// - Parameter RegisterApplicationRevisionInput : Represents the input of a RegisterApplicationRevision operation.
     ///
-    /// - Returns: `RegisterApplicationRevisionOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterApplicationRevisionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,12 +702,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
     /// - `RevisionRequiredException` : The revision ID was not specified.
-    func registerApplicationRevision(input: RegisterApplicationRevisionInput) async throws -> RegisterApplicationRevisionOutputResponse
+    func registerApplicationRevision(input: RegisterApplicationRevisionInput) async throws -> RegisterApplicationRevisionOutput
     /// Registers an on-premises instance. Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
     ///
     /// - Parameter RegisterOnPremisesInstanceInput : Represents the input of the register on-premises instance operation.
     ///
-    /// - Returns: `RegisterOnPremisesInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterOnPremisesInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,12 +722,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidIamUserArnException` : The user ARN was specified in an invalid format.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     /// - `MultipleIamArnsProvidedException` : Both an user ARN and an IAM session ARN were included in the request. Use only one ARN type.
-    func registerOnPremisesInstance(input: RegisterOnPremisesInstanceInput) async throws -> RegisterOnPremisesInstanceOutputResponse
+    func registerOnPremisesInstance(input: RegisterOnPremisesInstanceInput) async throws -> RegisterOnPremisesInstanceOutput
     /// Removes one or more tags from one or more on-premises instances.
     ///
     /// - Parameter RemoveTagsFromOnPremisesInstancesInput : Represents the input of a RemoveTagsFromOnPremisesInstances operation.
     ///
-    /// - Returns: `RemoveTagsFromOnPremisesInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveTagsFromOnPremisesInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,13 +739,13 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidTagException` : The tag was specified in an invalid format.
     /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
     /// - `TagRequiredException` : A tag was not specified.
-    func removeTagsFromOnPremisesInstances(input: RemoveTagsFromOnPremisesInstancesInput) async throws -> RemoveTagsFromOnPremisesInstancesOutputResponse
+    func removeTagsFromOnPremisesInstances(input: RemoveTagsFromOnPremisesInstancesInput) async throws -> RemoveTagsFromOnPremisesInstancesOutput
     /// In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is complete.
     @available(*, deprecated, message: "This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")
     ///
     /// - Parameter SkipWaitTimeForInstanceTerminationInput : [no documentation found]
     ///
-    /// - Returns: `SkipWaitTimeForInstanceTerminationOutputResponse` : [no documentation found]
+    /// - Returns: `SkipWaitTimeForInstanceTerminationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,12 +756,12 @@ public protocol CodeDeployClientProtocol {
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    func skipWaitTimeForInstanceTermination(input: SkipWaitTimeForInstanceTerminationInput) async throws -> SkipWaitTimeForInstanceTerminationOutputResponse
+    func skipWaitTimeForInstanceTermination(input: SkipWaitTimeForInstanceTerminationInput) async throws -> SkipWaitTimeForInstanceTerminationOutput
     /// Attempts to stop an ongoing deployment.
     ///
     /// - Parameter StopDeploymentInput : Represents the input of a StopDeployment operation.
     ///
-    /// - Returns: `StopDeploymentOutputResponse` : Represents the output of a StopDeployment operation.
+    /// - Returns: `StopDeploymentOutput` : Represents the output of a StopDeployment operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,12 +772,12 @@ public protocol CodeDeployClientProtocol {
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutputResponse
+    func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutput
     /// Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,12 +790,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
     /// - `TagRequiredException` : A tag was not specified.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -808,12 +808,12 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
     /// - `TagRequiredException` : A tag was not specified.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Changes the name of an application.
     ///
     /// - Parameter UpdateApplicationInput : Represents the input of an UpdateApplication operation.
     ///
-    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -822,12 +822,12 @@ public protocol CodeDeployClientProtocol {
     /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Changes information about a deployment group.
     ///
     /// - Parameter UpdateDeploymentGroupInput : Represents the input of an UpdateDeploymentGroup operation.
     ///
-    /// - Returns: `UpdateDeploymentGroupOutputResponse` : Represents the output of an UpdateDeploymentGroup operation.
+    /// - Returns: `UpdateDeploymentGroupOutput` : Represents the output of an UpdateDeploymentGroup operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,7 +873,7 @@ public protocol CodeDeployClientProtocol {
     /// - `TagSetListLimitExceededException` : The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
     /// - `ThrottlingException` : An API function was called too frequently.
     /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
-    func updateDeploymentGroup(input: UpdateDeploymentGroupInput) async throws -> UpdateDeploymentGroupOutputResponse
+    func updateDeploymentGroup(input: UpdateDeploymentGroupInput) async throws -> UpdateDeploymentGroupOutput
 }
 
 public enum CodeDeployClientTypes {}

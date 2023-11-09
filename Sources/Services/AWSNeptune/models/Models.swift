@@ -71,6 +71,16 @@ extension AddRoleToDBClusterInputBody: Swift.Decodable {
     }
 }
 
+extension AddRoleToDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddRoleToDBClusterOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AddRoleToDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -82,16 +92,6 @@ enum AddRoleToDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AddRoleToDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AddRoleToDBClusterOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AddSourceIdentifierToSubscriptionInput: Swift.Encodable {
@@ -160,22 +160,11 @@ extension AddSourceIdentifierToSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-enum AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AddSourceIdentifierToSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddSourceIdentifierToSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddSourceIdentifierToSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddSourceIdentifierToSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
             self.eventSubscription = nil
@@ -183,7 +172,7 @@ extension AddSourceIdentifierToSubscriptionOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct AddSourceIdentifierToSubscriptionOutputResponse: Swift.Equatable {
+public struct AddSourceIdentifierToSubscriptionOutput: Swift.Equatable {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -195,11 +184,11 @@ public struct AddSourceIdentifierToSubscriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddSourceIdentifierToSubscriptionOutputResponseBody: Swift.Equatable {
+struct AddSourceIdentifierToSubscriptionOutputBody: Swift.Equatable {
     let eventSubscription: NeptuneClientTypes.EventSubscription?
 }
 
-extension AddSourceIdentifierToSubscriptionOutputResponseBody: Swift.Decodable {
+extension AddSourceIdentifierToSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscription = "EventSubscription"
     }
@@ -209,6 +198,17 @@ extension AddSourceIdentifierToSubscriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AddSourceIdentifierToSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EventSubscription.self, forKey: .eventSubscription)
         eventSubscription = eventSubscriptionDecoded
+    }
+}
+
+enum AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -296,6 +296,16 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
+extension AddTagsToResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddTagsToResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -306,16 +316,6 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AddTagsToResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension NeptuneClientTypes {
@@ -426,21 +426,11 @@ extension ApplyPendingMaintenanceActionInputBody: Swift.Decodable {
     }
 }
 
-enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ApplyPendingMaintenanceActionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ApplyPendingMaintenanceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ApplyPendingMaintenanceActionOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourcePendingMaintenanceActions = output.resourcePendingMaintenanceActions
         } else {
             self.resourcePendingMaintenanceActions = nil
@@ -448,7 +438,7 @@ extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ApplyPendingMaintenanceActionOutputResponse: Swift.Equatable {
+public struct ApplyPendingMaintenanceActionOutput: Swift.Equatable {
     /// Describes the pending maintenance actions for a resource.
     public var resourcePendingMaintenanceActions: NeptuneClientTypes.ResourcePendingMaintenanceActions?
 
@@ -460,11 +450,11 @@ public struct ApplyPendingMaintenanceActionOutputResponse: Swift.Equatable {
     }
 }
 
-struct ApplyPendingMaintenanceActionOutputResponseBody: Swift.Equatable {
+struct ApplyPendingMaintenanceActionOutputBody: Swift.Equatable {
     let resourcePendingMaintenanceActions: NeptuneClientTypes.ResourcePendingMaintenanceActions?
 }
 
-extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
+extension ApplyPendingMaintenanceActionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
     }
@@ -474,6 +464,16 @@ extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ApplyPendingMaintenanceActionResult"))
         let resourcePendingMaintenanceActionsDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ResourcePendingMaintenanceActions.self, forKey: .resourcePendingMaintenanceActions)
         resourcePendingMaintenanceActions = resourcePendingMaintenanceActionsDecoded
+    }
+}
+
+enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -983,23 +983,11 @@ extension CopyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CopyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CopyDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CopyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CopyDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
         } else {
             self.dbClusterParameterGroup = nil
@@ -1007,7 +995,7 @@ extension CopyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CopyDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct CopyDBClusterParameterGroupOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune DB cluster parameter group. This data type is used as a response element in the [DescribeDBClusterParameterGroups] action.
     public var dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup?
 
@@ -1019,11 +1007,11 @@ public struct CopyDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CopyDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct CopyDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup?
 }
 
-extension CopyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension CopyDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroup = "DBClusterParameterGroup"
     }
@@ -1033,6 +1021,18 @@ extension CopyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterParameterGroupResult"))
         let dbClusterParameterGroupDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterParameterGroup.self, forKey: .dbClusterParameterGroup)
         dbClusterParameterGroup = dbClusterParameterGroupDecoded
+    }
+}
+
+enum CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1180,6 +1180,47 @@ extension CopyDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension CopyDBClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CopyDBClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbClusterSnapshot = output.dbClusterSnapshot
+        } else {
+            self.dbClusterSnapshot = nil
+        }
+    }
+}
+
+public struct CopyDBClusterSnapshotOutput: Swift.Equatable {
+    /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
+    public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
+
+    public init(
+        dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot? = nil
+    )
+    {
+        self.dbClusterSnapshot = dbClusterSnapshot
+    }
+}
+
+struct CopyDBClusterSnapshotOutputBody: Swift.Equatable {
+    let dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
+}
+
+extension CopyDBClusterSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbClusterSnapshot = "DBClusterSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterSnapshotResult"))
+        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
+        dbClusterSnapshot = dbClusterSnapshotDecoded
+    }
+}
+
 enum CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -1192,47 +1233,6 @@ enum CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CopyDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CopyDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbClusterSnapshot = output.dbClusterSnapshot
-        } else {
-            self.dbClusterSnapshot = nil
-        }
-    }
-}
-
-public struct CopyDBClusterSnapshotOutputResponse: Swift.Equatable {
-    /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
-    public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
-
-    public init(
-        dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot? = nil
-    )
-    {
-        self.dbClusterSnapshot = dbClusterSnapshot
-    }
-}
-
-struct CopyDBClusterSnapshotOutputResponseBody: Swift.Equatable {
-    let dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
-}
-
-extension CopyDBClusterSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbClusterSnapshot = "DBClusterSnapshot"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterSnapshotResult"))
-        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
-        dbClusterSnapshot = dbClusterSnapshotDecoded
     }
 }
 
@@ -1358,23 +1358,11 @@ extension CopyDBParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CopyDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CopyDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CopyDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CopyDBParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CopyDBParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbParameterGroup = output.dbParameterGroup
         } else {
             self.dbParameterGroup = nil
@@ -1382,7 +1370,7 @@ extension CopyDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CopyDBParameterGroupOutputResponse: Swift.Equatable {
+public struct CopyDBParameterGroupOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune DB parameter group. This data type is used as a response element in the [DescribeDBParameterGroups] action.
     public var dbParameterGroup: NeptuneClientTypes.DBParameterGroup?
 
@@ -1394,11 +1382,11 @@ public struct CopyDBParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CopyDBParameterGroupOutputResponseBody: Swift.Equatable {
+struct CopyDBParameterGroupOutputBody: Swift.Equatable {
     let dbParameterGroup: NeptuneClientTypes.DBParameterGroup?
 }
 
-extension CopyDBParameterGroupOutputResponseBody: Swift.Decodable {
+extension CopyDBParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbParameterGroup = "DBParameterGroup"
     }
@@ -1408,6 +1396,18 @@ extension CopyDBParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBParameterGroupResult"))
         let dbParameterGroupDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBParameterGroup.self, forKey: .dbParameterGroup)
         dbParameterGroup = dbParameterGroupDecoded
+    }
+}
+
+enum CopyDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1592,26 +1592,11 @@ extension CreateDBClusterEndpointInputBody: Swift.Decodable {
     }
 }
 
-enum CreateDBClusterEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterEndpointAlreadyExistsFault": return try await DBClusterEndpointAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBClusterEndpointQuotaExceededFault": return try await DBClusterEndpointQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDBClusterEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDBClusterEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDBClusterEndpointOutputBody = try responseDecoder.decode(responseBody: data)
             self.customEndpointType = output.customEndpointType
             self.dbClusterEndpointArn = output.dbClusterEndpointArn
             self.dbClusterEndpointIdentifier = output.dbClusterEndpointIdentifier
@@ -1649,7 +1634,7 @@ extension CreateDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBindi
 ///
 ///
 /// For the data structure that represents Amazon Neptune DB instance endpoints, see Endpoint.
-public struct CreateDBClusterEndpointOutputResponse: Swift.Equatable {
+public struct CreateDBClusterEndpointOutput: Swift.Equatable {
     /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
     public var customEndpointType: Swift.String?
     /// The Amazon Resource Name (ARN) for the endpoint.
@@ -1697,7 +1682,7 @@ public struct CreateDBClusterEndpointOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDBClusterEndpointOutputResponseBody: Swift.Equatable {
+struct CreateDBClusterEndpointOutputBody: Swift.Equatable {
     let dbClusterEndpointIdentifier: Swift.String?
     let dbClusterIdentifier: Swift.String?
     let dbClusterEndpointResourceIdentifier: Swift.String?
@@ -1710,7 +1695,7 @@ struct CreateDBClusterEndpointOutputResponseBody: Swift.Equatable {
     let dbClusterEndpointArn: Swift.String?
 }
 
-extension CreateDBClusterEndpointOutputResponseBody: Swift.Decodable {
+extension CreateDBClusterEndpointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customEndpointType = "CustomEndpointType"
         case dbClusterEndpointArn = "DBClusterEndpointArn"
@@ -1781,6 +1766,21 @@ extension CreateDBClusterEndpointOutputResponseBody: Swift.Decodable {
         }
         let dbClusterEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterEndpointArn)
         dbClusterEndpointArn = dbClusterEndpointArnDecoded
+    }
+}
+
+enum CreateDBClusterEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterEndpointAlreadyExistsFault": return try await DBClusterEndpointAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterEndpointQuotaExceededFault": return try await DBClusterEndpointQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1978,7 +1978,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var port: Swift.Int?
     /// This parameter is not currently supported.
     public var preSignedUrl: Swift.String?
-    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks available, see [ Adjusting the Preferred Maintenance Window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html) in the Amazon Neptune User Guide. Constraints:
+    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks available, see [Neptune Maintenance Window](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window) in the Amazon Neptune User Guide. Constraints:
     ///
     /// * Must be in the format hh24:mi-hh24:mi.
     ///
@@ -1988,7 +1988,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// * Must be at least 30 minutes.
     public var preferredBackupWindow: Swift.String?
-    /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. To see the time blocks available, see [ Adjusting the Preferred Maintenance Window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html) in the Amazon Neptune User Guide. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+    /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. To see the time blocks available, see [Neptune Maintenance Window](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window) in the Amazon Neptune User Guide. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
     /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
     public var replicationSourceIdentifier: Swift.String?
@@ -2249,6 +2249,47 @@ extension CreateDBClusterInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct CreateDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct CreateDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension CreateDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
+    }
+}
+
 enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2272,47 +2313,6 @@ enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct CreateDBClusterOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
-    public var dbCluster: NeptuneClientTypes.DBCluster?
-
-    public init(
-        dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct CreateDBClusterOutputResponseBody: Swift.Equatable {
-    let dbCluster: NeptuneClientTypes.DBCluster?
-}
-
-extension CreateDBClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -2428,22 +2428,11 @@ extension CreateDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
         } else {
             self.dbClusterParameterGroup = nil
@@ -2451,7 +2440,7 @@ extension CreateDBClusterParameterGroupOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct CreateDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct CreateDBClusterParameterGroupOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune DB cluster parameter group. This data type is used as a response element in the [DescribeDBClusterParameterGroups] action.
     public var dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup?
 
@@ -2463,11 +2452,11 @@ public struct CreateDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct CreateDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup?
 }
 
-extension CreateDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension CreateDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroup = "DBClusterParameterGroup"
     }
@@ -2477,6 +2466,17 @@ extension CreateDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterParameterGroupResult"))
         let dbClusterParameterGroupDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterParameterGroup.self, forKey: .dbClusterParameterGroup)
         dbClusterParameterGroup = dbClusterParameterGroupDecoded
+    }
+}
+
+enum CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2589,6 +2589,47 @@ extension CreateDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDBClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDBClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbClusterSnapshot = output.dbClusterSnapshot
+        } else {
+            self.dbClusterSnapshot = nil
+        }
+    }
+}
+
+public struct CreateDBClusterSnapshotOutput: Swift.Equatable {
+    /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
+    public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
+
+    public init(
+        dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot? = nil
+    )
+    {
+        self.dbClusterSnapshot = dbClusterSnapshot
+    }
+}
+
+struct CreateDBClusterSnapshotOutputBody: Swift.Equatable {
+    let dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
+}
+
+extension CreateDBClusterSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbClusterSnapshot = "DBClusterSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterSnapshotResult"))
+        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
+        dbClusterSnapshot = dbClusterSnapshotDecoded
+    }
+}
+
 enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2603,45 +2644,9 @@ enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension CreateDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbClusterSnapshot = output.dbClusterSnapshot
-        } else {
-            self.dbClusterSnapshot = nil
-        }
-    }
-}
-
-public struct CreateDBClusterSnapshotOutputResponse: Swift.Equatable {
-    /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
-    public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
-
-    public init(
-        dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot? = nil
-    )
-    {
-        self.dbClusterSnapshot = dbClusterSnapshot
-    }
-}
-
-struct CreateDBClusterSnapshotOutputResponseBody: Swift.Equatable {
-    let dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
-}
-
-extension CreateDBClusterSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbClusterSnapshot = "DBClusterSnapshot"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterSnapshotResult"))
-        let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
-        dbClusterSnapshot = dbClusterSnapshotDecoded
-    }
+extension CreateDBInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDBInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), masterUserPassword: \(Swift.String(describing: masterUserPassword)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateDBInstanceInput: Swift.Encodable {
@@ -3279,6 +3284,47 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDBInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbInstance = output.dbInstance
+        } else {
+            self.dbInstance = nil
+        }
+    }
+}
+
+public struct CreateDBInstanceOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
+    public var dbInstance: NeptuneClientTypes.DBInstance?
+
+    public init(
+        dbInstance: NeptuneClientTypes.DBInstance? = nil
+    )
+    {
+        self.dbInstance = dbInstance
+    }
+}
+
+struct CreateDBInstanceOutputBody: Swift.Equatable {
+    let dbInstance: NeptuneClientTypes.DBInstance?
+}
+
+extension CreateDBInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstance = "DBInstance"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBInstanceResult"))
+        let dbInstanceDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBInstance.self, forKey: .dbInstance)
+        dbInstance = dbInstanceDecoded
+    }
+}
+
 enum CreateDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3303,47 +3349,6 @@ enum CreateDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbInstance = output.dbInstance
-        } else {
-            self.dbInstance = nil
-        }
-    }
-}
-
-public struct CreateDBInstanceOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
-    public var dbInstance: NeptuneClientTypes.DBInstance?
-
-    public init(
-        dbInstance: NeptuneClientTypes.DBInstance? = nil
-    )
-    {
-        self.dbInstance = dbInstance
-    }
-}
-
-struct CreateDBInstanceOutputResponseBody: Swift.Equatable {
-    let dbInstance: NeptuneClientTypes.DBInstance?
-}
-
-extension CreateDBInstanceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbInstance = "DBInstance"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBInstanceResult"))
-        let dbInstanceDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBInstance.self, forKey: .dbInstance)
-        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -3463,22 +3468,11 @@ extension CreateDBParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDBParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDBParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbParameterGroup = output.dbParameterGroup
         } else {
             self.dbParameterGroup = nil
@@ -3486,7 +3480,7 @@ extension CreateDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateDBParameterGroupOutputResponse: Swift.Equatable {
+public struct CreateDBParameterGroupOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune DB parameter group. This data type is used as a response element in the [DescribeDBParameterGroups] action.
     public var dbParameterGroup: NeptuneClientTypes.DBParameterGroup?
 
@@ -3498,11 +3492,11 @@ public struct CreateDBParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDBParameterGroupOutputResponseBody: Swift.Equatable {
+struct CreateDBParameterGroupOutputBody: Swift.Equatable {
     let dbParameterGroup: NeptuneClientTypes.DBParameterGroup?
 }
 
-extension CreateDBParameterGroupOutputResponseBody: Swift.Decodable {
+extension CreateDBParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbParameterGroup = "DBParameterGroup"
     }
@@ -3512,6 +3506,17 @@ extension CreateDBParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBParameterGroupResult"))
         let dbParameterGroupDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBParameterGroup.self, forKey: .dbParameterGroup)
         dbParameterGroup = dbParameterGroupDecoded
+    }
+}
+
+enum CreateDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3648,25 +3653,11 @@ extension CreateDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBSubnetGroupAlreadyExists": return try await DBSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetGroupQuotaExceeded": return try await DBSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDBSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDBSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
         } else {
             self.dbSubnetGroup = nil
@@ -3674,7 +3665,7 @@ extension CreateDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDBSubnetGroupOutputResponse: Swift.Equatable {
+public struct CreateDBSubnetGroupOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune DB subnet group. This data type is used as a response element in the [DescribeDBSubnetGroups] action.
     public var dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup?
 
@@ -3686,11 +3677,11 @@ public struct CreateDBSubnetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDBSubnetGroupOutputResponseBody: Swift.Equatable {
+struct CreateDBSubnetGroupOutputBody: Swift.Equatable {
     let dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup?
 }
 
-extension CreateDBSubnetGroupOutputResponseBody: Swift.Decodable {
+extension CreateDBSubnetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSubnetGroup = "DBSubnetGroup"
     }
@@ -3700,6 +3691,20 @@ extension CreateDBSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBSubnetGroupResult"))
         let dbSubnetGroupDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBSubnetGroup.self, forKey: .dbSubnetGroup)
         dbSubnetGroup = dbSubnetGroupDecoded
+    }
+}
+
+enum CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupAlreadyExists": return try await DBSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupQuotaExceeded": return try await DBSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3904,6 +3909,47 @@ extension CreateEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEventSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEventSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventSubscription = output.eventSubscription
+        } else {
+            self.eventSubscription = nil
+        }
+    }
+}
+
+public struct CreateEventSubscriptionOutput: Swift.Equatable {
+    /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
+    public var eventSubscription: NeptuneClientTypes.EventSubscription?
+
+    public init(
+        eventSubscription: NeptuneClientTypes.EventSubscription? = nil
+    )
+    {
+        self.eventSubscription = eventSubscription
+    }
+}
+
+struct CreateEventSubscriptionOutputBody: Swift.Equatable {
+    let eventSubscription: NeptuneClientTypes.EventSubscription?
+}
+
+extension CreateEventSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventSubscription = "EventSubscription"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateEventSubscriptionResult"))
+        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EventSubscription.self, forKey: .eventSubscription)
+        eventSubscription = eventSubscriptionDecoded
+    }
+}
+
 enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3917,47 +3963,6 @@ enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "SubscriptionCategoryNotFound": return try await SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.eventSubscription = output.eventSubscription
-        } else {
-            self.eventSubscription = nil
-        }
-    }
-}
-
-public struct CreateEventSubscriptionOutputResponse: Swift.Equatable {
-    /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
-    public var eventSubscription: NeptuneClientTypes.EventSubscription?
-
-    public init(
-        eventSubscription: NeptuneClientTypes.EventSubscription? = nil
-    )
-    {
-        self.eventSubscription = eventSubscription
-    }
-}
-
-struct CreateEventSubscriptionOutputResponseBody: Swift.Equatable {
-    let eventSubscription: NeptuneClientTypes.EventSubscription?
-}
-
-extension CreateEventSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventSubscription = "EventSubscription"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateEventSubscriptionResult"))
-        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EventSubscription.self, forKey: .eventSubscription)
-        eventSubscription = eventSubscriptionDecoded
     }
 }
 
@@ -4062,24 +4067,11 @@ extension CreateGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "GlobalClusterAlreadyExistsFault": return try await GlobalClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "GlobalClusterQuotaExceededFault": return try await GlobalClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -4087,7 +4079,7 @@ extension CreateGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGlobalClusterOutputResponse: Swift.Equatable {
+public struct CreateGlobalClusterOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -4099,11 +4091,11 @@ public struct CreateGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateGlobalClusterOutputResponseBody: Swift.Equatable {
+struct CreateGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: NeptuneClientTypes.GlobalCluster?
 }
 
-extension CreateGlobalClusterOutputResponseBody: Swift.Decodable {
+extension CreateGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -4113,6 +4105,19 @@ extension CreateGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterAlreadyExistsFault": return try await GlobalClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterQuotaExceededFault": return try await GlobalClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4288,7 +4293,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let kmsKeyId = kmsKeyId {
@@ -4300,7 +4305,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let pendingModifiedValues = pendingModifiedValues {
@@ -4342,7 +4347,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
@@ -4404,7 +4409,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         endpoint = endpointDecoded
         let readerEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readerEndpoint)
         readerEndpoint = readerEndpointDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -4500,7 +4505,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         }
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -4527,7 +4532,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         } else {
             associatedRoles = nil
         }
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let cloneGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloneGroupId)
         cloneGroupId = cloneGroupIdDecoded
@@ -4570,7 +4575,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
 }
 
 extension NeptuneClientTypes {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public struct DBCluster: Swift.Equatable {
         /// AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
         public var allocatedStorage: Swift.Int?
@@ -4625,7 +4630,7 @@ extension NeptuneClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster.
         public var kmsKeyId: Swift.String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
@@ -4633,7 +4638,7 @@ extension NeptuneClientTypes {
         /// Not supported by Neptune.
         public var masterUsername: Swift.String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
         public var pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues?
         /// Specifies the progress of the operation as a percentage.
@@ -4655,7 +4660,7 @@ extension NeptuneClientTypes {
         /// Specifies the current state of this DB cluster.
         public var status: Swift.String?
         /// Specifies whether the DB cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]?
 
@@ -4686,11 +4691,11 @@ extension NeptuneClientTypes {
             engineVersion: Swift.String? = nil,
             globalClusterIdentifier: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             masterUsername: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues? = nil,
             percentProgress: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -4701,7 +4706,7 @@ extension NeptuneClientTypes {
             replicationSourceIdentifier: Swift.String? = nil,
             serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -5177,7 +5182,7 @@ extension NeptuneClientTypes.DBClusterMember: Swift.Codable {
         if let dbInstanceIdentifier = dbInstanceIdentifier {
             try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
         }
-        if isClusterWriter != false {
+        if let isClusterWriter = isClusterWriter {
             try container.encode(isClusterWriter, forKey: ClientRuntime.Key("IsClusterWriter"))
         }
         if let promotionTier = promotionTier {
@@ -5189,7 +5194,7 @@ extension NeptuneClientTypes.DBClusterMember: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter) ?? false
+        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter)
         isClusterWriter = isClusterWriterDecoded
         let dbClusterParameterGroupStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupStatus)
         dbClusterParameterGroupStatus = dbClusterParameterGroupStatusDecoded
@@ -5206,14 +5211,14 @@ extension NeptuneClientTypes {
         /// Specifies the instance identifier for this member of the DB cluster.
         public var dbInstanceIdentifier: Swift.String?
         /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
-        public var isClusterWriter: Swift.Bool
+        public var isClusterWriter: Swift.Bool?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
 
         public init(
             dbClusterParameterGroupStatus: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            isClusterWriter: Swift.Bool = false,
+            isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
         )
         {
@@ -5535,7 +5540,7 @@ extension NeptuneClientTypes.DBClusterRole: Swift.Codable {
 extension NeptuneClientTypes {
     /// Describes an Amazon Identity and Access Management (IAM) role that is associated with a DB cluster.
     public struct DBClusterRole: Swift.Equatable {
-        /// The name of the feature associated with the Amazon Identity and Access Management (IAM) role. For the list of supported feature names, see [DescribeDBEngineVersions](https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions).
+        /// The name of the feature associated with the Amazon Identity and Access Management (IAM) role. For the list of supported feature names, see [DescribeDBEngineVersions].
         public var featureName: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public var roleArn: Swift.String?
@@ -5753,7 +5758,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
         if let availabilityZones = availabilityZones {
@@ -5786,7 +5791,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let kmsKeyId = kmsKeyId {
@@ -5798,10 +5803,10 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if percentProgress != 0 {
+        if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
@@ -5816,7 +5821,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcId = vpcId {
@@ -5853,11 +5858,11 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         snapshotCreateTime = snapshotCreateTimeDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -5871,9 +5876,9 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         licenseModel = licenseModelDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -5881,7 +5886,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         dbClusterSnapshotArn = dbClusterSnapshotArnDecoded
         let sourceDBClusterSnapshotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterSnapshotArn)
         sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArnDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
     }
 }
@@ -5890,7 +5895,7 @@ extension NeptuneClientTypes {
     /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
     public struct DBClusterSnapshot: Swift.Equatable {
         /// Specifies the allocated storage size in gibibytes (GiB).
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
         public var availabilityZones: [Swift.String]?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
@@ -5906,7 +5911,7 @@ extension NeptuneClientTypes {
         /// Provides the version of the database engine for this DB cluster snapshot.
         public var engineVersion: Swift.String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster snapshot.
         public var kmsKeyId: Swift.String?
         /// Provides the license model information for this DB cluster snapshot.
@@ -5914,9 +5919,9 @@ extension NeptuneClientTypes {
         /// Not supported by Neptune.
         public var masterUsername: Swift.String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
         public var snapshotCreateTime: ClientRuntime.Date?
         /// Provides the type of the DB cluster snapshot.
@@ -5926,12 +5931,12 @@ extension NeptuneClientTypes {
         /// Specifies the status of this DB cluster snapshot.
         public var status: Swift.String?
         /// Specifies whether the DB cluster snapshot is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
             clusterCreateTime: ClientRuntime.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -5939,17 +5944,17 @@ extension NeptuneClientTypes {
             dbClusterSnapshotIdentifier: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -6303,13 +6308,13 @@ extension NeptuneClientTypes.DBEngineVersion: Swift.Codable {
                 try supportedTimezonesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if supportsGlobalDatabases != false {
+        if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
         }
-        if supportsLogExportsToCloudwatchLogs != false {
+        if let supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs {
             try container.encode(supportsLogExportsToCloudwatchLogs, forKey: ClientRuntime.Key("SupportsLogExportsToCloudwatchLogs"))
         }
-        if supportsReadReplica != false {
+        if let supportsReadReplica = supportsReadReplica {
             try container.encode(supportsReadReplica, forKey: ClientRuntime.Key("SupportsReadReplica"))
         }
         if let validUpgradeTarget = validUpgradeTarget {
@@ -6416,11 +6421,11 @@ extension NeptuneClientTypes.DBEngineVersion: Swift.Codable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
-        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica) ?? false
+        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica)
         supportsReadReplica = supportsReadReplicaDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
     }
 }
@@ -6447,11 +6452,11 @@ extension NeptuneClientTypes {
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
         public var supportedTimezones: [NeptuneClientTypes.Timezone]?
         /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
-        public var supportsGlobalDatabases: Swift.Bool
+        public var supportsGlobalDatabases: Swift.Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-        public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+        public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
         /// Indicates whether the database engine version supports read replicas.
-        public var supportsReadReplica: Swift.Bool
+        public var supportsReadReplica: Swift.Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         public var validUpgradeTarget: [NeptuneClientTypes.UpgradeTarget]?
 
@@ -6465,9 +6470,9 @@ extension NeptuneClientTypes {
             exportableLogTypes: [Swift.String]? = nil,
             supportedCharacterSets: [NeptuneClientTypes.CharacterSet]? = nil,
             supportedTimezones: [NeptuneClientTypes.Timezone]? = nil,
-            supportsGlobalDatabases: Swift.Bool = false,
-            supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
-            supportsReadReplica: Swift.Bool = false,
+            supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
+            supportsReadReplica: Swift.Bool? = nil,
             validUpgradeTarget: [NeptuneClientTypes.UpgradeTarget]? = nil
         )
         {
@@ -6548,16 +6553,16 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
         }
         if let caCertificateIdentifier = caCertificateIdentifier {
@@ -6566,7 +6571,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let characterSetName = characterSetName {
             try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
         }
-        if copyTagsToSnapshot != false {
+        if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
         }
         if let dbClusterIdentifier = dbClusterIdentifier {
@@ -6614,7 +6619,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let dbSubnetGroup = dbSubnetGroup {
             try container.encode(dbSubnetGroup, forKey: ClientRuntime.Key("DBSubnetGroup"))
         }
-        if dbInstancePort != 0 {
+        if let dbInstancePort = dbInstancePort {
             try container.encode(dbInstancePort, forKey: ClientRuntime.Key("DbInstancePort"))
         }
         if let dbiResourceId = dbiResourceId {
@@ -6659,7 +6664,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let enhancedMonitoringResourceArn = enhancedMonitoringResourceArn {
             try container.encode(enhancedMonitoringResourceArn, forKey: ClientRuntime.Key("EnhancedMonitoringResourceArn"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
@@ -6686,7 +6691,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let monitoringRoleArn = monitoringRoleArn {
             try container.encode(monitoringRoleArn, forKey: ClientRuntime.Key("MonitoringRoleArn"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let optionGroupMemberships = optionGroupMemberships {
@@ -6719,7 +6724,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let promotionTier = promotionTier {
             try container.encode(promotionTier, forKey: ClientRuntime.Key("PromotionTier"))
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers {
@@ -6764,7 +6769,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
                 try statusInfosContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let storageType = storageType {
@@ -6806,13 +6811,13 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         dbName = dbNameDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.Endpoint.self, forKey: .endpoint)
         endpoint = endpointDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let instanceCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .instanceCreateTime)
         instanceCreateTime = instanceCreateTimeDecoded
         let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
         preferredBackupWindow = preferredBackupWindowDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
         if containerValues.contains(.dbSecurityGroups) {
             struct KeyVal0{struct DBSecurityGroup{}}
@@ -6881,11 +6886,11 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         pendingModifiedValues = pendingModifiedValuesDecoded
         let latestRestorableTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .latestRestorableTime)
         latestRestorableTime = latestRestorableTimeDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let readReplicaSourceDBInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readReplicaSourceDBInstanceIdentifier)
         readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifierDecoded
@@ -6954,7 +6959,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         characterSetName = characterSetNameDecoded
         let secondaryAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secondaryAvailabilityZone)
         secondaryAvailabilityZone = secondaryAvailabilityZoneDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         if containerValues.contains(.statusInfos) {
             struct KeyVal0{struct DBInstanceStatusInfo{}}
@@ -6979,11 +6984,11 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         storageType = storageTypeDecoded
         let tdeCredentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tdeCredentialArn)
         tdeCredentialArn = tdeCredentialArnDecoded
-        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort) ?? 0
+        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort)
         dbInstancePort = dbInstancePortDecoded
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -7010,7 +7015,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         } else {
             domainMemberships = nil
         }
-        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot) ?? false
+        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot)
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
         let monitoringIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitoringInterval)
         monitoringInterval = monitoringIntervalDecoded
@@ -7024,7 +7029,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         dbInstanceArn = dbInstanceArnDecoded
         let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
         timezone = timezoneDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let performanceInsightsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performanceInsightsEnabled)
         performanceInsightsEnabled = performanceInsightsEnabledDecoded
@@ -7058,19 +7063,19 @@ extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
     public struct DBInstance: Swift.Equatable {
         /// Not supported by Neptune.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// Indicates that minor version patches are applied automatically.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// Specifies the name of the Availability Zone the DB instance is located in.
         public var availabilityZone: Swift.String?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// The identifier of the CA certificate for this DB instance.
         public var caCertificateIdentifier: Swift.String?
         /// (Not supported by Neptune)
         public var characterSetName: Swift.String?
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
-        public var copyTagsToSnapshot: Swift.Bool
+        public var copyTagsToSnapshot: Swift.Bool?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
         public var dbClusterIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -7080,7 +7085,7 @@ extension NeptuneClientTypes {
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
         public var dbInstanceIdentifier: Swift.String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        public var dbInstancePort: Swift.Int
+        public var dbInstancePort: Swift.Int?
         /// Specifies the current state of this database.
         public var dbInstanceStatus: Swift.String?
         /// The database name.
@@ -7108,7 +7113,7 @@ extension NeptuneClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public var enhancedMonitoringResourceArn: Swift.String?
         /// True if Amazon Identity and Access Management (IAM) authentication is enabled, and otherwise false.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// Provides the date and time the DB instance was created.
         public var instanceCreateTime: ClientRuntime.Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
@@ -7126,7 +7131,7 @@ extension NeptuneClientTypes {
         /// The ARN for the IAM role that permits Neptune to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.
         public var monitoringRoleArn: Swift.String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// (Not supported by Neptune)
         public var optionGroupMemberships: [NeptuneClientTypes.OptionGroupMembership]?
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
@@ -7143,7 +7148,7 @@ extension NeptuneClientTypes {
         public var promotionTier: Swift.Int?
         /// This flag should no longer be used.
         @available(*, deprecated)
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// Contains one or more identifiers of DB clusters that are Read Replicas of this DB instance.
         public var readReplicaDBClusterIdentifiers: [Swift.String]?
         /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
@@ -7155,7 +7160,7 @@ extension NeptuneClientTypes {
         /// The status of a Read Replica. If the instance is not a Read Replica, this is blank.
         public var statusInfos: [NeptuneClientTypes.DBInstanceStatusInfo]?
         /// Not supported: The encryption for DB instances is managed by the DB cluster.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Specifies the storage type associated with DB instance.
         public var storageType: Swift.String?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
@@ -7166,18 +7171,18 @@ extension NeptuneClientTypes {
         public var vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            allocatedStorage: Swift.Int? = nil,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             availabilityZone: Swift.String? = nil,
-            backupRetentionPeriod: Swift.Int = 0,
+            backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
             characterSetName: Swift.String? = nil,
-            copyTagsToSnapshot: Swift.Bool = false,
+            copyTagsToSnapshot: Swift.Bool? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            dbInstancePort: Swift.Int = 0,
+            dbInstancePort: Swift.Int? = nil,
             dbInstanceStatus: Swift.String? = nil,
             dbName: Swift.String? = nil,
             dbParameterGroups: [NeptuneClientTypes.DBParameterGroupStatus]? = nil,
@@ -7191,7 +7196,7 @@ extension NeptuneClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             enhancedMonitoringResourceArn: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: ClientRuntime.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -7200,7 +7205,7 @@ extension NeptuneClientTypes {
             masterUsername: Swift.String? = nil,
             monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             optionGroupMemberships: [NeptuneClientTypes.OptionGroupMembership]? = nil,
             pendingModifiedValues: NeptuneClientTypes.PendingModifiedValues? = nil,
             performanceInsightsEnabled: Swift.Bool? = nil,
@@ -7208,13 +7213,13 @@ extension NeptuneClientTypes {
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             promotionTier: Swift.Int? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             readReplicaDBClusterIdentifiers: [Swift.String]? = nil,
             readReplicaDBInstanceIdentifiers: [Swift.String]? = nil,
             readReplicaSourceDBInstanceIdentifier: Swift.String? = nil,
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [NeptuneClientTypes.DBInstanceStatusInfo]? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
@@ -7402,7 +7407,7 @@ extension NeptuneClientTypes.DBInstanceStatusInfo: Swift.Codable {
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
         }
-        if normal != false {
+        if let normal = normal {
             try container.encode(normal, forKey: ClientRuntime.Key("Normal"))
         }
         if let status = status {
@@ -7417,7 +7422,7 @@ extension NeptuneClientTypes.DBInstanceStatusInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
-        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal) ?? false
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal)
         normal = normalDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -7432,7 +7437,7 @@ extension NeptuneClientTypes {
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public var message: Swift.String?
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        public var normal: Swift.Bool
+        public var normal: Swift.Bool?
         /// Status of the DB instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
         public var status: Swift.String?
         /// This value is currently "read replication."
@@ -7440,7 +7445,7 @@ extension NeptuneClientTypes {
 
         public init(
             message: Swift.String? = nil,
-            normal: Swift.Bool = false,
+            normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
         )
@@ -8434,23 +8439,11 @@ extension DeleteDBClusterEndpointInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteDBClusterEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterEndpointNotFoundFault": return try await DBClusterEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterEndpointStateFault": return try await InvalidDBClusterEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDBClusterEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDBClusterEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDBClusterEndpointOutputBody = try responseDecoder.decode(responseBody: data)
             self.customEndpointType = output.customEndpointType
             self.dbClusterEndpointArn = output.dbClusterEndpointArn
             self.dbClusterEndpointIdentifier = output.dbClusterEndpointIdentifier
@@ -8488,7 +8481,7 @@ extension DeleteDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBindi
 ///
 ///
 /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
-public struct DeleteDBClusterEndpointOutputResponse: Swift.Equatable {
+public struct DeleteDBClusterEndpointOutput: Swift.Equatable {
     /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
     public var customEndpointType: Swift.String?
     /// The Amazon Resource Name (ARN) for the endpoint.
@@ -8536,7 +8529,7 @@ public struct DeleteDBClusterEndpointOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDBClusterEndpointOutputResponseBody: Swift.Equatable {
+struct DeleteDBClusterEndpointOutputBody: Swift.Equatable {
     let dbClusterEndpointIdentifier: Swift.String?
     let dbClusterIdentifier: Swift.String?
     let dbClusterEndpointResourceIdentifier: Swift.String?
@@ -8549,7 +8542,7 @@ struct DeleteDBClusterEndpointOutputResponseBody: Swift.Equatable {
     let dbClusterEndpointArn: Swift.String?
 }
 
-extension DeleteDBClusterEndpointOutputResponseBody: Swift.Decodable {
+extension DeleteDBClusterEndpointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customEndpointType = "CustomEndpointType"
         case dbClusterEndpointArn = "DBClusterEndpointArn"
@@ -8623,6 +8616,18 @@ extension DeleteDBClusterEndpointOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DeleteDBClusterEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterEndpointNotFoundFault": return try await DBClusterEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterEndpointStateFault": return try await InvalidDBClusterEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DeleteDBClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -8692,10 +8697,51 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
+    }
+}
+
+extension DeleteDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct DeleteDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct DeleteDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension DeleteDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 
@@ -8710,47 +8756,6 @@ enum DeleteDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension DeleteDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct DeleteDBClusterOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
-    public var dbCluster: NeptuneClientTypes.DBCluster?
-
-    public init(
-        dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct DeleteDBClusterOutputResponseBody: Swift.Equatable {
-    let dbCluster: NeptuneClientTypes.DBCluster?
-}
-
-extension DeleteDBClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -8806,6 +8811,16 @@ extension DeleteDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDBClusterParameterGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8815,16 +8830,6 @@ enum DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDBClusterParameterGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteDBClusterSnapshotInput: Swift.Encodable {
@@ -8873,22 +8878,11 @@ extension DeleteDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDBClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDBClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
         } else {
             self.dbClusterSnapshot = nil
@@ -8896,7 +8890,7 @@ extension DeleteDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteDBClusterSnapshotOutputResponse: Swift.Equatable {
+public struct DeleteDBClusterSnapshotOutput: Swift.Equatable {
     /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
     public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
 
@@ -8908,11 +8902,11 @@ public struct DeleteDBClusterSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDBClusterSnapshotOutputResponseBody: Swift.Equatable {
+struct DeleteDBClusterSnapshotOutputBody: Swift.Equatable {
     let dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
 }
 
-extension DeleteDBClusterSnapshotOutputResponseBody: Swift.Decodable {
+extension DeleteDBClusterSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterSnapshot = "DBClusterSnapshot"
     }
@@ -8922,6 +8916,17 @@ extension DeleteDBClusterSnapshotOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterSnapshotResult"))
         let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
         dbClusterSnapshot = dbClusterSnapshotDecoded
+    }
+}
+
+enum DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8996,10 +9001,51 @@ extension DeleteDBInstanceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
+    }
+}
+
+extension DeleteDBInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbInstance = output.dbInstance
+        } else {
+            self.dbInstance = nil
+        }
+    }
+}
+
+public struct DeleteDBInstanceOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
+    public var dbInstance: NeptuneClientTypes.DBInstance?
+
+    public init(
+        dbInstance: NeptuneClientTypes.DBInstance? = nil
+    )
+    {
+        self.dbInstance = dbInstance
+    }
+}
+
+struct DeleteDBInstanceOutputBody: Swift.Equatable {
+    let dbInstance: NeptuneClientTypes.DBInstance?
+}
+
+extension DeleteDBInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstance = "DBInstance"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBInstanceResult"))
+        let dbInstanceDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBInstance.self, forKey: .dbInstance)
+        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -9014,47 +9060,6 @@ enum DeleteDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension DeleteDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbInstance = output.dbInstance
-        } else {
-            self.dbInstance = nil
-        }
-    }
-}
-
-public struct DeleteDBInstanceOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
-    public var dbInstance: NeptuneClientTypes.DBInstance?
-
-    public init(
-        dbInstance: NeptuneClientTypes.DBInstance? = nil
-    )
-    {
-        self.dbInstance = dbInstance
-    }
-}
-
-struct DeleteDBInstanceOutputResponseBody: Swift.Equatable {
-    let dbInstance: NeptuneClientTypes.DBInstance?
-}
-
-extension DeleteDBInstanceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbInstance = "DBInstance"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBInstanceResult"))
-        let dbInstanceDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBInstance.self, forKey: .dbInstance)
-        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -9110,6 +9115,16 @@ extension DeleteDBParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDBParameterGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -9119,16 +9134,6 @@ enum DeleteDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDBParameterGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteDBSubnetGroupInput: Swift.Encodable {
@@ -9177,6 +9182,16 @@ extension DeleteDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteDBSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDBSubnetGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -9187,16 +9202,6 @@ enum DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDBSubnetGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteEventSubscriptionInput: Swift.Encodable {
@@ -9245,22 +9250,11 @@ extension DeleteEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidEventSubscriptionState": return try await InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteEventSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteEventSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
             self.eventSubscription = nil
@@ -9268,7 +9262,7 @@ extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteEventSubscriptionOutputResponse: Swift.Equatable {
+public struct DeleteEventSubscriptionOutput: Swift.Equatable {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -9280,11 +9274,11 @@ public struct DeleteEventSubscriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteEventSubscriptionOutputResponseBody: Swift.Equatable {
+struct DeleteEventSubscriptionOutputBody: Swift.Equatable {
     let eventSubscription: NeptuneClientTypes.EventSubscription?
 }
 
-extension DeleteEventSubscriptionOutputResponseBody: Swift.Decodable {
+extension DeleteEventSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscription = "EventSubscription"
     }
@@ -9294,6 +9288,17 @@ extension DeleteEventSubscriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteEventSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EventSubscription.self, forKey: .eventSubscription)
         eventSubscription = eventSubscriptionDecoded
+    }
+}
+
+enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidEventSubscriptionState": return try await InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9343,22 +9348,11 @@ extension DeleteGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -9366,7 +9360,7 @@ extension DeleteGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGlobalClusterOutputResponse: Swift.Equatable {
+public struct DeleteGlobalClusterOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -9378,11 +9372,11 @@ public struct DeleteGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteGlobalClusterOutputResponseBody: Swift.Equatable {
+struct DeleteGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: NeptuneClientTypes.GlobalCluster?
 }
 
-extension DeleteGlobalClusterOutputResponseBody: Swift.Decodable {
+extension DeleteGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -9392,6 +9386,17 @@ extension DeleteGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9510,21 +9515,11 @@ extension DescribeDBClusterEndpointsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClusterEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterEndpointsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterEndpointsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterEndpoints = output.dbClusterEndpoints
             self.marker = output.marker
         } else {
@@ -9534,7 +9529,7 @@ extension DescribeDBClusterEndpointsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeDBClusterEndpointsOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterEndpointsOutput: Swift.Equatable {
     /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
     public var dbClusterEndpoints: [NeptuneClientTypes.DBClusterEndpoint]?
     /// An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -9550,12 +9545,12 @@ public struct DescribeDBClusterEndpointsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClusterEndpointsOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterEndpointsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbClusterEndpoints: [NeptuneClientTypes.DBClusterEndpoint]?
 }
 
-extension DescribeDBClusterEndpointsOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterEndpointsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterEndpoints = "DBClusterEndpoints"
         case marker = "Marker"
@@ -9584,6 +9579,16 @@ extension DescribeDBClusterEndpointsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbClusterEndpoints = nil
+        }
+    }
+}
+
+enum DescribeDBClusterEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9694,21 +9699,11 @@ extension DescribeDBClusterParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterParameterGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterParameterGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroups = output.dbClusterParameterGroups
             self.marker = output.marker
         } else {
@@ -9718,7 +9713,7 @@ extension DescribeDBClusterParameterGroupsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeDBClusterParameterGroupsOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterParameterGroupsOutput: Swift.Equatable {
     /// A list of DB cluster parameter groups.
     public var dbClusterParameterGroups: [NeptuneClientTypes.DBClusterParameterGroup]?
     /// An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -9734,12 +9729,12 @@ public struct DescribeDBClusterParameterGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClusterParameterGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterParameterGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbClusterParameterGroups: [NeptuneClientTypes.DBClusterParameterGroup]?
 }
 
-extension DescribeDBClusterParameterGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterParameterGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroups = "DBClusterParameterGroups"
         case marker = "Marker"
@@ -9768,6 +9763,16 @@ extension DescribeDBClusterParameterGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbClusterParameterGroups = nil
+        }
+    }
+}
+
+enum DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9890,21 +9895,11 @@ extension DescribeDBClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.parameters = output.parameters
         } else {
@@ -9914,7 +9909,7 @@ extension DescribeDBClusterParametersOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeDBClusterParametersOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterParametersOutput: Swift.Equatable {
     /// An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
     public var marker: Swift.String?
     /// Provides a list of parameters for the DB cluster parameter group.
@@ -9930,12 +9925,12 @@ public struct DescribeDBClusterParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClusterParametersOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterParametersOutputBody: Swift.Equatable {
     let parameters: [NeptuneClientTypes.Parameter]?
     let marker: Swift.String?
 }
 
-extension DescribeDBClusterParametersOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case parameters = "Parameters"
@@ -9965,6 +9960,16 @@ extension DescribeDBClusterParametersOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10014,21 +10019,11 @@ extension DescribeDBClusterSnapshotAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterSnapshotAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterSnapshotAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterSnapshotAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterSnapshotAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
         } else {
             self.dbClusterSnapshotAttributesResult = nil
@@ -10036,7 +10031,7 @@ extension DescribeDBClusterSnapshotAttributesOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct DescribeDBClusterSnapshotAttributesOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterSnapshotAttributesOutput: Swift.Equatable {
     /// Contains the results of a successful call to the [DescribeDBClusterSnapshotAttributes] API action. Manual DB cluster snapshot attributes are used to authorize other Amazon accounts to copy or restore a manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
     public var dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
 
@@ -10048,11 +10043,11 @@ public struct DescribeDBClusterSnapshotAttributesOutputResponse: Swift.Equatable
     }
 }
 
-struct DescribeDBClusterSnapshotAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterSnapshotAttributesOutputBody: Swift.Equatable {
     let dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
 }
 
-extension DescribeDBClusterSnapshotAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterSnapshotAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
     }
@@ -10062,6 +10057,16 @@ extension DescribeDBClusterSnapshotAttributesOutputResponseBody: Swift.Decodable
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBClusterSnapshotAttributesResult"))
         let dbClusterSnapshotAttributesResultDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshotAttributesResult.self, forKey: .dbClusterSnapshotAttributesResult)
         dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResultDecoded
+    }
+}
+
+enum DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10223,28 +10228,18 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
         includeShared = includeSharedDecoded
-        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic) ?? false
+        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic)
         includePublic = includePublicDecoded
     }
 }
 
-enum DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClusterSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClusterSnapshotsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshots = output.dbClusterSnapshots
             self.marker = output.marker
         } else {
@@ -10254,7 +10249,7 @@ extension DescribeDBClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeDBClusterSnapshotsOutputResponse: Swift.Equatable {
+public struct DescribeDBClusterSnapshotsOutput: Swift.Equatable {
     /// Provides a list of DB cluster snapshots for the user.
     public var dbClusterSnapshots: [NeptuneClientTypes.DBClusterSnapshot]?
     /// An optional pagination token provided by a previous [DescribeDBClusterSnapshots] request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -10270,12 +10265,12 @@ public struct DescribeDBClusterSnapshotsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClusterSnapshotsOutputResponseBody: Swift.Equatable {
+struct DescribeDBClusterSnapshotsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbClusterSnapshots: [NeptuneClientTypes.DBClusterSnapshot]?
 }
 
-extension DescribeDBClusterSnapshotsOutputResponseBody: Swift.Decodable {
+extension DescribeDBClusterSnapshotsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterSnapshots = "DBClusterSnapshots"
         case marker = "Marker"
@@ -10304,6 +10299,16 @@ extension DescribeDBClusterSnapshotsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbClusterSnapshots = nil
+        }
+    }
+}
+
+enum DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -10421,21 +10426,11 @@ extension DescribeDBClustersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusters = output.dbClusters
             self.marker = output.marker
         } else {
@@ -10445,7 +10440,7 @@ extension DescribeDBClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDBClustersOutputResponse: Swift.Equatable {
+public struct DescribeDBClustersOutput: Swift.Equatable {
     /// Contains a list of DB clusters for the user.
     public var dbClusters: [NeptuneClientTypes.DBCluster]?
     /// A pagination token that can be used in a subsequent DescribeDBClusters request.
@@ -10461,12 +10456,12 @@ public struct DescribeDBClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBClustersOutputResponseBody: Swift.Equatable {
+struct DescribeDBClustersOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbClusters: [NeptuneClientTypes.DBCluster]?
 }
 
-extension DescribeDBClustersOutputResponseBody: Swift.Decodable {
+extension DescribeDBClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusters = "DBClusters"
         case marker = "Marker"
@@ -10495,6 +10490,16 @@ extension DescribeDBClustersOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbClusters = nil
+        }
+    }
+}
+
+enum DescribeDBClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -10651,7 +10656,7 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly)
         defaultOnly = defaultOnlyDecoded
         let listSupportedCharacterSetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSupportedCharacterSets)
         listSupportedCharacterSets = listSupportedCharacterSetsDecoded
@@ -10660,20 +10665,11 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBEngineVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBEngineVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbEngineVersions = output.dbEngineVersions
             self.marker = output.marker
         } else {
@@ -10683,7 +10679,7 @@ extension DescribeDBEngineVersionsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeDBEngineVersionsOutputResponse: Swift.Equatable {
+public struct DescribeDBEngineVersionsOutput: Swift.Equatable {
     /// A list of DBEngineVersion elements.
     public var dbEngineVersions: [NeptuneClientTypes.DBEngineVersion]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -10699,12 +10695,12 @@ public struct DescribeDBEngineVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBEngineVersionsOutputResponseBody: Swift.Equatable {
+struct DescribeDBEngineVersionsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbEngineVersions: [NeptuneClientTypes.DBEngineVersion]?
 }
 
-extension DescribeDBEngineVersionsOutputResponseBody: Swift.Decodable {
+extension DescribeDBEngineVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbEngineVersions = "DBEngineVersions"
         case marker = "Marker"
@@ -10733,6 +10729,15 @@ extension DescribeDBEngineVersionsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbEngineVersions = nil
+        }
+    }
+}
+
+enum DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -10850,21 +10855,11 @@ extension DescribeDBInstancesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbInstances = output.dbInstances
             self.marker = output.marker
         } else {
@@ -10874,7 +10869,7 @@ extension DescribeDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDBInstancesOutputResponse: Swift.Equatable {
+public struct DescribeDBInstancesOutput: Swift.Equatable {
     /// A list of [DBInstance] instances.
     public var dbInstances: [NeptuneClientTypes.DBInstance]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -10890,12 +10885,12 @@ public struct DescribeDBInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBInstancesOutputResponseBody: Swift.Equatable {
+struct DescribeDBInstancesOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbInstances: [NeptuneClientTypes.DBInstance]?
 }
 
-extension DescribeDBInstancesOutputResponseBody: Swift.Decodable {
+extension DescribeDBInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbInstances = "DBInstances"
         case marker = "Marker"
@@ -10924,6 +10919,16 @@ extension DescribeDBInstancesOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbInstances = nil
+        }
+    }
+}
+
+enum DescribeDBInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -11034,21 +11039,11 @@ extension DescribeDBParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBParameterGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBParameterGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbParameterGroups = output.dbParameterGroups
             self.marker = output.marker
         } else {
@@ -11058,7 +11053,7 @@ extension DescribeDBParameterGroupsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeDBParameterGroupsOutputResponse: Swift.Equatable {
+public struct DescribeDBParameterGroupsOutput: Swift.Equatable {
     /// A list of [DBParameterGroup] instances.
     public var dbParameterGroups: [NeptuneClientTypes.DBParameterGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -11074,12 +11069,12 @@ public struct DescribeDBParameterGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBParameterGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeDBParameterGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbParameterGroups: [NeptuneClientTypes.DBParameterGroup]?
 }
 
-extension DescribeDBParameterGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeDBParameterGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbParameterGroups = "DBParameterGroups"
         case marker = "Marker"
@@ -11108,6 +11103,16 @@ extension DescribeDBParameterGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbParameterGroups = nil
+        }
+    }
+}
+
+enum DescribeDBParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -11230,21 +11235,11 @@ extension DescribeDBParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.parameters = output.parameters
         } else {
@@ -11254,7 +11249,7 @@ extension DescribeDBParametersOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeDBParametersOutputResponse: Swift.Equatable {
+public struct DescribeDBParametersOutput: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of [Parameter] values.
@@ -11270,12 +11265,12 @@ public struct DescribeDBParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBParametersOutputResponseBody: Swift.Equatable {
+struct DescribeDBParametersOutputBody: Swift.Equatable {
     let parameters: [NeptuneClientTypes.Parameter]?
     let marker: Swift.String?
 }
 
-extension DescribeDBParametersOutputResponseBody: Swift.Decodable {
+extension DescribeDBParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case parameters = "Parameters"
@@ -11305,6 +11300,16 @@ extension DescribeDBParametersOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeDBParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11412,21 +11417,11 @@ extension DescribeDBSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeDBSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDBSubnetGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDBSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDBSubnetGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroups = output.dbSubnetGroups
             self.marker = output.marker
         } else {
@@ -11436,7 +11431,7 @@ extension DescribeDBSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeDBSubnetGroupsOutputResponse: Swift.Equatable {
+public struct DescribeDBSubnetGroupsOutput: Swift.Equatable {
     /// A list of [DBSubnetGroup] instances.
     public var dbSubnetGroups: [NeptuneClientTypes.DBSubnetGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -11452,12 +11447,12 @@ public struct DescribeDBSubnetGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDBSubnetGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeDBSubnetGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let dbSubnetGroups: [NeptuneClientTypes.DBSubnetGroup]?
 }
 
-extension DescribeDBSubnetGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeDBSubnetGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSubnetGroups = "DBSubnetGroups"
         case marker = "Marker"
@@ -11486,6 +11481,16 @@ extension DescribeDBSubnetGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             dbSubnetGroups = nil
+        }
+    }
+}
+
+enum DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -11595,20 +11600,11 @@ extension DescribeEngineDefaultClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEngineDefaultClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEngineDefaultClusterParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEngineDefaultClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEngineDefaultClusterParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
         } else {
             self.engineDefaults = nil
@@ -11616,7 +11612,7 @@ extension DescribeEngineDefaultClusterParametersOutputResponse: ClientRuntime.Ht
     }
 }
 
-public struct DescribeEngineDefaultClusterParametersOutputResponse: Swift.Equatable {
+public struct DescribeEngineDefaultClusterParametersOutput: Swift.Equatable {
     /// Contains the result of a successful invocation of the [DescribeEngineDefaultParameters] action.
     public var engineDefaults: NeptuneClientTypes.EngineDefaults?
 
@@ -11628,11 +11624,11 @@ public struct DescribeEngineDefaultClusterParametersOutputResponse: Swift.Equata
     }
 }
 
-struct DescribeEngineDefaultClusterParametersOutputResponseBody: Swift.Equatable {
+struct DescribeEngineDefaultClusterParametersOutputBody: Swift.Equatable {
     let engineDefaults: NeptuneClientTypes.EngineDefaults?
 }
 
-extension DescribeEngineDefaultClusterParametersOutputResponseBody: Swift.Decodable {
+extension DescribeEngineDefaultClusterParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineDefaults = "EngineDefaults"
     }
@@ -11642,6 +11638,15 @@ extension DescribeEngineDefaultClusterParametersOutputResponseBody: Swift.Decoda
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEngineDefaultClusterParametersResult"))
         let engineDefaultsDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EngineDefaults.self, forKey: .engineDefaults)
         engineDefaults = engineDefaultsDecoded
+    }
+}
+
+enum DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11750,20 +11755,11 @@ extension DescribeEngineDefaultParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEngineDefaultParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEngineDefaultParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEngineDefaultParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEngineDefaultParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
         } else {
             self.engineDefaults = nil
@@ -11771,7 +11767,7 @@ extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct DescribeEngineDefaultParametersOutputResponse: Swift.Equatable {
+public struct DescribeEngineDefaultParametersOutput: Swift.Equatable {
     /// Contains the result of a successful invocation of the [DescribeEngineDefaultParameters] action.
     public var engineDefaults: NeptuneClientTypes.EngineDefaults?
 
@@ -11783,11 +11779,11 @@ public struct DescribeEngineDefaultParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEngineDefaultParametersOutputResponseBody: Swift.Equatable {
+struct DescribeEngineDefaultParametersOutputBody: Swift.Equatable {
     let engineDefaults: NeptuneClientTypes.EngineDefaults?
 }
 
-extension DescribeEngineDefaultParametersOutputResponseBody: Swift.Decodable {
+extension DescribeEngineDefaultParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineDefaults = "EngineDefaults"
     }
@@ -11797,6 +11793,15 @@ extension DescribeEngineDefaultParametersOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEngineDefaultParametersResult"))
         let engineDefaultsDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EngineDefaults.self, forKey: .engineDefaults)
         engineDefaults = engineDefaultsDecoded
+    }
+}
+
+enum DescribeEngineDefaultParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11882,20 +11887,11 @@ extension DescribeEventCategoriesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventCategoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventCategoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventCategoriesMapList = output.eventCategoriesMapList
         } else {
             self.eventCategoriesMapList = nil
@@ -11903,7 +11899,7 @@ extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeEventCategoriesOutputResponse: Swift.Equatable {
+public struct DescribeEventCategoriesOutput: Swift.Equatable {
     /// A list of EventCategoriesMap data types.
     public var eventCategoriesMapList: [NeptuneClientTypes.EventCategoriesMap]?
 
@@ -11915,11 +11911,11 @@ public struct DescribeEventCategoriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventCategoriesOutputResponseBody: Swift.Equatable {
+struct DescribeEventCategoriesOutputBody: Swift.Equatable {
     let eventCategoriesMapList: [NeptuneClientTypes.EventCategoriesMap]?
 }
 
-extension DescribeEventCategoriesOutputResponseBody: Swift.Decodable {
+extension DescribeEventCategoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventCategoriesMapList = "EventCategoriesMapList"
     }
@@ -11945,6 +11941,15 @@ extension DescribeEventCategoriesOutputResponseBody: Swift.Decodable {
             }
         } else {
             eventCategoriesMapList = nil
+        }
+    }
+}
+
+enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -12053,21 +12058,11 @@ extension DescribeEventSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventSubscriptionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventSubscriptionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscriptionsList = output.eventSubscriptionsList
             self.marker = output.marker
         } else {
@@ -12077,7 +12072,7 @@ extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeEventSubscriptionsOutputResponse: Swift.Equatable {
+public struct DescribeEventSubscriptionsOutput: Swift.Equatable {
     /// A list of EventSubscriptions data types.
     public var eventSubscriptionsList: [NeptuneClientTypes.EventSubscription]?
     /// An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -12093,12 +12088,12 @@ public struct DescribeEventSubscriptionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventSubscriptionsOutputResponseBody: Swift.Equatable {
+struct DescribeEventSubscriptionsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let eventSubscriptionsList: [NeptuneClientTypes.EventSubscription]?
 }
 
-extension DescribeEventSubscriptionsOutputResponseBody: Swift.Decodable {
+extension DescribeEventSubscriptionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscriptionsList = "EventSubscriptionsList"
         case marker = "Marker"
@@ -12127,6 +12122,16 @@ extension DescribeEventSubscriptionsOutputResponseBody: Swift.Decodable {
             }
         } else {
             eventSubscriptionsList = nil
+        }
+    }
+}
+
+enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -12328,20 +12333,11 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.marker = output.marker
         } else {
@@ -12351,7 +12347,7 @@ extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventsOutputResponse: Swift.Equatable {
+public struct DescribeEventsOutput: Swift.Equatable {
     /// A list of [Event] instances.
     public var events: [NeptuneClientTypes.Event]?
     /// An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -12367,12 +12363,12 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputResponseBody: Swift.Equatable {
+struct DescribeEventsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let events: [NeptuneClientTypes.Event]?
 }
 
-extension DescribeEventsOutputResponseBody: Swift.Decodable {
+extension DescribeEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events = "Events"
         case marker = "Marker"
@@ -12401,6 +12397,15 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
             }
         } else {
             events = nil
+        }
+    }
+}
+
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -12472,21 +12477,11 @@ extension DescribeGlobalClustersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeGlobalClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeGlobalClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeGlobalClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeGlobalClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalClusters = output.globalClusters
             self.marker = output.marker
         } else {
@@ -12496,7 +12491,7 @@ extension DescribeGlobalClustersOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeGlobalClustersOutputResponse: Swift.Equatable {
+public struct DescribeGlobalClustersOutput: Swift.Equatable {
     /// The list of global clusters and instances returned by this request.
     public var globalClusters: [NeptuneClientTypes.GlobalCluster]?
     /// A pagination token. If this parameter is returned in the response, more records are available, which can be retrieved by one or more additional calls to DescribeGlobalClusters.
@@ -12512,12 +12507,12 @@ public struct DescribeGlobalClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeGlobalClustersOutputResponseBody: Swift.Equatable {
+struct DescribeGlobalClustersOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let globalClusters: [NeptuneClientTypes.GlobalCluster]?
 }
 
-extension DescribeGlobalClustersOutputResponseBody: Swift.Decodable {
+extension DescribeGlobalClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalClusters = "GlobalClusters"
         case marker = "Marker"
@@ -12546,6 +12541,16 @@ extension DescribeGlobalClustersOutputResponseBody: Swift.Decodable {
             }
         } else {
             globalClusters = nil
+        }
+    }
+}
+
+enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -12699,20 +12704,11 @@ extension DescribeOrderableDBInstanceOptionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeOrderableDBInstanceOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeOrderableDBInstanceOptionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeOrderableDBInstanceOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeOrderableDBInstanceOptionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.orderableDBInstanceOptions = output.orderableDBInstanceOptions
         } else {
@@ -12722,7 +12718,7 @@ extension DescribeOrderableDBInstanceOptionsOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct DescribeOrderableDBInstanceOptionsOutputResponse: Swift.Equatable {
+public struct DescribeOrderableDBInstanceOptionsOutput: Swift.Equatable {
     /// An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
     public var marker: Swift.String?
     /// An [OrderableDBInstanceOption] structure containing information about orderable options for the DB instance.
@@ -12738,12 +12734,12 @@ public struct DescribeOrderableDBInstanceOptionsOutputResponse: Swift.Equatable 
     }
 }
 
-struct DescribeOrderableDBInstanceOptionsOutputResponseBody: Swift.Equatable {
+struct DescribeOrderableDBInstanceOptionsOutputBody: Swift.Equatable {
     let orderableDBInstanceOptions: [NeptuneClientTypes.OrderableDBInstanceOption]?
     let marker: Swift.String?
 }
 
-extension DescribeOrderableDBInstanceOptionsOutputResponseBody: Swift.Decodable {
+extension DescribeOrderableDBInstanceOptionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case orderableDBInstanceOptions = "OrderableDBInstanceOptions"
@@ -12773,6 +12769,15 @@ extension DescribeOrderableDBInstanceOptionsOutputResponseBody: Swift.Decodable 
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12884,21 +12889,11 @@ extension DescribePendingMaintenanceActionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePendingMaintenanceActionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePendingMaintenanceActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePendingMaintenanceActionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.pendingMaintenanceActions = output.pendingMaintenanceActions
         } else {
@@ -12908,7 +12903,7 @@ extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct DescribePendingMaintenanceActionsOutputResponse: Swift.Equatable {
+public struct DescribePendingMaintenanceActionsOutput: Swift.Equatable {
     /// An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of the pending maintenance actions for the resource.
@@ -12924,12 +12919,12 @@ public struct DescribePendingMaintenanceActionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePendingMaintenanceActionsOutputResponseBody: Swift.Equatable {
+struct DescribePendingMaintenanceActionsOutputBody: Swift.Equatable {
     let pendingMaintenanceActions: [NeptuneClientTypes.ResourcePendingMaintenanceActions]?
     let marker: Swift.String?
 }
 
-extension DescribePendingMaintenanceActionsOutputResponseBody: Swift.Decodable {
+extension DescribePendingMaintenanceActionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case pendingMaintenanceActions = "PendingMaintenanceActions"
@@ -12959,6 +12954,16 @@ extension DescribePendingMaintenanceActionsOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13008,22 +13013,11 @@ extension DescribeValidDBInstanceModificationsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeValidDBInstanceModificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeValidDBInstanceModificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeValidDBInstanceModificationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeValidDBInstanceModificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeValidDBInstanceModificationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.validDBInstanceModificationsMessage = output.validDBInstanceModificationsMessage
         } else {
             self.validDBInstanceModificationsMessage = nil
@@ -13031,7 +13025,7 @@ extension DescribeValidDBInstanceModificationsOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct DescribeValidDBInstanceModificationsOutputResponse: Swift.Equatable {
+public struct DescribeValidDBInstanceModificationsOutput: Swift.Equatable {
     /// Information about valid modifications that you can make to your DB instance. Contains the result of a successful call to the [DescribeValidDBInstanceModifications] action. You can use this information when you call [ModifyDBInstance].
     public var validDBInstanceModificationsMessage: NeptuneClientTypes.ValidDBInstanceModificationsMessage?
 
@@ -13043,11 +13037,11 @@ public struct DescribeValidDBInstanceModificationsOutputResponse: Swift.Equatabl
     }
 }
 
-struct DescribeValidDBInstanceModificationsOutputResponseBody: Swift.Equatable {
+struct DescribeValidDBInstanceModificationsOutputBody: Swift.Equatable {
     let validDBInstanceModificationsMessage: NeptuneClientTypes.ValidDBInstanceModificationsMessage?
 }
 
-extension DescribeValidDBInstanceModificationsOutputResponseBody: Swift.Decodable {
+extension DescribeValidDBInstanceModificationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case validDBInstanceModificationsMessage = "ValidDBInstanceModificationsMessage"
     }
@@ -13057,6 +13051,17 @@ extension DescribeValidDBInstanceModificationsOutputResponseBody: Swift.Decodabl
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeValidDBInstanceModificationsResult"))
         let validDBInstanceModificationsMessageDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ValidDBInstanceModificationsMessage.self, forKey: .validDBInstanceModificationsMessage)
         validDBInstanceModificationsMessage = validDBInstanceModificationsMessageDecoded
+    }
+}
+
+enum DescribeValidDBInstanceModificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13188,19 +13193,19 @@ extension NeptuneClientTypes.DoubleRange: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if from != 0.0 {
-            try container.encode(Swift.String(from), forKey: ClientRuntime.Key("From"))
+        if let from = from {
+            try container.encode(from, forKey: ClientRuntime.Key("From"))
         }
-        if to != 0.0 {
-            try container.encode(Swift.String(to), forKey: ClientRuntime.Key("To"))
+        if let to = to {
+            try container.encode(to, forKey: ClientRuntime.Key("To"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .from) ?? 0
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .from)
         from = fromDecoded
-        let toDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .to) ?? 0
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .to)
         to = toDecoded
     }
 }
@@ -13209,13 +13214,13 @@ extension NeptuneClientTypes {
     /// A range of double values.
     public struct DoubleRange: Swift.Equatable {
         /// The minimum value in the range.
-        public var from: Swift.Double
+        public var from: Swift.Double?
         /// The maximum value in the range.
-        public var to: Swift.Double
+        public var to: Swift.Double?
 
         public init(
-            from: Swift.Double = 0.0,
-            to: Swift.Double = 0.0
+            from: Swift.Double? = nil,
+            to: Swift.Double? = nil
         )
         {
             self.from = from
@@ -13240,7 +13245,7 @@ extension NeptuneClientTypes.Endpoint: Swift.Codable {
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
     }
@@ -13249,7 +13254,7 @@ extension NeptuneClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -13264,12 +13269,12 @@ extension NeptuneClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// Specifies the port that the database engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -13565,7 +13570,7 @@ extension NeptuneClientTypes.EventSubscription: Swift.Codable {
         if let customerAwsId = customerAwsId {
             try container.encode(customerAwsId, forKey: ClientRuntime.Key("CustomerAwsId"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let eventCategoriesList = eventCategoriesList {
@@ -13661,7 +13666,7 @@ extension NeptuneClientTypes.EventSubscription: Swift.Codable {
         } else {
             eventCategoriesList = nil
         }
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let eventSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSubscriptionArn)
         eventSubscriptionArn = eventSubscriptionArnDecoded
@@ -13676,7 +13681,7 @@ extension NeptuneClientTypes {
         /// The Amazon customer account associated with the event notification subscription.
         public var customerAwsId: Swift.String?
         /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// A list of event categories for the event notification subscription.
         public var eventCategoriesList: [Swift.String]?
         /// The Amazon Resource Name (ARN) for the event subscription.
@@ -13695,7 +13700,7 @@ extension NeptuneClientTypes {
         public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             eventCategoriesList: [Swift.String]? = nil,
             eventSubscriptionArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -13833,23 +13838,11 @@ extension FailoverDBClusterInputBody: Swift.Decodable {
     }
 }
 
-enum FailoverDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension FailoverDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension FailoverDBClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: FailoverDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: FailoverDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
             self.dbCluster = nil
@@ -13857,8 +13850,8 @@ extension FailoverDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct FailoverDBClusterOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+public struct FailoverDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -13869,11 +13862,11 @@ public struct FailoverDBClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct FailoverDBClusterOutputResponseBody: Swift.Equatable {
+struct FailoverDBClusterOutputBody: Swift.Equatable {
     let dbCluster: NeptuneClientTypes.DBCluster?
 }
 
-extension FailoverDBClusterOutputResponseBody: Swift.Decodable {
+extension FailoverDBClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbCluster = "DBCluster"
     }
@@ -13883,6 +13876,18 @@ extension FailoverDBClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FailoverDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
         dbCluster = dbClusterDecoded
+    }
+}
+
+enum FailoverDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13944,24 +13949,11 @@ extension FailoverGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum FailoverGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension FailoverGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension FailoverGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: FailoverGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: FailoverGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -13969,7 +13961,7 @@ extension FailoverGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct FailoverGlobalClusterOutputResponse: Swift.Equatable {
+public struct FailoverGlobalClusterOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -13981,11 +13973,11 @@ public struct FailoverGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct FailoverGlobalClusterOutputResponseBody: Swift.Equatable {
+struct FailoverGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: NeptuneClientTypes.GlobalCluster?
 }
 
-extension FailoverGlobalClusterOutputResponseBody: Swift.Decodable {
+extension FailoverGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -13995,6 +13987,19 @@ extension FailoverGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FailoverGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum FailoverGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14279,7 +14284,7 @@ extension NeptuneClientTypes.GlobalClusterMember: Swift.Codable {
         if let dbClusterArn = dbClusterArn {
             try container.encode(dbClusterArn, forKey: ClientRuntime.Key("DBClusterArn"))
         }
-        if isWriter != false {
+        if let isWriter = isWriter {
             try container.encode(isWriter, forKey: ClientRuntime.Key("IsWriter"))
         }
         if let readers = readers {
@@ -14319,7 +14324,7 @@ extension NeptuneClientTypes.GlobalClusterMember: Swift.Codable {
         } else {
             readers = nil
         }
-        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter) ?? false
+        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter)
         isWriter = isWriterDecoded
     }
 }
@@ -14330,13 +14335,13 @@ extension NeptuneClientTypes {
         /// The Amazon Resource Name (ARN) for each Neptune cluster.
         public var dbClusterArn: Swift.String?
         /// Specifies whether the Neptune cluster is the primary cluster (that is, has read-write capability) for the Neptune global database with which it is associated.
-        public var isWriter: Swift.Bool
+        public var isWriter: Swift.Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Neptune global database.
         public var readers: [Swift.String]?
 
         public init(
             dbClusterArn: Swift.String? = nil,
-            isWriter: Swift.Bool = false,
+            isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil
         )
         {
@@ -15586,23 +15591,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
             self.tagList = nil
@@ -15610,7 +15603,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// List of tags returned by the ListTagsForResource operation.
     public var tagList: [NeptuneClientTypes.Tag]?
 
@@ -15622,11 +15615,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tagList: [NeptuneClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagList = "TagList"
     }
@@ -15652,6 +15645,18 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagList = nil
+        }
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -15787,25 +15792,11 @@ extension ModifyDBClusterEndpointInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyDBClusterEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterEndpointNotFoundFault": return try await DBClusterEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterEndpointStateFault": return try await InvalidDBClusterEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyDBClusterEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyDBClusterEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyDBClusterEndpointOutputBody = try responseDecoder.decode(responseBody: data)
             self.customEndpointType = output.customEndpointType
             self.dbClusterEndpointArn = output.dbClusterEndpointArn
             self.dbClusterEndpointIdentifier = output.dbClusterEndpointIdentifier
@@ -15843,7 +15834,7 @@ extension ModifyDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBindi
 ///
 ///
 /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
-public struct ModifyDBClusterEndpointOutputResponse: Swift.Equatable {
+public struct ModifyDBClusterEndpointOutput: Swift.Equatable {
     /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
     public var customEndpointType: Swift.String?
     /// The Amazon Resource Name (ARN) for the endpoint.
@@ -15891,7 +15882,7 @@ public struct ModifyDBClusterEndpointOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyDBClusterEndpointOutputResponseBody: Swift.Equatable {
+struct ModifyDBClusterEndpointOutputBody: Swift.Equatable {
     let dbClusterEndpointIdentifier: Swift.String?
     let dbClusterIdentifier: Swift.String?
     let dbClusterEndpointResourceIdentifier: Swift.String?
@@ -15904,7 +15895,7 @@ struct ModifyDBClusterEndpointOutputResponseBody: Swift.Equatable {
     let dbClusterEndpointArn: Swift.String?
 }
 
-extension ModifyDBClusterEndpointOutputResponseBody: Swift.Decodable {
+extension ModifyDBClusterEndpointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customEndpointType = "CustomEndpointType"
         case dbClusterEndpointArn = "DBClusterEndpointArn"
@@ -15975,6 +15966,20 @@ extension ModifyDBClusterEndpointOutputResponseBody: Swift.Decodable {
         }
         let dbClusterEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterEndpointArn)
         dbClusterEndpointArn = dbClusterEndpointArnDecoded
+    }
+}
+
+enum ModifyDBClusterEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterEndpointNotFoundFault": return try await DBClusterEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterEndpointStateFault": return try await InvalidDBClusterEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16088,7 +16093,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var deletionProtection: Swift.Bool?
     /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
     public var enableIAMDatabaseAuthentication: Swift.Bool?
-    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see [Engine Releases for Amazon Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html), or call [DescribeDBEngineVersions](https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions).
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see [Engine Releases for Amazon Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html), or call [DescribeDBEngineVersions].
     public var engineVersion: Swift.String?
     /// Not supported by Neptune.
     public var masterUserPassword: Swift.String?
@@ -16219,7 +16224,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         dbClusterIdentifier = dbClusterIdentifierDecoded
         let newDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newDBClusterIdentifier)
         newDBClusterIdentifier = newDBClusterIdentifierDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
@@ -16260,7 +16265,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfigurationDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let dbInstanceParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceParameterGroupName)
         dbInstanceParameterGroupName = dbInstanceParameterGroupNameDecoded
@@ -16270,6 +16275,47 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
         let serverlessV2ScalingConfigurationDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ServerlessV2ScalingConfiguration.self, forKey: .serverlessV2ScalingConfiguration)
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
+    }
+}
+
+extension ModifyDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct ModifyDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct ModifyDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension ModifyDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 
@@ -16290,47 +16336,6 @@ enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct ModifyDBClusterOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
-    public var dbCluster: NeptuneClientTypes.DBCluster?
-
-    public init(
-        dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct ModifyDBClusterOutputResponseBody: Swift.Equatable {
-    let dbCluster: NeptuneClientTypes.DBCluster?
-}
-
-extension ModifyDBClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -16418,22 +16423,11 @@ extension ModifyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
         } else {
             self.dbClusterParameterGroupName = nil
@@ -16441,7 +16435,7 @@ extension ModifyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ModifyDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct ModifyDBClusterParameterGroupOutput: Swift.Equatable {
     /// The name of the DB cluster parameter group. Constraints:
     ///
     /// * Must be 1 to 255 letters or numbers.
@@ -16462,11 +16456,11 @@ public struct ModifyDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct ModifyDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroupName: Swift.String?
 }
 
-extension ModifyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension ModifyDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
     }
@@ -16476,6 +16470,17 @@ extension ModifyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterParameterGroupResult"))
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
+    }
+}
+
+enum ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16611,6 +16616,47 @@ extension ModifyDBClusterSnapshotAttributeInputBody: Swift.Decodable {
     }
 }
 
+extension ModifyDBClusterSnapshotAttributeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDBClusterSnapshotAttributeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
+        } else {
+            self.dbClusterSnapshotAttributesResult = nil
+        }
+    }
+}
+
+public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Equatable {
+    /// Contains the results of a successful call to the [DescribeDBClusterSnapshotAttributes] API action. Manual DB cluster snapshot attributes are used to authorize other Amazon accounts to copy or restore a manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
+    public var dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
+
+    public init(
+        dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult? = nil
+    )
+    {
+        self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
+    }
+}
+
+struct ModifyDBClusterSnapshotAttributeOutputBody: Swift.Equatable {
+    let dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
+}
+
+extension ModifyDBClusterSnapshotAttributeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterSnapshotAttributeResult"))
+        let dbClusterSnapshotAttributesResultDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshotAttributesResult.self, forKey: .dbClusterSnapshotAttributesResult)
+        dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResultDecoded
+    }
+}
+
 enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -16623,45 +16669,9 @@ enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension ModifyDBClusterSnapshotAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyDBClusterSnapshotAttributeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
-        } else {
-            self.dbClusterSnapshotAttributesResult = nil
-        }
-    }
-}
-
-public struct ModifyDBClusterSnapshotAttributeOutputResponse: Swift.Equatable {
-    /// Contains the results of a successful call to the [DescribeDBClusterSnapshotAttributes] API action. Manual DB cluster snapshot attributes are used to authorize other Amazon accounts to copy or restore a manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
-    public var dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
-
-    public init(
-        dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult? = nil
-    )
-    {
-        self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
-    }
-}
-
-struct ModifyDBClusterSnapshotAttributeOutputResponseBody: Swift.Equatable {
-    let dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
-}
-
-extension ModifyDBClusterSnapshotAttributeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterSnapshotAttributeResult"))
-        let dbClusterSnapshotAttributesResultDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBClusterSnapshotAttributesResult.self, forKey: .dbClusterSnapshotAttributesResult)
-        dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResultDecoded
-    }
+extension ModifyDBInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModifyDBInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), masterUserPassword: \(Swift.String(describing: masterUserPassword)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageType: \(Swift.String(describing: storageType)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension ModifyDBInstanceInput: Swift.Encodable {
@@ -17117,7 +17127,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         } else {
             vpcSecurityGroupIds = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let masterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserPassword)
         masterUserPassword = masterUserPasswordDecoded
@@ -17133,7 +17143,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
@@ -17182,6 +17192,47 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
     }
 }
 
+extension ModifyDBInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbInstance = output.dbInstance
+        } else {
+            self.dbInstance = nil
+        }
+    }
+}
+
+public struct ModifyDBInstanceOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
+    public var dbInstance: NeptuneClientTypes.DBInstance?
+
+    public init(
+        dbInstance: NeptuneClientTypes.DBInstance? = nil
+    )
+    {
+        self.dbInstance = dbInstance
+    }
+}
+
+struct ModifyDBInstanceOutputBody: Swift.Equatable {
+    let dbInstance: NeptuneClientTypes.DBInstance?
+}
+
+extension ModifyDBInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstance = "DBInstance"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBInstanceResult"))
+        let dbInstanceDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBInstance.self, forKey: .dbInstance)
+        dbInstance = dbInstanceDecoded
+    }
+}
+
 enum ModifyDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -17204,47 +17255,6 @@ enum ModifyDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbInstance = output.dbInstance
-        } else {
-            self.dbInstance = nil
-        }
-    }
-}
-
-public struct ModifyDBInstanceOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
-    public var dbInstance: NeptuneClientTypes.DBInstance?
-
-    public init(
-        dbInstance: NeptuneClientTypes.DBInstance? = nil
-    )
-    {
-        self.dbInstance = dbInstance
-    }
-}
-
-struct ModifyDBInstanceOutputResponseBody: Swift.Equatable {
-    let dbInstance: NeptuneClientTypes.DBInstance?
-}
-
-extension ModifyDBInstanceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbInstance = "DBInstance"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBInstanceResult"))
-        let dbInstanceDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBInstance.self, forKey: .dbInstance)
-        dbInstance = dbInstanceDecoded
     }
 }
 
@@ -17334,22 +17344,11 @@ extension ModifyDBParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyDBParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyDBParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbParameterGroupName = output.dbParameterGroupName
         } else {
             self.dbParameterGroupName = nil
@@ -17357,7 +17356,7 @@ extension ModifyDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ModifyDBParameterGroupOutputResponse: Swift.Equatable {
+public struct ModifyDBParameterGroupOutput: Swift.Equatable {
     /// Provides the name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
 
@@ -17369,11 +17368,11 @@ public struct ModifyDBParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyDBParameterGroupOutputResponseBody: Swift.Equatable {
+struct ModifyDBParameterGroupOutputBody: Swift.Equatable {
     let dbParameterGroupName: Swift.String?
 }
 
-extension ModifyDBParameterGroupOutputResponseBody: Swift.Decodable {
+extension ModifyDBParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbParameterGroupName = "DBParameterGroupName"
     }
@@ -17383,6 +17382,17 @@ extension ModifyDBParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBParameterGroupResult"))
         let dbParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbParameterGroupName)
         dbParameterGroupName = dbParameterGroupNameDecoded
+    }
+}
+
+enum ModifyDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -17481,25 +17491,11 @@ extension ModifyDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetAlreadyInUse": return try await SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyDBSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyDBSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
         } else {
             self.dbSubnetGroup = nil
@@ -17507,7 +17503,7 @@ extension ModifyDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyDBSubnetGroupOutputResponse: Swift.Equatable {
+public struct ModifyDBSubnetGroupOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune DB subnet group. This data type is used as a response element in the [DescribeDBSubnetGroups] action.
     public var dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup?
 
@@ -17519,11 +17515,11 @@ public struct ModifyDBSubnetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyDBSubnetGroupOutputResponseBody: Swift.Equatable {
+struct ModifyDBSubnetGroupOutputBody: Swift.Equatable {
     let dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup?
 }
 
-extension ModifyDBSubnetGroupOutputResponseBody: Swift.Decodable {
+extension ModifyDBSubnetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSubnetGroup = "DBSubnetGroup"
     }
@@ -17533,6 +17529,20 @@ extension ModifyDBSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBSubnetGroupResult"))
         let dbSubnetGroupDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBSubnetGroup.self, forKey: .dbSubnetGroup)
         dbSubnetGroup = dbSubnetGroupDecoded
+    }
+}
+
+enum ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetAlreadyInUse": return try await SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -17652,6 +17662,47 @@ extension ModifyEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension ModifyEventSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyEventSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventSubscription = output.eventSubscription
+        } else {
+            self.eventSubscription = nil
+        }
+    }
+}
+
+public struct ModifyEventSubscriptionOutput: Swift.Equatable {
+    /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
+    public var eventSubscription: NeptuneClientTypes.EventSubscription?
+
+    public init(
+        eventSubscription: NeptuneClientTypes.EventSubscription? = nil
+    )
+    {
+        self.eventSubscription = eventSubscription
+    }
+}
+
+struct ModifyEventSubscriptionOutputBody: Swift.Equatable {
+    let eventSubscription: NeptuneClientTypes.EventSubscription?
+}
+
+extension ModifyEventSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventSubscription = "EventSubscription"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyEventSubscriptionResult"))
+        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EventSubscription.self, forKey: .eventSubscription)
+        eventSubscription = eventSubscriptionDecoded
+    }
+}
+
 enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -17664,47 +17715,6 @@ enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.eventSubscription = output.eventSubscription
-        } else {
-            self.eventSubscription = nil
-        }
-    }
-}
-
-public struct ModifyEventSubscriptionOutputResponse: Swift.Equatable {
-    /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
-    public var eventSubscription: NeptuneClientTypes.EventSubscription?
-
-    public init(
-        eventSubscription: NeptuneClientTypes.EventSubscription? = nil
-    )
-    {
-        self.eventSubscription = eventSubscription
-    }
-}
-
-struct ModifyEventSubscriptionOutputResponseBody: Swift.Equatable {
-    let eventSubscription: NeptuneClientTypes.EventSubscription?
-}
-
-extension ModifyEventSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventSubscription = "EventSubscription"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyEventSubscriptionResult"))
-        let eventSubscriptionDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EventSubscription.self, forKey: .eventSubscription)
-        eventSubscription = eventSubscriptionDecoded
     }
 }
 
@@ -17807,22 +17817,11 @@ extension ModifyGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -17830,7 +17829,7 @@ extension ModifyGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyGlobalClusterOutputResponse: Swift.Equatable {
+public struct ModifyGlobalClusterOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -17842,11 +17841,11 @@ public struct ModifyGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyGlobalClusterOutputResponseBody: Swift.Equatable {
+struct ModifyGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: NeptuneClientTypes.GlobalCluster?
 }
 
-extension ModifyGlobalClusterOutputResponseBody: Swift.Decodable {
+extension ModifyGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -17856,6 +17855,17 @@ extension ModifyGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18028,34 +18038,34 @@ extension NeptuneClientTypes.OrderableDBInstanceOption: Swift.Codable {
         if let minStorageSize = minStorageSize {
             try container.encode(minStorageSize, forKey: ClientRuntime.Key("MinStorageSize"))
         }
-        if multiAZCapable != false {
+        if let multiAZCapable = multiAZCapable {
             try container.encode(multiAZCapable, forKey: ClientRuntime.Key("MultiAZCapable"))
         }
-        if readReplicaCapable != false {
+        if let readReplicaCapable = readReplicaCapable {
             try container.encode(readReplicaCapable, forKey: ClientRuntime.Key("ReadReplicaCapable"))
         }
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
-        if supportsEnhancedMonitoring != false {
+        if let supportsEnhancedMonitoring = supportsEnhancedMonitoring {
             try container.encode(supportsEnhancedMonitoring, forKey: ClientRuntime.Key("SupportsEnhancedMonitoring"))
         }
-        if supportsGlobalDatabases != false {
+        if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
         }
-        if supportsIAMDatabaseAuthentication != false {
+        if let supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication {
             try container.encode(supportsIAMDatabaseAuthentication, forKey: ClientRuntime.Key("SupportsIAMDatabaseAuthentication"))
         }
-        if supportsIops != false {
+        if let supportsIops = supportsIops {
             try container.encode(supportsIops, forKey: ClientRuntime.Key("SupportsIops"))
         }
-        if supportsPerformanceInsights != false {
+        if let supportsPerformanceInsights = supportsPerformanceInsights {
             try container.encode(supportsPerformanceInsights, forKey: ClientRuntime.Key("SupportsPerformanceInsights"))
         }
-        if supportsStorageEncryption != false {
+        if let supportsStorageEncryption = supportsStorageEncryption {
             try container.encode(supportsStorageEncryption, forKey: ClientRuntime.Key("SupportsStorageEncryption"))
         }
-        if vpc != false {
+        if let vpc = vpc {
             try container.encode(vpc, forKey: ClientRuntime.Key("Vpc"))
         }
     }
@@ -18089,23 +18099,23 @@ extension NeptuneClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             availabilityZones = nil
         }
-        let multiAZCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZCapable) ?? false
+        let multiAZCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZCapable)
         multiAZCapable = multiAZCapableDecoded
-        let readReplicaCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readReplicaCapable) ?? false
+        let readReplicaCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readReplicaCapable)
         readReplicaCapable = readReplicaCapableDecoded
-        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc) ?? false
+        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc)
         vpc = vpcDecoded
-        let supportsStorageEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageEncryption) ?? false
+        let supportsStorageEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageEncryption)
         supportsStorageEncryption = supportsStorageEncryptionDecoded
         let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
         storageType = storageTypeDecoded
-        let supportsIopsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIops) ?? false
+        let supportsIopsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIops)
         supportsIops = supportsIopsDecoded
-        let supportsEnhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsEnhancedMonitoring) ?? false
+        let supportsEnhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsEnhancedMonitoring)
         supportsEnhancedMonitoring = supportsEnhancedMonitoringDecoded
-        let supportsIAMDatabaseAuthenticationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIAMDatabaseAuthentication) ?? false
+        let supportsIAMDatabaseAuthenticationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIAMDatabaseAuthentication)
         supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthenticationDecoded
-        let supportsPerformanceInsightsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsPerformanceInsights) ?? false
+        let supportsPerformanceInsightsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsPerformanceInsights)
         supportsPerformanceInsights = supportsPerformanceInsightsDecoded
         let minStorageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minStorageSize)
         minStorageSize = minStorageSizeDecoded
@@ -18119,7 +18129,7 @@ extension NeptuneClientTypes.OrderableDBInstanceOption: Swift.Codable {
         minIopsPerGib = minIopsPerGibDecoded
         let maxIopsPerGibDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxIopsPerGib)
         maxIopsPerGib = maxIopsPerGibDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
     }
 }
@@ -18150,25 +18160,25 @@ extension NeptuneClientTypes {
         /// Minimum storage size for a DB instance.
         public var minStorageSize: Swift.Int?
         /// Indicates whether a DB instance is Multi-AZ capable.
-        public var multiAZCapable: Swift.Bool
+        public var multiAZCapable: Swift.Bool?
         /// Indicates whether a DB instance can have a Read Replica.
-        public var readReplicaCapable: Swift.Bool
+        public var readReplicaCapable: Swift.Bool?
         /// Indicates the storage type for a DB instance.
         public var storageType: Swift.String?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
-        public var supportsEnhancedMonitoring: Swift.Bool
+        public var supportsEnhancedMonitoring: Swift.Bool?
         /// A value that indicates whether you can use Neptune global databases with a specific combination of other DB engine attributes.
-        public var supportsGlobalDatabases: Swift.Bool
+        public var supportsGlobalDatabases: Swift.Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
-        public var supportsIAMDatabaseAuthentication: Swift.Bool
+        public var supportsIAMDatabaseAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
-        public var supportsIops: Swift.Bool
+        public var supportsIops: Swift.Bool?
         /// (Not supported by Neptune)
-        public var supportsPerformanceInsights: Swift.Bool
+        public var supportsPerformanceInsights: Swift.Bool?
         /// Indicates whether a DB instance supports encrypted storage.
-        public var supportsStorageEncryption: Swift.Bool
+        public var supportsStorageEncryption: Swift.Bool?
         /// Indicates whether a DB instance is in a VPC.
-        public var vpc: Swift.Bool
+        public var vpc: Swift.Bool?
 
         public init(
             availabilityZones: [NeptuneClientTypes.AvailabilityZone]? = nil,
@@ -18182,16 +18192,16 @@ extension NeptuneClientTypes {
             minIopsPerDbInstance: Swift.Int? = nil,
             minIopsPerGib: Swift.Double? = nil,
             minStorageSize: Swift.Int? = nil,
-            multiAZCapable: Swift.Bool = false,
-            readReplicaCapable: Swift.Bool = false,
+            multiAZCapable: Swift.Bool? = nil,
+            readReplicaCapable: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
-            supportsEnhancedMonitoring: Swift.Bool = false,
-            supportsGlobalDatabases: Swift.Bool = false,
-            supportsIAMDatabaseAuthentication: Swift.Bool = false,
-            supportsIops: Swift.Bool = false,
-            supportsPerformanceInsights: Swift.Bool = false,
-            supportsStorageEncryption: Swift.Bool = false,
-            vpc: Swift.Bool = false
+            supportsEnhancedMonitoring: Swift.Bool? = nil,
+            supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
+            supportsIops: Swift.Bool? = nil,
+            supportsPerformanceInsights: Swift.Bool? = nil,
+            supportsStorageEncryption: Swift.Bool? = nil,
+            vpc: Swift.Bool? = nil
         )
         {
             self.availabilityZones = availabilityZones
@@ -18251,7 +18261,7 @@ extension NeptuneClientTypes.Parameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -18284,7 +18294,7 @@ extension NeptuneClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -18307,7 +18317,7 @@ extension NeptuneClientTypes {
         /// Provides a description of the parameter.
         public var description: Swift.String?
         /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// Specifies the name of the parameter.
@@ -18323,7 +18333,7 @@ extension NeptuneClientTypes {
             applyType: Swift.String? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
@@ -18738,22 +18748,11 @@ extension PromoteReadReplicaDBClusterInputBody: Swift.Decodable {
     }
 }
 
-enum PromoteReadReplicaDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension PromoteReadReplicaDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PromoteReadReplicaDBClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PromoteReadReplicaDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PromoteReadReplicaDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
             self.dbCluster = nil
@@ -18761,8 +18760,8 @@ extension PromoteReadReplicaDBClusterOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct PromoteReadReplicaDBClusterOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+public struct PromoteReadReplicaDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -18773,11 +18772,11 @@ public struct PromoteReadReplicaDBClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct PromoteReadReplicaDBClusterOutputResponseBody: Swift.Equatable {
+struct PromoteReadReplicaDBClusterOutputBody: Swift.Equatable {
     let dbCluster: NeptuneClientTypes.DBCluster?
 }
 
-extension PromoteReadReplicaDBClusterOutputResponseBody: Swift.Decodable {
+extension PromoteReadReplicaDBClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbCluster = "DBCluster"
     }
@@ -18787,6 +18786,17 @@ extension PromoteReadReplicaDBClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("PromoteReadReplicaDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
         dbCluster = dbClusterDecoded
+    }
+}
+
+enum PromoteReadReplicaDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18854,22 +18864,22 @@ extension NeptuneClientTypes.Range: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if from != 0 {
+        if let from = from {
             try container.encode(from, forKey: ClientRuntime.Key("From"))
         }
         if let step = step {
             try container.encode(step, forKey: ClientRuntime.Key("Step"))
         }
-        if to != 0 {
+        if let to = to {
             try container.encode(to, forKey: ClientRuntime.Key("To"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from) ?? 0
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from)
         from = fromDecoded
-        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to) ?? 0
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to)
         to = toDecoded
         let stepDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .step)
         step = stepDecoded
@@ -18880,16 +18890,16 @@ extension NeptuneClientTypes {
     /// A range of integer values.
     public struct Range: Swift.Equatable {
         /// The minimum value in the range.
-        public var from: Swift.Int
+        public var from: Swift.Int?
         /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
         public var step: Swift.Int?
         /// The maximum value in the range.
-        public var to: Swift.Int
+        public var to: Swift.Int?
 
         public init(
-            from: Swift.Int = 0,
+            from: Swift.Int? = nil,
             step: Swift.Int? = nil,
-            to: Swift.Int = 0
+            to: Swift.Int? = nil
         )
         {
             self.from = from
@@ -18959,22 +18969,11 @@ extension RebootDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RebootDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RebootDBInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RebootDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RebootDBInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
         } else {
             self.dbInstance = nil
@@ -18982,7 +18981,7 @@ extension RebootDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebootDBInstanceOutputResponse: Swift.Equatable {
+public struct RebootDBInstanceOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
     public var dbInstance: NeptuneClientTypes.DBInstance?
 
@@ -18994,11 +18993,11 @@ public struct RebootDBInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct RebootDBInstanceOutputResponseBody: Swift.Equatable {
+struct RebootDBInstanceOutputBody: Swift.Equatable {
     let dbInstance: NeptuneClientTypes.DBInstance?
 }
 
-extension RebootDBInstanceOutputResponseBody: Swift.Decodable {
+extension RebootDBInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbInstance = "DBInstance"
     }
@@ -19008,6 +19007,17 @@ extension RebootDBInstanceOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RebootDBInstanceResult"))
         let dbInstanceDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBInstance.self, forKey: .dbInstance)
         dbInstance = dbInstanceDecoded
+    }
+}
+
+enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19069,23 +19079,11 @@ extension RemoveFromGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-enum RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RemoveFromGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveFromGlobalClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveFromGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveFromGlobalClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
             self.globalCluster = nil
@@ -19093,7 +19091,7 @@ extension RemoveFromGlobalClusterOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct RemoveFromGlobalClusterOutputResponse: Swift.Equatable {
+public struct RemoveFromGlobalClusterOutput: Swift.Equatable {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -19105,11 +19103,11 @@ public struct RemoveFromGlobalClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct RemoveFromGlobalClusterOutputResponseBody: Swift.Equatable {
+struct RemoveFromGlobalClusterOutputBody: Swift.Equatable {
     let globalCluster: NeptuneClientTypes.GlobalCluster?
 }
 
-extension RemoveFromGlobalClusterOutputResponseBody: Swift.Decodable {
+extension RemoveFromGlobalClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalCluster = "GlobalCluster"
     }
@@ -19119,6 +19117,18 @@ extension RemoveFromGlobalClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RemoveFromGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.GlobalCluster.self, forKey: .globalCluster)
         globalCluster = globalClusterDecoded
+    }
+}
+
+enum RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19149,7 +19159,7 @@ public struct RemoveRoleFromDBClusterInput: Swift.Equatable {
     /// The name of the DB cluster to disassociate the IAM role from.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
-    /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see [DescribeDBEngineVersions](https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions).
+    /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see [DescribeDBEngineVersions].
     public var featureName: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
     /// This member is required.
@@ -19191,6 +19201,16 @@ extension RemoveRoleFromDBClusterInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveRoleFromDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveRoleFromDBClusterOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveRoleFromDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -19201,16 +19221,6 @@ enum RemoveRoleFromDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RemoveRoleFromDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveRoleFromDBClusterOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveSourceIdentifierFromSubscriptionInput: Swift.Encodable {
@@ -19271,22 +19281,11 @@ extension RemoveSourceIdentifierFromSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-enum RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RemoveSourceIdentifierFromSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveSourceIdentifierFromSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveSourceIdentifierFromSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveSourceIdentifierFromSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
             self.eventSubscription = nil
@@ -19294,7 +19293,7 @@ extension RemoveSourceIdentifierFromSubscriptionOutputResponse: ClientRuntime.Ht
     }
 }
 
-public struct RemoveSourceIdentifierFromSubscriptionOutputResponse: Swift.Equatable {
+public struct RemoveSourceIdentifierFromSubscriptionOutput: Swift.Equatable {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -19306,11 +19305,11 @@ public struct RemoveSourceIdentifierFromSubscriptionOutputResponse: Swift.Equata
     }
 }
 
-struct RemoveSourceIdentifierFromSubscriptionOutputResponseBody: Swift.Equatable {
+struct RemoveSourceIdentifierFromSubscriptionOutputBody: Swift.Equatable {
     let eventSubscription: NeptuneClientTypes.EventSubscription?
 }
 
-extension RemoveSourceIdentifierFromSubscriptionOutputResponseBody: Swift.Decodable {
+extension RemoveSourceIdentifierFromSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventSubscription = "EventSubscription"
     }
@@ -19320,6 +19319,17 @@ extension RemoveSourceIdentifierFromSubscriptionOutputResponseBody: Swift.Decoda
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RemoveSourceIdentifierFromSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.EventSubscription.self, forKey: .eventSubscription)
         eventSubscription = eventSubscriptionDecoded
+    }
+}
+
+enum RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19407,6 +19417,16 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveTagsFromResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveTagsFromResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -19417,16 +19437,6 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ResetDBClusterParameterGroupInput: Swift.Encodable {
@@ -19499,7 +19509,7 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -19523,22 +19533,11 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ResetDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ResetDBClusterParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ResetDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ResetDBClusterParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
         } else {
             self.dbClusterParameterGroupName = nil
@@ -19546,7 +19545,7 @@ extension ResetDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct ResetDBClusterParameterGroupOutputResponse: Swift.Equatable {
+public struct ResetDBClusterParameterGroupOutput: Swift.Equatable {
     /// The name of the DB cluster parameter group. Constraints:
     ///
     /// * Must be 1 to 255 letters or numbers.
@@ -19567,11 +19566,11 @@ public struct ResetDBClusterParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ResetDBClusterParameterGroupOutputResponseBody: Swift.Equatable {
+struct ResetDBClusterParameterGroupOutputBody: Swift.Equatable {
     let dbClusterParameterGroupName: Swift.String?
 }
 
-extension ResetDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
+extension ResetDBClusterParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
     }
@@ -19581,6 +19580,17 @@ extension ResetDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ResetDBClusterParameterGroupResult"))
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
+    }
+}
+
+enum ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19656,7 +19666,7 @@ extension ResetDBParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbParameterGroupName)
         dbParameterGroupName = dbParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -19680,22 +19690,11 @@ extension ResetDBParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ResetDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ResetDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ResetDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ResetDBParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ResetDBParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbParameterGroupName = output.dbParameterGroupName
         } else {
             self.dbParameterGroupName = nil
@@ -19703,7 +19702,7 @@ extension ResetDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ResetDBParameterGroupOutputResponse: Swift.Equatable {
+public struct ResetDBParameterGroupOutput: Swift.Equatable {
     /// Provides the name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
 
@@ -19715,11 +19714,11 @@ public struct ResetDBParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ResetDBParameterGroupOutputResponseBody: Swift.Equatable {
+struct ResetDBParameterGroupOutputBody: Swift.Equatable {
     let dbParameterGroupName: Swift.String?
 }
 
-extension ResetDBParameterGroupOutputResponseBody: Swift.Decodable {
+extension ResetDBParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbParameterGroupName = "DBParameterGroupName"
     }
@@ -19729,6 +19728,17 @@ extension ResetDBParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ResetDBParameterGroupResult"))
         let dbParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbParameterGroupName)
         dbParameterGroupName = dbParameterGroupNameDecoded
+    }
+}
+
+enum ResetDBParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20214,6 +20224,47 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension RestoreDBClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreDBClusterFromSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct RestoreDBClusterFromSnapshotOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct RestoreDBClusterFromSnapshotOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension RestoreDBClusterFromSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterFromSnapshotResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
+    }
+}
+
 enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -20236,47 +20287,6 @@ enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBin
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension RestoreDBClusterFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreDBClusterFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct RestoreDBClusterFromSnapshotOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
-    public var dbCluster: NeptuneClientTypes.DBCluster?
-
-    public init(
-        dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct RestoreDBClusterFromSnapshotOutputResponseBody: Swift.Equatable {
-    let dbCluster: NeptuneClientTypes.DBCluster?
-}
-
-extension RestoreDBClusterFromSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterFromSnapshotResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -20527,7 +20537,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
         let restoreToTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreToTime)
         restoreToTime = restoreToTimeDecoded
-        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime) ?? false
+        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime)
         useLatestRestorableTime = useLatestRestorableTimeDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
@@ -20605,6 +20615,47 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
+extension RestoreDBClusterToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreDBClusterToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct RestoreDBClusterToPointInTimeOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct RestoreDBClusterToPointInTimeOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension RestoreDBClusterToPointInTimeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterToPointInTimeResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
+    }
+}
+
 enum RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -20628,47 +20679,6 @@ enum RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBi
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension RestoreDBClusterToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreDBClusterToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct RestoreDBClusterToPointInTimeOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
-    public var dbCluster: NeptuneClientTypes.DBCluster?
-
-    public init(
-        dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Equatable {
-    let dbCluster: NeptuneClientTypes.DBCluster?
-}
-
-extension RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterToPointInTimeResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 
@@ -21182,23 +21192,11 @@ extension StartDBClusterInputBody: Swift.Decodable {
     }
 }
 
-enum StartDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension StartDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartDBClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
             self.dbCluster = nil
@@ -21206,8 +21204,8 @@ extension StartDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDBClusterOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+public struct StartDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -21218,11 +21216,11 @@ public struct StartDBClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartDBClusterOutputResponseBody: Swift.Equatable {
+struct StartDBClusterOutputBody: Swift.Equatable {
     let dbCluster: NeptuneClientTypes.DBCluster?
 }
 
-extension StartDBClusterOutputResponseBody: Swift.Decodable {
+extension StartDBClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbCluster = "DBCluster"
     }
@@ -21232,6 +21230,18 @@ extension StartDBClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
         dbCluster = dbClusterDecoded
+    }
+}
+
+enum StartDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21281,23 +21291,11 @@ extension StopDBClusterInputBody: Swift.Decodable {
     }
 }
 
-enum StopDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension StopDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopDBClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
             self.dbCluster = nil
@@ -21305,8 +21303,8 @@ extension StopDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDBClusterOutputResponse: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+public struct StopDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -21317,11 +21315,11 @@ public struct StopDBClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopDBClusterOutputResponseBody: Swift.Equatable {
+struct StopDBClusterOutputBody: Swift.Equatable {
     let dbCluster: NeptuneClientTypes.DBCluster?
 }
 
-extension StopDBClusterOutputResponseBody: Swift.Decodable {
+extension StopDBClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbCluster = "DBCluster"
     }
@@ -21331,6 +21329,18 @@ extension StopDBClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StopDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
         dbCluster = dbClusterDecoded
+    }
+}
+
+enum StopDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21811,7 +21821,7 @@ extension NeptuneClientTypes.UpgradeTarget: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if autoUpgrade != false {
+        if let autoUpgrade = autoUpgrade {
             try container.encode(autoUpgrade, forKey: ClientRuntime.Key("AutoUpgrade"))
         }
         if let description = description {
@@ -21823,7 +21833,7 @@ extension NeptuneClientTypes.UpgradeTarget: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if isMajorVersionUpgrade != false {
+        if let isMajorVersionUpgrade = isMajorVersionUpgrade {
             try container.encode(isMajorVersionUpgrade, forKey: ClientRuntime.Key("IsMajorVersionUpgrade"))
         }
         if let supportsGlobalDatabases = supportsGlobalDatabases {
@@ -21839,9 +21849,9 @@ extension NeptuneClientTypes.UpgradeTarget: Swift.Codable {
         engineVersion = engineVersionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade) ?? false
+        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade)
         autoUpgrade = autoUpgradeDecoded
-        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade) ?? false
+        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade)
         isMajorVersionUpgrade = isMajorVersionUpgradeDecoded
         let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
@@ -21852,7 +21862,7 @@ extension NeptuneClientTypes {
     /// The version of the database engine that a DB instance can be upgraded to.
     public struct UpgradeTarget: Swift.Equatable {
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
-        public var autoUpgrade: Swift.Bool
+        public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
         public var description: Swift.String?
         /// The name of the upgrade target database engine.
@@ -21860,16 +21870,16 @@ extension NeptuneClientTypes {
         /// The version number of the upgrade target database engine.
         public var engineVersion: Swift.String?
         /// A value that indicates whether a database engine is upgraded to a major version.
-        public var isMajorVersionUpgrade: Swift.Bool
+        public var isMajorVersionUpgrade: Swift.Bool?
         /// A value that indicates whether you can use Neptune global databases with the target engine version.
         public var supportsGlobalDatabases: Swift.Bool?
 
         public init(
-            autoUpgrade: Swift.Bool = false,
+            autoUpgrade: Swift.Bool? = nil,
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            isMajorVersionUpgrade: Swift.Bool = false,
+            isMajorVersionUpgrade: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil
         )
         {

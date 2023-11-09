@@ -8,7 +8,7 @@ public protocol DrsClientProtocol {
     ///
     /// - Parameter AssociateSourceNetworkStackInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSourceNetworkStackOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSourceNetworkStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func associateSourceNetworkStack(input: AssociateSourceNetworkStackInput) async throws -> AssociateSourceNetworkStackOutputResponse
+    func associateSourceNetworkStack(input: AssociateSourceNetworkStackInput) async throws -> AssociateSourceNetworkStackOutput
     /// Create an extended source server in the target Account based on the source server in staging account.
     ///
     /// - Parameter CreateExtendedSourceServerInput : [no documentation found]
     ///
-    /// - Returns: `CreateExtendedSourceServerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateExtendedSourceServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func createExtendedSourceServer(input: CreateExtendedSourceServerInput) async throws -> CreateExtendedSourceServerOutputResponse
+    func createExtendedSourceServer(input: CreateExtendedSourceServerInput) async throws -> CreateExtendedSourceServerOutput
     /// Creates a new Launch Configuration Template.
     ///
     /// - Parameter CreateLaunchConfigurationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLaunchConfigurationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -53,12 +53,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutputResponse
+    func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput
     /// Creates a new ReplicationConfigurationTemplate.
     ///
     /// - Parameter CreateReplicationConfigurationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateReplicationConfigurationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutputResponse
+    func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput
     /// Create a new Source Network resource for a provided VPC ID.
     ///
     /// - Parameter CreateSourceNetworkInput : [no documentation found]
     ///
-    /// - Returns: `CreateSourceNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSourceNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func createSourceNetwork(input: CreateSourceNetworkInput) async throws -> CreateSourceNetworkOutputResponse
+    func createSourceNetwork(input: CreateSourceNetworkInput) async throws -> CreateSourceNetworkOutput
     /// Deletes a single Job by ID.
     ///
     /// - Parameter DeleteJobInput : [no documentation found]
     ///
-    /// - Returns: `DeleteJobOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -101,12 +101,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
+    func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
     /// Deletes a resource launch action.
     ///
     /// - Parameter DeleteLaunchActionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLaunchActionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLaunchActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func deleteLaunchAction(input: DeleteLaunchActionInput) async throws -> DeleteLaunchActionOutputResponse
+    func deleteLaunchAction(input: DeleteLaunchActionInput) async throws -> DeleteLaunchActionOutput
     /// Deletes a single Launch Configuration Template by ID.
     ///
     /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLaunchConfigurationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutputResponse
+    func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutput
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
     ///
     /// - Parameter DeleteRecoveryInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRecoveryInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRecoveryInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -146,12 +146,12 @@ public protocol DrsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func deleteRecoveryInstance(input: DeleteRecoveryInstanceInput) async throws -> DeleteRecoveryInstanceOutputResponse
+    func deleteRecoveryInstance(input: DeleteRecoveryInstanceInput) async throws -> DeleteRecoveryInstanceOutput
     /// Deletes a single Replication Configuration Template by ID
     ///
     /// - Parameter DeleteReplicationConfigurationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteReplicationConfigurationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,12 +161,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutputResponse
+    func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutput
     /// Delete Source Network resource.
     ///
     /// - Parameter DeleteSourceNetworkInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSourceNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSourceNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,12 +176,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func deleteSourceNetwork(input: DeleteSourceNetworkInput) async throws -> DeleteSourceNetworkOutputResponse
+    func deleteSourceNetwork(input: DeleteSourceNetworkInput) async throws -> DeleteSourceNetworkOutput
     /// Deletes a single Source Server by ID. The Source Server must be disconnected first.
     ///
     /// - Parameter DeleteSourceServerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSourceServerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSourceServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -191,12 +191,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutputResponse
+    func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutput
     /// Retrieves a detailed Job log with pagination.
     ///
     /// - Parameter DescribeJobLogItemsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeJobLogItemsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeJobLogItemsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -205,12 +205,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutputResponse
+    func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutput
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
     /// - Parameter DescribeJobsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeJobsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -219,12 +219,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutputResponse
+    func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     ///
     /// - Parameter DescribeLaunchConfigurationTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLaunchConfigurationTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLaunchConfigurationTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -234,12 +234,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutputResponse
+    func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutput
     /// Lists all Recovery Instances or multiple Recovery Instances by ID.
     ///
     /// - Parameter DescribeRecoveryInstancesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecoveryInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecoveryInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -248,12 +248,12 @@ public protocol DrsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func describeRecoveryInstances(input: DescribeRecoveryInstancesInput) async throws -> DescribeRecoveryInstancesOutputResponse
+    func describeRecoveryInstances(input: DescribeRecoveryInstancesInput) async throws -> DescribeRecoveryInstancesOutput
     /// Lists all Recovery Snapshots for a single Source Server.
     ///
     /// - Parameter DescribeRecoverySnapshotsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecoverySnapshotsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecoverySnapshotsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,12 +263,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func describeRecoverySnapshots(input: DescribeRecoverySnapshotsInput) async throws -> DescribeRecoverySnapshotsOutputResponse
+    func describeRecoverySnapshots(input: DescribeRecoverySnapshotsInput) async throws -> DescribeRecoverySnapshotsOutput
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
     /// - Parameter DescribeReplicationConfigurationTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeReplicationConfigurationTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeReplicationConfigurationTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -278,12 +278,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutputResponse
+    func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutput
     /// Lists all Source Networks or multiple Source Networks filtered by ID.
     ///
     /// - Parameter DescribeSourceNetworksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSourceNetworksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSourceNetworksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -292,12 +292,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func describeSourceNetworks(input: DescribeSourceNetworksInput) async throws -> DescribeSourceNetworksOutputResponse
+    func describeSourceNetworks(input: DescribeSourceNetworksInput) async throws -> DescribeSourceNetworksOutput
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     ///
     /// - Parameter DescribeSourceServersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSourceServersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSourceServersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -306,12 +306,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutputResponse
+    func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutput
     /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter DisconnectRecoveryInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DisconnectRecoveryInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DisconnectRecoveryInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -322,12 +322,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func disconnectRecoveryInstance(input: DisconnectRecoveryInstanceInput) async throws -> DisconnectRecoveryInstanceOutputResponse
+    func disconnectRecoveryInstance(input: DisconnectRecoveryInstanceInput) async throws -> DisconnectRecoveryInstanceOutput
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter DisconnectSourceServerInput : [no documentation found]
     ///
-    /// - Returns: `DisconnectSourceServerOutputResponse` : [no documentation found]
+    /// - Returns: `DisconnectSourceServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -337,12 +337,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func disconnectSourceServer(input: DisconnectSourceServerInput) async throws -> DisconnectSourceServerOutputResponse
+    func disconnectSourceServer(input: DisconnectSourceServerInput) async throws -> DisconnectSourceServerOutput
     /// Export the Source Network CloudFormation template to an S3 bucket.
     ///
     /// - Parameter ExportSourceNetworkCfnTemplateInput : [no documentation found]
     ///
-    /// - Returns: `ExportSourceNetworkCfnTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `ExportSourceNetworkCfnTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -353,12 +353,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func exportSourceNetworkCfnTemplate(input: ExportSourceNetworkCfnTemplateInput) async throws -> ExportSourceNetworkCfnTemplateOutputResponse
+    func exportSourceNetworkCfnTemplate(input: ExportSourceNetworkCfnTemplateInput) async throws -> ExportSourceNetworkCfnTemplateOutput
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
     ///
     /// - Parameter GetFailbackReplicationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetFailbackReplicationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetFailbackReplicationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -367,12 +367,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func getFailbackReplicationConfiguration(input: GetFailbackReplicationConfigurationInput) async throws -> GetFailbackReplicationConfigurationOutputResponse
+    func getFailbackReplicationConfiguration(input: GetFailbackReplicationConfigurationInput) async throws -> GetFailbackReplicationConfigurationOutput
     /// Gets a LaunchConfiguration, filtered by Source Server IDs.
     ///
     /// - Parameter GetLaunchConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetLaunchConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetLaunchConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -381,12 +381,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutputResponse
+    func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutput
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
     ///
     /// - Parameter GetReplicationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetReplicationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetReplicationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -396,12 +396,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutputResponse
+    func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutput
     /// Initialize Elastic Disaster Recovery.
     ///
     /// - Parameter InitializeServiceInput : [no documentation found]
     ///
-    /// - Returns: `InitializeServiceOutputResponse` : [no documentation found]
+    /// - Returns: `InitializeServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,12 +410,12 @@ public protocol DrsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutputResponse
+    func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput
     /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
     ///
     /// - Parameter ListExtensibleSourceServersInput : [no documentation found]
     ///
-    /// - Returns: `ListExtensibleSourceServersOutputResponse` : [no documentation found]
+    /// - Returns: `ListExtensibleSourceServersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -425,12 +425,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func listExtensibleSourceServers(input: ListExtensibleSourceServersInput) async throws -> ListExtensibleSourceServersOutputResponse
+    func listExtensibleSourceServers(input: ListExtensibleSourceServersInput) async throws -> ListExtensibleSourceServersOutput
     /// Lists resource launch actions.
     ///
     /// - Parameter ListLaunchActionsInput : [no documentation found]
     ///
-    /// - Returns: `ListLaunchActionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLaunchActionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,12 +440,12 @@ public protocol DrsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func listLaunchActions(input: ListLaunchActionsInput) async throws -> ListLaunchActionsOutputResponse
+    func listLaunchActions(input: ListLaunchActionsInput) async throws -> ListLaunchActionsOutput
     /// Returns an array of staging accounts for existing extended source servers.
     ///
     /// - Parameter ListStagingAccountsInput : [no documentation found]
     ///
-    /// - Returns: `ListStagingAccountsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStagingAccountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,12 +455,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func listStagingAccounts(input: ListStagingAccountsInput) async throws -> ListStagingAccountsOutputResponse
+    func listStagingAccounts(input: ListStagingAccountsInput) async throws -> ListStagingAccountsOutput
     /// List all tags for your Elastic Disaster Recovery resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -470,12 +470,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Puts a resource launch action.
     ///
     /// - Parameter PutLaunchActionInput : [no documentation found]
     ///
-    /// - Returns: `PutLaunchActionOutputResponse` : [no documentation found]
+    /// - Returns: `PutLaunchActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,13 +486,13 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func putLaunchAction(input: PutLaunchActionInput) async throws -> PutLaunchActionOutputResponse
+    func putLaunchAction(input: PutLaunchActionInput) async throws -> PutLaunchActionOutput
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
     ///
     /// - Parameter RetryDataReplicationInput : [no documentation found]
     ///
-    /// - Returns: `RetryDataReplicationOutputResponse` : [no documentation found]
+    /// - Returns: `RetryDataReplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,12 +502,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutputResponse
+    func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutput
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
     ///
     /// - Parameter ReverseReplicationInput : [no documentation found]
     ///
-    /// - Returns: `ReverseReplicationOutputResponse` : [no documentation found]
+    /// - Returns: `ReverseReplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,12 +519,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func reverseReplication(input: ReverseReplicationInput) async throws -> ReverseReplicationOutputResponse
+    func reverseReplication(input: ReverseReplicationInput) async throws -> ReverseReplicationOutput
     /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
     ///
     /// - Parameter StartFailbackLaunchInput : [no documentation found]
     ///
-    /// - Returns: `StartFailbackLaunchOutputResponse` : [no documentation found]
+    /// - Returns: `StartFailbackLaunchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -535,12 +535,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func startFailbackLaunch(input: StartFailbackLaunchInput) async throws -> StartFailbackLaunchOutputResponse
+    func startFailbackLaunch(input: StartFailbackLaunchInput) async throws -> StartFailbackLaunchOutput
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
     ///
     /// - Parameter StartRecoveryInput : [no documentation found]
     ///
-    /// - Returns: `StartRecoveryOutputResponse` : [no documentation found]
+    /// - Returns: `StartRecoveryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,12 +550,12 @@ public protocol DrsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func startRecovery(input: StartRecoveryInput) async throws -> StartRecoveryOutputResponse
+    func startRecovery(input: StartRecoveryInput) async throws -> StartRecoveryOutput
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
     ///
     /// - Parameter StartReplicationInput : [no documentation found]
     ///
-    /// - Returns: `StartReplicationOutputResponse` : [no documentation found]
+    /// - Returns: `StartReplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,12 +565,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutputResponse
+    func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput
     /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
     ///
     /// - Parameter StartSourceNetworkRecoveryInput : [no documentation found]
     ///
-    /// - Returns: `StartSourceNetworkRecoveryOutputResponse` : [no documentation found]
+    /// - Returns: `StartSourceNetworkRecoveryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,12 +581,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func startSourceNetworkRecovery(input: StartSourceNetworkRecoveryInput) async throws -> StartSourceNetworkRecoveryOutputResponse
+    func startSourceNetworkRecovery(input: StartSourceNetworkRecoveryInput) async throws -> StartSourceNetworkRecoveryOutput
     /// Starts replication for a Source Network. This action would make the Source Network protected.
     ///
     /// - Parameter StartSourceNetworkReplicationInput : [no documentation found]
     ///
-    /// - Returns: `StartSourceNetworkReplicationOutputResponse` : [no documentation found]
+    /// - Returns: `StartSourceNetworkReplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,12 +596,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func startSourceNetworkReplication(input: StartSourceNetworkReplicationInput) async throws -> StartSourceNetworkReplicationOutputResponse
+    func startSourceNetworkReplication(input: StartSourceNetworkReplicationInput) async throws -> StartSourceNetworkReplicationOutput
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
     ///
     /// - Parameter StopFailbackInput : [no documentation found]
     ///
-    /// - Returns: `StopFailbackOutputResponse` : [no documentation found]
+    /// - Returns: `StopFailbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -610,12 +610,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func stopFailback(input: StopFailbackInput) async throws -> StopFailbackOutputResponse
+    func stopFailback(input: StopFailbackInput) async throws -> StopFailbackOutput
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
     ///
     /// - Parameter StopReplicationInput : [no documentation found]
     ///
-    /// - Returns: `StopReplicationOutputResponse` : [no documentation found]
+    /// - Returns: `StopReplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,12 +625,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutputResponse
+    func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput
     /// Stops replication for a Source Network. This action would make the Source Network unprotected.
     ///
     /// - Parameter StopSourceNetworkReplicationInput : [no documentation found]
     ///
-    /// - Returns: `StopSourceNetworkReplicationOutputResponse` : [no documentation found]
+    /// - Returns: `StopSourceNetworkReplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,12 +641,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func stopSourceNetworkReplication(input: StopSourceNetworkReplicationInput) async throws -> StopSourceNetworkReplicationOutputResponse
+    func stopSourceNetworkReplication(input: StopSourceNetworkReplicationInput) async throws -> StopSourceNetworkReplicationOutput
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,12 +656,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
     ///
     /// - Parameter TerminateRecoveryInstancesInput : [no documentation found]
     ///
-    /// - Returns: `TerminateRecoveryInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `TerminateRecoveryInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,12 +671,12 @@ public protocol DrsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func terminateRecoveryInstances(input: TerminateRecoveryInstancesInput) async throws -> TerminateRecoveryInstancesOutputResponse
+    func terminateRecoveryInstances(input: TerminateRecoveryInstancesInput) async throws -> TerminateRecoveryInstancesOutput
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,12 +686,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Allows you to update the failback replication configuration of a Recovery Instance by ID.
     ///
     /// - Parameter UpdateFailbackReplicationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFailbackReplicationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFailbackReplicationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,12 +701,12 @@ public protocol DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    func updateFailbackReplicationConfiguration(input: UpdateFailbackReplicationConfigurationInput) async throws -> UpdateFailbackReplicationConfigurationOutputResponse
+    func updateFailbackReplicationConfiguration(input: UpdateFailbackReplicationConfigurationInput) async throws -> UpdateFailbackReplicationConfigurationOutput
     /// Updates a LaunchConfiguration by Source Server ID.
     ///
     /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLaunchConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLaunchConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -717,12 +717,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutputResponse
+    func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutput
     /// Updates an existing Launch Configuration Template by ID.
     ///
     /// - Parameter UpdateLaunchConfigurationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLaunchConfigurationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,12 +733,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutputResponse
+    func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutput
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
     ///
     /// - Parameter UpdateReplicationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateReplicationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateReplicationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -750,12 +750,12 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutputResponse
+    func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutput
     /// Updates a ReplicationConfigurationTemplate by ID.
     ///
     /// - Parameter UpdateReplicationConfigurationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateReplicationConfigurationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,7 +766,7 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutputResponse
+    func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutput
 }
 
 public enum DrsClientTypes {}

@@ -71,7 +71,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter AssociateUserInput : [no documentation found]
     ///
-    /// - Returns: `AssociateUserOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,7 +83,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutputResponse
+    public func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -99,20 +99,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateUserInput, AssociateUserOutputResponse, AssociateUserOutputError>(id: "associateUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserInput, AssociateUserOutputResponse, AssociateUserOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserInput, AssociateUserOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateUserInput, AssociateUserOutput, AssociateUserOutputError>(id: "associateUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserInput, AssociateUserOutput, AssociateUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserInput, AssociateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserOutputResponse, AssociateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserOutput, AssociateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateUserInput, AssociateUserOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateUserInput, AssociateUserOutputResponse>(xmlName: "AssociateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateUserInput, AssociateUserOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateUserInput, AssociateUserOutput>(xmlName: "AssociateUserRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserOutputResponse, AssociateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserOutput, AssociateUserOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserOutputResponse, AssociateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserOutputResponse, AssociateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserOutputResponse, AssociateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserOutput, AssociateUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserOutput, AssociateUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserOutput, AssociateUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -121,7 +121,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter DeregisterIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -133,7 +133,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutputResponse
+    public func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -149,20 +149,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutputResponse, DeregisterIdentityProviderOutputError>(id: "deregisterIdentityProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutputResponse, DeregisterIdentityProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput, DeregisterIdentityProviderOutputError>(id: "deregisterIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput, DeregisterIdentityProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterIdentityProviderOutputResponse, DeregisterIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterIdentityProviderOutput, DeregisterIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutputResponse>(xmlName: "DeregisterIdentityProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput>(xmlName: "DeregisterIdentityProviderRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterIdentityProviderOutputResponse, DeregisterIdentityProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterIdentityProviderOutput, DeregisterIdentityProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterIdentityProviderOutputResponse, DeregisterIdentityProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterIdentityProviderOutputResponse, DeregisterIdentityProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterIdentityProviderOutputResponse, DeregisterIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterIdentityProviderOutput, DeregisterIdentityProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterIdentityProviderOutput, DeregisterIdentityProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterIdentityProviderOutput, DeregisterIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -171,7 +171,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter DisassociateUserInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateUserOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,7 +183,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func disassociateUser(input: DisassociateUserInput) async throws -> DisassociateUserOutputResponse
+    public func disassociateUser(input: DisassociateUserInput) async throws -> DisassociateUserOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -199,20 +199,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateUserInput, DisassociateUserOutputResponse, DisassociateUserOutputError>(id: "disassociateUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserInput, DisassociateUserOutputResponse, DisassociateUserOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserInput, DisassociateUserOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateUserInput, DisassociateUserOutput, DisassociateUserOutputError>(id: "disassociateUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserInput, DisassociateUserOutput, DisassociateUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserInput, DisassociateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserOutputResponse, DisassociateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserOutput, DisassociateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateUserInput, DisassociateUserOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateUserInput, DisassociateUserOutputResponse>(xmlName: "DisassociateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateUserInput, DisassociateUserOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateUserInput, DisassociateUserOutput>(xmlName: "DisassociateUserRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserOutputResponse, DisassociateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserOutput, DisassociateUserOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserOutputResponse, DisassociateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserOutputResponse, DisassociateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserOutputResponse, DisassociateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserOutput, DisassociateUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserOutput, DisassociateUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserOutput, DisassociateUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -221,7 +221,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter ListIdentityProvidersInput : [no documentation found]
     ///
-    /// - Returns: `ListIdentityProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -233,7 +233,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutputResponse
+    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -249,20 +249,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>(xmlName: "ListIdentityProvidersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(xmlName: "ListIdentityProvidersRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -271,7 +271,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter ListInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -283,7 +283,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
+    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -299,20 +299,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>(id: "listInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutput, ListInstancesOutputError>(id: "listInstances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutput, ListInstancesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstancesOutput, ListInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstancesInput, ListInstancesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstancesInput, ListInstancesOutputResponse>(xmlName: "ListInstancesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstancesInput, ListInstancesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstancesInput, ListInstancesOutput>(xmlName: "ListInstancesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstancesOutputResponse, ListInstancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstancesOutput, ListInstancesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstancesOutputResponse, ListInstancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstancesOutput, ListInstancesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutput, ListInstancesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstancesOutput, ListInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -321,7 +321,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter ListProductSubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `ListProductSubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProductSubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -333,7 +333,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listProductSubscriptions(input: ListProductSubscriptionsInput) async throws -> ListProductSubscriptionsOutputResponse
+    public func listProductSubscriptions(input: ListProductSubscriptionsInput) async throws -> ListProductSubscriptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -349,20 +349,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProductSubscriptionsInput, ListProductSubscriptionsOutputResponse, ListProductSubscriptionsOutputError>(id: "listProductSubscriptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutputResponse, ListProductSubscriptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProductSubscriptionsInput, ListProductSubscriptionsOutput, ListProductSubscriptionsOutputError>(id: "listProductSubscriptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput, ListProductSubscriptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProductSubscriptionsOutputResponse, ListProductSubscriptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProductSubscriptionsOutput, ListProductSubscriptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutputResponse>(xmlName: "ListProductSubscriptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>(xmlName: "ListProductSubscriptionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProductSubscriptionsOutputResponse, ListProductSubscriptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProductSubscriptionsOutput, ListProductSubscriptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProductSubscriptionsOutputResponse, ListProductSubscriptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProductSubscriptionsOutputResponse, ListProductSubscriptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProductSubscriptionsOutputResponse, ListProductSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProductSubscriptionsOutput, ListProductSubscriptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProductSubscriptionsOutput, ListProductSubscriptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProductSubscriptionsOutput, ListProductSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -371,7 +371,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter ListUserAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListUserAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUserAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -383,7 +383,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutputResponse
+    public func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -399,20 +399,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUserAssociationsInput, ListUserAssociationsOutputResponse, ListUserAssociationsOutputError>(id: "listUserAssociations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserAssociationsInput, ListUserAssociationsOutputResponse, ListUserAssociationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserAssociationsInput, ListUserAssociationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListUserAssociationsInput, ListUserAssociationsOutput, ListUserAssociationsOutputError>(id: "listUserAssociations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput, ListUserAssociationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserAssociationsOutputResponse, ListUserAssociationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserAssociationsOutput, ListUserAssociationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUserAssociationsInput, ListUserAssociationsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUserAssociationsInput, ListUserAssociationsOutputResponse>(xmlName: "ListUserAssociationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput>(xmlName: "ListUserAssociationsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserAssociationsOutputResponse, ListUserAssociationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserAssociationsOutput, ListUserAssociationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserAssociationsOutputResponse, ListUserAssociationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserAssociationsOutputResponse, ListUserAssociationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserAssociationsOutputResponse, ListUserAssociationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserAssociationsOutput, ListUserAssociationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserAssociationsOutput, ListUserAssociationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserAssociationsOutput, ListUserAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -421,7 +421,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter RegisterIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `RegisterIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -433,7 +433,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutputResponse
+    public func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -449,20 +449,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegisterIdentityProviderInput, RegisterIdentityProviderOutputResponse, RegisterIdentityProviderOutputError>(id: "registerIdentityProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutputResponse, RegisterIdentityProviderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RegisterIdentityProviderInput, RegisterIdentityProviderOutput, RegisterIdentityProviderOutputError>(id: "registerIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput, RegisterIdentityProviderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterIdentityProviderOutputResponse, RegisterIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterIdentityProviderOutput, RegisterIdentityProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutputResponse>(xmlName: "RegisterIdentityProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput>(xmlName: "RegisterIdentityProviderRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterIdentityProviderOutputResponse, RegisterIdentityProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterIdentityProviderOutput, RegisterIdentityProviderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterIdentityProviderOutputResponse, RegisterIdentityProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterIdentityProviderOutputResponse, RegisterIdentityProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterIdentityProviderOutputResponse, RegisterIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterIdentityProviderOutput, RegisterIdentityProviderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterIdentityProviderOutput, RegisterIdentityProviderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterIdentityProviderOutput, RegisterIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -471,7 +471,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter StartProductSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StartProductSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartProductSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +483,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutputResponse
+    public func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -499,20 +499,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartProductSubscriptionInput, StartProductSubscriptionOutputResponse, StartProductSubscriptionOutputError>(id: "startProductSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutputResponse, StartProductSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartProductSubscriptionInput, StartProductSubscriptionOutput, StartProductSubscriptionOutputError>(id: "startProductSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput, StartProductSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartProductSubscriptionOutputResponse, StartProductSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartProductSubscriptionOutput, StartProductSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutputResponse>(xmlName: "StartProductSubscriptionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput>(xmlName: "StartProductSubscriptionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartProductSubscriptionOutputResponse, StartProductSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartProductSubscriptionOutput, StartProductSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartProductSubscriptionOutputResponse, StartProductSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartProductSubscriptionOutputResponse, StartProductSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartProductSubscriptionOutputResponse, StartProductSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartProductSubscriptionOutput, StartProductSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartProductSubscriptionOutput, StartProductSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartProductSubscriptionOutput, StartProductSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -521,7 +521,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter StopProductSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StopProductSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StopProductSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -533,7 +533,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutputResponse
+    public func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -549,20 +549,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopProductSubscriptionInput, StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>(id: "stopProductSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopProductSubscriptionInput, StopProductSubscriptionOutput, StopProductSubscriptionOutputError>(id: "stopProductSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput, StopProductSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopProductSubscriptionOutput, StopProductSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutputResponse>(xmlName: "StopProductSubscriptionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput>(xmlName: "StopProductSubscriptionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopProductSubscriptionOutput, StopProductSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopProductSubscriptionOutputResponse, StopProductSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopProductSubscriptionOutput, StopProductSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopProductSubscriptionOutput, StopProductSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopProductSubscriptionOutput, StopProductSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -571,7 +571,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     ///
     /// - Parameter UpdateIdentityProviderSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIdentityProviderSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIdentityProviderSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -580,7 +580,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `InternalServerException` : An exception occurred with the service.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutputResponse
+    public func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -596,20 +596,20 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
                       .withSigningName(value: "license-manager-user-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(id: "updateIdentityProviderSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput, UpdateIdentityProviderSettingsOutputError>(id: "updateIdentityProviderSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput, UpdateIdentityProviderSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityProviderSettingsOutput, UpdateIdentityProviderSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutputResponse>(xmlName: "UpdateIdentityProviderSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput>(xmlName: "UpdateIdentityProviderSettingsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentityProviderSettingsOutput, UpdateIdentityProviderSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderSettingsOutputResponse, UpdateIdentityProviderSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderSettingsOutput, UpdateIdentityProviderSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderSettingsOutput, UpdateIdentityProviderSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderSettingsOutput, UpdateIdentityProviderSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

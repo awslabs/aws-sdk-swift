@@ -71,13 +71,13 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeAffectedAccountsForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAffectedAccountsForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAffectedAccountsForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
-    public func describeAffectedAccountsForOrganization(input: DescribeAffectedAccountsForOrganizationInput) async throws -> DescribeAffectedAccountsForOrganizationOutputResponse
+    public func describeAffectedAccountsForOrganization(input: DescribeAffectedAccountsForOrganizationInput) async throws -> DescribeAffectedAccountsForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -93,21 +93,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(id: "describeAffectedAccountsForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput, DescribeAffectedAccountsForOrganizationOutputError>(id: "describeAffectedAccountsForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput, DescribeAffectedAccountsForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAffectedAccountsForOrganizationOutput, DescribeAffectedAccountsForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeAffectedAccountsForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse>(xmlName: "DescribeAffectedAccountsForOrganizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.DescribeAffectedAccountsForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>(xmlName: "DescribeAffectedAccountsForOrganizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAffectedAccountsForOrganizationOutput, DescribeAffectedAccountsForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedAccountsForOrganizationOutput, DescribeAffectedAccountsForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedAccountsForOrganizationOutput, DescribeAffectedAccountsForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedAccountsForOrganizationOutput, DescribeAffectedAccountsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -120,14 +120,14 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeAffectedEntitiesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAffectedEntitiesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAffectedEntitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeAffectedEntities(input: DescribeAffectedEntitiesInput) async throws -> DescribeAffectedEntitiesOutputResponse
+    public func describeAffectedEntities(input: DescribeAffectedEntitiesInput) async throws -> DescribeAffectedEntitiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -143,21 +143,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(id: "describeAffectedEntities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput, DescribeAffectedEntitiesOutputError>(id: "describeAffectedEntities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput, DescribeAffectedEntitiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAffectedEntitiesOutput, DescribeAffectedEntitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeAffectedEntities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse>(xmlName: "DescribeAffectedEntitiesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>(xAmzTarget: "AWSHealth_20160804.DescribeAffectedEntities"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>(xmlName: "DescribeAffectedEntitiesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAffectedEntitiesOutput, DescribeAffectedEntitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedEntitiesOutput, DescribeAffectedEntitiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesOutput, DescribeAffectedEntitiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesOutput, DescribeAffectedEntitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -170,14 +170,14 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeAffectedEntitiesForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAffectedEntitiesForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAffectedEntitiesForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeAffectedEntitiesForOrganization(input: DescribeAffectedEntitiesForOrganizationInput) async throws -> DescribeAffectedEntitiesForOrganizationOutputResponse
+    public func describeAffectedEntitiesForOrganization(input: DescribeAffectedEntitiesForOrganizationInput) async throws -> DescribeAffectedEntitiesForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -193,21 +193,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(id: "describeAffectedEntitiesForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput, DescribeAffectedEntitiesForOrganizationOutputError>(id: "describeAffectedEntitiesForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput, DescribeAffectedEntitiesForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAffectedEntitiesForOrganizationOutput, DescribeAffectedEntitiesForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeAffectedEntitiesForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse>(xmlName: "DescribeAffectedEntitiesForOrganizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.DescribeAffectedEntitiesForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>(xmlName: "DescribeAffectedEntitiesForOrganizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAffectedEntitiesForOrganizationOutput, DescribeAffectedEntitiesForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedEntitiesForOrganizationOutput, DescribeAffectedEntitiesForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesForOrganizationOutput, DescribeAffectedEntitiesForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesForOrganizationOutput, DescribeAffectedEntitiesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -216,8 +216,8 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEntityAggregatesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEntityAggregatesOutputResponse` : [no documentation found]
-    public func describeEntityAggregates(input: DescribeEntityAggregatesInput) async throws -> DescribeEntityAggregatesOutputResponse
+    /// - Returns: `DescribeEntityAggregatesOutput` : [no documentation found]
+    public func describeEntityAggregates(input: DescribeEntityAggregatesInput) async throws -> DescribeEntityAggregatesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -233,21 +233,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(id: "describeEntityAggregates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput, DescribeEntityAggregatesOutputError>(id: "describeEntityAggregates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput, DescribeEntityAggregatesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEntityAggregatesOutput, DescribeEntityAggregatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEntityAggregates"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse>(xmlName: "DescribeEntityAggregatesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEntityAggregates"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput>(xmlName: "DescribeEntityAggregatesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEntityAggregatesOutput, DescribeEntityAggregatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntityAggregatesOutput, DescribeEntityAggregatesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesOutput, DescribeEntityAggregatesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesOutput, DescribeEntityAggregatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -256,8 +256,8 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEntityAggregatesForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEntityAggregatesForOrganizationOutputResponse` : [no documentation found]
-    public func describeEntityAggregatesForOrganization(input: DescribeEntityAggregatesForOrganizationInput) async throws -> DescribeEntityAggregatesForOrganizationOutputResponse
+    /// - Returns: `DescribeEntityAggregatesForOrganizationOutput` : [no documentation found]
+    public func describeEntityAggregatesForOrganization(input: DescribeEntityAggregatesForOrganizationInput) async throws -> DescribeEntityAggregatesForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -273,21 +273,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(id: "describeEntityAggregatesForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput, DescribeEntityAggregatesForOrganizationOutputError>(id: "describeEntityAggregatesForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput, DescribeEntityAggregatesForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEntityAggregatesForOrganizationOutput, DescribeEntityAggregatesForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEntityAggregatesForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>(xmlName: "DescribeEntityAggregatesForOrganizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEntityAggregatesForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput>(xmlName: "DescribeEntityAggregatesForOrganizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEntityAggregatesForOrganizationOutput, DescribeEntityAggregatesForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntityAggregatesForOrganizationOutput, DescribeEntityAggregatesForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesForOrganizationOutput, DescribeEntityAggregatesForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesForOrganizationOutput, DescribeEntityAggregatesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -296,13 +296,13 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEventAggregatesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventAggregatesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventAggregatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
-    public func describeEventAggregates(input: DescribeEventAggregatesInput) async throws -> DescribeEventAggregatesOutputResponse
+    public func describeEventAggregates(input: DescribeEventAggregatesInput) async throws -> DescribeEventAggregatesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -318,21 +318,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(id: "describeEventAggregates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventAggregatesInput, DescribeEventAggregatesOutput, DescribeEventAggregatesOutputError>(id: "describeEventAggregates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutput, DescribeEventAggregatesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventAggregatesOutput, DescribeEventAggregatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEventAggregates"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse>(xmlName: "DescribeEventAggregatesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEventAggregates"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>(xmlName: "DescribeEventAggregatesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventAggregatesOutput, DescribeEventAggregatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventAggregatesOutput, DescribeEventAggregatesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventAggregatesOutput, DescribeEventAggregatesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventAggregatesOutput, DescribeEventAggregatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -341,13 +341,13 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEventDetailsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventDetails(input: DescribeEventDetailsInput) async throws -> DescribeEventDetailsOutputResponse
+    public func describeEventDetails(input: DescribeEventDetailsInput) async throws -> DescribeEventDetailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -363,21 +363,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(id: "describeEventDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventDetailsInput, DescribeEventDetailsOutput, DescribeEventDetailsOutputError>(id: "describeEventDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutput, DescribeEventDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventDetailsOutput, DescribeEventDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEventDetails"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse>(xmlName: "DescribeEventDetailsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEventDetails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutput>(xmlName: "DescribeEventDetailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventDetailsOutput, DescribeEventDetailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventDetailsOutput, DescribeEventDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventDetailsOutput, DescribeEventDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventDetailsOutput, DescribeEventDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -393,13 +393,13 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEventDetailsForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventDetailsForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventDetailsForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventDetailsForOrganization(input: DescribeEventDetailsForOrganizationInput) async throws -> DescribeEventDetailsForOrganizationOutputResponse
+    public func describeEventDetailsForOrganization(input: DescribeEventDetailsForOrganizationInput) async throws -> DescribeEventDetailsForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -415,21 +415,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(id: "describeEventDetailsForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput, DescribeEventDetailsForOrganizationOutputError>(id: "describeEventDetailsForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput, DescribeEventDetailsForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventDetailsForOrganizationOutput, DescribeEventDetailsForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEventDetailsForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse>(xmlName: "DescribeEventDetailsForOrganizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEventDetailsForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput>(xmlName: "DescribeEventDetailsForOrganizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventDetailsForOrganizationOutput, DescribeEventDetailsForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventDetailsForOrganizationOutput, DescribeEventDetailsForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventDetailsForOrganizationOutput, DescribeEventDetailsForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventDetailsForOrganizationOutput, DescribeEventDetailsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -438,14 +438,14 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEventTypesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventTypesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventTypesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventTypes(input: DescribeEventTypesInput) async throws -> DescribeEventTypesOutputResponse
+    public func describeEventTypes(input: DescribeEventTypesInput) async throws -> DescribeEventTypesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -461,21 +461,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventTypesInput, DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(id: "describeEventTypes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventTypesInput, DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventTypesInput, DescribeEventTypesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventTypesInput, DescribeEventTypesOutput, DescribeEventTypesOutputError>(id: "describeEventTypes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventTypesInput, DescribeEventTypesOutput, DescribeEventTypesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventTypesInput, DescribeEventTypesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventTypesOutput, DescribeEventTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventTypesInput, DescribeEventTypesOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEventTypes"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventTypesInput, DescribeEventTypesOutputResponse>(xmlName: "DescribeEventTypesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventTypesInput, DescribeEventTypesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventTypesInput, DescribeEventTypesOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEventTypes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventTypesInput, DescribeEventTypesOutput>(xmlName: "DescribeEventTypesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventTypesInput, DescribeEventTypesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventTypesOutput, DescribeEventTypesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventTypesOutput, DescribeEventTypesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventTypesOutput, DescribeEventTypesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventTypesOutput, DescribeEventTypesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -488,14 +488,14 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEventsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -511,21 +511,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutput, DescribeEventsOutputError>(id: "describeEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutput, DescribeEventsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventsOutput, DescribeEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEvents"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>(xmlName: "DescribeEventsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventsInput, DescribeEventsOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEvents"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventsInput, DescribeEventsOutput>(xmlName: "DescribeEventsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventsInput, DescribeEventsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventsOutputResponse, DescribeEventsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventsOutput, DescribeEventsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutput, DescribeEventsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutput, DescribeEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutput, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -543,14 +543,14 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeEventsForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventsForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventsForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventsForOrganization(input: DescribeEventsForOrganizationInput) async throws -> DescribeEventsForOrganizationOutputResponse
+    public func describeEventsForOrganization(input: DescribeEventsForOrganizationInput) async throws -> DescribeEventsForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -566,21 +566,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(id: "describeEventsForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput, DescribeEventsForOrganizationOutputError>(id: "describeEventsForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput, DescribeEventsForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventsForOrganizationOutput, DescribeEventsForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEventsForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse>(xmlName: "DescribeEventsForOrganizationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.DescribeEventsForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>(xmlName: "DescribeEventsForOrganizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventsForOrganizationOutput, DescribeEventsForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsForOrganizationOutput, DescribeEventsForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsForOrganizationOutput, DescribeEventsForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsForOrganizationOutput, DescribeEventsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -589,8 +589,8 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DescribeHealthServiceStatusForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHealthServiceStatusForOrganizationOutputResponse` : [no documentation found]
-    public func describeHealthServiceStatusForOrganization(input: DescribeHealthServiceStatusForOrganizationInput) async throws -> DescribeHealthServiceStatusForOrganizationOutputResponse
+    /// - Returns: `DescribeHealthServiceStatusForOrganizationOutput` : [no documentation found]
+    public func describeHealthServiceStatusForOrganization(input: DescribeHealthServiceStatusForOrganizationInput) async throws -> DescribeHealthServiceStatusForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -606,21 +606,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(id: "describeHealthServiceStatusForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput, DescribeHealthServiceStatusForOrganizationOutputError>(id: "describeHealthServiceStatusForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput, DescribeHealthServiceStatusForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHealthServiceStatusForOrganizationOutput, DescribeHealthServiceStatusForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeHealthServiceStatusForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.DescribeHealthServiceStatusForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHealthServiceStatusForOrganizationOutput, DescribeHealthServiceStatusForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHealthServiceStatusForOrganizationOutput, DescribeHealthServiceStatusForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHealthServiceStatusForOrganizationOutput, DescribeHealthServiceStatusForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHealthServiceStatusForOrganizationOutput, DescribeHealthServiceStatusForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -629,13 +629,13 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter DisableHealthServiceAccessForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DisableHealthServiceAccessForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `DisableHealthServiceAccessForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
-    public func disableHealthServiceAccessForOrganization(input: DisableHealthServiceAccessForOrganizationInput) async throws -> DisableHealthServiceAccessForOrganizationOutputResponse
+    public func disableHealthServiceAccessForOrganization(input: DisableHealthServiceAccessForOrganizationInput) async throws -> DisableHealthServiceAccessForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -651,21 +651,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(id: "disableHealthServiceAccessForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput, DisableHealthServiceAccessForOrganizationOutputError>(id: "disableHealthServiceAccessForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput, DisableHealthServiceAccessForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableHealthServiceAccessForOrganizationOutput, DisableHealthServiceAccessForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DisableHealthServiceAccessForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.DisableHealthServiceAccessForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableHealthServiceAccessForOrganizationOutput, DisableHealthServiceAccessForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableHealthServiceAccessForOrganizationOutput, DisableHealthServiceAccessForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableHealthServiceAccessForOrganizationOutput, DisableHealthServiceAccessForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableHealthServiceAccessForOrganizationOutput, DisableHealthServiceAccessForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -681,13 +681,13 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// - Parameter EnableHealthServiceAccessForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `EnableHealthServiceAccessForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `EnableHealthServiceAccessForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
-    public func enableHealthServiceAccessForOrganization(input: EnableHealthServiceAccessForOrganizationInput) async throws -> EnableHealthServiceAccessForOrganizationOutputResponse
+    public func enableHealthServiceAccessForOrganization(input: EnableHealthServiceAccessForOrganizationInput) async throws -> EnableHealthServiceAccessForOrganizationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -703,21 +703,21 @@ extension HealthClient: HealthClientProtocol {
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(id: "enableHealthServiceAccessForOrganization")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput, EnableHealthServiceAccessForOrganizationOutputError>(id: "enableHealthServiceAccessForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput, EnableHealthServiceAccessForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableHealthServiceAccessForOrganizationOutput, EnableHealthServiceAccessForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.EnableHealthServiceAccessForOrganization"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput>(xAmzTarget: "AWSHealth_20160804.EnableHealthServiceAccessForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableHealthServiceAccessForOrganizationOutput, EnableHealthServiceAccessForOrganizationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableHealthServiceAccessForOrganizationOutput, EnableHealthServiceAccessForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableHealthServiceAccessForOrganizationOutput, EnableHealthServiceAccessForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableHealthServiceAccessForOrganizationOutput, EnableHealthServiceAccessForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

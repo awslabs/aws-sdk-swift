@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension Route53DomainsClient {
-    /// Paginate over `[ListDomainsOutputResponse]` results.
+    /// Paginate over `[ListDomainsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDomainsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutputResponse`
-    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse>(input: input, inputKey: \ListDomainsInput.marker, outputKey: \ListDomainsOutputResponse.nextPageMarker, paginationFunction: self.listDomains(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutput`
+    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \ListDomainsInput.marker, outputKey: \ListDomainsOutput.nextPageMarker, paginationFunction: self.listDomains(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutputResponse {
+extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDomainsPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.DomainSummary]`
     /// - Returns: `[Route53DomainsClientTypes.DomainSummary]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomai
     }
 }
 extension Route53DomainsClient {
-    /// Paginate over `[ListOperationsOutputResponse]` results.
+    /// Paginate over `[ListOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOperationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutputResponse`
-    public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse>(input: input, inputKey: \ListOperationsInput.marker, outputKey: \ListOperationsOutputResponse.nextPageMarker, paginationFunction: self.listOperations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutput`
+    public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \ListOperationsInput.marker, outputKey: \ListOperationsOutput.nextPageMarker, paginationFunction: self.listOperations(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension ListOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOperationsInput, Output == ListOperationsOutputResponse {
+extension PaginatorSequence where Input == ListOperationsInput, Output == ListOperationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOperationsPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.OperationSummary]`
     /// - Returns: `[Route53DomainsClientTypes.OperationSummary]`
@@ -70,16 +70,16 @@ extension PaginatorSequence where Input == ListOperationsInput, Output == ListOp
     }
 }
 extension Route53DomainsClient {
-    /// Paginate over `[ListPricesOutputResponse]` results.
+    /// Paginate over `[ListPricesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPricesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPricesOutputResponse`
-    public func listPricesPaginated(input: ListPricesInput) -> ClientRuntime.PaginatorSequence<ListPricesInput, ListPricesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPricesInput, ListPricesOutputResponse>(input: input, inputKey: \ListPricesInput.marker, outputKey: \ListPricesOutputResponse.nextPageMarker, paginationFunction: self.listPrices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPricesOutput`
+    public func listPricesPaginated(input: ListPricesInput) -> ClientRuntime.PaginatorSequence<ListPricesInput, ListPricesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPricesInput, ListPricesOutput>(input: input, inputKey: \ListPricesInput.marker, outputKey: \ListPricesOutput.nextPageMarker, paginationFunction: self.listPrices(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension ListPricesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPricesInput, Output == ListPricesOutputResponse {
+extension PaginatorSequence where Input == ListPricesInput, Output == ListPricesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPricesPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.DomainPrice]`
     /// - Returns: `[Route53DomainsClientTypes.DomainPrice]`
@@ -101,16 +101,16 @@ extension PaginatorSequence where Input == ListPricesInput, Output == ListPrices
     }
 }
 extension Route53DomainsClient {
-    /// Paginate over `[ViewBillingOutputResponse]` results.
+    /// Paginate over `[ViewBillingOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ViewBillingInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ViewBillingOutputResponse`
-    public func viewBillingPaginated(input: ViewBillingInput) -> ClientRuntime.PaginatorSequence<ViewBillingInput, ViewBillingOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ViewBillingInput, ViewBillingOutputResponse>(input: input, inputKey: \ViewBillingInput.marker, outputKey: \ViewBillingOutputResponse.nextPageMarker, paginationFunction: self.viewBilling(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ViewBillingOutput`
+    public func viewBillingPaginated(input: ViewBillingInput) -> ClientRuntime.PaginatorSequence<ViewBillingInput, ViewBillingOutput> {
+        return ClientRuntime.PaginatorSequence<ViewBillingInput, ViewBillingOutput>(input: input, inputKey: \ViewBillingInput.marker, outputKey: \ViewBillingOutput.nextPageMarker, paginationFunction: self.viewBilling(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension ViewBillingInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ViewBillingInput, Output == ViewBillingOutputResponse {
+extension PaginatorSequence where Input == ViewBillingInput, Output == ViewBillingOutput {
     /// This paginator transforms the `AsyncSequence` returned by `viewBillingPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.BillingRecord]`
     /// - Returns: `[Route53DomainsClientTypes.BillingRecord]`

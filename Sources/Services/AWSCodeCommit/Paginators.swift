@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodeCommitClient {
-    /// Paginate over `[DescribeMergeConflictsOutputResponse]` results.
+    /// Paginate over `[DescribeMergeConflictsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeMergeConflictsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMergeConflictsOutputResponse`
-    public func describeMergeConflictsPaginated(input: DescribeMergeConflictsInput) -> ClientRuntime.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse>(input: input, inputKey: \DescribeMergeConflictsInput.nextToken, outputKey: \DescribeMergeConflictsOutputResponse.nextToken, paginationFunction: self.describeMergeConflicts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMergeConflictsOutput`
+    public func describeMergeConflictsPaginated(input: DescribeMergeConflictsInput) -> ClientRuntime.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>(input: input, inputKey: \DescribeMergeConflictsInput.nextToken, outputKey: \DescribeMergeConflictsOutput.nextToken, paginationFunction: self.describeMergeConflicts(input:))
     }
 }
 
@@ -31,16 +31,16 @@ extension DescribeMergeConflictsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[DescribePullRequestEventsOutputResponse]` results.
+    /// Paginate over `[DescribePullRequestEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribePullRequestEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribePullRequestEventsOutputResponse`
-    public func describePullRequestEventsPaginated(input: DescribePullRequestEventsInput) -> ClientRuntime.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse>(input: input, inputKey: \DescribePullRequestEventsInput.nextToken, outputKey: \DescribePullRequestEventsOutputResponse.nextToken, paginationFunction: self.describePullRequestEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePullRequestEventsOutput`
+    public func describePullRequestEventsPaginated(input: DescribePullRequestEventsInput) -> ClientRuntime.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>(input: input, inputKey: \DescribePullRequestEventsInput.nextToken, outputKey: \DescribePullRequestEventsOutput.nextToken, paginationFunction: self.describePullRequestEvents(input:))
     }
 }
 
@@ -55,16 +55,16 @@ extension DescribePullRequestEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[GetCommentReactionsOutputResponse]` results.
+    /// Paginate over `[GetCommentReactionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetCommentReactionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetCommentReactionsOutputResponse`
-    public func getCommentReactionsPaginated(input: GetCommentReactionsInput) -> ClientRuntime.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutputResponse>(input: input, inputKey: \GetCommentReactionsInput.nextToken, outputKey: \GetCommentReactionsOutputResponse.nextToken, paginationFunction: self.getCommentReactions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCommentReactionsOutput`
+    public func getCommentReactionsPaginated(input: GetCommentReactionsInput) -> ClientRuntime.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutput> {
+        return ClientRuntime.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutput>(input: input, inputKey: \GetCommentReactionsInput.nextToken, outputKey: \GetCommentReactionsOutput.nextToken, paginationFunction: self.getCommentReactions(input:))
     }
 }
 
@@ -78,16 +78,16 @@ extension GetCommentReactionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[GetCommentsForComparedCommitOutputResponse]` results.
+    /// Paginate over `[GetCommentsForComparedCommitOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetCommentsForComparedCommitInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetCommentsForComparedCommitOutputResponse`
-    public func getCommentsForComparedCommitPaginated(input: GetCommentsForComparedCommitInput) -> ClientRuntime.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse>(input: input, inputKey: \GetCommentsForComparedCommitInput.nextToken, outputKey: \GetCommentsForComparedCommitOutputResponse.nextToken, paginationFunction: self.getCommentsForComparedCommit(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCommentsForComparedCommitOutput`
+    public func getCommentsForComparedCommitPaginated(input: GetCommentsForComparedCommitInput) -> ClientRuntime.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput> {
+        return ClientRuntime.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>(input: input, inputKey: \GetCommentsForComparedCommitInput.nextToken, outputKey: \GetCommentsForComparedCommitOutput.nextToken, paginationFunction: self.getCommentsForComparedCommit(input:))
     }
 }
 
@@ -102,16 +102,16 @@ extension GetCommentsForComparedCommitInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[GetCommentsForPullRequestOutputResponse]` results.
+    /// Paginate over `[GetCommentsForPullRequestOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetCommentsForPullRequestInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetCommentsForPullRequestOutputResponse`
-    public func getCommentsForPullRequestPaginated(input: GetCommentsForPullRequestInput) -> ClientRuntime.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse>(input: input, inputKey: \GetCommentsForPullRequestInput.nextToken, outputKey: \GetCommentsForPullRequestOutputResponse.nextToken, paginationFunction: self.getCommentsForPullRequest(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCommentsForPullRequestOutput`
+    public func getCommentsForPullRequestPaginated(input: GetCommentsForPullRequestInput) -> ClientRuntime.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput> {
+        return ClientRuntime.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>(input: input, inputKey: \GetCommentsForPullRequestInput.nextToken, outputKey: \GetCommentsForPullRequestOutput.nextToken, paginationFunction: self.getCommentsForPullRequest(input:))
     }
 }
 
@@ -127,16 +127,16 @@ extension GetCommentsForPullRequestInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[GetDifferencesOutputResponse]` results.
+    /// Paginate over `[GetDifferencesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetDifferencesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetDifferencesOutputResponse`
-    public func getDifferencesPaginated(input: GetDifferencesInput) -> ClientRuntime.PaginatorSequence<GetDifferencesInput, GetDifferencesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetDifferencesInput, GetDifferencesOutputResponse>(input: input, inputKey: \GetDifferencesInput.nextToken, outputKey: \GetDifferencesOutputResponse.nextToken, paginationFunction: self.getDifferences(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDifferencesOutput`
+    public func getDifferencesPaginated(input: GetDifferencesInput) -> ClientRuntime.PaginatorSequence<GetDifferencesInput, GetDifferencesOutput> {
+        return ClientRuntime.PaginatorSequence<GetDifferencesInput, GetDifferencesOutput>(input: input, inputKey: \GetDifferencesInput.nextToken, outputKey: \GetDifferencesOutput.nextToken, paginationFunction: self.getDifferences(input:))
     }
 }
 
@@ -153,16 +153,16 @@ extension GetDifferencesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[GetMergeConflictsOutputResponse]` results.
+    /// Paginate over `[GetMergeConflictsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetMergeConflictsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetMergeConflictsOutputResponse`
-    public func getMergeConflictsPaginated(input: GetMergeConflictsInput) -> ClientRuntime.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutputResponse>(input: input, inputKey: \GetMergeConflictsInput.nextToken, outputKey: \GetMergeConflictsOutputResponse.nextToken, paginationFunction: self.getMergeConflicts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetMergeConflictsOutput`
+    public func getMergeConflictsPaginated(input: GetMergeConflictsInput) -> ClientRuntime.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutput> {
+        return ClientRuntime.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutput>(input: input, inputKey: \GetMergeConflictsInput.nextToken, outputKey: \GetMergeConflictsOutput.nextToken, paginationFunction: self.getMergeConflicts(input:))
     }
 }
 
@@ -180,16 +180,16 @@ extension GetMergeConflictsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[ListApprovalRuleTemplatesOutputResponse]` results.
+    /// Paginate over `[ListApprovalRuleTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApprovalRuleTemplatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApprovalRuleTemplatesOutputResponse`
-    public func listApprovalRuleTemplatesPaginated(input: ListApprovalRuleTemplatesInput) -> ClientRuntime.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse>(input: input, inputKey: \ListApprovalRuleTemplatesInput.nextToken, outputKey: \ListApprovalRuleTemplatesOutputResponse.nextToken, paginationFunction: self.listApprovalRuleTemplates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApprovalRuleTemplatesOutput`
+    public func listApprovalRuleTemplatesPaginated(input: ListApprovalRuleTemplatesInput) -> ClientRuntime.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>(input: input, inputKey: \ListApprovalRuleTemplatesInput.nextToken, outputKey: \ListApprovalRuleTemplatesOutput.nextToken, paginationFunction: self.listApprovalRuleTemplates(input:))
     }
 }
 
@@ -201,16 +201,16 @@ extension ListApprovalRuleTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse]` results.
+    /// Paginate over `[ListAssociatedApprovalRuleTemplatesForRepositoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAssociatedApprovalRuleTemplatesForRepositoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse`
-    public func listAssociatedApprovalRuleTemplatesForRepositoryPaginated(input: ListAssociatedApprovalRuleTemplatesForRepositoryInput) -> ClientRuntime.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse>(input: input, inputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryInput.nextToken, outputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse.nextToken, paginationFunction: self.listAssociatedApprovalRuleTemplatesForRepository(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedApprovalRuleTemplatesForRepositoryOutput`
+    public func listAssociatedApprovalRuleTemplatesForRepositoryPaginated(input: ListAssociatedApprovalRuleTemplatesForRepositoryInput) -> ClientRuntime.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(input: input, inputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryInput.nextToken, outputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken, paginationFunction: self.listAssociatedApprovalRuleTemplatesForRepository(input:))
     }
 }
 
@@ -223,16 +223,16 @@ extension ListAssociatedApprovalRuleTemplatesForRepositoryInput: ClientRuntime.P
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[ListBranchesOutputResponse]` results.
+    /// Paginate over `[ListBranchesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBranchesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBranchesOutputResponse`
-    public func listBranchesPaginated(input: ListBranchesInput) -> ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutputResponse>(input: input, inputKey: \ListBranchesInput.nextToken, outputKey: \ListBranchesOutputResponse.nextToken, paginationFunction: self.listBranches(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBranchesOutput`
+    public func listBranchesPaginated(input: ListBranchesInput) -> ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput> {
+        return ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput>(input: input, inputKey: \ListBranchesInput.nextToken, outputKey: \ListBranchesOutput.nextToken, paginationFunction: self.listBranches(input:))
     }
 }
 
@@ -244,7 +244,7 @@ extension ListBranchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBranchesInput, Output == ListBranchesOutputResponse {
+extension PaginatorSequence where Input == ListBranchesInput, Output == ListBranchesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBranchesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -253,16 +253,16 @@ extension PaginatorSequence where Input == ListBranchesInput, Output == ListBran
     }
 }
 extension CodeCommitClient {
-    /// Paginate over `[ListFileCommitHistoryOutputResponse]` results.
+    /// Paginate over `[ListFileCommitHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFileCommitHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFileCommitHistoryOutputResponse`
-    public func listFileCommitHistoryPaginated(input: ListFileCommitHistoryInput) -> ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse>(input: input, inputKey: \ListFileCommitHistoryInput.nextToken, outputKey: \ListFileCommitHistoryOutputResponse.nextToken, paginationFunction: self.listFileCommitHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFileCommitHistoryOutput`
+    public func listFileCommitHistoryPaginated(input: ListFileCommitHistoryInput) -> ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>(input: input, inputKey: \ListFileCommitHistoryInput.nextToken, outputKey: \ListFileCommitHistoryOutput.nextToken, paginationFunction: self.listFileCommitHistory(input:))
     }
 }
 
@@ -277,16 +277,16 @@ extension ListFileCommitHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[ListPullRequestsOutputResponse]` results.
+    /// Paginate over `[ListPullRequestsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPullRequestsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPullRequestsOutputResponse`
-    public func listPullRequestsPaginated(input: ListPullRequestsInput) -> ClientRuntime.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutputResponse>(input: input, inputKey: \ListPullRequestsInput.nextToken, outputKey: \ListPullRequestsOutputResponse.nextToken, paginationFunction: self.listPullRequests(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPullRequestsOutput`
+    public func listPullRequestsPaginated(input: ListPullRequestsInput) -> ClientRuntime.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutput>(input: input, inputKey: \ListPullRequestsInput.nextToken, outputKey: \ListPullRequestsOutput.nextToken, paginationFunction: self.listPullRequests(input:))
     }
 }
 
@@ -301,16 +301,16 @@ extension ListPullRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
-    /// Paginate over `[ListRepositoriesOutputResponse]` results.
+    /// Paginate over `[ListRepositoriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRepositoriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesOutputResponse`
-    public func listRepositoriesPaginated(input: ListRepositoriesInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutputResponse>(input: input, inputKey: \ListRepositoriesInput.nextToken, outputKey: \ListRepositoriesOutputResponse.nextToken, paginationFunction: self.listRepositories(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesOutput`
+    public func listRepositoriesPaginated(input: ListRepositoriesInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput>(input: input, inputKey: \ListRepositoriesInput.nextToken, outputKey: \ListRepositoriesOutput.nextToken, paginationFunction: self.listRepositories(input:))
     }
 }
 
@@ -323,7 +323,7 @@ extension ListRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRepositoriesInput, Output == ListRepositoriesOutputResponse {
+extension PaginatorSequence where Input == ListRepositoriesInput, Output == ListRepositoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRepositoriesPaginated`
     /// to access the nested member `[CodeCommitClientTypes.RepositoryNameIdPair]`
     /// - Returns: `[CodeCommitClientTypes.RepositoryNameIdPair]`
@@ -332,16 +332,16 @@ extension PaginatorSequence where Input == ListRepositoriesInput, Output == List
     }
 }
 extension CodeCommitClient {
-    /// Paginate over `[ListRepositoriesForApprovalRuleTemplateOutputResponse]` results.
+    /// Paginate over `[ListRepositoriesForApprovalRuleTemplateOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRepositoriesForApprovalRuleTemplateInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesForApprovalRuleTemplateOutputResponse`
-    public func listRepositoriesForApprovalRuleTemplatePaginated(input: ListRepositoriesForApprovalRuleTemplateInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse>(input: input, inputKey: \ListRepositoriesForApprovalRuleTemplateInput.nextToken, outputKey: \ListRepositoriesForApprovalRuleTemplateOutputResponse.nextToken, paginationFunction: self.listRepositoriesForApprovalRuleTemplate(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesForApprovalRuleTemplateOutput`
+    public func listRepositoriesForApprovalRuleTemplatePaginated(input: ListRepositoriesForApprovalRuleTemplateInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput> {
+        return ClientRuntime.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>(input: input, inputKey: \ListRepositoriesForApprovalRuleTemplateInput.nextToken, outputKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken, paginationFunction: self.listRepositoriesForApprovalRuleTemplate(input:))
     }
 }
 

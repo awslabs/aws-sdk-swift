@@ -175,6 +175,16 @@ extension AssociateServiceQuotaTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension AssociateServiceQuotaTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateServiceQuotaTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AssociateServiceQuotaTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -191,16 +201,6 @@ enum AssociateServiceQuotaTemplateOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AssociateServiceQuotaTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AssociateServiceQuotaTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Encodable {
@@ -277,6 +277,16 @@ extension DeleteServiceQuotaIncreaseRequestFromTemplateInputBody: Swift.Decodabl
     }
 }
 
+extension DeleteServiceQuotaIncreaseRequestFromTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteServiceQuotaIncreaseRequestFromTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteServiceQuotaIncreaseRequestFromTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -294,16 +304,6 @@ enum DeleteServiceQuotaIncreaseRequestFromTemplateOutputError: ClientRuntime.Htt
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteServiceQuotaIncreaseRequestFromTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteServiceQuotaIncreaseRequestFromTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DependencyAccessDeniedException {
@@ -389,6 +389,16 @@ extension DisassociateServiceQuotaTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DisassociateServiceQuotaTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateServiceQuotaTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DisassociateServiceQuotaTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -405,16 +415,6 @@ enum DisassociateServiceQuotaTemplateOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateServiceQuotaTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateServiceQuotaTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ServiceQuotasClientTypes {
@@ -569,6 +569,46 @@ extension GetAWSDefaultServiceQuotaInputBody: Swift.Decodable {
     }
 }
 
+extension GetAWSDefaultServiceQuotaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAWSDefaultServiceQuotaOutputBody = try responseDecoder.decode(responseBody: data)
+            self.quota = output.quota
+        } else {
+            self.quota = nil
+        }
+    }
+}
+
+public struct GetAWSDefaultServiceQuotaOutput: Swift.Equatable {
+    /// Information about the quota.
+    public var quota: ServiceQuotasClientTypes.ServiceQuota?
+
+    public init(
+        quota: ServiceQuotasClientTypes.ServiceQuota? = nil
+    )
+    {
+        self.quota = quota
+    }
+}
+
+struct GetAWSDefaultServiceQuotaOutputBody: Swift.Equatable {
+    let quota: ServiceQuotasClientTypes.ServiceQuota?
+}
+
+extension GetAWSDefaultServiceQuotaOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case quota = "Quota"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuota.self, forKey: .quota)
+        quota = quotaDecoded
+    }
+}
+
 enum GetAWSDefaultServiceQuotaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -581,46 +621,6 @@ enum GetAWSDefaultServiceQuotaOutputError: ClientRuntime.HttpResponseErrorBindin
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAWSDefaultServiceQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetAWSDefaultServiceQuotaOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.quota = output.quota
-        } else {
-            self.quota = nil
-        }
-    }
-}
-
-public struct GetAWSDefaultServiceQuotaOutputResponse: Swift.Equatable {
-    /// Information about the quota.
-    public var quota: ServiceQuotasClientTypes.ServiceQuota?
-
-    public init(
-        quota: ServiceQuotasClientTypes.ServiceQuota? = nil
-    )
-    {
-        self.quota = quota
-    }
-}
-
-struct GetAWSDefaultServiceQuotaOutputResponseBody: Swift.Equatable {
-    let quota: ServiceQuotasClientTypes.ServiceQuota?
-}
-
-extension GetAWSDefaultServiceQuotaOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case quota = "Quota"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let quotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuota.self, forKey: .quota)
-        quota = quotaDecoded
     }
 }
 
@@ -652,6 +652,46 @@ extension GetAssociationForServiceQuotaTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetAssociationForServiceQuotaTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAssociationForServiceQuotaTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceQuotaTemplateAssociationStatus = output.serviceQuotaTemplateAssociationStatus
+        } else {
+            self.serviceQuotaTemplateAssociationStatus = nil
+        }
+    }
+}
+
+public struct GetAssociationForServiceQuotaTemplateOutput: Swift.Equatable {
+    /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new Amazon Web Services accounts in your organization.
+    public var serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus?
+
+    public init(
+        serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus? = nil
+    )
+    {
+        self.serviceQuotaTemplateAssociationStatus = serviceQuotaTemplateAssociationStatus
+    }
+}
+
+struct GetAssociationForServiceQuotaTemplateOutputBody: Swift.Equatable {
+    let serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus?
+}
+
+extension GetAssociationForServiceQuotaTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceQuotaTemplateAssociationStatus = "ServiceQuotaTemplateAssociationStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceQuotaTemplateAssociationStatusDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus.self, forKey: .serviceQuotaTemplateAssociationStatus)
+        serviceQuotaTemplateAssociationStatus = serviceQuotaTemplateAssociationStatusDecoded
+    }
+}
+
 enum GetAssociationForServiceQuotaTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -667,46 +707,6 @@ enum GetAssociationForServiceQuotaTemplateOutputError: ClientRuntime.HttpRespons
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAssociationForServiceQuotaTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetAssociationForServiceQuotaTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceQuotaTemplateAssociationStatus = output.serviceQuotaTemplateAssociationStatus
-        } else {
-            self.serviceQuotaTemplateAssociationStatus = nil
-        }
-    }
-}
-
-public struct GetAssociationForServiceQuotaTemplateOutputResponse: Swift.Equatable {
-    /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new Amazon Web Services accounts in your organization.
-    public var serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus?
-
-    public init(
-        serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus? = nil
-    )
-    {
-        self.serviceQuotaTemplateAssociationStatus = serviceQuotaTemplateAssociationStatus
-    }
-}
-
-struct GetAssociationForServiceQuotaTemplateOutputResponseBody: Swift.Equatable {
-    let serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus?
-}
-
-extension GetAssociationForServiceQuotaTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceQuotaTemplateAssociationStatus = "ServiceQuotaTemplateAssociationStatus"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceQuotaTemplateAssociationStatusDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus.self, forKey: .serviceQuotaTemplateAssociationStatus)
-        serviceQuotaTemplateAssociationStatus = serviceQuotaTemplateAssociationStatusDecoded
     }
 }
 
@@ -758,6 +758,46 @@ extension GetRequestedServiceQuotaChangeInputBody: Swift.Decodable {
     }
 }
 
+extension GetRequestedServiceQuotaChangeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRequestedServiceQuotaChangeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestedQuota = output.requestedQuota
+        } else {
+            self.requestedQuota = nil
+        }
+    }
+}
+
+public struct GetRequestedServiceQuotaChangeOutput: Swift.Equatable {
+    /// Information about the quota increase request.
+    public var requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
+
+    public init(
+        requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange? = nil
+    )
+    {
+        self.requestedQuota = requestedQuota
+    }
+}
+
+struct GetRequestedServiceQuotaChangeOutputBody: Swift.Equatable {
+    let requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
+}
+
+extension GetRequestedServiceQuotaChangeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestedQuota = "RequestedQuota"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestedQuotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.RequestedServiceQuotaChange.self, forKey: .requestedQuota)
+        requestedQuota = requestedQuotaDecoded
+    }
+}
+
 enum GetRequestedServiceQuotaChangeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -770,46 +810,6 @@ enum GetRequestedServiceQuotaChangeOutputError: ClientRuntime.HttpResponseErrorB
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetRequestedServiceQuotaChangeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetRequestedServiceQuotaChangeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.requestedQuota = output.requestedQuota
-        } else {
-            self.requestedQuota = nil
-        }
-    }
-}
-
-public struct GetRequestedServiceQuotaChangeOutputResponse: Swift.Equatable {
-    /// Information about the quota increase request.
-    public var requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
-
-    public init(
-        requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange? = nil
-    )
-    {
-        self.requestedQuota = requestedQuota
-    }
-}
-
-struct GetRequestedServiceQuotaChangeOutputResponseBody: Swift.Equatable {
-    let requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
-}
-
-extension GetRequestedServiceQuotaChangeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestedQuota = "RequestedQuota"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestedQuotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.RequestedServiceQuotaChange.self, forKey: .requestedQuota)
-        requestedQuota = requestedQuotaDecoded
     }
 }
 
@@ -887,6 +887,46 @@ extension GetServiceQuotaIncreaseRequestFromTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetServiceQuotaIncreaseRequestFromTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetServiceQuotaIncreaseRequestFromTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceQuotaIncreaseRequestInTemplate = output.serviceQuotaIncreaseRequestInTemplate
+        } else {
+            self.serviceQuotaIncreaseRequestInTemplate = nil
+        }
+    }
+}
+
+public struct GetServiceQuotaIncreaseRequestFromTemplateOutput: Swift.Equatable {
+    /// Information about the quota increase request.
+    public var serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
+
+    public init(
+        serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate? = nil
+    )
+    {
+        self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
+    }
+}
+
+struct GetServiceQuotaIncreaseRequestFromTemplateOutputBody: Swift.Equatable {
+    let serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
+}
+
+extension GetServiceQuotaIncreaseRequestFromTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceQuotaIncreaseRequestInTemplate = "ServiceQuotaIncreaseRequestInTemplate"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceQuotaIncreaseRequestInTemplateDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate.self, forKey: .serviceQuotaIncreaseRequestInTemplate)
+        serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplateDecoded
+    }
+}
+
 enum GetServiceQuotaIncreaseRequestFromTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -903,46 +943,6 @@ enum GetServiceQuotaIncreaseRequestFromTemplateOutputError: ClientRuntime.HttpRe
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetServiceQuotaIncreaseRequestFromTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetServiceQuotaIncreaseRequestFromTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceQuotaIncreaseRequestInTemplate = output.serviceQuotaIncreaseRequestInTemplate
-        } else {
-            self.serviceQuotaIncreaseRequestInTemplate = nil
-        }
-    }
-}
-
-public struct GetServiceQuotaIncreaseRequestFromTemplateOutputResponse: Swift.Equatable {
-    /// Information about the quota increase request.
-    public var serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
-
-    public init(
-        serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate? = nil
-    )
-    {
-        self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
-    }
-}
-
-struct GetServiceQuotaIncreaseRequestFromTemplateOutputResponseBody: Swift.Equatable {
-    let serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
-}
-
-extension GetServiceQuotaIncreaseRequestFromTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceQuotaIncreaseRequestInTemplate = "ServiceQuotaIncreaseRequestInTemplate"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceQuotaIncreaseRequestInTemplateDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate.self, forKey: .serviceQuotaIncreaseRequestInTemplate)
-        serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplateDecoded
     }
 }
 
@@ -1019,6 +1019,46 @@ extension GetServiceQuotaInputBody: Swift.Decodable {
     }
 }
 
+extension GetServiceQuotaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetServiceQuotaOutputBody = try responseDecoder.decode(responseBody: data)
+            self.quota = output.quota
+        } else {
+            self.quota = nil
+        }
+    }
+}
+
+public struct GetServiceQuotaOutput: Swift.Equatable {
+    /// Information about the quota.
+    public var quota: ServiceQuotasClientTypes.ServiceQuota?
+
+    public init(
+        quota: ServiceQuotasClientTypes.ServiceQuota? = nil
+    )
+    {
+        self.quota = quota
+    }
+}
+
+struct GetServiceQuotaOutputBody: Swift.Equatable {
+    let quota: ServiceQuotasClientTypes.ServiceQuota?
+}
+
+extension GetServiceQuotaOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case quota = "Quota"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuota.self, forKey: .quota)
+        quota = quotaDecoded
+    }
+}
+
 enum GetServiceQuotaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1031,46 +1071,6 @@ enum GetServiceQuotaOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetServiceQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetServiceQuotaOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.quota = output.quota
-        } else {
-            self.quota = nil
-        }
-    }
-}
-
-public struct GetServiceQuotaOutputResponse: Swift.Equatable {
-    /// Information about the quota.
-    public var quota: ServiceQuotasClientTypes.ServiceQuota?
-
-    public init(
-        quota: ServiceQuotasClientTypes.ServiceQuota? = nil
-    )
-    {
-        self.quota = quota
-    }
-}
-
-struct GetServiceQuotaOutputResponseBody: Swift.Equatable {
-    let quota: ServiceQuotasClientTypes.ServiceQuota?
-}
-
-extension GetServiceQuotaOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case quota = "Quota"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let quotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuota.self, forKey: .quota)
-        quota = quotaDecoded
     }
 }
 
@@ -1311,27 +1311,11 @@ extension ListAWSDefaultServiceQuotasInputBody: Swift.Decodable {
     }
 }
 
-enum ListAWSDefaultServiceQuotasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAWSDefaultServiceQuotasOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAWSDefaultServiceQuotasOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAWSDefaultServiceQuotasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAWSDefaultServiceQuotasOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.quotas = output.quotas
         } else {
@@ -1341,7 +1325,7 @@ extension ListAWSDefaultServiceQuotasOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListAWSDefaultServiceQuotasOutputResponse: Swift.Equatable {
+public struct ListAWSDefaultServiceQuotasOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quotas.
@@ -1357,12 +1341,12 @@ public struct ListAWSDefaultServiceQuotasOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAWSDefaultServiceQuotasOutputResponseBody: Swift.Equatable {
+struct ListAWSDefaultServiceQuotasOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let quotas: [ServiceQuotasClientTypes.ServiceQuota]?
 }
 
-extension ListAWSDefaultServiceQuotasOutputResponseBody: Swift.Decodable {
+extension ListAWSDefaultServiceQuotasOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case quotas = "Quotas"
@@ -1383,6 +1367,22 @@ extension ListAWSDefaultServiceQuotasOutputResponseBody: Swift.Decodable {
             }
         }
         quotas = quotasDecoded0
+    }
+}
+
+enum ListAWSDefaultServiceQuotasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1495,27 +1495,11 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInputBody: Swift.Decodabl
     }
 }
 
-enum ListRequestedServiceQuotaChangeHistoryByQuotaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRequestedServiceQuotaChangeHistoryByQuotaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRequestedServiceQuotaChangeHistoryByQuotaOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.requestedQuotas = output.requestedQuotas
         } else {
@@ -1525,7 +1509,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse: ClientRun
     }
 }
 
-public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse: Swift.Equatable {
+public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
@@ -1541,12 +1525,12 @@ public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse: Swift
     }
 }
 
-struct ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponseBody: Swift.Equatable {
+struct ListRequestedServiceQuotaChangeHistoryByQuotaOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]?
 }
 
-extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponseBody: Swift.Decodable {
+extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case requestedQuotas = "RequestedQuotas"
@@ -1567,6 +1551,22 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponseBody: Swift
             }
         }
         requestedQuotas = requestedQuotasDecoded0
+    }
+}
+
+enum ListRequestedServiceQuotaChangeHistoryByQuotaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1665,27 +1665,11 @@ extension ListRequestedServiceQuotaChangeHistoryInputBody: Swift.Decodable {
     }
 }
 
-enum ListRequestedServiceQuotaChangeHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRequestedServiceQuotaChangeHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRequestedServiceQuotaChangeHistoryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRequestedServiceQuotaChangeHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRequestedServiceQuotaChangeHistoryOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.requestedQuotas = output.requestedQuotas
         } else {
@@ -1695,7 +1679,7 @@ extension ListRequestedServiceQuotaChangeHistoryOutputResponse: ClientRuntime.Ht
     }
 }
 
-public struct ListRequestedServiceQuotaChangeHistoryOutputResponse: Swift.Equatable {
+public struct ListRequestedServiceQuotaChangeHistoryOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
@@ -1711,12 +1695,12 @@ public struct ListRequestedServiceQuotaChangeHistoryOutputResponse: Swift.Equata
     }
 }
 
-struct ListRequestedServiceQuotaChangeHistoryOutputResponseBody: Swift.Equatable {
+struct ListRequestedServiceQuotaChangeHistoryOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]?
 }
 
-extension ListRequestedServiceQuotaChangeHistoryOutputResponseBody: Swift.Decodable {
+extension ListRequestedServiceQuotaChangeHistoryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case requestedQuotas = "RequestedQuotas"
@@ -1737,6 +1721,22 @@ extension ListRequestedServiceQuotaChangeHistoryOutputResponseBody: Swift.Decoda
             }
         }
         requestedQuotas = requestedQuotasDecoded0
+    }
+}
+
+enum ListRequestedServiceQuotaChangeHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1823,29 +1823,11 @@ extension ListServiceQuotaIncreaseRequestsInTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceQuotaIncreaseRequestsInTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AWSServiceAccessNotEnabledException": return try await AWSServiceAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DependencyAccessDeniedException": return try await DependencyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoAvailableOrganizationException": return try await NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TemplatesNotAvailableInRegionException": return try await TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServiceQuotaIncreaseRequestsInTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceQuotaIncreaseRequestsInTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceQuotaIncreaseRequestsInTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceQuotaIncreaseRequestsInTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.serviceQuotaIncreaseRequestInTemplateList = output.serviceQuotaIncreaseRequestInTemplateList
         } else {
@@ -1855,7 +1837,7 @@ extension ListServiceQuotaIncreaseRequestsInTemplateOutputResponse: ClientRuntim
     }
 }
 
-public struct ListServiceQuotaIncreaseRequestsInTemplateOutputResponse: Swift.Equatable {
+public struct ListServiceQuotaIncreaseRequestsInTemplateOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
@@ -1871,12 +1853,12 @@ public struct ListServiceQuotaIncreaseRequestsInTemplateOutputResponse: Swift.Eq
     }
 }
 
-struct ListServiceQuotaIncreaseRequestsInTemplateOutputResponseBody: Swift.Equatable {
+struct ListServiceQuotaIncreaseRequestsInTemplateOutputBody: Swift.Equatable {
     let serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]?
     let nextToken: Swift.String?
 }
 
-extension ListServiceQuotaIncreaseRequestsInTemplateOutputResponseBody: Swift.Decodable {
+extension ListServiceQuotaIncreaseRequestsInTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case serviceQuotaIncreaseRequestInTemplateList = "ServiceQuotaIncreaseRequestInTemplateList"
@@ -1897,6 +1879,24 @@ extension ListServiceQuotaIncreaseRequestsInTemplateOutputResponseBody: Swift.De
         serviceQuotaIncreaseRequestInTemplateList = serviceQuotaIncreaseRequestInTemplateListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListServiceQuotaIncreaseRequestsInTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWSServiceAccessNotEnabledException": return try await AWSServiceAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyAccessDeniedException": return try await DependencyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableOrganizationException": return try await NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TemplatesNotAvailableInRegionException": return try await TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1996,27 +1996,11 @@ extension ListServiceQuotasInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceQuotasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServiceQuotasOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceQuotasOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceQuotasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceQuotasOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.quotas = output.quotas
         } else {
@@ -2026,7 +2010,7 @@ extension ListServiceQuotasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceQuotasOutputResponse: Swift.Equatable {
+public struct ListServiceQuotasOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quotas.
@@ -2042,12 +2026,12 @@ public struct ListServiceQuotasOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServiceQuotasOutputResponseBody: Swift.Equatable {
+struct ListServiceQuotasOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let quotas: [ServiceQuotasClientTypes.ServiceQuota]?
 }
 
-extension ListServiceQuotasOutputResponseBody: Swift.Decodable {
+extension ListServiceQuotasOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case quotas = "Quotas"
@@ -2068,6 +2052,22 @@ extension ListServiceQuotasOutputResponseBody: Swift.Decodable {
             }
         }
         quotas = quotasDecoded0
+    }
+}
+
+enum ListServiceQuotasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2130,26 +2130,11 @@ extension ListServicesInputBody: Swift.Decodable {
     }
 }
 
-enum ListServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServicesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServicesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.services = output.services
         } else {
@@ -2159,7 +2144,7 @@ extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServicesOutputResponse: Swift.Equatable {
+public struct ListServicesOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// The list of the Amazon Web Service names and service codes.
@@ -2175,12 +2160,12 @@ public struct ListServicesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServicesOutputResponseBody: Swift.Equatable {
+struct ListServicesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let services: [ServiceQuotasClientTypes.ServiceInfo]?
 }
 
-extension ListServicesOutputResponseBody: Swift.Decodable {
+extension ListServicesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case services = "Services"
@@ -2201,6 +2186,21 @@ extension ListServicesOutputResponseBody: Swift.Decodable {
             }
         }
         services = servicesDecoded0
+    }
+}
+
+enum ListServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2252,26 +2252,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2279,7 +2264,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A complex data type that contains zero or more tag elements.
     public var tags: [ServiceQuotasClientTypes.Tag]?
 
@@ -2291,11 +2276,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [ServiceQuotasClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -2313,6 +2298,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchResourceException": return try await NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2692,6 +2692,46 @@ extension PutServiceQuotaIncreaseRequestIntoTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension PutServiceQuotaIncreaseRequestIntoTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutServiceQuotaIncreaseRequestIntoTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serviceQuotaIncreaseRequestInTemplate = output.serviceQuotaIncreaseRequestInTemplate
+        } else {
+            self.serviceQuotaIncreaseRequestInTemplate = nil
+        }
+    }
+}
+
+public struct PutServiceQuotaIncreaseRequestIntoTemplateOutput: Swift.Equatable {
+    /// Information about the quota increase request.
+    public var serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
+
+    public init(
+        serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate? = nil
+    )
+    {
+        self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
+    }
+}
+
+struct PutServiceQuotaIncreaseRequestIntoTemplateOutputBody: Swift.Equatable {
+    let serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
+}
+
+extension PutServiceQuotaIncreaseRequestIntoTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceQuotaIncreaseRequestInTemplate = "ServiceQuotaIncreaseRequestInTemplate"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceQuotaIncreaseRequestInTemplateDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate.self, forKey: .serviceQuotaIncreaseRequestInTemplate)
+        serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplateDecoded
+    }
+}
+
 enum PutServiceQuotaIncreaseRequestIntoTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2709,46 +2749,6 @@ enum PutServiceQuotaIncreaseRequestIntoTemplateOutputError: ClientRuntime.HttpRe
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutServiceQuotaIncreaseRequestIntoTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutServiceQuotaIncreaseRequestIntoTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.serviceQuotaIncreaseRequestInTemplate = output.serviceQuotaIncreaseRequestInTemplate
-        } else {
-            self.serviceQuotaIncreaseRequestInTemplate = nil
-        }
-    }
-}
-
-public struct PutServiceQuotaIncreaseRequestIntoTemplateOutputResponse: Swift.Equatable {
-    /// Information about the quota increase request.
-    public var serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
-
-    public init(
-        serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate? = nil
-    )
-    {
-        self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
-    }
-}
-
-struct PutServiceQuotaIncreaseRequestIntoTemplateOutputResponseBody: Swift.Equatable {
-    let serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
-}
-
-extension PutServiceQuotaIncreaseRequestIntoTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serviceQuotaIncreaseRequestInTemplate = "ServiceQuotaIncreaseRequestInTemplate"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serviceQuotaIncreaseRequestInTemplateDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate.self, forKey: .serviceQuotaIncreaseRequestInTemplate)
-        serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplateDecoded
     }
 }
 
@@ -3025,6 +3025,46 @@ extension RequestServiceQuotaIncreaseInputBody: Swift.Decodable {
     }
 }
 
+extension RequestServiceQuotaIncreaseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RequestServiceQuotaIncreaseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestedQuota = output.requestedQuota
+        } else {
+            self.requestedQuota = nil
+        }
+    }
+}
+
+public struct RequestServiceQuotaIncreaseOutput: Swift.Equatable {
+    /// Information about the quota increase request.
+    public var requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
+
+    public init(
+        requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange? = nil
+    )
+    {
+        self.requestedQuota = requestedQuota
+    }
+}
+
+struct RequestServiceQuotaIncreaseOutputBody: Swift.Equatable {
+    let requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
+}
+
+extension RequestServiceQuotaIncreaseOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestedQuota = "RequestedQuota"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestedQuotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.RequestedServiceQuotaChange.self, forKey: .requestedQuota)
+        requestedQuota = requestedQuotaDecoded
+    }
+}
+
 enum RequestServiceQuotaIncreaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3041,46 +3081,6 @@ enum RequestServiceQuotaIncreaseOutputError: ClientRuntime.HttpResponseErrorBind
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RequestServiceQuotaIncreaseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RequestServiceQuotaIncreaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.requestedQuota = output.requestedQuota
-        } else {
-            self.requestedQuota = nil
-        }
-    }
-}
-
-public struct RequestServiceQuotaIncreaseOutputResponse: Swift.Equatable {
-    /// Information about the quota increase request.
-    public var requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
-
-    public init(
-        requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange? = nil
-    )
-    {
-        self.requestedQuota = requestedQuota
-    }
-}
-
-struct RequestServiceQuotaIncreaseOutputResponseBody: Swift.Equatable {
-    let requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
-}
-
-extension RequestServiceQuotaIncreaseOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestedQuota = "RequestedQuota"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestedQuotaDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.RequestedServiceQuotaChange.self, forKey: .requestedQuota)
-        requestedQuota = requestedQuotaDecoded
     }
 }
 
@@ -4003,6 +4003,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4018,16 +4028,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TemplatesNotAvailableInRegionException {
@@ -4268,6 +4268,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4281,14 +4291,4 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }

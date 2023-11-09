@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension GrafanaClient {
-    /// Paginate over `[ListVersionsOutputResponse]` results.
+    /// Paginate over `[ListVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsOutputResponse`
-    public func listVersionsPaginated(input: ListVersionsInput) -> ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutputResponse>(input: input, inputKey: \ListVersionsInput.nextToken, outputKey: \ListVersionsOutputResponse.nextToken, paginationFunction: self.listVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsOutput`
+    public func listVersionsPaginated(input: ListVersionsInput) -> ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput>(input: input, inputKey: \ListVersionsInput.nextToken, outputKey: \ListVersionsOutput.nextToken, paginationFunction: self.listVersions(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListVersionsInput, Output == ListVersionsOutputResponse {
+extension PaginatorSequence where Input == ListVersionsInput, Output == ListVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listVersionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

@@ -20,7 +20,7 @@ public protocol ResourceGroupsClientProtocol {
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -30,14 +30,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
+    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
     /// Deletes the specified resource group. Deleting a resource group does not delete any resources that are members of the group; it only deletes the group structure. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:DeleteGroup
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,12 +48,12 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
+    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
     /// Retrieves the current status of optional features in Resource Groups.
     ///
     /// - Parameter GetAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,14 +63,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
+    func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
     /// Returns information about a specified resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetGroup
     ///
     /// - Parameter GetGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,14 +81,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func getGroup(input: GetGroupInput) async throws -> GetGroupOutputResponse
+    func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
     /// Retrieves the service configuration associated with the specified resource group. For details about the service configuration syntax, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetGroupConfiguration
     ///
     /// - Parameter GetGroupConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,14 +99,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func getGroupConfiguration(input: GetGroupConfigurationInput) async throws -> GetGroupConfigurationOutputResponse
+    func getGroupConfiguration(input: GetGroupConfigurationInput) async throws -> GetGroupConfigurationOutput
     /// Retrieves the resource query associated with the specified resource group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag). Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetGroupQuery
     ///
     /// - Parameter GetGroupQueryInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupQueryOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -117,14 +117,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func getGroupQuery(input: GetGroupQueryInput) async throws -> GetGroupQueryOutputResponse
+    func getGroupQuery(input: GetGroupQueryInput) async throws -> GetGroupQueryOutput
     /// Returns a list of tags that are associated with a resource group, specified by an ARN. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetTags
     ///
     /// - Parameter GetTagsInput : [no documentation found]
     ///
-    /// - Returns: `GetTagsOutputResponse` : [no documentation found]
+    /// - Returns: `GetTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -135,7 +135,7 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func getTags(input: GetTagsInput) async throws -> GetTagsOutputResponse
+    func getTags(input: GetTagsInput) async throws -> GetTagsOutput
     /// Adds the specified resources to the specified group. You can use this operation with only resource groups that are configured with the following types:
     ///
     /// * AWS::EC2::HostManagement
@@ -149,7 +149,7 @@ public protocol ResourceGroupsClientProtocol {
     ///
     /// - Parameter GroupResourcesInput : [no documentation found]
     ///
-    /// - Returns: `GroupResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `GroupResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -160,7 +160,7 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func groupResources(input: GroupResourcesInput) async throws -> GroupResourcesOutputResponse
+    func groupResources(input: GroupResourcesInput) async throws -> GroupResourcesOutput
     /// Returns a list of ARNs of the resources that are members of a specified resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:ListGroupResources
@@ -173,7 +173,7 @@ public protocol ResourceGroupsClientProtocol {
     ///
     /// - Parameter ListGroupResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -185,14 +185,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     /// - `UnauthorizedException` : The request was rejected because it doesn't have valid credentials for the target resource.
-    func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutputResponse
+    func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutput
     /// Returns a list of existing Resource Groups in your account. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:ListGroups
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -202,14 +202,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
+    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
     /// Attaches a service configuration to the specified group. This occurs asynchronously, and can take time to complete. You can use [GetGroupConfiguration] to check the status of the update. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:PutGroupConfiguration
     ///
     /// - Parameter PutGroupConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutGroupConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutGroupConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -220,7 +220,7 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func putGroupConfiguration(input: PutGroupConfigurationInput) async throws -> PutGroupConfigurationOutputResponse
+    func putGroupConfiguration(input: PutGroupConfigurationInput) async throws -> PutGroupConfigurationOutput
     /// Returns a list of Amazon Web Services resource identifiers that matches the specified query. The query uses the same format as a resource query in a [CreateGroup] or [UpdateGroupQuery] operation. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:SearchResources
@@ -233,7 +233,7 @@ public protocol ResourceGroupsClientProtocol {
     ///
     /// - Parameter SearchResourcesInput : [no documentation found]
     ///
-    /// - Returns: `SearchResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `SearchResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -244,14 +244,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     /// - `UnauthorizedException` : The request was rejected because it doesn't have valid credentials for the target resource.
-    func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutputResponse
+    func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput
     /// Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters. Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:Tag
     ///
     /// - Parameter TagInput : [no documentation found]
     ///
-    /// - Returns: `TagOutputResponse` : [no documentation found]
+    /// - Returns: `TagOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -262,14 +262,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func tag(input: TagInput) async throws -> TagOutputResponse
+    func tag(input: TagInput) async throws -> TagOutput
     /// Removes the specified resources from the specified group. This operation works only with static groups that you populated using the [GroupResources] operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:UngroupResources
     ///
     /// - Parameter UngroupResourcesInput : [no documentation found]
     ///
-    /// - Returns: `UngroupResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `UngroupResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -280,14 +280,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func ungroupResources(input: UngroupResourcesInput) async throws -> UngroupResourcesOutputResponse
+    func ungroupResources(input: UngroupResourcesInput) async throws -> UngroupResourcesOutput
     /// Deletes tags from a specified resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:Untag
     ///
     /// - Parameter UntagInput : [no documentation found]
     ///
-    /// - Returns: `UntagOutputResponse` : [no documentation found]
+    /// - Returns: `UntagOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -298,12 +298,12 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func untag(input: UntagInput) async throws -> UntagOutputResponse
+    func untag(input: UntagInput) async throws -> UntagOutput
     /// Turns on or turns off optional features in Resource Groups. The preceding example shows that the request to turn on group lifecycle events is IN_PROGRESS. You can call the [GetAccountSettings] operation to check for completion by looking for GroupLifecycleEventsStatus to change to ACTIVE.
     ///
     /// - Parameter UpdateAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,14 +313,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutputResponse
+    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
     /// Updates the description for an existing group. You cannot update the name of a resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:UpdateGroup
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -331,14 +331,14 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutputResponse
+    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
     /// Updates the resource query of a group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag). Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:UpdateGroupQuery
     ///
     /// - Parameter UpdateGroupQueryInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGroupQueryOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGroupQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,7 +349,7 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    func updateGroupQuery(input: UpdateGroupQueryInput) async throws -> UpdateGroupQueryOutputResponse
+    func updateGroupQuery(input: UpdateGroupQueryInput) async throws -> UpdateGroupQueryOutput
 }
 
 public enum ResourceGroupsClientTypes {}

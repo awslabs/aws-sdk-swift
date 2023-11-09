@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CloudDirectoryClient {
-    /// Paginate over `[ListAppliedSchemaArnsOutputResponse]` results.
+    /// Paginate over `[ListAppliedSchemaArnsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppliedSchemaArnsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppliedSchemaArnsOutputResponse`
-    public func listAppliedSchemaArnsPaginated(input: ListAppliedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutputResponse>(input: input, inputKey: \ListAppliedSchemaArnsInput.nextToken, outputKey: \ListAppliedSchemaArnsOutputResponse.nextToken, paginationFunction: self.listAppliedSchemaArns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppliedSchemaArnsOutput`
+    public func listAppliedSchemaArnsPaginated(input: ListAppliedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutput>(input: input, inputKey: \ListAppliedSchemaArnsInput.nextToken, outputKey: \ListAppliedSchemaArnsOutput.nextToken, paginationFunction: self.listAppliedSchemaArns(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListAppliedSchemaArnsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListAttachedIndicesOutputResponse]` results.
+    /// Paginate over `[ListAttachedIndicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAttachedIndicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedIndicesOutputResponse`
-    public func listAttachedIndicesPaginated(input: ListAttachedIndicesInput) -> ClientRuntime.PaginatorSequence<ListAttachedIndicesInput, ListAttachedIndicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAttachedIndicesInput, ListAttachedIndicesOutputResponse>(input: input, inputKey: \ListAttachedIndicesInput.nextToken, outputKey: \ListAttachedIndicesOutputResponse.nextToken, paginationFunction: self.listAttachedIndices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedIndicesOutput`
+    public func listAttachedIndicesPaginated(input: ListAttachedIndicesInput) -> ClientRuntime.PaginatorSequence<ListAttachedIndicesInput, ListAttachedIndicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAttachedIndicesInput, ListAttachedIndicesOutput>(input: input, inputKey: \ListAttachedIndicesInput.nextToken, outputKey: \ListAttachedIndicesOutput.nextToken, paginationFunction: self.listAttachedIndices(input:))
     }
 }
 
@@ -50,16 +50,16 @@ extension ListAttachedIndicesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListDevelopmentSchemaArnsOutputResponse]` results.
+    /// Paginate over `[ListDevelopmentSchemaArnsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDevelopmentSchemaArnsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDevelopmentSchemaArnsOutputResponse`
-    public func listDevelopmentSchemaArnsPaginated(input: ListDevelopmentSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutputResponse>(input: input, inputKey: \ListDevelopmentSchemaArnsInput.nextToken, outputKey: \ListDevelopmentSchemaArnsOutputResponse.nextToken, paginationFunction: self.listDevelopmentSchemaArns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDevelopmentSchemaArnsOutput`
+    public func listDevelopmentSchemaArnsPaginated(input: ListDevelopmentSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutput>(input: input, inputKey: \ListDevelopmentSchemaArnsInput.nextToken, outputKey: \ListDevelopmentSchemaArnsOutput.nextToken, paginationFunction: self.listDevelopmentSchemaArns(input:))
     }
 }
 
@@ -71,16 +71,16 @@ extension ListDevelopmentSchemaArnsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListDirectoriesOutputResponse]` results.
+    /// Paginate over `[ListDirectoriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDirectoriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDirectoriesOutputResponse`
-    public func listDirectoriesPaginated(input: ListDirectoriesInput) -> ClientRuntime.PaginatorSequence<ListDirectoriesInput, ListDirectoriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDirectoriesInput, ListDirectoriesOutputResponse>(input: input, inputKey: \ListDirectoriesInput.nextToken, outputKey: \ListDirectoriesOutputResponse.nextToken, paginationFunction: self.listDirectories(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDirectoriesOutput`
+    public func listDirectoriesPaginated(input: ListDirectoriesInput) -> ClientRuntime.PaginatorSequence<ListDirectoriesInput, ListDirectoriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDirectoriesInput, ListDirectoriesOutput>(input: input, inputKey: \ListDirectoriesInput.nextToken, outputKey: \ListDirectoriesOutput.nextToken, paginationFunction: self.listDirectories(input:))
     }
 }
 
@@ -93,16 +93,16 @@ extension ListDirectoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListFacetAttributesOutputResponse]` results.
+    /// Paginate over `[ListFacetAttributesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFacetAttributesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFacetAttributesOutputResponse`
-    public func listFacetAttributesPaginated(input: ListFacetAttributesInput) -> ClientRuntime.PaginatorSequence<ListFacetAttributesInput, ListFacetAttributesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFacetAttributesInput, ListFacetAttributesOutputResponse>(input: input, inputKey: \ListFacetAttributesInput.nextToken, outputKey: \ListFacetAttributesOutputResponse.nextToken, paginationFunction: self.listFacetAttributes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFacetAttributesOutput`
+    public func listFacetAttributesPaginated(input: ListFacetAttributesInput) -> ClientRuntime.PaginatorSequence<ListFacetAttributesInput, ListFacetAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<ListFacetAttributesInput, ListFacetAttributesOutput>(input: input, inputKey: \ListFacetAttributesInput.nextToken, outputKey: \ListFacetAttributesOutput.nextToken, paginationFunction: self.listFacetAttributes(input:))
     }
 }
 
@@ -116,16 +116,16 @@ extension ListFacetAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListFacetNamesOutputResponse]` results.
+    /// Paginate over `[ListFacetNamesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFacetNamesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFacetNamesOutputResponse`
-    public func listFacetNamesPaginated(input: ListFacetNamesInput) -> ClientRuntime.PaginatorSequence<ListFacetNamesInput, ListFacetNamesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFacetNamesInput, ListFacetNamesOutputResponse>(input: input, inputKey: \ListFacetNamesInput.nextToken, outputKey: \ListFacetNamesOutputResponse.nextToken, paginationFunction: self.listFacetNames(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFacetNamesOutput`
+    public func listFacetNamesPaginated(input: ListFacetNamesInput) -> ClientRuntime.PaginatorSequence<ListFacetNamesInput, ListFacetNamesOutput> {
+        return ClientRuntime.PaginatorSequence<ListFacetNamesInput, ListFacetNamesOutput>(input: input, inputKey: \ListFacetNamesInput.nextToken, outputKey: \ListFacetNamesOutput.nextToken, paginationFunction: self.listFacetNames(input:))
     }
 }
 
@@ -138,16 +138,16 @@ extension ListFacetNamesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListIndexOutputResponse]` results.
+    /// Paginate over `[ListIndexOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIndexInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIndexOutputResponse`
-    public func listIndexPaginated(input: ListIndexInput) -> ClientRuntime.PaginatorSequence<ListIndexInput, ListIndexOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIndexInput, ListIndexOutputResponse>(input: input, inputKey: \ListIndexInput.nextToken, outputKey: \ListIndexOutputResponse.nextToken, paginationFunction: self.listIndex(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIndexOutput`
+    public func listIndexPaginated(input: ListIndexInput) -> ClientRuntime.PaginatorSequence<ListIndexInput, ListIndexOutput> {
+        return ClientRuntime.PaginatorSequence<ListIndexInput, ListIndexOutput>(input: input, inputKey: \ListIndexInput.nextToken, outputKey: \ListIndexOutput.nextToken, paginationFunction: self.listIndex(input:))
     }
 }
 
@@ -163,16 +163,16 @@ extension ListIndexInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListManagedSchemaArnsOutputResponse]` results.
+    /// Paginate over `[ListManagedSchemaArnsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListManagedSchemaArnsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedSchemaArnsOutputResponse`
-    public func listManagedSchemaArnsPaginated(input: ListManagedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutputResponse>(input: input, inputKey: \ListManagedSchemaArnsInput.nextToken, outputKey: \ListManagedSchemaArnsOutputResponse.nextToken, paginationFunction: self.listManagedSchemaArns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedSchemaArnsOutput`
+    public func listManagedSchemaArnsPaginated(input: ListManagedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutput> {
+        return ClientRuntime.PaginatorSequence<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutput>(input: input, inputKey: \ListManagedSchemaArnsInput.nextToken, outputKey: \ListManagedSchemaArnsOutput.nextToken, paginationFunction: self.listManagedSchemaArns(input:))
     }
 }
 
@@ -185,16 +185,16 @@ extension ListManagedSchemaArnsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListObjectAttributesOutputResponse]` results.
+    /// Paginate over `[ListObjectAttributesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListObjectAttributesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectAttributesOutputResponse`
-    public func listObjectAttributesPaginated(input: ListObjectAttributesInput) -> ClientRuntime.PaginatorSequence<ListObjectAttributesInput, ListObjectAttributesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListObjectAttributesInput, ListObjectAttributesOutputResponse>(input: input, inputKey: \ListObjectAttributesInput.nextToken, outputKey: \ListObjectAttributesOutputResponse.nextToken, paginationFunction: self.listObjectAttributes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectAttributesOutput`
+    public func listObjectAttributesPaginated(input: ListObjectAttributesInput) -> ClientRuntime.PaginatorSequence<ListObjectAttributesInput, ListObjectAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<ListObjectAttributesInput, ListObjectAttributesOutput>(input: input, inputKey: \ListObjectAttributesInput.nextToken, outputKey: \ListObjectAttributesOutput.nextToken, paginationFunction: self.listObjectAttributes(input:))
     }
 }
 
@@ -210,16 +210,16 @@ extension ListObjectAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListObjectChildrenOutputResponse]` results.
+    /// Paginate over `[ListObjectChildrenOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListObjectChildrenInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectChildrenOutputResponse`
-    public func listObjectChildrenPaginated(input: ListObjectChildrenInput) -> ClientRuntime.PaginatorSequence<ListObjectChildrenInput, ListObjectChildrenOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListObjectChildrenInput, ListObjectChildrenOutputResponse>(input: input, inputKey: \ListObjectChildrenInput.nextToken, outputKey: \ListObjectChildrenOutputResponse.nextToken, paginationFunction: self.listObjectChildren(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectChildrenOutput`
+    public func listObjectChildrenPaginated(input: ListObjectChildrenInput) -> ClientRuntime.PaginatorSequence<ListObjectChildrenInput, ListObjectChildrenOutput> {
+        return ClientRuntime.PaginatorSequence<ListObjectChildrenInput, ListObjectChildrenOutput>(input: input, inputKey: \ListObjectChildrenInput.nextToken, outputKey: \ListObjectChildrenOutput.nextToken, paginationFunction: self.listObjectChildren(input:))
     }
 }
 
@@ -234,16 +234,16 @@ extension ListObjectChildrenInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListObjectParentPathsOutputResponse]` results.
+    /// Paginate over `[ListObjectParentPathsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListObjectParentPathsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectParentPathsOutputResponse`
-    public func listObjectParentPathsPaginated(input: ListObjectParentPathsInput) -> ClientRuntime.PaginatorSequence<ListObjectParentPathsInput, ListObjectParentPathsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListObjectParentPathsInput, ListObjectParentPathsOutputResponse>(input: input, inputKey: \ListObjectParentPathsInput.nextToken, outputKey: \ListObjectParentPathsOutputResponse.nextToken, paginationFunction: self.listObjectParentPaths(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectParentPathsOutput`
+    public func listObjectParentPathsPaginated(input: ListObjectParentPathsInput) -> ClientRuntime.PaginatorSequence<ListObjectParentPathsInput, ListObjectParentPathsOutput> {
+        return ClientRuntime.PaginatorSequence<ListObjectParentPathsInput, ListObjectParentPathsOutput>(input: input, inputKey: \ListObjectParentPathsInput.nextToken, outputKey: \ListObjectParentPathsOutput.nextToken, paginationFunction: self.listObjectParentPaths(input:))
     }
 }
 
@@ -257,16 +257,16 @@ extension ListObjectParentPathsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListObjectParentsOutputResponse]` results.
+    /// Paginate over `[ListObjectParentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListObjectParentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectParentsOutputResponse`
-    public func listObjectParentsPaginated(input: ListObjectParentsInput) -> ClientRuntime.PaginatorSequence<ListObjectParentsInput, ListObjectParentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListObjectParentsInput, ListObjectParentsOutputResponse>(input: input, inputKey: \ListObjectParentsInput.nextToken, outputKey: \ListObjectParentsOutputResponse.nextToken, paginationFunction: self.listObjectParents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectParentsOutput`
+    public func listObjectParentsPaginated(input: ListObjectParentsInput) -> ClientRuntime.PaginatorSequence<ListObjectParentsInput, ListObjectParentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListObjectParentsInput, ListObjectParentsOutput>(input: input, inputKey: \ListObjectParentsInput.nextToken, outputKey: \ListObjectParentsOutput.nextToken, paginationFunction: self.listObjectParents(input:))
     }
 }
 
@@ -282,16 +282,16 @@ extension ListObjectParentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListObjectPoliciesOutputResponse]` results.
+    /// Paginate over `[ListObjectPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListObjectPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectPoliciesOutputResponse`
-    public func listObjectPoliciesPaginated(input: ListObjectPoliciesInput) -> ClientRuntime.PaginatorSequence<ListObjectPoliciesInput, ListObjectPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListObjectPoliciesInput, ListObjectPoliciesOutputResponse>(input: input, inputKey: \ListObjectPoliciesInput.nextToken, outputKey: \ListObjectPoliciesOutputResponse.nextToken, paginationFunction: self.listObjectPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectPoliciesOutput`
+    public func listObjectPoliciesPaginated(input: ListObjectPoliciesInput) -> ClientRuntime.PaginatorSequence<ListObjectPoliciesInput, ListObjectPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListObjectPoliciesInput, ListObjectPoliciesOutput>(input: input, inputKey: \ListObjectPoliciesInput.nextToken, outputKey: \ListObjectPoliciesOutput.nextToken, paginationFunction: self.listObjectPolicies(input:))
     }
 }
 
@@ -306,16 +306,16 @@ extension ListObjectPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListPolicyAttachmentsOutputResponse]` results.
+    /// Paginate over `[ListPolicyAttachmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPolicyAttachmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyAttachmentsOutputResponse`
-    public func listPolicyAttachmentsPaginated(input: ListPolicyAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutputResponse>(input: input, inputKey: \ListPolicyAttachmentsInput.nextToken, outputKey: \ListPolicyAttachmentsOutputResponse.nextToken, paginationFunction: self.listPolicyAttachments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyAttachmentsOutput`
+    public func listPolicyAttachmentsPaginated(input: ListPolicyAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutput>(input: input, inputKey: \ListPolicyAttachmentsInput.nextToken, outputKey: \ListPolicyAttachmentsOutput.nextToken, paginationFunction: self.listPolicyAttachments(input:))
     }
 }
 
@@ -330,16 +330,16 @@ extension ListPolicyAttachmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListPublishedSchemaArnsOutputResponse]` results.
+    /// Paginate over `[ListPublishedSchemaArnsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPublishedSchemaArnsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPublishedSchemaArnsOutputResponse`
-    public func listPublishedSchemaArnsPaginated(input: ListPublishedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutputResponse>(input: input, inputKey: \ListPublishedSchemaArnsInput.nextToken, outputKey: \ListPublishedSchemaArnsOutputResponse.nextToken, paginationFunction: self.listPublishedSchemaArns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPublishedSchemaArnsOutput`
+    public func listPublishedSchemaArnsPaginated(input: ListPublishedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutput>(input: input, inputKey: \ListPublishedSchemaArnsInput.nextToken, outputKey: \ListPublishedSchemaArnsOutput.nextToken, paginationFunction: self.listPublishedSchemaArns(input:))
     }
 }
 
@@ -352,16 +352,16 @@ extension ListPublishedSchemaArnsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -374,16 +374,16 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListTypedLinkFacetAttributesOutputResponse]` results.
+    /// Paginate over `[ListTypedLinkFacetAttributesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTypedLinkFacetAttributesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTypedLinkFacetAttributesOutputResponse`
-    public func listTypedLinkFacetAttributesPaginated(input: ListTypedLinkFacetAttributesInput) -> ClientRuntime.PaginatorSequence<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutputResponse>(input: input, inputKey: \ListTypedLinkFacetAttributesInput.nextToken, outputKey: \ListTypedLinkFacetAttributesOutputResponse.nextToken, paginationFunction: self.listTypedLinkFacetAttributes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTypedLinkFacetAttributesOutput`
+    public func listTypedLinkFacetAttributesPaginated(input: ListTypedLinkFacetAttributesInput) -> ClientRuntime.PaginatorSequence<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutput>(input: input, inputKey: \ListTypedLinkFacetAttributesInput.nextToken, outputKey: \ListTypedLinkFacetAttributesOutput.nextToken, paginationFunction: self.listTypedLinkFacetAttributes(input:))
     }
 }
 
@@ -397,16 +397,16 @@ extension ListTypedLinkFacetAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[ListTypedLinkFacetNamesOutputResponse]` results.
+    /// Paginate over `[ListTypedLinkFacetNamesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTypedLinkFacetNamesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTypedLinkFacetNamesOutputResponse`
-    public func listTypedLinkFacetNamesPaginated(input: ListTypedLinkFacetNamesInput) -> ClientRuntime.PaginatorSequence<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutputResponse>(input: input, inputKey: \ListTypedLinkFacetNamesInput.nextToken, outputKey: \ListTypedLinkFacetNamesOutputResponse.nextToken, paginationFunction: self.listTypedLinkFacetNames(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTypedLinkFacetNamesOutput`
+    public func listTypedLinkFacetNamesPaginated(input: ListTypedLinkFacetNamesInput) -> ClientRuntime.PaginatorSequence<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutput>(input: input, inputKey: \ListTypedLinkFacetNamesInput.nextToken, outputKey: \ListTypedLinkFacetNamesOutput.nextToken, paginationFunction: self.listTypedLinkFacetNames(input:))
     }
 }
 
@@ -419,16 +419,16 @@ extension ListTypedLinkFacetNamesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudDirectoryClient {
-    /// Paginate over `[LookupPolicyOutputResponse]` results.
+    /// Paginate over `[LookupPolicyOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[LookupPolicyInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `LookupPolicyOutputResponse`
-    public func lookupPolicyPaginated(input: LookupPolicyInput) -> ClientRuntime.PaginatorSequence<LookupPolicyInput, LookupPolicyOutputResponse> {
-        return ClientRuntime.PaginatorSequence<LookupPolicyInput, LookupPolicyOutputResponse>(input: input, inputKey: \LookupPolicyInput.nextToken, outputKey: \LookupPolicyOutputResponse.nextToken, paginationFunction: self.lookupPolicy(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `LookupPolicyOutput`
+    public func lookupPolicyPaginated(input: LookupPolicyInput) -> ClientRuntime.PaginatorSequence<LookupPolicyInput, LookupPolicyOutput> {
+        return ClientRuntime.PaginatorSequence<LookupPolicyInput, LookupPolicyOutput>(input: input, inputKey: \LookupPolicyInput.nextToken, outputKey: \LookupPolicyOutput.nextToken, paginationFunction: self.lookupPolicy(input:))
     }
 }
 

@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension OpsWorksCMClientProtocol {
 
-    static func nodeAssociatedWaiterConfig() throws -> WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeNodeAssociationStatusInput, result: Result<DescribeNodeAssociationStatusOutputResponse, Error>) -> Bool in
+    static func nodeAssociatedWaiterConfig() throws -> WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutput> {
+        let acceptors: [WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeNodeAssociationStatusInput, result: Result<DescribeNodeAssociationStatusOutput, Error>) -> Bool in
                 // JMESPath expression: "NodeAssociationStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "SUCCESS"
@@ -14,7 +14,7 @@ extension OpsWorksCMClientProtocol {
                 let nodeAssociationStatus = output.nodeAssociationStatus
                 return JMESUtils.compare(nodeAssociationStatus, ==, "SUCCESS")
             }),
-            .init(state: .failure, matcher: { (input: DescribeNodeAssociationStatusInput, result: Result<DescribeNodeAssociationStatusOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeNodeAssociationStatusInput, result: Result<DescribeNodeAssociationStatusOutput, Error>) -> Bool in
                 // JMESPath expression: "NodeAssociationStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -23,7 +23,7 @@ extension OpsWorksCMClientProtocol {
                 return JMESUtils.compare(nodeAssociationStatus, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the NodeAssociated event on the describeNodeAssociationStatus operation.
@@ -37,7 +37,7 @@ extension OpsWorksCMClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilNodeAssociated(options: WaiterOptions, input: DescribeNodeAssociationStatusInput) async throws -> WaiterOutcome<DescribeNodeAssociationStatusOutputResponse> {
+    public func waitUntilNodeAssociated(options: WaiterOptions, input: DescribeNodeAssociationStatusInput) async throws -> WaiterOutcome<DescribeNodeAssociationStatusOutput> {
         let waiter = Waiter(config: try Self.nodeAssociatedWaiterConfig(), operation: self.describeNodeAssociationStatus(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

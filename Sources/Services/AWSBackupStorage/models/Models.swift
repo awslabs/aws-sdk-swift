@@ -368,6 +368,16 @@ extension DeleteObjectInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteObjectOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteObjectOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -383,16 +393,6 @@ enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteObjectOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension GetChunkInput: ClientRuntime.URLPathProvider {
@@ -434,24 +434,7 @@ extension GetChunkInputBody: Swift.Decodable {
     }
 }
 
-enum GetChunkOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetChunkOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetChunkOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let checksumHeaderValue = httpResponse.headers.value(for: "x-amz-checksum") {
             self.checksum = checksumHeaderValue
@@ -479,7 +462,7 @@ extension GetChunkOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChunkOutputResponse: Swift.Equatable {
+public struct GetChunkOutput: Swift.Equatable {
     /// Data checksum
     /// This member is required.
     public var checksum: Swift.String?
@@ -507,11 +490,11 @@ public struct GetChunkOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetChunkOutputResponseBody: Swift.Equatable {
+struct GetChunkOutputBody: Swift.Equatable {
     let data: ClientRuntime.ByteStream?
 }
 
-extension GetChunkOutputResponseBody: Swift.Decodable {
+extension GetChunkOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case data = "Data"
     }
@@ -520,6 +503,23 @@ extension GetChunkOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .data)
         data = dataDecoded
+    }
+}
+
+enum GetChunkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -562,25 +562,7 @@ extension GetObjectMetadataInputBody: Swift.Decodable {
     }
 }
 
-enum GetObjectMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetObjectMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetObjectMetadataOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let metadataBlobChecksumHeaderValue = httpResponse.headers.value(for: "x-amz-checksum") {
             self.metadataBlobChecksum = metadataBlobChecksumHeaderValue
@@ -613,7 +595,7 @@ extension GetObjectMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetObjectMetadataOutputResponse: Swift.Equatable {
+public struct GetObjectMetadataOutput: Swift.Equatable {
     /// Metadata blob.
     public var metadataBlob: ClientRuntime.ByteStream?
     /// MetadataBlob checksum.
@@ -641,11 +623,11 @@ public struct GetObjectMetadataOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetObjectMetadataOutputResponseBody: Swift.Equatable {
+struct GetObjectMetadataOutputBody: Swift.Equatable {
     let metadataBlob: ClientRuntime.ByteStream?
 }
 
-extension GetObjectMetadataOutputResponseBody: Swift.Decodable {
+extension GetObjectMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metadataBlob = "MetadataBlob"
     }
@@ -654,6 +636,24 @@ extension GetObjectMetadataOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metadataBlobDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .metadataBlob)
         metadataBlob = metadataBlobDecoded
+    }
+}
+
+enum GetObjectMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -831,27 +831,11 @@ extension ListChunksInputBody: Swift.Decodable {
     }
 }
 
-enum ListChunksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListChunksOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListChunksOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListChunksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListChunksOutputBody = try responseDecoder.decode(responseBody: data)
             self.chunkList = output.chunkList
             self.nextToken = output.nextToken
         } else {
@@ -861,7 +845,7 @@ extension ListChunksOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChunksOutputResponse: Swift.Equatable {
+public struct ListChunksOutput: Swift.Equatable {
     /// List of chunks
     /// This member is required.
     public var chunkList: [BackupStorageClientTypes.Chunk]?
@@ -878,12 +862,12 @@ public struct ListChunksOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListChunksOutputResponseBody: Swift.Equatable {
+struct ListChunksOutputBody: Swift.Equatable {
     let chunkList: [BackupStorageClientTypes.Chunk]?
     let nextToken: Swift.String?
 }
 
-extension ListChunksOutputResponseBody: Swift.Decodable {
+extension ListChunksOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case chunkList = "ChunkList"
         case nextToken = "NextToken"
@@ -904,6 +888,22 @@ extension ListChunksOutputResponseBody: Swift.Decodable {
         chunkList = chunkListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListChunksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -995,29 +995,11 @@ extension ListObjectsInputBody: Swift.Decodable {
     }
 }
 
-enum ListObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListObjectsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListObjectsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.objectList = output.objectList
         } else {
@@ -1027,7 +1009,7 @@ extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectsOutputResponse: Swift.Equatable {
+public struct ListObjectsOutput: Swift.Equatable {
     /// Pagination token
     public var nextToken: Swift.String?
     /// Object list
@@ -1044,12 +1026,12 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListObjectsOutputResponseBody: Swift.Equatable {
+struct ListObjectsOutputBody: Swift.Equatable {
     let objectList: [BackupStorageClientTypes.BackupObject]?
     let nextToken: Swift.String?
 }
 
-extension ListObjectsOutputResponseBody: Swift.Decodable {
+extension ListObjectsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case objectList = "ObjectList"
@@ -1070,6 +1052,24 @@ extension ListObjectsOutputResponseBody: Swift.Decodable {
         objectList = objectListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1135,7 +1135,7 @@ public struct NotifyObjectCompleteInputBodyMiddleware: ClientRuntime.Middleware 
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<NotifyObjectCompleteInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<NotifyObjectCompleteOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<NotifyObjectCompleteOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -1149,7 +1149,7 @@ public struct NotifyObjectCompleteInputBodyMiddleware: ClientRuntime.Middleware 
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<NotifyObjectCompleteInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<NotifyObjectCompleteOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<NotifyObjectCompleteOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -1279,6 +1279,58 @@ extension NotifyObjectCompleteInputBody: Swift.Decodable {
     }
 }
 
+extension NotifyObjectCompleteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: NotifyObjectCompleteOutputBody = try responseDecoder.decode(responseBody: data)
+            self.objectChecksum = output.objectChecksum
+            self.objectChecksumAlgorithm = output.objectChecksumAlgorithm
+        } else {
+            self.objectChecksum = nil
+            self.objectChecksumAlgorithm = nil
+        }
+    }
+}
+
+public struct NotifyObjectCompleteOutput: Swift.Equatable {
+    /// Object checksum
+    /// This member is required.
+    public var objectChecksum: Swift.String?
+    /// Checksum algorithm
+    /// This member is required.
+    public var objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm?
+
+    public init(
+        objectChecksum: Swift.String? = nil,
+        objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm? = nil
+    )
+    {
+        self.objectChecksum = objectChecksum
+        self.objectChecksumAlgorithm = objectChecksumAlgorithm
+    }
+}
+
+struct NotifyObjectCompleteOutputBody: Swift.Equatable {
+    let objectChecksum: Swift.String?
+    let objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm?
+}
+
+extension NotifyObjectCompleteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objectChecksum = "ObjectChecksum"
+        case objectChecksumAlgorithm = "ObjectChecksumAlgorithm"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let objectChecksumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectChecksum)
+        objectChecksum = objectChecksumDecoded
+        let objectChecksumAlgorithmDecoded = try containerValues.decodeIfPresent(BackupStorageClientTypes.SummaryChecksumAlgorithm.self, forKey: .objectChecksumAlgorithm)
+        objectChecksumAlgorithm = objectChecksumAlgorithmDecoded
+    }
+}
+
 enum NotifyObjectCompleteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1297,58 +1349,6 @@ enum NotifyObjectCompleteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension NotifyObjectCompleteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: NotifyObjectCompleteOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.objectChecksum = output.objectChecksum
-            self.objectChecksumAlgorithm = output.objectChecksumAlgorithm
-        } else {
-            self.objectChecksum = nil
-            self.objectChecksumAlgorithm = nil
-        }
-    }
-}
-
-public struct NotifyObjectCompleteOutputResponse: Swift.Equatable {
-    /// Object checksum
-    /// This member is required.
-    public var objectChecksum: Swift.String?
-    /// Checksum algorithm
-    /// This member is required.
-    public var objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm?
-
-    public init(
-        objectChecksum: Swift.String? = nil,
-        objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm? = nil
-    )
-    {
-        self.objectChecksum = objectChecksum
-        self.objectChecksumAlgorithm = objectChecksumAlgorithm
-    }
-}
-
-struct NotifyObjectCompleteOutputResponseBody: Swift.Equatable {
-    let objectChecksum: Swift.String?
-    let objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm?
-}
-
-extension NotifyObjectCompleteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case objectChecksum = "ObjectChecksum"
-        case objectChecksumAlgorithm = "ObjectChecksumAlgorithm"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let objectChecksumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectChecksum)
-        objectChecksum = objectChecksumDecoded
-        let objectChecksumAlgorithmDecoded = try containerValues.decodeIfPresent(BackupStorageClientTypes.SummaryChecksumAlgorithm.self, forKey: .objectChecksumAlgorithm)
-        objectChecksumAlgorithm = objectChecksumAlgorithmDecoded
-    }
-}
-
 public struct PutChunkInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutChunkInputBodyMiddleware"
 
@@ -1356,7 +1356,7 @@ public struct PutChunkInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutChunkInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutChunkOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutChunkOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -1370,7 +1370,7 @@ public struct PutChunkInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutChunkInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutChunkOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutChunkOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -1488,6 +1488,58 @@ extension PutChunkInputBody: Swift.Decodable {
     }
 }
 
+extension PutChunkOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutChunkOutputBody = try responseDecoder.decode(responseBody: data)
+            self.chunkChecksum = output.chunkChecksum
+            self.chunkChecksumAlgorithm = output.chunkChecksumAlgorithm
+        } else {
+            self.chunkChecksum = nil
+            self.chunkChecksumAlgorithm = nil
+        }
+    }
+}
+
+public struct PutChunkOutput: Swift.Equatable {
+    /// Chunk checksum
+    /// This member is required.
+    public var chunkChecksum: Swift.String?
+    /// Checksum algorithm
+    /// This member is required.
+    public var chunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
+
+    public init(
+        chunkChecksum: Swift.String? = nil,
+        chunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil
+    )
+    {
+        self.chunkChecksum = chunkChecksum
+        self.chunkChecksumAlgorithm = chunkChecksumAlgorithm
+    }
+}
+
+struct PutChunkOutputBody: Swift.Equatable {
+    let chunkChecksum: Swift.String?
+    let chunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
+}
+
+extension PutChunkOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case chunkChecksum = "ChunkChecksum"
+        case chunkChecksumAlgorithm = "ChunkChecksumAlgorithm"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let chunkChecksumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .chunkChecksum)
+        chunkChecksum = chunkChecksumDecoded
+        let chunkChecksumAlgorithmDecoded = try containerValues.decodeIfPresent(BackupStorageClientTypes.DataChecksumAlgorithm.self, forKey: .chunkChecksumAlgorithm)
+        chunkChecksumAlgorithm = chunkChecksumAlgorithmDecoded
+    }
+}
+
 enum PutChunkOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1506,58 +1558,6 @@ enum PutChunkOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PutChunkOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutChunkOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.chunkChecksum = output.chunkChecksum
-            self.chunkChecksumAlgorithm = output.chunkChecksumAlgorithm
-        } else {
-            self.chunkChecksum = nil
-            self.chunkChecksumAlgorithm = nil
-        }
-    }
-}
-
-public struct PutChunkOutputResponse: Swift.Equatable {
-    /// Chunk checksum
-    /// This member is required.
-    public var chunkChecksum: Swift.String?
-    /// Checksum algorithm
-    /// This member is required.
-    public var chunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
-
-    public init(
-        chunkChecksum: Swift.String? = nil,
-        chunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil
-    )
-    {
-        self.chunkChecksum = chunkChecksum
-        self.chunkChecksumAlgorithm = chunkChecksumAlgorithm
-    }
-}
-
-struct PutChunkOutputResponseBody: Swift.Equatable {
-    let chunkChecksum: Swift.String?
-    let chunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
-}
-
-extension PutChunkOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case chunkChecksum = "ChunkChecksum"
-        case chunkChecksumAlgorithm = "ChunkChecksumAlgorithm"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let chunkChecksumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .chunkChecksum)
-        chunkChecksum = chunkChecksumDecoded
-        let chunkChecksumAlgorithmDecoded = try containerValues.decodeIfPresent(BackupStorageClientTypes.DataChecksumAlgorithm.self, forKey: .chunkChecksumAlgorithm)
-        chunkChecksumAlgorithm = chunkChecksumAlgorithmDecoded
-    }
-}
-
 public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutObjectInputBodyMiddleware"
 
@@ -1565,7 +1565,7 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutObjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -1579,7 +1579,7 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -1711,29 +1711,11 @@ extension PutObjectInputBody: Swift.Decodable {
     }
 }
 
-enum PutObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotReadableInputStreamException": return try await NotReadableInputStreamException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutObjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutObjectOutputBody = try responseDecoder.decode(responseBody: data)
             self.inlineChunkChecksum = output.inlineChunkChecksum
             self.inlineChunkChecksumAlgorithm = output.inlineChunkChecksumAlgorithm
             self.objectChecksum = output.objectChecksum
@@ -1747,7 +1729,7 @@ extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutObjectOutputResponse: Swift.Equatable {
+public struct PutObjectOutput: Swift.Equatable {
     /// Inline chunk checksum
     /// This member is required.
     public var inlineChunkChecksum: Swift.String?
@@ -1775,14 +1757,14 @@ public struct PutObjectOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutObjectOutputResponseBody: Swift.Equatable {
+struct PutObjectOutputBody: Swift.Equatable {
     let inlineChunkChecksum: Swift.String?
     let inlineChunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
     let objectChecksum: Swift.String?
     let objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm?
 }
 
-extension PutObjectOutputResponseBody: Swift.Decodable {
+extension PutObjectOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inlineChunkChecksum = "InlineChunkChecksum"
         case inlineChunkChecksumAlgorithm = "InlineChunkChecksumAlgorithm"
@@ -1800,6 +1782,24 @@ extension PutObjectOutputResponseBody: Swift.Decodable {
         objectChecksum = objectChecksumDecoded
         let objectChecksumAlgorithmDecoded = try containerValues.decodeIfPresent(BackupStorageClientTypes.SummaryChecksumAlgorithm.self, forKey: .objectChecksumAlgorithm)
         objectChecksumAlgorithm = objectChecksumAlgorithmDecoded
+    }
+}
+
+enum PutObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidKeyUsageException": return try await KMSInvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotReadableInputStreamException": return try await NotReadableInputStreamException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RetryableException": return try await RetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceInternalException": return try await ServiceInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2086,6 +2086,47 @@ extension StartObjectInputBody: Swift.Decodable {
     }
 }
 
+extension StartObjectOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartObjectOutputBody = try responseDecoder.decode(responseBody: data)
+            self.uploadId = output.uploadId
+        } else {
+            self.uploadId = nil
+        }
+    }
+}
+
+public struct StartObjectOutput: Swift.Equatable {
+    /// Upload Id for a given upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init(
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.uploadId = uploadId
+    }
+}
+
+struct StartObjectOutputBody: Swift.Equatable {
+    let uploadId: Swift.String?
+}
+
+extension StartObjectOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case uploadId = "UploadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+    }
+}
+
 enum StartObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2101,47 +2142,6 @@ enum StartObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.uploadId = output.uploadId
-        } else {
-            self.uploadId = nil
-        }
-    }
-}
-
-public struct StartObjectOutputResponse: Swift.Equatable {
-    /// Upload Id for a given upload.
-    /// This member is required.
-    public var uploadId: Swift.String?
-
-    public init(
-        uploadId: Swift.String? = nil
-    )
-    {
-        self.uploadId = uploadId
-    }
-}
-
-struct StartObjectOutputResponseBody: Swift.Equatable {
-    let uploadId: Swift.String?
-}
-
-extension StartObjectOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case uploadId = "UploadId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
-        uploadId = uploadIdDecoded
     }
 }
 

@@ -8,7 +8,7 @@ public protocol PipesClientProtocol {
     ///
     /// - Parameter CreatePipeInput : [no documentation found]
     ///
-    /// - Returns: `CreatePipeOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePipeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol PipesClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota has been exceeded.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func createPipe(input: CreatePipeInput) async throws -> CreatePipeOutputResponse
+    func createPipe(input: CreatePipeInput) async throws -> CreatePipeOutput
     /// Delete an existing pipe. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter DeletePipeInput : [no documentation found]
     ///
-    /// - Returns: `DeletePipeOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePipeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func deletePipe(input: DeletePipeInput) async throws -> DeletePipeOutputResponse
+    func deletePipe(input: DeletePipeInput) async throws -> DeletePipeOutput
     /// Get the information about an existing pipe. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter DescribePipeInput : [no documentation found]
     ///
-    /// - Returns: `DescribePipeOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePipeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,12 +48,12 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func describePipe(input: DescribePipeInput) async throws -> DescribePipeOutputResponse
+    func describePipe(input: DescribePipeInput) async throws -> DescribePipeOutput
     /// Get the pipes associated with this account. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter ListPipesInput : [no documentation found]
     ///
-    /// - Returns: `ListPipesOutputResponse` : [no documentation found]
+    /// - Returns: `ListPipesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,12 +61,12 @@ public protocol PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func listPipes(input: ListPipesInput) async throws -> ListPipesOutputResponse
+    func listPipes(input: ListPipesInput) async throws -> ListPipesOutput
     /// Displays the tags associated with a pipe.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -74,12 +74,12 @@ public protocol PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Start an existing pipe.
     ///
     /// - Parameter StartPipeInput : [no documentation found]
     ///
-    /// - Returns: `StartPipeOutputResponse` : [no documentation found]
+    /// - Returns: `StartPipeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,12 +89,12 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func startPipe(input: StartPipeInput) async throws -> StartPipeOutputResponse
+    func startPipe(input: StartPipeInput) async throws -> StartPipeOutput
     /// Stop an existing pipe.
     ///
     /// - Parameter StopPipeInput : [no documentation found]
     ///
-    /// - Returns: `StopPipeOutputResponse` : [no documentation found]
+    /// - Returns: `StopPipeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,12 +104,12 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func stopPipe(input: StopPipeInput) async throws -> StopPipeOutputResponse
+    func stopPipe(input: StopPipeInput) async throws -> StopPipeOutput
     /// Assigns one or more tags (key-value pairs) to the specified pipe. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a pipe that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the pipe. If you specify a tag key that is already associated with the pipe, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a pipe.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -117,12 +117,12 @@ public protocol PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified pipes.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -130,12 +130,12 @@ public protocol PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update an existing pipe. When you call UpdatePipe, only the fields that are included in the request are changed, the rest are unchanged. The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters, or TargetParameters objects. The fields in these objects are updated atomically as one and override existing values. This is by design and means that if you don't specify an optional field in one of these Parameters objects, that field will be set to its system-default value after the update. For more information about pipes, see [ Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter UpdatePipeInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePipeOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePipeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -145,7 +145,7 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    func updatePipe(input: UpdatePipeInput) async throws -> UpdatePipeOutputResponse
+    func updatePipe(input: UpdatePipeInput) async throws -> UpdatePipeOutput
 }
 
 public enum PipesClientTypes {}

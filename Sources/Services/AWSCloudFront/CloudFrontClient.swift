@@ -73,7 +73,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter AssociateAliasInput : [no documentation found]
     ///
-    /// - Returns: `AssociateAliasOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,7 +83,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyDistributionCNAMEs` : Your request contains more CNAMEs than are allowed per distribution.
-    public func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutputResponse
+    public func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -99,18 +99,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateAliasInput, AssociateAliasOutputResponse, AssociateAliasOutputError>(id: "associateAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAliasInput, AssociateAliasOutputResponse, AssociateAliasOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAliasInput, AssociateAliasOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateAliasInput, AssociateAliasOutput, AssociateAliasOutputError>(id: "associateAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAliasInput, AssociateAliasOutput, AssociateAliasOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAliasInput, AssociateAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateAliasOutputResponse, AssociateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateAliasOutput, AssociateAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateAliasInput, AssociateAliasOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateAliasOutputResponse, AssociateAliasOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateAliasInput, AssociateAliasOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateAliasOutput, AssociateAliasOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAliasOutputResponse, AssociateAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAliasOutputResponse, AssociateAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAliasOutputResponse, AssociateAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAliasOutput, AssociateAliasOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAliasOutput, AssociateAliasOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAliasOutput, AssociateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -125,7 +125,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CopyDistributionInput : [no documentation found]
     ///
-    /// - Returns: `CopyDistributionOutputResponse` : [no documentation found]
+    /// - Returns: `CopyDistributionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,7 +194,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutputResponse
+    public func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -210,21 +210,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CopyDistributionInput, CopyDistributionOutputResponse, CopyDistributionOutputError>(id: "copyDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDistributionInput, CopyDistributionOutputResponse, CopyDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CopyDistributionInput, CopyDistributionOutput, CopyDistributionOutputError>(id: "copyDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDistributionInput, CopyDistributionOutput, CopyDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDistributionInput, CopyDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyDistributionOutputResponse, CopyDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyDistributionOutput, CopyDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>(xmlName: "CopyDistributionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CopyDistributionInput, CopyDistributionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopyDistributionInput, CopyDistributionOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopyDistributionInput, CopyDistributionOutput>(xmlName: "CopyDistributionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyDistributionOutputResponse, CopyDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyDistributionOutput, CopyDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDistributionOutputResponse, CopyDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDistributionOutputResponse, CopyDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDistributionOutputResponse, CopyDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDistributionOutput, CopyDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDistributionOutput, CopyDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDistributionOutput, CopyDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -240,7 +240,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateCachePolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreateCachePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCachePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -253,7 +253,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCookiesInCachePolicy` : The number of cookies in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutputResponse
+    public func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -269,20 +269,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCachePolicyInput, CreateCachePolicyOutputResponse, CreateCachePolicyOutputError>(id: "createCachePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCachePolicyInput, CreateCachePolicyOutputResponse, CreateCachePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCachePolicyInput, CreateCachePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCachePolicyInput, CreateCachePolicyOutput, CreateCachePolicyOutputError>(id: "createCachePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput, CreateCachePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCachePolicyOutputResponse, CreateCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCachePolicyOutput, CreateCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCachePolicyInput, CreateCachePolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateCachePolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCachePolicyOutputResponse, CreateCachePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCachePolicyOutput, CreateCachePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCachePolicyOutputResponse, CreateCachePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCachePolicyOutputResponse, CreateCachePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCachePolicyOutputResponse, CreateCachePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCachePolicyOutput, CreateCachePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCachePolicyOutput, CreateCachePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCachePolicyOutput, CreateCachePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -291,7 +291,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateCloudFrontOriginAccessIdentityInput : The request to create a new origin access identity (OAI). An origin access identity is a special CloudFront user that you can associate with Amazon S3 origins, so that you can secure all or just some of your Amazon S3 content. For more information, see [ Restricting Access to Amazon S3 Content by Using an Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Returns: `CreateCloudFrontOriginAccessIdentityOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `CreateCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -301,7 +301,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `TooManyCloudFrontOriginAccessIdentities` : Processing your request would cause you to exceed the maximum number of origin access identities allowed.
-    public func createCloudFrontOriginAccessIdentity(input: CreateCloudFrontOriginAccessIdentityInput) async throws -> CreateCloudFrontOriginAccessIdentityOutputResponse
+    public func createCloudFrontOriginAccessIdentity(input: CreateCloudFrontOriginAccessIdentityInput) async throws -> CreateCloudFrontOriginAccessIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -317,20 +317,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutputResponse, CreateCloudFrontOriginAccessIdentityOutputError>(id: "createCloudFrontOriginAccessIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutputResponse, CreateCloudFrontOriginAccessIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput, CreateCloudFrontOriginAccessIdentityOutputError>(id: "createCloudFrontOriginAccessIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput, CreateCloudFrontOriginAccessIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCloudFrontOriginAccessIdentityOutputResponse, CreateCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCloudFrontOriginAccessIdentityOutput, CreateCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateCloudFrontOriginAccessIdentityInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCloudFrontOriginAccessIdentityOutputResponse, CreateCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCloudFrontOriginAccessIdentityOutput, CreateCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCloudFrontOriginAccessIdentityOutputResponse, CreateCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCloudFrontOriginAccessIdentityOutputResponse, CreateCloudFrontOriginAccessIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCloudFrontOriginAccessIdentityOutputResponse, CreateCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCloudFrontOriginAccessIdentityOutput, CreateCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCloudFrontOriginAccessIdentityOutput, CreateCloudFrontOriginAccessIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCloudFrontOriginAccessIdentityOutput, CreateCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -339,7 +339,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateContinuousDeploymentPolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreateContinuousDeploymentPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateContinuousDeploymentPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -350,7 +350,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
     /// - `TooManyContinuousDeploymentPolicies` : You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
-    public func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutputResponse
+    public func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -366,20 +366,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutputResponse, CreateContinuousDeploymentPolicyOutputError>(id: "createContinuousDeploymentPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutputResponse, CreateContinuousDeploymentPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput, CreateContinuousDeploymentPolicyOutputError>(id: "createContinuousDeploymentPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput, CreateContinuousDeploymentPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContinuousDeploymentPolicyOutputResponse, CreateContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContinuousDeploymentPolicyOutput, CreateContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateContinuousDeploymentPolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateContinuousDeploymentPolicyOutputResponse, CreateContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateContinuousDeploymentPolicyOutput, CreateContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContinuousDeploymentPolicyOutputResponse, CreateContinuousDeploymentPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContinuousDeploymentPolicyOutputResponse, CreateContinuousDeploymentPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateContinuousDeploymentPolicyOutputResponse, CreateContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContinuousDeploymentPolicyOutput, CreateContinuousDeploymentPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContinuousDeploymentPolicyOutput, CreateContinuousDeploymentPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateContinuousDeploymentPolicyOutput, CreateContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -388,7 +388,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateDistributionInput : The request to create a new distribution.
     ///
-    /// - Returns: `CreateDistributionOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `CreateDistributionOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -458,7 +458,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutputResponse
+    public func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -474,20 +474,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDistributionInput, CreateDistributionOutputResponse, CreateDistributionOutputError>(id: "createDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDistributionInput, CreateDistributionOutputResponse, CreateDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDistributionInput, CreateDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDistributionInput, CreateDistributionOutput, CreateDistributionOutputError>(id: "createDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDistributionInput, CreateDistributionOutput, CreateDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDistributionInput, CreateDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDistributionOutputResponse, CreateDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDistributionOutput, CreateDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDistributionInput, CreateDistributionOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDistributionInput, CreateDistributionOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateDistributionInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDistributionOutputResponse, CreateDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDistributionOutput, CreateDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDistributionOutputResponse, CreateDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDistributionOutputResponse, CreateDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDistributionOutputResponse, CreateDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDistributionOutput, CreateDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDistributionOutput, CreateDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDistributionOutput, CreateDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -500,7 +500,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateDistributionWithTagsInput : The request to create a new distribution with tags.
     ///
-    /// - Returns: `CreateDistributionWithTagsOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `CreateDistributionWithTagsOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,7 +571,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutputResponse
+    public func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -587,21 +587,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutputResponse, CreateDistributionWithTagsOutputError>(id: "createDistributionWithTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutputResponse, CreateDistributionWithTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput, CreateDistributionWithTagsOutputError>(id: "createDistributionWithTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput, CreateDistributionWithTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDistributionWithTagsOutputResponse, CreateDistributionWithTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDistributionWithTagsOutput, CreateDistributionWithTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateDistributionWithTagsInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDistributionWithTagsOutputResponse, CreateDistributionWithTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDistributionWithTagsOutput, CreateDistributionWithTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDistributionWithTagsOutputResponse, CreateDistributionWithTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDistributionWithTagsOutputResponse, CreateDistributionWithTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDistributionWithTagsOutputResponse, CreateDistributionWithTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDistributionWithTagsOutput, CreateDistributionWithTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDistributionWithTagsOutput, CreateDistributionWithTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDistributionWithTagsOutput, CreateDistributionWithTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -610,7 +610,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateFieldLevelEncryptionConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateFieldLevelEncryptionConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFieldLevelEncryptionConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,7 +623,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionConfigs` : The maximum number of configurations for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
-    public func createFieldLevelEncryptionConfig(input: CreateFieldLevelEncryptionConfigInput) async throws -> CreateFieldLevelEncryptionConfigOutputResponse
+    public func createFieldLevelEncryptionConfig(input: CreateFieldLevelEncryptionConfigInput) async throws -> CreateFieldLevelEncryptionConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -639,20 +639,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutputResponse, CreateFieldLevelEncryptionConfigOutputError>(id: "createFieldLevelEncryptionConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutputResponse, CreateFieldLevelEncryptionConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput, CreateFieldLevelEncryptionConfigOutputError>(id: "createFieldLevelEncryptionConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput, CreateFieldLevelEncryptionConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFieldLevelEncryptionConfigOutputResponse, CreateFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFieldLevelEncryptionConfigOutput, CreateFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateFieldLevelEncryptionConfigInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFieldLevelEncryptionConfigOutputResponse, CreateFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFieldLevelEncryptionConfigOutput, CreateFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFieldLevelEncryptionConfigOutputResponse, CreateFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionConfigOutputResponse, CreateFieldLevelEncryptionConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionConfigOutputResponse, CreateFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFieldLevelEncryptionConfigOutput, CreateFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionConfigOutput, CreateFieldLevelEncryptionConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionConfigOutput, CreateFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -661,7 +661,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateFieldLevelEncryptionProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateFieldLevelEncryptionProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFieldLevelEncryptionProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -674,7 +674,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionEncryptionEntities` : The maximum number of encryption entities for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionProfiles` : The maximum number of profiles for field-level encryption have been created.
-    public func createFieldLevelEncryptionProfile(input: CreateFieldLevelEncryptionProfileInput) async throws -> CreateFieldLevelEncryptionProfileOutputResponse
+    public func createFieldLevelEncryptionProfile(input: CreateFieldLevelEncryptionProfileInput) async throws -> CreateFieldLevelEncryptionProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -690,20 +690,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutputResponse, CreateFieldLevelEncryptionProfileOutputError>(id: "createFieldLevelEncryptionProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutputResponse, CreateFieldLevelEncryptionProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput, CreateFieldLevelEncryptionProfileOutputError>(id: "createFieldLevelEncryptionProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput, CreateFieldLevelEncryptionProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFieldLevelEncryptionProfileOutputResponse, CreateFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFieldLevelEncryptionProfileOutput, CreateFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateFieldLevelEncryptionProfileInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFieldLevelEncryptionProfileOutputResponse, CreateFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFieldLevelEncryptionProfileOutput, CreateFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFieldLevelEncryptionProfileOutputResponse, CreateFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionProfileOutputResponse, CreateFieldLevelEncryptionProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionProfileOutputResponse, CreateFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFieldLevelEncryptionProfileOutput, CreateFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionProfileOutput, CreateFieldLevelEncryptionProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionProfileOutput, CreateFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -712,7 +712,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateFunctionInput : [no documentation found]
     ///
-    /// - Returns: `CreateFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,7 +722,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `TooManyFunctions` : You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutputResponse
+    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -738,20 +738,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFunctionInput, CreateFunctionOutputResponse, CreateFunctionOutputError>(id: "createFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionInput, CreateFunctionOutputResponse, CreateFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateFunctionInput, CreateFunctionOutput, CreateFunctionOutputError>(id: "createFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionInput, CreateFunctionOutput, CreateFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionInput, CreateFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionOutput, CreateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(xmlName: "CreateFunctionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionInput, CreateFunctionOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionInput, CreateFunctionOutput>(xmlName: "CreateFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionOutputResponse, CreateFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionOutput, CreateFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionOutput, CreateFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionOutput, CreateFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionOutput, CreateFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -760,7 +760,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateInvalidationInput : The request to create an invalidation.
     ///
-    /// - Returns: `CreateInvalidationOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `CreateInvalidationOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,7 +772,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyInvalidationsInProgress` : You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
-    public func createInvalidation(input: CreateInvalidationInput) async throws -> CreateInvalidationOutputResponse
+    public func createInvalidation(input: CreateInvalidationInput) async throws -> CreateInvalidationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -788,20 +788,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInvalidationInput, CreateInvalidationOutputResponse, CreateInvalidationOutputError>(id: "createInvalidation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInvalidationInput, CreateInvalidationOutputResponse, CreateInvalidationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInvalidationInput, CreateInvalidationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateInvalidationInput, CreateInvalidationOutput, CreateInvalidationOutputError>(id: "createInvalidation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInvalidationInput, CreateInvalidationOutput, CreateInvalidationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInvalidationInput, CreateInvalidationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInvalidationOutputResponse, CreateInvalidationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInvalidationOutput, CreateInvalidationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInvalidationInput, CreateInvalidationOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInvalidationInput, CreateInvalidationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateInvalidationInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInvalidationOutputResponse, CreateInvalidationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInvalidationOutput, CreateInvalidationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInvalidationOutputResponse, CreateInvalidationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInvalidationOutputResponse, CreateInvalidationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInvalidationOutputResponse, CreateInvalidationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInvalidationOutput, CreateInvalidationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInvalidationOutput, CreateInvalidationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInvalidationOutput, CreateInvalidationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -810,7 +810,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateKeyGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateKeyGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateKeyGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,7 +819,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `KeyGroupAlreadyExists` : A key group with this name already exists. You must provide a unique name. To modify an existing key group, use UpdateKeyGroup.
     /// - `TooManyKeyGroups` : You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createKeyGroup(input: CreateKeyGroupInput) async throws -> CreateKeyGroupOutputResponse
+    public func createKeyGroup(input: CreateKeyGroupInput) async throws -> CreateKeyGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -835,20 +835,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateKeyGroupInput, CreateKeyGroupOutputResponse, CreateKeyGroupOutputError>(id: "createKeyGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeyGroupInput, CreateKeyGroupOutputResponse, CreateKeyGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeyGroupInput, CreateKeyGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateKeyGroupInput, CreateKeyGroupOutput, CreateKeyGroupOutputError>(id: "createKeyGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput, CreateKeyGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateKeyGroupOutputResponse, CreateKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateKeyGroupOutput, CreateKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateKeyGroupInput, CreateKeyGroupOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateKeyGroupInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateKeyGroupOutputResponse, CreateKeyGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateKeyGroupOutput, CreateKeyGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeyGroupOutputResponse, CreateKeyGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeyGroupOutputResponse, CreateKeyGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateKeyGroupOutputResponse, CreateKeyGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeyGroupOutput, CreateKeyGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeyGroupOutput, CreateKeyGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateKeyGroupOutput, CreateKeyGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -857,7 +857,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateMonitoringSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateMonitoringSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMonitoringSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,7 +866,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `MonitoringSubscriptionAlreadyExists` : A monitoring subscription already exists for the specified distribution.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func createMonitoringSubscription(input: CreateMonitoringSubscriptionInput) async throws -> CreateMonitoringSubscriptionOutputResponse
+    public func createMonitoringSubscription(input: CreateMonitoringSubscriptionInput) async throws -> CreateMonitoringSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -882,20 +882,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutputResponse, CreateMonitoringSubscriptionOutputError>(id: "createMonitoringSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutputResponse, CreateMonitoringSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput, CreateMonitoringSubscriptionOutputError>(id: "createMonitoringSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput, CreateMonitoringSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMonitoringSubscriptionOutputResponse, CreateMonitoringSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMonitoringSubscriptionOutput, CreateMonitoringSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateMonitoringSubscriptionInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMonitoringSubscriptionOutputResponse, CreateMonitoringSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMonitoringSubscriptionOutput, CreateMonitoringSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMonitoringSubscriptionOutputResponse, CreateMonitoringSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMonitoringSubscriptionOutputResponse, CreateMonitoringSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMonitoringSubscriptionOutputResponse, CreateMonitoringSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMonitoringSubscriptionOutput, CreateMonitoringSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMonitoringSubscriptionOutput, CreateMonitoringSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMonitoringSubscriptionOutput, CreateMonitoringSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -904,7 +904,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateOriginAccessControlInput : [no documentation found]
     ///
-    /// - Returns: `CreateOriginAccessControlOutputResponse` : [no documentation found]
+    /// - Returns: `CreateOriginAccessControlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -912,7 +912,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `TooManyOriginAccessControls` : The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createOriginAccessControl(input: CreateOriginAccessControlInput) async throws -> CreateOriginAccessControlOutputResponse
+    public func createOriginAccessControl(input: CreateOriginAccessControlInput) async throws -> CreateOriginAccessControlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -928,20 +928,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateOriginAccessControlInput, CreateOriginAccessControlOutputResponse, CreateOriginAccessControlOutputError>(id: "createOriginAccessControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutputResponse, CreateOriginAccessControlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateOriginAccessControlInput, CreateOriginAccessControlOutput, CreateOriginAccessControlOutputError>(id: "createOriginAccessControl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput, CreateOriginAccessControlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOriginAccessControlOutputResponse, CreateOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOriginAccessControlOutput, CreateOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateOriginAccessControlInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOriginAccessControlOutputResponse, CreateOriginAccessControlOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOriginAccessControlOutput, CreateOriginAccessControlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOriginAccessControlOutputResponse, CreateOriginAccessControlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOriginAccessControlOutputResponse, CreateOriginAccessControlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOriginAccessControlOutputResponse, CreateOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOriginAccessControlOutput, CreateOriginAccessControlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOriginAccessControlOutput, CreateOriginAccessControlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOriginAccessControlOutput, CreateOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -959,7 +959,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateOriginRequestPolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreateOriginRequestPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateOriginRequestPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,7 +972,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyHeadersInOriginRequestPolicy` : The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyOriginRequestPolicies` : You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createOriginRequestPolicy(input: CreateOriginRequestPolicyInput) async throws -> CreateOriginRequestPolicyOutputResponse
+    public func createOriginRequestPolicy(input: CreateOriginRequestPolicyInput) async throws -> CreateOriginRequestPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -988,20 +988,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutputResponse, CreateOriginRequestPolicyOutputError>(id: "createOriginRequestPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutputResponse, CreateOriginRequestPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput, CreateOriginRequestPolicyOutputError>(id: "createOriginRequestPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput, CreateOriginRequestPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOriginRequestPolicyOutputResponse, CreateOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOriginRequestPolicyOutput, CreateOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateOriginRequestPolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOriginRequestPolicyOutputResponse, CreateOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOriginRequestPolicyOutput, CreateOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOriginRequestPolicyOutputResponse, CreateOriginRequestPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOriginRequestPolicyOutputResponse, CreateOriginRequestPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOriginRequestPolicyOutputResponse, CreateOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOriginRequestPolicyOutput, CreateOriginRequestPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOriginRequestPolicyOutput, CreateOriginRequestPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOriginRequestPolicyOutput, CreateOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1010,7 +1010,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreatePublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `CreatePublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1018,7 +1018,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `PublicKeyAlreadyExists` : The specified public key already exists.
     /// - `TooManyPublicKeys` : The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
-    public func createPublicKey(input: CreatePublicKeyInput) async throws -> CreatePublicKeyOutputResponse
+    public func createPublicKey(input: CreatePublicKeyInput) async throws -> CreatePublicKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1034,20 +1034,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePublicKeyInput, CreatePublicKeyOutputResponse, CreatePublicKeyOutputError>(id: "createPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePublicKeyInput, CreatePublicKeyOutputResponse, CreatePublicKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePublicKeyInput, CreatePublicKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePublicKeyInput, CreatePublicKeyOutput, CreatePublicKeyOutputError>(id: "createPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput, CreatePublicKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePublicKeyOutputResponse, CreatePublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePublicKeyOutput, CreatePublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePublicKeyInput, CreatePublicKeyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreatePublicKeyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePublicKeyOutputResponse, CreatePublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePublicKeyOutput, CreatePublicKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePublicKeyOutputResponse, CreatePublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePublicKeyOutputResponse, CreatePublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePublicKeyOutputResponse, CreatePublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePublicKeyOutput, CreatePublicKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePublicKeyOutput, CreatePublicKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePublicKeyOutput, CreatePublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1056,7 +1056,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateRealtimeLogConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateRealtimeLogConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRealtimeLogConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,7 +1065,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `RealtimeLogConfigAlreadyExists` : A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
     /// - `TooManyRealtimeLogConfigs` : You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createRealtimeLogConfig(input: CreateRealtimeLogConfigInput) async throws -> CreateRealtimeLogConfigOutputResponse
+    public func createRealtimeLogConfig(input: CreateRealtimeLogConfigInput) async throws -> CreateRealtimeLogConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1081,20 +1081,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>(id: "createRealtimeLogConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput, CreateRealtimeLogConfigOutputError>(id: "createRealtimeLogConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput, CreateRealtimeLogConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRealtimeLogConfigOutput, CreateRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse>(xmlName: "CreateRealtimeLogConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>(xmlName: "CreateRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRealtimeLogConfigOutput, CreateRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRealtimeLogConfigOutput, CreateRealtimeLogConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRealtimeLogConfigOutput, CreateRealtimeLogConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRealtimeLogConfigOutput, CreateRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1103,7 +1103,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateResponseHeadersPolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreateResponseHeadersPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateResponseHeadersPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,7 +1116,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCustomHeadersInResponseHeadersPolicy` : The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyResponseHeadersPolicies` : You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createResponseHeadersPolicy(input: CreateResponseHeadersPolicyInput) async throws -> CreateResponseHeadersPolicyOutputResponse
+    public func createResponseHeadersPolicy(input: CreateResponseHeadersPolicyInput) async throws -> CreateResponseHeadersPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1132,20 +1132,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutputResponse, CreateResponseHeadersPolicyOutputError>(id: "createResponseHeadersPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutputResponse, CreateResponseHeadersPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput, CreateResponseHeadersPolicyOutputError>(id: "createResponseHeadersPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput, CreateResponseHeadersPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResponseHeadersPolicyOutputResponse, CreateResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResponseHeadersPolicyOutput, CreateResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateResponseHeadersPolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateResponseHeadersPolicyOutputResponse, CreateResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateResponseHeadersPolicyOutput, CreateResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResponseHeadersPolicyOutputResponse, CreateResponseHeadersPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResponseHeadersPolicyOutputResponse, CreateResponseHeadersPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResponseHeadersPolicyOutputResponse, CreateResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResponseHeadersPolicyOutput, CreateResponseHeadersPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResponseHeadersPolicyOutput, CreateResponseHeadersPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResponseHeadersPolicyOutput, CreateResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1154,7 +1154,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateStreamingDistributionInput : The request to create a new streaming distribution.
     ///
-    /// - Returns: `CreateStreamingDistributionOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `CreateStreamingDistributionOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,7 +1172,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyStreamingDistributions` : Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createStreamingDistribution(input: CreateStreamingDistributionInput) async throws -> CreateStreamingDistributionOutputResponse
+    public func createStreamingDistribution(input: CreateStreamingDistributionInput) async throws -> CreateStreamingDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1188,20 +1188,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateStreamingDistributionInput, CreateStreamingDistributionOutputResponse, CreateStreamingDistributionOutputError>(id: "createStreamingDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutputResponse, CreateStreamingDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateStreamingDistributionInput, CreateStreamingDistributionOutput, CreateStreamingDistributionOutputError>(id: "createStreamingDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput, CreateStreamingDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStreamingDistributionOutputResponse, CreateStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStreamingDistributionOutput, CreateStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateStreamingDistributionInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStreamingDistributionOutputResponse, CreateStreamingDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStreamingDistributionOutput, CreateStreamingDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamingDistributionOutputResponse, CreateStreamingDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionOutputResponse, CreateStreamingDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamingDistributionOutputResponse, CreateStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamingDistributionOutput, CreateStreamingDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionOutput, CreateStreamingDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamingDistributionOutput, CreateStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1210,7 +1210,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter CreateStreamingDistributionWithTagsInput : The request to create a new streaming distribution with tags.
     ///
-    /// - Returns: `CreateStreamingDistributionWithTagsOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `CreateStreamingDistributionWithTagsOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,7 +1229,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyStreamingDistributions` : Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createStreamingDistributionWithTags(input: CreateStreamingDistributionWithTagsInput) async throws -> CreateStreamingDistributionWithTagsOutputResponse
+    public func createStreamingDistributionWithTags(input: CreateStreamingDistributionWithTagsInput) async throws -> CreateStreamingDistributionWithTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1245,21 +1245,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutputResponse, CreateStreamingDistributionWithTagsOutputError>(id: "createStreamingDistributionWithTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutputResponse, CreateStreamingDistributionWithTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput, CreateStreamingDistributionWithTagsOutputError>(id: "createStreamingDistributionWithTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput, CreateStreamingDistributionWithTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStreamingDistributionWithTagsOutputResponse, CreateStreamingDistributionWithTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStreamingDistributionWithTagsOutput, CreateStreamingDistributionWithTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: CreateStreamingDistributionWithTagsInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStreamingDistributionWithTagsOutputResponse, CreateStreamingDistributionWithTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStreamingDistributionWithTagsOutput, CreateStreamingDistributionWithTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamingDistributionWithTagsOutputResponse, CreateStreamingDistributionWithTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionWithTagsOutputResponse, CreateStreamingDistributionWithTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamingDistributionWithTagsOutputResponse, CreateStreamingDistributionWithTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamingDistributionWithTagsOutput, CreateStreamingDistributionWithTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionWithTagsOutput, CreateStreamingDistributionWithTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamingDistributionWithTagsOutput, CreateStreamingDistributionWithTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1268,7 +1268,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteCachePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCachePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCachePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1279,7 +1279,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutputResponse
+    public func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1295,18 +1295,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCachePolicyInput, DeleteCachePolicyOutputResponse, DeleteCachePolicyOutputError>(id: "deleteCachePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutputResponse, DeleteCachePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCachePolicyInput, DeleteCachePolicyOutput, DeleteCachePolicyOutputError>(id: "deleteCachePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput, DeleteCachePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCachePolicyOutputResponse, DeleteCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCachePolicyOutput, DeleteCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCachePolicyOutputResponse, DeleteCachePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCachePolicyOutput, DeleteCachePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCachePolicyOutputResponse, DeleteCachePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCachePolicyOutputResponse, DeleteCachePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCachePolicyOutputResponse, DeleteCachePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCachePolicyOutput, DeleteCachePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCachePolicyOutput, DeleteCachePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCachePolicyOutput, DeleteCachePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1315,7 +1315,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteCloudFrontOriginAccessIdentityInput : Deletes a origin access identity.
     ///
-    /// - Returns: `DeleteCloudFrontOriginAccessIdentityOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCloudFrontOriginAccessIdentityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1325,7 +1325,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteCloudFrontOriginAccessIdentity(input: DeleteCloudFrontOriginAccessIdentityInput) async throws -> DeleteCloudFrontOriginAccessIdentityOutputResponse
+    public func deleteCloudFrontOriginAccessIdentity(input: DeleteCloudFrontOriginAccessIdentityInput) async throws -> DeleteCloudFrontOriginAccessIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1341,18 +1341,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutputResponse, DeleteCloudFrontOriginAccessIdentityOutputError>(id: "deleteCloudFrontOriginAccessIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutputResponse, DeleteCloudFrontOriginAccessIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput, DeleteCloudFrontOriginAccessIdentityOutputError>(id: "deleteCloudFrontOriginAccessIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput, DeleteCloudFrontOriginAccessIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCloudFrontOriginAccessIdentityOutputResponse, DeleteCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCloudFrontOriginAccessIdentityOutput, DeleteCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCloudFrontOriginAccessIdentityOutputResponse, DeleteCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCloudFrontOriginAccessIdentityOutput, DeleteCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCloudFrontOriginAccessIdentityOutputResponse, DeleteCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCloudFrontOriginAccessIdentityOutputResponse, DeleteCloudFrontOriginAccessIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCloudFrontOriginAccessIdentityOutputResponse, DeleteCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCloudFrontOriginAccessIdentityOutput, DeleteCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCloudFrontOriginAccessIdentityOutput, DeleteCloudFrontOriginAccessIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCloudFrontOriginAccessIdentityOutput, DeleteCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1361,7 +1361,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteContinuousDeploymentPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteContinuousDeploymentPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteContinuousDeploymentPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,7 +1372,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutputResponse
+    public func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1388,18 +1388,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutputResponse, DeleteContinuousDeploymentPolicyOutputError>(id: "deleteContinuousDeploymentPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutputResponse, DeleteContinuousDeploymentPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput, DeleteContinuousDeploymentPolicyOutputError>(id: "deleteContinuousDeploymentPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput, DeleteContinuousDeploymentPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteContinuousDeploymentPolicyOutputResponse, DeleteContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteContinuousDeploymentPolicyOutput, DeleteContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteContinuousDeploymentPolicyOutputResponse, DeleteContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteContinuousDeploymentPolicyOutput, DeleteContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContinuousDeploymentPolicyOutputResponse, DeleteContinuousDeploymentPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContinuousDeploymentPolicyOutputResponse, DeleteContinuousDeploymentPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteContinuousDeploymentPolicyOutputResponse, DeleteContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContinuousDeploymentPolicyOutput, DeleteContinuousDeploymentPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContinuousDeploymentPolicyOutput, DeleteContinuousDeploymentPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteContinuousDeploymentPolicyOutput, DeleteContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1427,7 +1427,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Returns: `DeleteDistributionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDistributionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1437,7 +1437,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutputResponse
+    public func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1453,18 +1453,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDistributionInput, DeleteDistributionOutputResponse, DeleteDistributionOutputError>(id: "deleteDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDistributionInput, DeleteDistributionOutputResponse, DeleteDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDistributionInput, DeleteDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDistributionInput, DeleteDistributionOutput, DeleteDistributionOutputError>(id: "deleteDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDistributionInput, DeleteDistributionOutput, DeleteDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDistributionInput, DeleteDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDistributionOutput, DeleteDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteDistributionInput, DeleteDistributionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDistributionOutputResponse, DeleteDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteDistributionInput, DeleteDistributionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDistributionOutput, DeleteDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDistributionOutput, DeleteDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDistributionOutput, DeleteDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDistributionOutput, DeleteDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1473,7 +1473,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteFieldLevelEncryptionConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFieldLevelEncryptionConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFieldLevelEncryptionConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1483,7 +1483,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteFieldLevelEncryptionConfig(input: DeleteFieldLevelEncryptionConfigInput) async throws -> DeleteFieldLevelEncryptionConfigOutputResponse
+    public func deleteFieldLevelEncryptionConfig(input: DeleteFieldLevelEncryptionConfigInput) async throws -> DeleteFieldLevelEncryptionConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1499,18 +1499,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutputResponse, DeleteFieldLevelEncryptionConfigOutputError>(id: "deleteFieldLevelEncryptionConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutputResponse, DeleteFieldLevelEncryptionConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput, DeleteFieldLevelEncryptionConfigOutputError>(id: "deleteFieldLevelEncryptionConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput, DeleteFieldLevelEncryptionConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFieldLevelEncryptionConfigOutputResponse, DeleteFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFieldLevelEncryptionConfigOutput, DeleteFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFieldLevelEncryptionConfigOutputResponse, DeleteFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFieldLevelEncryptionConfigOutput, DeleteFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFieldLevelEncryptionConfigOutputResponse, DeleteFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionConfigOutputResponse, DeleteFieldLevelEncryptionConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionConfigOutputResponse, DeleteFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFieldLevelEncryptionConfigOutput, DeleteFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionConfigOutput, DeleteFieldLevelEncryptionConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionConfigOutput, DeleteFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1519,7 +1519,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteFieldLevelEncryptionProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFieldLevelEncryptionProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFieldLevelEncryptionProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1529,7 +1529,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteFieldLevelEncryptionProfile(input: DeleteFieldLevelEncryptionProfileInput) async throws -> DeleteFieldLevelEncryptionProfileOutputResponse
+    public func deleteFieldLevelEncryptionProfile(input: DeleteFieldLevelEncryptionProfileInput) async throws -> DeleteFieldLevelEncryptionProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1545,18 +1545,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutputResponse, DeleteFieldLevelEncryptionProfileOutputError>(id: "deleteFieldLevelEncryptionProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutputResponse, DeleteFieldLevelEncryptionProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput, DeleteFieldLevelEncryptionProfileOutputError>(id: "deleteFieldLevelEncryptionProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput, DeleteFieldLevelEncryptionProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFieldLevelEncryptionProfileOutputResponse, DeleteFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFieldLevelEncryptionProfileOutput, DeleteFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFieldLevelEncryptionProfileOutputResponse, DeleteFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFieldLevelEncryptionProfileOutput, DeleteFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFieldLevelEncryptionProfileOutputResponse, DeleteFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionProfileOutputResponse, DeleteFieldLevelEncryptionProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionProfileOutputResponse, DeleteFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFieldLevelEncryptionProfileOutput, DeleteFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionProfileOutput, DeleteFieldLevelEncryptionProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionProfileOutput, DeleteFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1565,7 +1565,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteFunctionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1575,7 +1575,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutputResponse
+    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1591,18 +1591,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFunctionInput, DeleteFunctionOutputResponse, DeleteFunctionOutputError>(id: "deleteFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteFunctionInput, DeleteFunctionOutput, DeleteFunctionOutputError>(id: "deleteFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionInput, DeleteFunctionOutput, DeleteFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionOutput, DeleteFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionOutputResponse, DeleteFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteFunctionInput, DeleteFunctionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionOutput, DeleteFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionOutput, DeleteFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionOutput, DeleteFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionOutput, DeleteFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1611,7 +1611,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteKeyGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteKeyGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteKeyGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1620,7 +1620,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchResource` : A resource that was specified is not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceInUse` : Cannot delete this resource because it is in use.
-    public func deleteKeyGroup(input: DeleteKeyGroupInput) async throws -> DeleteKeyGroupOutputResponse
+    public func deleteKeyGroup(input: DeleteKeyGroupInput) async throws -> DeleteKeyGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1636,18 +1636,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteKeyGroupInput, DeleteKeyGroupOutputResponse, DeleteKeyGroupOutputError>(id: "deleteKeyGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutputResponse, DeleteKeyGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteKeyGroupInput, DeleteKeyGroupOutput, DeleteKeyGroupOutputError>(id: "deleteKeyGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput, DeleteKeyGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteKeyGroupOutputResponse, DeleteKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteKeyGroupOutput, DeleteKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteKeyGroupOutputResponse, DeleteKeyGroupOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteKeyGroupOutput, DeleteKeyGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeyGroupOutputResponse, DeleteKeyGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeyGroupOutputResponse, DeleteKeyGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteKeyGroupOutputResponse, DeleteKeyGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeyGroupOutput, DeleteKeyGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeyGroupOutput, DeleteKeyGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteKeyGroupOutput, DeleteKeyGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1656,7 +1656,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteMonitoringSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMonitoringSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMonitoringSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,7 +1665,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func deleteMonitoringSubscription(input: DeleteMonitoringSubscriptionInput) async throws -> DeleteMonitoringSubscriptionOutputResponse
+    public func deleteMonitoringSubscription(input: DeleteMonitoringSubscriptionInput) async throws -> DeleteMonitoringSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1681,17 +1681,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutputResponse, DeleteMonitoringSubscriptionOutputError>(id: "deleteMonitoringSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutputResponse, DeleteMonitoringSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput, DeleteMonitoringSubscriptionOutputError>(id: "deleteMonitoringSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput, DeleteMonitoringSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMonitoringSubscriptionOutputResponse, DeleteMonitoringSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMonitoringSubscriptionOutput, DeleteMonitoringSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMonitoringSubscriptionOutputResponse, DeleteMonitoringSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMonitoringSubscriptionOutput, DeleteMonitoringSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMonitoringSubscriptionOutputResponse, DeleteMonitoringSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMonitoringSubscriptionOutputResponse, DeleteMonitoringSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMonitoringSubscriptionOutputResponse, DeleteMonitoringSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMonitoringSubscriptionOutput, DeleteMonitoringSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMonitoringSubscriptionOutput, DeleteMonitoringSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMonitoringSubscriptionOutput, DeleteMonitoringSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1700,7 +1700,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteOriginAccessControlInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOriginAccessControlOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOriginAccessControlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1710,7 +1710,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     /// - `OriginAccessControlInUse` : Cannot delete the origin access control because it's in use by one or more distributions.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteOriginAccessControl(input: DeleteOriginAccessControlInput) async throws -> DeleteOriginAccessControlOutputResponse
+    public func deleteOriginAccessControl(input: DeleteOriginAccessControlInput) async throws -> DeleteOriginAccessControlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1726,18 +1726,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutputResponse, DeleteOriginAccessControlOutputError>(id: "deleteOriginAccessControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutputResponse, DeleteOriginAccessControlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput, DeleteOriginAccessControlOutputError>(id: "deleteOriginAccessControl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput, DeleteOriginAccessControlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginAccessControlOutputResponse, DeleteOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginAccessControlOutput, DeleteOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginAccessControlOutputResponse, DeleteOriginAccessControlOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginAccessControlOutput, DeleteOriginAccessControlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginAccessControlOutputResponse, DeleteOriginAccessControlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginAccessControlOutputResponse, DeleteOriginAccessControlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginAccessControlOutputResponse, DeleteOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginAccessControlOutput, DeleteOriginAccessControlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginAccessControlOutput, DeleteOriginAccessControlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginAccessControlOutput, DeleteOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1746,7 +1746,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteOriginRequestPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOriginRequestPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOriginRequestPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1757,7 +1757,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     /// - `OriginRequestPolicyInUse` : Cannot delete the origin request policy because it is attached to one or more cache behaviors.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteOriginRequestPolicy(input: DeleteOriginRequestPolicyInput) async throws -> DeleteOriginRequestPolicyOutputResponse
+    public func deleteOriginRequestPolicy(input: DeleteOriginRequestPolicyInput) async throws -> DeleteOriginRequestPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1773,18 +1773,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutputResponse, DeleteOriginRequestPolicyOutputError>(id: "deleteOriginRequestPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutputResponse, DeleteOriginRequestPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput, DeleteOriginRequestPolicyOutputError>(id: "deleteOriginRequestPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput, DeleteOriginRequestPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginRequestPolicyOutputResponse, DeleteOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginRequestPolicyOutput, DeleteOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginRequestPolicyOutputResponse, DeleteOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginRequestPolicyOutput, DeleteOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginRequestPolicyOutputResponse, DeleteOriginRequestPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginRequestPolicyOutputResponse, DeleteOriginRequestPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginRequestPolicyOutputResponse, DeleteOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginRequestPolicyOutput, DeleteOriginRequestPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginRequestPolicyOutput, DeleteOriginRequestPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginRequestPolicyOutput, DeleteOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1793,7 +1793,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeletePublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `DeletePublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1803,7 +1803,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `PublicKeyInUse` : The specified public key is in use.
-    public func deletePublicKey(input: DeletePublicKeyInput) async throws -> DeletePublicKeyOutputResponse
+    public func deletePublicKey(input: DeletePublicKeyInput) async throws -> DeletePublicKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1819,18 +1819,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePublicKeyInput, DeletePublicKeyOutputResponse, DeletePublicKeyOutputError>(id: "deletePublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePublicKeyInput, DeletePublicKeyOutputResponse, DeletePublicKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePublicKeyInput, DeletePublicKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePublicKeyInput, DeletePublicKeyOutput, DeletePublicKeyOutputError>(id: "deletePublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput, DeletePublicKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePublicKeyOutputResponse, DeletePublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePublicKeyOutput, DeletePublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeletePublicKeyInput, DeletePublicKeyOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePublicKeyOutputResponse, DeletePublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePublicKeyOutput, DeletePublicKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePublicKeyOutputResponse, DeletePublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePublicKeyOutputResponse, DeletePublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePublicKeyOutputResponse, DeletePublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePublicKeyOutput, DeletePublicKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePublicKeyOutput, DeletePublicKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePublicKeyOutput, DeletePublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1839,7 +1839,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteRealtimeLogConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRealtimeLogConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRealtimeLogConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1848,7 +1848,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     /// - `RealtimeLogConfigInUse` : Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
-    public func deleteRealtimeLogConfig(input: DeleteRealtimeLogConfigInput) async throws -> DeleteRealtimeLogConfigOutputResponse
+    public func deleteRealtimeLogConfig(input: DeleteRealtimeLogConfigInput) async throws -> DeleteRealtimeLogConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1864,20 +1864,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>(id: "deleteRealtimeLogConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput, DeleteRealtimeLogConfigOutputError>(id: "deleteRealtimeLogConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput, DeleteRealtimeLogConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRealtimeLogConfigOutput, DeleteRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse>(xmlName: "DeleteRealtimeLogConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>(xmlName: "DeleteRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRealtimeLogConfigOutput, DeleteRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRealtimeLogConfigOutput, DeleteRealtimeLogConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRealtimeLogConfigOutput, DeleteRealtimeLogConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRealtimeLogConfigOutput, DeleteRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1886,7 +1886,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteResponseHeadersPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResponseHeadersPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResponseHeadersPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,7 +1897,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResponseHeadersPolicyInUse` : Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
-    public func deleteResponseHeadersPolicy(input: DeleteResponseHeadersPolicyInput) async throws -> DeleteResponseHeadersPolicyOutputResponse
+    public func deleteResponseHeadersPolicy(input: DeleteResponseHeadersPolicyInput) async throws -> DeleteResponseHeadersPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1913,18 +1913,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutputResponse, DeleteResponseHeadersPolicyOutputError>(id: "deleteResponseHeadersPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutputResponse, DeleteResponseHeadersPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput, DeleteResponseHeadersPolicyOutputError>(id: "deleteResponseHeadersPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput, DeleteResponseHeadersPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResponseHeadersPolicyOutputResponse, DeleteResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResponseHeadersPolicyOutput, DeleteResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResponseHeadersPolicyOutputResponse, DeleteResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResponseHeadersPolicyOutput, DeleteResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResponseHeadersPolicyOutputResponse, DeleteResponseHeadersPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResponseHeadersPolicyOutputResponse, DeleteResponseHeadersPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResponseHeadersPolicyOutputResponse, DeleteResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResponseHeadersPolicyOutput, DeleteResponseHeadersPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResponseHeadersPolicyOutput, DeleteResponseHeadersPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResponseHeadersPolicyOutput, DeleteResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1952,7 +1952,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DeleteStreamingDistributionInput : The request to delete a streaming distribution.
     ///
-    /// - Returns: `DeleteStreamingDistributionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStreamingDistributionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1962,7 +1962,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StreamingDistributionNotDisabled` : The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
-    public func deleteStreamingDistribution(input: DeleteStreamingDistributionInput) async throws -> DeleteStreamingDistributionOutputResponse
+    public func deleteStreamingDistribution(input: DeleteStreamingDistributionInput) async throws -> DeleteStreamingDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1978,18 +1978,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutputResponse, DeleteStreamingDistributionOutputError>(id: "deleteStreamingDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutputResponse, DeleteStreamingDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput, DeleteStreamingDistributionOutputError>(id: "deleteStreamingDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput, DeleteStreamingDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStreamingDistributionOutputResponse, DeleteStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStreamingDistributionOutput, DeleteStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStreamingDistributionOutputResponse, DeleteStreamingDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStreamingDistributionOutput, DeleteStreamingDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStreamingDistributionOutputResponse, DeleteStreamingDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamingDistributionOutputResponse, DeleteStreamingDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamingDistributionOutputResponse, DeleteStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStreamingDistributionOutput, DeleteStreamingDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamingDistributionOutput, DeleteStreamingDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamingDistributionOutput, DeleteStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1998,14 +1998,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter DescribeFunctionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutputResponse
+    public func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2021,18 +2021,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeFunctionInput, DescribeFunctionOutputResponse, DescribeFunctionOutputError>(id: "describeFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFunctionInput, DescribeFunctionOutputResponse, DescribeFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFunctionInput, DescribeFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeFunctionInput, DescribeFunctionOutput, DescribeFunctionOutputError>(id: "describeFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFunctionInput, DescribeFunctionOutput, DescribeFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFunctionInput, DescribeFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFunctionOutputResponse, DescribeFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFunctionOutput, DescribeFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeFunctionInput, DescribeFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFunctionOutputResponse, DescribeFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeFunctionInput, DescribeFunctionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFunctionOutput, DescribeFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFunctionOutputResponse, DescribeFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFunctionOutputResponse, DescribeFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFunctionOutputResponse, DescribeFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFunctionOutput, DescribeFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFunctionOutput, DescribeFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFunctionOutput, DescribeFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2048,14 +2048,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetCachePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetCachePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetCachePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func getCachePolicy(input: GetCachePolicyInput) async throws -> GetCachePolicyOutputResponse
+    public func getCachePolicy(input: GetCachePolicyInput) async throws -> GetCachePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2071,17 +2071,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCachePolicyInput, GetCachePolicyOutputResponse, GetCachePolicyOutputError>(id: "getCachePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCachePolicyInput, GetCachePolicyOutputResponse, GetCachePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCachePolicyInput, GetCachePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCachePolicyInput, GetCachePolicyOutput, GetCachePolicyOutputError>(id: "getCachePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCachePolicyInput, GetCachePolicyOutput, GetCachePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCachePolicyInput, GetCachePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCachePolicyOutputResponse, GetCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCachePolicyOutput, GetCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCachePolicyOutputResponse, GetCachePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCachePolicyOutput, GetCachePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCachePolicyOutputResponse, GetCachePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCachePolicyOutputResponse, GetCachePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCachePolicyOutputResponse, GetCachePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCachePolicyOutput, GetCachePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCachePolicyOutput, GetCachePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCachePolicyOutput, GetCachePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2090,14 +2090,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetCachePolicyConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetCachePolicyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetCachePolicyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func getCachePolicyConfig(input: GetCachePolicyConfigInput) async throws -> GetCachePolicyConfigOutputResponse
+    public func getCachePolicyConfig(input: GetCachePolicyConfigInput) async throws -> GetCachePolicyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2113,17 +2113,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCachePolicyConfigInput, GetCachePolicyConfigOutputResponse, GetCachePolicyConfigOutputError>(id: "getCachePolicyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutputResponse, GetCachePolicyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCachePolicyConfigInput, GetCachePolicyConfigOutput, GetCachePolicyConfigOutputError>(id: "getCachePolicyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutput, GetCachePolicyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCachePolicyConfigOutputResponse, GetCachePolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCachePolicyConfigOutput, GetCachePolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCachePolicyConfigOutputResponse, GetCachePolicyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCachePolicyConfigOutput, GetCachePolicyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCachePolicyConfigOutputResponse, GetCachePolicyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCachePolicyConfigOutputResponse, GetCachePolicyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCachePolicyConfigOutputResponse, GetCachePolicyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCachePolicyConfigOutput, GetCachePolicyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCachePolicyConfigOutput, GetCachePolicyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCachePolicyConfigOutput, GetCachePolicyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2132,14 +2132,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetCloudFrontOriginAccessIdentityInput : The request to get an origin access identity's information.
     ///
-    /// - Returns: `GetCloudFrontOriginAccessIdentityOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `GetCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
-    public func getCloudFrontOriginAccessIdentity(input: GetCloudFrontOriginAccessIdentityInput) async throws -> GetCloudFrontOriginAccessIdentityOutputResponse
+    public func getCloudFrontOriginAccessIdentity(input: GetCloudFrontOriginAccessIdentityInput) async throws -> GetCloudFrontOriginAccessIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2155,17 +2155,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutputResponse, GetCloudFrontOriginAccessIdentityOutputError>(id: "getCloudFrontOriginAccessIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutputResponse, GetCloudFrontOriginAccessIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput, GetCloudFrontOriginAccessIdentityOutputError>(id: "getCloudFrontOriginAccessIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput, GetCloudFrontOriginAccessIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCloudFrontOriginAccessIdentityOutputResponse, GetCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCloudFrontOriginAccessIdentityOutput, GetCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCloudFrontOriginAccessIdentityOutputResponse, GetCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCloudFrontOriginAccessIdentityOutput, GetCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCloudFrontOriginAccessIdentityOutputResponse, GetCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityOutputResponse, GetCloudFrontOriginAccessIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityOutputResponse, GetCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCloudFrontOriginAccessIdentityOutput, GetCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityOutput, GetCloudFrontOriginAccessIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityOutput, GetCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2174,14 +2174,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetCloudFrontOriginAccessIdentityConfigInput : The origin access identity's configuration information. For more information, see [CloudFrontOriginAccessIdentityConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CloudFrontOriginAccessIdentityConfig.html).
     ///
-    /// - Returns: `GetCloudFrontOriginAccessIdentityConfigOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `GetCloudFrontOriginAccessIdentityConfigOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
-    public func getCloudFrontOriginAccessIdentityConfig(input: GetCloudFrontOriginAccessIdentityConfigInput) async throws -> GetCloudFrontOriginAccessIdentityConfigOutputResponse
+    public func getCloudFrontOriginAccessIdentityConfig(input: GetCloudFrontOriginAccessIdentityConfigInput) async throws -> GetCloudFrontOriginAccessIdentityConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2197,17 +2197,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutputResponse, GetCloudFrontOriginAccessIdentityConfigOutputError>(id: "getCloudFrontOriginAccessIdentityConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutputResponse, GetCloudFrontOriginAccessIdentityConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput, GetCloudFrontOriginAccessIdentityConfigOutputError>(id: "getCloudFrontOriginAccessIdentityConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput, GetCloudFrontOriginAccessIdentityConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCloudFrontOriginAccessIdentityConfigOutputResponse, GetCloudFrontOriginAccessIdentityConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCloudFrontOriginAccessIdentityConfigOutput, GetCloudFrontOriginAccessIdentityConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCloudFrontOriginAccessIdentityConfigOutputResponse, GetCloudFrontOriginAccessIdentityConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCloudFrontOriginAccessIdentityConfigOutput, GetCloudFrontOriginAccessIdentityConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCloudFrontOriginAccessIdentityConfigOutputResponse, GetCloudFrontOriginAccessIdentityConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityConfigOutputResponse, GetCloudFrontOriginAccessIdentityConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityConfigOutputResponse, GetCloudFrontOriginAccessIdentityConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCloudFrontOriginAccessIdentityConfigOutput, GetCloudFrontOriginAccessIdentityConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityConfigOutput, GetCloudFrontOriginAccessIdentityConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityConfigOutput, GetCloudFrontOriginAccessIdentityConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2216,14 +2216,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetContinuousDeploymentPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetContinuousDeploymentPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetContinuousDeploymentPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
-    public func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutputResponse
+    public func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2239,17 +2239,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutputResponse, GetContinuousDeploymentPolicyOutputError>(id: "getContinuousDeploymentPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutputResponse, GetContinuousDeploymentPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput, GetContinuousDeploymentPolicyOutputError>(id: "getContinuousDeploymentPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput, GetContinuousDeploymentPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContinuousDeploymentPolicyOutputResponse, GetContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContinuousDeploymentPolicyOutput, GetContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContinuousDeploymentPolicyOutputResponse, GetContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContinuousDeploymentPolicyOutput, GetContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContinuousDeploymentPolicyOutputResponse, GetContinuousDeploymentPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyOutputResponse, GetContinuousDeploymentPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyOutputResponse, GetContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContinuousDeploymentPolicyOutput, GetContinuousDeploymentPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyOutput, GetContinuousDeploymentPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyOutput, GetContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2258,14 +2258,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetContinuousDeploymentPolicyConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetContinuousDeploymentPolicyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetContinuousDeploymentPolicyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
-    public func getContinuousDeploymentPolicyConfig(input: GetContinuousDeploymentPolicyConfigInput) async throws -> GetContinuousDeploymentPolicyConfigOutputResponse
+    public func getContinuousDeploymentPolicyConfig(input: GetContinuousDeploymentPolicyConfigInput) async throws -> GetContinuousDeploymentPolicyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2281,17 +2281,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutputResponse, GetContinuousDeploymentPolicyConfigOutputError>(id: "getContinuousDeploymentPolicyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutputResponse, GetContinuousDeploymentPolicyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput, GetContinuousDeploymentPolicyConfigOutputError>(id: "getContinuousDeploymentPolicyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput, GetContinuousDeploymentPolicyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContinuousDeploymentPolicyConfigOutputResponse, GetContinuousDeploymentPolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContinuousDeploymentPolicyConfigOutput, GetContinuousDeploymentPolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContinuousDeploymentPolicyConfigOutputResponse, GetContinuousDeploymentPolicyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContinuousDeploymentPolicyConfigOutput, GetContinuousDeploymentPolicyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContinuousDeploymentPolicyConfigOutputResponse, GetContinuousDeploymentPolicyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyConfigOutputResponse, GetContinuousDeploymentPolicyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyConfigOutputResponse, GetContinuousDeploymentPolicyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContinuousDeploymentPolicyConfigOutput, GetContinuousDeploymentPolicyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyConfigOutput, GetContinuousDeploymentPolicyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyConfigOutput, GetContinuousDeploymentPolicyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2300,14 +2300,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetDistributionInput : The request to get a distribution's information.
     ///
-    /// - Returns: `GetDistributionOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `GetDistributionOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func getDistribution(input: GetDistributionInput) async throws -> GetDistributionOutputResponse
+    public func getDistribution(input: GetDistributionInput) async throws -> GetDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2323,17 +2323,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDistributionInput, GetDistributionOutputResponse, GetDistributionOutputError>(id: "getDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionInput, GetDistributionOutputResponse, GetDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionInput, GetDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDistributionInput, GetDistributionOutput, GetDistributionOutputError>(id: "getDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionInput, GetDistributionOutput, GetDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionInput, GetDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionOutputResponse, GetDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionOutput, GetDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDistributionOutputResponse, GetDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDistributionOutput, GetDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionOutputResponse, GetDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionOutputResponse, GetDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDistributionOutputResponse, GetDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionOutput, GetDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionOutput, GetDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDistributionOutput, GetDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2342,14 +2342,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetDistributionConfigInput : The request to get a distribution configuration.
     ///
-    /// - Returns: `GetDistributionConfigOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `GetDistributionConfigOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func getDistributionConfig(input: GetDistributionConfigInput) async throws -> GetDistributionConfigOutputResponse
+    public func getDistributionConfig(input: GetDistributionConfigInput) async throws -> GetDistributionConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2365,17 +2365,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDistributionConfigInput, GetDistributionConfigOutputResponse, GetDistributionConfigOutputError>(id: "getDistributionConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionConfigInput, GetDistributionConfigOutputResponse, GetDistributionConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionConfigInput, GetDistributionConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDistributionConfigInput, GetDistributionConfigOutput, GetDistributionConfigOutputError>(id: "getDistributionConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionConfigInput, GetDistributionConfigOutput, GetDistributionConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionConfigInput, GetDistributionConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionConfigOutputResponse, GetDistributionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionConfigOutput, GetDistributionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDistributionConfigOutputResponse, GetDistributionConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDistributionConfigOutput, GetDistributionConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionConfigOutputResponse, GetDistributionConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionConfigOutputResponse, GetDistributionConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDistributionConfigOutputResponse, GetDistributionConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionConfigOutput, GetDistributionConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionConfigOutput, GetDistributionConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDistributionConfigOutput, GetDistributionConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2384,14 +2384,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetFieldLevelEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `GetFieldLevelEncryptionOutputResponse` : [no documentation found]
+    /// - Returns: `GetFieldLevelEncryptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
-    public func getFieldLevelEncryption(input: GetFieldLevelEncryptionInput) async throws -> GetFieldLevelEncryptionOutputResponse
+    public func getFieldLevelEncryption(input: GetFieldLevelEncryptionInput) async throws -> GetFieldLevelEncryptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2407,17 +2407,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutputResponse, GetFieldLevelEncryptionOutputError>(id: "getFieldLevelEncryption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutputResponse, GetFieldLevelEncryptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput, GetFieldLevelEncryptionOutputError>(id: "getFieldLevelEncryption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput, GetFieldLevelEncryptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionOutputResponse, GetFieldLevelEncryptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionOutput, GetFieldLevelEncryptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionOutputResponse, GetFieldLevelEncryptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionOutput, GetFieldLevelEncryptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionOutputResponse, GetFieldLevelEncryptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionOutputResponse, GetFieldLevelEncryptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionOutputResponse, GetFieldLevelEncryptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionOutput, GetFieldLevelEncryptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionOutput, GetFieldLevelEncryptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionOutput, GetFieldLevelEncryptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2426,14 +2426,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetFieldLevelEncryptionConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetFieldLevelEncryptionConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetFieldLevelEncryptionConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
-    public func getFieldLevelEncryptionConfig(input: GetFieldLevelEncryptionConfigInput) async throws -> GetFieldLevelEncryptionConfigOutputResponse
+    public func getFieldLevelEncryptionConfig(input: GetFieldLevelEncryptionConfigInput) async throws -> GetFieldLevelEncryptionConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2449,17 +2449,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutputResponse, GetFieldLevelEncryptionConfigOutputError>(id: "getFieldLevelEncryptionConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutputResponse, GetFieldLevelEncryptionConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput, GetFieldLevelEncryptionConfigOutputError>(id: "getFieldLevelEncryptionConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput, GetFieldLevelEncryptionConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionConfigOutputResponse, GetFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionConfigOutput, GetFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionConfigOutputResponse, GetFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionConfigOutput, GetFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionConfigOutputResponse, GetFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionConfigOutputResponse, GetFieldLevelEncryptionConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionConfigOutputResponse, GetFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionConfigOutput, GetFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionConfigOutput, GetFieldLevelEncryptionConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionConfigOutput, GetFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2468,14 +2468,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetFieldLevelEncryptionProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetFieldLevelEncryptionProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetFieldLevelEncryptionProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
-    public func getFieldLevelEncryptionProfile(input: GetFieldLevelEncryptionProfileInput) async throws -> GetFieldLevelEncryptionProfileOutputResponse
+    public func getFieldLevelEncryptionProfile(input: GetFieldLevelEncryptionProfileInput) async throws -> GetFieldLevelEncryptionProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2491,17 +2491,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutputResponse, GetFieldLevelEncryptionProfileOutputError>(id: "getFieldLevelEncryptionProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutputResponse, GetFieldLevelEncryptionProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput, GetFieldLevelEncryptionProfileOutputError>(id: "getFieldLevelEncryptionProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput, GetFieldLevelEncryptionProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionProfileOutputResponse, GetFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionProfileOutput, GetFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionProfileOutputResponse, GetFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionProfileOutput, GetFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionProfileOutputResponse, GetFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileOutputResponse, GetFieldLevelEncryptionProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileOutputResponse, GetFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionProfileOutput, GetFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileOutput, GetFieldLevelEncryptionProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileOutput, GetFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2510,14 +2510,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetFieldLevelEncryptionProfileConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetFieldLevelEncryptionProfileConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetFieldLevelEncryptionProfileConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
-    public func getFieldLevelEncryptionProfileConfig(input: GetFieldLevelEncryptionProfileConfigInput) async throws -> GetFieldLevelEncryptionProfileConfigOutputResponse
+    public func getFieldLevelEncryptionProfileConfig(input: GetFieldLevelEncryptionProfileConfigInput) async throws -> GetFieldLevelEncryptionProfileConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2533,17 +2533,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutputResponse, GetFieldLevelEncryptionProfileConfigOutputError>(id: "getFieldLevelEncryptionProfileConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutputResponse, GetFieldLevelEncryptionProfileConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput, GetFieldLevelEncryptionProfileConfigOutputError>(id: "getFieldLevelEncryptionProfileConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput, GetFieldLevelEncryptionProfileConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionProfileConfigOutputResponse, GetFieldLevelEncryptionProfileConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFieldLevelEncryptionProfileConfigOutput, GetFieldLevelEncryptionProfileConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionProfileConfigOutputResponse, GetFieldLevelEncryptionProfileConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFieldLevelEncryptionProfileConfigOutput, GetFieldLevelEncryptionProfileConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionProfileConfigOutputResponse, GetFieldLevelEncryptionProfileConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileConfigOutputResponse, GetFieldLevelEncryptionProfileConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileConfigOutputResponse, GetFieldLevelEncryptionProfileConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFieldLevelEncryptionProfileConfigOutput, GetFieldLevelEncryptionProfileConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileConfigOutput, GetFieldLevelEncryptionProfileConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileConfigOutput, GetFieldLevelEncryptionProfileConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2552,14 +2552,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetFunctionInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutputResponse
+    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2575,18 +2575,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFunctionInput, GetFunctionOutputResponse, GetFunctionOutputError>(id: "getFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionInput, GetFunctionOutputResponse, GetFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetFunctionInput, GetFunctionOutput, GetFunctionOutputError>(id: "getFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionInput, GetFunctionOutput, GetFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionOutput, GetFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionInput, GetFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionOutputResponse, GetFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionInput, GetFunctionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionOutput, GetFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionOutputResponse, GetFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionOutput, GetFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionOutput, GetFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionOutput, GetFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2595,7 +2595,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetInvalidationInput : The request to get an invalidation's information.
     ///
-    /// - Returns: `GetInvalidationOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `GetInvalidationOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2603,7 +2603,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchInvalidation` : The specified invalidation does not exist.
-    public func getInvalidation(input: GetInvalidationInput) async throws -> GetInvalidationOutputResponse
+    public func getInvalidation(input: GetInvalidationInput) async throws -> GetInvalidationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2619,17 +2619,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetInvalidationInput, GetInvalidationOutputResponse, GetInvalidationOutputError>(id: "getInvalidation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvalidationInput, GetInvalidationOutputResponse, GetInvalidationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInvalidationInput, GetInvalidationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetInvalidationInput, GetInvalidationOutput, GetInvalidationOutputError>(id: "getInvalidation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvalidationInput, GetInvalidationOutput, GetInvalidationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInvalidationInput, GetInvalidationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInvalidationOutputResponse, GetInvalidationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInvalidationOutput, GetInvalidationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInvalidationOutputResponse, GetInvalidationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInvalidationOutput, GetInvalidationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInvalidationOutputResponse, GetInvalidationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInvalidationOutputResponse, GetInvalidationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInvalidationOutputResponse, GetInvalidationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInvalidationOutput, GetInvalidationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInvalidationOutput, GetInvalidationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInvalidationOutput, GetInvalidationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2638,13 +2638,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetKeyGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetKeyGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetKeyGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func getKeyGroup(input: GetKeyGroupInput) async throws -> GetKeyGroupOutputResponse
+    public func getKeyGroup(input: GetKeyGroupInput) async throws -> GetKeyGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2660,17 +2660,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetKeyGroupInput, GetKeyGroupOutputResponse, GetKeyGroupOutputError>(id: "getKeyGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyGroupInput, GetKeyGroupOutputResponse, GetKeyGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyGroupInput, GetKeyGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetKeyGroupInput, GetKeyGroupOutput, GetKeyGroupOutputError>(id: "getKeyGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyGroupInput, GetKeyGroupOutput, GetKeyGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyGroupInput, GetKeyGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyGroupOutputResponse, GetKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyGroupOutput, GetKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyGroupOutputResponse, GetKeyGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyGroupOutput, GetKeyGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyGroupOutputResponse, GetKeyGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyGroupOutputResponse, GetKeyGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyGroupOutputResponse, GetKeyGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyGroupOutput, GetKeyGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyGroupOutput, GetKeyGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyGroupOutput, GetKeyGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2679,13 +2679,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetKeyGroupConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetKeyGroupConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetKeyGroupConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func getKeyGroupConfig(input: GetKeyGroupConfigInput) async throws -> GetKeyGroupConfigOutputResponse
+    public func getKeyGroupConfig(input: GetKeyGroupConfigInput) async throws -> GetKeyGroupConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2701,17 +2701,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetKeyGroupConfigInput, GetKeyGroupConfigOutputResponse, GetKeyGroupConfigOutputError>(id: "getKeyGroupConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutputResponse, GetKeyGroupConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetKeyGroupConfigInput, GetKeyGroupConfigOutput, GetKeyGroupConfigOutputError>(id: "getKeyGroupConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutput, GetKeyGroupConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyGroupConfigOutputResponse, GetKeyGroupConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyGroupConfigOutput, GetKeyGroupConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyGroupConfigOutputResponse, GetKeyGroupConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyGroupConfigOutput, GetKeyGroupConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyGroupConfigOutputResponse, GetKeyGroupConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyGroupConfigOutputResponse, GetKeyGroupConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyGroupConfigOutputResponse, GetKeyGroupConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyGroupConfigOutput, GetKeyGroupConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyGroupConfigOutput, GetKeyGroupConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyGroupConfigOutput, GetKeyGroupConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2720,7 +2720,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetMonitoringSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `GetMonitoringSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `GetMonitoringSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2729,7 +2729,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func getMonitoringSubscription(input: GetMonitoringSubscriptionInput) async throws -> GetMonitoringSubscriptionOutputResponse
+    public func getMonitoringSubscription(input: GetMonitoringSubscriptionInput) async throws -> GetMonitoringSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2745,17 +2745,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutputResponse, GetMonitoringSubscriptionOutputError>(id: "getMonitoringSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutputResponse, GetMonitoringSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput, GetMonitoringSubscriptionOutputError>(id: "getMonitoringSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput, GetMonitoringSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMonitoringSubscriptionOutputResponse, GetMonitoringSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMonitoringSubscriptionOutput, GetMonitoringSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMonitoringSubscriptionOutputResponse, GetMonitoringSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMonitoringSubscriptionOutput, GetMonitoringSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMonitoringSubscriptionOutputResponse, GetMonitoringSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMonitoringSubscriptionOutputResponse, GetMonitoringSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMonitoringSubscriptionOutputResponse, GetMonitoringSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMonitoringSubscriptionOutput, GetMonitoringSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMonitoringSubscriptionOutput, GetMonitoringSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMonitoringSubscriptionOutput, GetMonitoringSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2764,14 +2764,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetOriginAccessControlInput : [no documentation found]
     ///
-    /// - Returns: `GetOriginAccessControlOutputResponse` : [no documentation found]
+    /// - Returns: `GetOriginAccessControlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
-    public func getOriginAccessControl(input: GetOriginAccessControlInput) async throws -> GetOriginAccessControlOutputResponse
+    public func getOriginAccessControl(input: GetOriginAccessControlInput) async throws -> GetOriginAccessControlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2787,17 +2787,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOriginAccessControlInput, GetOriginAccessControlOutputResponse, GetOriginAccessControlOutputError>(id: "getOriginAccessControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutputResponse, GetOriginAccessControlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOriginAccessControlInput, GetOriginAccessControlOutput, GetOriginAccessControlOutputError>(id: "getOriginAccessControl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutput, GetOriginAccessControlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginAccessControlOutputResponse, GetOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginAccessControlOutput, GetOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginAccessControlOutputResponse, GetOriginAccessControlOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginAccessControlOutput, GetOriginAccessControlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginAccessControlOutputResponse, GetOriginAccessControlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginAccessControlOutputResponse, GetOriginAccessControlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginAccessControlOutputResponse, GetOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginAccessControlOutput, GetOriginAccessControlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginAccessControlOutput, GetOriginAccessControlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginAccessControlOutput, GetOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2806,14 +2806,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetOriginAccessControlConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetOriginAccessControlConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetOriginAccessControlConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
-    public func getOriginAccessControlConfig(input: GetOriginAccessControlConfigInput) async throws -> GetOriginAccessControlConfigOutputResponse
+    public func getOriginAccessControlConfig(input: GetOriginAccessControlConfigInput) async throws -> GetOriginAccessControlConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2829,17 +2829,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutputResponse, GetOriginAccessControlConfigOutputError>(id: "getOriginAccessControlConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutputResponse, GetOriginAccessControlConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput, GetOriginAccessControlConfigOutputError>(id: "getOriginAccessControlConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput, GetOriginAccessControlConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginAccessControlConfigOutputResponse, GetOriginAccessControlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginAccessControlConfigOutput, GetOriginAccessControlConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginAccessControlConfigOutputResponse, GetOriginAccessControlConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginAccessControlConfigOutput, GetOriginAccessControlConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginAccessControlConfigOutputResponse, GetOriginAccessControlConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginAccessControlConfigOutputResponse, GetOriginAccessControlConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginAccessControlConfigOutputResponse, GetOriginAccessControlConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginAccessControlConfigOutput, GetOriginAccessControlConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginAccessControlConfigOutput, GetOriginAccessControlConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginAccessControlConfigOutput, GetOriginAccessControlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2855,14 +2855,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetOriginRequestPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetOriginRequestPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetOriginRequestPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func getOriginRequestPolicy(input: GetOriginRequestPolicyInput) async throws -> GetOriginRequestPolicyOutputResponse
+    public func getOriginRequestPolicy(input: GetOriginRequestPolicyInput) async throws -> GetOriginRequestPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2878,17 +2878,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutputResponse, GetOriginRequestPolicyOutputError>(id: "getOriginRequestPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutputResponse, GetOriginRequestPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput, GetOriginRequestPolicyOutputError>(id: "getOriginRequestPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput, GetOriginRequestPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginRequestPolicyOutputResponse, GetOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginRequestPolicyOutput, GetOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginRequestPolicyOutputResponse, GetOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginRequestPolicyOutput, GetOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginRequestPolicyOutputResponse, GetOriginRequestPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyOutputResponse, GetOriginRequestPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyOutputResponse, GetOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginRequestPolicyOutput, GetOriginRequestPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyOutput, GetOriginRequestPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyOutput, GetOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2897,14 +2897,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetOriginRequestPolicyConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetOriginRequestPolicyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetOriginRequestPolicyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func getOriginRequestPolicyConfig(input: GetOriginRequestPolicyConfigInput) async throws -> GetOriginRequestPolicyConfigOutputResponse
+    public func getOriginRequestPolicyConfig(input: GetOriginRequestPolicyConfigInput) async throws -> GetOriginRequestPolicyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2920,17 +2920,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutputResponse, GetOriginRequestPolicyConfigOutputError>(id: "getOriginRequestPolicyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutputResponse, GetOriginRequestPolicyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput, GetOriginRequestPolicyConfigOutputError>(id: "getOriginRequestPolicyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput, GetOriginRequestPolicyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginRequestPolicyConfigOutputResponse, GetOriginRequestPolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginRequestPolicyConfigOutput, GetOriginRequestPolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginRequestPolicyConfigOutputResponse, GetOriginRequestPolicyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginRequestPolicyConfigOutput, GetOriginRequestPolicyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginRequestPolicyConfigOutputResponse, GetOriginRequestPolicyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyConfigOutputResponse, GetOriginRequestPolicyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyConfigOutputResponse, GetOriginRequestPolicyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginRequestPolicyConfigOutput, GetOriginRequestPolicyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyConfigOutput, GetOriginRequestPolicyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyConfigOutput, GetOriginRequestPolicyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2939,14 +2939,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `GetPublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
-    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutputResponse
+    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2962,17 +2962,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPublicKeyInput, GetPublicKeyOutputResponse, GetPublicKeyOutputError>(id: "getPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse, GetPublicKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPublicKeyInput, GetPublicKeyOutput, GetPublicKeyOutputError>(id: "getPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicKeyInput, GetPublicKeyOutput, GetPublicKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicKeyInput, GetPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicKeyOutput, GetPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicKeyOutputResponse, GetPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicKeyOutput, GetPublicKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicKeyOutput, GetPublicKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicKeyOutput, GetPublicKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicKeyOutput, GetPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2981,14 +2981,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetPublicKeyConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetPublicKeyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetPublicKeyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
-    public func getPublicKeyConfig(input: GetPublicKeyConfigInput) async throws -> GetPublicKeyConfigOutputResponse
+    public func getPublicKeyConfig(input: GetPublicKeyConfigInput) async throws -> GetPublicKeyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3004,17 +3004,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPublicKeyConfigInput, GetPublicKeyConfigOutputResponse, GetPublicKeyConfigOutputError>(id: "getPublicKeyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutputResponse, GetPublicKeyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPublicKeyConfigInput, GetPublicKeyConfigOutput, GetPublicKeyConfigOutputError>(id: "getPublicKeyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutput, GetPublicKeyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicKeyConfigOutputResponse, GetPublicKeyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicKeyConfigOutput, GetPublicKeyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicKeyConfigOutputResponse, GetPublicKeyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicKeyConfigOutput, GetPublicKeyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicKeyConfigOutputResponse, GetPublicKeyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicKeyConfigOutputResponse, GetPublicKeyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicKeyConfigOutputResponse, GetPublicKeyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicKeyConfigOutput, GetPublicKeyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicKeyConfigOutput, GetPublicKeyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicKeyConfigOutput, GetPublicKeyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3023,7 +3023,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetRealtimeLogConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetRealtimeLogConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetRealtimeLogConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3031,7 +3031,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
-    public func getRealtimeLogConfig(input: GetRealtimeLogConfigInput) async throws -> GetRealtimeLogConfigOutputResponse
+    public func getRealtimeLogConfig(input: GetRealtimeLogConfigInput) async throws -> GetRealtimeLogConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3047,20 +3047,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>(id: "getRealtimeLogConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput, GetRealtimeLogConfigOutputError>(id: "getRealtimeLogConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput, GetRealtimeLogConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRealtimeLogConfigOutput, GetRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse>(xmlName: "GetRealtimeLogConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>(xmlName: "GetRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRealtimeLogConfigOutput, GetRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRealtimeLogConfigOutput, GetRealtimeLogConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRealtimeLogConfigOutput, GetRealtimeLogConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRealtimeLogConfigOutput, GetRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3069,14 +3069,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetResponseHeadersPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetResponseHeadersPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetResponseHeadersPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func getResponseHeadersPolicy(input: GetResponseHeadersPolicyInput) async throws -> GetResponseHeadersPolicyOutputResponse
+    public func getResponseHeadersPolicy(input: GetResponseHeadersPolicyInput) async throws -> GetResponseHeadersPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3092,17 +3092,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutputResponse, GetResponseHeadersPolicyOutputError>(id: "getResponseHeadersPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutputResponse, GetResponseHeadersPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput, GetResponseHeadersPolicyOutputError>(id: "getResponseHeadersPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput, GetResponseHeadersPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResponseHeadersPolicyOutputResponse, GetResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResponseHeadersPolicyOutput, GetResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResponseHeadersPolicyOutputResponse, GetResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResponseHeadersPolicyOutput, GetResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResponseHeadersPolicyOutputResponse, GetResponseHeadersPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyOutputResponse, GetResponseHeadersPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyOutputResponse, GetResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResponseHeadersPolicyOutput, GetResponseHeadersPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyOutput, GetResponseHeadersPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyOutput, GetResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3111,14 +3111,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetResponseHeadersPolicyConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetResponseHeadersPolicyConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetResponseHeadersPolicyConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func getResponseHeadersPolicyConfig(input: GetResponseHeadersPolicyConfigInput) async throws -> GetResponseHeadersPolicyConfigOutputResponse
+    public func getResponseHeadersPolicyConfig(input: GetResponseHeadersPolicyConfigInput) async throws -> GetResponseHeadersPolicyConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3134,17 +3134,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutputResponse, GetResponseHeadersPolicyConfigOutputError>(id: "getResponseHeadersPolicyConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutputResponse, GetResponseHeadersPolicyConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput, GetResponseHeadersPolicyConfigOutputError>(id: "getResponseHeadersPolicyConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput, GetResponseHeadersPolicyConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResponseHeadersPolicyConfigOutputResponse, GetResponseHeadersPolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResponseHeadersPolicyConfigOutput, GetResponseHeadersPolicyConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResponseHeadersPolicyConfigOutputResponse, GetResponseHeadersPolicyConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResponseHeadersPolicyConfigOutput, GetResponseHeadersPolicyConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResponseHeadersPolicyConfigOutputResponse, GetResponseHeadersPolicyConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyConfigOutputResponse, GetResponseHeadersPolicyConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyConfigOutputResponse, GetResponseHeadersPolicyConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResponseHeadersPolicyConfigOutput, GetResponseHeadersPolicyConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyConfigOutput, GetResponseHeadersPolicyConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyConfigOutput, GetResponseHeadersPolicyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3153,14 +3153,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetStreamingDistributionInput : The request to get a streaming distribution's information.
     ///
-    /// - Returns: `GetStreamingDistributionOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `GetStreamingDistributionOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
-    public func getStreamingDistribution(input: GetStreamingDistributionInput) async throws -> GetStreamingDistributionOutputResponse
+    public func getStreamingDistribution(input: GetStreamingDistributionInput) async throws -> GetStreamingDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3176,17 +3176,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetStreamingDistributionInput, GetStreamingDistributionOutputResponse, GetStreamingDistributionOutputError>(id: "getStreamingDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutputResponse, GetStreamingDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetStreamingDistributionInput, GetStreamingDistributionOutput, GetStreamingDistributionOutputError>(id: "getStreamingDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutput, GetStreamingDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamingDistributionOutputResponse, GetStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamingDistributionOutput, GetStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamingDistributionOutputResponse, GetStreamingDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamingDistributionOutput, GetStreamingDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamingDistributionOutputResponse, GetStreamingDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamingDistributionOutputResponse, GetStreamingDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamingDistributionOutputResponse, GetStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamingDistributionOutput, GetStreamingDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamingDistributionOutput, GetStreamingDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamingDistributionOutput, GetStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3195,14 +3195,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter GetStreamingDistributionConfigInput : To request to get a streaming distribution configuration.
     ///
-    /// - Returns: `GetStreamingDistributionConfigOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `GetStreamingDistributionConfigOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
-    public func getStreamingDistributionConfig(input: GetStreamingDistributionConfigInput) async throws -> GetStreamingDistributionConfigOutputResponse
+    public func getStreamingDistributionConfig(input: GetStreamingDistributionConfigInput) async throws -> GetStreamingDistributionConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3218,17 +3218,17 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutputResponse, GetStreamingDistributionConfigOutputError>(id: "getStreamingDistributionConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutputResponse, GetStreamingDistributionConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput, GetStreamingDistributionConfigOutputError>(id: "getStreamingDistributionConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput, GetStreamingDistributionConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamingDistributionConfigOutputResponse, GetStreamingDistributionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamingDistributionConfigOutput, GetStreamingDistributionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamingDistributionConfigOutputResponse, GetStreamingDistributionConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamingDistributionConfigOutput, GetStreamingDistributionConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamingDistributionConfigOutputResponse, GetStreamingDistributionConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamingDistributionConfigOutputResponse, GetStreamingDistributionConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamingDistributionConfigOutputResponse, GetStreamingDistributionConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamingDistributionConfigOutput, GetStreamingDistributionConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamingDistributionConfigOutput, GetStreamingDistributionConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamingDistributionConfigOutput, GetStreamingDistributionConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3237,7 +3237,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListCachePoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListCachePoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListCachePoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3245,7 +3245,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func listCachePolicies(input: ListCachePoliciesInput) async throws -> ListCachePoliciesOutputResponse
+    public func listCachePolicies(input: ListCachePoliciesInput) async throws -> ListCachePoliciesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3261,18 +3261,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCachePoliciesInput, ListCachePoliciesOutputResponse, ListCachePoliciesOutputError>(id: "listCachePolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCachePoliciesInput, ListCachePoliciesOutputResponse, ListCachePoliciesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCachePoliciesInput, ListCachePoliciesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCachePoliciesInput, ListCachePoliciesOutput, ListCachePoliciesOutputError>(id: "listCachePolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput, ListCachePoliciesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCachePoliciesOutputResponse, ListCachePoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCachePoliciesOutput, ListCachePoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCachePoliciesInput, ListCachePoliciesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCachePoliciesOutputResponse, ListCachePoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCachePoliciesOutput, ListCachePoliciesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCachePoliciesOutputResponse, ListCachePoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCachePoliciesOutputResponse, ListCachePoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCachePoliciesOutputResponse, ListCachePoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCachePoliciesOutput, ListCachePoliciesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCachePoliciesOutput, ListCachePoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCachePoliciesOutput, ListCachePoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3281,13 +3281,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListCloudFrontOriginAccessIdentitiesInput : The request to list origin access identities.
     ///
-    /// - Returns: `ListCloudFrontOriginAccessIdentitiesOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `ListCloudFrontOriginAccessIdentitiesOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listCloudFrontOriginAccessIdentities(input: ListCloudFrontOriginAccessIdentitiesInput) async throws -> ListCloudFrontOriginAccessIdentitiesOutputResponse
+    public func listCloudFrontOriginAccessIdentities(input: ListCloudFrontOriginAccessIdentitiesInput) async throws -> ListCloudFrontOriginAccessIdentitiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3303,18 +3303,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutputResponse, ListCloudFrontOriginAccessIdentitiesOutputError>(id: "listCloudFrontOriginAccessIdentities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutputResponse, ListCloudFrontOriginAccessIdentitiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput, ListCloudFrontOriginAccessIdentitiesOutputError>(id: "listCloudFrontOriginAccessIdentities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput, ListCloudFrontOriginAccessIdentitiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCloudFrontOriginAccessIdentitiesOutputResponse, ListCloudFrontOriginAccessIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCloudFrontOriginAccessIdentitiesOutput, ListCloudFrontOriginAccessIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCloudFrontOriginAccessIdentitiesOutputResponse, ListCloudFrontOriginAccessIdentitiesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCloudFrontOriginAccessIdentitiesOutput, ListCloudFrontOriginAccessIdentitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCloudFrontOriginAccessIdentitiesOutputResponse, ListCloudFrontOriginAccessIdentitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCloudFrontOriginAccessIdentitiesOutputResponse, ListCloudFrontOriginAccessIdentitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCloudFrontOriginAccessIdentitiesOutputResponse, ListCloudFrontOriginAccessIdentitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCloudFrontOriginAccessIdentitiesOutput, ListCloudFrontOriginAccessIdentitiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCloudFrontOriginAccessIdentitiesOutput, ListCloudFrontOriginAccessIdentitiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCloudFrontOriginAccessIdentitiesOutput, ListCloudFrontOriginAccessIdentitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3323,14 +3323,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListConflictingAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListConflictingAliasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListConflictingAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutputResponse
+    public func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3346,18 +3346,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListConflictingAliasesInput, ListConflictingAliasesOutputResponse, ListConflictingAliasesOutputError>(id: "listConflictingAliases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutputResponse, ListConflictingAliasesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListConflictingAliasesInput, ListConflictingAliasesOutput, ListConflictingAliasesOutputError>(id: "listConflictingAliases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput, ListConflictingAliasesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConflictingAliasesOutputResponse, ListConflictingAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConflictingAliasesOutput, ListConflictingAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConflictingAliasesOutputResponse, ListConflictingAliasesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConflictingAliasesOutput, ListConflictingAliasesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConflictingAliasesOutputResponse, ListConflictingAliasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConflictingAliasesOutputResponse, ListConflictingAliasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConflictingAliasesOutputResponse, ListConflictingAliasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConflictingAliasesOutput, ListConflictingAliasesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConflictingAliasesOutput, ListConflictingAliasesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConflictingAliasesOutput, ListConflictingAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3366,7 +3366,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListContinuousDeploymentPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListContinuousDeploymentPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListContinuousDeploymentPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3374,7 +3374,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
-    public func listContinuousDeploymentPolicies(input: ListContinuousDeploymentPoliciesInput) async throws -> ListContinuousDeploymentPoliciesOutputResponse
+    public func listContinuousDeploymentPolicies(input: ListContinuousDeploymentPoliciesInput) async throws -> ListContinuousDeploymentPoliciesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3390,18 +3390,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutputResponse, ListContinuousDeploymentPoliciesOutputError>(id: "listContinuousDeploymentPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutputResponse, ListContinuousDeploymentPoliciesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput, ListContinuousDeploymentPoliciesOutputError>(id: "listContinuousDeploymentPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput, ListContinuousDeploymentPoliciesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListContinuousDeploymentPoliciesOutputResponse, ListContinuousDeploymentPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListContinuousDeploymentPoliciesOutput, ListContinuousDeploymentPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListContinuousDeploymentPoliciesOutputResponse, ListContinuousDeploymentPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListContinuousDeploymentPoliciesOutput, ListContinuousDeploymentPoliciesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContinuousDeploymentPoliciesOutputResponse, ListContinuousDeploymentPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContinuousDeploymentPoliciesOutputResponse, ListContinuousDeploymentPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListContinuousDeploymentPoliciesOutputResponse, ListContinuousDeploymentPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContinuousDeploymentPoliciesOutput, ListContinuousDeploymentPoliciesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContinuousDeploymentPoliciesOutput, ListContinuousDeploymentPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListContinuousDeploymentPoliciesOutput, ListContinuousDeploymentPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3410,13 +3410,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListDistributionsInput : The request to list your distributions.
     ///
-    /// - Returns: `ListDistributionsOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `ListDistributionsOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listDistributions(input: ListDistributionsInput) async throws -> ListDistributionsOutputResponse
+    public func listDistributions(input: ListDistributionsInput) async throws -> ListDistributionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3432,18 +3432,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDistributionsInput, ListDistributionsOutputResponse, ListDistributionsOutputError>(id: "listDistributions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsInput, ListDistributionsOutputResponse, ListDistributionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsInput, ListDistributionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDistributionsInput, ListDistributionsOutput, ListDistributionsOutputError>(id: "listDistributions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsInput, ListDistributionsOutput, ListDistributionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsInput, ListDistributionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsOutputResponse, ListDistributionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsOutput, ListDistributionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsInput, ListDistributionsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsOutputResponse, ListDistributionsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsInput, ListDistributionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsOutput, ListDistributionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsOutputResponse, ListDistributionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsOutputResponse, ListDistributionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsOutputResponse, ListDistributionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsOutput, ListDistributionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsOutput, ListDistributionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsOutput, ListDistributionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3452,7 +3452,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListDistributionsByCachePolicyIdInput : [no documentation found]
     ///
-    /// - Returns: `ListDistributionsByCachePolicyIdOutputResponse` : [no documentation found]
+    /// - Returns: `ListDistributionsByCachePolicyIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3460,7 +3460,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func listDistributionsByCachePolicyId(input: ListDistributionsByCachePolicyIdInput) async throws -> ListDistributionsByCachePolicyIdOutputResponse
+    public func listDistributionsByCachePolicyId(input: ListDistributionsByCachePolicyIdInput) async throws -> ListDistributionsByCachePolicyIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3476,18 +3476,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutputResponse, ListDistributionsByCachePolicyIdOutputError>(id: "listDistributionsByCachePolicyId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutputResponse, ListDistributionsByCachePolicyIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput, ListDistributionsByCachePolicyIdOutputError>(id: "listDistributionsByCachePolicyId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput, ListDistributionsByCachePolicyIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByCachePolicyIdOutputResponse, ListDistributionsByCachePolicyIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByCachePolicyIdOutput, ListDistributionsByCachePolicyIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByCachePolicyIdOutputResponse, ListDistributionsByCachePolicyIdOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByCachePolicyIdOutput, ListDistributionsByCachePolicyIdOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByCachePolicyIdOutputResponse, ListDistributionsByCachePolicyIdOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByCachePolicyIdOutputResponse, ListDistributionsByCachePolicyIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByCachePolicyIdOutputResponse, ListDistributionsByCachePolicyIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByCachePolicyIdOutput, ListDistributionsByCachePolicyIdOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByCachePolicyIdOutput, ListDistributionsByCachePolicyIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByCachePolicyIdOutput, ListDistributionsByCachePolicyIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3496,14 +3496,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListDistributionsByKeyGroupInput : [no documentation found]
     ///
-    /// - Returns: `ListDistributionsByKeyGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ListDistributionsByKeyGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func listDistributionsByKeyGroup(input: ListDistributionsByKeyGroupInput) async throws -> ListDistributionsByKeyGroupOutputResponse
+    public func listDistributionsByKeyGroup(input: ListDistributionsByKeyGroupInput) async throws -> ListDistributionsByKeyGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3519,18 +3519,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutputResponse, ListDistributionsByKeyGroupOutputError>(id: "listDistributionsByKeyGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutputResponse, ListDistributionsByKeyGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput, ListDistributionsByKeyGroupOutputError>(id: "listDistributionsByKeyGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput, ListDistributionsByKeyGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByKeyGroupOutputResponse, ListDistributionsByKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByKeyGroupOutput, ListDistributionsByKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByKeyGroupOutputResponse, ListDistributionsByKeyGroupOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByKeyGroupOutput, ListDistributionsByKeyGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByKeyGroupOutputResponse, ListDistributionsByKeyGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByKeyGroupOutputResponse, ListDistributionsByKeyGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByKeyGroupOutputResponse, ListDistributionsByKeyGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByKeyGroupOutput, ListDistributionsByKeyGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByKeyGroupOutput, ListDistributionsByKeyGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByKeyGroupOutput, ListDistributionsByKeyGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3539,7 +3539,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListDistributionsByOriginRequestPolicyIdInput : [no documentation found]
     ///
-    /// - Returns: `ListDistributionsByOriginRequestPolicyIdOutputResponse` : [no documentation found]
+    /// - Returns: `ListDistributionsByOriginRequestPolicyIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3547,7 +3547,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func listDistributionsByOriginRequestPolicyId(input: ListDistributionsByOriginRequestPolicyIdInput) async throws -> ListDistributionsByOriginRequestPolicyIdOutputResponse
+    public func listDistributionsByOriginRequestPolicyId(input: ListDistributionsByOriginRequestPolicyIdInput) async throws -> ListDistributionsByOriginRequestPolicyIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3563,18 +3563,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutputResponse, ListDistributionsByOriginRequestPolicyIdOutputError>(id: "listDistributionsByOriginRequestPolicyId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutputResponse, ListDistributionsByOriginRequestPolicyIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput, ListDistributionsByOriginRequestPolicyIdOutputError>(id: "listDistributionsByOriginRequestPolicyId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput, ListDistributionsByOriginRequestPolicyIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByOriginRequestPolicyIdOutputResponse, ListDistributionsByOriginRequestPolicyIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByOriginRequestPolicyIdOutput, ListDistributionsByOriginRequestPolicyIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByOriginRequestPolicyIdOutputResponse, ListDistributionsByOriginRequestPolicyIdOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByOriginRequestPolicyIdOutput, ListDistributionsByOriginRequestPolicyIdOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByOriginRequestPolicyIdOutputResponse, ListDistributionsByOriginRequestPolicyIdOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByOriginRequestPolicyIdOutputResponse, ListDistributionsByOriginRequestPolicyIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByOriginRequestPolicyIdOutputResponse, ListDistributionsByOriginRequestPolicyIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByOriginRequestPolicyIdOutput, ListDistributionsByOriginRequestPolicyIdOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByOriginRequestPolicyIdOutput, ListDistributionsByOriginRequestPolicyIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByOriginRequestPolicyIdOutput, ListDistributionsByOriginRequestPolicyIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3583,13 +3583,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListDistributionsByRealtimeLogConfigInput : [no documentation found]
     ///
-    /// - Returns: `ListDistributionsByRealtimeLogConfigOutputResponse` : [no documentation found]
+    /// - Returns: `ListDistributionsByRealtimeLogConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listDistributionsByRealtimeLogConfig(input: ListDistributionsByRealtimeLogConfigInput) async throws -> ListDistributionsByRealtimeLogConfigOutputResponse
+    public func listDistributionsByRealtimeLogConfig(input: ListDistributionsByRealtimeLogConfigInput) async throws -> ListDistributionsByRealtimeLogConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3605,20 +3605,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>(id: "listDistributionsByRealtimeLogConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput, ListDistributionsByRealtimeLogConfigOutputError>(id: "listDistributionsByRealtimeLogConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput, ListDistributionsByRealtimeLogConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByRealtimeLogConfigOutput, ListDistributionsByRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse>(xmlName: "ListDistributionsByRealtimeLogConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>(xmlName: "ListDistributionsByRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByRealtimeLogConfigOutput, ListDistributionsByRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByRealtimeLogConfigOutput, ListDistributionsByRealtimeLogConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByRealtimeLogConfigOutput, ListDistributionsByRealtimeLogConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByRealtimeLogConfigOutput, ListDistributionsByRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3627,7 +3627,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListDistributionsByResponseHeadersPolicyIdInput : [no documentation found]
     ///
-    /// - Returns: `ListDistributionsByResponseHeadersPolicyIdOutputResponse` : [no documentation found]
+    /// - Returns: `ListDistributionsByResponseHeadersPolicyIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3635,7 +3635,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func listDistributionsByResponseHeadersPolicyId(input: ListDistributionsByResponseHeadersPolicyIdInput) async throws -> ListDistributionsByResponseHeadersPolicyIdOutputResponse
+    public func listDistributionsByResponseHeadersPolicyId(input: ListDistributionsByResponseHeadersPolicyIdInput) async throws -> ListDistributionsByResponseHeadersPolicyIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3651,18 +3651,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutputResponse, ListDistributionsByResponseHeadersPolicyIdOutputError>(id: "listDistributionsByResponseHeadersPolicyId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutputResponse, ListDistributionsByResponseHeadersPolicyIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput, ListDistributionsByResponseHeadersPolicyIdOutputError>(id: "listDistributionsByResponseHeadersPolicyId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput, ListDistributionsByResponseHeadersPolicyIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByResponseHeadersPolicyIdOutputResponse, ListDistributionsByResponseHeadersPolicyIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByResponseHeadersPolicyIdOutput, ListDistributionsByResponseHeadersPolicyIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByResponseHeadersPolicyIdOutputResponse, ListDistributionsByResponseHeadersPolicyIdOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByResponseHeadersPolicyIdOutput, ListDistributionsByResponseHeadersPolicyIdOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByResponseHeadersPolicyIdOutputResponse, ListDistributionsByResponseHeadersPolicyIdOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByResponseHeadersPolicyIdOutputResponse, ListDistributionsByResponseHeadersPolicyIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByResponseHeadersPolicyIdOutputResponse, ListDistributionsByResponseHeadersPolicyIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByResponseHeadersPolicyIdOutput, ListDistributionsByResponseHeadersPolicyIdOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByResponseHeadersPolicyIdOutput, ListDistributionsByResponseHeadersPolicyIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByResponseHeadersPolicyIdOutput, ListDistributionsByResponseHeadersPolicyIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3671,14 +3671,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListDistributionsByWebACLIdInput : The request to list distributions that are associated with a specified WAF web ACL.
     ///
-    /// - Returns: `ListDistributionsByWebACLIdOutputResponse` : The response to a request to list the distributions that are associated with a specified WAF web ACL.
+    /// - Returns: `ListDistributionsByWebACLIdOutput` : The response to a request to list the distributions that are associated with a specified WAF web ACL.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidWebACLId` : A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
-    public func listDistributionsByWebACLId(input: ListDistributionsByWebACLIdInput) async throws -> ListDistributionsByWebACLIdOutputResponse
+    public func listDistributionsByWebACLId(input: ListDistributionsByWebACLIdInput) async throws -> ListDistributionsByWebACLIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3694,18 +3694,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutputResponse, ListDistributionsByWebACLIdOutputError>(id: "listDistributionsByWebACLId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutputResponse, ListDistributionsByWebACLIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput, ListDistributionsByWebACLIdOutputError>(id: "listDistributionsByWebACLId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput, ListDistributionsByWebACLIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByWebACLIdOutputResponse, ListDistributionsByWebACLIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDistributionsByWebACLIdOutput, ListDistributionsByWebACLIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByWebACLIdOutputResponse, ListDistributionsByWebACLIdOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDistributionsByWebACLIdOutput, ListDistributionsByWebACLIdOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByWebACLIdOutputResponse, ListDistributionsByWebACLIdOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByWebACLIdOutputResponse, ListDistributionsByWebACLIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByWebACLIdOutputResponse, ListDistributionsByWebACLIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionsByWebACLIdOutput, ListDistributionsByWebACLIdOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionsByWebACLIdOutput, ListDistributionsByWebACLIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDistributionsByWebACLIdOutput, ListDistributionsByWebACLIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3714,13 +3714,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListFieldLevelEncryptionConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListFieldLevelEncryptionConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFieldLevelEncryptionConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listFieldLevelEncryptionConfigs(input: ListFieldLevelEncryptionConfigsInput) async throws -> ListFieldLevelEncryptionConfigsOutputResponse
+    public func listFieldLevelEncryptionConfigs(input: ListFieldLevelEncryptionConfigsInput) async throws -> ListFieldLevelEncryptionConfigsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3736,18 +3736,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutputResponse, ListFieldLevelEncryptionConfigsOutputError>(id: "listFieldLevelEncryptionConfigs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutputResponse, ListFieldLevelEncryptionConfigsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput, ListFieldLevelEncryptionConfigsOutputError>(id: "listFieldLevelEncryptionConfigs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput, ListFieldLevelEncryptionConfigsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFieldLevelEncryptionConfigsOutputResponse, ListFieldLevelEncryptionConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFieldLevelEncryptionConfigsOutput, ListFieldLevelEncryptionConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFieldLevelEncryptionConfigsOutputResponse, ListFieldLevelEncryptionConfigsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFieldLevelEncryptionConfigsOutput, ListFieldLevelEncryptionConfigsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFieldLevelEncryptionConfigsOutputResponse, ListFieldLevelEncryptionConfigsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionConfigsOutputResponse, ListFieldLevelEncryptionConfigsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionConfigsOutputResponse, ListFieldLevelEncryptionConfigsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFieldLevelEncryptionConfigsOutput, ListFieldLevelEncryptionConfigsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionConfigsOutput, ListFieldLevelEncryptionConfigsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionConfigsOutput, ListFieldLevelEncryptionConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3756,13 +3756,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListFieldLevelEncryptionProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListFieldLevelEncryptionProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `ListFieldLevelEncryptionProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listFieldLevelEncryptionProfiles(input: ListFieldLevelEncryptionProfilesInput) async throws -> ListFieldLevelEncryptionProfilesOutputResponse
+    public func listFieldLevelEncryptionProfiles(input: ListFieldLevelEncryptionProfilesInput) async throws -> ListFieldLevelEncryptionProfilesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3778,18 +3778,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutputResponse, ListFieldLevelEncryptionProfilesOutputError>(id: "listFieldLevelEncryptionProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutputResponse, ListFieldLevelEncryptionProfilesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput, ListFieldLevelEncryptionProfilesOutputError>(id: "listFieldLevelEncryptionProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput, ListFieldLevelEncryptionProfilesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFieldLevelEncryptionProfilesOutputResponse, ListFieldLevelEncryptionProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFieldLevelEncryptionProfilesOutput, ListFieldLevelEncryptionProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFieldLevelEncryptionProfilesOutputResponse, ListFieldLevelEncryptionProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFieldLevelEncryptionProfilesOutput, ListFieldLevelEncryptionProfilesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFieldLevelEncryptionProfilesOutputResponse, ListFieldLevelEncryptionProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionProfilesOutputResponse, ListFieldLevelEncryptionProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionProfilesOutputResponse, ListFieldLevelEncryptionProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFieldLevelEncryptionProfilesOutput, ListFieldLevelEncryptionProfilesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionProfilesOutput, ListFieldLevelEncryptionProfilesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionProfilesOutput, ListFieldLevelEncryptionProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3798,14 +3798,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListFunctionsInput : [no documentation found]
     ///
-    /// - Returns: `ListFunctionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFunctionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutputResponse
+    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3821,18 +3821,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFunctionsInput, ListFunctionsOutputResponse, ListFunctionsOutputError>(id: "listFunctions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsInput, ListFunctionsOutputResponse, ListFunctionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsInput, ListFunctionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListFunctionsInput, ListFunctionsOutput, ListFunctionsOutputError>(id: "listFunctions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsInput, ListFunctionsOutput, ListFunctionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsInput, ListFunctionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsOutput, ListFunctionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionsOutputResponse, ListFunctionsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionsOutput, ListFunctionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsOutput, ListFunctionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsOutput, ListFunctionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsOutput, ListFunctionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3841,7 +3841,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListInvalidationsInput : The request to list invalidations.
     ///
-    /// - Returns: `ListInvalidationsOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `ListInvalidationsOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3849,7 +3849,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func listInvalidations(input: ListInvalidationsInput) async throws -> ListInvalidationsOutputResponse
+    public func listInvalidations(input: ListInvalidationsInput) async throws -> ListInvalidationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3865,18 +3865,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInvalidationsInput, ListInvalidationsOutputResponse, ListInvalidationsOutputError>(id: "listInvalidations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInvalidationsInput, ListInvalidationsOutputResponse, ListInvalidationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInvalidationsInput, ListInvalidationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInvalidationsInput, ListInvalidationsOutput, ListInvalidationsOutputError>(id: "listInvalidations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInvalidationsInput, ListInvalidationsOutput, ListInvalidationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInvalidationsInput, ListInvalidationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInvalidationsOutputResponse, ListInvalidationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInvalidationsOutput, ListInvalidationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInvalidationsInput, ListInvalidationsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInvalidationsOutputResponse, ListInvalidationsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInvalidationsInput, ListInvalidationsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInvalidationsOutput, ListInvalidationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInvalidationsOutputResponse, ListInvalidationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInvalidationsOutputResponse, ListInvalidationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInvalidationsOutputResponse, ListInvalidationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInvalidationsOutput, ListInvalidationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInvalidationsOutput, ListInvalidationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInvalidationsOutput, ListInvalidationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3885,13 +3885,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListKeyGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListKeyGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListKeyGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listKeyGroups(input: ListKeyGroupsInput) async throws -> ListKeyGroupsOutputResponse
+    public func listKeyGroups(input: ListKeyGroupsInput) async throws -> ListKeyGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3907,18 +3907,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListKeyGroupsInput, ListKeyGroupsOutputResponse, ListKeyGroupsOutputError>(id: "listKeyGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeyGroupsInput, ListKeyGroupsOutputResponse, ListKeyGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeyGroupsInput, ListKeyGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListKeyGroupsInput, ListKeyGroupsOutput, ListKeyGroupsOutputError>(id: "listKeyGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput, ListKeyGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeyGroupsOutputResponse, ListKeyGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeyGroupsOutput, ListKeyGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListKeyGroupsInput, ListKeyGroupsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeyGroupsOutputResponse, ListKeyGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeyGroupsOutput, ListKeyGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeyGroupsOutputResponse, ListKeyGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeyGroupsOutputResponse, ListKeyGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeyGroupsOutputResponse, ListKeyGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeyGroupsOutput, ListKeyGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeyGroupsOutput, ListKeyGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeyGroupsOutput, ListKeyGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3927,13 +3927,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListOriginAccessControlsInput : [no documentation found]
     ///
-    /// - Returns: `ListOriginAccessControlsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOriginAccessControlsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listOriginAccessControls(input: ListOriginAccessControlsInput) async throws -> ListOriginAccessControlsOutputResponse
+    public func listOriginAccessControls(input: ListOriginAccessControlsInput) async throws -> ListOriginAccessControlsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3949,18 +3949,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOriginAccessControlsInput, ListOriginAccessControlsOutputResponse, ListOriginAccessControlsOutputError>(id: "listOriginAccessControls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutputResponse, ListOriginAccessControlsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOriginAccessControlsInput, ListOriginAccessControlsOutput, ListOriginAccessControlsOutputError>(id: "listOriginAccessControls")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput, ListOriginAccessControlsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginAccessControlsOutputResponse, ListOriginAccessControlsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginAccessControlsOutput, ListOriginAccessControlsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginAccessControlsOutputResponse, ListOriginAccessControlsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginAccessControlsOutput, ListOriginAccessControlsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginAccessControlsOutputResponse, ListOriginAccessControlsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginAccessControlsOutputResponse, ListOriginAccessControlsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginAccessControlsOutputResponse, ListOriginAccessControlsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginAccessControlsOutput, ListOriginAccessControlsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginAccessControlsOutput, ListOriginAccessControlsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginAccessControlsOutput, ListOriginAccessControlsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3969,7 +3969,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListOriginRequestPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListOriginRequestPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListOriginRequestPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3977,7 +3977,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func listOriginRequestPolicies(input: ListOriginRequestPoliciesInput) async throws -> ListOriginRequestPoliciesOutputResponse
+    public func listOriginRequestPolicies(input: ListOriginRequestPoliciesInput) async throws -> ListOriginRequestPoliciesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3993,18 +3993,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutputResponse, ListOriginRequestPoliciesOutputError>(id: "listOriginRequestPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutputResponse, ListOriginRequestPoliciesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput, ListOriginRequestPoliciesOutputError>(id: "listOriginRequestPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput, ListOriginRequestPoliciesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginRequestPoliciesOutputResponse, ListOriginRequestPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginRequestPoliciesOutput, ListOriginRequestPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginRequestPoliciesOutputResponse, ListOriginRequestPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginRequestPoliciesOutput, ListOriginRequestPoliciesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginRequestPoliciesOutputResponse, ListOriginRequestPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginRequestPoliciesOutputResponse, ListOriginRequestPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginRequestPoliciesOutputResponse, ListOriginRequestPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginRequestPoliciesOutput, ListOriginRequestPoliciesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginRequestPoliciesOutput, ListOriginRequestPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginRequestPoliciesOutput, ListOriginRequestPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4013,13 +4013,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListPublicKeysInput : [no documentation found]
     ///
-    /// - Returns: `ListPublicKeysOutputResponse` : [no documentation found]
+    /// - Returns: `ListPublicKeysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutputResponse
+    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4035,18 +4035,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPublicKeysInput, ListPublicKeysOutputResponse, ListPublicKeysOutputError>(id: "listPublicKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse, ListPublicKeysOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPublicKeysInput, ListPublicKeysOutput, ListPublicKeysOutputError>(id: "listPublicKeys")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPublicKeysInput, ListPublicKeysOutput, ListPublicKeysOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPublicKeysInput, ListPublicKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPublicKeysOutput, ListPublicKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPublicKeysOutputResponse, ListPublicKeysOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPublicKeysInput, ListPublicKeysOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPublicKeysOutput, ListPublicKeysOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPublicKeysOutput, ListPublicKeysOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPublicKeysOutput, ListPublicKeysOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPublicKeysOutput, ListPublicKeysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4055,7 +4055,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListRealtimeLogConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListRealtimeLogConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRealtimeLogConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4063,7 +4063,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
-    public func listRealtimeLogConfigs(input: ListRealtimeLogConfigsInput) async throws -> ListRealtimeLogConfigsOutputResponse
+    public func listRealtimeLogConfigs(input: ListRealtimeLogConfigsInput) async throws -> ListRealtimeLogConfigsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4079,18 +4079,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutputResponse, ListRealtimeLogConfigsOutputError>(id: "listRealtimeLogConfigs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutputResponse, ListRealtimeLogConfigsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput, ListRealtimeLogConfigsOutputError>(id: "listRealtimeLogConfigs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput, ListRealtimeLogConfigsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRealtimeLogConfigsOutputResponse, ListRealtimeLogConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRealtimeLogConfigsOutput, ListRealtimeLogConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRealtimeLogConfigsOutputResponse, ListRealtimeLogConfigsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRealtimeLogConfigsOutput, ListRealtimeLogConfigsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRealtimeLogConfigsOutputResponse, ListRealtimeLogConfigsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRealtimeLogConfigsOutputResponse, ListRealtimeLogConfigsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRealtimeLogConfigsOutputResponse, ListRealtimeLogConfigsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRealtimeLogConfigsOutput, ListRealtimeLogConfigsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRealtimeLogConfigsOutput, ListRealtimeLogConfigsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRealtimeLogConfigsOutput, ListRealtimeLogConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4099,7 +4099,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListResponseHeadersPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListResponseHeadersPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListResponseHeadersPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4107,7 +4107,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func listResponseHeadersPolicies(input: ListResponseHeadersPoliciesInput) async throws -> ListResponseHeadersPoliciesOutputResponse
+    public func listResponseHeadersPolicies(input: ListResponseHeadersPoliciesInput) async throws -> ListResponseHeadersPoliciesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4123,18 +4123,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutputResponse, ListResponseHeadersPoliciesOutputError>(id: "listResponseHeadersPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutputResponse, ListResponseHeadersPoliciesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput, ListResponseHeadersPoliciesOutputError>(id: "listResponseHeadersPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput, ListResponseHeadersPoliciesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResponseHeadersPoliciesOutputResponse, ListResponseHeadersPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResponseHeadersPoliciesOutput, ListResponseHeadersPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResponseHeadersPoliciesOutputResponse, ListResponseHeadersPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResponseHeadersPoliciesOutput, ListResponseHeadersPoliciesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResponseHeadersPoliciesOutputResponse, ListResponseHeadersPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResponseHeadersPoliciesOutputResponse, ListResponseHeadersPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResponseHeadersPoliciesOutputResponse, ListResponseHeadersPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResponseHeadersPoliciesOutput, ListResponseHeadersPoliciesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResponseHeadersPoliciesOutput, ListResponseHeadersPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResponseHeadersPoliciesOutput, ListResponseHeadersPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4143,13 +4143,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListStreamingDistributionsInput : The request to list your streaming distributions.
     ///
-    /// - Returns: `ListStreamingDistributionsOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `ListStreamingDistributionsOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listStreamingDistributions(input: ListStreamingDistributionsInput) async throws -> ListStreamingDistributionsOutputResponse
+    public func listStreamingDistributions(input: ListStreamingDistributionsInput) async throws -> ListStreamingDistributionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4165,18 +4165,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStreamingDistributionsInput, ListStreamingDistributionsOutputResponse, ListStreamingDistributionsOutputError>(id: "listStreamingDistributions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutputResponse, ListStreamingDistributionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListStreamingDistributionsInput, ListStreamingDistributionsOutput, ListStreamingDistributionsOutputError>(id: "listStreamingDistributions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput, ListStreamingDistributionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamingDistributionsOutputResponse, ListStreamingDistributionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamingDistributionsOutput, ListStreamingDistributionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamingDistributionsOutputResponse, ListStreamingDistributionsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamingDistributionsOutput, ListStreamingDistributionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamingDistributionsOutputResponse, ListStreamingDistributionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamingDistributionsOutputResponse, ListStreamingDistributionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamingDistributionsOutputResponse, ListStreamingDistributionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamingDistributionsOutput, ListStreamingDistributionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamingDistributionsOutput, ListStreamingDistributionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamingDistributionsOutput, ListStreamingDistributionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4185,7 +4185,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : The request to list tags for a CloudFront resource.
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `ListTagsForResourceOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4194,7 +4194,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4210,18 +4210,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4230,7 +4230,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter PublishFunctionInput : [no documentation found]
     ///
-    /// - Returns: `PublishFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `PublishFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4240,7 +4240,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutputResponse
+    public func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4256,18 +4256,18 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PublishFunctionInput, PublishFunctionOutputResponse, PublishFunctionOutputError>(id: "publishFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishFunctionInput, PublishFunctionOutputResponse, PublishFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishFunctionInput, PublishFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PublishFunctionInput, PublishFunctionOutput, PublishFunctionOutputError>(id: "publishFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishFunctionInput, PublishFunctionOutput, PublishFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishFunctionInput, PublishFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishFunctionOutputResponse, PublishFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishFunctionOutput, PublishFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PublishFunctionInput, PublishFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishFunctionOutputResponse, PublishFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PublishFunctionInput, PublishFunctionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishFunctionOutput, PublishFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishFunctionOutputResponse, PublishFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishFunctionOutputResponse, PublishFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishFunctionOutputResponse, PublishFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishFunctionOutput, PublishFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishFunctionOutput, PublishFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishFunctionOutput, PublishFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4276,7 +4276,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter TagResourceInput : The request to add tags to a CloudFront resource.
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4285,7 +4285,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4301,21 +4301,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: TagResourceInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4324,7 +4324,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter TestFunctionInput : [no documentation found]
     ///
-    /// - Returns: `TestFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `TestFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4334,7 +4334,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `TestFunctionFailed` : The CloudFront function failed.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutputResponse
+    public func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4350,21 +4350,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TestFunctionInput, TestFunctionOutputResponse, TestFunctionOutputError>(id: "testFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestFunctionInput, TestFunctionOutputResponse, TestFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestFunctionInput, TestFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TestFunctionInput, TestFunctionOutput, TestFunctionOutputError>(id: "testFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestFunctionInput, TestFunctionOutput, TestFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestFunctionInput, TestFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestFunctionOutputResponse, TestFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestFunctionOutput, TestFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<TestFunctionInput, TestFunctionOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestFunctionInput, TestFunctionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestFunctionInput, TestFunctionOutputResponse>(xmlName: "TestFunctionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<TestFunctionInput, TestFunctionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestFunctionInput, TestFunctionOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestFunctionInput, TestFunctionOutput>(xmlName: "TestFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestFunctionOutputResponse, TestFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestFunctionOutput, TestFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestFunctionOutputResponse, TestFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestFunctionOutputResponse, TestFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestFunctionOutputResponse, TestFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestFunctionOutput, TestFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestFunctionOutput, TestFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestFunctionOutput, TestFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4373,7 +4373,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UntagResourceInput : The request to remove tags from a CloudFront resource.
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4382,7 +4382,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4398,21 +4398,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UntagResourceInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4427,7 +4427,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateCachePolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCachePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCachePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4443,7 +4443,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCookiesInCachePolicy` : The number of cookies in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutputResponse
+    public func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4459,21 +4459,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateCachePolicyInput, UpdateCachePolicyOutputResponse, UpdateCachePolicyOutputError>(id: "updateCachePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutputResponse, UpdateCachePolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateCachePolicyInput, UpdateCachePolicyOutput, UpdateCachePolicyOutputError>(id: "updateCachePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput, UpdateCachePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCachePolicyOutputResponse, UpdateCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCachePolicyOutput, UpdateCachePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateCachePolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCachePolicyOutputResponse, UpdateCachePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCachePolicyOutput, UpdateCachePolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCachePolicyOutputResponse, UpdateCachePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCachePolicyOutputResponse, UpdateCachePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCachePolicyOutputResponse, UpdateCachePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCachePolicyOutput, UpdateCachePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCachePolicyOutput, UpdateCachePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCachePolicyOutput, UpdateCachePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4482,7 +4482,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateCloudFrontOriginAccessIdentityInput : The request to update an origin access identity.
     ///
-    /// - Returns: `UpdateCloudFrontOriginAccessIdentityOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `UpdateCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4495,7 +4495,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func updateCloudFrontOriginAccessIdentity(input: UpdateCloudFrontOriginAccessIdentityInput) async throws -> UpdateCloudFrontOriginAccessIdentityOutputResponse
+    public func updateCloudFrontOriginAccessIdentity(input: UpdateCloudFrontOriginAccessIdentityInput) async throws -> UpdateCloudFrontOriginAccessIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4511,21 +4511,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutputResponse, UpdateCloudFrontOriginAccessIdentityOutputError>(id: "updateCloudFrontOriginAccessIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutputResponse, UpdateCloudFrontOriginAccessIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput, UpdateCloudFrontOriginAccessIdentityOutputError>(id: "updateCloudFrontOriginAccessIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput, UpdateCloudFrontOriginAccessIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCloudFrontOriginAccessIdentityOutputResponse, UpdateCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCloudFrontOriginAccessIdentityOutput, UpdateCloudFrontOriginAccessIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateCloudFrontOriginAccessIdentityInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCloudFrontOriginAccessIdentityOutputResponse, UpdateCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCloudFrontOriginAccessIdentityOutput, UpdateCloudFrontOriginAccessIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCloudFrontOriginAccessIdentityOutputResponse, UpdateCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCloudFrontOriginAccessIdentityOutputResponse, UpdateCloudFrontOriginAccessIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCloudFrontOriginAccessIdentityOutputResponse, UpdateCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCloudFrontOriginAccessIdentityOutput, UpdateCloudFrontOriginAccessIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCloudFrontOriginAccessIdentityOutput, UpdateCloudFrontOriginAccessIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCloudFrontOriginAccessIdentityOutput, UpdateCloudFrontOriginAccessIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4540,7 +4540,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateContinuousDeploymentPolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContinuousDeploymentPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContinuousDeploymentPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4552,7 +4552,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
-    public func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutputResponse
+    public func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4568,21 +4568,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutputResponse, UpdateContinuousDeploymentPolicyOutputError>(id: "updateContinuousDeploymentPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutputResponse, UpdateContinuousDeploymentPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput, UpdateContinuousDeploymentPolicyOutputError>(id: "updateContinuousDeploymentPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput, UpdateContinuousDeploymentPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateContinuousDeploymentPolicyOutputResponse, UpdateContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateContinuousDeploymentPolicyOutput, UpdateContinuousDeploymentPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateContinuousDeploymentPolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateContinuousDeploymentPolicyOutputResponse, UpdateContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateContinuousDeploymentPolicyOutput, UpdateContinuousDeploymentPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContinuousDeploymentPolicyOutputResponse, UpdateContinuousDeploymentPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContinuousDeploymentPolicyOutputResponse, UpdateContinuousDeploymentPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateContinuousDeploymentPolicyOutputResponse, UpdateContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContinuousDeploymentPolicyOutput, UpdateContinuousDeploymentPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContinuousDeploymentPolicyOutput, UpdateContinuousDeploymentPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateContinuousDeploymentPolicyOutput, UpdateContinuousDeploymentPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4604,7 +4604,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateDistributionInput : The request to update a distribution.
     ///
-    /// - Returns: `UpdateDistributionOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `UpdateDistributionOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4675,7 +4675,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutputResponse
+    public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4691,21 +4691,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDistributionInput, UpdateDistributionOutputResponse, UpdateDistributionOutputError>(id: "updateDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse, UpdateDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDistributionInput, UpdateDistributionOutput, UpdateDistributionOutputError>(id: "updateDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionInput, UpdateDistributionOutput, UpdateDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionInput, UpdateDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDistributionOutput, UpdateDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateDistributionInput, UpdateDistributionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateDistributionInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDistributionOutputResponse, UpdateDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDistributionOutput, UpdateDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionOutput, UpdateDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionOutput, UpdateDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionOutput, UpdateDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4718,7 +4718,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateDistributionWithStagingConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDistributionWithStagingConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDistributionWithStagingConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4784,7 +4784,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutputResponse
+    public func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4800,19 +4800,19 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(id: "updateDistributionWithStagingConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput, UpdateDistributionWithStagingConfigOutputError>(id: "updateDistributionWithStagingConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput, UpdateDistributionWithStagingConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDistributionWithStagingConfigOutput, UpdateDistributionWithStagingConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDistributionWithStagingConfigOutput, UpdateDistributionWithStagingConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionWithStagingConfigOutput, UpdateDistributionWithStagingConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionWithStagingConfigOutput, UpdateDistributionWithStagingConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionWithStagingConfigOutput, UpdateDistributionWithStagingConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4821,7 +4821,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateFieldLevelEncryptionConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFieldLevelEncryptionConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFieldLevelEncryptionConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4837,7 +4837,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `QueryArgProfileEmpty` : No profile specified for the field-level encryption query argument.
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
-    public func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutputResponse
+    public func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4853,21 +4853,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutputResponse, UpdateFieldLevelEncryptionConfigOutputError>(id: "updateFieldLevelEncryptionConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutputResponse, UpdateFieldLevelEncryptionConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput, UpdateFieldLevelEncryptionConfigOutputError>(id: "updateFieldLevelEncryptionConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput, UpdateFieldLevelEncryptionConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFieldLevelEncryptionConfigOutputResponse, UpdateFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFieldLevelEncryptionConfigOutput, UpdateFieldLevelEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateFieldLevelEncryptionConfigInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFieldLevelEncryptionConfigOutputResponse, UpdateFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFieldLevelEncryptionConfigOutput, UpdateFieldLevelEncryptionConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFieldLevelEncryptionConfigOutputResponse, UpdateFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionConfigOutputResponse, UpdateFieldLevelEncryptionConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionConfigOutputResponse, UpdateFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFieldLevelEncryptionConfigOutput, UpdateFieldLevelEncryptionConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionConfigOutput, UpdateFieldLevelEncryptionConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionConfigOutput, UpdateFieldLevelEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4876,7 +4876,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateFieldLevelEncryptionProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFieldLevelEncryptionProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFieldLevelEncryptionProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4893,7 +4893,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `TooManyFieldLevelEncryptionEncryptionEntities` : The maximum number of encryption entities for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
-    public func updateFieldLevelEncryptionProfile(input: UpdateFieldLevelEncryptionProfileInput) async throws -> UpdateFieldLevelEncryptionProfileOutputResponse
+    public func updateFieldLevelEncryptionProfile(input: UpdateFieldLevelEncryptionProfileInput) async throws -> UpdateFieldLevelEncryptionProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4909,21 +4909,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutputResponse, UpdateFieldLevelEncryptionProfileOutputError>(id: "updateFieldLevelEncryptionProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutputResponse, UpdateFieldLevelEncryptionProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput, UpdateFieldLevelEncryptionProfileOutputError>(id: "updateFieldLevelEncryptionProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput, UpdateFieldLevelEncryptionProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFieldLevelEncryptionProfileOutputResponse, UpdateFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFieldLevelEncryptionProfileOutput, UpdateFieldLevelEncryptionProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateFieldLevelEncryptionProfileInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFieldLevelEncryptionProfileOutputResponse, UpdateFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFieldLevelEncryptionProfileOutput, UpdateFieldLevelEncryptionProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFieldLevelEncryptionProfileOutputResponse, UpdateFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionProfileOutputResponse, UpdateFieldLevelEncryptionProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionProfileOutputResponse, UpdateFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFieldLevelEncryptionProfileOutput, UpdateFieldLevelEncryptionProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionProfileOutput, UpdateFieldLevelEncryptionProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionProfileOutput, UpdateFieldLevelEncryptionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4932,7 +4932,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateFunctionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFunctionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFunctionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4943,7 +4943,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutputResponse
+    public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4959,21 +4959,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFunctionInput, UpdateFunctionOutputResponse, UpdateFunctionOutputError>(id: "updateFunction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse, UpdateFunctionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateFunctionInput, UpdateFunctionOutput, UpdateFunctionOutputError>(id: "updateFunction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionInput, UpdateFunctionOutput, UpdateFunctionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionInput, UpdateFunctionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionOutput, UpdateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>(xmlName: "UpdateFunctionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateFunctionInput, UpdateFunctionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionInput, UpdateFunctionOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionInput, UpdateFunctionOutput>(xmlName: "UpdateFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionOutputResponse, UpdateFunctionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionOutput, UpdateFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionOutput, UpdateFunctionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionOutput, UpdateFunctionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionOutput, UpdateFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4988,7 +4988,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateKeyGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateKeyGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateKeyGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4999,7 +4999,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchResource` : A resource that was specified is not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateKeyGroup(input: UpdateKeyGroupInput) async throws -> UpdateKeyGroupOutputResponse
+    public func updateKeyGroup(input: UpdateKeyGroupInput) async throws -> UpdateKeyGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -5015,21 +5015,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateKeyGroupInput, UpdateKeyGroupOutputResponse, UpdateKeyGroupOutputError>(id: "updateKeyGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutputResponse, UpdateKeyGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateKeyGroupInput, UpdateKeyGroupOutput, UpdateKeyGroupOutputError>(id: "updateKeyGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput, UpdateKeyGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateKeyGroupOutputResponse, UpdateKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateKeyGroupOutput, UpdateKeyGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateKeyGroupInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateKeyGroupOutputResponse, UpdateKeyGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateKeyGroupOutput, UpdateKeyGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateKeyGroupOutputResponse, UpdateKeyGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeyGroupOutputResponse, UpdateKeyGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeyGroupOutputResponse, UpdateKeyGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateKeyGroupOutput, UpdateKeyGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeyGroupOutput, UpdateKeyGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeyGroupOutput, UpdateKeyGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5038,7 +5038,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateOriginAccessControlInput : [no documentation found]
     ///
-    /// - Returns: `UpdateOriginAccessControlOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOriginAccessControlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5050,7 +5050,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func updateOriginAccessControl(input: UpdateOriginAccessControlInput) async throws -> UpdateOriginAccessControlOutputResponse
+    public func updateOriginAccessControl(input: UpdateOriginAccessControlInput) async throws -> UpdateOriginAccessControlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -5066,21 +5066,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutputResponse, UpdateOriginAccessControlOutputError>(id: "updateOriginAccessControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutputResponse, UpdateOriginAccessControlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput, UpdateOriginAccessControlOutputError>(id: "updateOriginAccessControl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput, UpdateOriginAccessControlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOriginAccessControlOutputResponse, UpdateOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOriginAccessControlOutput, UpdateOriginAccessControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateOriginAccessControlInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOriginAccessControlOutputResponse, UpdateOriginAccessControlOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOriginAccessControlOutput, UpdateOriginAccessControlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOriginAccessControlOutputResponse, UpdateOriginAccessControlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOriginAccessControlOutputResponse, UpdateOriginAccessControlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOriginAccessControlOutputResponse, UpdateOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOriginAccessControlOutput, UpdateOriginAccessControlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOriginAccessControlOutput, UpdateOriginAccessControlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOriginAccessControlOutput, UpdateOriginAccessControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5095,7 +5095,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateOriginRequestPolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateOriginRequestPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOriginRequestPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5111,7 +5111,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCookiesInOriginRequestPolicy` : The number of cookies in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyHeadersInOriginRequestPolicy` : The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateOriginRequestPolicy(input: UpdateOriginRequestPolicyInput) async throws -> UpdateOriginRequestPolicyOutputResponse
+    public func updateOriginRequestPolicy(input: UpdateOriginRequestPolicyInput) async throws -> UpdateOriginRequestPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -5127,21 +5127,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutputResponse, UpdateOriginRequestPolicyOutputError>(id: "updateOriginRequestPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutputResponse, UpdateOriginRequestPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput, UpdateOriginRequestPolicyOutputError>(id: "updateOriginRequestPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput, UpdateOriginRequestPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOriginRequestPolicyOutputResponse, UpdateOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOriginRequestPolicyOutput, UpdateOriginRequestPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateOriginRequestPolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOriginRequestPolicyOutputResponse, UpdateOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOriginRequestPolicyOutput, UpdateOriginRequestPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOriginRequestPolicyOutputResponse, UpdateOriginRequestPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOriginRequestPolicyOutputResponse, UpdateOriginRequestPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOriginRequestPolicyOutputResponse, UpdateOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOriginRequestPolicyOutput, UpdateOriginRequestPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOriginRequestPolicyOutput, UpdateOriginRequestPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOriginRequestPolicyOutput, UpdateOriginRequestPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5150,7 +5150,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdatePublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5162,7 +5162,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func updatePublicKey(input: UpdatePublicKeyInput) async throws -> UpdatePublicKeyOutputResponse
+    public func updatePublicKey(input: UpdatePublicKeyInput) async throws -> UpdatePublicKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -5178,21 +5178,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePublicKeyInput, UpdatePublicKeyOutputResponse, UpdatePublicKeyOutputError>(id: "updatePublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutputResponse, UpdatePublicKeyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePublicKeyInput, UpdatePublicKeyOutput, UpdatePublicKeyOutputError>(id: "updatePublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput, UpdatePublicKeyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePublicKeyOutputResponse, UpdatePublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePublicKeyOutput, UpdatePublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdatePublicKeyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePublicKeyOutputResponse, UpdatePublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePublicKeyOutput, UpdatePublicKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePublicKeyOutputResponse, UpdatePublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePublicKeyOutputResponse, UpdatePublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePublicKeyOutputResponse, UpdatePublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePublicKeyOutput, UpdatePublicKeyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePublicKeyOutput, UpdatePublicKeyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePublicKeyOutput, UpdatePublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5210,7 +5210,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateRealtimeLogConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRealtimeLogConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRealtimeLogConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5218,7 +5218,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
-    public func updateRealtimeLogConfig(input: UpdateRealtimeLogConfigInput) async throws -> UpdateRealtimeLogConfigOutputResponse
+    public func updateRealtimeLogConfig(input: UpdateRealtimeLogConfigInput) async throws -> UpdateRealtimeLogConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -5234,20 +5234,20 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>(id: "updateRealtimeLogConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput, UpdateRealtimeLogConfigOutputError>(id: "updateRealtimeLogConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput, UpdateRealtimeLogConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRealtimeLogConfigOutput, UpdateRealtimeLogConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse>(xmlName: "UpdateRealtimeLogConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>(xmlName: "UpdateRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRealtimeLogConfigOutput, UpdateRealtimeLogConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRealtimeLogConfigOutput, UpdateRealtimeLogConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRealtimeLogConfigOutput, UpdateRealtimeLogConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRealtimeLogConfigOutput, UpdateRealtimeLogConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5262,7 +5262,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateResponseHeadersPolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateResponseHeadersPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateResponseHeadersPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5278,7 +5278,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooLongCSPInResponseHeadersPolicy` : The length of the Content-Security-Policy header value in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyCustomHeadersInResponseHeadersPolicy` : The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateResponseHeadersPolicy(input: UpdateResponseHeadersPolicyInput) async throws -> UpdateResponseHeadersPolicyOutputResponse
+    public func updateResponseHeadersPolicy(input: UpdateResponseHeadersPolicyInput) async throws -> UpdateResponseHeadersPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -5294,21 +5294,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutputResponse, UpdateResponseHeadersPolicyOutputError>(id: "updateResponseHeadersPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutputResponse, UpdateResponseHeadersPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput, UpdateResponseHeadersPolicyOutputError>(id: "updateResponseHeadersPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput, UpdateResponseHeadersPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResponseHeadersPolicyOutputResponse, UpdateResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResponseHeadersPolicyOutput, UpdateResponseHeadersPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateResponseHeadersPolicyInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResponseHeadersPolicyOutputResponse, UpdateResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResponseHeadersPolicyOutput, UpdateResponseHeadersPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResponseHeadersPolicyOutputResponse, UpdateResponseHeadersPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResponseHeadersPolicyOutputResponse, UpdateResponseHeadersPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResponseHeadersPolicyOutputResponse, UpdateResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResponseHeadersPolicyOutput, UpdateResponseHeadersPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResponseHeadersPolicyOutput, UpdateResponseHeadersPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResponseHeadersPolicyOutput, UpdateResponseHeadersPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5317,7 +5317,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// - Parameter UpdateStreamingDistributionInput : The request to update a streaming distribution.
     ///
-    /// - Returns: `UpdateStreamingDistributionOutputResponse` : The returned result of the corresponding request.
+    /// - Returns: `UpdateStreamingDistributionOutput` : The returned result of the corresponding request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5336,7 +5336,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyStreamingDistributionCNAMEs` : Your request contains more CNAMEs than are allowed per distribution.
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func updateStreamingDistribution(input: UpdateStreamingDistributionInput) async throws -> UpdateStreamingDistributionOutputResponse
+    public func updateStreamingDistribution(input: UpdateStreamingDistributionInput) async throws -> UpdateStreamingDistributionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -5352,21 +5352,21 @@ extension CloudFrontClient: CloudFrontClientProtocol {
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutputResponse, UpdateStreamingDistributionOutputError>(id: "updateStreamingDistribution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutputResponse, UpdateStreamingDistributionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput, UpdateStreamingDistributionOutputError>(id: "updateStreamingDistribution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput, UpdateStreamingDistributionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStreamingDistributionOutputResponse, UpdateStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStreamingDistributionOutput, UpdateStreamingDistributionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutputResponse>(contentType: "application/xml"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: UpdateStreamingDistributionInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStreamingDistributionOutputResponse, UpdateStreamingDistributionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStreamingDistributionOutput, UpdateStreamingDistributionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStreamingDistributionOutputResponse, UpdateStreamingDistributionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStreamingDistributionOutputResponse, UpdateStreamingDistributionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStreamingDistributionOutputResponse, UpdateStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStreamingDistributionOutput, UpdateStreamingDistributionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStreamingDistributionOutput, UpdateStreamingDistributionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStreamingDistributionOutput, UpdateStreamingDistributionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

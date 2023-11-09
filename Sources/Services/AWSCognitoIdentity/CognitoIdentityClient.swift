@@ -84,7 +84,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter CreateIdentityPoolInput : Input to the CreateIdentityPool action.
     ///
-    /// - Returns: `CreateIdentityPoolOutputResponse` : An object representing an Amazon Cognito identity pool.
+    /// - Returns: `CreateIdentityPoolOutput` : An object representing an Amazon Cognito identity pool.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -95,7 +95,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func createIdentityPool(input: CreateIdentityPoolInput) async throws -> CreateIdentityPoolOutputResponse
+    public func createIdentityPool(input: CreateIdentityPoolInput) async throws -> CreateIdentityPoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -111,21 +111,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateIdentityPoolInput, CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>(id: "createIdentityPool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateIdentityPoolInput, CreateIdentityPoolOutput, CreateIdentityPoolOutputError>(id: "createIdentityPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutput, CreateIdentityPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIdentityPoolOutput, CreateIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.CreateIdentityPool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutputResponse>(xmlName: "CreateIdentityPoolInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutput>(xAmzTarget: "AWSCognitoIdentityService.CreateIdentityPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutput>(xmlName: "CreateIdentityPoolInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIdentityPoolOutput, CreateIdentityPoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityPoolOutputResponse, CreateIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityPoolOutput, CreateIdentityPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityPoolOutput, CreateIdentityPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityPoolOutput, CreateIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -134,7 +134,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter DeleteIdentitiesInput : Input to the DeleteIdentities action.
     ///
-    /// - Returns: `DeleteIdentitiesOutputResponse` : Returned in response to a successful DeleteIdentities operation.
+    /// - Returns: `DeleteIdentitiesOutput` : Returned in response to a successful DeleteIdentities operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -142,7 +142,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `InternalErrorException` : Thrown when the service encounters an error during processing the request.
     /// - `InvalidParameterException` : Thrown for missing or bad input parameter(s).
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func deleteIdentities(input: DeleteIdentitiesInput) async throws -> DeleteIdentitiesOutputResponse
+    public func deleteIdentities(input: DeleteIdentitiesInput) async throws -> DeleteIdentitiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -158,21 +158,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteIdentitiesInput, DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>(id: "deleteIdentities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteIdentitiesInput, DeleteIdentitiesOutput, DeleteIdentitiesOutputError>(id: "deleteIdentities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutput, DeleteIdentitiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentitiesOutput, DeleteIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.DeleteIdentities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutputResponse>(xmlName: "DeleteIdentitiesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutput>(xAmzTarget: "AWSCognitoIdentityService.DeleteIdentities"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutput>(xmlName: "DeleteIdentitiesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentitiesOutput, DeleteIdentitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentitiesOutputResponse, DeleteIdentitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentitiesOutput, DeleteIdentitiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentitiesOutput, DeleteIdentitiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentitiesOutput, DeleteIdentitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -181,7 +181,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter DeleteIdentityPoolInput : Input to the DeleteIdentityPool action.
     ///
-    /// - Returns: `DeleteIdentityPoolOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIdentityPoolOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -191,7 +191,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func deleteIdentityPool(input: DeleteIdentityPoolInput) async throws -> DeleteIdentityPoolOutputResponse
+    public func deleteIdentityPool(input: DeleteIdentityPoolInput) async throws -> DeleteIdentityPoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -207,21 +207,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteIdentityPoolInput, DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>(id: "deleteIdentityPool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteIdentityPoolInput, DeleteIdentityPoolOutput, DeleteIdentityPoolOutputError>(id: "deleteIdentityPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutput, DeleteIdentityPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentityPoolOutput, DeleteIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.DeleteIdentityPool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutputResponse>(xmlName: "DeleteIdentityPoolInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutput>(xAmzTarget: "AWSCognitoIdentityService.DeleteIdentityPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutput>(xmlName: "DeleteIdentityPoolInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentityPoolOutput, DeleteIdentityPoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityPoolOutputResponse, DeleteIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityPoolOutput, DeleteIdentityPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityPoolOutput, DeleteIdentityPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityPoolOutput, DeleteIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -230,7 +230,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter DescribeIdentityInput : Input to the DescribeIdentity action.
     ///
-    /// - Returns: `DescribeIdentityOutputResponse` : A description of the identity.
+    /// - Returns: `DescribeIdentityOutput` : A description of the identity.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -240,7 +240,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func describeIdentity(input: DescribeIdentityInput) async throws -> DescribeIdentityOutputResponse
+    public func describeIdentity(input: DescribeIdentityInput) async throws -> DescribeIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -256,21 +256,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeIdentityInput, DescribeIdentityOutputResponse, DescribeIdentityOutputError>(id: "describeIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityInput, DescribeIdentityOutputResponse, DescribeIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityInput, DescribeIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeIdentityInput, DescribeIdentityOutput, DescribeIdentityOutputError>(id: "describeIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityInput, DescribeIdentityOutput, DescribeIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityInput, DescribeIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityOutputResponse, DescribeIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityOutput, DescribeIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeIdentityInput, DescribeIdentityOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.DescribeIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeIdentityInput, DescribeIdentityOutputResponse>(xmlName: "DescribeIdentityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeIdentityInput, DescribeIdentityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeIdentityInput, DescribeIdentityOutput>(xAmzTarget: "AWSCognitoIdentityService.DescribeIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeIdentityInput, DescribeIdentityOutput>(xmlName: "DescribeIdentityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeIdentityInput, DescribeIdentityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityOutputResponse, DescribeIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityOutput, DescribeIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityOutputResponse, DescribeIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityOutputResponse, DescribeIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityOutputResponse, DescribeIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityOutput, DescribeIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityOutput, DescribeIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityOutput, DescribeIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -279,7 +279,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter DescribeIdentityPoolInput : Input to the DescribeIdentityPool action.
     ///
-    /// - Returns: `DescribeIdentityPoolOutputResponse` : An object representing an Amazon Cognito identity pool.
+    /// - Returns: `DescribeIdentityPoolOutput` : An object representing an Amazon Cognito identity pool.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,7 +289,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func describeIdentityPool(input: DescribeIdentityPoolInput) async throws -> DescribeIdentityPoolOutputResponse
+    public func describeIdentityPool(input: DescribeIdentityPoolInput) async throws -> DescribeIdentityPoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -305,21 +305,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeIdentityPoolInput, DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>(id: "describeIdentityPool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeIdentityPoolInput, DescribeIdentityPoolOutput, DescribeIdentityPoolOutputError>(id: "describeIdentityPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutput, DescribeIdentityPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityPoolOutput, DescribeIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.DescribeIdentityPool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutputResponse>(xmlName: "DescribeIdentityPoolInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutput>(xAmzTarget: "AWSCognitoIdentityService.DescribeIdentityPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutput>(xmlName: "DescribeIdentityPoolInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityPoolOutput, DescribeIdentityPoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityPoolOutputResponse, DescribeIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityPoolOutput, DescribeIdentityPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityPoolOutput, DescribeIdentityPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityPoolOutput, DescribeIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -328,7 +328,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter GetCredentialsForIdentityInput : Input to the GetCredentialsForIdentity action.
     ///
-    /// - Returns: `GetCredentialsForIdentityOutputResponse` : Returned in response to a successful GetCredentialsForIdentity operation.
+    /// - Returns: `GetCredentialsForIdentityOutput` : Returned in response to a successful GetCredentialsForIdentity operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -341,7 +341,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getCredentialsForIdentity(input: GetCredentialsForIdentityInput) async throws -> GetCredentialsForIdentityOutputResponse
+    public func getCredentialsForIdentity(input: GetCredentialsForIdentityInput) async throws -> GetCredentialsForIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -355,19 +355,19 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutputResponse, GetCredentialsForIdentityOutputError>(id: "getCredentialsForIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutputResponse, GetCredentialsForIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput, GetCredentialsForIdentityOutputError>(id: "getCredentialsForIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput, GetCredentialsForIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCredentialsForIdentityOutputResponse, GetCredentialsForIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCredentialsForIdentityOutput, GetCredentialsForIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.GetCredentialsForIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutputResponse>(xmlName: "GetCredentialsForIdentityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>(xAmzTarget: "AWSCognitoIdentityService.GetCredentialsForIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>(xmlName: "GetCredentialsForIdentityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCredentialsForIdentityOutputResponse, GetCredentialsForIdentityOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCredentialsForIdentityOutputResponse, GetCredentialsForIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCredentialsForIdentityOutputResponse, GetCredentialsForIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCredentialsForIdentityOutput, GetCredentialsForIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCredentialsForIdentityOutput, GetCredentialsForIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCredentialsForIdentityOutput, GetCredentialsForIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -376,7 +376,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter GetIdInput : Input to the GetId action.
     ///
-    /// - Returns: `GetIdOutputResponse` : Returned in response to a GetId request.
+    /// - Returns: `GetIdOutput` : Returned in response to a GetId request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -389,7 +389,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getId(input: GetIdInput) async throws -> GetIdOutputResponse
+    public func getId(input: GetIdInput) async throws -> GetIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -403,19 +403,19 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetIdInput, GetIdOutputResponse, GetIdOutputError>(id: "getId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdInput, GetIdOutputResponse, GetIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdInput, GetIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetIdInput, GetIdOutput, GetIdOutputError>(id: "getId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdInput, GetIdOutput, GetIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdInput, GetIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdOutputResponse, GetIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdOutput, GetIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetIdInput, GetIdOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.GetId"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetIdInput, GetIdOutputResponse>(xmlName: "GetIdInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetIdInput, GetIdOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetIdInput, GetIdOutput>(xAmzTarget: "AWSCognitoIdentityService.GetId"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetIdInput, GetIdOutput>(xmlName: "GetIdInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetIdInput, GetIdOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdOutputResponse, GetIdOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdOutputResponse, GetIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdOutputResponse, GetIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdOutput, GetIdOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdOutput, GetIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdOutput, GetIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -424,7 +424,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter GetIdentityPoolRolesInput : Input to the GetIdentityPoolRoles action.
     ///
-    /// - Returns: `GetIdentityPoolRolesOutputResponse` : Returned in response to a successful GetIdentityPoolRoles operation.
+    /// - Returns: `GetIdentityPoolRolesOutput` : Returned in response to a successful GetIdentityPoolRoles operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,7 +435,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getIdentityPoolRoles(input: GetIdentityPoolRolesInput) async throws -> GetIdentityPoolRolesOutputResponse
+    public func getIdentityPoolRoles(input: GetIdentityPoolRolesInput) async throws -> GetIdentityPoolRolesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -451,21 +451,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>(id: "getIdentityPoolRoles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput, GetIdentityPoolRolesOutputError>(id: "getIdentityPoolRoles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput, GetIdentityPoolRolesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentityPoolRolesOutput, GetIdentityPoolRolesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.GetIdentityPoolRoles"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutputResponse>(xmlName: "GetIdentityPoolRolesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput>(xAmzTarget: "AWSCognitoIdentityService.GetIdentityPoolRoles"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput>(xmlName: "GetIdentityPoolRolesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdentityPoolRolesOutput, GetIdentityPoolRolesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityPoolRolesOutputResponse, GetIdentityPoolRolesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityPoolRolesOutput, GetIdentityPoolRolesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityPoolRolesOutput, GetIdentityPoolRolesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityPoolRolesOutput, GetIdentityPoolRolesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -474,7 +474,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter GetOpenIdTokenInput : Input to the GetOpenIdToken action.
     ///
-    /// - Returns: `GetOpenIdTokenOutputResponse` : Returned in response to a successful GetOpenIdToken request.
+    /// - Returns: `GetOpenIdTokenOutput` : Returned in response to a successful GetOpenIdToken request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +486,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getOpenIdToken(input: GetOpenIdTokenInput) async throws -> GetOpenIdTokenOutputResponse
+    public func getOpenIdToken(input: GetOpenIdTokenInput) async throws -> GetOpenIdTokenOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -500,19 +500,19 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOpenIdTokenInput, GetOpenIdTokenOutputResponse, GetOpenIdTokenOutputError>(id: "getOpenIdToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutputResponse, GetOpenIdTokenOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOpenIdTokenInput, GetOpenIdTokenOutput, GetOpenIdTokenOutputError>(id: "getOpenIdToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutput, GetOpenIdTokenOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenIdTokenOutputResponse, GetOpenIdTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenIdTokenOutput, GetOpenIdTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.GetOpenIdToken"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutputResponse>(xmlName: "GetOpenIdTokenInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutput>(xAmzTarget: "AWSCognitoIdentityService.GetOpenIdToken"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutput>(xmlName: "GetOpenIdTokenInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenIdTokenOutputResponse, GetOpenIdTokenOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIdTokenOutputResponse, GetOpenIdTokenOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenIdTokenOutputResponse, GetOpenIdTokenOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenIdTokenOutput, GetOpenIdTokenOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIdTokenOutput, GetOpenIdTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenIdTokenOutput, GetOpenIdTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -521,7 +521,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter GetOpenIdTokenForDeveloperIdentityInput : Input to the GetOpenIdTokenForDeveloperIdentity action.
     ///
-    /// - Returns: `GetOpenIdTokenForDeveloperIdentityOutputResponse` : Returned in response to a successful GetOpenIdTokenForDeveloperIdentity request.
+    /// - Returns: `GetOpenIdTokenForDeveloperIdentityOutput` : Returned in response to a successful GetOpenIdTokenForDeveloperIdentity request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -533,7 +533,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getOpenIdTokenForDeveloperIdentity(input: GetOpenIdTokenForDeveloperIdentityInput) async throws -> GetOpenIdTokenForDeveloperIdentityOutputResponse
+    public func getOpenIdTokenForDeveloperIdentity(input: GetOpenIdTokenForDeveloperIdentityInput) async throws -> GetOpenIdTokenForDeveloperIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -549,21 +549,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>(id: "getOpenIdTokenForDeveloperIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput, GetOpenIdTokenForDeveloperIdentityOutputError>(id: "getOpenIdTokenForDeveloperIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput, GetOpenIdTokenForDeveloperIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenIdTokenForDeveloperIdentityOutput, GetOpenIdTokenForDeveloperIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.GetOpenIdTokenForDeveloperIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutputResponse>(xmlName: "GetOpenIdTokenForDeveloperIdentityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput>(xAmzTarget: "AWSCognitoIdentityService.GetOpenIdTokenForDeveloperIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput>(xmlName: "GetOpenIdTokenForDeveloperIdentityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenIdTokenForDeveloperIdentityOutput, GetOpenIdTokenForDeveloperIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenIdTokenForDeveloperIdentityOutputResponse, GetOpenIdTokenForDeveloperIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenIdTokenForDeveloperIdentityOutput, GetOpenIdTokenForDeveloperIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIdTokenForDeveloperIdentityOutput, GetOpenIdTokenForDeveloperIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenIdTokenForDeveloperIdentityOutput, GetOpenIdTokenForDeveloperIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -572,7 +572,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter GetPrincipalTagAttributeMapInput : [no documentation found]
     ///
-    /// - Returns: `GetPrincipalTagAttributeMapOutputResponse` : [no documentation found]
+    /// - Returns: `GetPrincipalTagAttributeMapOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,7 +582,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getPrincipalTagAttributeMap(input: GetPrincipalTagAttributeMapInput) async throws -> GetPrincipalTagAttributeMapOutputResponse
+    public func getPrincipalTagAttributeMap(input: GetPrincipalTagAttributeMapInput) async throws -> GetPrincipalTagAttributeMapOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -598,21 +598,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutputResponse, GetPrincipalTagAttributeMapOutputError>(id: "getPrincipalTagAttributeMap")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutputResponse, GetPrincipalTagAttributeMapOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput, GetPrincipalTagAttributeMapOutputError>(id: "getPrincipalTagAttributeMap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput, GetPrincipalTagAttributeMapOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPrincipalTagAttributeMapOutputResponse, GetPrincipalTagAttributeMapOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPrincipalTagAttributeMapOutput, GetPrincipalTagAttributeMapOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.GetPrincipalTagAttributeMap"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutputResponse>(xmlName: "GetPrincipalTagAttributeMapInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput>(xAmzTarget: "AWSCognitoIdentityService.GetPrincipalTagAttributeMap"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput>(xmlName: "GetPrincipalTagAttributeMapInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPrincipalTagAttributeMapOutputResponse, GetPrincipalTagAttributeMapOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPrincipalTagAttributeMapOutput, GetPrincipalTagAttributeMapOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPrincipalTagAttributeMapOutputResponse, GetPrincipalTagAttributeMapOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPrincipalTagAttributeMapOutputResponse, GetPrincipalTagAttributeMapOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPrincipalTagAttributeMapOutputResponse, GetPrincipalTagAttributeMapOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPrincipalTagAttributeMapOutput, GetPrincipalTagAttributeMapOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPrincipalTagAttributeMapOutput, GetPrincipalTagAttributeMapOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPrincipalTagAttributeMapOutput, GetPrincipalTagAttributeMapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -621,7 +621,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter ListIdentitiesInput : Input to the ListIdentities action.
     ///
-    /// - Returns: `ListIdentitiesOutputResponse` : The response to a ListIdentities request.
+    /// - Returns: `ListIdentitiesOutput` : The response to a ListIdentities request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,7 +631,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutputResponse
+    public func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -647,21 +647,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIdentitiesInput, ListIdentitiesOutputResponse, ListIdentitiesOutputError>(id: "listIdentities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentitiesInput, ListIdentitiesOutputResponse, ListIdentitiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentitiesInput, ListIdentitiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListIdentitiesInput, ListIdentitiesOutput, ListIdentitiesOutputError>(id: "listIdentities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentitiesInput, ListIdentitiesOutput, ListIdentitiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentitiesInput, ListIdentitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentitiesOutput, ListIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIdentitiesInput, ListIdentitiesOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.ListIdentities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIdentitiesInput, ListIdentitiesOutputResponse>(xmlName: "ListIdentitiesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIdentitiesInput, ListIdentitiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIdentitiesInput, ListIdentitiesOutput>(xAmzTarget: "AWSCognitoIdentityService.ListIdentities"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIdentitiesInput, ListIdentitiesOutput>(xmlName: "ListIdentitiesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIdentitiesInput, ListIdentitiesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentitiesOutputResponse, ListIdentitiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentitiesOutput, ListIdentitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentitiesOutput, ListIdentitiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentitiesOutput, ListIdentitiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentitiesOutput, ListIdentitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -670,7 +670,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter ListIdentityPoolsInput : Input to the ListIdentityPools action.
     ///
-    /// - Returns: `ListIdentityPoolsOutputResponse` : The result of a successful ListIdentityPools action.
+    /// - Returns: `ListIdentityPoolsOutput` : The result of a successful ListIdentityPools action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -680,7 +680,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func listIdentityPools(input: ListIdentityPoolsInput) async throws -> ListIdentityPoolsOutputResponse
+    public func listIdentityPools(input: ListIdentityPoolsInput) async throws -> ListIdentityPoolsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -696,21 +696,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIdentityPoolsInput, ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>(id: "listIdentityPools")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListIdentityPoolsInput, ListIdentityPoolsOutput, ListIdentityPoolsOutputError>(id: "listIdentityPools")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutput, ListIdentityPoolsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityPoolsOutput, ListIdentityPoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.ListIdentityPools"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutputResponse>(xmlName: "ListIdentityPoolsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutput>(xAmzTarget: "AWSCognitoIdentityService.ListIdentityPools"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutput>(xmlName: "ListIdentityPoolsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityPoolsOutput, ListIdentityPoolsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityPoolsOutputResponse, ListIdentityPoolsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityPoolsOutput, ListIdentityPoolsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityPoolsOutput, ListIdentityPoolsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityPoolsOutput, ListIdentityPoolsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -719,7 +719,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,7 +729,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -745,21 +745,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSCognitoIdentityService.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -768,7 +768,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter LookupDeveloperIdentityInput : Input to the LookupDeveloperIdentityInput action.
     ///
-    /// - Returns: `LookupDeveloperIdentityOutputResponse` : Returned in response to a successful LookupDeveloperIdentity action.
+    /// - Returns: `LookupDeveloperIdentityOutput` : Returned in response to a successful LookupDeveloperIdentity action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,7 +779,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func lookupDeveloperIdentity(input: LookupDeveloperIdentityInput) async throws -> LookupDeveloperIdentityOutputResponse
+    public func lookupDeveloperIdentity(input: LookupDeveloperIdentityInput) async throws -> LookupDeveloperIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -795,21 +795,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>(id: "lookupDeveloperIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput, LookupDeveloperIdentityOutputError>(id: "lookupDeveloperIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput, LookupDeveloperIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LookupDeveloperIdentityOutput, LookupDeveloperIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.LookupDeveloperIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutputResponse>(xmlName: "LookupDeveloperIdentityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput>(xAmzTarget: "AWSCognitoIdentityService.LookupDeveloperIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput>(xmlName: "LookupDeveloperIdentityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, LookupDeveloperIdentityOutput, LookupDeveloperIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LookupDeveloperIdentityOutputResponse, LookupDeveloperIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LookupDeveloperIdentityOutput, LookupDeveloperIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LookupDeveloperIdentityOutput, LookupDeveloperIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LookupDeveloperIdentityOutput, LookupDeveloperIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -818,7 +818,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter MergeDeveloperIdentitiesInput : Input to the MergeDeveloperIdentities action.
     ///
-    /// - Returns: `MergeDeveloperIdentitiesOutputResponse` : Returned in response to a successful MergeDeveloperIdentities action.
+    /// - Returns: `MergeDeveloperIdentitiesOutput` : Returned in response to a successful MergeDeveloperIdentities action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -829,7 +829,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func mergeDeveloperIdentities(input: MergeDeveloperIdentitiesInput) async throws -> MergeDeveloperIdentitiesOutputResponse
+    public func mergeDeveloperIdentities(input: MergeDeveloperIdentitiesInput) async throws -> MergeDeveloperIdentitiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -845,21 +845,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>(id: "mergeDeveloperIdentities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput, MergeDeveloperIdentitiesOutputError>(id: "mergeDeveloperIdentities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput, MergeDeveloperIdentitiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeDeveloperIdentitiesOutput, MergeDeveloperIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.MergeDeveloperIdentities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutputResponse>(xmlName: "MergeDeveloperIdentitiesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput>(xAmzTarget: "AWSCognitoIdentityService.MergeDeveloperIdentities"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput>(xmlName: "MergeDeveloperIdentitiesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergeDeveloperIdentitiesOutput, MergeDeveloperIdentitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeDeveloperIdentitiesOutputResponse, MergeDeveloperIdentitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeDeveloperIdentitiesOutput, MergeDeveloperIdentitiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeDeveloperIdentitiesOutput, MergeDeveloperIdentitiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeDeveloperIdentitiesOutput, MergeDeveloperIdentitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -868,7 +868,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter SetIdentityPoolRolesInput : Input to the SetIdentityPoolRoles action.
     ///
-    /// - Returns: `SetIdentityPoolRolesOutputResponse` : [no documentation found]
+    /// - Returns: `SetIdentityPoolRolesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -880,7 +880,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func setIdentityPoolRoles(input: SetIdentityPoolRolesInput) async throws -> SetIdentityPoolRolesOutputResponse
+    public func setIdentityPoolRoles(input: SetIdentityPoolRolesInput) async throws -> SetIdentityPoolRolesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -896,21 +896,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>(id: "setIdentityPoolRoles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput, SetIdentityPoolRolesOutputError>(id: "setIdentityPoolRoles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput, SetIdentityPoolRolesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetIdentityPoolRolesOutput, SetIdentityPoolRolesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.SetIdentityPoolRoles"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutputResponse>(xmlName: "SetIdentityPoolRolesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput>(xAmzTarget: "AWSCognitoIdentityService.SetIdentityPoolRoles"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput>(xmlName: "SetIdentityPoolRolesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetIdentityPoolRolesOutput, SetIdentityPoolRolesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityPoolRolesOutputResponse, SetIdentityPoolRolesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityPoolRolesOutput, SetIdentityPoolRolesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityPoolRolesOutput, SetIdentityPoolRolesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityPoolRolesOutput, SetIdentityPoolRolesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -919,7 +919,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter SetPrincipalTagAttributeMapInput : [no documentation found]
     ///
-    /// - Returns: `SetPrincipalTagAttributeMapOutputResponse` : [no documentation found]
+    /// - Returns: `SetPrincipalTagAttributeMapOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,7 +929,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func setPrincipalTagAttributeMap(input: SetPrincipalTagAttributeMapInput) async throws -> SetPrincipalTagAttributeMapOutputResponse
+    public func setPrincipalTagAttributeMap(input: SetPrincipalTagAttributeMapInput) async throws -> SetPrincipalTagAttributeMapOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -945,21 +945,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutputResponse, SetPrincipalTagAttributeMapOutputError>(id: "setPrincipalTagAttributeMap")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutputResponse, SetPrincipalTagAttributeMapOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput, SetPrincipalTagAttributeMapOutputError>(id: "setPrincipalTagAttributeMap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput, SetPrincipalTagAttributeMapOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetPrincipalTagAttributeMapOutputResponse, SetPrincipalTagAttributeMapOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetPrincipalTagAttributeMapOutput, SetPrincipalTagAttributeMapOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.SetPrincipalTagAttributeMap"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutputResponse>(xmlName: "SetPrincipalTagAttributeMapInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput>(xAmzTarget: "AWSCognitoIdentityService.SetPrincipalTagAttributeMap"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput>(xmlName: "SetPrincipalTagAttributeMapInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetPrincipalTagAttributeMapOutputResponse, SetPrincipalTagAttributeMapOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetPrincipalTagAttributeMapOutput, SetPrincipalTagAttributeMapOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetPrincipalTagAttributeMapOutputResponse, SetPrincipalTagAttributeMapOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetPrincipalTagAttributeMapOutputResponse, SetPrincipalTagAttributeMapOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetPrincipalTagAttributeMapOutputResponse, SetPrincipalTagAttributeMapOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetPrincipalTagAttributeMapOutput, SetPrincipalTagAttributeMapOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetPrincipalTagAttributeMapOutput, SetPrincipalTagAttributeMapOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetPrincipalTagAttributeMapOutput, SetPrincipalTagAttributeMapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -968,7 +968,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,7 +978,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -994,21 +994,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSCognitoIdentityService.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1017,7 +1017,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter UnlinkDeveloperIdentityInput : Input to the UnlinkDeveloperIdentity action.
     ///
-    /// - Returns: `UnlinkDeveloperIdentityOutputResponse` : [no documentation found]
+    /// - Returns: `UnlinkDeveloperIdentityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1028,7 +1028,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func unlinkDeveloperIdentity(input: UnlinkDeveloperIdentityInput) async throws -> UnlinkDeveloperIdentityOutputResponse
+    public func unlinkDeveloperIdentity(input: UnlinkDeveloperIdentityInput) async throws -> UnlinkDeveloperIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1044,21 +1044,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>(id: "unlinkDeveloperIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput, UnlinkDeveloperIdentityOutputError>(id: "unlinkDeveloperIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput, UnlinkDeveloperIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnlinkDeveloperIdentityOutput, UnlinkDeveloperIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.UnlinkDeveloperIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutputResponse>(xmlName: "UnlinkDeveloperIdentityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput>(xAmzTarget: "AWSCognitoIdentityService.UnlinkDeveloperIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput>(xmlName: "UnlinkDeveloperIdentityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnlinkDeveloperIdentityOutput, UnlinkDeveloperIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnlinkDeveloperIdentityOutputResponse, UnlinkDeveloperIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnlinkDeveloperIdentityOutput, UnlinkDeveloperIdentityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnlinkDeveloperIdentityOutput, UnlinkDeveloperIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnlinkDeveloperIdentityOutput, UnlinkDeveloperIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1067,7 +1067,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter UnlinkIdentityInput : Input to the UnlinkIdentity action.
     ///
-    /// - Returns: `UnlinkIdentityOutputResponse` : [no documentation found]
+    /// - Returns: `UnlinkIdentityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1079,7 +1079,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func unlinkIdentity(input: UnlinkIdentityInput) async throws -> UnlinkIdentityOutputResponse
+    public func unlinkIdentity(input: UnlinkIdentityInput) async throws -> UnlinkIdentityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1093,19 +1093,19 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<UnlinkIdentityInput, UnlinkIdentityOutputResponse, UnlinkIdentityOutputError>(id: "unlinkIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnlinkIdentityInput, UnlinkIdentityOutputResponse, UnlinkIdentityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnlinkIdentityInput, UnlinkIdentityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UnlinkIdentityInput, UnlinkIdentityOutput, UnlinkIdentityOutputError>(id: "unlinkIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnlinkIdentityInput, UnlinkIdentityOutput, UnlinkIdentityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnlinkIdentityInput, UnlinkIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnlinkIdentityOutputResponse, UnlinkIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnlinkIdentityOutput, UnlinkIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UnlinkIdentityInput, UnlinkIdentityOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.UnlinkIdentity"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnlinkIdentityInput, UnlinkIdentityOutputResponse>(xmlName: "UnlinkIdentityInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnlinkIdentityInput, UnlinkIdentityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UnlinkIdentityInput, UnlinkIdentityOutput>(xAmzTarget: "AWSCognitoIdentityService.UnlinkIdentity"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnlinkIdentityInput, UnlinkIdentityOutput>(xmlName: "UnlinkIdentityInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnlinkIdentityInput, UnlinkIdentityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnlinkIdentityOutputResponse, UnlinkIdentityOutputError>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnlinkIdentityOutputResponse, UnlinkIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnlinkIdentityOutputResponse, UnlinkIdentityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnlinkIdentityOutput, UnlinkIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnlinkIdentityOutput, UnlinkIdentityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnlinkIdentityOutput, UnlinkIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1114,7 +1114,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1124,7 +1124,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1140,21 +1140,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSCognitoIdentityService.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1163,7 +1163,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     ///
     /// - Parameter UpdateIdentityPoolInput : An object representing an Amazon Cognito identity pool.
     ///
-    /// - Returns: `UpdateIdentityPoolOutputResponse` : An object representing an Amazon Cognito identity pool.
+    /// - Returns: `UpdateIdentityPoolOutput` : An object representing an Amazon Cognito identity pool.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1176,7 +1176,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func updateIdentityPool(input: UpdateIdentityPoolInput) async throws -> UpdateIdentityPoolOutputResponse
+    public func updateIdentityPool(input: UpdateIdentityPoolInput) async throws -> UpdateIdentityPoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1192,21 +1192,21 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
                       .withSigningName(value: "cognito-identity")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateIdentityPoolInput, UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>(id: "updateIdentityPool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateIdentityPoolInput, UpdateIdentityPoolOutput, UpdateIdentityPoolOutputError>(id: "updateIdentityPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutput, UpdateIdentityPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityPoolOutput, UpdateIdentityPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutputResponse>(xAmzTarget: "AWSCognitoIdentityService.UpdateIdentityPool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutputResponse>(xmlName: "IdentityPool"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutput>(xAmzTarget: "AWSCognitoIdentityService.UpdateIdentityPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutput>(xmlName: "IdentityPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentityPoolOutput, UpdateIdentityPoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityPoolOutputResponse, UpdateIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityPoolOutput, UpdateIdentityPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityPoolOutput, UpdateIdentityPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityPoolOutput, UpdateIdentityPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

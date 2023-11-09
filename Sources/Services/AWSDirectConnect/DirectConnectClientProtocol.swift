@@ -8,32 +8,32 @@ public protocol DirectConnectClientProtocol {
     ///
     /// - Parameter AcceptDirectConnectGatewayAssociationProposalInput : [no documentation found]
     ///
-    /// - Returns: `AcceptDirectConnectGatewayAssociationProposalOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptDirectConnectGatewayAssociationProposalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func acceptDirectConnectGatewayAssociationProposal(input: AcceptDirectConnectGatewayAssociationProposalInput) async throws -> AcceptDirectConnectGatewayAssociationProposalOutputResponse
+    func acceptDirectConnectGatewayAssociationProposal(input: AcceptDirectConnectGatewayAssociationProposalInput) async throws -> AcceptDirectConnectGatewayAssociationProposalOutput
     /// Deprecated. Use [AllocateHostedConnection] instead. Creates a hosted connection on an interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the specified interconnect. Intended for use by Direct Connect Partners only.
     @available(*, deprecated)
     ///
     /// - Parameter AllocateConnectionOnInterconnectInput : [no documentation found]
     ///
-    /// - Returns: `AllocateConnectionOnInterconnectOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `AllocateConnectionOnInterconnectOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func allocateConnectionOnInterconnect(input: AllocateConnectionOnInterconnectInput) async throws -> AllocateConnectionOnInterconnectOutputResponse
+    func allocateConnectionOnInterconnect(input: AllocateConnectionOnInterconnectInput) async throws -> AllocateConnectionOnInterconnectOutput
     /// Creates a hosted connection on the specified interconnect or a link aggregation group (LAG) of interconnects. Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects. Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity. Intended for use by Direct Connect Partners only.
     ///
     /// - Parameter AllocateHostedConnectionInput : [no documentation found]
     ///
-    /// - Returns: `AllocateHostedConnectionOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `AllocateHostedConnectionOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -42,12 +42,12 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func allocateHostedConnection(input: AllocateHostedConnectionInput) async throws -> AllocateHostedConnectionOutputResponse
+    func allocateHostedConnection(input: AllocateHostedConnectionInput) async throws -> AllocateHostedConnectionOutput
     /// Provisions a private virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this action must be confirmed by the owner using [ConfirmPrivateVirtualInterface]. Until then, the virtual interface is in the Confirming state and is not available to handle traffic.
     ///
     /// - Parameter AllocatePrivateVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `AllocatePrivateVirtualInterfaceOutputResponse` : Information about a virtual interface.
+    /// - Returns: `AllocatePrivateVirtualInterfaceOutput` : Information about a virtual interface.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -56,12 +56,12 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfaceInput) async throws -> AllocatePrivateVirtualInterfaceOutputResponse
+    func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfaceInput) async throws -> AllocatePrivateVirtualInterfaceOutput
     /// Provisions a public virtual interface to be owned by the specified Amazon Web Services account. The owner of a connection calls this function to provision a public virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this function must be confirmed by the owner using [ConfirmPublicVirtualInterface]. Until this step has been completed, the virtual interface is in the confirming state and is not available to handle traffic. When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
     ///
     /// - Parameter AllocatePublicVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `AllocatePublicVirtualInterfaceOutputResponse` : Information about a virtual interface.
+    /// - Returns: `AllocatePublicVirtualInterfaceOutput` : Information about a virtual interface.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -70,12 +70,12 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterfaceInput) async throws -> AllocatePublicVirtualInterfaceOutputResponse
+    func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterfaceInput) async throws -> AllocatePublicVirtualInterfaceOutput
     /// Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway. The owner of a connection provisions a transit virtual interface to be owned by the specified Amazon Web Services account. After you create a transit virtual interface, it must be confirmed by the owner using [ConfirmTransitVirtualInterface]. Until this step has been completed, the transit virtual interface is in the requested state and is not available to handle traffic.
     ///
     /// - Parameter AllocateTransitVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `AllocateTransitVirtualInterfaceOutputResponse` : [no documentation found]
+    /// - Returns: `AllocateTransitVirtualInterfaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,132 +84,132 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfaceInput) async throws -> AllocateTransitVirtualInterfaceOutputResponse
+    func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfaceInput) async throws -> AllocateTransitVirtualInterfaceOutput
     /// Associates an existing connection with a link aggregation group (LAG). The connection is interrupted and re-established as a member of the LAG (connectivity to Amazon Web Services is interrupted). The connection must be hosted on the same Direct Connect endpoint as the LAG, and its bandwidth must match the bandwidth for the LAG. You can re-associate a connection that's currently associated with a different LAG; however, if removing the connection would cause the original LAG to fall below its setting for minimum number of operational connections, the request fails. Any virtual interfaces that are directly associated with the connection are automatically re-associated with the LAG. If the connection was originally associated with a different LAG, the virtual interfaces remain associated with the original LAG. For interconnects, any hosted connections are automatically re-associated with the LAG. If the interconnect was originally associated with a different LAG, the hosted connections remain associated with the original LAG.
     ///
     /// - Parameter AssociateConnectionWithLagInput : [no documentation found]
     ///
-    /// - Returns: `AssociateConnectionWithLagOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `AssociateConnectionWithLagOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func associateConnectionWithLag(input: AssociateConnectionWithLagInput) async throws -> AssociateConnectionWithLagOutputResponse
+    func associateConnectionWithLag(input: AssociateConnectionWithLagInput) async throws -> AssociateConnectionWithLagOutput
     /// Associates a hosted connection and its virtual interfaces with a link aggregation group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted connection with a conflicting VLAN number or IP address, the operation fails. This action temporarily interrupts the hosted connection's connectivity to Amazon Web Services as it is being migrated. Intended for use by Direct Connect Partners only.
     ///
     /// - Parameter AssociateHostedConnectionInput : [no documentation found]
     ///
-    /// - Returns: `AssociateHostedConnectionOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `AssociateHostedConnectionOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func associateHostedConnection(input: AssociateHostedConnectionInput) async throws -> AssociateHostedConnectionOutputResponse
+    func associateHostedConnection(input: AssociateHostedConnectionInput) async throws -> AssociateHostedConnectionOutput
     /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with an Direct Connect dedicated connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations ](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration) in the Direct Connect User Guide.
     ///
     /// - Parameter AssociateMacSecKeyInput : [no documentation found]
     ///
-    /// - Returns: `AssociateMacSecKeyOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateMacSecKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func associateMacSecKey(input: AssociateMacSecKeyInput) async throws -> AssociateMacSecKeyOutputResponse
+    func associateMacSecKey(input: AssociateMacSecKeyInput) async throws -> AssociateMacSecKeyOutput
     /// Associates a virtual interface with a specified link aggregation group (LAG) or connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is being migrated. If the target connection or LAG has an associated virtual interface with a conflicting VLAN number or a conflicting IP address, the operation fails. Virtual interfaces associated with a hosted connection cannot be associated with a LAG; hosted connections must be migrated along with their virtual interfaces using [AssociateHostedConnection]. To reassociate a virtual interface to a new connection or LAG, the requester must own either the virtual interface itself or the connection to which the virtual interface is currently associated. Additionally, the requester must own the connection or LAG for the association.
     ///
     /// - Parameter AssociateVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `AssociateVirtualInterfaceOutputResponse` : Information about a virtual interface.
+    /// - Returns: `AssociateVirtualInterfaceOutput` : Information about a virtual interface.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func associateVirtualInterface(input: AssociateVirtualInterfaceInput) async throws -> AssociateVirtualInterfaceOutputResponse
+    func associateVirtualInterface(input: AssociateVirtualInterfaceInput) async throws -> AssociateVirtualInterfaceOutput
     /// Confirms the creation of the specified hosted connection on an interconnect. Upon creation, the hosted connection is initially in the Ordering state, and remains in this state until the owner confirms creation of the hosted connection.
     ///
     /// - Parameter ConfirmConnectionInput : [no documentation found]
     ///
-    /// - Returns: `ConfirmConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `ConfirmConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func confirmConnection(input: ConfirmConnectionInput) async throws -> ConfirmConnectionOutputResponse
+    func confirmConnection(input: ConfirmConnectionInput) async throws -> ConfirmConnectionOutput
     /// The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG).
     ///
     /// - Parameter ConfirmCustomerAgreementInput : [no documentation found]
     ///
-    /// - Returns: `ConfirmCustomerAgreementOutputResponse` : [no documentation found]
+    /// - Returns: `ConfirmCustomerAgreementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func confirmCustomerAgreement(input: ConfirmCustomerAgreementInput) async throws -> ConfirmCustomerAgreementOutputResponse
+    func confirmCustomerAgreement(input: ConfirmCustomerAgreementInput) async throws -> ConfirmCustomerAgreementOutput
     /// Accepts ownership of a private virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the virtual interface is created and attached to the specified virtual private gateway or Direct Connect gateway, and is made available to handle traffic.
     ///
     /// - Parameter ConfirmPrivateVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `ConfirmPrivateVirtualInterfaceOutputResponse` : [no documentation found]
+    /// - Returns: `ConfirmPrivateVirtualInterfaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func confirmPrivateVirtualInterface(input: ConfirmPrivateVirtualInterfaceInput) async throws -> ConfirmPrivateVirtualInterfaceOutputResponse
+    func confirmPrivateVirtualInterface(input: ConfirmPrivateVirtualInterfaceInput) async throws -> ConfirmPrivateVirtualInterfaceOutput
     /// Accepts ownership of a public virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the specified virtual interface is created and made available to handle traffic.
     ///
     /// - Parameter ConfirmPublicVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `ConfirmPublicVirtualInterfaceOutputResponse` : [no documentation found]
+    /// - Returns: `ConfirmPublicVirtualInterfaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func confirmPublicVirtualInterface(input: ConfirmPublicVirtualInterfaceInput) async throws -> ConfirmPublicVirtualInterfaceOutputResponse
+    func confirmPublicVirtualInterface(input: ConfirmPublicVirtualInterfaceInput) async throws -> ConfirmPublicVirtualInterfaceOutput
     /// Accepts ownership of a transit virtual interface created by another Amazon Web Services account. After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
     ///
     /// - Parameter ConfirmTransitVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `ConfirmTransitVirtualInterfaceOutputResponse` : [no documentation found]
+    /// - Returns: `ConfirmTransitVirtualInterfaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func confirmTransitVirtualInterface(input: ConfirmTransitVirtualInterfaceInput) async throws -> ConfirmTransitVirtualInterfaceOutputResponse
+    func confirmTransitVirtualInterface(input: ConfirmTransitVirtualInterfaceInput) async throws -> ConfirmTransitVirtualInterfaceOutput
     /// Creates a BGP peer on the specified virtual interface. You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to access Amazon Web Services resources that also use that address family. If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer cannot be in the same address family as an existing BGP peer on the virtual interface. When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses. If you let Amazon Web Services auto-assign IPv4 addresses, a /30 CIDR will be allocated from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend to use the customer router peer IP address as the source and destination for traffic. Instead you should use RFC 1918 or other addressing, and specify the address yourself. For more information about RFC 1918 see [ Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918). For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
     ///
     /// - Parameter CreateBGPPeerInput : [no documentation found]
     ///
-    /// - Returns: `CreateBGPPeerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBGPPeerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func createBGPPeer(input: CreateBGPPeerInput) async throws -> CreateBGPPeerOutputResponse
+    func createBGPPeer(input: CreateBGPPeerInput) async throws -> CreateBGPPeerOutput
     /// Creates a connection between a customer network and a specific Direct Connect location. A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an Direct Connect router. To find the locations for your Region, use [DescribeLocations]. You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new connection is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no connection is created.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectionOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `CreateConnectionOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -218,48 +218,48 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutputResponse
+    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
     /// Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any Amazon Web Services Region after it is created. The virtual interfaces and virtual private gateways that are connected through a Direct Connect gateway can be in different Amazon Web Services Regions. This enables you to connect to a VPC in any Region, regardless of the Region in which the virtual interfaces are located, and pass traffic between them.
     ///
     /// - Parameter CreateDirectConnectGatewayInput : [no documentation found]
     ///
-    /// - Returns: `CreateDirectConnectGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDirectConnectGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func createDirectConnectGateway(input: CreateDirectConnectGatewayInput) async throws -> CreateDirectConnectGatewayOutputResponse
+    func createDirectConnectGateway(input: CreateDirectConnectGatewayInput) async throws -> CreateDirectConnectGatewayOutput
     /// Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
     ///
     /// - Parameter CreateDirectConnectGatewayAssociationInput : [no documentation found]
     ///
-    /// - Returns: `CreateDirectConnectGatewayAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDirectConnectGatewayAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func createDirectConnectGatewayAssociation(input: CreateDirectConnectGatewayAssociationInput) async throws -> CreateDirectConnectGatewayAssociationOutputResponse
+    func createDirectConnectGatewayAssociation(input: CreateDirectConnectGatewayAssociationInput) async throws -> CreateDirectConnectGatewayAssociationOutput
     /// Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
     ///
     /// - Parameter CreateDirectConnectGatewayAssociationProposalInput : [no documentation found]
     ///
-    /// - Returns: `CreateDirectConnectGatewayAssociationProposalOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDirectConnectGatewayAssociationProposalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func createDirectConnectGatewayAssociationProposal(input: CreateDirectConnectGatewayAssociationProposalInput) async throws -> CreateDirectConnectGatewayAssociationProposalOutputResponse
+    func createDirectConnectGatewayAssociationProposal(input: CreateDirectConnectGatewayAssociationProposalInput) async throws -> CreateDirectConnectGatewayAssociationProposalOutput
     /// Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location. An interconnect is a connection that is capable of hosting other connections. The Direct Connect Partner can use an interconnect to provide Direct Connect hosted connections to customers through their own network services. Like a standard connection, an interconnect links the partner's network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end is connected to the partner's router, the other to an Direct Connect router. You can automatically add the new interconnect to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new interconnect is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no interconnect is created. For each end customer, the Direct Connect Partner provisions a connection on their interconnect by calling [AllocateHostedConnection]. The end customer can then connect to Amazon Web Services resources by creating a virtual interface on their connection, using the VLAN assigned to them by the Direct Connect Partner. Intended for use by Direct Connect Partners only.
     ///
     /// - Parameter CreateInterconnectInput : [no documentation found]
     ///
-    /// - Returns: `CreateInterconnectOutputResponse` : Information about an interconnect.
+    /// - Returns: `CreateInterconnectOutput` : Information about an interconnect.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,12 +268,12 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func createInterconnect(input: CreateInterconnectInput) async throws -> CreateInterconnectOutputResponse
+    func createInterconnect(input: CreateInterconnectInput) async throws -> CreateInterconnectOutput
     /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per LAG. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual interfaces cannot be directly configured.
     ///
     /// - Parameter CreateLagInput : [no documentation found]
     ///
-    /// - Returns: `CreateLagOutputResponse` : Information about a link aggregation group (LAG).
+    /// - Returns: `CreateLagOutput` : Information about a link aggregation group (LAG).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -282,12 +282,12 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func createLag(input: CreateLagInput) async throws -> CreateLagOutputResponse
+    func createLag(input: CreateLagInput) async throws -> CreateLagOutput
     /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
     /// - Parameter CreatePrivateVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `CreatePrivateVirtualInterfaceOutputResponse` : Information about a virtual interface.
+    /// - Returns: `CreatePrivateVirtualInterfaceOutput` : Information about a virtual interface.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -296,12 +296,12 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceInput) async throws -> CreatePrivateVirtualInterfaceOutputResponse
+    func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceInput) async throws -> CreatePrivateVirtualInterfaceOutput
     /// Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3. When creating an IPv6 public virtual interface (addressFamily is ipv6), leave the customer and amazon address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
     ///
     /// - Parameter CreatePublicVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `CreatePublicVirtualInterfaceOutputResponse` : Information about a virtual interface.
+    /// - Returns: `CreatePublicVirtualInterfaceOutput` : Information about a virtual interface.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -310,12 +310,12 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInput) async throws -> CreatePublicVirtualInterfaceOutputResponse
+    func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInput) async throws -> CreatePublicVirtualInterfaceOutput
     /// Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway. If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
     /// - Parameter CreateTransitVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `CreateTransitVirtualInterfaceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTransitVirtualInterfaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -324,165 +324,165 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func createTransitVirtualInterface(input: CreateTransitVirtualInterfaceInput) async throws -> CreateTransitVirtualInterfaceOutputResponse
+    func createTransitVirtualInterface(input: CreateTransitVirtualInterfaceInput) async throws -> CreateTransitVirtualInterfaceOutput
     /// Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
     ///
     /// - Parameter DeleteBGPPeerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBGPPeerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBGPPeerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteBGPPeer(input: DeleteBGPPeerInput) async throws -> DeleteBGPPeerOutputResponse
+    func deleteBGPPeer(input: DeleteBGPPeerInput) async throws -> DeleteBGPPeerOutput
     /// Deletes the specified connection. Deleting a connection only stops the Direct Connect port hour and data transfer charges. If you are partnering with any third parties to connect with the Direct Connect location, you must cancel your service with them separately.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConnectionOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `DeleteConnectionOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
+    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
     /// Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces that are attached to the Direct Connect gateway and disassociate all virtual private gateways associated with the Direct Connect gateway.
     ///
     /// - Parameter DeleteDirectConnectGatewayInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDirectConnectGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDirectConnectGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteDirectConnectGateway(input: DeleteDirectConnectGatewayInput) async throws -> DeleteDirectConnectGatewayOutputResponse
+    func deleteDirectConnectGateway(input: DeleteDirectConnectGatewayInput) async throws -> DeleteDirectConnectGatewayOutput
     /// Deletes the association between the specified Direct Connect gateway and virtual private gateway. We recommend that you specify the associationID to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and directConnectGatewayId to delete an association.
     ///
     /// - Parameter DeleteDirectConnectGatewayAssociationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDirectConnectGatewayAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDirectConnectGatewayAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteDirectConnectGatewayAssociation(input: DeleteDirectConnectGatewayAssociationInput) async throws -> DeleteDirectConnectGatewayAssociationOutputResponse
+    func deleteDirectConnectGatewayAssociation(input: DeleteDirectConnectGatewayAssociationInput) async throws -> DeleteDirectConnectGatewayAssociationOutput
     /// Deletes the association proposal request between the specified Direct Connect gateway and virtual private gateway or transit gateway.
     ///
     /// - Parameter DeleteDirectConnectGatewayAssociationProposalInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDirectConnectGatewayAssociationProposalOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDirectConnectGatewayAssociationProposalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteDirectConnectGatewayAssociationProposal(input: DeleteDirectConnectGatewayAssociationProposalInput) async throws -> DeleteDirectConnectGatewayAssociationProposalOutputResponse
+    func deleteDirectConnectGatewayAssociationProposal(input: DeleteDirectConnectGatewayAssociationProposalInput) async throws -> DeleteDirectConnectGatewayAssociationProposalOutput
     /// Deletes the specified interconnect. Intended for use by Direct Connect Partners only.
     ///
     /// - Parameter DeleteInterconnectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInterconnectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInterconnectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteInterconnect(input: DeleteInterconnectInput) async throws -> DeleteInterconnectOutputResponse
+    func deleteInterconnect(input: DeleteInterconnectInput) async throws -> DeleteInterconnectOutput
     /// Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active virtual interfaces or hosted connections.
     ///
     /// - Parameter DeleteLagInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLagOutputResponse` : Information about a link aggregation group (LAG).
+    /// - Returns: `DeleteLagOutput` : Information about a link aggregation group (LAG).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteLag(input: DeleteLagInput) async throws -> DeleteLagOutputResponse
+    func deleteLag(input: DeleteLagInput) async throws -> DeleteLagOutput
     /// Deletes a virtual interface.
     ///
     /// - Parameter DeleteVirtualInterfaceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVirtualInterfaceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVirtualInterfaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func deleteVirtualInterface(input: DeleteVirtualInterfaceInput) async throws -> DeleteVirtualInterfaceOutputResponse
+    func deleteVirtualInterface(input: DeleteVirtualInterfaceInput) async throws -> DeleteVirtualInterfaceOutput
     /// Deprecated. Use [DescribeLoa] instead. Gets the LOA-CFA for a connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     @available(*, deprecated)
     ///
     /// - Parameter DescribeConnectionLoaInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectionLoaOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectionLoaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeConnectionLoa(input: DescribeConnectionLoaInput) async throws -> DescribeConnectionLoaOutputResponse
+    func describeConnectionLoa(input: DescribeConnectionLoaInput) async throws -> DescribeConnectionLoaOutput
     /// Displays the specified connection or all connections in this Region.
     ///
     /// - Parameter DescribeConnectionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutputResponse
+    func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutput
     /// Deprecated. Use [DescribeHostedConnections] instead. Lists the connections that have been provisioned on the specified interconnect. Intended for use by Direct Connect Partners only.
     @available(*, deprecated)
     ///
     /// - Parameter DescribeConnectionsOnInterconnectInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectionsOnInterconnectOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectionsOnInterconnectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeConnectionsOnInterconnect(input: DescribeConnectionsOnInterconnectInput) async throws -> DescribeConnectionsOnInterconnectOutputResponse
+    func describeConnectionsOnInterconnect(input: DescribeConnectionsOnInterconnectInput) async throws -> DescribeConnectionsOnInterconnectOutput
     /// Get and view a list of customer agreements, along with their signed status and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
     ///
     /// - Parameter DescribeCustomerMetadataInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCustomerMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCustomerMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeCustomerMetadata(input: DescribeCustomerMetadataInput) async throws -> DescribeCustomerMetadataOutputResponse
+    func describeCustomerMetadata(input: DescribeCustomerMetadataInput) async throws -> DescribeCustomerMetadataOutput
     /// Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway.
     ///
     /// - Parameter DescribeDirectConnectGatewayAssociationProposalsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDirectConnectGatewayAssociationProposalsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDirectConnectGatewayAssociationProposalsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeDirectConnectGatewayAssociationProposals(input: DescribeDirectConnectGatewayAssociationProposalsInput) async throws -> DescribeDirectConnectGatewayAssociationProposalsOutputResponse
+    func describeDirectConnectGatewayAssociationProposals(input: DescribeDirectConnectGatewayAssociationProposalsInput) async throws -> DescribeDirectConnectGatewayAssociationProposalsOutput
     /// Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:
     ///
     /// * A Direct Connect gateway The response contains all virtual private gateways and transit gateways associated with the Direct Connect gateway.
@@ -497,224 +497,224 @@ public protocol DirectConnectClientProtocol {
     ///
     /// - Parameter DescribeDirectConnectGatewayAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDirectConnectGatewayAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDirectConnectGatewayAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeDirectConnectGatewayAssociations(input: DescribeDirectConnectGatewayAssociationsInput) async throws -> DescribeDirectConnectGatewayAssociationsOutputResponse
+    func describeDirectConnectGatewayAssociations(input: DescribeDirectConnectGatewayAssociationsInput) async throws -> DescribeDirectConnectGatewayAssociationsOutput
     /// Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains all virtual interfaces attached to the Direct Connect gateway. If you specify a virtual interface, the response contains all Direct Connect gateways attached to the virtual interface. If you specify both, the response contains the attachment between the Direct Connect gateway and the virtual interface.
     ///
     /// - Parameter DescribeDirectConnectGatewayAttachmentsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDirectConnectGatewayAttachmentsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDirectConnectGatewayAttachmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeDirectConnectGatewayAttachments(input: DescribeDirectConnectGatewayAttachmentsInput) async throws -> DescribeDirectConnectGatewayAttachmentsOutputResponse
+    func describeDirectConnectGatewayAttachments(input: DescribeDirectConnectGatewayAttachmentsInput) async throws -> DescribeDirectConnectGatewayAttachmentsOutput
     /// Lists all your Direct Connect gateways or only the specified Direct Connect gateway. Deleted Direct Connect gateways are not returned.
     ///
     /// - Parameter DescribeDirectConnectGatewaysInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDirectConnectGatewaysOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDirectConnectGatewaysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeDirectConnectGateways(input: DescribeDirectConnectGatewaysInput) async throws -> DescribeDirectConnectGatewaysOutputResponse
+    func describeDirectConnectGateways(input: DescribeDirectConnectGatewaysInput) async throws -> DescribeDirectConnectGatewaysOutput
     /// Lists the hosted connections that have been provisioned on the specified interconnect or link aggregation group (LAG). Intended for use by Direct Connect Partners only.
     ///
     /// - Parameter DescribeHostedConnectionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHostedConnectionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHostedConnectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeHostedConnections(input: DescribeHostedConnectionsInput) async throws -> DescribeHostedConnectionsOutputResponse
+    func describeHostedConnections(input: DescribeHostedConnectionsInput) async throws -> DescribeHostedConnectionsOutput
     /// Deprecated. Use [DescribeLoa] instead. Gets the LOA-CFA for the specified interconnect. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     @available(*, deprecated)
     ///
     /// - Parameter DescribeInterconnectLoaInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInterconnectLoaOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInterconnectLoaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeInterconnectLoa(input: DescribeInterconnectLoaInput) async throws -> DescribeInterconnectLoaOutputResponse
+    func describeInterconnectLoa(input: DescribeInterconnectLoaInput) async throws -> DescribeInterconnectLoaOutput
     /// Lists the interconnects owned by the Amazon Web Services account or only the specified interconnect.
     ///
     /// - Parameter DescribeInterconnectsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInterconnectsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInterconnectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeInterconnects(input: DescribeInterconnectsInput) async throws -> DescribeInterconnectsOutputResponse
+    func describeInterconnects(input: DescribeInterconnectsInput) async throws -> DescribeInterconnectsOutput
     /// Describes all your link aggregation groups (LAG) or the specified LAG.
     ///
     /// - Parameter DescribeLagsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLagsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeLags(input: DescribeLagsInput) async throws -> DescribeLagsOutputResponse
+    func describeLags(input: DescribeLagsInput) async throws -> DescribeLagsOutput
     /// Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG). The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     ///
     /// - Parameter DescribeLoaInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLoaOutputResponse` : Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection.
+    /// - Returns: `DescribeLoaOutput` : Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeLoa(input: DescribeLoaInput) async throws -> DescribeLoaOutputResponse
+    func describeLoa(input: DescribeLoaInput) async throws -> DescribeLoaOutput
     /// Lists the Direct Connect locations in the current Amazon Web Services Region. These are the locations that can be selected when calling [CreateConnection] or [CreateInterconnect].
     ///
     /// - Parameter DescribeLocationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLocationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLocationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeLocations(input: DescribeLocationsInput) async throws -> DescribeLocationsOutputResponse
+    func describeLocations(input: DescribeLocationsInput) async throws -> DescribeLocationsOutput
     /// Details about the router.
     ///
     /// - Parameter DescribeRouterConfigurationInput : Provides the details about a virtual interface's router.
     ///
-    /// - Returns: `DescribeRouterConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRouterConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeRouterConfiguration(input: DescribeRouterConfigurationInput) async throws -> DescribeRouterConfigurationOutputResponse
+    func describeRouterConfiguration(input: DescribeRouterConfigurationInput) async throws -> DescribeRouterConfigurationOutput
     /// Describes the tags associated with the specified Direct Connect resources.
     ///
     /// - Parameter DescribeTagsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTagsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutputResponse
+    func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
     /// Lists the virtual private gateways owned by the Amazon Web Services account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
     ///
     /// - Parameter DescribeVirtualGatewaysInput : [no documentation found]
     ///
-    /// - Returns: `DescribeVirtualGatewaysOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeVirtualGatewaysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeVirtualGateways(input: DescribeVirtualGatewaysInput) async throws -> DescribeVirtualGatewaysOutputResponse
+    func describeVirtualGateways(input: DescribeVirtualGatewaysInput) async throws -> DescribeVirtualGatewaysOutput
     /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
     ///
     /// - Parameter DescribeVirtualInterfacesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeVirtualInterfacesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeVirtualInterfacesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func describeVirtualInterfaces(input: DescribeVirtualInterfacesInput) async throws -> DescribeVirtualInterfacesOutputResponse
+    func describeVirtualInterfaces(input: DescribeVirtualInterfacesInput) async throws -> DescribeVirtualInterfacesOutput
     /// Disassociates a connection from a link aggregation group (LAG). The connection is interrupted and re-established as a standalone connection (the connection is not deleted; to delete the connection, use the [DeleteConnection] request). If the LAG has associated virtual interfaces or hosted connections, they remain associated with the LAG. A disassociated connection owned by an Direct Connect Partner is automatically converted to an interconnect. If disassociating the connection would cause the LAG to fall below its setting for minimum number of operational connections, the request fails, except when it's the last member of the LAG. If all connections are disassociated, the LAG continues to exist as an empty LAG with no physical connections.
     ///
     /// - Parameter DisassociateConnectionFromLagInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateConnectionFromLagOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `DisassociateConnectionFromLagOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func disassociateConnectionFromLag(input: DisassociateConnectionFromLagInput) async throws -> DisassociateConnectionFromLagOutputResponse
+    func disassociateConnectionFromLag(input: DisassociateConnectionFromLagInput) async throws -> DisassociateConnectionFromLagOutput
     /// Removes the association between a MAC Security (MACsec) security key and an Direct Connect dedicated connection.
     ///
     /// - Parameter DisassociateMacSecKeyInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateMacSecKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateMacSecKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func disassociateMacSecKey(input: DisassociateMacSecKeyInput) async throws -> DisassociateMacSecKeyOutputResponse
+    func disassociateMacSecKey(input: DisassociateMacSecKeyInput) async throws -> DisassociateMacSecKeyOutput
     /// Lists the virtual interface failover test history.
     ///
     /// - Parameter ListVirtualInterfaceTestHistoryInput : [no documentation found]
     ///
-    /// - Returns: `ListVirtualInterfaceTestHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListVirtualInterfaceTestHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func listVirtualInterfaceTestHistory(input: ListVirtualInterfaceTestHistoryInput) async throws -> ListVirtualInterfaceTestHistoryOutputResponse
+    func listVirtualInterfaceTestHistory(input: ListVirtualInterfaceTestHistoryInput) async throws -> ListVirtualInterfaceTestHistoryOutput
     /// Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages. You can run the test on public, private, transit, and hosted virtual interfaces. You can use [ListVirtualInterfaceTestHistory](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_ListVirtualInterfaceTestHistory.html) to view the virtual interface test history. If you need to stop the test before the test interval completes, use [StopBgpFailoverTest](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_StopBgpFailoverTest.html).
     ///
     /// - Parameter StartBgpFailoverTestInput : [no documentation found]
     ///
-    /// - Returns: `StartBgpFailoverTestOutputResponse` : [no documentation found]
+    /// - Returns: `StartBgpFailoverTestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func startBgpFailoverTest(input: StartBgpFailoverTestInput) async throws -> StartBgpFailoverTestOutputResponse
+    func startBgpFailoverTest(input: StartBgpFailoverTestInput) async throws -> StartBgpFailoverTestOutput
     /// Stops the virtual interface failover test.
     ///
     /// - Parameter StopBgpFailoverTestInput : [no documentation found]
     ///
-    /// - Returns: `StopBgpFailoverTestOutputResponse` : [no documentation found]
+    /// - Returns: `StopBgpFailoverTestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func stopBgpFailoverTest(input: StopBgpFailoverTestInput) async throws -> StopBgpFailoverTestOutputResponse
+    func stopBgpFailoverTest(input: StopBgpFailoverTestInput) async throws -> StopBgpFailoverTestOutput
     /// Adds the specified tags to the specified Direct Connect resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,19 +723,19 @@ public protocol DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified Direct Connect resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the Direct Connect dedicated connection configuration. You can update the following parameters for a connection:
     ///
     /// * The connection name
@@ -744,38 +744,38 @@ public protocol DirectConnectClientProtocol {
     ///
     /// - Parameter UpdateConnectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConnectionOutputResponse` : Information about an Direct Connect connection.
+    /// - Returns: `UpdateConnectionOutput` : Information about an Direct Connect connection.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutputResponse
+    func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
     /// Updates the name of a current Direct Connect gateway.
     ///
     /// - Parameter UpdateDirectConnectGatewayInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDirectConnectGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDirectConnectGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func updateDirectConnectGateway(input: UpdateDirectConnectGatewayInput) async throws -> UpdateDirectConnectGatewayOutputResponse
+    func updateDirectConnectGateway(input: UpdateDirectConnectGatewayInput) async throws -> UpdateDirectConnectGatewayOutput
     /// Updates the specified attributes of the Direct Connect gateway association. Add or remove prefixes from the association.
     ///
     /// - Parameter UpdateDirectConnectGatewayAssociationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDirectConnectGatewayAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDirectConnectGatewayAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func updateDirectConnectGatewayAssociation(input: UpdateDirectConnectGatewayAssociationInput) async throws -> UpdateDirectConnectGatewayAssociationOutputResponse
+    func updateDirectConnectGatewayAssociation(input: UpdateDirectConnectGatewayAssociationInput) async throws -> UpdateDirectConnectGatewayAssociationOutput
     /// Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes:
     ///
     /// * The name of the LAG.
@@ -791,26 +791,26 @@ public protocol DirectConnectClientProtocol {
     ///
     /// - Parameter UpdateLagInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLagOutputResponse` : Information about a link aggregation group (LAG).
+    /// - Returns: `UpdateLagOutput` : Information about a link aggregation group (LAG).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func updateLag(input: UpdateLagInput) async throws -> UpdateLagOutputResponse
+    func updateLag(input: UpdateLagInput) async throws -> UpdateLagOutput
     /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
     /// - Parameter UpdateVirtualInterfaceAttributesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateVirtualInterfaceAttributesOutputResponse` : Information about a virtual interface.
+    /// - Returns: `UpdateVirtualInterfaceAttributesOutput` : Information about a virtual interface.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    func updateVirtualInterfaceAttributes(input: UpdateVirtualInterfaceAttributesInput) async throws -> UpdateVirtualInterfaceAttributesOutputResponse
+    func updateVirtualInterfaceAttributes(input: UpdateVirtualInterfaceAttributesInput) async throws -> UpdateVirtualInterfaceAttributesOutput
 }
 
 public enum DirectConnectClientTypes {}

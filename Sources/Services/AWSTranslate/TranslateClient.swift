@@ -71,7 +71,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter CreateParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `CreateParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `CreateParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,7 +84,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    public func createParallelData(input: CreateParallelDataInput) async throws -> CreateParallelDataOutputResponse
+    public func createParallelData(input: CreateParallelDataInput) async throws -> CreateParallelDataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -100,29 +100,22 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateParallelDataInput, CreateParallelDataOutputResponse, CreateParallelDataOutputError>(id: "createParallelData")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateParallelDataOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateParallelDataInput, CreateParallelDataOutputResponse, CreateParallelDataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateParallelDataInput, CreateParallelDataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateParallelDataInput, CreateParallelDataOutput, CreateParallelDataOutputError>(id: "createParallelData")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateParallelDataInput, CreateParallelDataOutput, CreateParallelDataOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateParallelDataInput, CreateParallelDataOutput, CreateParallelDataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateParallelDataInput, CreateParallelDataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateParallelDataOutputResponse, CreateParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateParallelDataOutput, CreateParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateParallelDataInput, CreateParallelDataOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.CreateParallelData"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateParallelDataInput, CreateParallelDataOutputResponse>(xmlName: "CreateParallelDataRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateParallelDataInput, CreateParallelDataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateParallelDataInput, CreateParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.CreateParallelData"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateParallelDataInput, CreateParallelDataOutput>(xmlName: "CreateParallelDataRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateParallelDataInput, CreateParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateParallelDataOutputResponse, CreateParallelDataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateParallelDataOutput, CreateParallelDataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateParallelDataOutputResponse, CreateParallelDataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateParallelDataOutputResponse, CreateParallelDataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateParallelDataOutputResponse, CreateParallelDataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateParallelDataOutput, CreateParallelDataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateParallelDataOutput, CreateParallelDataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateParallelDataOutput, CreateParallelDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -131,7 +124,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter DeleteParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `DeleteParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -140,7 +133,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func deleteParallelData(input: DeleteParallelDataInput) async throws -> DeleteParallelDataOutputResponse
+    public func deleteParallelData(input: DeleteParallelDataInput) async throws -> DeleteParallelDataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -156,21 +149,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteParallelDataInput, DeleteParallelDataOutputResponse, DeleteParallelDataOutputError>(id: "deleteParallelData")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteParallelDataInput, DeleteParallelDataOutputResponse, DeleteParallelDataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteParallelDataInput, DeleteParallelDataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteParallelDataInput, DeleteParallelDataOutput, DeleteParallelDataOutputError>(id: "deleteParallelData")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput, DeleteParallelDataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteParallelDataOutputResponse, DeleteParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteParallelDataOutput, DeleteParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteParallelDataInput, DeleteParallelDataOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.DeleteParallelData"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteParallelDataInput, DeleteParallelDataOutputResponse>(xmlName: "DeleteParallelDataRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteParallelDataInput, DeleteParallelDataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.DeleteParallelData"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>(xmlName: "DeleteParallelDataRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteParallelDataOutputResponse, DeleteParallelDataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteParallelDataOutput, DeleteParallelDataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteParallelDataOutputResponse, DeleteParallelDataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteParallelDataOutputResponse, DeleteParallelDataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteParallelDataOutputResponse, DeleteParallelDataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteParallelDataOutput, DeleteParallelDataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteParallelDataOutput, DeleteParallelDataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteParallelDataOutput, DeleteParallelDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -179,7 +172,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter DeleteTerminologyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTerminologyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTerminologyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,7 +181,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func deleteTerminology(input: DeleteTerminologyInput) async throws -> DeleteTerminologyOutputResponse
+    public func deleteTerminology(input: DeleteTerminologyInput) async throws -> DeleteTerminologyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -204,21 +197,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTerminologyInput, DeleteTerminologyOutputResponse, DeleteTerminologyOutputError>(id: "deleteTerminology")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTerminologyInput, DeleteTerminologyOutputResponse, DeleteTerminologyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTerminologyInput, DeleteTerminologyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTerminologyInput, DeleteTerminologyOutput, DeleteTerminologyOutputError>(id: "deleteTerminology")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput, DeleteTerminologyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTerminologyOutputResponse, DeleteTerminologyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTerminologyOutput, DeleteTerminologyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTerminologyInput, DeleteTerminologyOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.DeleteTerminology"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTerminologyInput, DeleteTerminologyOutputResponse>(xmlName: "DeleteTerminologyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTerminologyInput, DeleteTerminologyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>(xAmzTarget: "AWSShineFrontendService_20170701.DeleteTerminology"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>(xmlName: "DeleteTerminologyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTerminologyOutputResponse, DeleteTerminologyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTerminologyOutput, DeleteTerminologyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTerminologyOutputResponse, DeleteTerminologyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTerminologyOutputResponse, DeleteTerminologyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTerminologyOutputResponse, DeleteTerminologyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTerminologyOutput, DeleteTerminologyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTerminologyOutput, DeleteTerminologyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTerminologyOutput, DeleteTerminologyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -227,7 +220,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter DescribeTextTranslationJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTextTranslationJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTextTranslationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -235,7 +228,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func describeTextTranslationJob(input: DescribeTextTranslationJobInput) async throws -> DescribeTextTranslationJobOutputResponse
+    public func describeTextTranslationJob(input: DescribeTextTranslationJobInput) async throws -> DescribeTextTranslationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -251,21 +244,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>(id: "describeTextTranslationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput, DescribeTextTranslationJobOutputError>(id: "describeTextTranslationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput, DescribeTextTranslationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTextTranslationJobOutput, DescribeTextTranslationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.DescribeTextTranslationJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutputResponse>(xmlName: "DescribeTextTranslationJobRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>(xAmzTarget: "AWSShineFrontendService_20170701.DescribeTextTranslationJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>(xmlName: "DescribeTextTranslationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTextTranslationJobOutput, DescribeTextTranslationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTextTranslationJobOutputResponse, DescribeTextTranslationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTextTranslationJobOutput, DescribeTextTranslationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTextTranslationJobOutput, DescribeTextTranslationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTextTranslationJobOutput, DescribeTextTranslationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -274,7 +267,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter GetParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `GetParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `GetParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -283,7 +276,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func getParallelData(input: GetParallelDataInput) async throws -> GetParallelDataOutputResponse
+    public func getParallelData(input: GetParallelDataInput) async throws -> GetParallelDataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -299,21 +292,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetParallelDataInput, GetParallelDataOutputResponse, GetParallelDataOutputError>(id: "getParallelData")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParallelDataInput, GetParallelDataOutputResponse, GetParallelDataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParallelDataInput, GetParallelDataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetParallelDataInput, GetParallelDataOutput, GetParallelDataOutputError>(id: "getParallelData")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParallelDataInput, GetParallelDataOutput, GetParallelDataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParallelDataInput, GetParallelDataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetParallelDataOutputResponse, GetParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetParallelDataOutput, GetParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetParallelDataInput, GetParallelDataOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.GetParallelData"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetParallelDataInput, GetParallelDataOutputResponse>(xmlName: "GetParallelDataRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetParallelDataInput, GetParallelDataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetParallelDataInput, GetParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.GetParallelData"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetParallelDataInput, GetParallelDataOutput>(xmlName: "GetParallelDataRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetParallelDataInput, GetParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetParallelDataOutputResponse, GetParallelDataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetParallelDataOutput, GetParallelDataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParallelDataOutputResponse, GetParallelDataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParallelDataOutputResponse, GetParallelDataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParallelDataOutputResponse, GetParallelDataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParallelDataOutput, GetParallelDataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParallelDataOutput, GetParallelDataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParallelDataOutput, GetParallelDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -322,7 +315,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter GetTerminologyInput : [no documentation found]
     ///
-    /// - Returns: `GetTerminologyOutputResponse` : [no documentation found]
+    /// - Returns: `GetTerminologyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -331,7 +324,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func getTerminology(input: GetTerminologyInput) async throws -> GetTerminologyOutputResponse
+    public func getTerminology(input: GetTerminologyInput) async throws -> GetTerminologyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -347,21 +340,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTerminologyInput, GetTerminologyOutputResponse, GetTerminologyOutputError>(id: "getTerminology")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTerminologyInput, GetTerminologyOutputResponse, GetTerminologyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTerminologyInput, GetTerminologyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTerminologyInput, GetTerminologyOutput, GetTerminologyOutputError>(id: "getTerminology")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTerminologyInput, GetTerminologyOutput, GetTerminologyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTerminologyInput, GetTerminologyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTerminologyOutputResponse, GetTerminologyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTerminologyOutput, GetTerminologyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTerminologyInput, GetTerminologyOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.GetTerminology"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTerminologyInput, GetTerminologyOutputResponse>(xmlName: "GetTerminologyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTerminologyInput, GetTerminologyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTerminologyInput, GetTerminologyOutput>(xAmzTarget: "AWSShineFrontendService_20170701.GetTerminology"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTerminologyInput, GetTerminologyOutput>(xmlName: "GetTerminologyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTerminologyInput, GetTerminologyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTerminologyOutputResponse, GetTerminologyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTerminologyOutput, GetTerminologyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTerminologyOutputResponse, GetTerminologyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTerminologyOutputResponse, GetTerminologyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTerminologyOutputResponse, GetTerminologyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTerminologyOutput, GetTerminologyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTerminologyOutput, GetTerminologyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTerminologyOutput, GetTerminologyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -370,7 +363,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter ImportTerminologyInput : [no documentation found]
     ///
-    /// - Returns: `ImportTerminologyOutputResponse` : [no documentation found]
+    /// - Returns: `ImportTerminologyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -381,7 +374,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    public func importTerminology(input: ImportTerminologyInput) async throws -> ImportTerminologyOutputResponse
+    public func importTerminology(input: ImportTerminologyInput) async throws -> ImportTerminologyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -397,21 +390,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportTerminologyInput, ImportTerminologyOutputResponse, ImportTerminologyOutputError>(id: "importTerminology")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportTerminologyInput, ImportTerminologyOutputResponse, ImportTerminologyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportTerminologyInput, ImportTerminologyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportTerminologyInput, ImportTerminologyOutput, ImportTerminologyOutputError>(id: "importTerminology")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportTerminologyInput, ImportTerminologyOutput, ImportTerminologyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportTerminologyInput, ImportTerminologyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportTerminologyOutputResponse, ImportTerminologyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportTerminologyOutput, ImportTerminologyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportTerminologyInput, ImportTerminologyOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.ImportTerminology"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportTerminologyInput, ImportTerminologyOutputResponse>(xmlName: "ImportTerminologyRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportTerminologyInput, ImportTerminologyOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportTerminologyInput, ImportTerminologyOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ImportTerminology"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportTerminologyInput, ImportTerminologyOutput>(xmlName: "ImportTerminologyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportTerminologyInput, ImportTerminologyOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportTerminologyOutputResponse, ImportTerminologyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportTerminologyOutput, ImportTerminologyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportTerminologyOutputResponse, ImportTerminologyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportTerminologyOutputResponse, ImportTerminologyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportTerminologyOutputResponse, ImportTerminologyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportTerminologyOutput, ImportTerminologyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportTerminologyOutput, ImportTerminologyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportTerminologyOutput, ImportTerminologyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -420,7 +413,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter ListLanguagesInput : [no documentation found]
     ///
-    /// - Returns: `ListLanguagesOutputResponse` : [no documentation found]
+    /// - Returns: `ListLanguagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -429,7 +422,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedDisplayLanguageCodeException` : Requested display language code is not supported.
-    public func listLanguages(input: ListLanguagesInput) async throws -> ListLanguagesOutputResponse
+    public func listLanguages(input: ListLanguagesInput) async throws -> ListLanguagesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -445,21 +438,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLanguagesInput, ListLanguagesOutputResponse, ListLanguagesOutputError>(id: "listLanguages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLanguagesInput, ListLanguagesOutputResponse, ListLanguagesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLanguagesInput, ListLanguagesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLanguagesInput, ListLanguagesOutput, ListLanguagesOutputError>(id: "listLanguages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLanguagesInput, ListLanguagesOutput, ListLanguagesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLanguagesInput, ListLanguagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLanguagesOutputResponse, ListLanguagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLanguagesOutput, ListLanguagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLanguagesInput, ListLanguagesOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.ListLanguages"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLanguagesInput, ListLanguagesOutputResponse>(xmlName: "ListLanguagesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLanguagesInput, ListLanguagesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLanguagesInput, ListLanguagesOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListLanguages"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLanguagesInput, ListLanguagesOutput>(xmlName: "ListLanguagesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLanguagesInput, ListLanguagesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLanguagesOutputResponse, ListLanguagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLanguagesOutput, ListLanguagesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLanguagesOutputResponse, ListLanguagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLanguagesOutputResponse, ListLanguagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLanguagesOutputResponse, ListLanguagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLanguagesOutput, ListLanguagesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLanguagesOutput, ListLanguagesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLanguagesOutput, ListLanguagesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -468,7 +461,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter ListParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `ListParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `ListParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,7 +469,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func listParallelData(input: ListParallelDataInput) async throws -> ListParallelDataOutputResponse
+    public func listParallelData(input: ListParallelDataInput) async throws -> ListParallelDataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -492,21 +485,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListParallelDataInput, ListParallelDataOutputResponse, ListParallelDataOutputError>(id: "listParallelData")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListParallelDataInput, ListParallelDataOutputResponse, ListParallelDataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListParallelDataInput, ListParallelDataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListParallelDataInput, ListParallelDataOutput, ListParallelDataOutputError>(id: "listParallelData")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListParallelDataInput, ListParallelDataOutput, ListParallelDataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListParallelDataInput, ListParallelDataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListParallelDataOutputResponse, ListParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListParallelDataOutput, ListParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListParallelDataInput, ListParallelDataOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.ListParallelData"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListParallelDataInput, ListParallelDataOutputResponse>(xmlName: "ListParallelDataRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListParallelDataInput, ListParallelDataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListParallelDataInput, ListParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListParallelData"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListParallelDataInput, ListParallelDataOutput>(xmlName: "ListParallelDataRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListParallelDataInput, ListParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListParallelDataOutputResponse, ListParallelDataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListParallelDataOutput, ListParallelDataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListParallelDataOutputResponse, ListParallelDataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListParallelDataOutputResponse, ListParallelDataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListParallelDataOutputResponse, ListParallelDataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListParallelDataOutput, ListParallelDataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListParallelDataOutput, ListParallelDataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListParallelDataOutput, ListParallelDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -515,7 +508,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,7 +516,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -539,21 +532,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -562,7 +555,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter ListTerminologiesInput : [no documentation found]
     ///
-    /// - Returns: `ListTerminologiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTerminologiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -570,7 +563,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func listTerminologies(input: ListTerminologiesInput) async throws -> ListTerminologiesOutputResponse
+    public func listTerminologies(input: ListTerminologiesInput) async throws -> ListTerminologiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -586,21 +579,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTerminologiesInput, ListTerminologiesOutputResponse, ListTerminologiesOutputError>(id: "listTerminologies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTerminologiesInput, ListTerminologiesOutputResponse, ListTerminologiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTerminologiesInput, ListTerminologiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTerminologiesInput, ListTerminologiesOutput, ListTerminologiesOutputError>(id: "listTerminologies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTerminologiesInput, ListTerminologiesOutput, ListTerminologiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTerminologiesInput, ListTerminologiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTerminologiesOutputResponse, ListTerminologiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTerminologiesOutput, ListTerminologiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTerminologiesInput, ListTerminologiesOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.ListTerminologies"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTerminologiesInput, ListTerminologiesOutputResponse>(xmlName: "ListTerminologiesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTerminologiesInput, ListTerminologiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTerminologiesInput, ListTerminologiesOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListTerminologies"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTerminologiesInput, ListTerminologiesOutput>(xmlName: "ListTerminologiesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTerminologiesInput, ListTerminologiesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTerminologiesOutputResponse, ListTerminologiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTerminologiesOutput, ListTerminologiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTerminologiesOutputResponse, ListTerminologiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTerminologiesOutputResponse, ListTerminologiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTerminologiesOutputResponse, ListTerminologiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTerminologiesOutput, ListTerminologiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTerminologiesOutput, ListTerminologiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTerminologiesOutput, ListTerminologiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -609,7 +602,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter ListTextTranslationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListTextTranslationJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTextTranslationJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -618,7 +611,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is not valid. Specify a different filter.
     /// - `InvalidRequestException` : The request that you made is not valid. Check your request to determine why it's not valid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func listTextTranslationJobs(input: ListTextTranslationJobsInput) async throws -> ListTextTranslationJobsOutputResponse
+    public func listTextTranslationJobs(input: ListTextTranslationJobsInput) async throws -> ListTextTranslationJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -634,21 +627,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse, ListTextTranslationJobsOutputError>(id: "listTextTranslationJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse, ListTextTranslationJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTextTranslationJobsInput, ListTextTranslationJobsOutput, ListTextTranslationJobsOutputError>(id: "listTextTranslationJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput, ListTextTranslationJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTextTranslationJobsOutputResponse, ListTextTranslationJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTextTranslationJobsOutput, ListTextTranslationJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.ListTextTranslationJobs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse>(xmlName: "ListTextTranslationJobsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListTextTranslationJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(xmlName: "ListTextTranslationJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTextTranslationJobsOutputResponse, ListTextTranslationJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTextTranslationJobsOutput, ListTextTranslationJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTextTranslationJobsOutputResponse, ListTextTranslationJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTextTranslationJobsOutputResponse, ListTextTranslationJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTextTranslationJobsOutputResponse, ListTextTranslationJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTextTranslationJobsOutput, ListTextTranslationJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTextTranslationJobsOutput, ListTextTranslationJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTextTranslationJobsOutput, ListTextTranslationJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -657,7 +650,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter StartTextTranslationJobInput : [no documentation found]
     ///
-    /// - Returns: `StartTextTranslationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartTextTranslationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -668,7 +661,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    public func startTextTranslationJob(input: StartTextTranslationJobInput) async throws -> StartTextTranslationJobOutputResponse
+    public func startTextTranslationJob(input: StartTextTranslationJobInput) async throws -> StartTextTranslationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -684,29 +677,22 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartTextTranslationJobInput, StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>(id: "startTextTranslationJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartTextTranslationJobOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartTextTranslationJobInput, StartTextTranslationJobOutput, StartTextTranslationJobOutputError>(id: "startTextTranslationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput, StartTextTranslationJobOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput, StartTextTranslationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartTextTranslationJobOutput, StartTextTranslationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.StartTextTranslationJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutputResponse>(xmlName: "StartTextTranslationJobRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>(xAmzTarget: "AWSShineFrontendService_20170701.StartTextTranslationJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>(xmlName: "StartTextTranslationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartTextTranslationJobOutput, StartTextTranslationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTextTranslationJobOutputResponse, StartTextTranslationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTextTranslationJobOutput, StartTextTranslationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTextTranslationJobOutput, StartTextTranslationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTextTranslationJobOutput, StartTextTranslationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -715,7 +701,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter StopTextTranslationJobInput : [no documentation found]
     ///
-    /// - Returns: `StopTextTranslationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopTextTranslationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,7 +709,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func stopTextTranslationJob(input: StopTextTranslationJobInput) async throws -> StopTextTranslationJobOutputResponse
+    public func stopTextTranslationJob(input: StopTextTranslationJobInput) async throws -> StopTextTranslationJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -739,21 +725,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopTextTranslationJobInput, StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>(id: "stopTextTranslationJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopTextTranslationJobInput, StopTextTranslationJobOutput, StopTextTranslationJobOutputError>(id: "stopTextTranslationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput, StopTextTranslationJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopTextTranslationJobOutput, StopTextTranslationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.StopTextTranslationJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutputResponse>(xmlName: "StopTextTranslationJobRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>(xAmzTarget: "AWSShineFrontendService_20170701.StopTextTranslationJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>(xmlName: "StopTextTranslationJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopTextTranslationJobOutput, StopTextTranslationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopTextTranslationJobOutputResponse, StopTextTranslationJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopTextTranslationJobOutput, StopTextTranslationJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopTextTranslationJobOutput, StopTextTranslationJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopTextTranslationJobOutput, StopTextTranslationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -762,7 +748,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,7 +758,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -788,30 +774,30 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSShineFrontendService_20170701.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Translates the input document from the source language to the target language. This synchronous operation supports plain text or HTML for the input document. TranslateDocument supports translations from English to any supported language, and from any supported language to English. Therefore, specify either the source language code or the target language code as “en” (English). TranslateDocument does not support language auto-detection. If you set the Formality parameter, the request will fail if the target language does not support formality. For a list of target languages that support formality, see [Setting formality](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html).
+    /// Translates the input document from the source language to the target language. This synchronous operation supports text, HTML, or Word documents as the input document. TranslateDocument supports translations from English to any supported language, and from any supported language to English. Therefore, specify either the source language code or the target language code as “en” (English). If you set the Formality parameter, the request will fail if the target language does not support formality. For a list of target languages that support formality, see [Setting formality](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html).
     ///
     /// - Parameter TranslateDocumentInput : [no documentation found]
     ///
-    /// - Returns: `TranslateDocumentOutputResponse` : [no documentation found]
+    /// - Returns: `TranslateDocumentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,7 +809,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Translate service is temporarily unavailable. Wait a bit and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    public func translateDocument(input: TranslateDocumentInput) async throws -> TranslateDocumentOutputResponse
+    public func translateDocument(input: TranslateDocumentInput) async throws -> TranslateDocumentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -839,21 +825,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TranslateDocumentInput, TranslateDocumentOutputResponse, TranslateDocumentOutputError>(id: "translateDocument")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TranslateDocumentInput, TranslateDocumentOutputResponse, TranslateDocumentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TranslateDocumentInput, TranslateDocumentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TranslateDocumentInput, TranslateDocumentOutput, TranslateDocumentOutputError>(id: "translateDocument")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TranslateDocumentInput, TranslateDocumentOutput, TranslateDocumentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TranslateDocumentInput, TranslateDocumentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TranslateDocumentOutputResponse, TranslateDocumentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TranslateDocumentOutput, TranslateDocumentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TranslateDocumentInput, TranslateDocumentOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.TranslateDocument"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TranslateDocumentInput, TranslateDocumentOutputResponse>(xmlName: "TranslateDocumentRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TranslateDocumentInput, TranslateDocumentOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TranslateDocumentInput, TranslateDocumentOutput>(xAmzTarget: "AWSShineFrontendService_20170701.TranslateDocument"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TranslateDocumentInput, TranslateDocumentOutput>(xmlName: "TranslateDocumentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TranslateDocumentInput, TranslateDocumentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TranslateDocumentOutputResponse, TranslateDocumentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TranslateDocumentOutput, TranslateDocumentOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TranslateDocumentOutputResponse, TranslateDocumentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TranslateDocumentOutputResponse, TranslateDocumentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TranslateDocumentOutputResponse, TranslateDocumentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TranslateDocumentOutput, TranslateDocumentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TranslateDocumentOutput, TranslateDocumentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TranslateDocumentOutput, TranslateDocumentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -862,7 +848,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter TranslateTextInput : [no documentation found]
     ///
-    /// - Returns: `TranslateTextOutputResponse` : [no documentation found]
+    /// - Returns: `TranslateTextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,7 +861,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    public func translateText(input: TranslateTextInput) async throws -> TranslateTextOutputResponse
+    public func translateText(input: TranslateTextInput) async throws -> TranslateTextOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -891,21 +877,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TranslateTextInput, TranslateTextOutputResponse, TranslateTextOutputError>(id: "translateText")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TranslateTextInput, TranslateTextOutputResponse, TranslateTextOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TranslateTextInput, TranslateTextOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TranslateTextInput, TranslateTextOutput, TranslateTextOutputError>(id: "translateText")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TranslateTextInput, TranslateTextOutput, TranslateTextOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TranslateTextInput, TranslateTextOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TranslateTextOutputResponse, TranslateTextOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TranslateTextOutput, TranslateTextOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TranslateTextInput, TranslateTextOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.TranslateText"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TranslateTextInput, TranslateTextOutputResponse>(xmlName: "TranslateTextRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TranslateTextInput, TranslateTextOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TranslateTextInput, TranslateTextOutput>(xAmzTarget: "AWSShineFrontendService_20170701.TranslateText"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TranslateTextInput, TranslateTextOutput>(xmlName: "TranslateTextRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TranslateTextInput, TranslateTextOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TranslateTextOutputResponse, TranslateTextOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TranslateTextOutput, TranslateTextOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TranslateTextOutputResponse, TranslateTextOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TranslateTextOutputResponse, TranslateTextOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TranslateTextOutputResponse, TranslateTextOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TranslateTextOutput, TranslateTextOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TranslateTextOutput, TranslateTextOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TranslateTextOutput, TranslateTextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -914,7 +900,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,7 +909,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -939,21 +925,21 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSShineFrontendService_20170701.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -962,7 +948,7 @@ extension TranslateClient: TranslateClientProtocol {
     ///
     /// - Parameter UpdateParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -975,7 +961,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func updateParallelData(input: UpdateParallelDataInput) async throws -> UpdateParallelDataOutputResponse
+    public func updateParallelData(input: UpdateParallelDataInput) async throws -> UpdateParallelDataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -991,29 +977,22 @@ extension TranslateClient: TranslateClientProtocol {
                       .withSigningName(value: "translate")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateParallelDataInput, UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>(id: "updateParallelData")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateParallelDataOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateParallelDataInput, UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateParallelDataInput, UpdateParallelDataOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateParallelDataInput, UpdateParallelDataOutput, UpdateParallelDataOutputError>(id: "updateParallelData")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput, UpdateParallelDataOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput, UpdateParallelDataOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateParallelDataOutput, UpdateParallelDataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateParallelDataInput, UpdateParallelDataOutputResponse>(xAmzTarget: "AWSShineFrontendService_20170701.UpdateParallelData"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateParallelDataInput, UpdateParallelDataOutputResponse>(xmlName: "UpdateParallelDataRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateParallelDataInput, UpdateParallelDataOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.UpdateParallelData"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>(xmlName: "UpdateParallelDataRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateParallelDataOutput, UpdateParallelDataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateParallelDataOutputResponse, UpdateParallelDataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateParallelDataOutput, UpdateParallelDataOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateParallelDataOutput, UpdateParallelDataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateParallelDataOutput, UpdateParallelDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

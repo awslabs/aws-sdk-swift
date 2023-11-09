@@ -71,7 +71,7 @@ extension EBSClient: EBSClientProtocol {
     ///
     /// - Parameter CompleteSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `CompleteSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `CompleteSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,7 +82,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func completeSnapshot(input: CompleteSnapshotInput) async throws -> CompleteSnapshotOutputResponse
+    public func completeSnapshot(input: CompleteSnapshotInput) async throws -> CompleteSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -98,18 +98,18 @@ extension EBSClient: EBSClientProtocol {
                       .withSigningName(value: "ebs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CompleteSnapshotInput, CompleteSnapshotOutputResponse, CompleteSnapshotOutputError>(id: "completeSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteSnapshotInput, CompleteSnapshotOutputResponse, CompleteSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteSnapshotInput, CompleteSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CompleteSnapshotInput, CompleteSnapshotOutput, CompleteSnapshotOutputError>(id: "completeSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteSnapshotInput, CompleteSnapshotOutput, CompleteSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteSnapshotInput, CompleteSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteSnapshotOutputResponse, CompleteSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteSnapshotOutput, CompleteSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteSnapshotInput, CompleteSnapshotOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteSnapshotOutputResponse, CompleteSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteSnapshotInput, CompleteSnapshotOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteSnapshotOutput, CompleteSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteSnapshotOutputResponse, CompleteSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteSnapshotOutputResponse, CompleteSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteSnapshotOutputResponse, CompleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteSnapshotOutput, CompleteSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteSnapshotOutput, CompleteSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteSnapshotOutput, CompleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -118,7 +118,7 @@ extension EBSClient: EBSClientProtocol {
     ///
     /// - Parameter GetSnapshotBlockInput : [no documentation found]
     ///
-    /// - Returns: `GetSnapshotBlockOutputResponse` : [no documentation found]
+    /// - Returns: `GetSnapshotBlockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,7 +129,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func getSnapshotBlock(input: GetSnapshotBlockInput) async throws -> GetSnapshotBlockOutputResponse
+    public func getSnapshotBlock(input: GetSnapshotBlockInput) async throws -> GetSnapshotBlockOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -145,18 +145,18 @@ extension EBSClient: EBSClientProtocol {
                       .withSigningName(value: "ebs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSnapshotBlockInput, GetSnapshotBlockOutputResponse, GetSnapshotBlockOutputError>(id: "getSnapshotBlock")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutputResponse, GetSnapshotBlockOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSnapshotBlockInput, GetSnapshotBlockOutput, GetSnapshotBlockOutputError>(id: "getSnapshotBlock")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutput, GetSnapshotBlockOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSnapshotBlockOutputResponse, GetSnapshotBlockOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSnapshotBlockOutput, GetSnapshotBlockOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSnapshotBlockOutputResponse, GetSnapshotBlockOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSnapshotBlockOutput, GetSnapshotBlockOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnapshotBlockOutputResponse, GetSnapshotBlockOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotBlockOutputResponse, GetSnapshotBlockOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotBlockOutputResponse, GetSnapshotBlockOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnapshotBlockOutput, GetSnapshotBlockOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotBlockOutput, GetSnapshotBlockOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotBlockOutput, GetSnapshotBlockOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -165,7 +165,7 @@ extension EBSClient: EBSClientProtocol {
     ///
     /// - Parameter ListChangedBlocksInput : [no documentation found]
     ///
-    /// - Returns: `ListChangedBlocksOutputResponse` : [no documentation found]
+    /// - Returns: `ListChangedBlocksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,7 +176,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func listChangedBlocks(input: ListChangedBlocksInput) async throws -> ListChangedBlocksOutputResponse
+    public func listChangedBlocks(input: ListChangedBlocksInput) async throws -> ListChangedBlocksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -192,18 +192,18 @@ extension EBSClient: EBSClientProtocol {
                       .withSigningName(value: "ebs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChangedBlocksInput, ListChangedBlocksOutputResponse, ListChangedBlocksOutputError>(id: "listChangedBlocks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChangedBlocksInput, ListChangedBlocksOutputResponse, ListChangedBlocksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChangedBlocksInput, ListChangedBlocksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListChangedBlocksInput, ListChangedBlocksOutput, ListChangedBlocksOutputError>(id: "listChangedBlocks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChangedBlocksInput, ListChangedBlocksOutput, ListChangedBlocksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChangedBlocksInput, ListChangedBlocksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChangedBlocksOutputResponse, ListChangedBlocksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChangedBlocksOutput, ListChangedBlocksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChangedBlocksInput, ListChangedBlocksOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChangedBlocksOutputResponse, ListChangedBlocksOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChangedBlocksInput, ListChangedBlocksOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChangedBlocksOutput, ListChangedBlocksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChangedBlocksOutputResponse, ListChangedBlocksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChangedBlocksOutputResponse, ListChangedBlocksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChangedBlocksOutputResponse, ListChangedBlocksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChangedBlocksOutput, ListChangedBlocksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChangedBlocksOutput, ListChangedBlocksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChangedBlocksOutput, ListChangedBlocksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -212,7 +212,7 @@ extension EBSClient: EBSClientProtocol {
     ///
     /// - Parameter ListSnapshotBlocksInput : [no documentation found]
     ///
-    /// - Returns: `ListSnapshotBlocksOutputResponse` : [no documentation found]
+    /// - Returns: `ListSnapshotBlocksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -223,7 +223,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func listSnapshotBlocks(input: ListSnapshotBlocksInput) async throws -> ListSnapshotBlocksOutputResponse
+    public func listSnapshotBlocks(input: ListSnapshotBlocksInput) async throws -> ListSnapshotBlocksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -239,18 +239,18 @@ extension EBSClient: EBSClientProtocol {
                       .withSigningName(value: "ebs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSnapshotBlocksInput, ListSnapshotBlocksOutputResponse, ListSnapshotBlocksOutputError>(id: "listSnapshotBlocks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutputResponse, ListSnapshotBlocksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSnapshotBlocksInput, ListSnapshotBlocksOutput, ListSnapshotBlocksOutputError>(id: "listSnapshotBlocks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutput, ListSnapshotBlocksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSnapshotBlocksOutputResponse, ListSnapshotBlocksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSnapshotBlocksOutput, ListSnapshotBlocksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSnapshotBlocksOutputResponse, ListSnapshotBlocksOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSnapshotBlocksOutput, ListSnapshotBlocksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSnapshotBlocksOutputResponse, ListSnapshotBlocksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSnapshotBlocksOutputResponse, ListSnapshotBlocksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSnapshotBlocksOutputResponse, ListSnapshotBlocksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSnapshotBlocksOutput, ListSnapshotBlocksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSnapshotBlocksOutput, ListSnapshotBlocksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSnapshotBlocksOutput, ListSnapshotBlocksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -259,7 +259,7 @@ extension EBSClient: EBSClientProtocol {
     ///
     /// - Parameter PutSnapshotBlockInput : [no documentation found]
     ///
-    /// - Returns: `PutSnapshotBlockOutputResponse` : [no documentation found]
+    /// - Returns: `PutSnapshotBlockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -270,7 +270,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func putSnapshotBlock(input: PutSnapshotBlockInput) async throws -> PutSnapshotBlockOutputResponse
+    public func putSnapshotBlock(input: PutSnapshotBlockInput) async throws -> PutSnapshotBlockOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -286,21 +286,21 @@ extension EBSClient: EBSClientProtocol {
                       .withSigningName(value: "ebs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSnapshotBlockInput, PutSnapshotBlockOutputResponse, PutSnapshotBlockOutputError>(id: "putSnapshotBlock")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutputResponse, PutSnapshotBlockOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutSnapshotBlockInput, PutSnapshotBlockOutput, PutSnapshotBlockOutputError>(id: "putSnapshotBlock")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutput, PutSnapshotBlockOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSnapshotBlockOutputResponse, PutSnapshotBlockOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSnapshotBlockOutput, PutSnapshotBlockOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutputResponse>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: PutSnapshotBlockInputBodyMiddleware())
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSnapshotBlockOutputResponse, PutSnapshotBlockOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware(requiresLength: false, unsignedPayload: true))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSnapshotBlockOutput, PutSnapshotBlockOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSnapshotBlockOutputResponse, PutSnapshotBlockOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSnapshotBlockOutputResponse, PutSnapshotBlockOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSnapshotBlockOutputResponse, PutSnapshotBlockOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSnapshotBlockOutput, PutSnapshotBlockOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSnapshotBlockOutput, PutSnapshotBlockOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSnapshotBlockOutput, PutSnapshotBlockOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -309,7 +309,7 @@ extension EBSClient: EBSClientProtocol {
     ///
     /// - Parameter StartSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `StartSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `StartSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -322,7 +322,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func startSnapshot(input: StartSnapshotInput) async throws -> StartSnapshotOutputResponse
+    public func startSnapshot(input: StartSnapshotInput) async throws -> StartSnapshotOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -338,28 +338,21 @@ extension EBSClient: EBSClientProtocol {
                       .withSigningName(value: "ebs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSnapshotInput, StartSnapshotOutputResponse, StartSnapshotOutputError>(id: "startSnapshot")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSnapshotOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSnapshotInput, StartSnapshotOutputResponse, StartSnapshotOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSnapshotInput, StartSnapshotOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartSnapshotInput, StartSnapshotOutput, StartSnapshotOutputError>(id: "startSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartSnapshotInput, StartSnapshotOutput, StartSnapshotOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSnapshotInput, StartSnapshotOutput, StartSnapshotOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSnapshotInput, StartSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSnapshotOutputResponse, StartSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSnapshotOutput, StartSnapshotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSnapshotInput, StartSnapshotOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSnapshotInput, StartSnapshotOutputResponse>(xmlName: "StartSnapshotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSnapshotInput, StartSnapshotOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSnapshotInput, StartSnapshotOutput>(xmlName: "StartSnapshotRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSnapshotOutputResponse, StartSnapshotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSnapshotOutput, StartSnapshotOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSnapshotOutputResponse, StartSnapshotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSnapshotOutputResponse, StartSnapshotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSnapshotOutputResponse, StartSnapshotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSnapshotOutput, StartSnapshotOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSnapshotOutput, StartSnapshotOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSnapshotOutput, StartSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

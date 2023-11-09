@@ -10,8 +10,8 @@ public protocol SageMakerMetricsClientProtocol {
     ///
     /// - Parameter BatchPutMetricsInput : [no documentation found]
     ///
-    /// - Returns: `BatchPutMetricsOutputResponse` : [no documentation found]
-    func batchPutMetrics(input: BatchPutMetricsInput) async throws -> BatchPutMetricsOutputResponse
+    /// - Returns: `BatchPutMetricsOutput` : [no documentation found]
+    func batchPutMetrics(input: BatchPutMetricsInput) async throws -> BatchPutMetricsOutput
 }
 
 public enum SageMakerMetricsClientTypes {}

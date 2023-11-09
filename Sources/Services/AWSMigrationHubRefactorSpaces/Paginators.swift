@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MigrationHubRefactorSpacesClient {
-    /// Paginate over `[ListApplicationsOutputResponse]` results.
+    /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
-    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutputResponse.nextToken, paginationFunction: self.listApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
+    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutputResponse {
+extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.ApplicationSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.ApplicationSummary]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListApplicationsInput, Output == List
     }
 }
 extension MigrationHubRefactorSpacesClient {
-    /// Paginate over `[ListEnvironmentsOutputResponse]` results.
+    /// Paginate over `[ListEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutputResponse`
-    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutputResponse.nextToken, paginationFunction: self.listEnvironments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
+    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutputResponse {
+extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.EnvironmentSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.EnvironmentSummary]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListEnvironmentsInput, Output == List
     }
 }
 extension MigrationHubRefactorSpacesClient {
-    /// Paginate over `[ListEnvironmentVpcsOutputResponse]` results.
+    /// Paginate over `[ListEnvironmentVpcsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEnvironmentVpcsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentVpcsOutputResponse`
-    public func listEnvironmentVpcsPaginated(input: ListEnvironmentVpcsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutputResponse>(input: input, inputKey: \ListEnvironmentVpcsInput.nextToken, outputKey: \ListEnvironmentVpcsOutputResponse.nextToken, paginationFunction: self.listEnvironmentVpcs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentVpcsOutput`
+    public func listEnvironmentVpcsPaginated(input: ListEnvironmentVpcsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutput>(input: input, inputKey: \ListEnvironmentVpcsInput.nextToken, outputKey: \ListEnvironmentVpcsOutput.nextToken, paginationFunction: self.listEnvironmentVpcs(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListEnvironmentVpcsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEnvironmentVpcsInput, Output == ListEnvironmentVpcsOutputResponse {
+extension PaginatorSequence where Input == ListEnvironmentVpcsInput, Output == ListEnvironmentVpcsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentVpcsPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.EnvironmentVpc]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.EnvironmentVpc]`
@@ -95,16 +95,16 @@ extension PaginatorSequence where Input == ListEnvironmentVpcsInput, Output == L
     }
 }
 extension MigrationHubRefactorSpacesClient {
-    /// Paginate over `[ListRoutesOutputResponse]` results.
+    /// Paginate over `[ListRoutesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRoutesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRoutesOutputResponse`
-    public func listRoutesPaginated(input: ListRoutesInput) -> ClientRuntime.PaginatorSequence<ListRoutesInput, ListRoutesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRoutesInput, ListRoutesOutputResponse>(input: input, inputKey: \ListRoutesInput.nextToken, outputKey: \ListRoutesOutputResponse.nextToken, paginationFunction: self.listRoutes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRoutesOutput`
+    public func listRoutesPaginated(input: ListRoutesInput) -> ClientRuntime.PaginatorSequence<ListRoutesInput, ListRoutesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRoutesInput, ListRoutesOutput>(input: input, inputKey: \ListRoutesInput.nextToken, outputKey: \ListRoutesOutput.nextToken, paginationFunction: self.listRoutes(input:))
     }
 }
 
@@ -118,7 +118,7 @@ extension ListRoutesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRoutesInput, Output == ListRoutesOutputResponse {
+extension PaginatorSequence where Input == ListRoutesInput, Output == ListRoutesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRoutesPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.RouteSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.RouteSummary]`
@@ -127,16 +127,16 @@ extension PaginatorSequence where Input == ListRoutesInput, Output == ListRoutes
     }
 }
 extension MigrationHubRefactorSpacesClient {
-    /// Paginate over `[ListServicesOutputResponse]` results.
+    /// Paginate over `[ListServicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutputResponse`
-    public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutputResponse.nextToken, paginationFunction: self.listServices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
+    public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListServicesInput, Output == ListServicesOutputResponse {
+extension PaginatorSequence where Input == ListServicesInput, Output == ListServicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listServicesPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.ServiceSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.ServiceSummary]`

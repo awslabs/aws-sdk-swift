@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ACMPCAClient {
-    /// Paginate over `[ListCertificateAuthoritiesOutputResponse]` results.
+    /// Paginate over `[ListCertificateAuthoritiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCertificateAuthoritiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificateAuthoritiesOutputResponse`
-    public func listCertificateAuthoritiesPaginated(input: ListCertificateAuthoritiesInput) -> ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutputResponse>(input: input, inputKey: \ListCertificateAuthoritiesInput.nextToken, outputKey: \ListCertificateAuthoritiesOutputResponse.nextToken, paginationFunction: self.listCertificateAuthorities(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificateAuthoritiesOutput`
+    public func listCertificateAuthoritiesPaginated(input: ListCertificateAuthoritiesInput) -> ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(input: input, inputKey: \ListCertificateAuthoritiesInput.nextToken, outputKey: \ListCertificateAuthoritiesOutput.nextToken, paginationFunction: self.listCertificateAuthorities(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListCertificateAuthoritiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificateAuthoritiesInput, Output == ListCertificateAuthoritiesOutputResponse {
+extension PaginatorSequence where Input == ListCertificateAuthoritiesInput, Output == ListCertificateAuthoritiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificateAuthoritiesPaginated`
     /// to access the nested member `[ACMPCAClientTypes.CertificateAuthority]`
     /// - Returns: `[ACMPCAClientTypes.CertificateAuthority]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListCertificateAuthoritiesInput, Outp
     }
 }
 extension ACMPCAClient {
-    /// Paginate over `[ListPermissionsOutputResponse]` results.
+    /// Paginate over `[ListPermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPermissionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutputResponse`
-    public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutputResponse>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutputResponse.nextToken, paginationFunction: self.listPermissions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutput`
+    public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutput.nextToken, paginationFunction: self.listPermissions(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPermissionsInput, Output == ListPermissionsOutputResponse {
+extension PaginatorSequence where Input == ListPermissionsInput, Output == ListPermissionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPermissionsPaginated`
     /// to access the nested member `[ACMPCAClientTypes.Permission]`
     /// - Returns: `[ACMPCAClientTypes.Permission]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == ListPermissionsInput, Output == ListP
     }
 }
 extension ACMPCAClient {
-    /// Paginate over `[ListTagsOutputResponse]` results.
+    /// Paginate over `[ListTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutputResponse`
-    public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutputResponse>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutputResponse.nextToken, paginationFunction: self.listTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
+    public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsInput, Output == ListTagsOutputResponse {
+extension PaginatorSequence where Input == ListTagsInput, Output == ListTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsPaginated`
     /// to access the nested member `[ACMPCAClientTypes.Tag]`
     /// - Returns: `[ACMPCAClientTypes.Tag]`

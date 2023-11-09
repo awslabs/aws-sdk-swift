@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension CloudFrontClientProtocol {
 
-    static func distributionDeployedWaiterConfig() throws -> WaiterConfiguration<GetDistributionInput, GetDistributionOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetDistributionInput, GetDistributionOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetDistributionInput, result: Result<GetDistributionOutputResponse, Error>) -> Bool in
+    static func distributionDeployedWaiterConfig() throws -> WaiterConfiguration<GetDistributionInput, GetDistributionOutput> {
+        let acceptors: [WaiterConfiguration<GetDistributionInput, GetDistributionOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetDistributionInput, result: Result<GetDistributionOutput, Error>) -> Bool in
                 // JMESPath expression: "Distribution.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deployed"
@@ -16,7 +16,7 @@ extension CloudFrontClientProtocol {
                 return JMESUtils.compare(status, ==, "Deployed")
             }),
         ]
-        return try WaiterConfiguration<GetDistributionInput, GetDistributionOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetDistributionInput, GetDistributionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DistributionDeployed event on the getDistribution operation.
@@ -30,14 +30,14 @@ extension CloudFrontClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDistributionDeployed(options: WaiterOptions, input: GetDistributionInput) async throws -> WaiterOutcome<GetDistributionOutputResponse> {
+    public func waitUntilDistributionDeployed(options: WaiterOptions, input: GetDistributionInput) async throws -> WaiterOutcome<GetDistributionOutput> {
         let waiter = Waiter(config: try Self.distributionDeployedWaiterConfig(), operation: self.getDistribution(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func invalidationCompletedWaiterConfig() throws -> WaiterConfiguration<GetInvalidationInput, GetInvalidationOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetInvalidationInput, GetInvalidationOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetInvalidationInput, result: Result<GetInvalidationOutputResponse, Error>) -> Bool in
+    static func invalidationCompletedWaiterConfig() throws -> WaiterConfiguration<GetInvalidationInput, GetInvalidationOutput> {
+        let acceptors: [WaiterConfiguration<GetInvalidationInput, GetInvalidationOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetInvalidationInput, result: Result<GetInvalidationOutput, Error>) -> Bool in
                 // JMESPath expression: "Invalidation.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Completed"
@@ -47,7 +47,7 @@ extension CloudFrontClientProtocol {
                 return JMESUtils.compare(status, ==, "Completed")
             }),
         ]
-        return try WaiterConfiguration<GetInvalidationInput, GetInvalidationOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetInvalidationInput, GetInvalidationOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the InvalidationCompleted event on the getInvalidation operation.
@@ -61,14 +61,14 @@ extension CloudFrontClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilInvalidationCompleted(options: WaiterOptions, input: GetInvalidationInput) async throws -> WaiterOutcome<GetInvalidationOutputResponse> {
+    public func waitUntilInvalidationCompleted(options: WaiterOptions, input: GetInvalidationInput) async throws -> WaiterOutcome<GetInvalidationOutput> {
         let waiter = Waiter(config: try Self.invalidationCompletedWaiterConfig(), operation: self.getInvalidation(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func streamingDistributionDeployedWaiterConfig() throws -> WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetStreamingDistributionInput, result: Result<GetStreamingDistributionOutputResponse, Error>) -> Bool in
+    static func streamingDistributionDeployedWaiterConfig() throws -> WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutput> {
+        let acceptors: [WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetStreamingDistributionInput, result: Result<GetStreamingDistributionOutput, Error>) -> Bool in
                 // JMESPath expression: "StreamingDistribution.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Deployed"
@@ -78,7 +78,7 @@ extension CloudFrontClientProtocol {
                 return JMESUtils.compare(status, ==, "Deployed")
             }),
         ]
-        return try WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the StreamingDistributionDeployed event on the getStreamingDistribution operation.
@@ -92,7 +92,7 @@ extension CloudFrontClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilStreamingDistributionDeployed(options: WaiterOptions, input: GetStreamingDistributionInput) async throws -> WaiterOutcome<GetStreamingDistributionOutputResponse> {
+    public func waitUntilStreamingDistributionDeployed(options: WaiterOptions, input: GetStreamingDistributionInput) async throws -> WaiterOutcome<GetStreamingDistributionOutput> {
         let waiter = Waiter(config: try Self.streamingDistributionDeployedWaiterConfig(), operation: self.getStreamingDistribution(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

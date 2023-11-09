@@ -71,7 +71,7 @@ extension ForecastqueryClient: ForecastqueryClientProtocol {
     ///
     /// - Parameter QueryForecastInput : [no documentation found]
     ///
-    /// - Returns: `QueryForecastOutputResponse` : [no documentation found]
+    /// - Returns: `QueryForecastOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,7 +81,7 @@ extension ForecastqueryClient: ForecastqueryClientProtocol {
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find that resource. Check the information that you've provided and try again.
-    public func queryForecast(input: QueryForecastInput) async throws -> QueryForecastOutputResponse
+    public func queryForecast(input: QueryForecastInput) async throws -> QueryForecastOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -97,21 +97,21 @@ extension ForecastqueryClient: ForecastqueryClientProtocol {
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<QueryForecastInput, QueryForecastOutputResponse, QueryForecastOutputError>(id: "queryForecast")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryForecastInput, QueryForecastOutputResponse, QueryForecastOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryForecastInput, QueryForecastOutputResponse>())
+        var operation = ClientRuntime.OperationStack<QueryForecastInput, QueryForecastOutput, QueryForecastOutputError>(id: "queryForecast")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryForecastInput, QueryForecastOutput, QueryForecastOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryForecastInput, QueryForecastOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<QueryForecastOutputResponse, QueryForecastOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<QueryForecastOutput, QueryForecastOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<QueryForecastInput, QueryForecastOutputResponse>(xAmzTarget: "AmazonForecastRuntime.QueryForecast"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<QueryForecastInput, QueryForecastOutputResponse>(xmlName: "QueryForecastRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<QueryForecastInput, QueryForecastOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<QueryForecastInput, QueryForecastOutput>(xAmzTarget: "AmazonForecastRuntime.QueryForecast"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<QueryForecastInput, QueryForecastOutput>(xmlName: "QueryForecastRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<QueryForecastInput, QueryForecastOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, QueryForecastOutputResponse, QueryForecastOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, QueryForecastOutput, QueryForecastOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryForecastOutputResponse, QueryForecastOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryForecastOutputResponse, QueryForecastOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<QueryForecastOutputResponse, QueryForecastOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryForecastOutput, QueryForecastOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryForecastOutput, QueryForecastOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<QueryForecastOutput, QueryForecastOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -120,7 +120,7 @@ extension ForecastqueryClient: ForecastqueryClientProtocol {
     ///
     /// - Parameter QueryWhatIfForecastInput : [no documentation found]
     ///
-    /// - Returns: `QueryWhatIfForecastOutputResponse` : [no documentation found]
+    /// - Returns: `QueryWhatIfForecastOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -130,7 +130,7 @@ extension ForecastqueryClient: ForecastqueryClientProtocol {
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find that resource. Check the information that you've provided and try again.
-    public func queryWhatIfForecast(input: QueryWhatIfForecastInput) async throws -> QueryWhatIfForecastOutputResponse
+    public func queryWhatIfForecast(input: QueryWhatIfForecastInput) async throws -> QueryWhatIfForecastOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -146,21 +146,21 @@ extension ForecastqueryClient: ForecastqueryClientProtocol {
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<QueryWhatIfForecastInput, QueryWhatIfForecastOutputResponse, QueryWhatIfForecastOutputError>(id: "queryWhatIfForecast")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutputResponse, QueryWhatIfForecastOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutputResponse>())
+        var operation = ClientRuntime.OperationStack<QueryWhatIfForecastInput, QueryWhatIfForecastOutput, QueryWhatIfForecastOutputError>(id: "queryWhatIfForecast")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutput, QueryWhatIfForecastOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<QueryWhatIfForecastOutputResponse, QueryWhatIfForecastOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<QueryWhatIfForecastOutput, QueryWhatIfForecastOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutputResponse>(xAmzTarget: "AmazonForecastRuntime.QueryWhatIfForecast"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutputResponse>(xmlName: "QueryWhatIfForecastRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutput>(xAmzTarget: "AmazonForecastRuntime.QueryWhatIfForecast"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutput>(xmlName: "QueryWhatIfForecastRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, QueryWhatIfForecastOutputResponse, QueryWhatIfForecastOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, QueryWhatIfForecastOutput, QueryWhatIfForecastOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryWhatIfForecastOutputResponse, QueryWhatIfForecastOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryWhatIfForecastOutputResponse, QueryWhatIfForecastOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<QueryWhatIfForecastOutputResponse, QueryWhatIfForecastOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryWhatIfForecastOutput, QueryWhatIfForecastOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryWhatIfForecastOutput, QueryWhatIfForecastOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<QueryWhatIfForecastOutput, QueryWhatIfForecastOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -32,6 +32,7 @@ class OSMetadataTests: XCTestCase {
         XCTAssertEqual(OSMetadata(family: .macOS).description, "os/macos")
         XCTAssertEqual(OSMetadata(family: .watchOS).description, "os/watchos")
         XCTAssertEqual(OSMetadata(family: .tvOS).description, "os/tvos")
+        XCTAssertEqual(OSMetadata(family: .visionOS).description, "os/visionos")
         XCTAssertEqual(OSMetadata(family: .unknown).description, "os/other")
     }
 }

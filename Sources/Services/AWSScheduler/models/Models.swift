@@ -337,26 +337,11 @@ extension CreateScheduleGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateScheduleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateScheduleGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateScheduleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateScheduleGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.scheduleGroupArn = output.scheduleGroupArn
         } else {
             self.scheduleGroupArn = nil
@@ -364,7 +349,7 @@ extension CreateScheduleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScheduleGroupOutputResponse: Swift.Equatable {
+public struct CreateScheduleGroupOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the schedule group.
     /// This member is required.
     public var scheduleGroupArn: Swift.String?
@@ -377,11 +362,11 @@ public struct CreateScheduleGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateScheduleGroupOutputResponseBody: Swift.Equatable {
+struct CreateScheduleGroupOutputBody: Swift.Equatable {
     let scheduleGroupArn: Swift.String?
 }
 
-extension CreateScheduleGroupOutputResponseBody: Swift.Decodable {
+extension CreateScheduleGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scheduleGroupArn = "ScheduleGroupArn"
     }
@@ -390,6 +375,21 @@ extension CreateScheduleGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleGroupArn)
         scheduleGroupArn = scheduleGroupArnDecoded
+    }
+}
+
+enum CreateScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -592,6 +592,47 @@ extension CreateScheduleInputBody: Swift.Decodable {
     }
 }
 
+extension CreateScheduleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateScheduleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.scheduleArn = output.scheduleArn
+        } else {
+            self.scheduleArn = nil
+        }
+    }
+}
+
+public struct CreateScheduleOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the schedule.
+    /// This member is required.
+    public var scheduleArn: Swift.String?
+
+    public init(
+        scheduleArn: Swift.String? = nil
+    )
+    {
+        self.scheduleArn = scheduleArn
+    }
+}
+
+struct CreateScheduleOutputBody: Swift.Equatable {
+    let scheduleArn: Swift.String?
+}
+
+extension CreateScheduleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scheduleArn = "ScheduleArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleArn)
+        scheduleArn = scheduleArnDecoded
+    }
+}
+
 enum CreateScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -605,47 +646,6 @@ enum CreateScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.scheduleArn = output.scheduleArn
-        } else {
-            self.scheduleArn = nil
-        }
-    }
-}
-
-public struct CreateScheduleOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the schedule.
-    /// This member is required.
-    public var scheduleArn: Swift.String?
-
-    public init(
-        scheduleArn: Swift.String? = nil
-    )
-    {
-        self.scheduleArn = scheduleArn
-    }
-}
-
-struct CreateScheduleOutputResponseBody: Swift.Equatable {
-    let scheduleArn: Swift.String?
-}
-
-extension CreateScheduleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case scheduleArn = "ScheduleArn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let scheduleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleArn)
-        scheduleArn = scheduleArnDecoded
     }
 }
 
@@ -732,6 +732,16 @@ extension DeleteScheduleGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteScheduleGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteScheduleGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -745,16 +755,6 @@ enum DeleteScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteScheduleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteScheduleGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteScheduleInput: ClientRuntime.QueryItemProvider {
@@ -813,6 +813,16 @@ extension DeleteScheduleInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteScheduleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteScheduleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -826,16 +836,6 @@ enum DeleteScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteScheduleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SchedulerClientTypes.EcsParameters: Swift.Codable {
@@ -1220,25 +1220,11 @@ extension GetScheduleGroupInputBody: Swift.Decodable {
     }
 }
 
-enum GetScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetScheduleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetScheduleGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetScheduleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetScheduleGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationDate = output.creationDate
             self.lastModificationDate = output.lastModificationDate
@@ -1254,7 +1240,7 @@ extension GetScheduleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetScheduleGroupOutputResponse: Swift.Equatable {
+public struct GetScheduleGroupOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the schedule group.
     public var arn: Swift.String?
     /// The time at which the schedule group was created.
@@ -1282,7 +1268,7 @@ public struct GetScheduleGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetScheduleGroupOutputResponseBody: Swift.Equatable {
+struct GetScheduleGroupOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let state: SchedulerClientTypes.ScheduleGroupState?
@@ -1290,7 +1276,7 @@ struct GetScheduleGroupOutputResponseBody: Swift.Equatable {
     let lastModificationDate: ClientRuntime.Date?
 }
 
-extension GetScheduleGroupOutputResponseBody: Swift.Decodable {
+extension GetScheduleGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationDate = "CreationDate"
@@ -1311,6 +1297,20 @@ extension GetScheduleGroupOutputResponseBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let lastModificationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModificationDate)
         lastModificationDate = lastModificationDateDecoded
+    }
+}
+
+enum GetScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1362,25 +1362,11 @@ extension GetScheduleInputBody: Swift.Decodable {
     }
 }
 
-enum GetScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetScheduleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetScheduleOutputBody = try responseDecoder.decode(responseBody: data)
             self.actionAfterCompletion = output.actionAfterCompletion
             self.arn = output.arn
             self.creationDate = output.creationDate
@@ -1416,7 +1402,7 @@ extension GetScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetScheduleOutputResponse: Swift.Equatable {
+public struct GetScheduleOutput: Swift.Equatable {
     /// Indicates the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
     public var actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
     /// The Amazon Resource Name (ARN) of the schedule.
@@ -1493,7 +1479,7 @@ public struct GetScheduleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetScheduleOutputResponseBody: Swift.Equatable {
+struct GetScheduleOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let groupName: Swift.String?
     let name: Swift.String?
@@ -1511,7 +1497,7 @@ struct GetScheduleOutputResponseBody: Swift.Equatable {
     let actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
 }
 
-extension GetScheduleOutputResponseBody: Swift.Decodable {
+extension GetScheduleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionAfterCompletion = "ActionAfterCompletion"
         case arn = "Arn"
@@ -1562,6 +1548,20 @@ extension GetScheduleOutputResponseBody: Swift.Decodable {
         flexibleTimeWindow = flexibleTimeWindowDecoded
         let actionAfterCompletionDecoded = try containerValues.decodeIfPresent(SchedulerClientTypes.ActionAfterCompletion.self, forKey: .actionAfterCompletion)
         actionAfterCompletion = actionAfterCompletionDecoded
+    }
+}
+
+enum GetScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1748,24 +1748,11 @@ extension ListScheduleGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListScheduleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListScheduleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListScheduleGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListScheduleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListScheduleGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scheduleGroups = output.scheduleGroups
         } else {
@@ -1775,7 +1762,7 @@ extension ListScheduleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListScheduleGroupsOutputResponse: Swift.Equatable {
+public struct ListScheduleGroupsOutput: Swift.Equatable {
     /// Indicates whether there are additional results to retrieve. If the value is null, there are no more results.
     public var nextToken: Swift.String?
     /// The schedule groups that match the specified criteria.
@@ -1792,12 +1779,12 @@ public struct ListScheduleGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListScheduleGroupsOutputResponseBody: Swift.Equatable {
+struct ListScheduleGroupsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let scheduleGroups: [SchedulerClientTypes.ScheduleGroupSummary]?
 }
 
-extension ListScheduleGroupsOutputResponseBody: Swift.Decodable {
+extension ListScheduleGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case scheduleGroups = "ScheduleGroups"
@@ -1818,6 +1805,19 @@ extension ListScheduleGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         scheduleGroups = scheduleGroupsDecoded0
+    }
+}
+
+enum ListScheduleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1893,25 +1893,11 @@ extension ListSchedulesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSchedulesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSchedulesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSchedulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSchedulesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.schedules = output.schedules
         } else {
@@ -1921,7 +1907,7 @@ extension ListSchedulesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchedulesOutputResponse: Swift.Equatable {
+public struct ListSchedulesOutput: Swift.Equatable {
     /// Indicates whether there are additional results to retrieve. If the value is null, there are no more results.
     public var nextToken: Swift.String?
     /// The schedules that match the specified criteria.
@@ -1938,12 +1924,12 @@ public struct ListSchedulesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSchedulesOutputResponseBody: Swift.Equatable {
+struct ListSchedulesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let schedules: [SchedulerClientTypes.ScheduleSummary]?
 }
 
-extension ListSchedulesOutputResponseBody: Swift.Decodable {
+extension ListSchedulesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case schedules = "Schedules"
@@ -1964,6 +1950,20 @@ extension ListSchedulesOutputResponseBody: Swift.Decodable {
             }
         }
         schedules = schedulesDecoded0
+    }
+}
+
+enum ListSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1998,25 +1998,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2024,7 +2010,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The list of tags associated with the specified resource.
     public var tags: [SchedulerClientTypes.Tag]?
 
@@ -2036,11 +2022,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [SchedulerClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -2058,6 +2044,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2917,6 +2917,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2930,16 +2940,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SchedulerClientTypes.Target: Swift.Codable {
@@ -3214,6 +3214,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3227,16 +3237,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateScheduleInput: Swift.Encodable {
@@ -3438,26 +3438,11 @@ extension UpdateScheduleInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateScheduleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateScheduleOutputBody = try responseDecoder.decode(responseBody: data)
             self.scheduleArn = output.scheduleArn
         } else {
             self.scheduleArn = nil
@@ -3465,7 +3450,7 @@ extension UpdateScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateScheduleOutputResponse: Swift.Equatable {
+public struct UpdateScheduleOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the schedule that you updated.
     /// This member is required.
     public var scheduleArn: Swift.String?
@@ -3478,11 +3463,11 @@ public struct UpdateScheduleOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateScheduleOutputResponseBody: Swift.Equatable {
+struct UpdateScheduleOutputBody: Swift.Equatable {
     let scheduleArn: Swift.String?
 }
 
-extension UpdateScheduleOutputResponseBody: Swift.Decodable {
+extension UpdateScheduleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scheduleArn = "ScheduleArn"
     }
@@ -3491,6 +3476,21 @@ extension UpdateScheduleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleArn)
         scheduleArn = scheduleArnDecoded
+    }
+}
+
+enum UpdateScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

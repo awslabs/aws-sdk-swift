@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ManagedBlockchainClient {
-    /// Paginate over `[ListAccessorsOutputResponse]` results.
+    /// Paginate over `[ListAccessorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccessorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessorsOutputResponse`
-    public func listAccessorsPaginated(input: ListAccessorsInput) -> ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutputResponse>(input: input, inputKey: \ListAccessorsInput.nextToken, outputKey: \ListAccessorsOutputResponse.nextToken, paginationFunction: self.listAccessors(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessorsOutput`
+    public func listAccessorsPaginated(input: ListAccessorsInput) -> ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput>(input: input, inputKey: \ListAccessorsInput.nextToken, outputKey: \ListAccessorsOutput.nextToken, paginationFunction: self.listAccessors(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListAccessorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccessorsInput, Output == ListAccessorsOutputResponse {
+extension PaginatorSequence where Input == ListAccessorsInput, Output == ListAccessorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccessorsPaginated`
     /// to access the nested member `[ManagedBlockchainClientTypes.AccessorSummary]`
     /// - Returns: `[ManagedBlockchainClientTypes.AccessorSummary]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListAccessorsInput, Output == ListAcc
     }
 }
 extension ManagedBlockchainClient {
-    /// Paginate over `[ListInvitationsOutputResponse]` results.
+    /// Paginate over `[ListInvitationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInvitationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutputResponse`
-    public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutputResponse>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutputResponse.nextToken, paginationFunction: self.listInvitations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
+    public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
     }
 }
 
@@ -54,16 +54,16 @@ extension ListInvitationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ManagedBlockchainClient {
-    /// Paginate over `[ListMembersOutputResponse]` results.
+    /// Paginate over `[ListMembersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMembersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutputResponse`
-    public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutputResponse>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutputResponse.nextToken, paginationFunction: self.listMembers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
+    public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
+        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
     }
 }
 
@@ -79,16 +79,16 @@ extension ListMembersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ManagedBlockchainClient {
-    /// Paginate over `[ListNetworksOutputResponse]` results.
+    /// Paginate over `[ListNetworksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNetworksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworksOutputResponse`
-    public func listNetworksPaginated(input: ListNetworksInput) -> ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutputResponse>(input: input, inputKey: \ListNetworksInput.nextToken, outputKey: \ListNetworksOutputResponse.nextToken, paginationFunction: self.listNetworks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworksOutput`
+    public func listNetworksPaginated(input: ListNetworksInput) -> ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput> {
+        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \ListNetworksInput.nextToken, outputKey: \ListNetworksOutput.nextToken, paginationFunction: self.listNetworks(input:))
     }
 }
 
@@ -103,16 +103,16 @@ extension ListNetworksInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ManagedBlockchainClient {
-    /// Paginate over `[ListNodesOutputResponse]` results.
+    /// Paginate over `[ListNodesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNodesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutputResponse`
-    public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutputResponse>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutputResponse.nextToken, paginationFunction: self.listNodes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
+    public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutput.nextToken, paginationFunction: self.listNodes(input:))
     }
 }
 
@@ -127,16 +127,16 @@ extension ListNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ManagedBlockchainClient {
-    /// Paginate over `[ListProposalsOutputResponse]` results.
+    /// Paginate over `[ListProposalsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProposalsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProposalsOutputResponse`
-    public func listProposalsPaginated(input: ListProposalsInput) -> ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutputResponse>(input: input, inputKey: \ListProposalsInput.nextToken, outputKey: \ListProposalsOutputResponse.nextToken, paginationFunction: self.listProposals(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProposalsOutput`
+    public func listProposalsPaginated(input: ListProposalsInput) -> ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput>(input: input, inputKey: \ListProposalsInput.nextToken, outputKey: \ListProposalsOutput.nextToken, paginationFunction: self.listProposals(input:))
     }
 }
 
@@ -149,16 +149,16 @@ extension ListProposalsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ManagedBlockchainClient {
-    /// Paginate over `[ListProposalVotesOutputResponse]` results.
+    /// Paginate over `[ListProposalVotesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProposalVotesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProposalVotesOutputResponse`
-    public func listProposalVotesPaginated(input: ListProposalVotesInput) -> ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutputResponse>(input: input, inputKey: \ListProposalVotesInput.nextToken, outputKey: \ListProposalVotesOutputResponse.nextToken, paginationFunction: self.listProposalVotes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProposalVotesOutput`
+    public func listProposalVotesPaginated(input: ListProposalVotesInput) -> ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput>(input: input, inputKey: \ListProposalVotesInput.nextToken, outputKey: \ListProposalVotesOutput.nextToken, paginationFunction: self.listProposalVotes(input:))
     }
 }
 

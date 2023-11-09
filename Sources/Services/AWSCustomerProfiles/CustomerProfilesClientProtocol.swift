@@ -8,7 +8,7 @@ public protocol CustomerProfilesClientProtocol {
     ///
     /// - Parameter AddProfileKeyInput : [no documentation found]
     ///
-    /// - Returns: `AddProfileKeyOutputResponse` : [no documentation found]
+    /// - Returns: `AddProfileKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func addProfileKey(input: AddProfileKeyInput) async throws -> AddProfileKeyOutputResponse
+    func addProfileKey(input: AddProfileKeyInput) async throws -> AddProfileKeyOutput
     /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html) API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     ///
     /// - Parameter CreateCalculatedAttributeDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateCalculatedAttributeDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCalculatedAttributeDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func createCalculatedAttributeDefinition(input: CreateCalculatedAttributeDefinitionInput) async throws -> CreateCalculatedAttributeDefinitionOutputResponse
+    func createCalculatedAttributeDefinition(input: CreateCalculatedAttributeDefinitionInput) async throws -> CreateCalculatedAttributeDefinitionOutput
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply.
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
     ///
-    /// - Returns: `CreateDomainOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,12 +48,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
+    func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
     /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     ///
     /// - Parameter CreateEventStreamInput : [no documentation found]
     ///
-    /// - Returns: `CreateEventStreamOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEventStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,12 +63,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func createEventStream(input: CreateEventStreamInput) async throws -> CreateEventStreamOutputResponse
+    func createEventStream(input: CreateEventStreamInput) async throws -> CreateEventStreamOutput
     /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     ///
     /// - Parameter CreateIntegrationWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `CreateIntegrationWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIntegrationWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -78,12 +78,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func createIntegrationWorkflow(input: CreateIntegrationWorkflowInput) async throws -> CreateIntegrationWorkflowOutputResponse
+    func createIntegrationWorkflow(input: CreateIntegrationWorkflowInput) async throws -> CreateIntegrationWorkflowOutput
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -93,12 +93,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
+    func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     ///
     /// - Parameter DeleteCalculatedAttributeDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCalculatedAttributeDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCalculatedAttributeDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -108,12 +108,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteCalculatedAttributeDefinition(input: DeleteCalculatedAttributeDefinitionInput) async throws -> DeleteCalculatedAttributeDefinitionOutputResponse
+    func deleteCalculatedAttributeDefinition(input: DeleteCalculatedAttributeDefinitionInput) async throws -> DeleteCalculatedAttributeDefinitionOutput
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDomainOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -123,12 +123,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
+    func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
     /// Disables and deletes the specified event stream.
     ///
     /// - Parameter DeleteEventStreamInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventStreamOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -138,12 +138,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutputResponse
+    func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutput
     /// Removes an integration from a specific domain.
     ///
     /// - Parameter DeleteIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -153,12 +153,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutputResponse
+    func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
     /// Deletes the standard customer profile and all data pertaining to the profile.
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -168,12 +168,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutputResponse
+    func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
     /// Removes a searchable key from a customer profile.
     ///
     /// - Parameter DeleteProfileKeyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProfileKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProfileKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,12 +183,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteProfileKey(input: DeleteProfileKeyInput) async throws -> DeleteProfileKeyOutputResponse
+    func deleteProfileKey(input: DeleteProfileKeyInput) async throws -> DeleteProfileKeyOutput
     /// Removes an object associated with a profile of a given ProfileObjectType.
     ///
     /// - Parameter DeleteProfileObjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProfileObjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProfileObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -198,12 +198,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteProfileObject(input: DeleteProfileObjectInput) async throws -> DeleteProfileObjectOutputResponse
+    func deleteProfileObject(input: DeleteProfileObjectInput) async throws -> DeleteProfileObjectOutput
     /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileObjectType.
     ///
     /// - Parameter DeleteProfileObjectTypeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProfileObjectTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProfileObjectTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -213,12 +213,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteProfileObjectType(input: DeleteProfileObjectTypeInput) async throws -> DeleteProfileObjectTypeOutputResponse
+    func deleteProfileObjectType(input: DeleteProfileObjectTypeInput) async throws -> DeleteProfileObjectTypeOutput
     /// Deletes the specified workflow and all its corresponding resources. This is an async process.
     ///
     /// - Parameter DeleteWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -228,12 +228,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
+    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be merged. We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     ///
     /// - Parameter GetAutoMergingPreviewInput : [no documentation found]
     ///
-    /// - Returns: `GetAutoMergingPreviewOutputResponse` : [no documentation found]
+    /// - Returns: `GetAutoMergingPreviewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -243,12 +243,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getAutoMergingPreview(input: GetAutoMergingPreviewInput) async throws -> GetAutoMergingPreviewOutputResponse
+    func getAutoMergingPreview(input: GetAutoMergingPreviewInput) async throws -> GetAutoMergingPreviewOutput
     /// Provides more information on a calculated attribute definition for Customer Profiles.
     ///
     /// - Parameter GetCalculatedAttributeDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetCalculatedAttributeDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetCalculatedAttributeDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -258,12 +258,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getCalculatedAttributeDefinition(input: GetCalculatedAttributeDefinitionInput) async throws -> GetCalculatedAttributeDefinitionOutputResponse
+    func getCalculatedAttributeDefinition(input: GetCalculatedAttributeDefinitionInput) async throws -> GetCalculatedAttributeDefinitionOutput
     /// Retrieve a calculated attribute for a customer profile.
     ///
     /// - Parameter GetCalculatedAttributeForProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetCalculatedAttributeForProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetCalculatedAttributeForProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,12 +273,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getCalculatedAttributeForProfile(input: GetCalculatedAttributeForProfileInput) async throws -> GetCalculatedAttributeForProfileOutputResponse
+    func getCalculatedAttributeForProfile(input: GetCalculatedAttributeForProfileInput) async throws -> GetCalculatedAttributeForProfileOutput
     /// Returns information about a specific domain.
     ///
     /// - Parameter GetDomainInput : [no documentation found]
     ///
-    /// - Returns: `GetDomainOutputResponse` : [no documentation found]
+    /// - Returns: `GetDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -288,12 +288,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getDomain(input: GetDomainInput) async throws -> GetDomainOutputResponse
+    func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
     /// Returns information about the specified event stream in a specific domain.
     ///
     /// - Parameter GetEventStreamInput : [no documentation found]
     ///
-    /// - Returns: `GetEventStreamOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -303,12 +303,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutputResponse
+    func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutput
     /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see [Use Identity Resolution to consolidate similar profiles](https://docs.aws.amazon.com/connect/latest/adminguide/use-identity-resolution.html).
     ///
     /// - Parameter GetIdentityResolutionJobInput : [no documentation found]
     ///
-    /// - Returns: `GetIdentityResolutionJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetIdentityResolutionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,12 +318,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getIdentityResolutionJob(input: GetIdentityResolutionJobInput) async throws -> GetIdentityResolutionJobOutputResponse
+    func getIdentityResolutionJob(input: GetIdentityResolutionJobInput) async throws -> GetIdentityResolutionJobOutput
     /// Returns an integration for a domain.
     ///
     /// - Parameter GetIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `GetIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `GetIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -333,7 +333,7 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutputResponse
+    func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput
     /// Before calling this API, use [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable identity resolution: set Matching to true. GetMatches returns potentially matching profiles, based on the results of the latest run of a machine learning process. The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3. Amazon Connect uses the following profile attributes to identify matches:
     ///
     /// * PhoneNumber
@@ -357,7 +357,7 @@ public protocol CustomerProfilesClientProtocol {
     ///
     /// - Parameter GetMatchesInput : [no documentation found]
     ///
-    /// - Returns: `GetMatchesOutputResponse` : [no documentation found]
+    /// - Returns: `GetMatchesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -367,12 +367,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getMatches(input: GetMatchesInput) async throws -> GetMatchesOutputResponse
+    func getMatches(input: GetMatchesInput) async throws -> GetMatchesOutput
     /// Returns the object types for a specific domain.
     ///
     /// - Parameter GetProfileObjectTypeInput : [no documentation found]
     ///
-    /// - Returns: `GetProfileObjectTypeOutputResponse` : [no documentation found]
+    /// - Returns: `GetProfileObjectTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -382,12 +382,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getProfileObjectType(input: GetProfileObjectTypeInput) async throws -> GetProfileObjectTypeOutputResponse
+    func getProfileObjectType(input: GetProfileObjectTypeInput) async throws -> GetProfileObjectTypeOutput
     /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template.
     ///
     /// - Parameter GetProfileObjectTypeTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetProfileObjectTypeTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetProfileObjectTypeTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -397,12 +397,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getProfileObjectTypeTemplate(input: GetProfileObjectTypeTemplateInput) async throws -> GetProfileObjectTypeTemplateOutputResponse
+    func getProfileObjectTypeTemplate(input: GetProfileObjectTypeTemplateInput) async throws -> GetProfileObjectTypeTemplateOutput
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
     ///
     /// - Parameter GetSimilarProfilesInput : [no documentation found]
     ///
-    /// - Returns: `GetSimilarProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `GetSimilarProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,12 +412,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getSimilarProfiles(input: GetSimilarProfilesInput) async throws -> GetSimilarProfilesOutputResponse
+    func getSimilarProfiles(input: GetSimilarProfilesInput) async throws -> GetSimilarProfilesOutput
     /// Get details of specified workflow.
     ///
     /// - Parameter GetWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `GetWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -427,12 +427,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
+    func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
     /// Get granular list of steps in workflow.
     ///
     /// - Parameter GetWorkflowStepsInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkflowStepsOutputResponse` : [no documentation found]
+    /// - Returns: `GetWorkflowStepsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,12 +442,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func getWorkflowSteps(input: GetWorkflowStepsInput) async throws -> GetWorkflowStepsOutputResponse
+    func getWorkflowSteps(input: GetWorkflowStepsInput) async throws -> GetWorkflowStepsOutput
     /// Lists all of the integrations associated to a specific URI in the AWS account.
     ///
     /// - Parameter ListAccountIntegrationsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountIntegrationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountIntegrationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -457,12 +457,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listAccountIntegrations(input: ListAccountIntegrationsInput) async throws -> ListAccountIntegrationsOutputResponse
+    func listAccountIntegrations(input: ListAccountIntegrationsInput) async throws -> ListAccountIntegrationsOutput
     /// Lists calculated attribute definitions for Customer Profiles
     ///
     /// - Parameter ListCalculatedAttributeDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListCalculatedAttributeDefinitionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCalculatedAttributeDefinitionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,12 +472,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listCalculatedAttributeDefinitions(input: ListCalculatedAttributeDefinitionsInput) async throws -> ListCalculatedAttributeDefinitionsOutputResponse
+    func listCalculatedAttributeDefinitions(input: ListCalculatedAttributeDefinitionsInput) async throws -> ListCalculatedAttributeDefinitionsOutput
     /// Retrieve a list of calculated attributes for a customer profile.
     ///
     /// - Parameter ListCalculatedAttributesForProfileInput : [no documentation found]
     ///
-    /// - Returns: `ListCalculatedAttributesForProfileOutputResponse` : [no documentation found]
+    /// - Returns: `ListCalculatedAttributesForProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,12 +487,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listCalculatedAttributesForProfile(input: ListCalculatedAttributesForProfileInput) async throws -> ListCalculatedAttributesForProfileOutputResponse
+    func listCalculatedAttributesForProfile(input: ListCalculatedAttributesForProfileInput) async throws -> ListCalculatedAttributesForProfileOutput
     /// Returns a list of all the domains for an AWS account that have been created.
     ///
     /// - Parameter ListDomainsInput : [no documentation found]
     ///
-    /// - Returns: `ListDomainsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDomainsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,12 +502,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
+    func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
     /// Returns a list of all the event streams in a specific domain.
     ///
     /// - Parameter ListEventStreamsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventStreamsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventStreamsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,12 +517,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listEventStreams(input: ListEventStreamsInput) async throws -> ListEventStreamsOutputResponse
+    func listEventStreams(input: ListEventStreamsInput) async throws -> ListEventStreamsOutput
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
     ///
     /// - Parameter ListIdentityResolutionJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListIdentityResolutionJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIdentityResolutionJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,12 +532,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listIdentityResolutionJobs(input: ListIdentityResolutionJobsInput) async throws -> ListIdentityResolutionJobsOutputResponse
+    func listIdentityResolutionJobs(input: ListIdentityResolutionJobsInput) async throws -> ListIdentityResolutionJobsOutput
     /// Lists all of the integrations in your domain.
     ///
     /// - Parameter ListIntegrationsInput : [no documentation found]
     ///
-    /// - Returns: `ListIntegrationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIntegrationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -547,12 +547,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listIntegrations(input: ListIntegrationsInput) async throws -> ListIntegrationsOutputResponse
+    func listIntegrations(input: ListIntegrationsInput) async throws -> ListIntegrationsOutput
     /// Returns a list of objects associated with a profile of a given ProfileObjectType.
     ///
     /// - Parameter ListProfileObjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListProfileObjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProfileObjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,12 +562,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listProfileObjects(input: ListProfileObjectsInput) async throws -> ListProfileObjectsOutputResponse
+    func listProfileObjects(input: ListProfileObjectsInput) async throws -> ListProfileObjectsOutput
     /// Lists all of the templates available within the service.
     ///
     /// - Parameter ListProfileObjectTypesInput : [no documentation found]
     ///
-    /// - Returns: `ListProfileObjectTypesOutputResponse` : [no documentation found]
+    /// - Returns: `ListProfileObjectTypesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,12 +577,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listProfileObjectTypes(input: ListProfileObjectTypesInput) async throws -> ListProfileObjectTypesOutputResponse
+    func listProfileObjectTypes(input: ListProfileObjectTypesInput) async throws -> ListProfileObjectTypesOutput
     /// Lists all of the template information for object types.
     ///
     /// - Parameter ListProfileObjectTypeTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListProfileObjectTypeTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListProfileObjectTypeTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,12 +592,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listProfileObjectTypeTemplates(input: ListProfileObjectTypeTemplatesInput) async throws -> ListProfileObjectTypeTemplatesOutputResponse
+    func listProfileObjectTypeTemplates(input: ListProfileObjectTypeTemplatesInput) async throws -> ListProfileObjectTypeTemplatesOutput
     /// Returns a set of MatchIds that belong to the given domain.
     ///
     /// - Parameter ListRuleBasedMatchesInput : [no documentation found]
     ///
-    /// - Returns: `ListRuleBasedMatchesOutputResponse` : [no documentation found]
+    /// - Returns: `ListRuleBasedMatchesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -607,12 +607,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listRuleBasedMatches(input: ListRuleBasedMatchesInput) async throws -> ListRuleBasedMatchesOutputResponse
+    func listRuleBasedMatches(input: ListRuleBasedMatchesInput) async throws -> ListRuleBasedMatchesOutput
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,12 +620,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Query to list all workflows.
     ///
     /// - Parameter ListWorkflowsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,7 +635,7 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
+    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
     /// Runs an AWS Lambda job that does the following:
     ///
     /// * All the profileKeys in the ProfileToBeMerged will be moved to the main profile.
@@ -667,7 +667,7 @@ public protocol CustomerProfilesClientProtocol {
     ///
     /// - Parameter MergeProfilesInput : [no documentation found]
     ///
-    /// - Returns: `MergeProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `MergeProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -676,12 +676,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func mergeProfiles(input: MergeProfilesInput) async throws -> MergeProfilesOutputResponse
+    func mergeProfiles(input: MergeProfilesInput) async throws -> MergeProfilesOutput
     /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see [ TagResource ](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[ UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
     /// - Parameter PutIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `PutIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `PutIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,12 +691,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func putIntegration(input: PutIntegrationInput) async throws -> PutIntegrationOutputResponse
+    func putIntegration(input: PutIntegrationInput) async throws -> PutIntegrationOutput
     /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. PutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
     ///
     /// - Parameter PutProfileObjectInput : [no documentation found]
     ///
-    /// - Returns: `PutProfileObjectOutputResponse` : [no documentation found]
+    /// - Returns: `PutProfileObjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,12 +706,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func putProfileObject(input: PutProfileObjectInput) async throws -> PutProfileObjectOutputResponse
+    func putProfileObject(input: PutProfileObjectInput) async throws -> PutProfileObjectOutput
     /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see [ TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
     /// - Parameter PutProfileObjectTypeInput : [no documentation found]
     ///
-    /// - Returns: `PutProfileObjectTypeOutputResponse` : [no documentation found]
+    /// - Returns: `PutProfileObjectTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -721,12 +721,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func putProfileObjectType(input: PutProfileObjectTypeInput) async throws -> PutProfileObjectTypeOutputResponse
+    func putProfileObjectType(input: PutProfileObjectTypeInput) async throws -> PutProfileObjectTypeOutput
     /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic.
     ///
     /// - Parameter SearchProfilesInput : [no documentation found]
     ///
-    /// - Returns: `SearchProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `SearchProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -736,12 +736,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutputResponse
+    func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutput
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,12 +749,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,12 +762,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range.
     ///
     /// - Parameter UpdateCalculatedAttributeDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCalculatedAttributeDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCalculatedAttributeDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,12 +777,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func updateCalculatedAttributeDefinition(input: UpdateCalculatedAttributeDefinitionInput) async throws -> UpdateCalculatedAttributeDefinitionOutputResponse
+    func updateCalculatedAttributeDefinition(input: UpdateCalculatedAttributeDefinitionInput) async throws -> UpdateCalculatedAttributeDefinitionOutput
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. To add or remove tags on an existing Domain, see [TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
     /// - Parameter UpdateDomainInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDomainOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,12 +792,12 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutputResponse
+    func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,7 +807,7 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
-    func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
+    func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
 }
 
 public enum CustomerProfilesClientTypes {}

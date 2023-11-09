@@ -8,7 +8,7 @@ public protocol WorkSpacesWebClientProtocol {
     ///
     /// - Parameter AssociateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutputResponse
+    func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutput
     /// Associates an IP access settings resource with a web portal.
     ///
     /// - Parameter AssociateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutputResponse
+    func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutput
     /// Associates a network settings resource with a web portal.
     ///
     /// - Parameter AssociateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutputResponse
+    func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutput
     /// Associates a trust store with a web portal.
     ///
     /// - Parameter AssociateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `AssociateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,12 +66,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutputResponse
+    func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutput
     /// Associates a user access logging settings resource with a web portal.
     ///
     /// - Parameter AssociateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutputResponse
+    func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutput
     /// Associates a user settings resource with a web portal.
     ///
     /// - Parameter AssociateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -98,12 +98,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutputResponse
+    func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutput
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     ///
     /// - Parameter CreateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -115,12 +115,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutputResponse
+    func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutput
     /// Creates an identity provider resource that is then associated with a web portal.
     ///
     /// - Parameter CreateIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `CreateIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,12 +132,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutputResponse
+    func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutput
     /// Creates an IP access settings resource that can be associated with a web portal.
     ///
     /// - Parameter CreateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutputResponse
+    func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutput
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     ///
     /// - Parameter CreateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -164,12 +164,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutputResponse
+    func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutput
     /// Creates a web portal.
     ///
     /// - Parameter CreatePortalInput : [no documentation found]
     ///
-    /// - Returns: `CreatePortalOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -181,12 +181,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutputResponse
+    func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutput
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     ///
     /// - Parameter CreateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -197,12 +197,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutputResponse
+    func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput
     /// Creates a user access logging settings resource that can be associated with a web portal.
     ///
     /// - Parameter CreateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -213,12 +213,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutputResponse
+    func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutput
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     ///
     /// - Parameter CreateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -229,12 +229,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutputResponse
+    func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutput
     /// Deletes browser settings.
     ///
     /// - Parameter DeleteBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -244,12 +244,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutputResponse
+    func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutput
     /// Deletes the identity provider.
     ///
     /// - Parameter DeleteIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -259,12 +259,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutputResponse
+    func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutput
     /// Deletes IP access settings.
     ///
     /// - Parameter DeleteIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,12 +274,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutputResponse
+    func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutput
     /// Deletes network settings.
     ///
     /// - Parameter DeleteNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,12 +289,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutputResponse
+    func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutput
     /// Deletes a web portal.
     ///
     /// - Parameter DeletePortalInput : [no documentation found]
     ///
-    /// - Returns: `DeletePortalOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -304,12 +304,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutputResponse
+    func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutput
     /// Deletes the trust store.
     ///
     /// - Parameter DeleteTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,12 +319,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutputResponse
+    func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput
     /// Deletes user access logging settings.
     ///
     /// - Parameter DeleteUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -334,12 +334,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutputResponse
+    func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutput
     /// Deletes user settings.
     ///
     /// - Parameter DeleteUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,12 +349,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutputResponse
+    func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutput
     /// Disassociates browser settings from a web portal.
     ///
     /// - Parameter DisassociateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -364,12 +364,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutputResponse
+    func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutput
     /// Disassociates IP access settings from a web portal.
     ///
     /// - Parameter DisassociateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -379,12 +379,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutputResponse
+    func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutput
     /// Disassociates network settings from a web portal.
     ///
     /// - Parameter DisassociateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -394,12 +394,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutputResponse
+    func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutput
     /// Disassociates a trust store from a web portal.
     ///
     /// - Parameter DisassociateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,12 +409,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutputResponse
+    func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutput
     /// Disassociates user access logging settings from a web portal.
     ///
     /// - Parameter DisassociateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -424,12 +424,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutputResponse
+    func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutput
     /// Disassociates user settings from a web portal.
     ///
     /// - Parameter DisassociateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -439,12 +439,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutputResponse
+    func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutput
     /// Gets browser settings.
     ///
     /// - Parameter GetBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -454,12 +454,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutputResponse
+    func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutput
     /// Gets the identity provider.
     ///
     /// - Parameter GetIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `GetIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `GetIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutputResponse
+    func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutput
     /// Gets the IP access settings.
     ///
     /// - Parameter GetIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,12 +484,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutputResponse
+    func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutput
     /// Gets the network settings.
     ///
     /// - Parameter GetNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -499,12 +499,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutputResponse
+    func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutput
     /// Gets the web portal.
     ///
     /// - Parameter GetPortalInput : [no documentation found]
     ///
-    /// - Returns: `GetPortalOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,12 +514,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getPortal(input: GetPortalInput) async throws -> GetPortalOutputResponse
+    func getPortal(input: GetPortalInput) async throws -> GetPortalOutput
     /// Gets the service provider metadata.
     ///
     /// - Parameter GetPortalServiceProviderMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetPortalServiceProviderMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortalServiceProviderMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -529,12 +529,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutputResponse
+    func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutput
     /// Gets the trust store.
     ///
     /// - Parameter GetTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `GetTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -544,12 +544,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutputResponse
+    func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutput
     /// Gets the trust store certificate.
     ///
     /// - Parameter GetTrustStoreCertificateInput : [no documentation found]
     ///
-    /// - Returns: `GetTrustStoreCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `GetTrustStoreCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,12 +559,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutputResponse
+    func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutput
     /// Gets user access logging settings.
     ///
     /// - Parameter GetUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -574,12 +574,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutputResponse
+    func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutput
     /// Gets user settings.
     ///
     /// - Parameter GetUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,12 +589,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutputResponse
+    func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutput
     /// Retrieves a list of browser settings.
     ///
     /// - Parameter ListBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -603,12 +603,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutputResponse
+    func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutput
     /// Retrieves a list of identity providers for a specific web portal.
     ///
     /// - Parameter ListIdentityProvidersInput : [no documentation found]
     ///
-    /// - Returns: `ListIdentityProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -617,12 +617,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutputResponse
+    func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
     /// Retrieves a list of IP access settings.
     ///
     /// - Parameter ListIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,12 +631,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutputResponse
+    func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutput
     /// Retrieves a list of network settings.
     ///
     /// - Parameter ListNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -645,12 +645,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutputResponse
+    func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutput
     /// Retrieves a list or web portals.
     ///
     /// - Parameter ListPortalsInput : [no documentation found]
     ///
-    /// - Returns: `ListPortalsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPortalsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,12 +659,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutputResponse
+    func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutput
     /// Retrieves a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -674,12 +674,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Retrieves a list of trust store certificates.
     ///
     /// - Parameter ListTrustStoreCertificatesInput : [no documentation found]
     ///
-    /// - Returns: `ListTrustStoreCertificatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrustStoreCertificatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -689,12 +689,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutputResponse
+    func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutput
     /// Retrieves a list of trust stores.
     ///
     /// - Parameter ListTrustStoresInput : [no documentation found]
     ///
-    /// - Returns: `ListTrustStoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrustStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,12 +703,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutputResponse
+    func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutput
     /// Retrieves a list of user access logging settings.
     ///
     /// - Parameter ListUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -717,12 +717,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutputResponse
+    func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutput
     /// Retrieves a list of user settings.
     ///
     /// - Parameter ListUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `ListUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,12 +731,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutputResponse
+    func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutput
     /// Adds or overwrites one or more tags for the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -747,12 +747,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `TooManyTagsException` : There are too many tags.
     /// - `ValidationException` : There is a validation error.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,12 +762,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates browser settings.
     ///
     /// - Parameter UpdateBrowserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateBrowserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBrowserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,12 +777,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutputResponse
+    func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutput
     /// Updates the identity provider.
     ///
     /// - Parameter UpdateIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,12 +792,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutputResponse
+    func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutput
     /// Updates IP access settings.
     ///
     /// - Parameter UpdateIpAccessSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIpAccessSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIpAccessSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,12 +807,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutputResponse
+    func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutput
     /// Updates network settings.
     ///
     /// - Parameter UpdateNetworkSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNetworkSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNetworkSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -822,12 +822,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutputResponse
+    func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutput
     /// Updates a web portal.
     ///
     /// - Parameter UpdatePortalInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePortalOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePortalOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,12 +838,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutputResponse
+    func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutput
     /// Updates the trust store.
     ///
     /// - Parameter UpdateTrustStoreInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTrustStoreOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTrustStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -854,12 +854,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutputResponse
+    func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutput
     /// Updates the user access logging settings.
     ///
     /// - Parameter UpdateUserAccessLoggingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserAccessLoggingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -869,12 +869,12 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutputResponse
+    func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutput
     /// Updates the user settings.
     ///
     /// - Parameter UpdateUserSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -884,7 +884,7 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutputResponse
+    func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutput
 }
 
 public enum WorkSpacesWebClientTypes {}

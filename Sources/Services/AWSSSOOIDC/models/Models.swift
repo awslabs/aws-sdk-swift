@@ -276,32 +276,11 @@ extension CreateTokenInputBody: Swift.Decodable {
     }
 }
 
-enum CreateTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AuthorizationPendingException": return try await AuthorizationPendingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantException": return try await InvalidGrantException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedGrantTypeException": return try await UnsupportedGrantTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
             self.expiresIn = output.expiresIn
             self.idToken = output.idToken
@@ -317,7 +296,7 @@ extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTokenOutputResponse: Swift.Equatable {
+public struct CreateTokenOutput: Swift.Equatable {
     /// An opaque token to access IAM Identity Center resources assigned to a user.
     public var accessToken: Swift.String?
     /// Indicates the time in seconds when an access token will expire.
@@ -345,7 +324,7 @@ public struct CreateTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateTokenOutputResponseBody: Swift.Equatable {
+struct CreateTokenOutputBody: Swift.Equatable {
     let accessToken: Swift.String?
     let tokenType: Swift.String?
     let expiresIn: Swift.Int
@@ -353,7 +332,7 @@ struct CreateTokenOutputResponseBody: Swift.Equatable {
     let idToken: Swift.String?
 }
 
-extension CreateTokenOutputResponseBody: Swift.Decodable {
+extension CreateTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessToken
         case expiresIn
@@ -374,6 +353,27 @@ extension CreateTokenOutputResponseBody: Swift.Decodable {
         refreshToken = refreshTokenDecoded
         let idTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idToken)
         idToken = idTokenDecoded
+    }
+}
+
+enum CreateTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationPendingException": return try await AuthorizationPendingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantException": return try await InvalidGrantException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedGrantTypeException": return try await UnsupportedGrantTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -910,25 +910,11 @@ extension RegisterClientInputBody: Swift.Decodable {
     }
 }
 
-enum RegisterClientOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClientMetadataException": return try await InvalidClientMetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RegisterClientOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RegisterClientOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RegisterClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RegisterClientOutputBody = try responseDecoder.decode(responseBody: data)
             self.authorizationEndpoint = output.authorizationEndpoint
             self.clientId = output.clientId
             self.clientIdIssuedAt = output.clientIdIssuedAt
@@ -946,7 +932,7 @@ extension RegisterClientOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterClientOutputResponse: Swift.Equatable {
+public struct RegisterClientOutput: Swift.Equatable {
     /// The endpoint where the client can request authorization.
     public var authorizationEndpoint: Swift.String?
     /// The unique identifier string for each client. This client uses this identifier to get authenticated by the service in subsequent calls.
@@ -978,7 +964,7 @@ public struct RegisterClientOutputResponse: Swift.Equatable {
     }
 }
 
-struct RegisterClientOutputResponseBody: Swift.Equatable {
+struct RegisterClientOutputBody: Swift.Equatable {
     let clientId: Swift.String?
     let clientSecret: Swift.String?
     let clientIdIssuedAt: Swift.Int
@@ -987,7 +973,7 @@ struct RegisterClientOutputResponseBody: Swift.Equatable {
     let tokenEndpoint: Swift.String?
 }
 
-extension RegisterClientOutputResponseBody: Swift.Decodable {
+extension RegisterClientOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizationEndpoint
         case clientId
@@ -1011,6 +997,20 @@ extension RegisterClientOutputResponseBody: Swift.Decodable {
         authorizationEndpoint = authorizationEndpointDecoded
         let tokenEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenEndpoint)
         tokenEndpoint = tokenEndpointDecoded
+    }
+}
+
+enum RegisterClientOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientMetadataException": return try await InvalidClientMetadataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1152,26 +1152,11 @@ extension StartDeviceAuthorizationInputBody: Swift.Decodable {
     }
 }
 
-enum StartDeviceAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartDeviceAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartDeviceAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartDeviceAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartDeviceAuthorizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.deviceCode = output.deviceCode
             self.expiresIn = output.expiresIn
             self.interval = output.interval
@@ -1189,7 +1174,7 @@ extension StartDeviceAuthorizationOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartDeviceAuthorizationOutputResponse: Swift.Equatable {
+public struct StartDeviceAuthorizationOutput: Swift.Equatable {
     /// The short-lived code that is used by the device when polling for a session token.
     public var deviceCode: Swift.String?
     /// Indicates the number of seconds in which the verification code will become invalid.
@@ -1221,7 +1206,7 @@ public struct StartDeviceAuthorizationOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartDeviceAuthorizationOutputResponseBody: Swift.Equatable {
+struct StartDeviceAuthorizationOutputBody: Swift.Equatable {
     let deviceCode: Swift.String?
     let userCode: Swift.String?
     let verificationUri: Swift.String?
@@ -1230,7 +1215,7 @@ struct StartDeviceAuthorizationOutputResponseBody: Swift.Equatable {
     let interval: Swift.Int
 }
 
-extension StartDeviceAuthorizationOutputResponseBody: Swift.Decodable {
+extension StartDeviceAuthorizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deviceCode
         case expiresIn
@@ -1254,6 +1239,21 @@ extension StartDeviceAuthorizationOutputResponseBody: Swift.Decodable {
         expiresIn = expiresInDecoded
         let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
         interval = intervalDecoded
+    }
+}
+
+enum StartDeviceAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

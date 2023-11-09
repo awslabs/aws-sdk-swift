@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension CloudWatchClientProtocol {
 
-    static func alarmExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAlarmsInput, result: Result<DescribeAlarmsOutputResponse, Error>) -> Bool in
+    static func alarmExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAlarmsInput, result: Result<DescribeAlarmsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(MetricAlarms[]) > `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -18,7 +18,7 @@ extension CloudWatchClientProtocol {
                 return JMESUtils.compare(comparison, ==, true)
             }),
         ]
-        return try WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AlarmExists event on the describeAlarms operation.
@@ -32,14 +32,14 @@ extension CloudWatchClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAlarmExists(options: WaiterOptions, input: DescribeAlarmsInput) async throws -> WaiterOutcome<DescribeAlarmsOutputResponse> {
+    public func waitUntilAlarmExists(options: WaiterOptions, input: DescribeAlarmsInput) async throws -> WaiterOutcome<DescribeAlarmsOutput> {
         let waiter = Waiter(config: try Self.alarmExistsWaiterConfig(), operation: self.describeAlarms(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func compositeAlarmExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeAlarmsInput, result: Result<DescribeAlarmsOutputResponse, Error>) -> Bool in
+    static func compositeAlarmExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAlarmsInput, result: Result<DescribeAlarmsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(CompositeAlarms[]) > `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -51,7 +51,7 @@ extension CloudWatchClientProtocol {
                 return JMESUtils.compare(comparison, ==, true)
             }),
         ]
-        return try WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CompositeAlarmExists event on the describeAlarms operation.
@@ -65,7 +65,7 @@ extension CloudWatchClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCompositeAlarmExists(options: WaiterOptions, input: DescribeAlarmsInput) async throws -> WaiterOutcome<DescribeAlarmsOutputResponse> {
+    public func waitUntilCompositeAlarmExists(options: WaiterOptions, input: DescribeAlarmsInput) async throws -> WaiterOutcome<DescribeAlarmsOutput> {
         let waiter = Waiter(config: try Self.compositeAlarmExistsWaiterConfig(), operation: self.describeAlarms(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
